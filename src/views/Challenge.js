@@ -63,10 +63,7 @@ export default function Challenge(params) {
         let cache = localStorage.getItem("decert.cache") ? 
             JSON.parse(localStorage.getItem("decert.cache")) 
             : {};
-        cache[detail.tokenId] = {
-            answers: answers,
-            detail: detail
-        };
+        cache[detail.tokenId] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
         navigateTo(`/claim/${detail.tokenId}`)
     }

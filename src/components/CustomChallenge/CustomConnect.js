@@ -43,7 +43,7 @@ export default function CustomConnect(props) {
                 :
                 <>
                     <p>{NickName(address)}</p>
-                    <p>Linked wallet</p>
+                    <p>已连接钱包</p>
                 </>
             }
         </div>

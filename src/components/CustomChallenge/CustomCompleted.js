@@ -112,7 +112,7 @@ export default function CustomCompleted(props) {
                             </div>
                         }
                         <div className="score">
-                            <p className="network">Introduction to Ethereum</p>
+                            <p className="network">{detail.title}</p>
                             <h4>本次得分</h4>
                             <p className="pass">达到 {answerInfo.passingScore} 即可挑战通关</p>
                             <div className="score-detail">
@@ -132,7 +132,7 @@ export default function CustomCompleted(props) {
                     </div>
                     <div className="content-step">
                         <div className="nft">
-                            <h5>NFT证书展示</h5>
+                            {/* <h5>NFT证书展示</h5> */}
                                 <div className="img">
                                     <a href="#" target="_blank">
                                         <img 
@@ -143,7 +143,7 @@ export default function CustomCompleted(props) {
                                             }
                                             alt="" 
                                         />
-                                        <div className="icon" />
+                                        {/* <div className="icon" /> */}
                                     </a>
                                 </div>
                         </div>
@@ -193,6 +193,7 @@ export default function CustomCompleted(props) {
                                                     score: answerInfo.score,
                                                     answer: JSON.stringify(answers)
                                                 }}
+                                                img={detail.metadata.image}
                                             />
                                         )
                                     }

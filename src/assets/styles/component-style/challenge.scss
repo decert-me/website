@@ -185,9 +185,6 @@
             }
         }
     }
-    .ant-steps-item-icon{
-
-    }
 }
 
 .step-box{
@@ -208,6 +205,10 @@
 .checked-step{
     background-color: #8C52DF;
     color: #fff;
+    .box{
+        background-color: #8C52DF;
+        border: none;
+    }
 }
 
 .CustomBox{
@@ -243,7 +244,7 @@
         align-items: center;
         justify-content: space-between;
         border-radius: 32px;
-        background-color: #8C52DF;
+        border: 1px solid #8C52DF;
         font-size: 14px;
         font-weight: 500;
         line-height: 20px;

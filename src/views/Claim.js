@@ -4,6 +4,7 @@ import { useAccount, useSigner } from "wagmi";
 import CustomCompleted from "../components/CustomChallenge/CustomCompleted";
 import { balanceOf } from "../controller";
 import "@/assets/styles/component-style"
+import { getQuests } from "../request/api/public";
 
 
 
@@ -17,16 +18,18 @@ export default function Claim(props) {
     let [detail, setDetail] = useState();
     let [answers, setAnswers] = useState();
 
-    const switchStatus = (id, num) => {
+    const switchStatus = async(id, num) => {
         // 获取tokenId ===> 
         const cache = localStorage.getItem('decert.cache');
-        console.log('num ===>', num);
+        await getQuests({id: tokenId})
+        .then(res => {
+            detail = res ? res.data : {};
+            setDetail({...detail});
+        })
         if (cache && num == 0) {
             // 已答 未领 ==>
             console.log('===> 未领取');
-            detail = JSON.parse(cache)[id].detail;
-            answers = JSON.parse(cache)[id].answers;
-            setDetail({...detail});
+            answers = JSON.parse(cache)[id];
             setAnswers([...answers]);
         }else if (num == 1) {
             console.log('===> 已领取');

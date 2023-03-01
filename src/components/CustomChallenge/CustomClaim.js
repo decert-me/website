@@ -11,7 +11,7 @@ import ModalLoading from "../CustomModal/ModalLoading";
 
 export default function CustomClaim(props) {
     
-    const { step, setStep, cliamObj } = props;
+    const { step, setStep, cliamObj, img } = props;
     const { data: signer } = useSigner();
     let [claimHash, setClaimHash] = useState();
 
@@ -33,6 +33,7 @@ export default function CustomClaim(props) {
             )
             setClaimHash(claimHash);
             setWriteLoading(false);
+            setIsModalOpen(true);
             if (claimHash) {
                 // 弹出等待框
                 setIsModalOpen(true);
@@ -52,11 +53,13 @@ export default function CustomClaim(props) {
                 isModalOpen={isModalOpen}
                 handleCancel ={handleCancel}
                 isLoading={isLoading}
+                img={img}
+                tokenId={cliamObj.tokenId}
             />
-            <div className="box">
+            {/* <div className="box">
                 <p>免手续费领取SBT</p>
                 <Button className="share"><TwitterOutlined style={{color: "#0495d7"}} />立即分享</Button>
-            </div>
+            </div> */}
             <div className="box">
                 <p>立即领取SBT</p>
                 <Button loading={writeLoading} onClick={() => cliam()}>立即铸造</Button>

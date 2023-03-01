@@ -43,7 +43,7 @@ export default function CustomDiscord(props) {
 
     useEffect(() => {
         verify();
-    },[])
+    },[step])
 
     return (
         <div className={`CustomBox step-box ${step === 2 ? "checked-step" : ""}`}>
