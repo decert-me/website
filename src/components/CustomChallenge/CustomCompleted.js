@@ -70,12 +70,13 @@ export default function CustomCompleted(props) {
 
     const getStep = async() => {
         const res = await verifyDiscord({address: address})
+        console.log('res ===>');
         // 判断当前步骤
         if (!answerInfo.isPass) {
             step = 0;
         }else if(isConnected === false){
             step = 1;
-        }else if (res?.status !== 0) {
+        }else if (res && !res.data) {
             step = 2;
         }else{
             step = 3;

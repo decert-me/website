@@ -34,7 +34,7 @@ export default function CustomConnect(props) {
             {
                 isConnected === false ? 
                 <>
-                    <p>验证真实信息未连接钱包</p>
+                    <p>未连接钱包</p>
                     {
                         step >= 1 &&
                         <Button onClick={openModalConnect}>连接钱包</Button>

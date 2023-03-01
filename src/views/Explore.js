@@ -99,6 +99,12 @@ export default function Explore(params) {
                                                 : 'assets/images/img/default.png'
                                         }
                                     />
+                                    {
+                                        item.claimed &&
+                                        <div className="item-claimed">
+                                            pass
+                                        </div>
+                                    }
                                     </div>
                                 </div>
                             </Col>

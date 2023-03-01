@@ -2,7 +2,7 @@ import { Button } from "antd";
 import {
     TwitterOutlined,
 } from '@ant-design/icons';
-import { getClaimHash } from "../../request/api/public";
+import { getClaimHash, submitHash } from "../../request/api/public";
 import { claim } from "../../controller";
 import { useSigner, useWaitForTransaction } from "wagmi";
 import { useState } from "react";
@@ -33,8 +33,8 @@ export default function CustomClaim(props) {
             )
             setClaimHash(claimHash);
             setWriteLoading(false);
-            setIsModalOpen(true);
             if (claimHash) {
+                submitHash({hash: claimHash})
                 // 弹出等待框
                 setIsModalOpen(true);
             }
