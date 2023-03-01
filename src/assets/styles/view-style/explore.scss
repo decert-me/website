@@ -1,0 +1,100 @@
+.Explore {
+    width: 1388px;
+    min-height: 100vh;
+    padding-top: calc(43px + 55px);
+    margin: 0 auto;
+    font-family: Source;
+    // title
+    h3 {
+      text-align: center;
+      height: 43px;
+      display: block;
+      font-size: 30px;
+      font-weight: bold;
+      color: #585858;
+      margin: 0 auto;
+    }
+    // depass
+    .depass {
+      margin-top: 63px;
+      h4 {
+        font-size: 20px;
+        font-weight: 800;
+        color: #3d3d3d;
+      }
+    }
+    // challenges
+    .challenges {
+      padding: 0;
+      padding-block: 60px 150px;
+      h4 {
+        font-size: 20px;
+        font-weight: 800;
+        color: #3d3d3d;
+      }
+    }
+  }
+  
+  // challenge-item jsx
+  .challenge-item {
+    margin-top: 27px;
+    width: 684px;
+    height: 242px;
+    background: #ffffff;
+    border: 1px solid #cecece;
+    padding: 12px;
+    display: flex;
+    justify-content: space-between;
+    // show
+    transition: transform 0.3s ease-in-out, box-shadow 0.3s cubic-bezier(0.47, 0, 0.745, 0.715), border 0.3s linear 0.1s;
+    // hover
+    &:hover {
+      box-shadow: 0 10px 50px rgba(51, 51, 51, 0.25);
+      -webkit-transform: translateY(-10px);
+      -moz-transform: translateY(-10px);
+      transform: translateY(-10px);
+    }
+    .left-info {
+      width: 416px;
+      height: 207px;
+      .title {
+        font-size: 18px;
+        font-weight: 800;
+        color: #17151c;
+        overflow: hidden;
+        white-space: nowrap;
+        text-overflow: ellipsis;
+      }
+      p {
+        font-size: 13px;
+        height: 36px;
+        font-weight: 400;
+        color: #17151c;
+        width: 419px;
+        word-break: break-all;
+        text-overflow: ellipsis;
+        display: -webkit-box;
+        -webkit-box-orient: vertical;
+        -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+        overflow: hidden;
+      }
+  
+      .btn {
+        width: 100%;
+        margin-top: 100px;
+        height: 42px;
+        border: 1px solid #000000;
+        font-size: 18px;
+        font-weight: bold;
+        color: #171717;
+      }
+    }
+    .right-sbt {
+      width: 219px;
+      height: 219px;
+      img {
+        width: 219px;
+        height: 219px;
+      }
+    }
+  }

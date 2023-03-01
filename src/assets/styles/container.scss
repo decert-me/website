@@ -1,0 +1,100 @@
+#Header{
+    width: 1286px;
+    margin: 0 auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    .nav-left{
+        display: flex;
+        align-items: center;
+
+        a{
+            margin-left: 40px;
+            color: white;
+        }
+    }
+    .logo{
+        width: 107px;
+        height: 32px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        cursor: pointer;
+        img{
+            width: 32px;
+            height: 32px;
+            overflow: hidden;
+            border-radius: 50%;
+        }
+    }
+    button{
+        height: 32px;
+        border-radius: 20px;
+    }
+    .user{
+        height: 32px;
+        padding-right: 10px;
+        border-radius: 20px;
+        background-color: #fff;
+        display: flex;
+        align-items: center;
+        color: #000;
+        cursor: pointer;
+        img{
+            width: 30px;
+            height: 30px;
+            margin-left: 2px;
+            overflow: hidden;
+            border-radius: 50%;
+            background-color: yellowgreen;
+        }
+        p{
+            margin-left: 10px;
+        }
+    }
+    .test{
+        width: 200px !important;
+    }
+        .menu-item{
+            width: 100px;
+        }
+}
+#Footer{
+    display: flex;
+    justify-content: space-between;
+    color: #ffffff;
+    font-family: Source;
+    .left {
+      height: 242px;
+      margin-top: 6px;
+      margin-left: 248px;
+      text-align: left;
+      .logo {
+        height: 116px;
+        font-size: 80px;
+        margin: 0;
+        font-weight: 800;
+      }
+      .describe {
+        font-size: 24px;
+        margin-bottom: 62px;
+      }
+      .versions {
+        font-size: 20px;
+        line-height: 23px;
+      }
+    }
+    // icon
+    .right {
+        width: 140px;
+        margin-right: 356px;
+        margin-top: 225px;
+        display: flex;
+        justify-content: space-between;
+        img {
+            width: 20px;
+            height: 20px;
+            cursor: pointer;
+        }
+    }
+}

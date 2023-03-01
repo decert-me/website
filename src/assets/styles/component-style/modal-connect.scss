@@ -1,0 +1,43 @@
+.ModalConnect{
+    .ant-modal-content{
+        padding: 0;
+    }   
+    .ant-modal-body{
+        display: flex;
+        flex-direction: column;
+
+    }
+    .wallet-item{
+        width: 100%;
+        padding: 8px;
+        cursor: pointer;
+        &:hover{
+            .item{
+                background-color: #f7f7f7;
+            }
+        }
+        .item{
+            padding: 24px 16px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;            
+            border-radius: 12px;
+            transition: background-color 0.2s;
+        }
+    }
+    .img{
+        width: 45px;
+        height: 45px;
+        background-color: yellowgreen;
+    }
+    .name{
+        font-size: 24px;
+        font-weight: 700;
+        margin-top: 0.5em;
+    }
+    .tips{
+        font-size: 18px;
+        margin: 0.333em 0px;
+        color: rgb(169, 169, 188);
+    }
+}

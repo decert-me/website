@@ -1,0 +1,260 @@
+.CustomInput{
+    color: #343434;
+    .custom-input{
+        width: 940px;
+        margin-top: 100px;
+        padding: 0;
+        border-radius: 0;
+        border-bottom: 1px solid #000;
+        font-size: 30px;
+    }
+}
+
+.CustomRadio{
+    .ant-radio-group{
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+    }
+    .ant-radio{
+        margin-right: 35px;
+    }
+    .ant-radio-inner{
+        width: 45px;
+        height: 45px;
+        &::after{
+            content: none;
+        }
+    }
+    .ant-radio-wrapper{
+        margin-bottom: 50px;
+        align-items: center;
+        font-size: 30px;
+        color: #373737;
+        line-height: 43px;
+    }
+}
+
+.CustomCheckbox{
+    .custom-checkbox{
+        margin-top: 50px;
+        display: flex;
+        flex-direction: column;
+    }
+    .ant-checkbox, .ant-checkbox-inner{
+        width: 42px;
+        height: 42px;
+    }  
+    .ant-checkbox-inner::after{
+        content: none;
+    }
+    .ant-checkbox-wrapper{
+        margin: 0;
+        margin-bottom: 50px;
+        align-items: center;
+        font-size: 30px;
+        color: #373737;
+        line-height: 43px;
+        .ant-checkbox{
+            margin-right: 35px;
+        }
+    }
+    // .ant-checkbox-checked .ant-checkbox-inner{
+    //     background-color: #000;
+    // }
+}
+
+.CustomCompleted{
+    .completed-content{
+        width: 1200px;
+        margin: 0 auto;
+        margin-block: 100px;
+    }
+    .content-info{
+        display: flex;
+        justify-content: space-between;
+    
+    }
+    .desc{
+        max-width: 495px;
+        color: #EA0606;
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 35px;
+        .title{
+            margin-left: -15px;
+            color: #000;
+            font-size: 40px;
+            font-weight: 500;
+            line-height: 58px;
+        }
+    }
+    .score{
+        width: 560px;
+        height: 250px;
+        position: relative;
+        .network{
+            margin-bottom: 10px;
+            color: #767676;
+            font-size: 24px;
+            font-weight: 900;
+            line-height: 35px;
+        }
+        h4, .pass{
+            color: #666666;
+            line-height: 46px;
+        }
+        h4{
+            margin: 0;
+            font-size: 32px;
+        }
+        .pass{
+            font-size: 24px;
+        }
+        .score-detail{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            position: absolute;
+            right: 0;
+            bottom: 0;
+            .circle {
+                margin-bottom: 30px;
+                position: relative;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                user-select: none;
+                .text{
+                    position: absolute;
+                    font-size: 64px;
+                    font-weight: 500;
+                    color: #17151C;
+                    line-height: 93px;
+                }
+            }
+            .btn{
+                display: inline-block;
+                padding: 2px 5px;
+                color: #9E9E9E;
+                border: none;
+                border-radius: 0;
+                background-color: #D8D8D8;
+                font-size: 24px;
+                font-weight: 500;
+                line-height: 35px;
+                cursor: pointer;
+            }
+
+        }
+    }
+    .content-step{
+        display: flex;
+        justify-content: space-between;
+        h5{
+            margin: 0;
+            font-size: 24px;
+            font-weight: 500;
+            color: #212429;
+            line-height: 35px;
+        }
+        .nft{
+            width: 350px;
+            img{
+                width: 100%;
+                height: 350px;
+            }
+            .img{
+                margin-top: 30px;
+                position: relative;
+                .icon{
+                    width: 40px;
+                    height: 40px;
+                    border-radius: 50%;
+                    position: absolute;
+                    right: 13px;
+                    top: 13px;
+                    background-color: #69E6F9;
+                }
+            }
+        }
+        .step{
+            width: 560px;
+            .step-detail{
+                margin-top: 75px;
+            }
+        }
+    }
+    .ant-steps-item-icon{
+
+    }
+}
+
+.step-box{
+    width: 517px;
+    height: 64px;
+    border: 1px solid #8C52DF;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: #8C52DF;
+    border-radius: 32px;
+
+    font-size: 20px;
+    font-weight: 500;
+    line-height: 29px;
+}
+
+.checked-step{
+    background-color: #8C52DF;
+    color: #fff;
+}
+
+.CustomBox{
+    padding-inline: 41px 14px;
+    justify-content: space-between;
+    button{
+        height: 40px;
+        padding-inline: 26px;
+        border-radius: 20px;
+        border: none;
+        box-shadow: none;
+        color: #8C52DF;
+        font-size: 20px;
+        font-weight: 500;
+        line-height: 29px;
+    }
+}
+
+.CustomDiscord{
+    padding-inline: 41px 14px;
+    justify-content: space-between;
+}
+
+.CustomCliam{
+    padding: 0;
+    background-color: #ffffff00;
+    border: none;
+    .box{
+        width: 227px;
+        height: 64px;
+        padding-inline: 23px 8px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        border-radius: 32px;
+        background-color: #8C52DF;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 20px;
+        p{
+            width: 57px;
+        }
+        .share{
+            padding-inline: 13px 22px;
+        }
+        button{
+            font-size: 16px;
+        }
+    }
+}

@@ -1,0 +1,71 @@
+.ModalLoading{
+    .ant-modal-content{
+        padding: 0;
+    }
+    .claimed{
+        padding-block: 96px 83px;
+        padding-inline: 205px;
+    }
+    .claiming{
+        padding-block: 120px 100px;
+        padding-inline: 154px;
+        .loading{
+            width: 270px;
+            height: 270px;
+            background-color: #f9f9fb;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 40px;
+        }
+        .loading-title{
+            margin-top: 125px;
+            color: #101010;
+            font-size: 24px;
+            line-height: 28px;
+        }
+        .loading-tip{
+            width: 459px;
+            margin-top: 27px;
+            text-align: center;
+            color: #8C52DF;
+            font-size: 18px;
+            line-height: 21px;
+        }
+    }
+    .content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .img{
+            width: 290px;
+            height: 290px;
+            margin-top: 50px;
+            border-radius: 10px;
+            overflow: hidden;
+        }
+        .title{
+            color: #666666;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 28px;
+        }
+        a{
+            margin-block: 25px;
+            color: #3662EC;
+            font-size: 18px;
+            line-height: 21px;
+            text-decoration: underline;
+        }
+        .btn{
+            width: 250px;
+            height: 50px;
+            border-radius: 25px;
+            border: none;
+            color: #fff;
+            font-size: 16px;
+            line-height: 19px;
+            background-color: #3662EC;
+        }
+    }
+}

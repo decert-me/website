@@ -1,0 +1,14 @@
+.CustomQuestion{
+    margin-block: 10px;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+
+    .content{
+        width: 100%;
+        padding-left: 20px;
+    }
+    .close{
+        cursor: pointer;
+    }
+}
