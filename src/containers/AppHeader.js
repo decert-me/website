@@ -1,8 +1,8 @@
 import i18n from 'i18next';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAccount, useConnect, useDisconnect, useSwitchNetwork } from 'wagmi';
-import { Button, Dropdown, Menu, Popover } from 'antd';
+import { useAccount, useDisconnect, useSwitchNetwork } from 'wagmi';
+import { Button, Dropdown } from 'antd';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import "@/assets/styles/container.scss"
 import { hashAvatar } from '../utils/HashAvatar';
@@ -32,11 +32,11 @@ export default function AppHeader(params) {
     ];
 
     const items = [
-        {
-            label: (<Link to={{pathname: '/myInfo'}}> Profile </Link>),
-            key: '1',
-            icon: '',
-        },
+        // {
+        //     label: (<Link to={{pathname: '/myInfo'}}> Profile </Link>),
+        //     key: '1',
+        //     icon: '',
+        // },
         {
             label: (<p onClick={() => disconnect()}> Disconnect </p>),
             key: '2',

@@ -4,6 +4,8 @@ import routes from "@/router";
 
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
+import { useEffect } from "react";
+import { useAccount } from "wagmi";
 
 const { Header, Footer, Content } = Layout;
 
@@ -31,6 +33,13 @@ const footerStyle = {
 export default function DefaultLayout(params) {
 
     const outlet = useRoutes(routes);
+    const { address } = useAccount();
+
+    useEffect(() => {
+        if (localStorage.getItem("decert.token")) {
+            localStorage.removeItem("decert.token")
+        }
+    },[address])
 
     return (
         <Layout>
