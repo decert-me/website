@@ -60,7 +60,7 @@ export default function Quests(params) {
                     </li>
                         
                     {
-                        detail.metadata.properties.difficulty &&
+                        detail.metadata.properties.difficulty !== null &&
                         <li>
                             Difficulty: {convertDifficulty(detail.metadata.properties.difficulty)}
                         </li>
