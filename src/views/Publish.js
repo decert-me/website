@@ -130,8 +130,8 @@ export default function Publish(params) {
                 endTIme: null,
                 url: "",
                 requires: [],
-                difficulty: values.difficulty,
-                estimateTime: values.time
+                difficulty: values.difficulty ? values.difficulty : null,
+                estimateTime: values.time ? values.time : null
             },
             version: 1
         }
@@ -310,10 +310,6 @@ export default function Publish(params) {
                     <Form.Item 
                         label="Difficulty"
                         name="difficulty"
-                        rules={[{
-                            required: true,
-                            message: 'Please input difficulty!',
-                        }]}
                     >
                         <Select
                             options={[
@@ -327,10 +323,6 @@ export default function Publish(params) {
                     <Form.Item 
                         label="Time"
                         name="time"
-                        rules={[{
-                            required: true,
-                            message: 'Please input time!',
-                        }]}
                     >
                         <Select 
                             options={[

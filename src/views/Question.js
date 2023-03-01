@@ -58,9 +58,13 @@ export default function Quests(params) {
                         </div>
                         <p>{NickName(detail.creator)}</p>
                     </li>
+                        
+                    {
+                        detail.metadata.properties.difficulty &&
                         <li>
-                            Difficulty: {convertDifficulty(detail?.type)}
+                            Difficulty: {convertDifficulty(detail.metadata.properties.difficulty)}
                         </li>
+                    }
                     {
                         detail.metadata.properties.estimateTime &&
                         <li>
