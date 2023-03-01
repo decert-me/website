@@ -10,7 +10,10 @@ export default function AppFooter(params) {
         <div id="Footer">
             {/* logo info */}
           <div className="left">
-            <h3 className="logo">Decert.me</h3>
+            {/* <h3 className="logo">Decert.me</h3> */}
+            <div className="logo">
+              <img src={require("@/assets/images/img/logo-white.png")} alt="" />
+            </div>
             <p className="describe">You are what you build.</p>
             <span className="versions">© 2023 Decert.me</span>
           </div>

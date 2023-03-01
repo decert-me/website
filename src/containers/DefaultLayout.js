@@ -13,9 +13,11 @@ const headerStyle = {
     width: "100%",
     height: "55px",
     lineHeight: '55px',
-    backgroundColor: 'rgba(0,0,0,0.5)',
-    position: "absolute",
-    color: "#fff"
+    padding: 0,
+    backgroundColor: 'rgba(0,0,0,0)',
+    position: "fixed",
+    color: "#fff",
+    zIndex: 1
 };
   
 const contentStyle = {
