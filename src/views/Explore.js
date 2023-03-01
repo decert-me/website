@@ -83,13 +83,6 @@ export default function Explore(params) {
                                         Challenge
                                     </Button>
                                     </div>
-                                    {item.claimed ? (
-                                    <div class="box-text">
-                                        <strong>pass</strong>
-                                    </div>
-                                    ) : (
-                                    " "
-                                    )}
                                     <div className="right-sbt">
 
                                     <LazyLoadImage

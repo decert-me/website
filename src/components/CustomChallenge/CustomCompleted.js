@@ -108,7 +108,7 @@ export default function CustomCompleted(props) {
                             </div>
                             :
                             <div className="desc">
-                                <p className="title">Challenge not passed, please keep going</p>
+                                <p className="title">战未通过，请继续加油吧。</p>
                                 <p>通过挑战后，你将获得SBT徽章并与它灵魂绑定，它将成为你技术认证的证明，为你的履历添砖加瓦。</p>
                             </div>
                         }
@@ -149,7 +149,7 @@ export default function CustomCompleted(props) {
                                 </div>
                         </div>
                         <div className="step">
-                            <h5>领取SBT 证书</h5>
+                            <h5>领取 SBT 证书</h5>
                             <Steps
                                 className="step-detail"
                                 progressDot

@@ -17,6 +17,7 @@ export default function CustomDiscord(props) {
     const { address, isConnected } = useAccount();
     const { data: signer } = useSigner();
     let [isBind, setIsBind] = useState();
+    let [username, setUsername] = useState();
     
     const verify = () => {
         const token = localStorage.getItem('decert.token')
@@ -25,6 +26,8 @@ export default function CustomDiscord(props) {
             .then(res => {
                 isBind = res.status !== 0 ? false : res.data ? true : false;
                 setIsBind(isBind);
+                username = res.data?.username ? res.data.username : null;
+                setUsername(username);
             })
         }else if (isConnected === true) {
             GetSign({address: address, signer: signer})
@@ -39,19 +42,34 @@ export default function CustomDiscord(props) {
 
     useEffect(() => {
         verify();
+        console.log('开启discord验证 ==>');
     },[step])
+
+    useEffect(() => {
+        function decertToken() {
+            const item = localStorage.getItem('decert.token');
+            console.log('item ===>',item);
+            // if (item) {
+                // setState(item);
+            // }
+        }
+        window.addEventListener('storage', decertToken)
+        return () => {
+            window.removeEventListener('storage', decertToken)
+        }
+    }, [])
 
     return (
         <div className={`CustomBox step-box ${step === 2 ? "checked-step" : ""}`}>
             {
                 isBind ? 
                 <>
-                    <p>绑定成功</p>
-                    <p>Discord已验证成功</p>
+                    <p>{username}</p>
+                    <p>已绑定Discord</p>
                 </>
                 :
                 <>
-                    <p>未验证信息Discord</p>
+                    <p>未绑定Discord</p>
                     {
                         step >= 2 &&
                         <div>
