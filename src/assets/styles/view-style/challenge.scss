@@ -1,0 +1,41 @@
+.Challenge{
+    width: 1380px;
+    margin: 150px auto 0;
+    padding-bottom: 100px;
+    .title{
+        display: flex;
+        align-items: center;
+        color: #767676;
+        font-size: 24px;
+        font-weight: 900;
+        span{
+            font-size: 27px;
+        }
+        p{
+            margin-left: 30px;
+            line-height: 35px;
+        }
+    }
+    .content{
+        min-height: 900px;
+        padding: 25px 65px;
+        margin-block: 15px 55px;
+        border: 2px solid #DCDCDC;
+        h4{
+            margin-bottom: 20px;
+            color: #BFBFBF;
+            font-size: 28px;
+            font-weight: 900;
+            line-height: 41px;
+        }
+        .inner-title{
+            font-size: 36px;
+            font-weight: 500;
+            line-height: 52px;
+        }
+    }
+    .progress{
+        width: 1173px;
+        margin: 0 auto;
+    }
+}

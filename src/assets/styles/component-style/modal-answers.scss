@@ -1,0 +1,74 @@
+.ModalAnswers{
+    .ant-modal-content{
+        min-height: 560px;
+        padding-inline: 60px;
+        border-radius: 0;
+        text-align: center;
+        position: relative;
+    }
+    .ant-modal-close{
+        width: 33px;
+        height: 33px;
+    }
+    h5{
+        margin-top: 30px;
+        font-size: 36px;
+        font-weight: 500;
+        color: #343434;
+    }
+    ul{
+        display: flex;
+        flex-wrap: wrap;
+    }
+    .success{
+        background-color: #67DF46;
+    }
+    .normal{
+        background-color: #D8D8D8;
+    }
+    .tips{
+        .point{
+            width: 24px;
+            height: 24px;
+            margin-right: 15px;
+            border-radius: 50%;
+        }
+        li{
+            margin-right: 72px;
+            display: flex;
+            align-items: center;
+            font-size: 18px;
+            font-weight: 500;
+            color: #9E9E9E;
+            line-height: 21px;
+        }
+    }
+    .answers{
+        margin-top: 45px;
+        .point{
+            width: 40px;
+            height: 40px;
+            margin-right: 55px;
+            border-radius: 50%;
+            color: #fff;
+            font-size: 24px;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+        }
+    }
+    .submit{
+        width: 240px;
+        height: 40px;
+        position: absolute;
+        left: calc((100% - 240px) / 2);
+        bottom: 40px;
+        color: white;
+        font-size: 24px;
+        font-weight: 500;
+        border: none;
+        background-color: #000000;
+    }
+}
