@@ -23,15 +23,11 @@ export default function CustomDiscord(props) {
         if (token) {
             verifyDiscord({address: address})
             .then(res => {
-                console.log('====>',res);
                 isBind = res.status !== 0 ? false : res.data ? true : false;
                 setIsBind(isBind);
-                console.log('isBind ==>',isBind);
             })
-            console.log('核实 ===>');
         }else if (isConnected === true) {
             GetSign({address: address, signer: signer})
-            console.log('签名 ===>');
         }
     }
     

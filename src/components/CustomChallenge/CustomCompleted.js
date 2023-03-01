@@ -8,6 +8,7 @@ import CustomDiscord from "./CustomDiscord";
 import { useAccount } from "wagmi";
 import { verifyDiscord } from "../../request/api/public";
 import CustomClaim from "./CustomClaim";
+import BadgeAddress from "@/contracts/Badge.address";
 
 export default function CustomCompleted(props) {
     
@@ -70,13 +71,12 @@ export default function CustomCompleted(props) {
 
     const getStep = async() => {
         const res = await verifyDiscord({address: address})
-        console.log('res ===>');
         // 判断当前步骤
         if (!answerInfo.isPass) {
             step = 0;
         }else if(isConnected === false){
             step = 1;
-        }else if (res && !res.data) {
+        }else if (res && (!res.data || res.data.reload)) {
             step = 2;
         }else{
             step = 3;
@@ -135,7 +135,7 @@ export default function CustomCompleted(props) {
                         <div className="nft">
                             {/* <h5>NFT证书展示</h5> */}
                                 <div className="img">
-                                    <a href="#" target="_blank">
+                                    <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CHAIN_NAME}/${BadgeAddress}/${detail.tokenId}`} target="_blank">
                                         <img 
                                             src={
                                                 detail.metadata.image.split("//")[1]
