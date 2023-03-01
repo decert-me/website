@@ -12,7 +12,7 @@ export default function AppFooter(params) {
           <div className="left">
             <h3 className="logo">Decert.me</h3>
             <p className="describe">You are what you build.</p>
-            <span className="versions">© 2022 Decert.me</span>
+            <span className="versions">© 2023 Decert.me</span>
           </div>
           {/* right icon */}
           <div className="right">

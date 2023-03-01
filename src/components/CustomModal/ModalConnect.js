@@ -40,7 +40,14 @@ export default function ModalConnect(props) {
                         onClick={() => connect({ connector: x })}
                     >
                         <div className="item">
-                            <div className="img"></div>
+                            <div className="img">
+                                {
+                                    x.name === 'MetaMask' ? 
+                                        <img src={require("@/assets/images/img/MetaMask.png")} alt="" />
+                                        :
+                                        <img src={require("@/assets/images/img/WalletConnect.png")} alt="" />
+                                }
+                            </div>
                             <p className="name">
                                 {x.id === 'injected' ? (isMounted ? x.name : x.id) : x.name}
                             </p>
