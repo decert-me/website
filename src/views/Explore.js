@@ -76,7 +76,7 @@ export default function Explore(params) {
                                     <p>{item.describe}</p>
                                     <Button
                                         onClick={() => {
-                                            navigateTo(`/question/${item.tokenId}`);
+                                            navigateTo(`/quests/${item.tokenId}`);
                                         }}
                                         className="btn"
                                     >

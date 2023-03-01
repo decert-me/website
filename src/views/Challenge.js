@@ -111,7 +111,7 @@ export default function Challenge(params) {
                         answers={answers}
                         changePage={changePage}
                     />
-                    <Link to={`/question/${detail.tokenId}`}>
+                    <Link to={`/quests/${detail.tokenId}`}>
                         <div className="title">
                             <ArrowLeftOutlined />
                             <p>{detail?.title}</p>

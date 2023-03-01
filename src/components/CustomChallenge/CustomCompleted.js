@@ -124,7 +124,7 @@ export default function CustomCompleted(props) {
                                     />
                                     <p className="text">{answerInfo.score}</p>
                                 </div>
-                                <Link className="btn" to={`/question/${detail.tokenId}`}>
+                                <Link className="btn" to={`/quests/${detail.tokenId}`}>
                                     <button className="btn">查看挑战详情</button>
                                     
                                 </Link>

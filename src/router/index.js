@@ -19,7 +19,7 @@ const routes = [
       element: <Publish />,
     },
     { 
-      path: "/question/:questId",
+      path: "/quests/:questId",
       element: <Question />,
     },
     { 
