@@ -1,69 +1,78 @@
-import { Button, Input, Steps } from "antd";
+import { Button, Input, Progress, Steps } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Encryption } from "@/utils/Encryption";
 import ArcProgress from 'react-arc-progress';
 import CustomConnect from "./CustomConnect";
 import CustomDiscord from "./CustomDiscord";
-import { useAccount } from "wagmi";
+import { useAccount, useSigner } from "wagmi";
 import { submitClaimTweet, verifyDiscord } from "../../request/api/public";
 import CustomClaim from "./CustomClaim";
 import BadgeAddress from "@/contracts/Badge.address";
+import { chainScores } from "../../controller";
 
 export default function CustomCompleted(props) {
     
-    const { answers, detail, tokenId } = props;
+    const { answers, detail, tokenId, isClaim } = props;
+    const { data: signer } = useSigner();
     const { address, isConnected } = useAccount();
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
     let [answerInfo, setAnswerInfo] = useState();
-    let [progrees, setProgrees] = useState();
     let [step, setStep] = useState(0);
     let [isShow, setIsShow] = useState();
     let [hrefUrl, setHrefUrl] = useState();
+    let [percent, setPercent] = useState(0);
     
-    const contrast = (arr) => {
+    
+    const contrast = async(arr) => {
         const questions = detail.metadata.properties.questions;
         let totalScore = 0;
         let score = 0;
         let successNum = 0;
-        arr.map((e,i) => {
-            totalScore += questions[i].score;
-            if (typeof e === 'object') {
-                if (JSON.stringify(e) == JSON.stringify(answers[i])) {
-                    score+=questions[i].score;
-                    successNum+=1;
+        if (!isClaim) {
+            // 未领取
+            arr.map((e,i) => {
+                totalScore += questions[i].score;
+                if (typeof e === 'object') {
+                    if (JSON.stringify(e) == JSON.stringify(answers[i])) {
+                        score+=questions[i].score;
+                        successNum+=1;
+                    }
+                }else{
+                    console.log(' answers[i]', e , answers);
+                    if (e == answers[i]) {
+                        score+=questions[i].score;
+                        successNum+=1;
+                    }
                 }
-            }else{
-                if (e == answers[i]) {
-                    score+=questions[i].score;
-                    successNum+=1;
-                }
+            })
+            answerInfo = {
+                totalScore: totalScore,
+                score: score,
+                passingScore: detail.metadata.properties.passingScore,
+                isPass: score >= detail.metadata.properties.passingScore
             }
-        })
-        answerInfo = {
-            totalScore: totalScore,
-            score: score,
-            passingScore: detail.metadata.properties.passingScore,
-            isPass: score >= detail.metadata.properties.passingScore
+            percent = (100 / arr.length) * successNum;
+        }else{
+            // 已领取
+            questions.map(e => {
+                totalScore += e.score;
+            })
+            await chainScores(address, tokenId, signer)
+            .then(res => {
+                answerInfo = {
+                    totalScore: totalScore,
+                    score: res,
+                    passingScore: detail.metadata.properties.passingScore,
+                    isPass: res >= detail.metadata.properties.passingScore
+                }
+            })
+            percent = (100 / totalScore) * answerInfo.score;
         }
         setAnswerInfo({...answerInfo});
-        // 初始化进度条
-        progrees = {
-            progress: (1 / arr.length) * successNum,
-            size: 172,
-            arcStart: -90,
-            arcEnd: 270,
-            fillThickness: 8,
-            thickness: 3,
-            emptyColor: '#e8e8e8',
-            fillColor: '#9bf899',
-            animation: 1000,
-        }
-        setProgrees({...progrees});
+        setPercent(percent);
         getStep();
-        console.log('answerInfo ==>', answerInfo);
-        console.log("detail ==>", detail);
     }
 
     const changeStep = (value) => {
@@ -106,6 +115,9 @@ export default function CustomCompleted(props) {
         }else{
             step = 3;
         }
+        if (isClaim) {
+            step = 3
+        }
         // TODO: ===> 领取nft之前校验是否签名
         setStep(step);
     }
@@ -143,11 +155,18 @@ export default function CustomCompleted(props) {
                             <p className="pass">达到 {answerInfo.passingScore} 即可挑战通关</p>
                             <div className="score-detail">
                                 <div className="circle">
-                                    <ArcProgress
+                                    {/* <ArcProgress
                                         className="progress-container2"
                                         {...progrees}
+                                    /> */}
+                                    <Progress
+                                        type="circle"
+                                        percent={percent}
+                                        width={172}
+                                        format={(percent) => percent}
+                                        strokeWidth={6}
                                     />
-                                    <p className="text">{answerInfo.score}</p>
+                                    {/* <p className="text">{answerInfo.score}</p> */}
                                 </div>
                                 <Link className="btn" to={`/quests/${detail.tokenId}`}>
                                     <button className="btn">查看挑战详情</button>
@@ -221,6 +240,7 @@ export default function CustomCompleted(props) {
                                                 }}
                                                 img={detail.metadata.image}
                                                 showInner={showInner}
+                                                isClaim={isClaim}
                                             />
                                         )
                                     }

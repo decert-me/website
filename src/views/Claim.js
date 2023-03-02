@@ -18,6 +18,8 @@ export default function Claim(props) {
     let [detail, setDetail] = useState();
     let [answers, setAnswers] = useState();
 
+    let [isClaim, setIsClaim] = useState(false);
+
     const switchStatus = async(id, num) => {
         // 获取tokenId ===> 
         const cache = localStorage.getItem('decert.cache');
@@ -32,32 +34,42 @@ export default function Claim(props) {
             answers = JSON.parse(cache)[id];
             setAnswers([...answers]);
         }else if (num == 1) {
-            console.log('===> 已领取');
+            console.log('===> 已领取', detail);
             // 已答 已领 ==>
             // 获取 分数
-            
-        }else{
+            setIsClaim(true);
+        }else if (num == 0){
+            console.log('====>', num);
             // 未答 未领 ==>
             navigateTo(`/challenge/${id}`)
         }
     }
 
-    const init = async() =>{
+    const init = () =>{
         tokenId = location?.pathname?.split("/")[2];
         setTokenId(tokenId);
-        const num = await balanceOf(address, tokenId, signer);
-        tokenId && switchStatus(tokenId, num);
+
+        tokenId && signer &&
+        balanceOf(address, tokenId, signer)
+        .then(res => {
+            switchStatus(tokenId, res);
+        })
     }
 
     useEffect(() => {
         init()
-    },[])
+    },[signer])
 
     return (
         <div className="Claim">
             {
                 detail &&
-                <CustomCompleted answers={answers} detail={detail} tokenId={tokenId} />
+                <CustomCompleted 
+                    answers={answers} 
+                    detail={detail} 
+                    tokenId={tokenId} 
+                    isClaim={isClaim}
+                />
             }
         </div>
     )

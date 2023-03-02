@@ -125,11 +125,11 @@
                 align-items: center;
                 justify-content: center;
                 user-select: none;
-                .text{
+                .ant-progress-text{
                     position: absolute;
                     font-size: 64px;
                     font-weight: 500;
-                    color: #17151C;
+                    // color: #17151C;
                     line-height: 93px;
                 }
             }
@@ -209,6 +209,13 @@
         background-color: #8C52DF;
         border: none;
     }
+    .box .claim{
+        background-color: #8C52DF;
+        color: #fff;
+        .anticon-twitter{
+            color: #fff !important;
+        }
+    }
 }
 
 .innerHref{
@@ -264,11 +271,10 @@
     .box{
         width: 227px;
         height: 64px;
-        // padding-inline: 23px 8px;
         display: flex;
         align-items: center;
-        // justify-content: space-between;
         justify-content: center;
+        background-color: #ffffff00;
         border-radius: 32px;
         font-size: 14px;
         font-weight: 500;
@@ -284,8 +290,15 @@
             height: 48px;
             border-radius: 24px;
             font-size: 16px;
-        border: 1px solid #8C52DF;
+            border: 1px solid #8C52DF;
             
         }
+        .claim .anticon-twitter{
+            color: #0495d7;
+        }
     }
+}
+.isClaim{
+    background-color: #8C52DF;
+    justify-content: center;
 }
