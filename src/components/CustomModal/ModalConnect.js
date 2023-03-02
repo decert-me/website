@@ -2,6 +2,7 @@ import { Divider, Modal } from "antd";
 import { useAccount, useConnect } from "wagmi";
 import { useIsMounted } from '@/hooks/useIsMounted'
 import "@/assets/styles/component-style"
+import { ClearStorage } from "@/utils/ClearStorage";
 
 export default function ModalConnect(props) {
 
@@ -14,8 +15,7 @@ export default function ModalConnect(props) {
         },
         onDisconnect() {
             console.log('Disconnected')
-            localStorage.removeItem('decert.token')
-            
+            ClearStorage()
         }
     })
 

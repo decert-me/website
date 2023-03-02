@@ -6,6 +6,7 @@ import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
+import { ClearStorage } from "@/utils/ClearStorage";
 
 const { Header, Footer, Content } = Layout;
 
@@ -39,11 +40,11 @@ export default function DefaultLayout(params) {
 
     useEffect(() => {
         if (isConnected === true && address !== localStorage.getItem('decert.address')) {
-            localStorage.removeItem('decert.token');
+            ClearStorage();
             localStorage.setItem("decert.address", address);
         }
         if (!isConnected) {
-            localStorage.removeItem('decert.token');
+            ClearStorage();
         }
     },[address])
 
