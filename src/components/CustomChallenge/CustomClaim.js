@@ -4,15 +4,26 @@ import {
 } from '@ant-design/icons';
 import { getClaimHash, submitHash } from "../../request/api/public";
 import { claim } from "../../controller";
-import { useSigner, useWaitForTransaction } from "wagmi";
-import { useState } from "react";
+import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useEffect, useState } from "react";
 import ModalLoading from "../CustomModal/ModalLoading";
 
 
 export default function CustomClaim(props) {
     
     const { step, setStep, cliamObj, img, showInner, isClaim } = props;
+    const { chain } = useNetwork();
     const { data: signer } = useSigner();
+    const { switchNetwork } = useSwitchNetwork({
+        chainId: Number(process.env.REACT_APP_CHAIN_ID),
+        onError(error) {
+            setIsSwitch(false);
+        },
+        onSuccess() {
+            setIsSwitch(false);
+        }
+    })
+    let [isSwitch, setIsSwitch] = useState(false);
     let [claimHash, setClaimHash] = useState();
     let [cacheIsClaim, setCacheIsClaim] = useState();
 
@@ -30,6 +41,12 @@ export default function CustomClaim(props) {
     })
 
     const cliam = async() => {
+
+        if (chain.id != process.env.REACT_APP_CHAIN_ID) {
+            setIsSwitch(true);
+            return
+        }
+
         setWriteLoading(true);
         const signature = await getClaimHash(cliamObj);
         if (signature.status === 0) {
@@ -68,6 +85,12 @@ export default function CustomClaim(props) {
         `https://twitter.com/share?text=${title}%0A&hashtags=${"DecertMe"}&url=${url}%0A`,
         );
     }
+
+    useEffect(() => {
+        if (isSwitch && switchNetwork) {
+            switchNetwork()
+        }
+    },[switchNetwork, isSwitch])
 
     return (
         <div className={`CustomBox ${step === 3 ? "checked-step" : ""} CustomCliam step-box ${isClaim ? "isClaim" : ""}`}>
