@@ -55,11 +55,19 @@ export const verifyDiscord = (data) => {
     })
 }
 
-// 
 // 获取铸造所需签名
 export const getClaimHash = (data) => {
     return serviceAxios({
         url: `/badge/claim`,
+        method: "post",
+        data
+    })
+}
+
+// 分享推文免费获取Badge
+export const submitClaimTweet = (data) => {
+    return serviceAxios({
+        url: `/badge/submitClaimTweet`,
         method: "post",
         data
     })

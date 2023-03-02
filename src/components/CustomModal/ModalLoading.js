@@ -4,7 +4,7 @@ import BadgeAddress from "@/contracts/Badge.address";
 
 export default function ModalLoading(props) {
     
-    const { isModalOpen, handleCancel, isLoading, img, tokenId } = props;
+    const { isModalOpen, handleCancel, isLoading, img, tokenId, shareTwitter } = props;
 
     const icon = (
         <LoadingOutlined
@@ -13,15 +13,7 @@ export default function ModalLoading(props) {
           }}
           spin
         />
-      );
-
-    const shareTwitter = () => {
-        let title = "I claim a SBT on @DecertMe";
-        let url = `https://decert.me/quests/${tokenId}`;
-        window.open(
-        `https://twitter.com/share?text=${title}%0A${"by completing this challenge: "}&hashtags=${"DecertMe"}&url=${url}%0A%0A`,
-        );
-    }
+    );
 
     return (
         <Modal

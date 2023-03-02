@@ -1,4 +1,4 @@
-import { Steps } from "antd";
+import { Button, Input, Steps } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Encryption } from "@/utils/Encryption";
@@ -6,7 +6,7 @@ import ArcProgress from 'react-arc-progress';
 import CustomConnect from "./CustomConnect";
 import CustomDiscord from "./CustomDiscord";
 import { useAccount } from "wagmi";
-import { verifyDiscord } from "../../request/api/public";
+import { submitClaimTweet, verifyDiscord } from "../../request/api/public";
 import CustomClaim from "./CustomClaim";
 import BadgeAddress from "@/contracts/Badge.address";
 
@@ -19,7 +19,9 @@ export default function CustomCompleted(props) {
     let [answerInfo, setAnswerInfo] = useState();
     let [progrees, setProgrees] = useState();
     let [step, setStep] = useState(0);
-
+    let [isShow, setIsShow] = useState();
+    let [hrefUrl, setHrefUrl] = useState();
+    
     const contrast = (arr) => {
         const questions = detail.metadata.properties.questions;
         let totalScore = 0;
@@ -67,6 +69,29 @@ export default function CustomCompleted(props) {
     const changeStep = (value) => {
         step = value;
         setStep(step);
+    }
+
+    const showInner = () => {
+        setIsShow(true)
+    }
+
+    const changeHrefUrl = e => {
+        hrefUrl = e;
+        setHrefUrl(hrefUrl);
+    }
+
+    const hrefSubmit = () => {
+        submitClaimTweet({
+            tokenId: tokenId,
+            tweetUrl: hrefUrl,
+            score: answerInfo.score,
+            answer: JSON.stringify(answers)
+        })
+        .then(res => {
+            if (res) {
+                console.log(res);
+            }
+        })
     }
 
     const getStep = async() => {
@@ -195,11 +220,21 @@ export default function CustomCompleted(props) {
                                                     answer: JSON.stringify(answers)
                                                 }}
                                                 img={detail.metadata.image}
+                                                showInner={showInner}
                                             />
                                         )
                                     }
                                 ]}
                             />
+                            {
+                                isShow && 
+                                <div className="innerHref step-box">
+                                    <Input placeholder="推文链接" onChange={e => changeHrefUrl(e.target.value)} />
+                                    <Button type="link" onClick={() => hrefSubmit()} >
+                                        提交
+                                    </Button>
+                                </div>
+                            }
                         </div>
                     </div>
                  </div>

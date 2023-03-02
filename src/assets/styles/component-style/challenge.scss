@@ -211,6 +211,31 @@
     }
 }
 
+.innerHref{
+    margin-left: 24px;
+    padding-inline: 12px 10px;
+    justify-content: space-between;
+    font-weight: 500;
+    input{
+        width: 384px;
+        height: 50px;
+        border-radius: 25px;
+        border-start-end-radius: 25px;
+        border-end-end-radius: 25px;
+        border: 1px solid #8C52DF;
+        color: #8C52DF;
+        font-size: 20px;
+        line-height: 29px;
+    }
+    button{
+        width: 112px;
+        height: 50px;
+        color: #8C52DF;
+        font-size: 16px;
+        line-height: 23px;
+    }
+}
+
 .CustomBox{
     padding-inline: 41px 14px;
     justify-content: space-between;

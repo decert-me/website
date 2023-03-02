@@ -98,7 +98,7 @@ export default function Publish(params) {
     }
 
     const onFinish = async(values) => {
-        const token = localStorage.getItem(`decert.token`);
+        // const token = localStorage.getItem(`decert.token`);
         // 未登录
         if (!isConnected) {
             setConnectModal(true)
@@ -112,6 +112,9 @@ export default function Publish(params) {
         // 链不同
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);
+            return
+        }
+        if (!values.fileList.file.response.hash) {
             return
         }
         setWriteLoading(true);
@@ -243,7 +246,7 @@ export default function Publish(params) {
                             Click or drag file to this area to upload
                         </p>
                         <p className="ant-upload-hint " style={{ color: "#a0aec0" }}>
-                            File types supported: JPG, PNG, GIF, SVG. Max size: 100 MB
+                            File types supported: JPG, PNG, GIF, SVG. Max size: 20 MB
                             <span style={{ color: "#f14e4e", fontSize: "20px" }}>*</span>
                         </p>
                     </Dragger>
