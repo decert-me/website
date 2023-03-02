@@ -11,7 +11,6 @@ import { UploadProps } from "@/utils/UploadProps";
 import { Encryption } from "@/utils/Encryption";
 import { filterQuestions } from "@/utils/filter";
 import { useAccount, useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
-import { GetSign } from "@/utils/GetSign";
 import { convertToken } from "@/utils/convert";
 import { addQuests, ipfsJson, submitHash } from "../request/api/public";
 import { createQuest } from "../controller";
@@ -106,10 +105,10 @@ export default function Publish(params) {
             return
         }
         // 已登录 未签名
-        if (isConnected && (!token || !convertToken(token))) {
-            GetSign({address: address, signer: signer})
-            return
-        }
+        // if (isConnected && (!token || !convertToken(token))) {
+        //     GetSign({address: address, signer: signer})
+        //     return
+        // }
         // 链不同
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);

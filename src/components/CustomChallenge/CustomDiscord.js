@@ -1,24 +1,20 @@
 import { Button } from "antd";
 import { useEffect, useState } from "react"
-import { useAccount, useSigner } from "wagmi"
+import { useAccount } from "wagmi"
 import { verifyDiscord } from "@/request/api/public"
-import { GetSign } from "@/utils/GetSign";
 import { Link } from "react-router-dom";
+import { useRequest } from "ahooks";
 
 
 
 export default function CustomDiscord(props) {
-    /**
-     * 1. 初始化核实discord
-     * 2. 
-     *   */
+
     
     const { step, setStep } = props;
-    const { address, isConnected } = useAccount();
-    const { data: signer } = useSigner();
+    const { address } = useAccount();
     let [isBind, setIsBind] = useState();
     let [username, setUsername] = useState();
-    
+
     const verify = () => {
         const token = localStorage.getItem('decert.token')
         if (token) {
@@ -29,10 +25,14 @@ export default function CustomDiscord(props) {
                 username = res.data?.username ? res.data.username : null;
                 setUsername(username);
             })
-        }else if (isConnected === true) {
-            GetSign({address: address, signer: signer})
         }
     }
+
+    const { run } = useRequest(verify, {
+        debounceWait: 500,
+        manual: true
+    });
+
     
     useEffect(() => {
         if (isBind && step === 2) {
@@ -45,17 +45,25 @@ export default function CustomDiscord(props) {
         console.log('开启discord验证 ==>');
     },[step])
 
-    useEffect(() => {
-        function decertToken() {
-            const item = localStorage.getItem('decert.token');
-            console.log('item ===>',item);
-            // if (item) {
-                // setState(item);
-            // }
+    const decertToken = (e) => {
+        if (e.key === "decert.token") {
+            run()
         }
-        window.addEventListener('storage', decertToken)
+    }
+
+    useEffect(() => {
+        var orignalSetItem = localStorage.setItem;
+        localStorage.setItem = function(key,newValue){
+            var setItemEvent = new Event("setItemEvent");
+            setItemEvent.key = key;
+            setItemEvent.newValue = newValue;
+            setItemEvent.oldValue = localStorage.getItem(key);
+            window.dispatchEvent(setItemEvent);
+            orignalSetItem.apply(this,arguments);
+        }
+        window.addEventListener('setItemEvent', decertToken)
         return () => {
-            window.removeEventListener('storage', decertToken)
+            window.removeEventListener('setItemEvent', decertToken)
         }
     }, [])
 

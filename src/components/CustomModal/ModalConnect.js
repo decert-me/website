@@ -17,7 +17,7 @@ export default function ModalConnect(props) {
         onDisconnect() {
             console.log('Disconnected')
             localStorage.removeItem('decert.token')
-            navigateTo("/")
+            
         }
     })
 
