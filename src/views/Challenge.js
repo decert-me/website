@@ -56,6 +56,7 @@ export default function Challenge(params) {
     const changeAnswer = (e) => {
         answers[index] = e;
         setAnswers([...answers]);
+        console.log('answers ===>',answers);
     }
 
     const sumbit = () => {
@@ -82,15 +83,15 @@ export default function Challenge(params) {
         }
     },[page, detail])
 
-    const switchType = (question) => {
+    const switchType = (question,i) => {
     // 2: 填空 0: 单选 1: 多选
         switch (question.type) {
             case 2:
-                return <CustomInput label={question.title} value={changeAnswer} defaultValue={answers[index]} />
+                return <CustomInput key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
             case 1:
-                return <CustomCheckbox label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[index]} />
+                return <CustomCheckbox key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             case 0:
-                return <CustomRadio label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[index]} />
+                return <CustomRadio key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             default:
                 break;
         }
@@ -119,7 +120,12 @@ export default function Challenge(params) {
                     </Link>
                     <div className="content">
                         <h4>QUIZ #{page}</h4>
-                        {switchType(detail.metadata.properties.questions[index])}
+                        {
+                            // switchType(detail.metadata.properties.questions[index])
+                            detail.metadata.properties.questions.map((e,i) => {
+                                return i === index && switchType(e,i)
+                            })
+                        }
                     </div>
                     <div className="progress">
                         <Progress percent={percent} showInfo={false} />

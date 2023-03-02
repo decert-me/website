@@ -11,7 +11,6 @@ import { UploadProps } from "@/utils/UploadProps";
 import { Encryption } from "@/utils/Encryption";
 import { filterQuestions } from "@/utils/filter";
 import { useAccount, useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
-import { convertToken } from "@/utils/convert";
 import { addQuests, ipfsJson, submitHash } from "../request/api/public";
 import { createQuest } from "../controller";
 import { useNavigate } from "react-router-dom";

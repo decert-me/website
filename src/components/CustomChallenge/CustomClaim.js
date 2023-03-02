@@ -73,7 +73,7 @@ export default function CustomClaim(props) {
         <div className={`CustomBox ${step === 3 ? "checked-step" : ""} CustomCliam step-box ${isClaim ? "isClaim" : ""}`}>
             {
                 isClaim || cacheIsClaim ? 
-                "成功领取SBT"
+                "已领取SBT"
                 :
                 <>
                     <ModalLoading 
