@@ -41,7 +41,7 @@ export default function CustomDiscord(props) {
     },[isBind])
 
     useEffect(() => {
-        verify();
+        run();
         console.log('开启discord验证 ==>');
     },[step])
 
@@ -81,7 +81,7 @@ export default function CustomDiscord(props) {
                     {
                         step >= 2 &&
                         <div>
-                            <Button onClick={verify}>核实</Button>
+                            <Button onClick={run}>核实</Button>
                             <Link to="https://discord.com/invite/WR3uxWad7B" target="_blank">
                                 <Button>打开Discord</Button>
                             </Link>

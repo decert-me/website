@@ -2,7 +2,6 @@ import { Button, Input, Progress, Steps } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Encryption } from "@/utils/Encryption";
-import ArcProgress from 'react-arc-progress';
 import CustomConnect from "./CustomConnect";
 import CustomDiscord from "./CustomDiscord";
 import { useAccount, useSigner } from "wagmi";
@@ -104,16 +103,14 @@ export default function CustomCompleted(props) {
     }
 
     const getStep = async() => {
-        const res = await verifyDiscord({address: address})
+        // const res = await verifyDiscord({address: address})
         // 判断当前步骤
         if (!answerInfo.isPass) {
             step = 0;
         }else if(isConnected === false){
             step = 1;
-        }else if (res && (!res.data || res.data.reload)) {
+        }else if(isConnected === true){
             step = 2;
-        }else{
-            step = 3;
         }
         if (isClaim) {
             step = 3
