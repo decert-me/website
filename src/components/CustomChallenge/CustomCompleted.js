@@ -5,10 +5,11 @@ import { Encryption } from "@/utils/Encryption";
 import CustomConnect from "./CustomConnect";
 import CustomDiscord from "./CustomDiscord";
 import { useAccount, useSigner } from "wagmi";
-import { submitClaimTweet, verifyDiscord } from "../../request/api/public";
+import { submitClaimTweet } from "@/request/api/public";
 import CustomClaim from "./CustomClaim";
 import BadgeAddress from "@/contracts/Badge.address";
-import { chainScores } from "../../controller";
+import { chainScores } from "@/controller";
+import { GetPercent } from "@/utils/GetPercent";
 
 export default function CustomCompleted(props) {
     
@@ -46,13 +47,14 @@ export default function CustomCompleted(props) {
                     }
                 }
             })
+            percent = GetPercent(totalScore, score);
             answerInfo = {
                 totalScore: totalScore,
                 score: score,
                 passingScore: detail.metadata.properties.passingScore,
+                passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
                 isPass: score >= detail.metadata.properties.passingScore
             }
-            percent = (100 / arr.length) * successNum;
         }else{
             // 已领取
             questions.map(e => {
@@ -60,14 +62,15 @@ export default function CustomCompleted(props) {
             })
             await chainScores(address, tokenId, signer)
             .then(res => {
+                percent = GetPercent(totalScore, res);
                 answerInfo = {
                     totalScore: totalScore,
                     score: res,
                     passingScore: detail.metadata.properties.passingScore,
+                    passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
                     isPass: res >= detail.metadata.properties.passingScore
                 }
             })
-            percent = (100 / totalScore) * answerInfo.score;
         }
         setAnswerInfo({...answerInfo});
         setPercent(percent);
@@ -149,7 +152,7 @@ export default function CustomCompleted(props) {
                         <div className="score">
                             <p className="network">{detail.title}</p>
                             <h4>本次得分</h4>
-                            <p className="pass">达到 {answerInfo.passingScore} 即可挑战通关</p>
+                            <p className="pass">达到 {answerInfo.passingPercent} 即可挑战通关</p>
                             <div className="score-detail">
                                 <div className="circle">
                                     {/* <ArcProgress
