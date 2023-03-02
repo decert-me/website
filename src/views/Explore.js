@@ -43,7 +43,7 @@ export default function Explore(params) {
     return (
         <div className="Explore">
             {/* title */}
-            <h3>Explore challenge</h3>
+            <h3>探索挑战</h3>
             {/* Challenge */}
             <div className="challenges">
                 <InfiniteScroll
@@ -80,7 +80,7 @@ export default function Explore(params) {
                                         }}
                                         className="btn"
                                     >
-                                        Challenge
+                                        挑战
                                     </Button>
                                     </div>
                                     <div className="right-sbt">

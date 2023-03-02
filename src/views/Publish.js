@@ -179,7 +179,7 @@ export default function Publish(params) {
                 handleCancel={hideAddModal}
                 questionChange={questionChange}
               />
-            <h3>Creative a challenge</h3>
+            <h3>创建挑战</h3>
             <Form
                 className="inner"
                 name="challenge"
@@ -195,7 +195,7 @@ export default function Publish(params) {
                 autoComplete="off"
             >
                 <Form.Item
-                    label="Title"
+                    label="标题"
                     name="title"
                     rules={[{
                         required: true,
@@ -206,7 +206,7 @@ export default function Publish(params) {
                 </Form.Item>
 
                 <Form.Item 
-                    label="Description"
+                    label="描述"
                     name="desc"
                 >
                     <TextArea 
@@ -220,7 +220,7 @@ export default function Publish(params) {
                 </Form.Item>
 
                 <Form.Item 
-                    label="Image" 
+                    label="图片" 
                     name="fileList"
                     valuePropName="img"
                     rules={[{
@@ -242,10 +242,10 @@ export default function Publish(params) {
                             <InboxOutlined />
                         </p>
                         <p className="ant-upload-text " style={{ color: "#a0aec0" }}>
-                            Click or drag file to this area to upload
+                            点击或拖动文件到这个区域来上传
                         </p>
                         <p className="ant-upload-hint " style={{ color: "#a0aec0" }}>
-                            File types supported: JPG, PNG, GIF, SVG. Max size: 20 MB
+                            支持的文件类型。jpg, png, gif, svg. 最大尺寸：20 MB
                             <span style={{ color: "#f14e4e", fontSize: "20px" }}>*</span>
                         </p>
                     </Dragger>
@@ -270,16 +270,16 @@ export default function Publish(params) {
                 {/* add multiple */}
                 <div className="btns">
                     <Button type="link" onClick={() => showAddModal()}>
-                        Add multiple choice or fill in the blanks
+                        添加选择题或填空题
                     </Button>
-                    <Button type="link">
+                    {/* <Button type="link">
                         Add code question
-                    </Button>
+                    </Button> */}
                 </div>
 
                 <div className="challenge-info">
                     <Form.Item 
-                        label="Passing score"
+                        label="及格分"
                         name="score"
                         rules={[{
                             required: true,
@@ -298,7 +298,7 @@ export default function Publish(params) {
                     </Form.Item>
 
                     <div className="form-item">
-                        <p className="title">Gross score</p>
+                        <p className="title">总分</p>
                         <InputNumber 
                             value={sumScore} 
                             disabled
@@ -309,7 +309,7 @@ export default function Publish(params) {
                     </div>
 
                     <Form.Item 
-                        label="Difficulty"
+                        label="难度"
                         name="difficulty"
                     >
                         <Select
@@ -322,7 +322,7 @@ export default function Publish(params) {
                     </Form.Item>
 
                     <Form.Item 
-                        label="Time"
+                        label="预估时间"
                         name="time"
                     >
                         <Select 
@@ -352,7 +352,7 @@ export default function Publish(params) {
                         htmlType="submit" 
                         loading={ writeLoading || waitLoading }
                     >
-                        Submit
+                        提交
                     </Button>
                 </Form.Item>
             </Form>

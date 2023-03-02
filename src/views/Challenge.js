@@ -119,7 +119,7 @@ export default function Challenge(params) {
                         </div>
                     </Link>
                     <div className="content">
-                        <h4>QUIZ #{page}</h4>
+                        <h4>测验 #{page}</h4>
                         {
                             // switchType(detail.metadata.properties.questions[index])
                             detail.metadata.properties.questions.map((e,i) => {

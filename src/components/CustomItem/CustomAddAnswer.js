@@ -26,7 +26,7 @@ export default function CustomAddAnswer(params) {
                       },
                     ]}
                   >
-                    <Input style={{ width: 400, marginRight: "5px" }} placeholder="First answer" />
+                    <Input style={{ width: 400, marginRight: "5px" }} placeholder="answer" />
                   </Form.Item>
                   {fields.length === 1 ? null : (
                     <Form.Item
@@ -63,7 +63,7 @@ export default function CustomAddAnswer(params) {
             ))}
 
             <Button type="link" style={{ width: 200 }} onClick={() => add()} block>
-              {"Add Answer"}
+              添加答案
             </Button>
           </div>
         )}

@@ -87,7 +87,7 @@ export default function AppHeader(params) {
                             <img src={require("@/assets/images/img/logo-black.png")} alt="" />
                         }
                     </div>
-                    <Link to="/explore">Explore</Link>
+                    <Link to="/explore">探索</Link>
                 </div>
                 {
                     isConnected ?

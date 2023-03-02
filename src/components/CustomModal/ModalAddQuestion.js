@@ -32,7 +32,7 @@ export default function ModalAddQuestion(props) {
 
         let optionArr = [];
         const { type, ans } = filterType(values);
-        if (typeof ans !== 'number') {
+        if (typeof ans === 'object') {
             message.warning("至少选择一个正确答案")
             return
         }
@@ -64,7 +64,7 @@ export default function ModalAddQuestion(props) {
             maskClosable={false}
             destroyOnClose={true}
         >
-            <h5>*Questions Title</h5>
+            <h5>*题目</h5>
             <CustomEditor changeTitle={changeTitle} />
 
             <Form
@@ -74,7 +74,7 @@ export default function ModalAddQuestion(props) {
                 <CustomAddAnswer />
 
                 <Form.Item
-                    label="Questions score"
+                    label="题目分数"
                     name="score"
                     rules={[
                         {
@@ -92,7 +92,7 @@ export default function ModalAddQuestion(props) {
                     />
                 </Form.Item>
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">add</Button>
+                    <Button type="primary" htmlType="submit">添加</Button>
                 </Form.Item>
             </Form>
         </Modal>
