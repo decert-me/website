@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Badge, Button } from "antd";
 import {
     TwitterOutlined,
 } from '@ant-design/icons';
@@ -56,13 +56,15 @@ export default function CustomClaim(props) {
                 img={img}
                 tokenId={cliamObj.tokenId}
             />
-            {/* <div className="box">
-                <p>免手续费领取SBT</p>
-                <Button className="share"><TwitterOutlined style={{color: "#0495d7"}} />立即分享</Button>
-            </div> */}
+                <Badge.Ribbon text="免手续费" >
             <div className="box">
-                <p>立即领取SBT</p>
-                <Button loading={writeLoading} onClick={() => cliam()}>立即铸造</Button>
+                    <Button className="share"><TwitterOutlined style={{color: "#0495d7"}} />
+                    分享领取
+                    </Button>
+            </div>
+                </Badge.Ribbon>
+            <div className="box">
+                <Button loading={writeLoading} onClick={() => cliam()}>立即领取</Button>
             </div>
         </div>
     )

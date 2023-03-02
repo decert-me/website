@@ -2,12 +2,10 @@ import { Divider, Modal } from "antd";
 import { useAccount, useConnect } from "wagmi";
 import { useIsMounted } from '@/hooks/useIsMounted'
 import "@/assets/styles/component-style"
-import { useNavigate } from "react-router-dom";
 
 export default function ModalConnect(props) {
 
     const { isModalOpen, handleCancel } = props;
-    const navigateTo = useNavigate();
     const isMounted = useIsMounted();
     const { connect, connectors } = useConnect();
     const { connector, isReconnecting } = useAccount({
