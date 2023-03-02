@@ -52,9 +52,9 @@ export const UploadProps = {
         message.error("You can only upload JPG/PNG file!");
         return false
       }
-      const isLt100M = file.size / 1024 / 1024 < 100;
+      const isLt100M = file.size / 1024 / 1024 < 20;
       if (!isLt100M) {
-        message.error("Image must smaller than 100MB!");
+        message.error("Image must smaller than 20MB!");
       }
     }
 };
