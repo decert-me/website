@@ -22,24 +22,27 @@ export default function Claim(props) {
 
     const switchStatus = async(id, num) => {
         // 获取tokenId ===> 
-        const cache = localStorage.getItem('decert.cache');
-        await getQuests({id: tokenId})
+        const cache = JSON.parse(localStorage.getItem('decert.cache'));
+        console.log(cache);
+        await getQuests({id: id})
         .then(res => {
             detail = res ? res.data : {};
             setDetail({...detail});
         })
-        if (cache && (num == 0 || !num)) {
+        if (cache && cache[id] && (num == 0 || !num)) {
             // 已答 未领 ==>
-            console.log('===> 未领取');
-            answers = JSON.parse(cache)[id];
+            answers = cache[id];
             setAnswers([...answers]);
         }else if (num == 1) {
-            console.log('===> 已领取', detail);
             // 已答 已领 ==>
+            if (cache[id]) {
+                // 重新挑战
+                answers = cache[id];
+                setAnswers([...answers]);
+            }
             // 获取 分数
             setIsClaim(true);
         }else if ((num == 0 || !num)){
-            console.log('====>', num);
             // 未答 未领 ==>
             navigateTo(`/challenge/${id}`)
         }

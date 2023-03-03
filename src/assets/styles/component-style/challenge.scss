@@ -188,7 +188,7 @@
 }
 
 .step-box{
-    width: 517px;
+    width: 530px;
     height: 64px;
     border: 1px solid #8C52DF;
     display: flex;
@@ -247,15 +247,15 @@
     padding-inline: 41px 14px;
     justify-content: space-between;
     button{
-        height: 40px;
+        height: 48px;
         padding-inline: 26px;
-        border-radius: 20px;
+        border-radius: 24px;
         border: none;
         box-shadow: none;
         color: #8C52DF;
-        font-size: 20px;
+        font-size: 16px;
         font-weight: 500;
-        line-height: 29px;
+        line-height: 23px;
     }
 }
 
@@ -299,6 +299,8 @@
     }
 }
 .isClaim{
-    background-color: #8C52DF;
+    // background-color: #8C52DF;
     justify-content: center;
+    color: #8C52DF;
+    border: 1px solid #8C52DF;
 }

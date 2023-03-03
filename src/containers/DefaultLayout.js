@@ -1,4 +1,4 @@
-import { useNavigate, useRoutes } from "react-router-dom";
+import { useLocation, useNavigate, useRoutes } from "react-router-dom";
 import { Layout } from "antd";
 import routes from "@/router";
 
@@ -7,6 +7,7 @@ import AppFooter from "./AppFooter";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
+
 
 const { Header, Footer, Content } = Layout;
 
@@ -38,6 +39,8 @@ export default function DefaultLayout(params) {
     const outlet = useRoutes(routes);
     const { address, isConnected } = useAccount();
     const navigateTo = useNavigate();
+    const location = useLocation();
+    const [path, setPath] = useState();
 
     useEffect(() => {
         if (isConnected === true && address !== localStorage.getItem('decert.address')) {
@@ -50,6 +53,17 @@ export default function DefaultLayout(params) {
             localStorage.removeItem("decert.address");
         }
     },[address])
+
+    // TODO: 离开claim页面销毁对应tokenId ==> cache
+    // useEffect(() => {
+    //     setPath(location.pathname);
+    //     console.log('location ===>', location);
+
+    //     if (path) {
+            
+    //     }
+        
+    // },[location])
 
     return (
         <Layout>

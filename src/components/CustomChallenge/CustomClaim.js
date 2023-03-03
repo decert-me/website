@@ -79,7 +79,7 @@ export default function CustomClaim(props) {
     }
 
     const shareTwitter = () => {
-        let title = "我通过了@DecertMe的挑战并获得了一个链上的能力认证徽章。";
+        let title = "我在 @DecertMe 上完成了一个挑战并获得了链上能力认证的徽章。";
         let url = `https://decert.me/quests/${cliamObj.tokenId}`;
         window.open(
         `https://twitter.com/share?text=${title}%0A&hashtags=${"DecertMe"}&url=${url}%0A`,
@@ -93,7 +93,7 @@ export default function CustomClaim(props) {
     },[switchNetwork, isSwitch])
 
     return (
-        <div className={`CustomBox ${(step === 3 && (!isClaim || !cacheIsClaim)) ? "checked-step" : ""} CustomCliam step-box ${isClaim ? "isClaim" : ""}`}>
+        <div className={`CustomBox ${step === 3 ? "checked-step" : ""} CustomCliam step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}>
             {
                 isClaim || cacheIsClaim ? 
                 "已领取SBT"

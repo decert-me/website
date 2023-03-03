@@ -90,7 +90,7 @@ export default function CustomDiscord(props) {
                     {
                         step >= 2 &&
                         <div>
-                            <Button loading={isLoading} onClick={() => onclick()}>核实</Button>
+                            <Button loading={isLoading} onClick={() => onclick()} style={{marginRight: "18px"}}>核实</Button>
                             <Link to="https://discord.com/invite/WR3uxWad7B" target="_blank">
                                 <Button>打开Discord</Button>
                             </Link>
