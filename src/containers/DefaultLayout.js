@@ -44,7 +44,8 @@ export default function DefaultLayout(params) {
             localStorage.setItem("decert.address", address);
         }
         if (!isConnected) {
-            ClearStorage();
+            localStorage.removeItem('decert.token')
+            localStorage.removeItem("decert.address");
         }
     },[address])
 

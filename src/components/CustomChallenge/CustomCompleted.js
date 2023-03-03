@@ -249,7 +249,7 @@ export default function CustomCompleted(props) {
                             {
                                 isShow && 
                                 <div className="innerHref step-box">
-                                    <Input placeholder="推文链接" onChange={e => changeHrefUrl(e.target.value)} />
+                                    <Input placeholder="https://twitter.com/account/access" onChange={e => changeHrefUrl(e.target.value)} />
                                     <Button type="link" onClick={() => hrefSubmit()} >
                                         提交
                                     </Button>

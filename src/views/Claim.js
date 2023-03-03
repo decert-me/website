@@ -13,7 +13,7 @@ export default function Claim(props) {
     const location = useLocation();
     const navigateTo = useNavigate();
     const { data: signer } = useSigner();
-    const { address, isConnected } = useAccount();
+    const { address, isConnected, isDisconnected } = useAccount();
     let [tokenId, setTokenId] = useState();
     let [detail, setDetail] = useState();
     let [answers, setAnswers] = useState();
@@ -28,7 +28,7 @@ export default function Claim(props) {
             detail = res ? res.data : {};
             setDetail({...detail});
         })
-        if (cache && num == 0) {
+        if (cache && (num == 0 || !num)) {
             // 已答 未领 ==>
             console.log('===> 未领取');
             answers = JSON.parse(cache)[id];
@@ -38,7 +38,7 @@ export default function Claim(props) {
             // 已答 已领 ==>
             // 获取 分数
             setIsClaim(true);
-        }else if (num == 0){
+        }else if ((num == 0 || !num)){
             console.log('====>', num);
             // 未答 未领 ==>
             navigateTo(`/challenge/${id}`)
@@ -54,11 +54,12 @@ export default function Claim(props) {
         .then(res => {
             switchStatus(tokenId, res);
         })
+        tokenId && isDisconnected && switchStatus(tokenId);
     }
 
     useEffect(() => {
         init()
-    },[signer])
+    },[signer, isDisconnected])
 
     return (
         <div className="Claim">
