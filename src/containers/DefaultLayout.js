@@ -1,4 +1,4 @@
-import { useRoutes } from "react-router-dom";
+import { useNavigate, useRoutes } from "react-router-dom";
 import { Layout } from "antd";
 import routes from "@/router";
 
@@ -37,11 +37,13 @@ export default function DefaultLayout(params) {
 
     const outlet = useRoutes(routes);
     const { address, isConnected } = useAccount();
+    const navigateTo = useNavigate();
 
     useEffect(() => {
         if (isConnected === true && address !== localStorage.getItem('decert.address')) {
             ClearStorage();
             localStorage.setItem("decert.address", address);
+            navigateTo('/')
         }
         if (!isConnected) {
             localStorage.removeItem('decert.token')

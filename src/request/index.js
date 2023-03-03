@@ -24,8 +24,12 @@ serviceAxios.interceptors.request.use(
 // 创建响应拦截
 serviceAxios.interceptors.response.use(
   res => {
+    console.log('response ===>',res);
     let data = res.data;
     if (data.status !== 0) {
+      if (res.config.url === '/users/discord' && res.config.data.indexOf('isClick') === -1) {
+        return null
+      }
       message.error(data.message);
       return null
     }

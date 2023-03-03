@@ -14,16 +14,18 @@ export default function CustomDiscord(props) {
     const { address } = useAccount();
     let [isBind, setIsBind] = useState();
     let [username, setUsername] = useState();
+    let [isLoading, setIsLoading] = useState();
 
-    const verify = () => {
+    const verify = (isClick) => {
         const token = localStorage.getItem('decert.token')
         if (token) {
-            verifyDiscord({address: address})
+            verifyDiscord({address: address, isClick: isClick})
             .then(res => {
-                isBind = res.status !== 0 ? false : res.data ? true : false;
+                isBind = !res ? false : res.data ? true : false;
                 setIsBind(isBind);
-                username = res.data?.username ? res.data.username : null;
+                username = isBind && res.data?.username ? res.data.username : null;
                 setUsername(username);
+                
             })
         }
     }
@@ -33,6 +35,13 @@ export default function CustomDiscord(props) {
         manual: true
     });
 
+    const onclick = () => {
+        setIsLoading(true);
+        verify(true);
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
+    }
     
     useEffect(() => {
         if (isBind && step === 2) {
@@ -81,7 +90,7 @@ export default function CustomDiscord(props) {
                     {
                         step >= 2 &&
                         <div>
-                            <Button onClick={run}>核实</Button>
+                            <Button loading={isLoading} onClick={() => onclick()}>核实</Button>
                             <Link to="https://discord.com/invite/WR3uxWad7B" target="_blank">
                                 <Button>打开Discord</Button>
                             </Link>
