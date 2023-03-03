@@ -93,7 +93,7 @@ export default function CustomCompleted(props) {
 
     const hrefSubmit = () => {
         submitClaimTweet({
-            tokenId: tokenId,
+            tokenId: Number(tokenId),
             tweetUrl: hrefUrl,
             score: answerInfo.score,
             answer: JSON.stringify(answers)

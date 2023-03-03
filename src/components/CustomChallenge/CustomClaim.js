@@ -93,7 +93,7 @@ export default function CustomClaim(props) {
     },[switchNetwork, isSwitch])
 
     return (
-        <div className={`CustomBox ${step === 3 ? "checked-step" : ""} CustomCliam step-box ${isClaim ? "isClaim" : ""}`}>
+        <div className={`CustomBox ${(step === 3 && (!isClaim || !cacheIsClaim)) ? "checked-step" : ""} CustomCliam step-box ${isClaim ? "isClaim" : ""}`}>
             {
                 isClaim || cacheIsClaim ? 
                 "已领取SBT"

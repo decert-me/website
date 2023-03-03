@@ -26,7 +26,7 @@ export default function CustomAddAnswer(params) {
                       },
                     ]}
                   >
-                    <Input style={{ width: 400, marginRight: "5px" }} placeholder="answer" />
+                    <Input style={{ width: 400, marginRight: "5px" }} placeholder="答案" />
                   </Form.Item>
                   {fields.length === 1 ? null : (
                     <Form.Item
@@ -48,11 +48,11 @@ export default function CustomAddAnswer(params) {
                         options={[
                           {
                             value: 2,
-                            label: "Yes",
+                            label: "正确",
                           },
                           {
                             value: 1,
-                            label: "No",
+                            label: "错误",
                           },
                         ]}
                       />
