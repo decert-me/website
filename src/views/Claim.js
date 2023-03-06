@@ -35,7 +35,7 @@ export default function Claim(props) {
             setAnswers([...answers]);
         }else if (num == 1) {
             // 已答 已领 ==>
-            if (cache[id]) {
+            if (cache && cache[id]) {
                 // 重新挑战
                 answers = cache[id];
                 setAnswers([...answers]);
