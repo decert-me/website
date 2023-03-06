@@ -43,10 +43,12 @@ export default function DefaultLayout(params) {
     const [path, setPath] = useState();
 
     useEffect(() => {
+        console.log('reload =====>',localStorage.getItem('decert.address'), address);
         if (isConnected === true && address !== localStorage.getItem('decert.address')) {
             ClearStorage();
+            localStorage.removeItem("decert.cache");
             localStorage.setItem("decert.address", address);
-            navigateTo('/')
+            navigateTo(0)
         }
         if (!isConnected) {
             localStorage.removeItem('decert.token')

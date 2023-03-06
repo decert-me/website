@@ -5,31 +5,24 @@ import InfiniteScroll from 'react-infinite-scroll-component';
 import { getQuests } from "../request/api/public"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import "@/assets/styles/view-style/explore.scss"
+import { useRequest } from "ahooks";
 
 export default function Explore(params) {
     
 
     const navigateTo = useNavigate();
     let [isOver, setIsOver] = useState();
+    
     let [challenges, setChallenges] = useState([]);
     let [pageConfig, setPageConfig] = useState({
         page: 1, pageSize: 10, total: 0
     });
 
-
-
-    useEffect(() => {
-        window.scrollTo(0,0);
-        getNext()
-    },[])
-
     const getNext = () => {
         if (pageConfig.total === 0 || (pageConfig.page-1) * pageConfig.pageSize <= pageConfig.total) {
             getQuests(pageConfig)
             .then(res => {
-                if (res.data.list.length === 0) {
-                    setIsOver(true);
-                }
+                setIsOver(true);
                 challenges = challenges.concat(res.data.list);
                 setChallenges([...challenges]);
                 if (pageConfig.total === 0) {
@@ -43,6 +36,17 @@ export default function Explore(params) {
         }
     }
 
+    const { run } = useRequest(getNext, {
+        debounceWait: 500,
+        manual: true
+    });
+
+    useEffect(() => {
+        window.scrollTo(0,0);
+        run()
+    },[])
+
+
     return (
         <div className="Explore">
             {/* title */}
@@ -51,7 +55,7 @@ export default function Explore(params) {
             <div className="challenges">
                 <InfiniteScroll
                     dataLength={challenges.length}
-                    next={getNext}
+                    next={run}
                     hasMore={true}
                     style={{
                         position: "relative",

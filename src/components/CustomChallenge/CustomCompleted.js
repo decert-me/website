@@ -1,4 +1,4 @@
-import { Button, Input, Progress, Steps } from "antd";
+import { Button, Input, Progress, Steps, message } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Encryption } from "@/utils/Encryption";
@@ -100,7 +100,7 @@ export default function CustomCompleted(props) {
         })
         .then(res => {
             if (res) {
-                console.log(res);
+                message.success(res.message);
             }
         })
     }
@@ -110,7 +110,7 @@ export default function CustomCompleted(props) {
         // 判断当前步骤
         if (!answerInfo.isPass) {
             step = 0;
-        }else if(isConnected === false){
+        }else if(isConnected === false || !localStorage.getItem('decert.token')){
             step = 1;
         }else if(isConnected === true){
             step = 2;
