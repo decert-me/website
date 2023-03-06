@@ -145,7 +145,7 @@ export default function CustomCompleted(props) {
                             </div>
                             :
                             <div className="desc">
-                                <p className="title">战未通过，请继续加油吧。</p>
+                                <p className="title">挑战未通过，请继续加油吧。</p>
                                 <p>通过挑战后，你将获得SBT徽章并与它灵魂绑定，它将成为你技术认证的证明，为你的履历添砖加瓦。</p>
                             </div>
                         }
