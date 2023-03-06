@@ -1,3 +1,4 @@
+import { message } from "antd";
 import axios from "axios";
 import serverConfig from "./config.js";
 
@@ -25,7 +26,10 @@ serviceAxios.interceptors.response.use(
   res => {
     let data = res.data;
     if (data.status !== 0) {
-      console.log(data.message);
+      if (res.config.url === '/users/discord' && res.config.data.indexOf('isClick') === -1) {
+        return null
+      }
+      message.error(data.message);
       return null
     }
     // if (data.data.reload) {

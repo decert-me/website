@@ -4,7 +4,7 @@ import axios from "axios";
 // Client-side-only code
 let ipfsAxios = axios.create({
   baseURL: process.env.REACT_APP_UPLOAD,
-  timeout: 10000 // 请求超时设置
+  timeout: 30000 // 请求超时设置
   //   withCredentials: false, // 跨域请求是否需要携带 cookie
 });
 ipfsAxios.interceptors.response.use(

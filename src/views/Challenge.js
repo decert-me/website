@@ -56,6 +56,7 @@ export default function Challenge(params) {
     const changeAnswer = (e) => {
         answers[index] = e;
         setAnswers([...answers]);
+        console.log('answers ===>',answers);
     }
 
     const sumbit = () => {
@@ -63,10 +64,7 @@ export default function Challenge(params) {
         let cache = localStorage.getItem("decert.cache") ? 
             JSON.parse(localStorage.getItem("decert.cache")) 
             : {};
-        cache[detail.tokenId] = {
-            answers: answers,
-            detail: detail
-        };
+        cache[detail.tokenId] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
         navigateTo(`/claim/${detail.tokenId}`)
     }
@@ -85,15 +83,15 @@ export default function Challenge(params) {
         }
     },[page, detail])
 
-    const switchType = (question) => {
+    const switchType = (question,i) => {
     // 2: 填空 0: 单选 1: 多选
         switch (question.type) {
             case 2:
-                return <CustomInput label={question.title} value={changeAnswer} defaultValue={answers[index]} />
+                return <CustomInput key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
             case 1:
-                return <CustomCheckbox label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[index]} />
+                return <CustomCheckbox key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             case 0:
-                return <CustomRadio label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[index]} />
+                return <CustomRadio key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             default:
                 break;
         }
@@ -114,15 +112,20 @@ export default function Challenge(params) {
                         answers={answers}
                         changePage={changePage}
                     />
-                    <Link to={`/question/${detail.tokenId}`}>
+                    <Link to={`/quests/${detail.tokenId}`}>
                         <div className="title">
                             <ArrowLeftOutlined />
                             <p>{detail?.title}</p>
                         </div>
                     </Link>
                     <div className="content">
-                        <h4>QUIZ #{page}</h4>
-                        {switchType(detail.metadata.properties.questions[index])}
+                        <h4>测验 #{page}</h4>
+                        {
+                            // switchType(detail.metadata.properties.questions[index])
+                            detail.metadata.properties.questions.map((e,i) => {
+                                return i === index && switchType(e,i)
+                            })
+                        }
                     </div>
                     <div className="progress">
                         <Progress percent={percent} showInfo={false} />

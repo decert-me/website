@@ -58,18 +58,22 @@ export default function Quests(params) {
                         </div>
                         <p>{NickName(detail.creator)}</p>
                     </li>
+                        
+                    {
+                        detail.metadata.properties.difficulty !== null &&
                         <li>
-                            Difficulty: {convertDifficulty(detail?.type)}
+                            难度: {convertDifficulty(detail.metadata.properties.difficulty)}
                         </li>
+                    }
                     {
                         detail.metadata.properties.estimateTime &&
                         <li>
-                            Time: {convertTime(detail.metadata.properties.estimateTime)}
+                            预估时间: {convertTime(detail.metadata.properties.estimateTime)}
                         </li>
                     }
                 </ul>
                 <Link to={`/challenge/${detail.tokenId}`}>
-                    <Button>Start Challenge</Button>
+                    <Button>开始挑战</Button>
                 </Link>
             </div>
         </div>

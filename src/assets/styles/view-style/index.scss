@@ -3,7 +3,9 @@
     background-color: #000;
     margin: 0 auto;
     .main-center {
-      height: 1025px;
+      min-height: 1025px;
+      height: calc(100vh - 300px);
+
       background: #814cdd;
       padding-top: 150px;
       .weight-info {

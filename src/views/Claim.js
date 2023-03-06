@@ -4,6 +4,7 @@ import { useAccount, useSigner } from "wagmi";
 import CustomCompleted from "../components/CustomChallenge/CustomCompleted";
 import { balanceOf } from "../controller";
 import "@/assets/styles/component-style"
+import { getQuests } from "../request/api/public";
 
 
 
@@ -12,49 +13,67 @@ export default function Claim(props) {
     const location = useLocation();
     const navigateTo = useNavigate();
     const { data: signer } = useSigner();
-    const { address, isConnected } = useAccount();
+    const { address, isConnected, isDisconnected } = useAccount();
     let [tokenId, setTokenId] = useState();
     let [detail, setDetail] = useState();
     let [answers, setAnswers] = useState();
 
-    const switchStatus = (id, num) => {
+    let [isClaim, setIsClaim] = useState(false);
+
+    const switchStatus = async(id, num) => {
         // 获取tokenId ===> 
-        const cache = localStorage.getItem('decert.cache');
-        console.log('num ===>', num);
-        if (cache && num == 0) {
-            // 已答 未领 ==>
-            console.log('===> 未领取');
-            detail = JSON.parse(cache)[id].detail;
-            answers = JSON.parse(cache)[id].answers;
+        const cache = JSON.parse(localStorage.getItem('decert.cache'));
+        console.log(cache);
+        await getQuests({id: id})
+        .then(res => {
+            detail = res ? res.data : {};
             setDetail({...detail});
+        })
+        if (cache && cache[id] && (num == 0 || !num)) {
+            // 已答 未领 ==>
+            answers = cache[id];
             setAnswers([...answers]);
         }else if (num == 1) {
-            console.log('===> 已领取');
             // 已答 已领 ==>
+            if (cache && cache[id]) {
+                // 重新挑战
+                answers = cache[id];
+                setAnswers([...answers]);
+            }
             // 获取 分数
-            
-        }else{
+            setIsClaim(true);
+        }else if ((num == 0 || !num)){
             // 未答 未领 ==>
             navigateTo(`/challenge/${id}`)
         }
     }
 
-    const init = async() =>{
+    const init = () =>{
         tokenId = location?.pathname?.split("/")[2];
         setTokenId(tokenId);
-        const num = await balanceOf(address, tokenId, signer);
-        tokenId && switchStatus(tokenId, num);
+
+        tokenId && signer &&
+        balanceOf(address, tokenId, signer)
+        .then(res => {
+            switchStatus(tokenId, res);
+        })
+        tokenId && isDisconnected && switchStatus(tokenId);
     }
 
     useEffect(() => {
         init()
-    },[])
+    },[signer, isDisconnected])
 
     return (
         <div className="Claim">
             {
                 detail &&
-                <CustomCompleted answers={answers} detail={detail} tokenId={tokenId} />
+                <CustomCompleted 
+                    answers={answers} 
+                    detail={detail} 
+                    tokenId={tokenId} 
+                    isClaim={isClaim}
+                />
             }
         </div>
     )

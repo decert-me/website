@@ -10,9 +10,14 @@ export default function AppFooter(params) {
         <div id="Footer">
             {/* logo info */}
           <div className="left">
-            <h3 className="logo">Decert.me</h3>
+            {/* <h3 className="logo">Decert.me</h3> */}
+            <div className="logo">
+              <img src={require("@/assets/images/img/logo-white.png")} alt="" />
+            </div>
             <p className="describe">You are what you build.</p>
-            <span className="versions">© 2022 Decert.me</span>
+            <span className="versions">© 2023 Decert.me | </span>
+            <a href="https://beian.miit.gov.cn/" target="_blank"><span className='versions' style={{color: "#fff"}}>粤ICP备17140514号-3</span></a>
+            
           </div>
           {/* right icon */}
           <div className="right">

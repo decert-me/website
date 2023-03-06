@@ -11,8 +11,6 @@ import { UploadProps } from "@/utils/UploadProps";
 import { Encryption } from "@/utils/Encryption";
 import { filterQuestions } from "@/utils/filter";
 import { useAccount, useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
-import { GetSign } from "@/utils/GetSign";
-import { convertToken } from "@/utils/convert";
 import { addQuests, ipfsJson, submitHash } from "../request/api/public";
 import { createQuest } from "../controller";
 import { useNavigate } from "react-router-dom";
@@ -99,20 +97,23 @@ export default function Publish(params) {
     }
 
     const onFinish = async(values) => {
-        const token = localStorage.getItem(`decert.token`);
+        // const token = localStorage.getItem(`decert.token`);
         // 未登录
         if (!isConnected) {
             setConnectModal(true)
             return
         }
         // 已登录 未签名
-        if (isConnected && (!token || !convertToken(token))) {
-            GetSign({address: address, signer: signer})
-            return
-        }
+        // if (isConnected && (!token || !convertToken(token))) {
+        //     GetSign({address: address, signer: signer})
+        //     return
+        // }
         // 链不同
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);
+            return
+        }
+        if (!values.fileList.file.response.hash) {
             return
         }
         setWriteLoading(true);
@@ -130,8 +131,8 @@ export default function Publish(params) {
                 endTIme: null,
                 url: "",
                 requires: [],
-                difficulty: values.difficulty,
-                estimateTime: values.time
+                difficulty: values.difficulty ? values.difficulty : null,
+                estimateTime: values.time ? values.time : null
             },
             version: 1
         }
@@ -178,7 +179,7 @@ export default function Publish(params) {
                 handleCancel={hideAddModal}
                 questionChange={questionChange}
               />
-            <h3>Creative a challenge</h3>
+            <h3>创建挑战</h3>
             <Form
                 className="inner"
                 name="challenge"
@@ -194,7 +195,7 @@ export default function Publish(params) {
                 autoComplete="off"
             >
                 <Form.Item
-                    label="Title"
+                    label="标题"
                     name="title"
                     rules={[{
                         required: true,
@@ -205,7 +206,7 @@ export default function Publish(params) {
                 </Form.Item>
 
                 <Form.Item 
-                    label="Description"
+                    label="描述"
                     name="desc"
                 >
                     <TextArea 
@@ -219,7 +220,7 @@ export default function Publish(params) {
                 </Form.Item>
 
                 <Form.Item 
-                    label="Image" 
+                    label="图片" 
                     name="fileList"
                     valuePropName="img"
                     rules={[{
@@ -241,10 +242,10 @@ export default function Publish(params) {
                             <InboxOutlined />
                         </p>
                         <p className="ant-upload-text " style={{ color: "#a0aec0" }}>
-                            Click or drag file to this area to upload
+                            点击或拖动文件到这个区域来上传
                         </p>
                         <p className="ant-upload-hint " style={{ color: "#a0aec0" }}>
-                            File types supported: JPG, PNG, GIF, SVG. Max size: 100 MB
+                            支持的文件类型。jpg, png, gif, svg. 最大尺寸：20 MB
                             <span style={{ color: "#f14e4e", fontSize: "20px" }}>*</span>
                         </p>
                     </Dragger>
@@ -269,16 +270,16 @@ export default function Publish(params) {
                 {/* add multiple */}
                 <div className="btns">
                     <Button type="link" onClick={() => showAddModal()}>
-                        Add multiple choice or fill in the blanks
+                        添加选择题或填空题
                     </Button>
-                    <Button type="link">
+                    {/* <Button type="link">
                         Add code question
-                    </Button>
+                    </Button> */}
                 </div>
 
                 <div className="challenge-info">
                     <Form.Item 
-                        label="Passing score"
+                        label="及格分"
                         name="score"
                         rules={[{
                             required: true,
@@ -297,7 +298,7 @@ export default function Publish(params) {
                     </Form.Item>
 
                     <div className="form-item">
-                        <p className="title">Gross score</p>
+                        <p className="title">总分</p>
                         <InputNumber 
                             value={sumScore} 
                             disabled
@@ -308,12 +309,8 @@ export default function Publish(params) {
                     </div>
 
                     <Form.Item 
-                        label="Difficulty"
+                        label="难度"
                         name="difficulty"
-                        rules={[{
-                            required: true,
-                            message: 'Please input difficulty!',
-                        }]}
                     >
                         <Select
                             options={[
@@ -325,12 +322,8 @@ export default function Publish(params) {
                     </Form.Item>
 
                     <Form.Item 
-                        label="Time"
+                        label="预估时间"
                         name="time"
-                        rules={[{
-                            required: true,
-                            message: 'Please input time!',
-                        }]}
                     >
                         <Select 
                             options={[
@@ -359,7 +352,7 @@ export default function Publish(params) {
                         htmlType="submit" 
                         loading={ writeLoading || waitLoading }
                     >
-                        Submit
+                        提交
                     </Button>
                 </Form.Item>
             </Form>

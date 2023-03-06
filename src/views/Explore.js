@@ -43,7 +43,7 @@ export default function Explore(params) {
     return (
         <div className="Explore">
             {/* title */}
-            <h3>Explore challenge</h3>
+            <h3>探索挑战</h3>
             {/* Challenge */}
             <div className="challenges">
                 <InfiniteScroll
@@ -76,20 +76,13 @@ export default function Explore(params) {
                                     <p>{item.describe}</p>
                                     <Button
                                         onClick={() => {
-                                            navigateTo(`/question/${item.tokenId}`);
+                                            navigateTo(`/quests/${item.tokenId}`);
                                         }}
                                         className="btn"
                                     >
-                                        Challenge
+                                        挑战
                                     </Button>
                                     </div>
-                                    {item.claimed ? (
-                                    <div class="box-text">
-                                        <strong>pass</strong>
-                                    </div>
-                                    ) : (
-                                    " "
-                                    )}
                                     <div className="right-sbt">
 
                                     <LazyLoadImage
@@ -99,6 +92,12 @@ export default function Explore(params) {
                                                 : 'assets/images/img/default.png'
                                         }
                                     />
+                                    {
+                                        item.claimed &&
+                                        <div className="item-claimed">
+                                            pass
+                                        </div>
+                                    }
                                     </div>
                                 </div>
                             </Col>

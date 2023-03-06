@@ -18,7 +18,7 @@ export default function Index(params) {
                     </div>
                     {/* text */}
                     <div className="text">
-                    <p>Decentralized skills learning and certification platform</p>
+                    <p>去中心化学习及技术认证平台</p>
                     </div>
                     {/* Explore challenge */}
                     <div className="mar">
@@ -28,7 +28,7 @@ export default function Index(params) {
                             navigateTo("/explore");
                         }}
                     >
-                        <span className="btn">Explore challenge</span>
+                        <span className="btn">探索挑战</span>
                     </Button>
                     {/* Creative a challenge */}
                     <Button
@@ -37,7 +37,7 @@ export default function Index(params) {
                             navigateTo("/publish");
                         }}
                     >
-                        <span className="creative">Creative a challenge</span>
+                        <span className="creative">创建挑战</span>
                     </Button>
                     </div>
                 </div>

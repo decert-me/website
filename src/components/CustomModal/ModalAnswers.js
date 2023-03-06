@@ -31,10 +31,10 @@ export default function ModalAnswers(props) {
             destroyOnClose={true}
             closeIcon={<CloseSquareOutlined style={{fontSize: "33px", color: "#000"}} />}
         >
-            <h5>ANSWER SHEETS</h5>
+            <h5>答案列表</h5>
             <ul className="tips">
-                <li><div className="point success" />completed</li>
-                <li><div className="point normal" />unfinished</li>
+                <li><div className="point success" />完成</li>
+                <li><div className="point normal" />未完成</li>
             </ul>
             
             <ul className="answers">
@@ -49,7 +49,7 @@ export default function ModalAnswers(props) {
                 }
             </ul>
 
-            <Button className='submit' onClick={checkSubmit}>Check and submit</Button>
+            <Button className='submit' onClick={checkSubmit}>确认并提交</Button>
             
         </Modal>
     )

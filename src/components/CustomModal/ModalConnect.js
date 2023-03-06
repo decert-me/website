@@ -2,13 +2,14 @@ import { Divider, Modal } from "antd";
 import { useAccount, useConnect } from "wagmi";
 import { useIsMounted } from '@/hooks/useIsMounted'
 import "@/assets/styles/component-style"
+import { ClearStorage } from "@/utils/ClearStorage";
 import { useNavigate } from "react-router-dom";
 
 export default function ModalConnect(props) {
 
     const { isModalOpen, handleCancel } = props;
-    const navigateTo = useNavigate();
     const isMounted = useIsMounted();
+    const navigateTo = useNavigate();
     const { connect, connectors } = useConnect();
     const { connector, isReconnecting } = useAccount({
         onConnect() {
@@ -16,8 +17,9 @@ export default function ModalConnect(props) {
         },
         onDisconnect() {
             console.log('Disconnected')
-            localStorage.removeItem('decert.token')
-            navigateTo("/")
+            navigateTo('/')
+            ClearStorage()
+            localStorage.removeItem('decert.cache')
         }
     })
 
@@ -40,7 +42,14 @@ export default function ModalConnect(props) {
                         onClick={() => connect({ connector: x })}
                     >
                         <div className="item">
-                            <div className="img"></div>
+                            <div className="img">
+                                {
+                                    x.name === 'MetaMask' ? 
+                                        <img src={require("@/assets/images/img/MetaMask.png")} alt="" />
+                                        :
+                                        <img src={require("@/assets/images/img/WalletConnect.png")} alt="" />
+                                }
+                            </div>
                             <p className="name">
                                 {x.id === 'injected' ? (isMounted ? x.name : x.id) : x.name}
                             </p>

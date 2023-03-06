@@ -1,8 +1,8 @@
 import i18n from 'i18next';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAccount, useConnect, useDisconnect, useSwitchNetwork } from 'wagmi';
-import { Button, Dropdown, Menu, Popover } from 'antd';
+import { useAccount, useDisconnect, useSwitchNetwork } from 'wagmi';
+import { Button, Dropdown } from 'antd';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import "@/assets/styles/container.scss"
 import { hashAvatar } from '../utils/HashAvatar';
@@ -19,7 +19,8 @@ export default function AppHeader(params) {
     const location = useLocation();
     let [isConnect, setIsConnect] = useState(false);
     let [lang, setLang] = useState();
-
+    let [isHome, setIsHome] = useState();
+    
     const LOCALES_LIST = [
         {
             label: "English",
@@ -32,11 +33,11 @@ export default function AppHeader(params) {
     ];
 
     const items = [
-        {
-            label: (<Link to={{pathname: '/myInfo'}}> Profile </Link>),
-            key: '1',
-            icon: '',
-        },
+        // {
+        //     label: (<Link to={{pathname: '/myInfo'}}> Profile </Link>),
+        //     key: '1',
+        //     icon: '',
+        // },
         {
             label: (<p onClick={() => disconnect()}> Disconnect </p>),
             key: '2',
@@ -54,12 +55,14 @@ export default function AppHeader(params) {
 
     useEffect(() => {
         if (location) {
-          lang = location.hash.split("#")[1];
-          if (!lang) {
-            lang = "en_US"
-          }
-          setLang(lang);
-          i18n.changeLanguage(lang)
+            isHome = location.pathname === '/' ? true : false;
+            setIsHome(isHome);
+            lang = location.hash.split("#")[1];
+            if (!lang) {
+                lang = "en_US"
+            }
+            setLang(lang);
+            i18n.changeLanguage(lang)
         }
     },[location])
 
@@ -68,37 +71,46 @@ export default function AppHeader(params) {
             switchNetwork()
         }
     },[switchNetwork])
+    // backgroundColor: 'rgba(0,0,0,0.5)',
 
     return (
-        <div id="Header">
-            <div className='nav-left'>
-                <div className="logo" onClick={() => navigateTo("/")}>
-                    <img src={require("@/assets/images/img/logo.png")} alt="" />
-                    <p>Decert.me</p>
+        <div id={`${isHome ? "Header-bg" : "Header"}`}>
+            <div className="header-content">
+                <div className='nav-left'>
+                    <div className="logo" onClick={() => navigateTo("/")}>
+                        {/*  */} 
+                        {/* <p>Decert.me</p> */}
+                        {
+                            isHome ? 
+                            <img src={require("@/assets/images/img/logo-white.png")} alt="" />
+                            :
+                            <img src={require("@/assets/images/img/logo-black.png")} alt="" />
+                        }
+                    </div>
+                    <Link to="/explore">探索</Link>
                 </div>
-                <Link to="/explore">Explore</Link>
+                {
+                    isConnected ?
+                    <div>
+                        <Dropdown
+                            placement="bottom" 
+                            arrow
+                            menu={{items}}
+                            
+                        >
+                            <div className="user">
+                                <img src={hashAvatar(address)} alt="" />
+                                <p>{NickName(address)}</p>
+                            </div>
+                        </Dropdown>
+                    </div>
+                    :
+                    <div>
+                        <Button onClick={() => openModal()}>Connect Wallet</Button>
+                        <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
+                    </div>
+                }
             </div>
-            {
-                isConnected ?
-                <div>
-                    <Dropdown
-                        placement="bottom" 
-                        arrow
-                        menu={{items}}
-                        
-                    >
-                        <div className="user">
-                            <img src={hashAvatar(address)} alt="" />
-                            <p>{NickName(address)}</p>
-                        </div>
-                    </Dropdown>
-                </div>
-                :
-                <div>
-                    <Button onClick={() => openModal()}>Connect Wallet</Button>
-                    <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
-                </div>
-            }
         </div>
     )
 }

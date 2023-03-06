@@ -2,7 +2,7 @@ import { authLoginSign, getLoginMsg } from "../request/api/public";
 
 export async function GetSign(params) {
     
-    const { address, signer } = params;
+    const { address, signer, disconnect } = params;
     let message;
 
     // 1、获取nonce
@@ -28,7 +28,8 @@ export async function GetSign(params) {
         })
     })
     .catch(err => {
-        console.log(err);
+        disconnect();
+        console.log('sign ==>',err);
     })
 
 }

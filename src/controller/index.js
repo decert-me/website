@@ -5,26 +5,6 @@ import badgeAddr from "@/contracts/Badge.address";
 import badge from "@/contracts/Badge.abi";
 import { ethers } from "ethers";
 
-// export const contractConfig = (functionName) => { 
-
-//     const questMinterConfig = {
-//       addressOrName: questMinterAddr,
-//       contractInterface: questMinter,
-//       functionName: functionName
-//     }
-
-//     const badgeConfig = {
-//         addressOrName: badgeAddr,
-//         contractInterface: badge,
-//         functionName: functionName
-//     }
-
-//     return {
-//         questMinterConfig,
-//         badgeConfig
-//     }
-// }
-
 export async function createQuest(questData, signature, provider ) {
   
   const Contract = new ethers.Contract(questMinterAddr, questMinter, provider);
@@ -49,6 +29,20 @@ export async function balanceOf(owner, tokenId, provider) {
   let txHash = '';
   try {
     const resp = await Contract.balanceOf(owner, tokenId);
+    txHash = resp.toNumber();
+  } catch (err) {
+    console.dir(err);
+  }
+  return txHash;
+}
+
+export async function chainScores(owner, tokenId, provider) {
+  
+  const Contract = new ethers.Contract(questMinterAddr, questMinter, provider);
+
+  let txHash = '';
+  try {
+    const resp = await Contract.scores(tokenId, owner);
     txHash = resp.toNumber();
   } catch (err) {
     console.dir(err);

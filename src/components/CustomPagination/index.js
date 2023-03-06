@@ -25,7 +25,7 @@ export default function CustomPagination(props) {
             {
                 page === total ?
                 <Button className='submit' onClick={sumbit}>
-                    Submit
+                    提交
                 </Button>
                 :
                 <Button 

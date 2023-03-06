@@ -30,5 +30,5 @@ export const convertDifficulty = (value) => {
 
 export const convertTime = (value) => {
     const min = value / 60;
-    return min + ' min'
+    return min + ' 分'
 }

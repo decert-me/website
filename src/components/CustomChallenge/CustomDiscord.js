@@ -1,38 +1,46 @@
 import { Button } from "antd";
 import { useEffect, useState } from "react"
-import { useAccount, useSigner } from "wagmi"
+import { useAccount } from "wagmi"
 import { verifyDiscord } from "@/request/api/public"
-import { GetSign } from "@/utils/GetSign";
 import { Link } from "react-router-dom";
+import { useRequest } from "ahooks";
 
 
 
 export default function CustomDiscord(props) {
-    /**
-     * 1. 初始化核实discord
-     * 2. 
-     *   */
+
     
     const { step, setStep } = props;
-    const { address, isConnected } = useAccount();
-    const { data: signer } = useSigner();
+    const { address } = useAccount();
     let [isBind, setIsBind] = useState();
-    
-    const verify = () => {
+    let [username, setUsername] = useState();
+    let [isLoading, setIsLoading] = useState();
+
+    const verify = (isClick) => {
         const token = localStorage.getItem('decert.token')
         if (token) {
-            verifyDiscord({address: address})
+            verifyDiscord({address: address, isClick: isClick})
             .then(res => {
-                console.log('====>',res);
-                isBind = res.status !== 0 ? false : res.data ? true : false;
+                isBind = !res ? false : res.data ? true : false;
                 setIsBind(isBind);
-                console.log('isBind ==>',isBind);
+                username = isBind && res.data?.username ? res.data.username : null;
+                setUsername(username);
+                
             })
-            console.log('核实 ===>');
-        }else if (isConnected === true) {
-            GetSign({address: address, signer: signer})
-            console.log('签名 ===>');
         }
+    }
+
+    const { run } = useRequest(verify, {
+        debounceWait: 500,
+        manual: true
+    });
+
+    const onclick = () => {
+        setIsLoading(true);
+        verify(true);
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 1000);
     }
     
     useEffect(() => {
@@ -42,24 +50,47 @@ export default function CustomDiscord(props) {
     },[isBind])
 
     useEffect(() => {
-        verify();
-    },[])
+        run();
+        console.log('开启discord验证 ==>');
+    },[step])
+
+    const decertToken = (e) => {
+        if (e.key === "decert.token") {
+            run()
+        }
+    }
+
+    useEffect(() => {
+        var orignalSetItem = localStorage.setItem;
+        localStorage.setItem = function(key,newValue){
+            var setItemEvent = new Event("setItemEvent");
+            setItemEvent.key = key;
+            setItemEvent.newValue = newValue;
+            setItemEvent.oldValue = localStorage.getItem(key);
+            window.dispatchEvent(setItemEvent);
+            orignalSetItem.apply(this,arguments);
+        }
+        window.addEventListener('setItemEvent', decertToken)
+        return () => {
+            window.removeEventListener('setItemEvent', decertToken)
+        }
+    }, [])
 
     return (
         <div className={`CustomBox step-box ${step === 2 ? "checked-step" : ""}`}>
             {
                 isBind ? 
                 <>
-                    <p>绑定成功</p>
-                    <p>Discord已验证成功</p>
+                    <p>{username}</p>
+                    <p>已绑定Discord</p>
                 </>
                 :
                 <>
-                    <p>未验证信息Discord</p>
+                    <p>未绑定Discord</p>
                     {
                         step >= 2 &&
                         <div>
-                            <Button onClick={verify}>核实</Button>
+                            <Button loading={isLoading} onClick={() => onclick()} style={{marginRight: "18px"}}>核实</Button>
                             <Link to="https://discord.com/invite/WR3uxWad7B" target="_blank">
                                 <Button>打开Discord</Button>
                             </Link>
