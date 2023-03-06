@@ -27,13 +27,16 @@ export default function Explore(params) {
         if (pageConfig.total === 0 || (pageConfig.page-1) * pageConfig.pageSize <= pageConfig.total) {
             getQuests(pageConfig)
             .then(res => {
-                    challenges = challenges.concat(res.data.list);
-                    setChallenges([...challenges]);
-                    if (pageConfig.total === 0) {
-                        pageConfig.total = res.data.total;
-                    }
-                    pageConfig.page += 1;
-                    setPageConfig({...pageConfig})
+                if (res.data.list.length === 0) {
+                    setIsOver(true);
+                }
+                challenges = challenges.concat(res.data.list);
+                setChallenges([...challenges]);
+                if (pageConfig.total === 0) {
+                    pageConfig.total = res.data.total;
+                }
+                pageConfig.page += 1;
+                setPageConfig({...pageConfig})
             })
         }else{
             setIsOver(true);
