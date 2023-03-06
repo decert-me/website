@@ -116,8 +116,9 @@ export default function Publish(params) {
         if (!values.fileList.file.response.hash) {
             return
         }
-        console.log(questions);
-        return
+        if (questions.length === 0) {
+            return
+        }
         setWriteLoading(true);
         // 1. 处理 答案、问题
         const { answers, questions: qs } = filterQuestions(questions);

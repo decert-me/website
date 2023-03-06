@@ -21,7 +21,7 @@ export default function Index(params) {
                     <p>去中心化学习及技术认证平台</p>
                     </div>
                     {/* Explore challenge */}
-                    <div className="mar">
+                    <div className="mar" style={{justifyContent: "center"}}>
                     <Button
                         className="challenge-btn"
                         onClick={() => {
