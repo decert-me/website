@@ -17,7 +17,7 @@ export default function ModalConnect(props) {
         },
         onDisconnect() {
             console.log('Disconnected')
-            navigateTo('/')
+            navigateTo(0)
             ClearStorage()
             localStorage.removeItem('decert.cache')
         }
