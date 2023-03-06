@@ -1,4 +1,4 @@
-import { Button, Input, Progress, Steps } from "antd";
+import { Button, Input, Progress, Steps, message } from "antd";
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Encryption } from "@/utils/Encryption";
@@ -100,7 +100,7 @@ export default function CustomCompleted(props) {
         })
         .then(res => {
             if (res) {
-                console.log(res);
+                message.success(res.message);
             }
         })
     }
