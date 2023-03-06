@@ -314,9 +314,9 @@ export default function Publish(params) {
                     >
                         <Select
                             options={[
-                                {value:0,label:'easy'},
-                                {value:1,label:'normal'},
-                                {value:2,label:'difficult'}
+                                {value:0,label:'简单'},
+                                {value:1,label:'中等'},
+                                {value:2,label:'困难'}
                             ]}
                         />
                     </Form.Item>
@@ -327,14 +327,14 @@ export default function Publish(params) {
                     >
                         <Select 
                             options={[
-                                {value: 600,label:'10 min'},
-                                {value: 1800,label: '30 min'},
-                                {value: 3600,label:'1 h'},
-                                {value: 7200,label:'2 h'},
-                                {value: 14400,label: '4 h'},
-                                {value: 86400,label:'1 day'},
-                                {value: 259200,label:'3 day'},
-                                {value: 604800,label:'1 week'}
+                                {value: 600,label:'10 分'},
+                                {value: 1800,label: '30 分'},
+                                {value: 3600,label:'1 时'},
+                                {value: 7200,label:'2 时'},
+                                {value: 14400,label: '4 时'},
+                                {value: 86400,label:'1 天'},
+                                {value: 259200,label:'3 天'},
+                                {value: 604800,label:'1 周'}
                             ]}
                         />
                     </Form.Item>

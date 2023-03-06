@@ -39,7 +39,7 @@ export default function AppHeader(params) {
         //     icon: '',
         // },
         {
-            label: (<p onClick={() => disconnect()}> Disconnect </p>),
+            label: (<p onClick={() => disconnect()}> 断开连接 </p>),
             key: '2',
             icon: '',
         }
@@ -106,7 +106,7 @@ export default function AppHeader(params) {
                     </div>
                     :
                     <div>
-                        <Button onClick={() => openModal()}>Connect Wallet</Button>
+                        <Button onClick={() => openModal()}>连接钱包</Button>
                         <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
                     </div>
                 }
