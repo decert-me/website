@@ -15,7 +15,7 @@ export default function Explore(params) {
     
     let [challenges, setChallenges] = useState([]);
     let [pageConfig, setPageConfig] = useState({
-        page: 5, pageSize: 10, total: 0
+        page: 1, pageSize: 10, total: 0
     });
 
     const getNext = () => {

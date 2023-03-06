@@ -110,7 +110,7 @@ export default function CustomCompleted(props) {
         // 判断当前步骤
         if (!answerInfo.isPass) {
             step = 0;
-        }else if(isConnected === false){
+        }else if(isConnected === false || !localStorage.getItem('decert.token')){
             step = 1;
         }else if(isConnected === true){
             step = 2;

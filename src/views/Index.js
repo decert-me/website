@@ -31,14 +31,14 @@ export default function Index(params) {
                         <span className="btn">探索挑战</span>
                     </Button>
                     {/* Creative a challenge */}
-                    <Button
+                    {/* <Button
                         className="creative-btn"
                         onClick={() => {
                             navigateTo("/publish");
                         }}
                     >
                         <span className="creative">创建挑战</span>
-                    </Button>
+                    </Button> */}
                     </div>
                 </div>
                 </div>
