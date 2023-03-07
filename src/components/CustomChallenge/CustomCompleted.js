@@ -1,4 +1,8 @@
-import { Button, Input, Progress, Steps, message } from "antd";
+import { Button, Input, Progress, Steps, Tooltip } from "antd";
+import {
+    QuestionCircleOutlined,
+    UploadOutlined
+} from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Encryption } from "@/utils/Encryption";
@@ -10,7 +14,18 @@ import CustomClaim from "./CustomClaim";
 import BadgeAddress from "@/contracts/Badge.address";
 import { chainScores } from "@/controller";
 import { GetPercent } from "@/utils/GetPercent";
+import { ClaimShareSuccess } from "../CustomMessage";
 
+const tip = (
+    <div className="tip-content">
+        <p className="step">第 1 步：</p>
+        <p>导航到你要想得到其 URL 的推文。</p>
+        <p className="step">第 2 步：</p>
+        <p>点击推文中的 <span><UploadOutlined /></span> 图标。</p>
+        <p className="step">第 3 步：</p>
+        <p>在弹出式菜单中，选择复制推文链接。URL 现在应该已复制到剪贴板。</p>
+    </div>
+)
 export default function CustomCompleted(props) {
     
     const { answers, detail, tokenId, isClaim } = props;
@@ -23,7 +38,7 @@ export default function CustomCompleted(props) {
     let [isShow, setIsShow] = useState();
     let [hrefUrl, setHrefUrl] = useState();
     let [percent, setPercent] = useState(0);
-    
+    let [isLoading, setIsLoading] = useState();
     
     const contrast = async(arr) => {
         const questions = detail.metadata.properties.questions;
@@ -92,6 +107,7 @@ export default function CustomCompleted(props) {
     }
 
     const hrefSubmit = () => {
+        setIsLoading(true);
         submitClaimTweet({
             tokenId: Number(tokenId),
             tweetUrl: hrefUrl,
@@ -99,8 +115,11 @@ export default function CustomCompleted(props) {
             answer: JSON.stringify(answers)
         })
         .then(res => {
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 500);
             if (res) {
-                message.success(res.message);
+                ClaimShareSuccess();
             }
         })
     }
@@ -145,7 +164,7 @@ export default function CustomCompleted(props) {
                             </div>
                             :
                             <div className="desc">
-                                <p className="title">战未通过，请继续加油吧。</p>
+                                <p className="title">挑战未通过，请继续加油吧。</p>
                                 <p>通过挑战后，你将获得SBT徽章并与它灵魂绑定，它将成为你技术认证的证明，为你的履历添砖加瓦。</p>
                             </div>
                         }
@@ -248,11 +267,29 @@ export default function CustomCompleted(props) {
                             />
                             {
                                 isShow && 
-                                <div className="innerHref step-box">
-                                    <Input placeholder="https://twitter.com/account/access" onChange={e => changeHrefUrl(e.target.value)} />
-                                    <Button type="link" onClick={() => hrefSubmit()} >
-                                        提交
-                                    </Button>
+                                <div className="position">
+                                    <div className="innerHref step-box">
+                                        <Input placeholder="https://twitter.com/account/access" onChange={e => changeHrefUrl(e.target.value)} />
+                                        <Button 
+                                            loading={isLoading} 
+                                            type="link" 
+                                            onClick={() => hrefSubmit()} 
+                                            disabled={!hrefUrl} 
+                                        >
+                                            提交
+                                        </Button>
+                                    </div>
+                                    <Tooltip 
+                                        overlayInnerStyle={{
+                                            width: "290px", 
+                                            borderRadius: "25px"
+                                        }} 
+                                        placement="topRight" 
+                                        title={tip} 
+                                        color="#D8D8D8" 
+                                    >
+                                        <QuestionCircleOutlined className="tips" />
+                                    </Tooltip>
                                 </div>
                             }
                         </div>

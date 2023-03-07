@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useEffect, useState } from "react"
 import { useAccount } from "wagmi"
 import { verifyDiscord } from "@/request/api/public"
@@ -25,7 +25,9 @@ export default function CustomDiscord(props) {
                 setIsBind(isBind);
                 username = isBind && res.data?.username ? res.data.username : null;
                 setUsername(username);
-                
+                if (isClick) {
+                    message.success(res.message);
+                }
             })
         }
     }
@@ -37,7 +39,7 @@ export default function CustomDiscord(props) {
 
     const onclick = () => {
         setIsLoading(true);
-        verify(true);
+        run(true);
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);
@@ -91,7 +93,7 @@ export default function CustomDiscord(props) {
                         step >= 2 &&
                         <div>
                             <Button loading={isLoading} onClick={() => onclick()} style={{marginRight: "18px"}}>核实</Button>
-                            <Link to="https://discord.com/invite/WR3uxWad7B" target="_blank">
+                            <Link to={`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`} target="_blank">
                                 <Button>打开Discord</Button>
                             </Link>
                         </div>

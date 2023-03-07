@@ -218,6 +218,33 @@
     }
 }
 
+.position{
+   position: relative;
+   .tips{
+        position: absolute;
+        right: -70px;
+        bottom: 7px;
+        color: #999999;
+        font-size: 50px;
+        font-weight: 400;
+   }
+   
+}
+
+.tip-content{
+    width: 100%;
+    padding-inline: 23px;
+    padding-block: 8px 27px;
+    color: #17151C;
+    line-height: 20px;
+    .step{
+        color: #9E9E9E;
+    }
+    span{
+        color: #727272;
+    }
+}
+
 .innerHref{
     margin-left: 24px;
     padding-inline: 12px 10px;

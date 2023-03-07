@@ -11,7 +11,7 @@ import ModalLoading from "../CustomModal/ModalLoading";
 
 export default function CustomClaim(props) {
     
-    const { step, setStep, cliamObj, img, showInner, isClaim } = props;
+    const { step, cliamObj, img, showInner, isClaim } = props;
     const { chain } = useNetwork();
     const { data: signer } = useSigner();
     const { switchNetwork } = useSwitchNetwork({
@@ -58,6 +58,7 @@ export default function CustomClaim(props) {
             )
             setClaimHash(claimHash);
             setWriteLoading(false);
+
             if (claimHash) {
                 submitHash({hash: claimHash})
                 // 弹出等待框
@@ -94,27 +95,27 @@ export default function CustomClaim(props) {
 
     return (
         <div className={`CustomBox ${step === 3 ? "checked-step" : ""} CustomCliam step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}>
+            <ModalLoading 
+                isModalOpen={isModalOpen}
+                handleCancel ={handleCancel}
+                isLoading={isLoading}
+                img={img}
+                tokenId={cliamObj.tokenId}
+                shareTwitter={shareTwitter}
+            />
             {
                 isClaim || cacheIsClaim ? 
                 "已领取SBT"
                 :
                 <>
-                    <ModalLoading 
-                        isModalOpen={isModalOpen}
-                        handleCancel ={handleCancel}
-                        isLoading={isLoading}
-                        img={img}
-                        tokenId={cliamObj.tokenId}
-                        shareTwitter={shareTwitter}
-                    />
-                        <Badge.Ribbon text="免手续费" >
-                    <div className="box">
-                        <Button disabled={step !== 3} className="share claim" onClick={() => share()}>
-                            <TwitterOutlined />
-                            分享领取
-                        </Button>
-                    </div>
-                        </Badge.Ribbon>
+                    <Badge.Ribbon text="免手续费" >
+                        <div className="box">
+                            <Button disabled={step !== 3} className="share claim" onClick={() => share()}>
+                                <TwitterOutlined />
+                                分享领取
+                            </Button>
+                        </div>
+                    </Badge.Ribbon>
                     <div className="box">
                         <Button className="claim" disabled={step !== 3} loading={writeLoading} onClick={() => cliam()}>立即领取</Button>
                     </div>

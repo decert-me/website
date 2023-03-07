@@ -1,5 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
+import { ClaimShareError } from "../components/CustomMessage/index.js";
 import serverConfig from "./config.js";
 
 // Client-side-only code
@@ -27,6 +28,10 @@ serviceAxios.interceptors.response.use(
     let data = res.data;
     if (data.status !== 0) {
       if (res.config.url === '/users/discord' && res.config.data.indexOf('isClick') === -1) {
+        return null
+      }
+      if (res.config.url === '/badge/submitClaimTweet') {
+        ClaimShareError()
         return null
       }
       message.error(data.message);

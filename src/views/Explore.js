@@ -6,10 +6,12 @@ import { getQuests } from "../request/api/public"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import "@/assets/styles/view-style/explore.scss"
 import { useRequest } from "ahooks";
+import { useAccount } from "wagmi";
 
 export default function Explore(params) {
     
 
+    const { address } = useAccount();
     const navigateTo = useNavigate();
     let [isOver, setIsOver] = useState();
     
@@ -17,6 +19,14 @@ export default function Explore(params) {
     let [pageConfig, setPageConfig] = useState({
         page: 1, pageSize: 10, total: 0
     });
+
+    const goChallenge = (item) => {
+        if (address && item.claimed) {
+            navigateTo(`/claim/${item.tokenId}`);
+        }else{
+            navigateTo(`/quests/${item.tokenId}`);
+        }
+    }
 
     const getNext = () => {
         if (pageConfig.total === 0 || (pageConfig.page-1) * pageConfig.pageSize <= pageConfig.total) {
@@ -82,9 +92,7 @@ export default function Explore(params) {
                                     <div className="title">{item.title}</div>
                                     <p>{item.describe}</p>
                                     <Button
-                                        onClick={() => {
-                                            navigateTo(`/quests/${item.tokenId}`);
-                                        }}
+                                        onClick={() => goChallenge(item)}
                                         className="btn"
                                     >
                                         挑战

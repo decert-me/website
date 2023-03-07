@@ -32,7 +32,7 @@ export default function ModalAddQuestion(props) {
 
         let optionArr = [];
         const { type, ans } = filterType(values);
-        if (typeof ans === 'object') {
+        if (ans.length === 0) {
             message.warning("至少选择一个正确答案")
             return
         }

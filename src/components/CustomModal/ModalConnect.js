@@ -2,24 +2,15 @@ import { Divider, Modal } from "antd";
 import { useAccount, useConnect } from "wagmi";
 import { useIsMounted } from '@/hooks/useIsMounted'
 import "@/assets/styles/component-style"
-import { ClearStorage } from "@/utils/ClearStorage";
-import { useNavigate } from "react-router-dom";
 
 export default function ModalConnect(props) {
 
     const { isModalOpen, handleCancel } = props;
     const isMounted = useIsMounted();
-    const navigateTo = useNavigate();
     const { connect, connectors } = useConnect();
     const { connector, isReconnecting } = useAccount({
         onConnect() {
             handleCancel()
-        },
-        onDisconnect() {
-            console.log('Disconnected')
-            navigateTo(0)
-            ClearStorage()
-            localStorage.removeItem('decert.cache')
         }
     })
 
