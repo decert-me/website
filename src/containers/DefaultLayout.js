@@ -7,6 +7,7 @@ import AppFooter from "./AppFooter";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
+import { useRequest } from "ahooks";
 
 
 const { Header, Footer, Content } = Layout;
@@ -48,6 +49,13 @@ export default function DefaultLayout(params) {
         }
     }
 
+    const isExplore = (path) => {
+        if (path && path.indexOf('explore') !== -1) {
+            navigateTo(0)
+        }
+    }
+
+
     const verifySignUpType = (addr, path) => {
         if (addr === null && address) {
             // 未登录  ====>  登录
@@ -61,13 +69,19 @@ export default function DefaultLayout(params) {
             // 已登陆  ====>  未登录
             ClearStorage();
             isClaim(path);
+            isExplore(path);
         }
     }
+
+    const { run } = useRequest(verifySignUpType, {
+        debounceWait: 500,
+        manual: true
+    });
 
     useEffect(() => {
         const path = location.pathname;
         const addr = localStorage.getItem('decert.address');
-        verifySignUpType(addr, path)
+        run(addr, path)
     },[address])
 
     // TODO: 离开claim页面销毁对应tokenId ==> cache
