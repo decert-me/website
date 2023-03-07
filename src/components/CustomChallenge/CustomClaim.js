@@ -58,6 +58,7 @@ export default function CustomClaim(props) {
             )
             setClaimHash(claimHash);
             setWriteLoading(false);
+
             if (claimHash) {
                 submitHash({hash: claimHash})
                 // 弹出等待框

@@ -1,4 +1,4 @@
-import { Button, Input, Progress, Steps, message, Tooltip } from "antd";
+import { Button, Input, Progress, Steps, message, Tooltip, Modal } from "antd";
 import {
     QuestionCircleOutlined,
     UploadOutlined
@@ -14,6 +14,7 @@ import CustomClaim from "./CustomClaim";
 import BadgeAddress from "@/contracts/Badge.address";
 import { chainScores } from "@/controller";
 import { GetPercent } from "@/utils/GetPercent";
+import { ClaimShare } from "../CustomMessage";
 
 const tip = (
     <div className="tip-content">
@@ -37,7 +38,7 @@ export default function CustomCompleted(props) {
     let [isShow, setIsShow] = useState();
     let [hrefUrl, setHrefUrl] = useState();
     let [percent, setPercent] = useState(0);
-    
+    let [isLoading, setIsLoading] = useState();
     
     const contrast = async(arr) => {
         const questions = detail.metadata.properties.questions;
@@ -106,6 +107,7 @@ export default function CustomCompleted(props) {
     }
 
     const hrefSubmit = () => {
+        setIsLoading(true);
         submitClaimTweet({
             tokenId: Number(tokenId),
             tweetUrl: hrefUrl,
@@ -113,8 +115,11 @@ export default function CustomCompleted(props) {
             answer: JSON.stringify(answers)
         })
         .then(res => {
+            setTimeout(() => {
+                setIsLoading(false);
+            }, 500);
             if (res) {
-                message.success(res.message);
+                ClaimShare();
             }
         })
     }
@@ -265,7 +270,12 @@ export default function CustomCompleted(props) {
                                 <div className="position">
                                     <div className="innerHref step-box">
                                         <Input placeholder="https://twitter.com/account/access" onChange={e => changeHrefUrl(e.target.value)} />
-                                        <Button type="link" onClick={() => hrefSubmit()} >
+                                        <Button 
+                                            loading={isLoading} 
+                                            type="link" 
+                                            onClick={() => hrefSubmit()} 
+                                            disabled={!hrefUrl} 
+                                        >
                                             提交
                                         </Button>
                                     </div>

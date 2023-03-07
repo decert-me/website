@@ -31,8 +31,8 @@ export default function ModalLoading(props) {
                     <div className="loading">
                         <Spin indicator={icon} />
                     </div>
-                    <p className="loading-title">Minting your SBT Badge</p>
-                    <p className="loading-tip">SBT are non-transferrable and cannot be sold.</p>
+                    <p className="loading-title">铸造中...</p>
+                    <p className="loading-tip">SBT 是不可转让，也不可出售的。</p>
                 </div>
                 :
                 <div className="content claimed">
