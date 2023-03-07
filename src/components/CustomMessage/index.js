@@ -11,7 +11,7 @@ export const ClaimShare = () => (
                 </p>
             </div>
         ),
-        duration: 30,
+        duration: 3,
         icon: <></>,
         className: "message-share"
     })
