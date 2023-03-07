@@ -39,7 +39,7 @@ export default function CustomDiscord(props) {
 
     const onclick = () => {
         setIsLoading(true);
-        verify(true);
+        run(true);
         setTimeout(() => {
             setIsLoading(false);
         }, 1000);
