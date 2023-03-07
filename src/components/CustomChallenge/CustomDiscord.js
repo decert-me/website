@@ -25,7 +25,9 @@ export default function CustomDiscord(props) {
                 setIsBind(isBind);
                 username = isBind && res.data?.username ? res.data.username : null;
                 setUsername(username);
-                message.success(res.message);
+                if (isClick) {
+                    message.success(res.message);
+                }
             })
         }
     }
