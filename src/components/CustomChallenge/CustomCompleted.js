@@ -14,7 +14,7 @@ import CustomClaim from "./CustomClaim";
 import BadgeAddress from "@/contracts/Badge.address";
 import { chainScores } from "@/controller";
 import { GetPercent } from "@/utils/GetPercent";
-import { ClaimShare } from "../CustomMessage";
+import { ClaimShareSuccess } from "../CustomMessage";
 
 const tip = (
     <div className="tip-content">
@@ -119,7 +119,7 @@ export default function CustomCompleted(props) {
                 setIsLoading(false);
             }, 500);
             if (res) {
-                ClaimShare();
+                ClaimShareSuccess();
             }
         })
     }
