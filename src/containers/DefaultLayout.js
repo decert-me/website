@@ -40,19 +40,27 @@ export default function DefaultLayout(params) {
     const { address, isConnected } = useAccount();
     const navigateTo = useNavigate();
     const location = useLocation();
-    const [path, setPath] = useState();
+
+    const verifySignUpType = (addr, path) => {
+        if (addr === null) {
+            // 未登录  ====>  登录
+            localStorage.setItem("decert.address", address);
+        }else if (addr !== address){
+            // 已登陆  ====>  切换账号
+            ClearStorage();
+            localStorage.removeItem('decert.cache');
+            if (path.indexOf('claim') !== -1) {
+                let url = 'quests/' + path.split('/')[2]
+                navigateTo(url)
+            }
+        }
+    }
 
     useEffect(() => {
-        console.log('reload =====>',localStorage.getItem('decert.address'), address);
-        if (isConnected === true && address !== localStorage.getItem('decert.address')) {
-            ClearStorage();
-            localStorage.removeItem("decert.cache");
-            localStorage.setItem("decert.address", address);
-            navigateTo(0)
-        }
-        if (!isConnected) {
-            localStorage.removeItem('decert.token')
-            localStorage.removeItem("decert.address");
+        const path = location.pathname;
+        const addr = localStorage.getItem('decert.address');
+        if (path.indexOf('claim') !== -1) {
+            verifySignUpType(addr, path)
         }
     },[address])
 
