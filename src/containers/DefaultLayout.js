@@ -41,27 +41,33 @@ export default function DefaultLayout(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
 
+    const isClaim = (path) => {
+        if (path && path.indexOf('claim') !== -1) {
+            let url = 'quests/' + path.split('/')[2]
+            navigateTo(url)
+        }
+    }
+
     const verifySignUpType = (addr, path) => {
-        if (addr === null) {
+        if (addr === null && address) {
             // 未登录  ====>  登录
             localStorage.setItem("decert.address", address);
-        }else if (addr !== address){
+        }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
             ClearStorage();
-            localStorage.removeItem('decert.cache');
-            if (path.indexOf('claim') !== -1) {
-                let url = 'quests/' + path.split('/')[2]
-                navigateTo(url)
-            }
+            localStorage.setItem("decert.address", address);
+            isClaim(path);
+        }else if (addr && !address) {
+            // 已登陆  ====>  未登录
+            ClearStorage();
+            isClaim(path);
         }
     }
 
     useEffect(() => {
         const path = location.pathname;
         const addr = localStorage.getItem('decert.address');
-        if (path.indexOf('claim') !== -1) {
-            verifySignUpType(addr, path)
-        }
+        verifySignUpType(addr, path)
     },[address])
 
     // TODO: 离开claim页面销毁对应tokenId ==> cache

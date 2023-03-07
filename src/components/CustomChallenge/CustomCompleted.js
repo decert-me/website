@@ -1,4 +1,4 @@
-import { Button, Input, Progress, Steps, message, Tooltip, Modal } from "antd";
+import { Button, Input, Progress, Steps, Tooltip } from "antd";
 import {
     QuestionCircleOutlined,
     UploadOutlined

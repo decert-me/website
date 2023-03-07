@@ -11,7 +11,7 @@ import ModalLoading from "../CustomModal/ModalLoading";
 
 export default function CustomClaim(props) {
     
-    const { step, setStep, cliamObj, img, showInner, isClaim } = props;
+    const { step, cliamObj, img, showInner, isClaim } = props;
     const { chain } = useNetwork();
     const { data: signer } = useSigner();
     const { switchNetwork } = useSwitchNetwork({
