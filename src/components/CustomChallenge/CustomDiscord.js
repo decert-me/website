@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useEffect, useState } from "react"
 import { useAccount } from "wagmi"
 import { verifyDiscord } from "@/request/api/public"
@@ -25,7 +25,7 @@ export default function CustomDiscord(props) {
                 setIsBind(isBind);
                 username = isBind && res.data?.username ? res.data.username : null;
                 setUsername(username);
-                
+                message.success(res.message);
             })
         }
     }
