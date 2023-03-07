@@ -1,4 +1,8 @@
-import { Button, Input, Progress, Steps, message } from "antd";
+import { Button, Input, Progress, Steps, message, Tooltip } from "antd";
+import {
+    QuestionCircleOutlined,
+    UploadOutlined
+} from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import { Encryption } from "@/utils/Encryption";
@@ -11,6 +15,16 @@ import BadgeAddress from "@/contracts/Badge.address";
 import { chainScores } from "@/controller";
 import { GetPercent } from "@/utils/GetPercent";
 
+const tip = (
+    <div className="tip-content">
+        <p className="step">第 1 步：</p>
+        <p>导航到你要想得到其 URL 的推文。</p>
+        <p className="step">第 2 步：</p>
+        <p>点击推文中的 <span><UploadOutlined /></span> 图标。</p>
+        <p className="step">第 3 步：</p>
+        <p>在弹出式菜单中，选择复制推文链接。URL 现在应该已复制到剪贴板。</p>
+    </div>
+)
 export default function CustomCompleted(props) {
     
     const { answers, detail, tokenId, isClaim } = props;
@@ -248,11 +262,24 @@ export default function CustomCompleted(props) {
                             />
                             {
                                 isShow && 
-                                <div className="innerHref step-box">
-                                    <Input placeholder="https://twitter.com/account/access" onChange={e => changeHrefUrl(e.target.value)} />
-                                    <Button type="link" onClick={() => hrefSubmit()} >
-                                        提交
-                                    </Button>
+                                <div className="position">
+                                    <div className="innerHref step-box">
+                                        <Input placeholder="https://twitter.com/account/access" onChange={e => changeHrefUrl(e.target.value)} />
+                                        <Button type="link" onClick={() => hrefSubmit()} >
+                                            提交
+                                        </Button>
+                                    </div>
+                                    <Tooltip 
+                                        overlayInnerStyle={{
+                                            width: "290px", 
+                                            borderRadius: "25px"
+                                        }} 
+                                        placement="topRight" 
+                                        title={tip} 
+                                        color="#D8D8D8" 
+                                    >
+                                        <QuestionCircleOutlined className="tips" />
+                                    </Tooltip>
                                 </div>
                             }
                         </div>
