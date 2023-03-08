@@ -255,7 +255,8 @@ export default function CustomCompleted(props) {
                                                 cliamObj={{
                                                     tokenId: Number(tokenId),
                                                     score: answerInfo.score,
-                                                    answer: JSON.stringify(answers)
+                                                    answer: JSON.stringify(answers),
+                                                    totalScore: answerInfo.totalScore
                                                 }}
                                                 img={detail.metadata.image}
                                                 showInner={showInner}

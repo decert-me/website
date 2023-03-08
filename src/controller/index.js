@@ -18,12 +18,10 @@ export async function createQuest(questData, signature, provider ) {
   supply = constans().maxUint192;
   // supply = constans().maxUint32;
   const params = [startTs, endTs, supply, title, uri];
-  console.log(params);
   let txHash = '';
   try {
     const resp = await Contract.createQuest(params, signature);
     txHash = resp.hash;
-  console.log(txHash);
 
   } catch (err) {
     console.dir(err);
