@@ -5,10 +5,10 @@ import translation_enUS from './en-US.json';
 import translation_zhCN from './zh-CN.json';
 
 const resources = {
-    zh_CN: {
+    "zh-CN": {
         translation: translation_zhCN,
     },
-    en_US: {
+    "en-US": {
         translation: translation_enUS,
     }
 };

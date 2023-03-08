@@ -1,16 +1,18 @@
 import i18n from 'i18next';
+import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAccount, useDisconnect, useSwitchNetwork } from 'wagmi';
 import { Button, Dropdown } from 'antd';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import "@/assets/styles/container.scss"
-import { hashAvatar } from '../utils/HashAvatar';
-import { NickName } from '../utils/NickName';
+import { hashAvatar } from '@/utils/HashAvatar';
+import { NickName } from '@/utils/NickName';
 
 export default function AppHeader(params) {
     
     const { address, isConnected } = useAccount()
+    const { t, i18n: local } = useTranslation();
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
     const { switchNetwork } = useSwitchNetwork({
@@ -20,17 +22,6 @@ export default function AppHeader(params) {
     let [isConnect, setIsConnect] = useState(false);
     let [lang, setLang] = useState();
     let [isHome, setIsHome] = useState();
-    
-    const LOCALES_LIST = [
-        {
-            label: "English",
-            value: "en_US",
-        },
-        {
-            label: "简体中文",
-            value: "zh_CN",
-        }
-    ];
 
     const items = [
         // {
@@ -71,7 +62,6 @@ export default function AppHeader(params) {
             switchNetwork()
         }
     },[switchNetwork])
-    // backgroundColor: 'rgba(0,0,0,0.5)',
 
     return (
         <div id={`${isHome ? "Header-bg" : "Header"}`}>
@@ -88,6 +78,16 @@ export default function AppHeader(params) {
                         }
                     </div>
                     <Link to="/explore">探索</Link>
+                    {/* TODO: test ===> */}
+                    <Button 
+                        onClick={() => {
+                            let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
+                            console.log(i18n.language);
+                            i18n.changeLanguage(lang);
+                        }}
+                    >
+                        切换语言{t("test")}
+                    </Button>
                 </div>
                 {
                     isConnected ?
@@ -114,11 +114,3 @@ export default function AppHeader(params) {
         </div>
     )
 }
-// {
-//    LOCALES_LIST.map(e => 
-//    <Link key={e.value} to={{pathname: location.pathname, hash: e.value}} >
-//        {e.label}
-//    </Link>  
-//    )
-// }
-// <h1>Header</h1>

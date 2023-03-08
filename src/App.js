@@ -1,3 +1,5 @@
+import i18n from 'i18next';
+import { useEffect } from "react";
 import BeforeRouterEnter from "@/components/BeforeRouterEnter";
 import { WagmiConfig, configureChains, createClient } from 'wagmi'
 import { avalanche, goerli, mainnet, optimism, polygonMumbai } from 'wagmi/chains'
@@ -46,6 +48,11 @@ const wagmiClient = createClient({
 export default function App() {
   window.Buffer = window.Buffer || require("buffer").Buffer;
 
+  // 语种初始化
+  useEffect(() => {
+    let lang = navigator.language !== 'zh-CN' ? 'en-US' : 'zh-CN';
+    i18n.changeLanguage(lang)
+  },[])
   return (
     <>
       <WagmiConfig client={wagmiClient}>
