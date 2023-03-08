@@ -20,7 +20,6 @@ const { TextArea } = Input;
 
 export default function Publish(params) {
     
-
     const navigateTo = useNavigate();
     const { address, isConnected } = useAccount();
     const { data: signer } = useSigner();
@@ -39,6 +38,8 @@ export default function Publish(params) {
     let [questions, setQuestions] = useState([]);
     let [sumScore, setSumScore] = useState(0);
     let [connectModal, setConnectModal] = useState();
+    let [isClick, setIsClick] = useState();
+    
     const { encode } = Encryption();
 
     // 创建challenge
@@ -48,7 +49,7 @@ export default function Publish(params) {
         hash: createQuestHash,
         onSuccess() {
             setTimeout(() => {
-                message.success("Successfully create challenge");
+                message.success("创建挑战成功");
                 navigateTo("/explore")
             }, 1000);
         }
@@ -119,6 +120,7 @@ export default function Publish(params) {
             return
         }
         if (questions.length === 0) {
+            setIsClick(true);
             return
         }
         setWriteLoading(true);
@@ -163,6 +165,9 @@ export default function Publish(params) {
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
+        if (questions.length === 0) {
+            setIsClick(true);
+        }
     };
 
     useEffect(() => {
@@ -207,7 +212,7 @@ export default function Publish(params) {
                     name="title"
                     rules={[{
                         required: true,
-                        message: 'Please input title!',
+                        message: '请输入标题',
                     }]}
                 >
                     <Input />
@@ -233,7 +238,7 @@ export default function Publish(params) {
                     valuePropName="img"
                     rules={[{
                         required: true,
-                        message: 'Please upload img!',
+                        message: '请上传图片',
                     }]}
                     wrapperCol={{
                         offset: 1,
@@ -277,7 +282,11 @@ export default function Publish(params) {
 
                 {/* add multiple */}
                 <div className="btns">
-                    <Button type="link" onClick={() => showAddModal()}>
+                    <Button 
+                        type="link" 
+                        onClick={() => showAddModal()}
+                        danger={questions.length === 0 && isClick}
+                    >
                         添加选择题或填空题
                     </Button>
                     {/* <Button type="link">
@@ -291,7 +300,7 @@ export default function Publish(params) {
                         name="score"
                         rules={[{
                             required: true,
-                            message: 'Please input score!',
+                            message: '请设置及格分',
                         }]}
                     >
                         <InputNumber
