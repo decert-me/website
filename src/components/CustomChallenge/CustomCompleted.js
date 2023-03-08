@@ -77,13 +77,13 @@ export default function CustomCompleted(props) {
             })
             await chainScores(address, tokenId, signer)
             .then(res => {
-                percent = GetPercent(totalScore, res);
+                percent = res / 100;
                 answerInfo = {
                     totalScore: totalScore,
-                    score: res,
+                    score: res / 100,
                     passingScore: detail.metadata.properties.passingScore,
                     passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
-                    isPass: res >= detail.metadata.properties.passingScore
+                    isPass: res / 100 >= detail.metadata.properties.passingScore
                 }
             })
         }
