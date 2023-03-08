@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react"
+import { useEffect, useRef, useState } from "react"
 import { Col, Row, Button, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from 'react-infinite-scroll-component';
@@ -14,7 +14,8 @@ export default function Explore(params) {
     const { address } = useAccount();
     const navigateTo = useNavigate();
     let [isOver, setIsOver] = useState();
-    
+    const ref = useRef(null);
+
     let [challenges, setChallenges] = useState([]);
     let [pageConfig, setPageConfig] = useState({
         page: 1, pageSize: 10, total: 0
@@ -51,6 +52,24 @@ export default function Explore(params) {
         manual: true
     });
 
+    const handleResize = () => {
+        // 重新计算组件高度和滚动位置等信息
+        const node = ref.current;
+        const scrollHeight = node.scrollHeight;
+        const clientHeight = node.clientHeight;
+        const scrollTop = node.scrollTop;
+        const isAtBottom = scrollHeight - (clientHeight + scrollTop) < 10;
+        if (isAtBottom) {
+            run();
+        }
+    };
+
+    useEffect(() => {
+        // 添加窗口缩放事件监听器
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
     useEffect(() => {
         window.scrollTo(0,0);
         run()
@@ -67,6 +86,7 @@ export default function Explore(params) {
                     dataLength={challenges.length}
                     next={run}
                     hasMore={true}
+                    ref={ref}
                     style={{
                         position: "relative",
                         overflow: "visible"
