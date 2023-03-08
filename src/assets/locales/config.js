@@ -1,15 +1,17 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import translation_enUS from './en-US.json';
-import translation_zhCN from './zh-CN.json';
+import publicUS from './en-US/public.json';
+import publicCN from './zh-CN/public.json';
 
 const resources = {
     "zh-CN": {
-        translation: translation_zhCN,
+        translation: publicCN,
+        // public: publicCN
     },
     "en-US": {
-        translation: translation_enUS,
+        translation: publicUS,
+        // public: publicUS
     }
 };
 

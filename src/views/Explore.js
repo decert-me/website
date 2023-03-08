@@ -15,7 +15,6 @@ export default function Explore(params) {
     const navigateTo = useNavigate();
     let [isOver, setIsOver] = useState();
     const ref = useRef(null);
-
     let [challenges, setChallenges] = useState([]);
     let [pageConfig, setPageConfig] = useState({
         page: 1, pageSize: 10, total: 0
@@ -55,6 +54,7 @@ export default function Explore(params) {
     const handleResize = () => {
         // 重新计算组件高度和滚动位置等信息
         const node = ref.current;
+
         const scrollHeight = node.scrollHeight;
         const clientHeight = node.clientHeight;
         const scrollTop = node.scrollTop;

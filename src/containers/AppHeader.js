@@ -12,7 +12,7 @@ import { NickName } from '@/utils/NickName';
 export default function AppHeader(params) {
     
     const { address, isConnected } = useAccount()
-    const { t, i18n: local } = useTranslation();
+    const { t } = useTranslation();
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
     const { switchNetwork } = useSwitchNetwork({
@@ -30,7 +30,7 @@ export default function AppHeader(params) {
         //     icon: '',
         // },
         {
-            label: (<p onClick={() => disconnect()}> 断开连接 </p>),
+            label: (<p onClick={() => disconnect()}> {t("translation:header.disconnect")} </p>),
             key: '2',
             icon: '',
         }
@@ -77,7 +77,7 @@ export default function AppHeader(params) {
                             <img src={require("@/assets/images/img/logo-black.png")} alt="" />
                         }
                     </div>
-                    <Link to="/explore">探索</Link>
+                    <Link to="/explore">{t("translation:header.explore")}</Link>
                     {/* TODO: test ===> */}
                     <Button 
                         onClick={() => {
@@ -86,7 +86,7 @@ export default function AppHeader(params) {
                             i18n.changeLanguage(lang);
                         }}
                     >
-                        切换语言{t("test")}
+                        切换语言
                     </Button>
                 </div>
                 {
@@ -106,7 +106,7 @@ export default function AppHeader(params) {
                     </div>
                     :
                     <div>
-                        <Button onClick={() => openModal()}>连接钱包</Button>
+                        <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
                         <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
                     </div>
                 }
