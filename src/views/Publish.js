@@ -305,7 +305,7 @@ export default function Publish(params) {
                     >
                         <InputNumber
                             min={1} 
-                            max={sumScore}
+                            max={sumScore === 0 ? 1 : sumScore}
                             controls={false}
                             precision={0}
                             style={{
