@@ -13,7 +13,7 @@ import { submitClaimTweet } from "@/request/api/public";
 import CustomClaim from "./CustomClaim";
 import BadgeAddress from "@/contracts/Badge.address";
 import { chainScores } from "@/controller";
-import { GetPercent } from "@/utils/GetPercent";
+import { GetPercent, GetScorePercent } from "@/utils/GetPercent";
 import { ClaimShareSuccess } from "../CustomMessage";
 
 const tip = (
@@ -77,13 +77,13 @@ export default function CustomCompleted(props) {
             })
             await chainScores(address, tokenId, signer)
             .then(res => {
-                percent = GetPercent(totalScore, res);
+                percent = res / 100;
                 answerInfo = {
                     totalScore: totalScore,
-                    score: res,
+                    score: res / 100,
                     passingScore: detail.metadata.properties.passingScore,
                     passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
-                    isPass: res >= detail.metadata.properties.passingScore
+                    isPass: res / 100 >= detail.metadata.properties.passingScore
                 }
             })
         }
@@ -108,10 +108,11 @@ export default function CustomCompleted(props) {
 
     const hrefSubmit = () => {
         setIsLoading(true);
+        let score = GetScorePercent(answerInfo.totalScore, answerInfo.score);
         submitClaimTweet({
             tokenId: Number(tokenId),
             tweetUrl: hrefUrl,
-            score: answerInfo.score,
+            score: score,
             answer: JSON.stringify(answers)
         })
         .then(res => {

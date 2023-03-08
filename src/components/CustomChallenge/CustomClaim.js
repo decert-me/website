@@ -42,19 +42,19 @@ export default function CustomClaim(props) {
     })
 
     const cliam = async() => {
-        cliamObj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
-        delete cliamObj.totalScore;
+        let obj = {...cliamObj};
+        obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);
             return
         }
 
         setWriteLoading(true);
-        const signature = await getClaimHash(cliamObj);
+        const signature = await getClaimHash(obj);
         if (signature) {
             claimHash = await claim(
-                cliamObj.tokenId, 
-                cliamObj.score, 
+                obj.tokenId, 
+                obj.score, 
                 signature.data, 
                 signer
             )
