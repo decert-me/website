@@ -14,6 +14,7 @@ import { useAccount, useNetwork, useSigner, useSwitchNetwork, useWaitForTransact
 import { addQuests, ipfsJson, submitHash } from "../request/api/public";
 import { createQuest } from "../controller";
 import { useNavigate } from "react-router-dom";
+import { constans } from "@/utils/constans";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -85,6 +86,7 @@ export default function Publish(params) {
     }
 
     const write = (sign, obj) => {
+        console.log(chain);
         createQuest(obj, sign, signer)
         .then(res => {
             setWriteLoading(false);
@@ -144,7 +146,10 @@ export default function Publish(params) {
         const signature = jsonHash && await addQuests({
             uri: "ipfs://"+jsonHash.hash,
             title: values.title,
-            description: values.desc
+            description: values.desc,
+            'start_ts': '0', 
+            'end_ts': constans().maxUint32.toString(), 
+            'supply': constans().maxUint192.toString(),       
         })
         const questData = {
             'startTs': 0, 
