@@ -7,8 +7,7 @@ import { claim } from "../../controller";
 import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
 import ModalLoading from "../CustomModal/ModalLoading";
-import { GetPercent, GetScorePercent } from "@/utils/GetPercent";
-import { Encryption } from "@/utils/Encryption";
+import { GetScorePercent } from "@/utils/GetPercent";
 
 
 export default function CustomClaim(props) {
@@ -43,9 +42,6 @@ export default function CustomClaim(props) {
     })
 
     const cliam = async() => {
-        
-        // console.log(Encryption().decode(process.env.REACT_APP_ANSWERS_KEY,'C0oUeGIBEQ=='));
-        // return
         cliamObj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
         delete cliamObj.totalScore;
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
