@@ -1,4 +1,4 @@
-import { Button, Input, Progress, Steps, Tooltip } from "antd";
+import { Button, Input, message, Progress, Steps, Tooltip } from "antd";
 import {
     QuestionCircleOutlined,
     UploadOutlined
@@ -107,6 +107,11 @@ export default function CustomCompleted(props) {
     }
 
     const hrefSubmit = () => {
+        const pattern = /^https:\/\/twitter\.com\/.*/i;
+        if (!pattern.test(hrefUrl)) {
+            message.warning('请填写正确的链接')
+            return
+        }
         setIsLoading(true);
         let score = GetScorePercent(answerInfo.totalScore, answerInfo.score);
         submitClaimTweet({
