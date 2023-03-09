@@ -100,6 +100,10 @@ export default function Publish(params) {
     }
 
     const onFinish = async(values) => {
+        if (questions.length === 0) {
+            setIsClick(true);
+            return
+        }
         // const token = localStorage.getItem(`decert.token`);
         // 未登录
         if (!isConnected) {
@@ -117,10 +121,6 @@ export default function Publish(params) {
             return
         }
         if (!values.fileList.file.response.hash) {
-            return
-        }
-        if (questions.length === 0) {
-            setIsClick(true);
             return
         }
         setWriteLoading(true);
