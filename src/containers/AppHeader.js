@@ -78,6 +78,7 @@ export default function AppHeader(params) {
                             let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
                             console.log(i18n.language);
                             i18n.changeLanguage(lang);
+                            localStorage.setItem("decert.lang", lang)
                         }}
                     >
                         切换语言

@@ -50,8 +50,14 @@ export default function App() {
 
   // 语种初始化
   useEffect(() => {
-    let lang = navigator.language !== 'zh-CN' ? 'en-US' : 'zh-CN';
-    i18n.changeLanguage(lang)
+    let lang
+    if (localStorage.getItem("decert.lang")) {
+      lang = localStorage.getItem("decert.lang");
+    }else{
+      lang = navigator.language !== 'zh-CN' ? 'en-US' : 'zh-CN';
+      localStorage.setItem("decert.lang",lang)
+    }
+    i18n.changeLanguage(lang);
   },[])
   return (
     <>
