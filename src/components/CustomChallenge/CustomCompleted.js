@@ -169,7 +169,7 @@ export default function CustomCompleted(props) {
                                 :
                                     <p className="title">挑战未通过，请继续加油吧。</p>
                             }
-                            <p>通过挑战后，你将获得SBT徽章并与它灵魂绑定，它将成为你技术认证的证明，为你的履历添砖加瓦。</p>
+                            <p>通过挑战领取的 SBT（灵魂绑定代币）徽章，将在链上永久保存，且不可转移或出售。这是你技术能力的证明，为你的履历增添价值。</p>
                         </div>
                         <div className="score">
                             <p className="network">{detail.title}</p>
