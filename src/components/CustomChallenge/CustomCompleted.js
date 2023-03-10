@@ -186,10 +186,6 @@ export default function CustomCompleted(props) {
                             <p className="pass">{t("score.passScore",{score: answerInfo.passingPercent})}</p>
                             <div className="score-detail">
                                 <div className="circle">
-                                    {/* <ArcProgress
-                                        className="progress-container2"
-                                        {...progrees}
-                                    /> */}
                                     <Progress
                                         type="circle"
                                         percent={percent}
@@ -197,7 +193,6 @@ export default function CustomCompleted(props) {
                                         format={(percent) => percent}
                                         strokeWidth={6}
                                     />
-                                    {/* <p className="text">{answerInfo.score}</p> */}
                                 </div>
                                 <Link className="btn" to={`/quests/${detail.tokenId}`}>
                                     <button className="btn">{t("translation:btn-go-challenge")}</button>
@@ -207,7 +202,6 @@ export default function CustomCompleted(props) {
                     </div>
                     <div className="content-step">
                         <div className="nft">
-                            {/* <h5>NFT证书展示</h5> */}
                                 <div className="img">
                                     <a href={`${openseaLink}/${detail.tokenId}`} target="_blank">
                                         <img 
@@ -218,7 +212,6 @@ export default function CustomCompleted(props) {
                                             }
                                             alt="" 
                                         />
-                                        {/* <div className="icon" /> */}
                                     </a>
                                 </div>
                         </div>
