@@ -10,16 +10,21 @@ import publishCN from './zh-CN/publish.json';
 import exploreUS from './en-US/explore.json';
 import exploreCN from './zh-CN/explore.json';
 
+import claimUS from './en-US/claim.json';
+import claimCN from './zh-CN/claim.json';
+
 const resources = {
     "zh-CN": {
         translation: publicCN,
         publish: publishCN,
         explore: exploreCN,
+        claim: claimCN,
     },
     "en-US": {
         translation: publicUS,
         publish: publishUS,
         explore: exploreUS,
+        claim: claimUS,
     }
 };
 
