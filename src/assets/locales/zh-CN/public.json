@@ -1,5 +1,4 @@
 {
-    "try": "测试",
     "header": {
         "explore": "探索",
         "connect": "连接钱包",
@@ -36,6 +35,20 @@
             "claimed": "你获得了一个SBT！",
             "link": "查看SBT详情",
             "share": "分享到Twitter"
+        }
+    },
+    "message": {
+        "success": {
+            "submit": {
+                "title": "提交成功",
+                "desc": "稍后系统将会把SBT发送至你的钱包账户，在此期间请勿删除此推文。"
+            }
+        },
+        "error": {
+            "submit": {
+                "title": "格式错误",
+                "desc": "请勿删除或修改推文内容。"
+            }
         }
     }
 }

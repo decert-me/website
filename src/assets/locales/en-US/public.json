@@ -1,13 +1,3 @@
 {
-    "try": "test",
-    "header": {
-        "explore": "探索",
-        "connect": "连接钱包",
-        "disconnect": "断开连接"
-    },
-    "home": {
-        "slogan1": "You are what you build.",
-        "slogan2": "去中心化学习及技术认证平台",
-        "btn-explore": "探索挑战"
-    }
+    
 }
