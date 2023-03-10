@@ -6,7 +6,23 @@
         "disconnect": "断开连接"
     },
     "home": {
-        "slogan": "去中心化学习及技术认证平台",
+        "slogan1": "You are what you build.",
+        "slogan2": "去中心化学习及技术认证平台",
         "btn-explore": "探索挑战"
+    },
+    "submit": "提交",
+
+    "diff": "难度",
+    "diff-info": {
+       "easy": "简单",
+       "normal": "中等",
+       "diff": "困难"
+    },
+    "time": "预估时间",
+    "time-info": {
+        "m": "{{time}} 分",
+        "h": "{{time}} 时",
+        "d": "{{time}} 天",
+        "w": "{{time}} 周"
     }
 }

@@ -20,7 +20,6 @@ export default function AppHeader(params) {
     });
     const location = useLocation();
     let [isConnect, setIsConnect] = useState(false);
-    let [lang, setLang] = useState();
     let [isHome, setIsHome] = useState();
 
     const items = [

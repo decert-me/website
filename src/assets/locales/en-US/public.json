@@ -6,7 +6,8 @@
         "disconnect": "断开连接"
     },
     "home": {
-        "slogan": "去中心化学习及技术认证平台",
+        "slogan1": "You are what you build.",
+        "slogan2": "去中心化学习及技术认证平台",
         "btn-explore": "探索挑战"
     }
 }
