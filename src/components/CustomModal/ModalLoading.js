@@ -1,10 +1,12 @@
 import { Button, Modal, Spin } from "antd";
 import { LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import { constans } from "@/utils/constans";
+import { useTranslation } from "react-i18next";
 
 export default function ModalLoading(props) {
 
     const { ipfsPath, defaultImg, openseaLink } = constans();
+    const { t } = useTranslation(["translation"]);
     const { isModalOpen, handleCancel, isLoading, img, tokenId, shareTwitter } = props;
 
     const icon = (
@@ -32,12 +34,12 @@ export default function ModalLoading(props) {
                     <div className="loading">
                         <Spin indicator={icon} />
                     </div>
-                    <p className="loading-title">铸造中...</p>
-                    <p className="loading-tip">SBT 是不可转让，也不可出售的。</p>
+                    <p className="loading-title">{t("modal.claim.claiming")}</p>
+                    <p className="loading-tip">{t("modal.claim.desc")}</p>
                 </div>
                 :
                 <div className="content claimed">
-                    <p className="title">你获得了一个SBT！</p>
+                    <p className="title">{t("modal.claim.claimed")}</p>
                     <div className="img">
                         <img 
                             src={
@@ -50,8 +52,8 @@ export default function ModalLoading(props) {
                     </div>
             
 
-                    <a href={`${openseaLink}/${tokenId}`} target="_blank" >查看SBT详情</a>
-                    <Button className="btn" onClick={() => shareTwitter()}>分享到Twitter</Button>
+                    <a href={`${openseaLink}/${tokenId}`} target="_blank" >{t("modal.claim.link")}</a>
+                    <Button className="btn" onClick={() => shareTwitter()}>{t("modal.claim.share")}</Button>
                 </div>
             }
 

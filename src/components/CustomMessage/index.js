@@ -1,34 +1,41 @@
 import { message } from "antd";
+import i18n from 'i18next';
 
+const json = {
+    'en-US': require("@/assets/locales/en-US/public.json"),
+    'zh-CN': require("@/assets/locales/zh-CN/public.json")
+}
 
-export const ClaimShareSuccess = () => (
-    message.info({
-        content: (
-            <div>
-                <h4>提交成功</h4>
-                <p>
-                    稍后系统将会把SBT发送至你的钱包账户，在此期间请勿删除此推文。
-                </p>
-            </div>
-        ),
-        duration: 3,
-        icon: <></>,
-        className: "message-share"
-    })
-)
+export const ClaimShareSuccess = () => {
+    const obj = json[i18n.language].message.success.submit;
+    return (
+        message.info({
+            content: (
+                <div>
+                    <h4>{obj.title}</h4>
+                    <p>{obj.desc}</p>
+                </div>
+            ),
+            duration: 3,
+            icon: <></>,
+            className: "message-share"
+        })
+    )
+}
 
-export const ClaimShareError = () => (
-    message.info({
-        content: (
-            <div>
-                <h4>格式错误</h4>
-                <p>
-                    请勿删除或修改推文内容。
-                </p>
-            </div>
-        ),
-        duration: 3,
-        icon: <></>,
-        className: "message-share"
-    })
-)
+export const ClaimShareError = () => {
+    const obj = json[i18n.language].message.error.submit;
+    return (
+        message.info({
+            content: (
+                <div>
+                    <h4>{obj.title}</h4>
+                    <p>{obj.desc}</p>
+                </div>
+            ),
+            duration: 3,
+            icon: <></>,
+            className: "message-share"
+        })
+    )
+}

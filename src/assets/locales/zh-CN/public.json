@@ -28,5 +28,14 @@
         "h": "{{time}} 时",
         "d": "{{time}} 天",
         "w": "{{time}} 周"
+    },
+    "modal": {
+        "claim": {
+            "claiming": "铸造中...",
+            "desc": "SBT 是不可转让，也不可出售的。",
+            "claimed": "你获得了一个SBT！",
+            "link": "查看SBT详情",
+            "share": "分享到Twitter"
+        }
     }
 }
