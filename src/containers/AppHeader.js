@@ -57,12 +57,6 @@ export default function AppHeader(params) {
         if (location) {
             isHome = location.pathname === '/' ? true : false;
             setIsHome(isHome);
-            lang = location.hash.split("#")[1];
-            if (!lang) {
-                lang = "en_US"
-            }
-            setLang(lang);
-            i18n.changeLanguage(lang)
         }
     },[location])
 

@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { message, Upload } from "antd";
 import { ipfsImg } from "../request/api/public";
 
 export const UploadProps = {
@@ -18,6 +18,10 @@ export const UploadProps = {
       onError,
       onSuccess
     }) {
+      // const isLt100M = file.size / 1024 / 1024 < 20;
+      // if (!isLt100M) {
+      //   return
+      // }
       const formData = new FormData();
       if (data) {
         Object.keys(data).forEach(key => {
@@ -50,11 +54,12 @@ export const UploadProps = {
       })
       if (!isImage) {
         message.error("You can only upload JPG/PNG file!");
-        return false
+        return false || Upload.LIST_IGNORE
       }
       const isLt100M = file.size / 1024 / 1024 < 20;
       if (!isLt100M) {
         message.error("Image must smaller than 20MB!");
+        return false || Upload.LIST_IGNORE
       }
     }
 };

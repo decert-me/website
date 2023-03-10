@@ -1,4 +1,4 @@
-import { Button, Input, Progress, Steps, Tooltip } from "antd";
+import { Button, Input, message, Progress, Steps, Tooltip } from "antd";
 import {
     QuestionCircleOutlined,
     UploadOutlined
@@ -13,7 +13,7 @@ import { submitClaimTweet } from "@/request/api/public";
 import CustomClaim from "./CustomClaim";
 import BadgeAddress from "@/contracts/Badge.address";
 import { chainScores } from "@/controller";
-import { GetPercent } from "@/utils/GetPercent";
+import { GetPercent, GetScorePercent } from "@/utils/GetPercent";
 import { ClaimShareSuccess } from "../CustomMessage";
 
 const tip = (
@@ -77,13 +77,13 @@ export default function CustomCompleted(props) {
             })
             await chainScores(address, tokenId, signer)
             .then(res => {
-                percent = GetPercent(totalScore, res);
+                percent = res / 100;
                 answerInfo = {
                     totalScore: totalScore,
-                    score: res,
+                    score: res / 100,
                     passingScore: detail.metadata.properties.passingScore,
                     passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
-                    isPass: res >= detail.metadata.properties.passingScore
+                    isPass: res / 100 >= detail.metadata.properties.passingScore
                 }
             })
         }
@@ -107,11 +107,17 @@ export default function CustomCompleted(props) {
     }
 
     const hrefSubmit = () => {
+        const pattern = /^https:\/\/twitter\.com\/.*/i;
+        if (!pattern.test(hrefUrl)) {
+            message.warning('请填写正确的链接')
+            return
+        }
         setIsLoading(true);
+        let score = GetScorePercent(answerInfo.totalScore, answerInfo.score);
         submitClaimTweet({
             tokenId: Number(tokenId),
             tweetUrl: hrefUrl,
-            score: answerInfo.score,
+            score: score,
             answer: JSON.stringify(answers)
         })
         .then(res => {
@@ -156,18 +162,15 @@ export default function CustomCompleted(props) {
                 answerInfo &&
                  <div className="completed-content">
                     <div className="content-info">
-                        {
-                            answerInfo.isPass ? 
-                            <div className="desc">
-                                <p className="title">恭喜你完成挑战  🎉🎉</p>
-                                <p>你已通过技术认证，灵魂绑定后，SBT将不可转移或转送于他人，它将成为你技术认证的证明，为你的履历添砖加瓦。</p>
-                            </div>
-                            :
-                            <div className="desc">
-                                <p className="title">挑战未通过，请继续加油吧。</p>
-                                <p>通过挑战后，你将获得SBT徽章并与它灵魂绑定，它将成为你技术认证的证明，为你的履历添砖加瓦。</p>
-                            </div>
-                        }
+                        <div className="desc">
+                            {
+                                answerInfo.isPass ? 
+                                    <p className="title">恭喜你完成挑战  🎉🎉</p>
+                                :
+                                    <p className="title">挑战未通过，请继续加油吧。</p>
+                            }
+                            <p>通过挑战领取的 SBT（灵魂绑定代币）徽章，将在链上永久保存，且不可转移或出售。这是你技术能力的证明，为你的履历增添价值。</p>
+                        </div>
                         <div className="score">
                             <p className="network">{detail.title}</p>
                             <h4>本次得分</h4>
@@ -255,7 +258,8 @@ export default function CustomCompleted(props) {
                                                 cliamObj={{
                                                     tokenId: Number(tokenId),
                                                     score: answerInfo.score,
-                                                    answer: JSON.stringify(answers)
+                                                    answer: JSON.stringify(answers),
+                                                    totalScore: answerInfo.totalScore
                                                 }}
                                                 img={detail.metadata.image}
                                                 showInner={showInner}

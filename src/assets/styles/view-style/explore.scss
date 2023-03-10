@@ -63,20 +63,20 @@
         white-space: nowrap;
         text-overflow: ellipsis;
       }
-      p {
-        font-size: 13px;
-        height: 36px;
-        font-weight: 400;
-        color: #17151c;
-        width: 419px;
-        word-break: break-all;
-        text-overflow: ellipsis;
-        display: -webkit-box;
-        -webkit-box-orient: vertical;
-        -webkit-line-clamp: 2; /* 这里是超出几行省略 */
+      .desc{
+        margin-top: 11px;
+        color: #666666;
+        font-size: 12px;
+        line-height: 18px;
         overflow: hidden;
+        text-overflow: ellipsis;
+        /* 作为弹性伸缩盒子模型显示 */
+        display: -webkit-box;
+        /* 设置伸缩盒子的子元素排列方式--从上到下垂直排列 */
+        -webkit-box-orient: vertical;
+        /* 显示的行 */
+        -webkit-line-clamp: 2;
       }
-  
       .btn {
         width: 100%;
         margin-top: 100px;

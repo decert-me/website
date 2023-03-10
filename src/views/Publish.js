@@ -14,12 +14,12 @@ import { useAccount, useNetwork, useSigner, useSwitchNetwork, useWaitForTransact
 import { addQuests, ipfsJson, submitHash } from "../request/api/public";
 import { createQuest } from "../controller";
 import { useNavigate } from "react-router-dom";
+import { constans } from "@/utils/constans";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
 export default function Publish(params) {
     
-
     const navigateTo = useNavigate();
     const { address, isConnected } = useAccount();
     const { data: signer } = useSigner();
@@ -38,6 +38,8 @@ export default function Publish(params) {
     let [questions, setQuestions] = useState([]);
     let [sumScore, setSumScore] = useState(0);
     let [connectModal, setConnectModal] = useState();
+    let [isClick, setIsClick] = useState();
+    
     const { encode } = Encryption();
 
     // 创建challenge
@@ -47,7 +49,7 @@ export default function Publish(params) {
         hash: createQuestHash,
         onSuccess() {
             setTimeout(() => {
-                message.success("Successfully create challenge");
+                message.success("创建挑战成功");
                 navigateTo("/explore")
             }, 1000);
         }
@@ -85,6 +87,7 @@ export default function Publish(params) {
     }
 
     const write = (sign, obj) => {
+        console.log(chain);
         createQuest(obj, sign, signer)
         .then(res => {
             setWriteLoading(false);
@@ -97,6 +100,10 @@ export default function Publish(params) {
     }
 
     const onFinish = async(values) => {
+        if (questions.length === 0) {
+            setIsClick(true);
+            return
+        }
         // const token = localStorage.getItem(`decert.token`);
         // 未登录
         if (!isConnected) {
@@ -114,9 +121,6 @@ export default function Publish(params) {
             return
         }
         if (!values.fileList.file.response.hash) {
-            return
-        }
-        if (questions.length === 0) {
             return
         }
         setWriteLoading(true);
@@ -144,7 +148,10 @@ export default function Publish(params) {
         const signature = jsonHash && await addQuests({
             uri: "ipfs://"+jsonHash.hash,
             title: values.title,
-            description: values.desc
+            description: values.desc,
+            'start_ts': '0', 
+            'end_ts': constans().maxUint32.toString(), 
+            'supply': constans().maxUint192.toString(),       
         })
         const questData = {
             'startTs': 0, 
@@ -158,6 +165,9 @@ export default function Publish(params) {
 
     const onFinishFailed = (errorInfo) => {
         console.log('Failed:', errorInfo);
+        if (questions.length === 0) {
+            setIsClick(true);
+        }
     };
 
     useEffect(() => {
@@ -202,7 +212,7 @@ export default function Publish(params) {
                     name="title"
                     rules={[{
                         required: true,
-                        message: 'Please input title!',
+                        message: '请输入标题',
                     }]}
                 >
                     <Input />
@@ -228,7 +238,7 @@ export default function Publish(params) {
                     valuePropName="img"
                     rules={[{
                         required: true,
-                        message: 'Please upload img!',
+                        message: '请上传图片',
                     }]}
                     wrapperCol={{
                         offset: 1,
@@ -272,7 +282,11 @@ export default function Publish(params) {
 
                 {/* add multiple */}
                 <div className="btns">
-                    <Button type="link" onClick={() => showAddModal()}>
+                    <Button 
+                        type="link" 
+                        onClick={() => showAddModal()}
+                        danger={questions.length === 0 && isClick}
+                    >
                         添加选择题或填空题
                     </Button>
                     {/* <Button type="link">
@@ -286,12 +300,12 @@ export default function Publish(params) {
                         name="score"
                         rules={[{
                             required: true,
-                            message: 'Please input score!',
+                            message: '请设置及格分',
                         }]}
                     >
                         <InputNumber
                             min={1} 
-                            max={sumScore}
+                            max={sumScore === 0 ? 1 : sumScore}
                             controls={false}
                             precision={0}
                             style={{

@@ -30,7 +30,7 @@ serviceAxios.interceptors.response.use(
       if (res.config.url === '/users/discord' && res.config.data.indexOf('isClick') === -1) {
         return null
       }
-      if (res.config.url === '/badge/submitClaimTweet') {
+      if (res.config.url === '/badge/submitClaimTweet' && data.message === '推文不匹配') {
         ClaimShareError()
         return null
       }

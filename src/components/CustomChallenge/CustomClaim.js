@@ -7,6 +7,7 @@ import { claim } from "../../controller";
 import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
 import ModalLoading from "../CustomModal/ModalLoading";
+import { GetScorePercent } from "@/utils/GetPercent";
 
 
 export default function CustomClaim(props) {
@@ -41,18 +42,19 @@ export default function CustomClaim(props) {
     })
 
     const cliam = async() => {
-
+        let obj = {...cliamObj};
+        obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);
             return
         }
 
         setWriteLoading(true);
-        const signature = await getClaimHash(cliamObj);
-        if (signature.status === 0) {
+        const signature = await getClaimHash(obj);
+        if (signature) {
             claimHash = await claim(
-                cliamObj.tokenId, 
-                cliamObj.score, 
+                obj.tokenId, 
+                obj.score, 
                 signature.data, 
                 signer
             )

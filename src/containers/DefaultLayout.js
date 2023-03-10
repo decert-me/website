@@ -4,10 +4,11 @@ import routes from "@/router";
 
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
-import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
+import { useEffect } from "react";
+import { useAccount, useDisconnect, useSigner } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest } from "ahooks";
+import { GetSign } from "@/utils/GetSign";
 
 
 const { Header, Footer, Content } = Layout;
@@ -39,6 +40,8 @@ export default function DefaultLayout(params) {
 
     const outlet = useRoutes(routes);
     const { address, isConnected } = useAccount();
+    const { disconnect } = useDisconnect();
+    const { data: signer } = useSigner();
     const navigateTo = useNavigate();
     const location = useLocation();
 
@@ -55,16 +58,21 @@ export default function DefaultLayout(params) {
         }
     }
 
+    const sign = () => {
+        GetSign({address: address, signer: signer, disconnect: disconnect})
+    }
 
     const verifySignUpType = (addr, path) => {
         if (addr === null && address) {
             // 未登录  ====>  登录
             localStorage.setItem("decert.address", address);
+            sign()
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
             ClearStorage();
             localStorage.setItem("decert.address", address);
             isClaim(path);
+            sign()
         }else if (addr && !address) {
             // 已登陆  ====>  未登录
             ClearStorage();
@@ -83,17 +91,6 @@ export default function DefaultLayout(params) {
         const addr = localStorage.getItem('decert.address');
         run(addr, path)
     },[address])
-
-    // TODO: 离开claim页面销毁对应tokenId ==> cache
-    // useEffect(() => {
-    //     setPath(location.pathname);
-    //     console.log('location ===>', location);
-
-    //     if (path) {
-            
-    //     }
-        
-    // },[location])
 
     return (
         <Layout>
