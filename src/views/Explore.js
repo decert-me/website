@@ -110,7 +110,7 @@ export default function Explore(params) {
                                 <div className="challenge-item">
                                     <div className="left-info">
                                     <div className="title">{item.title}</div>
-                                    <p>{item.describe}</p>
+                                    <p className="desc">{item.description}</p>
                                     <Button
                                         onClick={() => goChallenge(item)}
                                         className="btn"
