@@ -10,6 +10,7 @@ import 'highlight.js/styles/default.css'
 import importHtml from '@bytemd/plugin-import-html';
 import zh_Hans from 'bytemd/locales/zh_Hans.json'
 import { ipfsImg } from "@/request/api/public"
+import i18n from 'i18next';
 
 
 export default function CustomEditor(props) {
@@ -28,7 +29,7 @@ export default function CustomEditor(props) {
         <Editor
             value={editValue}
             plugins={plugins}
-            locale={zh_Hans}
+            locale={i18n.language !== "zh-CN" ? null : zh_Hans}
             uploadImages={async (files) => {
                 let hash
                 const formData = new FormData()
