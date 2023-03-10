@@ -18,17 +18,39 @@ export const convertToken = (token) => {
 export const convertDifficulty = (value) => {
     switch (value) {
         case 0:
-            return '简单'
+            return 'easy'
         case 1:
-            return '中等'
+            return 'normal'
         case 2:
-            return '困难'
+            return 'diff'
         default:
             return ''
     }
 }
 
 export const convertTime = (value) => {
-    const min = value / 60;
-    return min + ' 分'
+    const h = value / 60 / 60;
+    const d = value / 60 / 60 / 24;
+    const w = value / 60 / 60 / 24 / 7;
+
+    let time = value / 60;
+    let type = 'm';
+
+    if (h >= 1) {
+        time = h;
+        type = 'h'
+    }
+    if (d >= 1) {
+        time = d;
+        type = 'd';
+    }
+    if (w >= 1) {
+        time = w;
+        type = 'w';
+    }
+
+    return {
+        type,
+        time
+    }
 }

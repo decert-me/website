@@ -7,14 +7,19 @@ import publicCN from './zh-CN/public.json';
 import publishUS from './en-US/publish.json';
 import publishCN from './zh-CN/publish.json';
 
+import exploreUS from './en-US/explore.json';
+import exploreCN from './zh-CN/explore.json';
+
 const resources = {
     "zh-CN": {
         translation: publicCN,
         publish: publishCN,
+        explore: exploreCN,
     },
     "en-US": {
         translation: publicUS,
         publish: publishUS,
+        explore: exploreUS,
     }
 };
 

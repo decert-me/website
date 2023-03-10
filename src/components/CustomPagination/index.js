@@ -4,10 +4,12 @@ import {
   } from '@ant-design/icons';
 import { Button } from 'antd';
 import "@/assets/styles/component-style/index"
+import { useTranslation } from 'react-i18next';
 
 export default function CustomPagination(props) {
 
     const { page, total, onChange, sumbit } = props;
+    const { t } = useTranslation(["translation"]);
     
     return (
         <div className="CustomPagination">
@@ -25,7 +27,7 @@ export default function CustomPagination(props) {
             {
                 page === total ?
                 <Button className='submit' onClick={sumbit}>
-                    提交
+                    {t("btn-submit")}
                 </Button>
                 :
                 <Button 

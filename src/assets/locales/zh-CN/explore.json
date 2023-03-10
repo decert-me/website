@@ -1,0 +1,22 @@
+{
+    "title": "探索挑战",
+    "btn-challenge": "挑战",
+    "btn-start": "开始挑战",
+    "ques": {
+        "title": "SBT技术认证",
+        "desc": "完成挑战，可获得灵魂绑定（SBT）的技术认证，分享到你的社交平台，让世界知道你的能力。"
+    },
+    "challenge": {
+        "title": "测验"
+    },
+    "modal": {
+        "challenge": {
+            "title": "答案列表",
+            "complete": "完成",
+            "uncomplete": "未完成"
+        }
+    },
+    "message": {
+       
+    }
+}

@@ -7,10 +7,12 @@ import { LazyLoadImage } from 'react-lazy-load-image-component';
 import "@/assets/styles/view-style/explore.scss"
 import { useRequest } from "ahooks";
 import { useAccount } from "wagmi";
+import { useTranslation } from "react-i18next";
 
 export default function Explore(params) {
     
 
+    const { t } = useTranslation(["explore"]);
     const { address } = useAccount();
     const navigateTo = useNavigate();
     let [isOver, setIsOver] = useState();
@@ -79,7 +81,7 @@ export default function Explore(params) {
     return (
         <div className="Explore">
             {/* title */}
-            <h3>探索挑战</h3>
+            <h3>{t("title")}</h3>
             {/* Challenge */}
             <div className="challenges">
                 <InfiniteScroll
@@ -115,7 +117,7 @@ export default function Explore(params) {
                                         onClick={() => goChallenge(item)}
                                         className="btn"
                                     >
-                                        挑战
+                                        {t("btn-challenge")}
                                     </Button>
                                     </div>
                                     <div className="right-sbt">
