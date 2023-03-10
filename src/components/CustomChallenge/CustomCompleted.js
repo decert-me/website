@@ -162,18 +162,15 @@ export default function CustomCompleted(props) {
                 answerInfo &&
                  <div className="completed-content">
                     <div className="content-info">
-                        {
-                            answerInfo.isPass ? 
-                            <div className="desc">
-                                <p className="title">恭喜你完成挑战  🎉🎉</p>
-                                <p>你已通过技术认证，灵魂绑定后，SBT将不可转移或转送于他人，它将成为你技术认证的证明，为你的履历添砖加瓦。</p>
-                            </div>
-                            :
-                            <div className="desc">
-                                <p className="title">挑战未通过，请继续加油吧。</p>
-                                <p>通过挑战后，你将获得SBT徽章并与它灵魂绑定，它将成为你技术认证的证明，为你的履历添砖加瓦。</p>
-                            </div>
-                        }
+                        <div className="desc">
+                            {
+                                answerInfo.isPass ? 
+                                    <p className="title">恭喜你完成挑战  🎉🎉</p>
+                                :
+                                    <p className="title">挑战未通过，请继续加油吧。</p>
+                            }
+                            <p>通过挑战后，你将获得SBT徽章并与它灵魂绑定，它将成为你技术认证的证明，为你的履历添砖加瓦。</p>
+                        </div>
                         <div className="score">
                             <p className="network">{detail.title}</p>
                             <h4>本次得分</h4>
