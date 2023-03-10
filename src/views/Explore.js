@@ -8,6 +8,7 @@ import "@/assets/styles/view-style/explore.scss"
 import { useRequest } from "ahooks";
 import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
+import { constans } from "@/utils/constans";
 
 export default function Explore(params) {
     
@@ -15,8 +16,9 @@ export default function Explore(params) {
     const { t } = useTranslation(["explore"]);
     const { address } = useAccount();
     const navigateTo = useNavigate();
-    let [isOver, setIsOver] = useState();
     const ref = useRef(null);
+    const { ipfsPath, defaultImg } = constans();
+    let [isOver, setIsOver] = useState();
     let [challenges, setChallenges] = useState([]);
     let [pageConfig, setPageConfig] = useState({
         page: 1, pageSize: 10, total: 0
@@ -125,8 +127,8 @@ export default function Explore(params) {
                                     <LazyLoadImage
                                         src={
                                             item.metadata.image.split("//")[1]
-                                                ? `http://ipfs.learnblockchain.cn/${item.metadata.image.split("//")[1]}`
-                                                : 'assets/images/img/default.png'
+                                                ? `${ipfsPath}/${item.metadata.image.split("//")[1]}`
+                                                : defaultImg
                                         }
                                     />
                                     {

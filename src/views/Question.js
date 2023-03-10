@@ -7,12 +7,14 @@ import { hashAvatar } from "../utils/HashAvatar";
 import { convertDifficulty, convertTime } from "../utils/convert";
 import { NickName } from "../utils/NickName";
 import { useTranslation } from "react-i18next";
+import { constans } from "@/utils/constans";
 
 
 export default function Quests(params) {
     
     const location = useLocation();
     const { t } = useTranslation(["explore","translation"]);
+    const { ipfsPath, defaultImg } = constans();
     let [detail, setDetail] = useState();
 
     const getData = (id) => {
@@ -38,8 +40,8 @@ export default function Quests(params) {
                         <img 
                             src={
                                 detail.metadata.image.split("//")[1]
-                                    ? `http://ipfs.learnblockchain.cn/${detail.metadata.image.split("//")[1]}`
-                                    : 'assets/images/img/default.png'
+                                    ? `${ipfsPath}/${detail.metadata.image.split("//")[1]}`
+                                    : defaultImg
                             }
                             alt="" />
                     </div>

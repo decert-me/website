@@ -11,11 +11,11 @@ import CustomDiscord from "./CustomDiscord";
 import CustomClaim from "./CustomClaim";
 import { useAccount, useSigner } from "wagmi";
 import { submitClaimTweet } from "@/request/api/public";
-import BadgeAddress from "@/contracts/Badge.address";
 import { chainScores } from "@/controller";
 import { GetPercent, GetScorePercent } from "@/utils/GetPercent";
 import { ClaimShareSuccess } from "../CustomMessage";
-import { Trans, useTranslation } from "react-i18next";
+import { useTranslation } from "react-i18next";
+import { constans } from "@/utils/constans";
 
 
 export default function CustomCompleted(props) {
@@ -26,6 +26,7 @@ export default function CustomCompleted(props) {
     const { address, isConnected } = useAccount();
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
+    const { openseaLink, defaultImg, ipfsPath } = constans(); 
     let [answerInfo, setAnswerInfo] = useState();
     let [step, setStep] = useState(0);
     let [isShow, setIsShow] = useState();
@@ -208,12 +209,12 @@ export default function CustomCompleted(props) {
                         <div className="nft">
                             {/* <h5>NFT证书展示</h5> */}
                                 <div className="img">
-                                    <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CHAIN_NAME}/${BadgeAddress}/${detail.tokenId}`} target="_blank">
+                                    <a href={`${openseaLink}/${detail.tokenId}`} target="_blank">
                                         <img 
                                             src={
                                                 detail.metadata.image.split("//")[1]
-                                                    ? `http://ipfs.learnblockchain.cn/${detail.metadata.image.split("//")[1]}`
-                                                    : 'assets/images/img/default.png'
+                                                    ? `${ipfsPath}/${detail.metadata.image.split("//")[1]}`
+                                                    : defaultImg
                                             }
                                             alt="" 
                                         />
