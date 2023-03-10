@@ -45,9 +45,9 @@ export default function Quests(params) {
                     <div className="content">
                         <p className="desc">{detail.description}</p>
                         <div>
-                            <h3>SBT技术认证</h3>
+                            <h3>技术认证</h3>
                             <p className="desc">
-                                完成挑战，可获得灵魂绑定（SBT）的技术认证，分享到你的社交平台，让世界知道你的能力。
+                                完成挑战，可获得SBT（灵魂绑定代币）作为技术能力的证明。分享到你的社交平台，让世界知道你的能力。
                             </p>
                         </div>
                     </div>
