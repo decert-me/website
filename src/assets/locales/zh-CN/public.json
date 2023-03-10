@@ -10,7 +10,9 @@
         "slogan2": "去中心化学习及技术认证平台",
         "btn-explore": "探索挑战"
     },
-    "submit": "提交",
+    "btn-submit": "提交",
+    "btn-add": "添加",
+    "btn-add-answer": "添加答案",
 
     "diff": "难度",
     "diff-info": {

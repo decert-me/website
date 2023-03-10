@@ -1,5 +1,6 @@
 import { Button, Form, Input, InputNumber, message, Modal } from "antd";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { filterType } from "../../utils/filter";
 import CustomAddAnswer from "../CustomItem/CustomAddAnswer";
 import CustomEditor from "../CustomItem/CustomEditor";
@@ -8,7 +9,7 @@ import CustomEditor from "../CustomItem/CustomEditor";
 export default function ModalAddQuestion(props) {
     
     const { isModalOpen, handleCancel, questionChange } = props;
-
+    const { t } = useTranslation(['publish', 'translation']);
     let [questionTitle, setQuestionTitle] = useState('');
     let [score, setScore] = useState();
     let [questInfo,setQuestInfo] = useState({});
@@ -26,14 +27,14 @@ export default function ModalAddQuestion(props) {
 
     const onFinish = (values) => {
         if (!questionTitle) {
-            message.warning("Please input title")
+            message.warning(t("inner.rule.title"))
             return
         }
 
         let optionArr = [];
         const { type, ans } = filterType(values);
         if (ans.length === 0) {
-            message.warning("至少选择一个正确答案")
+            message.warning(t("message.error.answer"))
             return
         }
         values.options.map((e)=>{
@@ -64,7 +65,7 @@ export default function ModalAddQuestion(props) {
             maskClosable={false}
             destroyOnClose={true}
         >
-            <h5>*题目</h5>
+            <h5>*{t("inner.ques")}</h5>
             <CustomEditor changeTitle={changeTitle} />
 
             <Form
@@ -74,12 +75,12 @@ export default function ModalAddQuestion(props) {
                 <CustomAddAnswer />
 
                 <Form.Item
-                    label="题目分数"
+                    label={t("inner.ques-score")}
                     name="score"
                     rules={[
                         {
                           required: true,
-                          message: "Please input score",
+                          message: t("inner.rule.ques-score"),
                         }
                     ]}
                 >
@@ -92,7 +93,7 @@ export default function ModalAddQuestion(props) {
                     />
                 </Form.Item>
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">添加</Button>
+                    <Button type="primary" htmlType="submit">{t("translation:btn-add")}</Button>
                 </Form.Item>
             </Form>
         </Modal>

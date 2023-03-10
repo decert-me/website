@@ -371,7 +371,7 @@ export default function Publish(params) {
                         htmlType="submit" 
                         loading={ writeLoading || waitLoading }
                     >
-                        {t("translation:submit")}
+                        {t("translation:btn-submit")}
                     </Button>
                 </Form.Item>
             </Form>
