@@ -33,11 +33,11 @@ export default function AppHeader(params) {
     ];
 
     const items = [
-        // {
-        //     label: (<Link to={{pathname: '/myInfo'}}> Profile </Link>),
-        //     key: '1',
-        //     icon: '',
-        // },
+        {
+            label: (<Link to={{pathname: `/user/${address}`}}> Profile </Link>),
+            key: '1',
+            icon: '',
+        },
         {
             label: (<p onClick={() => disconnect()}> Disconnect </p>),
             key: '2',
