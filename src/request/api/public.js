@@ -19,6 +19,51 @@ export const authLoginSign = (data) => {
     })
 }
 
+// 获取个人资料
+export const getUser = (data) => {
+    return serviceAxios({
+        url: `/users/${data.address}`,
+        method: "get",
+        data
+    })
+}
+
+// 更新资料
+export const putUser = (data) => {
+    return serviceAxios({
+        url: `/users/${data.address}`,
+        method: "put",
+        data
+    })
+}
+
+// 更新头像
+export const uploadAvatar = (data) => {
+    return serviceAxios({
+        url: `/users/avatar`,
+        method: "post",
+        data
+    })
+}
+
+// 获取完成的挑战
+export const getChallengeComplete = (data) => {
+    return serviceAxios({
+        url: `/users/challenge?address=${data.address}&type=${data.type}`,
+        method: "get",
+        data
+    })
+}
+
+// 获取发布的挑战
+export const getChallengeCreate = (data) => {
+    return serviceAxios({
+        url: `/users/quests?creator=${data.address}`,
+        method: "get",
+        data
+    })
+}
+
 // 获取 challenge
 export const getQuests = (data) => {
     return serviceAxios({

@@ -34,7 +34,7 @@ export default function AppHeader(params) {
 
     const items = [
         {
-            label: (<Link to={{pathname: `/user/${address}`}}> Profile </Link>),
+            label: (<p onClick={() => navigateTo(`/user/${address}`)}> Profile </p>),
             key: '1',
             icon: '',
         },

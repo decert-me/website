@@ -1,0 +1,101 @@
+.User{
+    width: 1015px;
+    margin: 0 auto;
+    padding-top: 135px;
+}
+.User-info{
+    height: 130px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    .btn{
+        width: 160px;
+        height: 42px;
+        border-radius: 21px;
+        border: none;
+        box-shadow: none;
+        background-color: #1F1E2E;
+        color: white;
+        font-size: 12px;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+    .img{
+        width: 130px;
+        height: 130px;
+        margin-right: 28px;
+        background-color: yellowgreen;
+        border-radius: 50%;
+        overflow: hidden;
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .info{
+        .name{
+            font-size: 30px;
+            font-weight: 500;
+            line-height: 25px;
+        }
+        .address{
+            margin-top: 10px;
+            color: #585858;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 25px;
+            cursor: pointer;
+        }
+        .social{
+            margin-top: 10px;
+            .icon{
+                width: 16px;
+                height: 12px;
+                background-color: yellowgreen;
+            }
+        }
+        .desc{
+            margin-top: 10px;
+            color: #9E9E9E;
+            font-size: 12px;
+            line-height: 25px;
+        }
+    }
+}
+.User-list{
+    margin-top: 70px;
+    ul{
+        display: flex;
+        li{
+            cursor: pointer;
+            user-select: none;
+        }
+    }
+    .challenge{
+        margin-bottom: 25px;
+        li{
+            margin-right: 37px;
+            color: #A4A4A4;
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 25px;
+        }
+        .active{
+            color: #000;
+            cursor: auto;
+        }
+    }
+    .status{
+        li{
+            margin-right: 40px;
+            color: #9E9E9E;
+            font-size: 24px;
+            font-weight: 350;
+            line-height: 35px;
+        }
+        .active{
+            color: #333333;
+        }
+    }
+}
