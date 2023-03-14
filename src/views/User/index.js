@@ -11,6 +11,7 @@ import { getChallengeComplete, getUser } from "@/request/api/public";
 import { NickName } from "@/utils/NickName";
 import { hashAvatar } from "@/utils/HashAvatar";
 import ChallengeItem from "@/components/User/ChallengeItem";
+import Pagination from "@/components/User/Pagination";
 
 
 export default function User(props) {
@@ -195,6 +196,7 @@ export default function User(props) {
                         />
                     )
                 }
+                <Pagination pageConfig={pageConfig} />
             </div>
         </div>
     )
