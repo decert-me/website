@@ -1,6 +1,7 @@
 .User{
-    width: 1015px;
+    width: 1020px;
     margin: 0 auto;
+    margin-bottom: 100px;
     padding-top: 135px;
 }
 .User-info{
@@ -56,10 +57,20 @@
             }
         }
         .desc{
+            max-width: 600px;
             margin-top: 10px;
             color: #9E9E9E;
             font-size: 12px;
             line-height: 25px;
+            //超出换行省略号
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* 作为弹性伸缩盒子模型显示 */
+            display: -webkit-box;
+            /* 设置伸缩盒子的子元素排列方式--从上到下垂直排列 */
+            -webkit-box-orient: vertical;
+            /* 显示的行 */
+            -webkit-line-clamp: 2;
         }
     }
 }
@@ -96,6 +107,13 @@
         }
         .active{
             color: #333333;
+            cursor: auto;
         }
     }
+}
+.User-content{
+    padding-block: 15px 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
 }

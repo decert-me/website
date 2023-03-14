@@ -49,7 +49,7 @@ export const uploadAvatar = (data) => {
 // 获取完成的挑战
 export const getChallengeComplete = (data) => {
     return serviceAxios({
-        url: `/users/challenge?address=${data.address}&type=${data.type}`,
+        url: `/users/challenge/${data.address}?type=${data.type}&page=${data.page}&pageSize=${data.pageSize}`,
         method: "get",
         data
     })

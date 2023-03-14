@@ -7,9 +7,10 @@ import {
 } from '@ant-design/icons';
 import { Button, message, Skeleton } from "antd";
 import "@/assets/styles/view-style/user.scss"
-import { getUser } from "@/request/api/public";
+import { getChallengeComplete, getUser } from "@/request/api/public";
 import { NickName } from "@/utils/NickName";
 import { hashAvatar } from "@/utils/HashAvatar";
+import ChallengeItem from "@/components/User/ChallengeItem";
 
 
 export default function User(props) {
@@ -21,6 +22,23 @@ export default function User(props) {
     let [info, setInfo] = useState();
     let [list, setList] = useState([]);
 
+    let [pageConfig, setPageConfig] = useState({
+        page: 1, pageSize: 10, total: null
+    });
+    let [checkType, setCheckType] = useState(0);
+    let [checkStatus, setCheckStatus] = useState(0);
+
+    const type = [
+        { key: 'complete', label: "完成的挑战", children: [
+            { key: 0, label: "全部" },
+            { key: 1, label: "可领取" },
+            { key: 2, label: "已领取" }
+        ]},
+        { key: 'publish', label: "发布的挑战", children: [
+            { key: 0, label: "全部"}
+        ]}
+    ]
+
     const copy = (text) => {
         const tempInput = document.createElement('input');
         tempInput.value = text;
@@ -30,6 +48,40 @@ export default function User(props) {
         document.body.removeChild(tempInput);
 
         message.success("复制成功")
+    }
+
+    const getList = () => {
+        if (checkType === 0) {
+            // 'complete'
+            getChallengeComplete({
+                ...pageConfig,
+                type: checkStatus,
+                address: account
+            })
+            .then(res => {
+                console.log(res);
+                if (res?.data) {
+                    list = res.data.list ? res.data.list : [];
+                    setList([...list]);
+                    pageConfig.total = res.data.total;
+                    setPageConfig({...pageConfig});
+                }
+            })
+        }else{
+            // 'publish'
+        }
+    }
+
+    const toggleType = (key) => {
+        checkType = key;
+        setCheckType(checkType);
+        checkStatus = 0;
+        setCheckStatus(checkStatus);
+    }
+
+    const toggleStatus = (key) => {
+        checkStatus = key;
+        setCheckStatus(checkStatus);
     }
 
     const getInfo = async() => {
@@ -57,6 +109,10 @@ export default function User(props) {
     useEffect(() => {
         init();
     }, [location]);
+
+    useEffect(() => {
+        getList();
+    },[checkStatus, checkType])
 
     return (
         <div className="User">
@@ -104,17 +160,41 @@ export default function User(props) {
             </div>
             <div className="User-list">
                 <ul className="challenge">
-                    <li className="active">完成的挑战</li>
-                    <li>发布的挑战</li>
+                    {
+                        type.map((e,i) => 
+                            <li 
+                                key={e.key} 
+                                className={checkType === i ? "active" : ""}
+                                onClick={() => toggleType(i)}
+                            >
+                                {e.label}
+                            </li>
+                        )
+                    }
                 </ul>
                 <ul className="status">
-                    <li className="active">全部</li>
-                    <li>可领取</li>
-                    <li>已领取</li>
+                    {
+                        type[checkType].children.map((e,i) => 
+                            <li 
+                                key={e.key} 
+                                className={checkStatus === i ? "active" : ""}
+                                onClick={() => toggleStatus(e.key)}
+                            >
+                                {e.label}
+                            </li>
+                        )
+                    }
                 </ul>
             </div>
             <div className="User-content">
-                
+                {
+                    list.map(e => 
+                        <ChallengeItem 
+                            key={e.id} 
+                            info={e}
+                        />
+                    )
+                }
             </div>
         </div>
     )
