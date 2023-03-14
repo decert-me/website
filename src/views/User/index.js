@@ -7,7 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Button, message, Skeleton } from "antd";
 import "@/assets/styles/view-style/user.scss"
-import { getChallengeComplete, getUser } from "@/request/api/public";
+import { getChallengeComplete, getChallengeCreate, getUser } from "@/request/api/public";
 import { NickName } from "@/utils/NickName";
 import { hashAvatar } from "@/utils/HashAvatar";
 import ChallengeItem from "@/components/User/ChallengeItem";
@@ -29,7 +29,7 @@ export default function User(props) {
     let [checkType, setCheckType] = useState(0);
     let [checkStatus, setCheckStatus] = useState(0);
 
-    const type = [
+    let [type, setType] = useState([
         { key: 'complete', label: "完成的挑战", children: [
             { key: 0, label: "全部" },
             { key: 1, label: "可领取" },
@@ -38,7 +38,7 @@ export default function User(props) {
         { key: 'publish', label: "发布的挑战", children: [
             { key: 0, label: "全部"}
         ]}
-    ]
+    ])
 
     const copy = (text) => {
         const tempInput = document.createElement('input');
@@ -60,7 +60,6 @@ export default function User(props) {
                 address: account
             })
             .then(res => {
-                console.log(res);
                 if (res?.data) {
                     list = res.data.list ? res.data.list : [];
                     setList([...list]);
@@ -70,6 +69,18 @@ export default function User(props) {
             })
         }else{
             // 'publish'
+            getChallengeCreate({
+                ...pageConfig,
+                address: account
+            })
+            .then(res => {
+                if (res?.data) {
+                    list = res.data.list ? res.data.list : [];
+                    setList([...list]);
+                    pageConfig.total = res.data.total;
+                    setPageConfig({...pageConfig});
+                }
+            })
         }
     }
 
@@ -78,11 +89,19 @@ export default function User(props) {
         setCheckType(checkType);
         checkStatus = 0;
         setCheckStatus(checkStatus);
+        pageConfig.page = 1;
+        setPageConfig({...pageConfig});
     }
 
     const toggleStatus = (key) => {
         checkStatus = key;
         setCheckStatus(checkStatus);
+    }
+
+    const togglePage = (page) => {
+        pageConfig.page = page;
+        setPageConfig({...pageConfig});
+        getList();
     }
 
     const getInfo = async() => {
@@ -105,6 +124,12 @@ export default function User(props) {
         setAccount(account);
         setIsMe(address === account);
         getInfo();
+        if (account !== address) {
+            type[0].children = [
+                { key: 0, label: "全部" },
+            ];
+            setType([...type]);
+        }
     }
 
     useEffect(() => {
@@ -196,7 +221,7 @@ export default function User(props) {
                         />
                     )
                 }
-                <Pagination pageConfig={pageConfig} />
+                <Pagination pageConfig={pageConfig} togglePage={togglePage} />
             </div>
         </div>
     )

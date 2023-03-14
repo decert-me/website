@@ -1,23 +1,27 @@
 import { useEffect, useState } from "react";
+import "@/assets/styles/component-style/index"
 
 
 export default function Pagination(props) {
     
-    const { pageConfig } = props;
+    const { pageConfig, togglePage } = props;
     let [pages, setPages] = useState();
 
     useEffect(() => {
         pages = Math.ceil(pageConfig.total / pageConfig.pageSize);
         setPages(pages);
-        console.log(pages);
     },[pageConfig])
 
     return (
         <div className="Pagination">
             {
-                pages &&
-                Array.from(pages).map((e,i) => 
-                    <div>{i}</div>
+                pages > 0 &&
+                Array.from({length: pages}).map((e,i) => 
+                    <div 
+                        className={`box ${pageConfig.page === i+1 ? "active" : ""}`} 
+                        key={i}
+                        onClick={() => {togglePage(i+1)}}
+                    >{i+1}</div>
                 )
             }
         </div>

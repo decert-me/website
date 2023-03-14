@@ -41,7 +41,7 @@ export default function ChallengeItem(props) {
                         <div className="icon img">
                             <img src={require("@/assets/images/icon/yes.png")} alt="" />
                         </div>
-                        {formatTimeToStrYMD(info.complete_ts)}
+                        {formatTimeToStrYMD(info.complete_ts ? info.complete_ts : info.addTs)}
                     </div>
                 </div>
             </div>

@@ -29,7 +29,9 @@ Date.prototype.Format = function(fmt) {
   };
   
   export function formatTimeToStrYMD(times, pattern) {
-    times = times * 1000
+    if (times.toString().length === 10) {
+        times = times * 1000
+    }
     var d = new Date(times).Format("yyyy-MM-dd");
     if (pattern) {
       d = new Date(times).Format(pattern);

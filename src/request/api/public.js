@@ -58,7 +58,7 @@ export const getChallengeComplete = (data) => {
 // 获取发布的挑战
 export const getChallengeCreate = (data) => {
     return serviceAxios({
-        url: `/users/quests?creator=${data.address}`,
+        url: `/users/quests/${data.address}?page=${data.page}&pageSize=${data.pageSize}`,
         method: "get",
         data
     })
