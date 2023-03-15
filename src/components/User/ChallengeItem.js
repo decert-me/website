@@ -1,13 +1,14 @@
 import { formatTimeToStrYMD } from "@/utils/date";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "@/assets/styles/component-style/index"
-import BadgeAddress from "@/contracts/Badge.address";
 import { useNavigate } from "react-router-dom";
+import { constans } from "@/utils/constans";
 
 export default function ChallengeItem(props) {
     
     const { info, isMe } = props;
     const navigateTo = useNavigate();
+    const { ipfsPath, defaultImg, openseaLink } = constans();
 
     const toQuest = () => {
         if (isMe && info.complete_ts) {
@@ -20,7 +21,7 @@ export default function ChallengeItem(props) {
 
     const toOpensea = (event) => {
         event.stopPropagation();
-        window.open(`https://testnets.opensea.io/assets/${process.env.REACT_APP_CHAIN_NAME}/${BadgeAddress}/${info.tokenId}`,'_blank')
+        window.open(`${openseaLink}/${info.tokenId}`,'_blank')
     }
 
     return (
@@ -35,8 +36,8 @@ export default function ChallengeItem(props) {
                 <LazyLoadImage
                     src={
                         info.metadata.image.split("//")[1]
-                            ? `http://ipfs.learnblockchain.cn/${info.metadata.image.split("//")[1]}`
-                            : 'assets/images/img/default.png'
+                            ? `${ipfsPath}/${info.metadata.image.split("//")[1]}`
+                            : defaultImg
                     }
                 />
             </div>
