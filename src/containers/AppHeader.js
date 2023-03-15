@@ -24,7 +24,7 @@ export default function AppHeader(params) {
 
     const items = [
         {
-            label: (<p onClick={() => navigateTo(`/user/${address}`)}> Profile </p>),
+            label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("translation:header.profile")} </p>),
             key: '1',
             icon: '',
         },
@@ -75,7 +75,6 @@ export default function AppHeader(params) {
                     <Button 
                         onClick={() => {
                             let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
-                            console.log(i18n.language);
                             i18n.changeLanguage(lang);
                             localStorage.setItem("decert.lang", lang)
                         }}

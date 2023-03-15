@@ -14,7 +14,7 @@ export default function ChallengeItem(props) {
             // 个人查看完成的挑战
             navigateTo(`/claim/${info.tokenId}`)
         }else{
-            navigateTo(`/quest/${info.tokenId}`)
+            navigateTo(`/quests/${info.tokenId}`)
         }
     }
 

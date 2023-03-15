@@ -14,11 +14,13 @@ import ChallengeItem from "@/components/User/ChallengeItem";
 import Pagination from "@/components/User/Pagination";
 import { Copy } from "@/utils/Copy";
 import CustomSocial from "@/components/CustomItem/CustomSocial";
+import { useTranslation } from "react-i18next";
 
 
 export default function User(props) {
     
     const location = useLocation();
+    const { t } = useTranslation(["translation","profile"]);
     const { address } = useAccount();
     let [account, setAccount] = useState();
     let [isMe, setIsMe] = useState();
@@ -32,16 +34,16 @@ export default function User(props) {
     let [checkStatus, setCheckStatus] = useState(0);
     let [socials, setSocials] = useState();
     
-    let [type, setType] = useState([
-        { key: 'complete', label: "完成的挑战", children: [
-            { key: 0, label: "全部" },
-            { key: 1, label: "可领取" },
-            { key: 2, label: "已领取" }
+    const type = [
+        { key: 'complete', label: t("profile:challenge-completed"), children: [
+            { key: 0, label: t("profile:type0") },
+            { key: 1, label: t("profile:type1") },
+            { key: 2, label: t("profile:type2") }
         ]},
-        { key: 'publish', label: "发布的挑战", children: [
-            { key: 0, label: "全部"}
+        { key: 'publish', label: t("profile:challenge-publish"), children: [
+            { key: 0, label: t("profile:type0")}
         ]}
-    ])
+    ]
 
     const getList = () => {
         if (checkType === 0) {
@@ -106,7 +108,7 @@ export default function User(props) {
         info = {
             nickname: user.data.nickname ? user.data.nickname : NickName(account),
             address: account,
-            description: user.data.description ? user.data.description : "暂无介绍",
+            description: user.data.description,
             avatar: user.data.avatar ? process.env.REACT_APP_DEVELOP_BASE_URL + user.data.avatar : hashAvatar(account)
         }
         setTimeout(() => {
@@ -119,12 +121,12 @@ export default function User(props) {
         setAccount(account);
         setIsMe(address === account);
         getInfo();
-        if (account !== address) {
-            type[0].children = [
-                { key: 0, label: "全部" },
-            ];
-            setType([...type]);
-        }
+        // if (account !== address) {
+        //     type[0].children = [
+        //         { key: 0, label: t("profile:type0") },
+        //     ];
+        //     setType([...type]);
+        // }
     }
 
     useEffect(() => {
@@ -156,7 +158,7 @@ export default function User(props) {
                             <CustomSocial socials={socials} />
                         </div>
                         <div className="desc">
-                            {info.description}
+                            {info.description ? info.description : t("profile:desc-none")}
                         </div>
                     </div>
                     {
@@ -164,7 +166,7 @@ export default function User(props) {
                         <Link to={`/user/edit/${address}`}>
                             <Button className="btn">
                                 <EditOutlined style={{fontSize: "18px"}} />
-                                编辑资料
+                                {t("translation:btn-edit-profile")}
                             </Button>
                         </Link>
                     }
@@ -197,13 +199,21 @@ export default function User(props) {
                 <ul className="status">
                     {
                         type[checkType].children.map((e,i) => 
-                            <li 
-                                key={e.key} 
-                                className={checkStatus === i ? "active" : ""}
-                                onClick={() => toggleStatus(e.key)}
-                            >
-                                {e.label}
-                            </li>
+                            {
+                                if (account !== address && checkType === 0 && i > 0) {
+                                    return
+                                }else{
+                                    return (
+                                        <li 
+                                            key={e.key} 
+                                            className={checkStatus === i ? "active" : ""}
+                                            onClick={() => toggleStatus(e.key)}
+                                        >
+                                            {e.label}
+                                        </li>
+                                    )
+                                }
+                            }
                         )
                     }
                 </ul>
@@ -217,6 +227,10 @@ export default function User(props) {
                             isMe={isMe}
                         />
                     )
+                }
+                {
+                    list.length === 0 &&
+                    <p className="nothing">{t("profile:challenge-none")}</p>
                 }
                 <Pagination pageConfig={pageConfig} togglePage={togglePage} />
             </div>
