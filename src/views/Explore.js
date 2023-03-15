@@ -1,22 +1,18 @@
 import { useEffect, useRef, useState } from "react"
 import { Col, Row, Button, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
-import InfiniteScroll from 'react-infinite-scroll-component';
 import { getQuests } from "../request/api/public"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import "@/assets/styles/view-style/explore.scss"
-import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
 import { constans } from "@/utils/constans";
 
 export default function Explore(params) {
     
-
     const { t } = useTranslation(["explore"]);
     const { address } = useAccount();
     const navigateTo = useNavigate();
-    const ref = useRef(null);
     const { ipfsPath, defaultImg } = constans();
     
     let [page, setPage] = useState(0);
