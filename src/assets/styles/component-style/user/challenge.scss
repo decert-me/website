@@ -5,6 +5,19 @@
     border: 1px solid #CECECE;
     display: flex;
     cursor: pointer;
+    position: relative;
+    .tags{
+        padding-inline: 27px;
+        padding-block: 5px 8px;
+        position: absolute;
+        right: 0;
+        top: 0;
+        color: #FFFFFF;
+        font-size: 12px;
+        line-height: 17px;
+        background-color: #8851E2;
+        border-bottom-left-radius: 15px;
+    }
     .img{
         width: 107px;
         height: 107px;

@@ -218,6 +218,7 @@ export default function User(props) {
                         <ChallengeItem 
                             key={e.id} 
                             info={e}
+                            isMe={isMe}
                         />
                     )
                 }

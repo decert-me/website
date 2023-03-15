@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 
 export default function ChallengeItem(props) {
     
-    const { info } = props;
+    const { info, isMe } = props;
     const navigateTo = useNavigate();
 
     const toQuest = () => {
@@ -20,6 +20,12 @@ export default function ChallengeItem(props) {
 
     return (
         <div className="ChallengeItem" onClick={toQuest}>
+            {
+                info.complete_ts && !info.claimed && isMe &&
+                <div className="tags">
+                    可领取
+                </div>
+            }
             <div className="img">
                 <LazyLoadImage
                     src={
