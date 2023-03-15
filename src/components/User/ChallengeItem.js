@@ -10,7 +10,12 @@ export default function ChallengeItem(props) {
     const navigateTo = useNavigate();
 
     const toQuest = () => {
-        navigateTo(`/quest/${info.tokenId}`)
+        if (isMe && info.complete_ts) {
+            // 个人查看完成的挑战
+            navigateTo(`/claim/${info.tokenId}`)
+        }else{
+            navigateTo(`/quest/${info.tokenId}`)
+        }
     }
 
     const toOpensea = (event) => {
