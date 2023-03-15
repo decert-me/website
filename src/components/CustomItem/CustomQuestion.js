@@ -14,7 +14,7 @@ export default function CustomQuestion(props) {
                     <div className="question-title">
                     <Viewer value={item.title} />
                     </div>
-                    <p>Question Score: {item.score}</p>
+                    <p>题目分数: {item.score}</p>
                 </div>
                 <div className="close" onClick={() => deleteQuestion(index - 1)} >
                     <CloseOutlined />

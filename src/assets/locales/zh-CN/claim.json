@@ -1,0 +1,47 @@
+{
+    "verify": "核实",
+    "pass": "恭喜你完成挑战!",
+    "unpass": "挑战未通过，请继续加油吧。",
+    "desc": "通过挑战领取的 SBT（灵魂绑定代币）徽章，将在链上永久保存，且不可转移或出售。这是你技术能力的证明，为你的履历增添价值。",
+    "score": {
+        "now": "本次得分",
+        "passScore": "达到 {{score}} 即可挑战通关"
+    },
+    "step": {
+        "title": "领取 SBT 徽章",
+        "pass": "挑战成功",
+        "unpass": "挑战失败"
+
+    },
+    "message": {
+        "link": "请填写正确的链接"
+    },
+    "tip": {
+        "step": "第 {{num}} 步：",
+        "step1": "导航到你要想得到其 URL 的推文。",
+        "step2": {
+            "p1": "点击推文中的 ",
+            "p2": " 图标。"
+        },
+        "step3": "在弹出式菜单中，选择复制推文链接。URL 现在应该已复制到剪贴板。"
+    },
+    "wallet": {
+        "connect": "连接钱包",
+        "connected": "已连接钱包",
+        "unconnect": "未连接钱包"
+    },
+    "discord": {
+        "bind": "打开 Discord",
+        "unbind": "未绑定 Discord",
+        "binded": "已绑定 Discord"
+    },
+    "claim": {
+        "claimed": "已领取SBT",
+        "btn": "立即领取",
+        "share": {
+            "title": "我在 {{what}} 上完成了一个挑战并获得了链上能力认证的徽章。",
+            "btn": "分享领取",
+            "badge": "免手续费"
+        }
+    }
+}

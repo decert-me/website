@@ -1,5 +1,6 @@
 import { message } from "antd";
 import axios from "axios";
+import { ClaimShareError } from "../components/CustomMessage/index.js";
 import serverConfig from "./config.js";
 
 // Client-side-only code
@@ -14,6 +15,7 @@ serviceAxios.interceptors.request.use(
     // 如果开启 token 认证
     if (serverConfig.useTokenAuthorization) {
       config.headers["x-token"] = localStorage.getItem(`decert.token`); // 请求头携带 token
+      config.headers["x-lang"] = localStorage.getItem(`decert.lang`) ? localStorage.getItem(`decert.lang`) : navigator.language; // 请求头携带 token
     }
     return config;
   },
@@ -27,6 +29,10 @@ serviceAxios.interceptors.response.use(
     let data = res.data;
     if (data.status !== 0) {
       if (res.config.url === '/users/discord' && res.config.data.indexOf('isClick') === -1) {
+        return null
+      }
+      if (res.config.url === '/badge/submitClaimTweet' && data.message === '推文不匹配') {
+        ClaimShareError()
         return null
       }
       message.error(data.message);

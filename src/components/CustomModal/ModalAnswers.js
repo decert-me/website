@@ -3,11 +3,13 @@ import {
 } from '@ant-design/icons';
 import { Button, Modal } from "antd";
 import "@/assets/styles/component-style"
+import { useTranslation } from 'react-i18next';
 
 
 export default function ModalAnswers(props) {
     
     const { isModalOpen, handleCancel, submit, answers, changePage } = props;
+    const { t } = useTranslation(["explore", "translation"]);
 
     const checkPage = (i) => {
         handleCancel()
@@ -31,10 +33,10 @@ export default function ModalAnswers(props) {
             destroyOnClose={true}
             closeIcon={<CloseSquareOutlined style={{fontSize: "33px", color: "#000"}} />}
         >
-            <h5>答案列表</h5>
+            <h5>{t("modal.challenge.title")}</h5>
             <ul className="tips">
-                <li><div className="point success" />完成</li>
-                <li><div className="point normal" />未完成</li>
+                <li><div className="point success" />{t("modal.challenge.complete")}</li>
+                <li><div className="point normal" />{t("modal.challenge.uncomplete")}</li>
             </ul>
             
             <ul className="answers">
@@ -49,7 +51,7 @@ export default function ModalAnswers(props) {
                 }
             </ul>
 
-            <Button className='submit' onClick={checkSubmit}>确认并提交</Button>
+            <Button className='submit' onClick={checkSubmit}>{t("translation:btn-sumbit-confirm")}</Button>
             
         </Modal>
     )

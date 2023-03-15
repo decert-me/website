@@ -7,11 +7,14 @@ import { claim } from "../../controller";
 import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
 import ModalLoading from "../CustomModal/ModalLoading";
+import { GetScorePercent } from "@/utils/GetPercent";
+import { useTranslation } from "react-i18next";
 
 
 export default function CustomClaim(props) {
     
-    const { step, setStep, cliamObj, img, showInner, isClaim } = props;
+    const { step, cliamObj, img, showInner, isClaim } = props;
+    const { t } = useTranslation(["claim"]);
     const { chain } = useNetwork();
     const { data: signer } = useSigner();
     const { switchNetwork } = useSwitchNetwork({
@@ -41,23 +44,25 @@ export default function CustomClaim(props) {
     })
 
     const cliam = async() => {
-
+        let obj = {...cliamObj};
+        obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);
             return
         }
 
         setWriteLoading(true);
-        const signature = await getClaimHash(cliamObj);
-        if (signature.status === 0) {
+        const signature = await getClaimHash(obj);
+        if (signature) {
             claimHash = await claim(
-                cliamObj.tokenId, 
-                cliamObj.score, 
+                obj.tokenId, 
+                obj.score, 
                 signature.data, 
                 signer
             )
             setClaimHash(claimHash);
             setWriteLoading(false);
+
             if (claimHash) {
                 submitHash({hash: claimHash})
                 // 弹出等待框
@@ -79,7 +84,7 @@ export default function CustomClaim(props) {
     }
 
     const shareTwitter = () => {
-        let title = "我在 @DecertMe 上完成了一个挑战并获得了链上能力认证的徽章。";
+        let title = t("claim.share.title", {what: "@DecertMe"});
         let url = `https://decert.me/quests/${cliamObj.tokenId}`;
         window.open(
         `https://twitter.com/share?text=${title}%0A&hashtags=${"DecertMe"}&url=${url}%0A`,
@@ -94,29 +99,31 @@ export default function CustomClaim(props) {
 
     return (
         <div className={`CustomBox ${step === 3 ? "checked-step" : ""} CustomCliam step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}>
+            <ModalLoading 
+                isModalOpen={isModalOpen}
+                handleCancel ={handleCancel}
+                isLoading={isLoading}
+                img={img}
+                tokenId={cliamObj.tokenId}
+                shareTwitter={shareTwitter}
+            />
             {
                 isClaim || cacheIsClaim ? 
-                "已领取SBT"
+                t("claim.claimed")
                 :
                 <>
-                    <ModalLoading 
-                        isModalOpen={isModalOpen}
-                        handleCancel ={handleCancel}
-                        isLoading={isLoading}
-                        img={img}
-                        tokenId={cliamObj.tokenId}
-                        shareTwitter={shareTwitter}
-                    />
-                        <Badge.Ribbon text="免手续费" >
+                    <Badge.Ribbon text={t("claim.share.badge")} >
+                        <div className="box">
+                            <Button disabled={step !== 3} className="share claim" onClick={() => share()}>
+                                <TwitterOutlined />
+                                {t("claim.share.btn")}
+                            </Button>
+                        </div>
+                    </Badge.Ribbon>
                     <div className="box">
-                        <Button disabled={step !== 3} className="share claim" onClick={() => share()}>
-                            <TwitterOutlined />
-                            分享领取
+                        <Button className="claim" disabled={step !== 3} loading={writeLoading} onClick={() => cliam()}>
+                            {t("claim.share.btn")}
                         </Button>
-                    </div>
-                        </Badge.Ribbon>
-                    <div className="box">
-                        <Button className="claim" disabled={step !== 3} loading={writeLoading} onClick={() => cliam()}>立即领取</Button>
                     </div>
                 </>
             }

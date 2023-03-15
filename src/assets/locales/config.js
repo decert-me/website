@@ -1,15 +1,35 @@
 import i18n from 'i18next';
 import { initReactI18next } from 'react-i18next';
 
-import translation_enUS from './en-US.json';
-import translation_zhCN from './zh-CN.json';
+import publicUS from './en-US/public.json';
+import publicCN from './zh-CN/public.json';
+
+import publishUS from './en-US/publish.json';
+import publishCN from './zh-CN/publish.json';
+
+import exploreUS from './en-US/explore.json';
+import exploreCN from './zh-CN/explore.json';
+
+import claimUS from './en-US/claim.json';
+import claimCN from './zh-CN/claim.json';
+
+import profileUS from './en-US/profile.json';
+import profileCN from './zh-CN/profile.json';
 
 const resources = {
-    zh_CN: {
-        translation: translation_zhCN,
+    "zh-CN": {
+        translation: publicCN,
+        publish: publishCN,
+        explore: exploreCN,
+        claim: claimCN,
+        profile: profileCN
     },
-    en_US: {
-        translation: translation_enUS,
+    "en-US": {
+        translation: publicUS,
+        publish: publishUS,
+        explore: exploreUS,
+        claim: claimUS,
+        profile: profileUS
     }
 };
 

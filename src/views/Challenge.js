@@ -11,9 +11,11 @@ import CustomInput from '../components/CustomChallenge/CustomInput';
 import ModalAnswers from '../components/CustomModal/ModalAnswers';
 import CustomCheckbox from '../components/CustomChallenge/CustomCheckbox';
 import CustomRadio from '../components/CustomChallenge/CustomRadio';
+import { useTranslation } from 'react-i18next';
 
 export default function Challenge(params) {
 
+    const { t } = useTranslation(["explore"]);
     const location = useLocation();
     const navigateTo = useNavigate();
     let [detail, setDetail] = useState();
@@ -119,7 +121,7 @@ export default function Challenge(params) {
                         </div>
                     </Link>
                     <div className="content">
-                        <h4>测验 #{page}</h4>
+                        <h4>{t("challenge.title")} #{page}</h4>
                         {
                             // switchType(detail.metadata.properties.questions[index])
                             detail.metadata.properties.questions.map((e,i) => {

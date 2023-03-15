@@ -1,5 +1,6 @@
 
 export function NickName(address) {
-
-    return address.substring(0,5) + "..." + address.substring(38,42);
+    if (address) {
+        return address.substring(0,5) + "..." + address.substring(38,42);
+    }
 }

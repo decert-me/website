@@ -10,11 +10,14 @@ import 'highlight.js/styles/default.css'
 import importHtml from '@bytemd/plugin-import-html';
 import zh_Hans from 'bytemd/locales/zh_Hans.json'
 import { ipfsImg } from "@/request/api/public"
+import i18n from 'i18next';
+import { constans } from "@/utils/constans"
 
 
 export default function CustomEditor(props) {
     
     const { changeTitle } = props;
+    const { ipfsPath } = constans();
     const plugins = useMemo(() => [pluginGfm(),frontmatter(),highlight(),breaks(),importHtml()], [])
     let [editValue, setEditValue] = useState('')
 
@@ -28,7 +31,7 @@ export default function CustomEditor(props) {
         <Editor
             value={editValue}
             plugins={plugins}
-            locale={zh_Hans}
+            locale={i18n.language !== "zh-CN" ? null : zh_Hans}
             uploadImages={async (files) => {
                 let hash
                 const formData = new FormData()
@@ -38,7 +41,7 @@ export default function CustomEditor(props) {
                     hash = res.hash
                 })
                 return [{
-                    url: `http://ipfs.learnblockchain.cn/${hash}`
+                    url: `${ipfsPath}/${hash}`
                 }]
             }}
             onChange={(e) => {

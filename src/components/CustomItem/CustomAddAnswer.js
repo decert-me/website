@@ -1,8 +1,10 @@
 import React from "react";
 import { MinusCircleOutlined } from "@ant-design/icons";
 import { Button, Form, Input, Select } from "antd";
+import { useTranslation } from "react-i18next";
 
 export default function CustomAddAnswer(params) {
+  const { t } = useTranslation(['publish', 'translation']);
 
     return (
         <Form.List name={"options"} initialValue={[{}]}>
@@ -22,22 +24,16 @@ export default function CustomAddAnswer(params) {
                     rules={[
                       {
                         required: true,
-                        message: "Please input your answer",
+                        message: t("inner.rule.answer"),
                       },
                     ]}
                   >
-                    <Input style={{ width: 400, marginRight: "5px" }} placeholder="答案" />
+                    <Input style={{ width: 400, marginRight: "5px" }} placeholder={t("inner.placeholder.answer")} />
                   </Form.Item>
                   {fields.length === 1 ? null : (
                     <Form.Item
                       {...restField}
                       name={[name, "options"]}
-                      rules={[
-                        {
-                          required: true,
-                          message: "Please choose right or wrong",
-                        },
-                      ]}
                       initialValue={1}
                     >
                       <Select
@@ -48,11 +44,11 @@ export default function CustomAddAnswer(params) {
                         options={[
                           {
                             value: 2,
-                            label: "正确",
+                            label: t("inner.true"),
                           },
                           {
                             value: 1,
-                            label: "错误",
+                            label: t("inner.false"),
                           },
                         ]}
                       />
@@ -63,7 +59,7 @@ export default function CustomAddAnswer(params) {
             ))}
 
             <Button type="link" style={{ width: 200 }} onClick={() => add()} block>
-              添加答案
+              {t("translation:btn-add-answer")}
             </Button>
           </div>
         )}

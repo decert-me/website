@@ -1,0 +1,39 @@
+{
+    "title": "Creative a challenge",
+    "inner": {
+        "title": "Title",
+        "desc": "Description",
+        "img": "Image",
+        "add": "Add choice question or blank filling question",
+        "score": "Passing score",
+        "total": "Total score",
+        "ques": "Quiz",
+        "ques-score": "Score",
+        "true": "Right",
+        "false": "Wrong",
+        "rule": {
+            "title": "Please enter the title",
+            "img": "Please upload image",
+            "score": "Please set a passing score",
+            "ques-score": "Please enter quiz score",
+            "answer": "Please enter your answer"
+        },
+        "content": {
+            "img": {
+                "p1": "Click or drag an image to this area.",
+                "p2": "The image type must be jpg, png, gif, svg. Maximum size: 20 MB."
+            }
+        },
+        "placeholder": {
+            "answer": "Answer"
+        }
+    },
+    "message": {
+        "success": {
+            "create": "Create challenge success"
+        },
+        "error": {
+            "answer": "Choose at least one correct answer."
+        }
+    }
+}

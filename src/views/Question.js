@@ -6,12 +6,15 @@ import "@/assets/styles/view-style/question.scss"
 import { hashAvatar } from "../utils/HashAvatar";
 import { convertDifficulty, convertTime } from "../utils/convert";
 import { NickName } from "../utils/NickName";
+import { useTranslation } from "react-i18next";
+import { constans } from "@/utils/constans";
 
 
 export default function Quests(params) {
     
     const location = useLocation();
-
+    const { t } = useTranslation(["explore","translation"]);
+    const { ipfsPath, defaultImg } = constans();
     let [detail, setDetail] = useState();
 
     const getData = (id) => {
@@ -29,53 +32,58 @@ export default function Quests(params) {
 
     return (
         detail &&
-        <div className="Question">
-            <div className="question-content">
-                <div className="img">
-                    <img 
-                        src={
-                            detail.metadata.image.split("//")[1]
-                                ? `http://ipfs.learnblockchain.cn/${detail.metadata.image.split("//")[1]}`
-                                : 'assets/images/img/default.png'
-                        }
-                        alt="" />
-                </div>
-                <div className="content">
-                    <p>{detail.description}</p>
-                    <div>
-                        <h3>SBT技术认证</h3>
-                        <p className="desc">
-                            完成挑战，可获得灵魂绑定（SBT）的技术认证，分享到你的社交平台，让世界知道你的能力。
-                        </p>
+        <>
+            <h1 className="quests-title">{detail.title}</h1>
+            <div className="Question">
+                <div className="question-content">
+                    <div className="img">
+                        <img 
+                            src={
+                                detail.metadata.image.split("//")[1]
+                                    ? `${ipfsPath}/${detail.metadata.image.split("//")[1]}`
+                                    : defaultImg
+                            }
+                            alt="" />
+                    </div>
+                    <div className="content">
+                        <p className="desc">{detail.description}</p>
+                        <div>
+                            <h3>{t("ques.title")}</h3>
+                            <p className="desc">
+                            {t("ques.desc")}
+                            </p>
+                        </div>
                     </div>
                 </div>
-            </div>
-            <div className="question-bottom">
-                <ul>
-                    <li>
-                        <div className="img">
-                            <img src={hashAvatar(detail.creator)} alt="" />
-                        </div>
-                        <p>{NickName(detail.creator)}</p>
-                    </li>
-                        
-                    {
-                        detail.metadata.properties.difficulty !== null &&
+                <div className="question-bottom">
+                    <ul>
                         <li>
-                            难度: {convertDifficulty(detail.metadata.properties.difficulty)}
+                            <div className="img">
+                                <img src={hashAvatar(detail.creator)} alt="" />
+                            </div>
+                            <p>{NickName(detail.creator)}</p>
                         </li>
-                    }
-                    {
-                        detail.metadata.properties.estimateTime &&
-                        <li>
-                            预估时间: {convertTime(detail.metadata.properties.estimateTime)}
-                        </li>
-                    }
-                </ul>
-                <Link to={`/challenge/${detail.tokenId}`}>
-                    <Button>开始挑战</Button>
-                </Link>
+                            
+                        {
+                            detail.metadata.properties.difficulty !== null &&
+                            <li>
+                                {t("translation:diff")}: {t(`translation:diff-info.${convertDifficulty(detail.metadata.properties.difficulty)}`)}
+                            </li>
+                        }
+                        {
+                            detail.metadata.properties.estimateTime &&
+                            <li>
+                                {t("translation:time")}: {t(`translation:time-info.${convertTime(detail.metadata.properties.estimateTime).type}`,{time:convertTime(detail.metadata.properties.estimateTime).time})}
+                            </li>
+                        }
+                    </ul>
+                    <Link to={`/challenge/${detail.tokenId}`}>
+                        <Button>
+                            {t("btn-start")}
+                        </Button>
+                    </Link>
+                </div>
             </div>
-        </div>
+        </>
     )
 }
