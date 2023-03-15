@@ -13,6 +13,7 @@ import { hashAvatar } from "@/utils/HashAvatar";
 import ChallengeItem from "@/components/User/ChallengeItem";
 import Pagination from "@/components/User/Pagination";
 import { Copy } from "@/utils/Copy";
+import CustomSocial from "@/components/CustomItem/CustomSocial";
 
 
 export default function User(props) {
@@ -29,7 +30,8 @@ export default function User(props) {
     });
     let [checkType, setCheckType] = useState(0);
     let [checkStatus, setCheckStatus] = useState(0);
-
+    let [socials, setSocials] = useState();
+    
     let [type, setType] = useState([
         { key: 'complete', label: "完成的挑战", children: [
             { key: 0, label: "全部" },
@@ -40,7 +42,7 @@ export default function User(props) {
             { key: 0, label: "全部"}
         ]}
     ])
-    
+
     const getList = () => {
         if (checkType === 0) {
             // 'complete'
@@ -96,14 +98,18 @@ export default function User(props) {
 
     const getInfo = async() => {
         const user = await getUser({address: account})
+        if (!user.data) {
+            return
+        }
+        socials = user.data.socials;
+        setSocials({...socials});
         info = {
-            nickname: user.data?.nickname ? user.data.nickname : NickName(account),
+            nickname: user.data.nickname ? user.data.nickname : NickName(account),
             address: account,
-            description: user.data?.description ? user.data.description : "暂无介绍",
-            avatar: user.data?.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(account)
+            description: user.data.description ? user.data.description : "暂无介绍",
+            avatar: user.data.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(account)
         }
         setTimeout(() => {
-            
             setInfo({...info})
         }, 1000);
     }
@@ -146,7 +152,8 @@ export default function User(props) {
                             {NickName(info.address)}<CopyOutlined style={{color: "#9E9E9E", marginLeft: "12px"}} />
                         </p>
                         <div className="social">
-                            <div className="icon"></div>
+                            {/* <div className="icon"></div> */}
+                            <CustomSocial socials={socials} />
                         </div>
                         <div className="desc">
                             {info.description}
