@@ -14,7 +14,7 @@
 
     },
     "message": {
-        "link": "请填写正确的链接"
+        "link": "Please fill in the correct link"
     },
     "tip": {
         "step": "Step {{num}}: ",
@@ -36,7 +36,7 @@
         "binded": "Connected Discord"
     },
     "claim": {
-        "claimed": "已领取SBT",
+        "claimed": "Claimed SBT",
         "btn": "Claim",
         "share": {
             "title": "I completed a challenge on {{what}} and earned an on-chain competency Certification badge.",

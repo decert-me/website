@@ -7,16 +7,16 @@
         "add": "Add choice question or blank filling question",
         "score": "Passing score",
         "total": "Total score",
-        "ques": "题目",
-        "ques-score": "题目分数",
+        "ques": "Quiz",
+        "ques-score": "Score",
         "true": "Right",
         "false": "Wrong",
         "rule": {
-            "title": "请输入标题",
-            "img": "请上传图片",
-            "score": "请设置及格分",
-            "ques-score": "请输入题目分数",
-            "answer": "请输入你答案"
+            "title": "Please enter the title",
+            "img": "Please upload image",
+            "score": "Please set a passing score",
+            "ques-score": "Please enter quiz score",
+            "answer": "Please enter your answer"
         },
         "content": {
             "img": {
@@ -30,7 +30,7 @@
     },
     "message": {
         "success": {
-            "create": "创建挑战成功"
+            "create": "Create challenge success"
         },
         "error": {
             "answer": "Choose at least one correct answer."
