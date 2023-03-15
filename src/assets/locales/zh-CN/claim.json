@@ -1,6 +1,6 @@
 {
     "verify": "核实",
-    "pass": "恭喜你完成挑战",
+    "pass": "恭喜你完成挑战!",
     "unpass": "挑战未通过，请继续加油吧。",
     "desc": "通过挑战领取的 SBT（灵魂绑定代币）徽章，将在链上永久保存，且不可转移或出售。这是你技术能力的证明，为你的履历增添价值。",
     "score": {
@@ -8,8 +8,8 @@
         "passScore": "达到 {{score}} 即可挑战通关"
     },
     "step": {
-        "title": "领取 SBT 证书",
-        "pass": "已完成挑战",
+        "title": "领取 SBT 徽章",
+        "pass": "挑战成功",
         "unpass": "挑战失败"
 
     },
@@ -31,9 +31,9 @@
         "unconnect": "未连接钱包"
     },
     "discord": {
-        "bind": "打开Discord",
-        "unbind": "未绑定Discord",
-        "binded": "已绑定Discord"
+        "bind": "打开 Discord",
+        "unbind": "未绑定 Discord",
+        "binded": "已绑定 Discord"
     },
     "claim": {
         "claimed": "已领取SBT",

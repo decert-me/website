@@ -1,3 +1,39 @@
 {
-    
+    "title": "Creative a challenge",
+    "inner": {
+        "title": "Title",
+        "desc": "Description",
+        "img": "Image",
+        "add": "Add choice question or blank filling question",
+        "score": "Passing score",
+        "total": "Total score",
+        "ques": "题目",
+        "ques-score": "题目分数",
+        "true": "Right",
+        "false": "Wrong",
+        "rule": {
+            "title": "请输入标题",
+            "img": "请上传图片",
+            "score": "请设置及格分",
+            "ques-score": "请输入题目分数",
+            "answer": "请输入你答案"
+        },
+        "content": {
+            "img": {
+                "p1": "Click or drag an image to this area.",
+                "p2": "The image type must be jpg, png, gif, svg. Maximum size: 20 MB."
+            }
+        },
+        "placeholder": {
+            "answer": "Answer"
+        }
+    },
+    "message": {
+        "success": {
+            "create": "创建挑战成功"
+        },
+        "error": {
+            "answer": "Choose at least one correct answer."
+        }
+    }
 }

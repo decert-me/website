@@ -1,13 +1,15 @@
 {
     "header": {
         "explore": "探索",
-        "connect": "连接钱包",
-        "disconnect": "断开连接"
+        "connect": "链接钱包",
+        "disconnect": "断开连接",
+        "profile": "个人中心"
     },
     "home": {
         "slogan1": "You are what you build.",
         "slogan2": "去中心化学习及技术认证平台",
-        "btn-explore": "探索挑战"
+        "btn-explore": "探索挑战",
+        "btn-publish": "创建挑战"
     },
     "btn-submit": "提交",
     "btn-add": "添加",

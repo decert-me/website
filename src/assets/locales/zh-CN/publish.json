@@ -21,7 +21,7 @@
         "content": {
             "img": {
                 "p1": "点击或拖动文件到这个区域来上传",
-                "p2": "支持的文件类型。jpg, png, gif, svg. 最大尺寸：20 MB"
+                "p2": "图片类型要求：jpg, png, gif, svg. 最大尺寸：20 MB"
             }
         },
         "placeholder": {

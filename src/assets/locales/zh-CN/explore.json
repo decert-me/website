@@ -11,8 +11,8 @@
     },
     "modal": {
         "challenge": {
-            "title": "答案列表",
-            "complete": "完成",
+            "title": "答题记录",
+            "complete": "已完成",
             "uncomplete": "未完成"
         }
     },

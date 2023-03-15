@@ -1,3 +1,47 @@
 {
-    
+    "verify": "Verify",
+    "pass": "Congratulations on completing the challenge！",
+    "unpass": "Challenge failed, please keep trying.",
+    "desc": "The SBT (Soulbound Token) badge you receive through the challenge is stored permanently on the blockchain and cannot be transferred or sold. It is a proof of your technical ability and adds value to your resume.",
+    "score": {
+        "now": "Score",
+        "passScore": "Reach {{score}} to pass the challenge."
+    },
+    "step": {
+        "title": "Claim SBT badge",
+        "pass": "Pass",
+        "unpass": "Failed"
+
+    },
+    "message": {
+        "link": "请填写正确的链接"
+    },
+    "tip": {
+        "step": "Step {{num}}: ",
+        "step1": "Navigate to the Tweet you’d like the URL of.",
+        "step2": {
+            "p1": "Click the ",
+            "p2": " icon located within the Tweet."
+        },
+        "step3": "From the pop-up menu, select Copy link to Tweet. The URL should now be copied to your clipboard."
+    },
+    "wallet": {
+        "connect": "Connect wallet",
+        "connected": "Connected wallet",
+        "unconnect": "Unconnected wallet"
+    },
+    "discord": {
+        "bind": "Open Discord",
+        "unbind": "Unconnected Discord",
+        "binded": "Connected Discord"
+    },
+    "claim": {
+        "claimed": "已领取SBT",
+        "btn": "Claim",
+        "share": {
+            "title": "I completed a challenge on {{what}} and earned an on-chain competency Certification badge.",
+            "btn": "Claim by sharing",
+            "badge": "Free"
+        }
+    }
 }
