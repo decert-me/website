@@ -13,18 +13,23 @@ import exploreCN from './zh-CN/explore.json';
 import claimUS from './en-US/claim.json';
 import claimCN from './zh-CN/claim.json';
 
+import profileUS from './en-US/profile.json';
+import profileCN from './zh-CN/profile.json';
+
 const resources = {
     "zh-CN": {
         translation: publicCN,
         publish: publishCN,
         explore: exploreCN,
         claim: claimCN,
+        profile: profileCN
     },
     "en-US": {
         translation: publicUS,
         publish: publishUS,
         explore: exploreUS,
         claim: claimUS,
+        profile: profileUS
     }
 };
 
