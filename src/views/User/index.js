@@ -12,6 +12,7 @@ import { NickName } from "@/utils/NickName";
 import { hashAvatar } from "@/utils/HashAvatar";
 import ChallengeItem from "@/components/User/ChallengeItem";
 import Pagination from "@/components/User/Pagination";
+import { Copy } from "@/utils/Copy";
 
 
 export default function User(props) {
@@ -39,18 +40,7 @@ export default function User(props) {
             { key: 0, label: "全部"}
         ]}
     ])
-
-    const copy = (text) => {
-        const tempInput = document.createElement('input');
-        tempInput.value = text;
-        document.body.appendChild(tempInput);
-        tempInput.select();
-        document.execCommand('copy');
-        document.body.removeChild(tempInput);
-
-        message.success("复制成功")
-    }
-
+    
     const getList = () => {
         if (checkType === 0) {
             // 'complete'
@@ -106,7 +96,6 @@ export default function User(props) {
 
     const getInfo = async() => {
         const user = await getUser({address: account})
-        console.log(user.data);
         info = {
             nickname: user.data?.nickname ? user.data.nickname : NickName(account),
             address: account,
@@ -153,7 +142,7 @@ export default function User(props) {
                         <p className="name">
                             {info.nickname ? info.nickname : NickName(info.address)}
                         </p>
-                        <p className="address" onClick={() => copy(info.address)}>
+                        <p className="address" onClick={() => Copy(info.address)}>
                             {NickName(info.address)}<CopyOutlined style={{color: "#9E9E9E", marginLeft: "12px"}} />
                         </p>
                         <div className="social">
