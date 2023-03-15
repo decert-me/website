@@ -102,7 +102,7 @@ export default function UserEdit(params) {
             nickname: user?.nickname ? user.nickname : NickName(account),
             address: account,
             description: user?.description ? user.description : "暂无介绍",
-            avatar: user?.avatar ? process.env.REACT_APP_BASE_URL + user.avatar : hashAvatar(account)
+            avatar: user?.avatar ? process.env.REACT_APP_DEVELOP_BASE_URL + user.avatar : hashAvatar(account)
         }
         setInfo({...info});
         console.log(info);
