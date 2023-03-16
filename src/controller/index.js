@@ -1,7 +1,8 @@
+import questMinterAddr from "@/contracts/QuestMinter.address";
 import questMinter from "@/contracts/QuestMinter.abi";
-const questMinterAddr = process.env.REACT_APP_CONTRACT_QUESTMINTER_ADDRESS;
+
+import badgeAddr from "@/contracts/Badge.address";
 import badge from "@/contracts/Badge.abi";
-const badgeAddr = process.env.REACT_APP_CONTRACT_BADGE_ADDRESS;
 import { ethers } from "ethers";
 import { constans } from "@/utils/constans";
 

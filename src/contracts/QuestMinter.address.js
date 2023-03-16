@@ -1,1 +1,1 @@
-module.exports = "0xEdC46868f04d482f04A8c29E915aBED72C03cD35";
+module.exports = process.env.REACT_APP_CONTRACT_QUESTMINTER_ADDRESS;

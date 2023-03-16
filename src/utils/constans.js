@@ -1,5 +1,5 @@
 import { BigNumber } from "ethers";
-const BadgeAddress = process.env.REACT_APP_CONTRACT_BADGE_ADDRESS;
+import BadgeAddress from "@/contracts/Badge.address";
 
 
 export const constans = () => {
