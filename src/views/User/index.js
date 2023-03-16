@@ -20,7 +20,7 @@ import { useTranslation } from "react-i18next";
 export default function User(props) {
     
     const location = useLocation();
-    const { t } = useTranslation(["translation","profile"]);
+    const { t } = useTranslation(["translation","profile", "explore"]);
     const { address } = useAccount();
     let [account, setAccount] = useState();
     let [isMe, setIsMe] = useState();
@@ -121,12 +121,6 @@ export default function User(props) {
         setAccount(account);
         setIsMe(address === account);
         getInfo();
-        // if (account !== address) {
-        //     type[0].children = [
-        //         { key: 0, label: t("profile:type0") },
-        //     ];
-        //     setType([...type]);
-        // }
     }
 
     useEffect(() => {
@@ -230,7 +224,15 @@ export default function User(props) {
                 }
                 {
                     list.length === 0 &&
-                    <p className="nothing">{t("profile:challenge-none")}</p>
+                    <div className="nodata">
+                        <p>{t("profile:challenge-none")}</p>
+                        {
+                            isMe &&
+                            <Link to={"/explore"}>
+                                <Button className="nodata-btn">{t("explore:btn-start")}</Button>
+                            </Link>
+                        }
+                    </div>
                 }
                 <Pagination pageConfig={pageConfig} togglePage={togglePage} />
             </div>
