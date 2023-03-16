@@ -6,5 +6,18 @@
     "type0": "All",
     "type1": "Claimable",
     "type2": "Claimed",
-    "claimble": "Claimable"
+    "claimble": "Claimable",
+    "nothing": "No more yet",
+    "edit": {
+        "title": "Edit profile",
+        "upload": "Upload new picture",
+        "uploading": "Uploading",
+        "inner": {
+            "name": "User name",
+            "desc": "Personal profile",
+            "tips": {
+                "desc": "Please describe your interests or experience."
+            }
+        }
+    }
 }

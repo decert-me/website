@@ -26,7 +26,7 @@ export default function UserEdit(params) {
      * 4. 提交
      */
     const { address } = useAccount();
-    const { t } = useTranslation();
+    const { t } = useTranslation(["translation","profile"]);
     const location = useLocation();
     const navigateTo = useNavigate();
 
@@ -72,7 +72,7 @@ export default function UserEdit(params) {
         putUser(user)
         .then(res => {
             if (res) {
-                message.success(t("message.success.save"));
+                message.success(t("translation:message.success.save"));
                 setTimeout(() => {
                     goBack();
                 }, 1000);
@@ -103,7 +103,7 @@ export default function UserEdit(params) {
         info = {
             nickname: user?.nickname ? user.nickname : NickName(account),
             address: account,
-            description: user?.description ? user.description : "暂无介绍",
+            description: user?.description ? user.description : "",
             avatar: user?.avatar ? process.env.REACT_APP_DEVELOP_BASE_URL + user.avatar : hashAvatar(account)
         }
         setInfo({...info});
@@ -119,7 +119,7 @@ export default function UserEdit(params) {
         <div className="UserEdit">
             <div className="UserEdit-inner">
                 <div className="title">
-                    编辑资料
+                    {t("profile:edit.title")}
                 </div>
                 <div className="content">
                     <div className="avatar">
@@ -139,28 +139,28 @@ export default function UserEdit(params) {
                                 {
                                     loading ? 
                                     <>
-                                        <LoadingOutlined />正在上传
+                                        <LoadingOutlined style={{marginRight: "10px"}} />{t("profile:edit.uploading")}
                                     </>
                                     :
                                     <>
-                                        <PlusOutlined />上传头像
+                                        <PlusOutlined style={{marginRight: "10px"}} />{t("profile:edit.upload")}
                                     </>
                                 }
                             </Button>
                         </Upload>
                     </div>
                     <div className="inner">
-                        <p className="label">名称</p>
+                        <p className="label">{t("profile:edit.inner.name")}</p>
                         <Input 
                             className="input" 
-                            placeholder="0x0a...9e57" 
+                            placeholder="0xda...9e57" 
                             maxLength={16} 
                             defaultValue={info.nickname}
                             onChange={(e) => changeUser(e.target.value, 'nickname')}
                         />
                     </div>
                     <div className="inner">
-                        <p className="label">简介</p>
+                        <p className="label">{t("profile:edit.inner.desc")}</p>
                         <TextArea
                             showCount
                             maxLength={100}
@@ -172,7 +172,7 @@ export default function UserEdit(params) {
                                 resize: 'none',
                             }}
                             // onChange={onChange}
-                            placeholder="请介绍你的兴趣或经验..."
+                            placeholder={t("profile:edit.inner.tips.desc")}
                         />
                     </div>
                 </div>
@@ -183,14 +183,14 @@ export default function UserEdit(params) {
                     className="btn cancel"
                     onClick={goBack}
                 >
-                    取消
+                    {t("translation:btn-cancel")}
                 </Button>
                 <Button 
                     type="primary" 
                     className="btn save"
                     onClick={() => save()}
                 >
-                    保存
+                    {t("translation:btn-save")}
                 </Button>
             </div>
         </div>

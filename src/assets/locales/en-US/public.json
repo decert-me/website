@@ -17,6 +17,8 @@
     "btn-sumbit-confirm": "Confirm and submit",
     "btn-go-challenge": "View challenge details",
     "btn-edit-profile": "Edit Profile",
+    "btn-cancel": "Cancel",
+    "btn-save": "Save",
 
     "diff": "Difficulty",
     "diff-info": {

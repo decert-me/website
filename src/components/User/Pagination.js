@@ -1,10 +1,12 @@
 import { useEffect, useState } from "react";
 import "@/assets/styles/component-style/index"
+import { useTranslation } from "react-i18next";
 
 
 export default function Pagination(props) {
     
     const { pageConfig, togglePage } = props;
+    const { t } = useTranslation(["profile"]);
     let [pages, setPages] = useState();
 
     useEffect(() => {
@@ -32,7 +34,7 @@ export default function Pagination(props) {
                     textAlign: "center"
                 }}
                 >
-                    暂无更多
+                    {t("nothing")}
                 </div>
             }
         </div>

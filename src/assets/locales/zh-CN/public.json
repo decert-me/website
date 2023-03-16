@@ -17,6 +17,8 @@
     "btn-sumbit-confirm": "确认并提交",
     "btn-go-challenge": "查看挑战详情",
     "btn-edit-profile": "编辑资料",
+    "btn-cancel": "取消",
+    "btn-save": "保存",
 
     "diff": "难度",
     "diff-info": {
