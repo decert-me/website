@@ -3,10 +3,12 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import "@/assets/styles/component-style/index"
 import { useNavigate } from "react-router-dom";
 import { constans } from "@/utils/constans";
+import { useTranslation } from "react-i18next";
 
 export default function ChallengeItem(props) {
     
     const { info, isMe } = props;
+    const { t } = useTranslation(["profile"]);
     const navigateTo = useNavigate();
     const { ipfsPath, defaultImg, openseaLink } = constans();
 
@@ -29,7 +31,7 @@ export default function ChallengeItem(props) {
             {
                 info.complete_ts && !info.claimed && isMe &&
                 <div className="tags">
-                    可领取
+                    {t("claimble")}
                 </div>
             }
             <div className="img">

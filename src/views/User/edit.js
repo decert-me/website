@@ -13,6 +13,7 @@ import { hashAvatar } from "@/utils/HashAvatar";
 import { NickName } from "@/utils/NickName";
 import { getUser, putUser } from "@/request/api/public";
 import { UploadAvatarProps } from "@/utils/UploadProps";
+import { useTranslation } from "react-i18next";
 const { TextArea } = Input;
 
 export default function UserEdit(params) {
@@ -25,6 +26,7 @@ export default function UserEdit(params) {
      * 4. 提交
      */
     const { address } = useAccount();
+    const { t } = useTranslation();
     const location = useLocation();
     const navigateTo = useNavigate();
 
@@ -70,7 +72,7 @@ export default function UserEdit(params) {
         putUser(user)
         .then(res => {
             if (res) {
-                message.success('保存成功!');
+                message.success(t("message.success.save"));
                 setTimeout(() => {
                     goBack();
                 }, 1000);

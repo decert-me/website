@@ -45,7 +45,9 @@
             "submit": {
                 "title": "Submit succeed",
                 "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet."
-            }
+            },
+            "save": "Update success!",
+            "copy": "Copy success!"
         },
         "error": {
             "submit": {

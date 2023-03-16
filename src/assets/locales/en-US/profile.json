@@ -5,5 +5,6 @@
     "challenge-publish": "Created challenges",
     "type0": "All",
     "type1": "Claimable",
-    "type2": "Claimed"
+    "type2": "Claimed",
+    "claimble": "Claimable"
 }

@@ -144,7 +144,7 @@ export default function User(props) {
                         <p className="name">
                             {info.nickname ? info.nickname : NickName(info.address)}
                         </p>
-                        <p className="address" onClick={() => Copy(info.address)}>
+                        <p className="address" onClick={() => Copy(info.address, t("translation:message.success.copy"))}>
                             {NickName(info.address)}<CopyOutlined style={{color: "#9E9E9E", marginLeft: "12px"}} />
                         </p>
                         <div className="social">
