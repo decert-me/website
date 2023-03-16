@@ -1,10 +1,11 @@
-import questMinterAddr from "@/contracts/QuestMinter.address";
 import questMinter from "@/contracts/QuestMinter.abi";
-
-import badgeAddr from "@/contracts/Badge.address";
+const questMinterAddr = process.env.REACT_APP_CONTRACT_QUESTMINTER_ADDRESS;
 import badge from "@/contracts/Badge.abi";
+const badgeAddr = process.env.REACT_APP_CONTRACT_BADGE_ADDRESS;
 import { ethers } from "ethers";
 import { constans } from "@/utils/constans";
+
+
 
 // questMinter ===>
 export async function createQuest(questData, signature, provider ) {
