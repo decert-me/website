@@ -6,13 +6,12 @@
         align-items: center;
         justify-content: space-between;
     }
-    .nav-left{
+    .nav-left, .nav-right{
         display: flex;
         align-items: center;
-
-        a{
-            margin-left: 40px;
-        }
+    }
+    .nav-left > a{
+        margin-left: 40px;
     }
     .logo{
         width: 107px;

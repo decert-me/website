@@ -71,20 +71,22 @@ export default function AppHeader(params) {
                         }
                     </div>
                     <Link to="/explore">{t("translation:header.explore")}</Link>
-                    {/* TODO: test ===> */}
+                </div>
+
+                <div className='nav-right'>
                     <Button 
+                        type="ghost"
+                        ghost
                         onClick={() => {
                             let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
                             i18n.changeLanguage(lang);
                             localStorage.setItem("decert.lang", lang)
                         }}
                     >
-                        切换语言
+                        {i18n.language === 'zh-CN' ? "中文" : "EN"}
                     </Button>
-                </div>
                 {
                     isConnected ?
-                    <div>
                         <Dropdown
                             placement="bottom" 
                             arrow
@@ -96,13 +98,13 @@ export default function AppHeader(params) {
                                 <p>{NickName(address)}</p>
                             </div>
                         </Dropdown>
-                    </div>
                     :
                     <div>
                         <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
                         <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
                     </div>
                 }
+                </div>
             </div>
         </div>
     )
