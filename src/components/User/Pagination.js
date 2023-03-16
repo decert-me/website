@@ -15,7 +15,7 @@ export default function Pagination(props) {
     return (
         <div className="Pagination">
             {
-                pages > 0 &&
+                pages > 1 ?
                 Array.from({length: pages}).map((e,i) => 
                     <div 
                         className={`box ${pageConfig.page === i+1 ? "active" : ""}`} 
@@ -23,6 +23,17 @@ export default function Pagination(props) {
                         onClick={() => {togglePage(i+1)}}
                     >{i+1}</div>
                 )
+                :
+                <div 
+                className="nothing"
+                style={{
+                    width: "100%",
+                    paddingTop: "50px",
+                    textAlign: "center"
+                }}
+                >
+                    暂无更多
+                </div>
             }
         </div>
     )
