@@ -30,7 +30,7 @@ export default function CustomConnect(props) {
     });
 
     const decertToken = (e) => {
-        if (e.key === "decert.token") {
+        if (e.key === "decert.token" && step === 1) {
             run()
         }
     }
@@ -58,18 +58,20 @@ export default function CustomConnect(props) {
                 handleCancel={cancelModalConnect} 
             />
             {
-                step === 1 && !localStorage.getItem('decert.token') ? 
+                step === 1 && localStorage.getItem('decert.token') ? 
+                <>
+                    <p>{NickName(address)}</p>
+                    <p>{t("wallet.connected")}</p>
+                    {step}
+                    <h1>{localStorage.getItem('decert.token')} </h1>
+                </>
+                :
                 <>
                     <p>{t("wallet.unconnect")}</p>
                     {
                         step >= 1 &&
                         <Button onClick={openModalConnect}>{t("wallet.connect")}</Button>
                     }
-                </>
-                :
-                <>
-                    <p>{NickName(address)}</p>
-                    <p>{t("wallet.connected")}</p>
                 </>
             }
         </div>

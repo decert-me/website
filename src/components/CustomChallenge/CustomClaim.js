@@ -122,7 +122,7 @@ export default function CustomClaim(props) {
                     </Badge.Ribbon>
                     <div className="box">
                         <Button className="claim" disabled={step !== 3} loading={writeLoading} onClick={() => cliam()}>
-                            {t("claim.share.btn")}
+                            {t("claim.btn")}
                         </Button>
                     </div>
                 </>
