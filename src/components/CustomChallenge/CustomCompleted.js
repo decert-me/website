@@ -8,37 +8,46 @@ import { Link } from "react-router-dom";
 import { Encryption } from "@/utils/Encryption";
 import CustomConnect from "./CustomConnect";
 import CustomDiscord from "./CustomDiscord";
+import CustomClaim from "./CustomClaim";
 import { useAccount, useSigner } from "wagmi";
 import { submitClaimTweet } from "@/request/api/public";
-import CustomClaim from "./CustomClaim";
-import BadgeAddress from "@/contracts/Badge.address";
 import { chainScores } from "@/controller";
 import { GetPercent, GetScorePercent } from "@/utils/GetPercent";
 import { ClaimShareSuccess } from "../CustomMessage";
+import { useTranslation } from "react-i18next";
+import { constans } from "@/utils/constans";
 
-const tip = (
-    <div className="tip-content">
-        <p className="step">第 1 步：</p>
-        <p>导航到你要想得到其 URL 的推文。</p>
-        <p className="step">第 2 步：</p>
-        <p>点击推文中的 <span><UploadOutlined /></span> 图标。</p>
-        <p className="step">第 3 步：</p>
-        <p>在弹出式菜单中，选择复制推文链接。URL 现在应该已复制到剪贴板。</p>
-    </div>
-)
+
 export default function CustomCompleted(props) {
     
     const { answers, detail, tokenId, isClaim } = props;
+    const { t } = useTranslation(["claim", "translation"]);
     const { data: signer } = useSigner();
     const { address, isConnected } = useAccount();
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
+    const { openseaLink, defaultImg, ipfsPath } = constans(); 
     let [answerInfo, setAnswerInfo] = useState();
     let [step, setStep] = useState(0);
     let [isShow, setIsShow] = useState();
     let [hrefUrl, setHrefUrl] = useState();
     let [percent, setPercent] = useState(0);
     let [isLoading, setIsLoading] = useState();
+
+    const tip = (
+        <div className="tip-content">
+            <p className="step">{t("tip.step",{num: 1})}</p>
+            <p>{t("tip.step1")}</p>
+            <p className="step">{t("tip.step",{num: 2})}</p>
+            <p>
+                {t("tip.step2.p1")}
+                <span><UploadOutlined /></span>
+                {t("tip.step2.p2")}
+            </p>
+            <p className="step">{t("tip.step",{num: 3})}</p>
+            <p>{t("tip.step3")}</p>
+        </div>
+    )
     
     const contrast = async(arr) => {
         const questions = detail.metadata.properties.questions;
@@ -109,7 +118,7 @@ export default function CustomCompleted(props) {
     const hrefSubmit = () => {
         const pattern = /^https:\/\/twitter\.com\/.*/i;
         if (!pattern.test(hrefUrl)) {
-            message.warning('请填写正确的链接')
+            message.warning(t("message.link"))
             return
         }
         setIsLoading(true);
@@ -165,22 +174,18 @@ export default function CustomCompleted(props) {
                         <div className="desc">
                             {
                                 answerInfo.isPass ? 
-                                    <p className="title">恭喜你完成挑战  🎉🎉</p>
+                                    <p className="title">{t("pass")}  🎉🎉</p>
                                 :
-                                    <p className="title">挑战未通过，请继续加油吧。</p>
+                                    <p className="title">{t("unpass")}</p>
                             }
-                            <p>通过挑战领取的 SBT（灵魂绑定代币）徽章，将在链上永久保存，且不可转移或出售。这是你技术能力的证明，为你的履历增添价值。</p>
+                            <p>{t("desc")}</p>
                         </div>
                         <div className="score">
                             <p className="network">{detail.title}</p>
-                            <h4>本次得分</h4>
-                            <p className="pass">达到 {answerInfo.passingPercent} 即可挑战通关</p>
+                            <h4>{t("score.now")}</h4>
+                            <p className="pass">{t("score.passScore",{score: answerInfo.passingPercent})}</p>
                             <div className="score-detail">
                                 <div className="circle">
-                                    {/* <ArcProgress
-                                        className="progress-container2"
-                                        {...progrees}
-                                    /> */}
                                     <Progress
                                         type="circle"
                                         percent={percent}
@@ -188,34 +193,30 @@ export default function CustomCompleted(props) {
                                         format={(percent) => percent}
                                         strokeWidth={6}
                                     />
-                                    {/* <p className="text">{answerInfo.score}</p> */}
                                 </div>
                                 <Link className="btn" to={`/quests/${detail.tokenId}`}>
-                                    <button className="btn">查看挑战详情</button>
-                                    
+                                    <button className="btn">{t("translation:btn-go-challenge")}</button>
                                 </Link>
                             </div>
                         </div>
                     </div>
                     <div className="content-step">
                         <div className="nft">
-                            {/* <h5>NFT证书展示</h5> */}
                                 <div className="img">
-                                    <a href={`https://testnets.opensea.io/assets/${process.env.REACT_APP_CHAIN_NAME}/${BadgeAddress}/${detail.tokenId}`} target="_blank">
+                                    <a href={`${openseaLink}/${detail.tokenId}`} target="_blank">
                                         <img 
                                             src={
                                                 detail.metadata.image.split("//")[1]
-                                                    ? `http://ipfs.learnblockchain.cn/${detail.metadata.image.split("//")[1]}`
-                                                    : 'assets/images/img/default.png'
+                                                    ? `${ipfsPath}/${detail.metadata.image.split("//")[1]}`
+                                                    : defaultImg
                                             }
                                             alt="" 
                                         />
-                                        {/* <div className="icon" /> */}
                                     </a>
                                 </div>
                         </div>
                         <div className="step">
-                            <h5>领取 SBT 证书</h5>
+                            <h5>{t("step.title")}</h5>
                             <Steps
                                 className="step-detail"
                                 progressDot
@@ -227,9 +228,9 @@ export default function CustomCompleted(props) {
                                             <div className={`step-box ${step === 0 ? "checked-step" : ''}`}>
                                                 {
                                                     answerInfo.isPass ?
-                                                    "已完成挑战"
+                                                    t("step.pass")
                                                     :
-                                                    "挑战失败"
+                                                    t("step.unpass")
                                                 }
                                             </div>
                                         )
@@ -280,7 +281,7 @@ export default function CustomCompleted(props) {
                                             onClick={() => hrefSubmit()} 
                                             disabled={!hrefUrl} 
                                         >
-                                            提交
+                                            {t("translation:btn-submit")}
                                         </Button>
                                     </div>
                                     <Tooltip 

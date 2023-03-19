@@ -1,12 +1,57 @@
 {
-    "try": "test",
     "header": {
-        "explore": "探索",
-        "connect": "连接钱包",
-        "disconnect": "断开连接"
+        "explore": "Explore",
+        "connect": "Connect wallet",
+        "disconnect": "Disconnect",
+        "profile": "Profile"
     },
     "home": {
-        "slogan": "去中心化学习及技术认证平台",
-        "btn-explore": "探索挑战"
+        "slogan1": "You are what you build.",
+        "slogan2": "Decentralized skills learning and certification platform",
+        "btn-explore": "Explore challenges",
+        "btn-publish": "Creative a challenge"
+    },
+    "btn-submit": "Submit",
+    "btn-add": "Add",
+    "btn-add-answer": "Add answer",
+    "btn-sumbit-confirm": "Confirm and submit",
+    "btn-go-challenge": "View challenge details",
+    "btn-edit-profile": "Edit Profile",
+
+    "diff": "Difficulty",
+    "diff-info": {
+       "easy": "Easy",
+       "normal": "Normal",
+       "diff": "Difficult"
+    },
+    "time": "Time",
+    "time-info": {
+        "m": "{{time}} min",
+        "h": "{{time}} h",
+        "d": "{{time}} day",
+        "w": "{{time}} week"
+    },
+    "modal": {
+        "claim": {
+            "claiming": "Pending...",
+            "desc": "SBT is untransferable and cannot be sold.",
+            "claimed": "You've got an SBT!",
+            "link": "View SBT details",
+            "share": "Share on twitter"
+        }
+    },
+    "message": {
+        "success": {
+            "submit": {
+                "title": "Submit succeed",
+                "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet."
+            }
+        },
+        "error": {
+            "submit": {
+                "title": "Format error",
+                "desc": "Please do not delete or modify the content of the tweet."
+            }
+        }
     }
 }

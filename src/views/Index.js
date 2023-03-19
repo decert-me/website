@@ -1,10 +1,13 @@
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import "@/assets/styles/view-style/index.scss"
+import { useTranslation } from "react-i18next";
 
 export default function Index(params) {
     
     const navigateTo = useNavigate();
+    const { t } = useTranslation();
+
 
     return (
         <div className="Home ">
@@ -14,11 +17,11 @@ export default function Index(params) {
                     <h3>Decert.me</h3>
                     {/* describe */}
                     <div className="describe">
-                    <p>You are what you build.</p>
+                    <p>{t("home.slogan1")}</p>
                     </div>
                     {/* text */}
                     <div className="text">
-                    <p>去中心化学习及技术认证平台</p>
+                    <p>{t("home.slogan2")}</p>
                     </div>
                     {/* Explore challenge */}
                     <div className="mar" style={{justifyContent: "center"}}>
@@ -28,7 +31,7 @@ export default function Index(params) {
                             navigateTo("/explore");
                         }}
                     >
-                        <span className="btn">探索挑战</span>
+                        <span className="btn">{t("home.btn-explore")}</span>
                     </Button>
                     {/* Creative a challenge */}
                     {/* <Button

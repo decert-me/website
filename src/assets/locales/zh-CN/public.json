@@ -1,12 +1,57 @@
 {
-    "try": "测试",
     "header": {
         "explore": "探索",
-        "connect": "连接钱包",
-        "disconnect": "断开连接"
+        "connect": "链接钱包",
+        "disconnect": "断开连接",
+        "profile": "个人中心"
     },
     "home": {
-        "slogan": "去中心化学习及技术认证平台",
-        "btn-explore": "探索挑战"
+        "slogan1": "You are what you build.",
+        "slogan2": "去中心化学习及技术认证平台",
+        "btn-explore": "探索挑战",
+        "btn-publish": "创建挑战"
+    },
+    "btn-submit": "提交",
+    "btn-add": "添加",
+    "btn-add-answer": "添加答案",
+    "btn-sumbit-confirm": "确认并提交",
+    "btn-go-challenge": "查看挑战详情",
+    "btn-edit-profile": "编辑资料",
+
+    "diff": "难度",
+    "diff-info": {
+       "easy": "简单",
+       "normal": "中等",
+       "diff": "困难"
+    },
+    "time": "预估时间",
+    "time-info": {
+        "m": "{{time}} 分",
+        "h": "{{time}} 时",
+        "d": "{{time}} 天",
+        "w": "{{time}} 周"
+    },
+    "modal": {
+        "claim": {
+            "claiming": "铸造中...",
+            "desc": "SBT 是不可转让，也不可出售的。",
+            "claimed": "你获得了一个SBT！",
+            "link": "查看SBT详情",
+            "share": "分享到Twitter"
+        }
+    },
+    "message": {
+        "success": {
+            "submit": {
+                "title": "提交成功",
+                "desc": "稍后系统将会把SBT发送至你的钱包账户，在此期间请勿删除此推文。"
+            }
+        },
+        "error": {
+            "submit": {
+                "title": "格式错误",
+                "desc": "请勿删除或修改推文内容。"
+            }
+        }
     }
 }

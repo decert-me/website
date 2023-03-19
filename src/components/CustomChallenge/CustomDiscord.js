@@ -4,12 +4,14 @@ import { useAccount } from "wagmi"
 import { verifyDiscord } from "@/request/api/public"
 import { Link } from "react-router-dom";
 import { useRequest } from "ahooks";
+import { useTranslation } from "react-i18next";
 
 
 
 export default function CustomDiscord(props) {
 
     
+    const { t } = useTranslation(["claim"]);
     const { step, setStep } = props;
     const { address } = useAccount();
     let [isBind, setIsBind] = useState();
@@ -53,7 +55,6 @@ export default function CustomDiscord(props) {
 
     useEffect(() => {
         run();
-        console.log('开启discord验证 ==>');
     },[step])
 
     const decertToken = (e) => {
@@ -84,17 +85,19 @@ export default function CustomDiscord(props) {
                 isBind ? 
                 <>
                     <p>{username}</p>
-                    <p>已绑定Discord</p>
+                    <p>{t("discord.binded")}</p>
                 </>
                 :
                 <>
-                    <p>未绑定Discord</p>
+                    <p>{t("discord.unbind")}</p>
                     {
                         step >= 2 &&
                         <div>
-                            <Button loading={isLoading} onClick={() => onclick()} style={{marginRight: "18px"}}>核实</Button>
+                            <Button loading={isLoading} onClick={() => onclick()} style={{marginRight: "18px"}}>
+                                {t("verify")}
+                            </Button>
                             <Link to={`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`} target="_blank">
-                                <Button>打开Discord</Button>
+                                <Button>{t("discord.bind")}</Button>
                             </Link>
                         </div>
                     }

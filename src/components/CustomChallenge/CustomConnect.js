@@ -4,12 +4,14 @@ import { useAccount } from "wagmi"
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import { NickName } from "../../utils/NickName";
 import { useRequest } from "ahooks";
+import { useTranslation } from "react-i18next";
 
 
 export default function CustomConnect(props) {
     
+    const { t } = useTranslation(["claim"]);
     const { step, setStep } = props;
-    const { address, isConnected } = useAccount();
+    const { address } = useAccount();
     let [connectModal, setConnectModal] = useState();
 
     const cancelModalConnect = () => {
@@ -26,7 +28,6 @@ export default function CustomConnect(props) {
         debounceWait: 500,
         manual: true
     });
-
 
     const decertToken = (e) => {
         if (e.key === "decert.token") {
@@ -59,16 +60,16 @@ export default function CustomConnect(props) {
             {
                 step === 1 && !localStorage.getItem('decert.token') ? 
                 <>
-                    <p>未连接钱包</p>
+                    <p>{t("wallet.unconnect")}</p>
                     {
                         step >= 1 &&
-                        <Button onClick={openModalConnect}>连接钱包</Button>
+                        <Button onClick={openModalConnect}>{t("wallet.connect")}</Button>
                     }
                 </>
                 :
                 <>
                     <p>{NickName(address)}</p>
-                    <p>已连接钱包</p>
+                    <p>{t("wallet.connected")}</p>
                 </>
             }
         </div>

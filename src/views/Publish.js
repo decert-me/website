@@ -15,6 +15,7 @@ import { addQuests, ipfsJson, submitHash } from "../request/api/public";
 import { createQuest } from "../controller";
 import { useNavigate } from "react-router-dom";
 import { constans } from "@/utils/constans";
+import { useTranslation } from "react-i18next";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -23,6 +24,7 @@ export default function Publish(params) {
     const navigateTo = useNavigate();
     const { address, isConnected } = useAccount();
     const { data: signer } = useSigner();
+    const { t } = useTranslation(["publish", "translation"]);
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID),
         onError(error) {
@@ -49,7 +51,7 @@ export default function Publish(params) {
         hash: createQuestHash,
         onSuccess() {
             setTimeout(() => {
-                message.success("创建挑战成功");
+                message.success(t("message.success.create"));
                 navigateTo("/explore")
             }, 1000);
         }
@@ -192,7 +194,7 @@ export default function Publish(params) {
                 handleCancel={hideAddModal}
                 questionChange={questionChange}
               />
-            <h3>创建挑战</h3>
+            <h3>{t("title")}</h3>
             <Form
                 className="inner"
                 name="challenge"
@@ -208,18 +210,18 @@ export default function Publish(params) {
                 autoComplete="off"
             >
                 <Form.Item
-                    label="标题"
+                    label={t("inner.title")}
                     name="title"
                     rules={[{
                         required: true,
-                        message: '请输入标题',
+                        message: t("inner.rule.title"),
                     }]}
                 >
                     <Input />
                 </Form.Item>
 
                 <Form.Item 
-                    label="描述"
+                    label={t("inner.desc")}
                     name="desc"
                 >
                     <TextArea 
@@ -233,12 +235,12 @@ export default function Publish(params) {
                 </Form.Item>
 
                 <Form.Item 
-                    label="图片" 
+                    label={t("inner.img")}
                     name="fileList"
                     valuePropName="img"
                     rules={[{
                         required: true,
-                        message: '请上传图片',
+                        message: t("inner.rule.img"),
                     }]}
                     wrapperCol={{
                         offset: 1,
@@ -255,10 +257,10 @@ export default function Publish(params) {
                             <InboxOutlined />
                         </p>
                         <p className="ant-upload-text " style={{ color: "#a0aec0" }}>
-                            点击或拖动文件到这个区域来上传
+                            {t("inner.content.img.p1")}
                         </p>
                         <p className="ant-upload-hint " style={{ color: "#a0aec0" }}>
-                            支持的文件类型。jpg, png, gif, svg. 最大尺寸：20 MB
+                            {t("inner.content.img.p2")}
                             <span style={{ color: "#f14e4e", fontSize: "20px" }}>*</span>
                         </p>
                     </Dragger>
@@ -287,7 +289,7 @@ export default function Publish(params) {
                         onClick={() => showAddModal()}
                         danger={questions.length === 0 && isClick}
                     >
-                        添加选择题或填空题
+                        {t("inner.add")}
                     </Button>
                     {/* <Button type="link">
                         Add code question
@@ -296,11 +298,11 @@ export default function Publish(params) {
 
                 <div className="challenge-info">
                     <Form.Item 
-                        label="及格分"
+                        label={t("inner.score")}
                         name="score"
                         rules={[{
                             required: true,
-                            message: '请设置及格分',
+                            message: t("inner.rule.score"),
                         }]}
                     >
                         <InputNumber
@@ -315,7 +317,7 @@ export default function Publish(params) {
                     </Form.Item>
 
                     <div className="form-item">
-                        <p className="title">总分</p>
+                        <p className="title">{t("inner.total")}</p>
                         <InputNumber 
                             value={sumScore} 
                             disabled
@@ -326,32 +328,32 @@ export default function Publish(params) {
                     </div>
 
                     <Form.Item 
-                        label="难度"
+                        label={t("translation:diff")}
                         name="difficulty"
                     >
                         <Select
                             options={[
-                                {value:0,label:'简单'},
-                                {value:1,label:'中等'},
-                                {value:2,label:'困难'}
+                                {value:0,label: t("translation:diff-info.easy")},
+                                {value:1,label: t("translation:diff-info.normal")},
+                                {value:2,label: t("translation:diff-info.diff")}
                             ]}
                         />
                     </Form.Item>
 
                     <Form.Item 
-                        label="预估时间"
+                        label={t("translation:time")}
                         name="time"
                     >
                         <Select 
                             options={[
-                                {value: 600,label:'10 分'},
-                                {value: 1800,label: '30 分'},
-                                {value: 3600,label:'1 时'},
-                                {value: 7200,label:'2 时'},
-                                {value: 14400,label: '4 时'},
-                                {value: 86400,label:'1 天'},
-                                {value: 259200,label:'3 天'},
-                                {value: 604800,label:'1 周'}
+                                {value: 600,label: t("translation:time-info.m", {time: "10"})},
+                                {value: 1800,label: t("translation:time-info.m", {time: "30"})},
+                                {value: 3600,label: t("translation:time-info.h", {time: "1"})},
+                                {value: 7200,label: t("translation:time-info.h", {time: "2"})},
+                                {value: 14400,label: t("translation:time-info.h", {time: "4"})},
+                                {value: 86400,label: t("translation:time-info.d", {time: "1"})},
+                                {value: 259200,label: t("translation:time-info.d", {time: "3"})},
+                                {value: 604800,label: t("translation:time-info.w", {time: "1"})}
                             ]}
                         />
                     </Form.Item>
@@ -369,7 +371,7 @@ export default function Publish(params) {
                         htmlType="submit" 
                         loading={ writeLoading || waitLoading }
                     >
-                        提交
+                        {t("translation:btn-submit")}
                     </Button>
                 </Form.Item>
             </Form>

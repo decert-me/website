@@ -15,6 +15,7 @@ serviceAxios.interceptors.request.use(
     // 如果开启 token 认证
     if (serverConfig.useTokenAuthorization) {
       config.headers["x-token"] = localStorage.getItem(`decert.token`); // 请求头携带 token
+      config.headers["x-lang"] = localStorage.getItem(`decert.lang`) ? localStorage.getItem(`decert.lang`) : navigator.language; // 请求头携带 token
     }
     return config;
   },

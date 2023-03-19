@@ -1,0 +1,22 @@
+{
+    "title": "Explore challenges",
+    "btn-challenge": "Challenge",
+    "btn-start": "Start Challenge",
+    "ques": {
+        "title": "Technology Certification",
+        "desc": "Upon completion of the challenge, you will earn SBT (Soulbound Token) as proof of your technical ability. Share it on your social platforms and let the world know what you can do."
+    },
+    "challenge": {
+        "title": "Quiz"
+    },
+    "modal": {
+        "challenge": {
+            "title": "Answer record",
+            "complete": "Finished",
+            "uncomplete": "Unfinished"
+        }
+    },
+    "message": {
+       
+    }
+}
