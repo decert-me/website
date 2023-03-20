@@ -9,32 +9,7 @@ import { useAccount, useDisconnect, useSigner } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest } from "ahooks";
 import { GetSign } from "@/utils/GetSign";
-
-
 const { Header, Footer, Content } = Layout;
-
-const headerStyle = {
-    width: "100%",
-    height: "55px",
-    lineHeight: '55px',
-    padding: 0,
-    backgroundColor: 'rgba(0,0,0,0)',
-    position: "fixed",
-    color: "#fff",
-    zIndex: 1
-};
-  
-const contentStyle = {
-    minHeight: "calc(100vh - 300px)",
-    backgroundColor: '#fff',
-};
-  
-const footerStyle = {
-    height: "300px",
-    textAlign: 'center',
-    color: '#fff',
-    backgroundColor: '#000',
-};
 
 export default function DefaultLayout(params) {
 
@@ -44,6 +19,29 @@ export default function DefaultLayout(params) {
     const { data: signer } = useSigner();
     const navigateTo = useNavigate();
     const location = useLocation();
+
+    const headerStyle = {
+        width: "100%",
+        height: "55px",
+        lineHeight: '55px',
+        padding: 0,
+        backgroundColor: 'rgba(0,0,0,0)',
+        position: "fixed",
+        color: "#fff",
+        zIndex: 1
+    };
+      
+    const contentStyle = {
+        minHeight: "calc(100vh - 300px)",
+        backgroundColor: location.pathname === "/lesson" ? "#F6F7F9" : '#fff',
+    };
+      
+    const footerStyle = {
+        height: "300px",
+        textAlign: 'center',
+        color: '#fff',
+        backgroundColor: '#000',
+    };
 
     const isClaim = (path) => {
         if (path && path.indexOf('claim') !== -1) {

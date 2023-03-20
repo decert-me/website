@@ -1,0 +1,49 @@
+.Lesson{
+    width: 1064px;
+    margin: 115px auto 0;
+    padding-bottom: 200px;
+    .title{
+        margin-bottom: 44px;
+        font-size: 40px;
+        font-weight: 700;
+        line-height: 58px;
+    }
+    .subtitle{
+        margin-bottom: 32px;
+        font-size: 30px;
+        font-weight: 500;
+        line-height: 43px;
+    }
+    .content{
+        display: flex;
+        justify-content: space-between;
+        .box{
+            width: 520px;
+            min-height: 366px;
+            border-radius: 10px;
+            overflow: hidden;
+            background-color: #fff;
+            cursor: pointer;
+            .img{
+                height: 234px;
+            }
+            .box-content{
+                padding: 20px 35px 32px 20px;
+
+                .box-title{
+                    font-size: 20px;
+                    font-weight: 500;
+                    color: #222222;
+                    line-height: 28px;
+
+                }
+                .box-desc{
+                    font-size: 12px;
+                    color: #999999;
+                    line-height: 17px;
+
+                }
+            }
+        }
+    }
+}
