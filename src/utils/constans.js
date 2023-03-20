@@ -10,9 +10,9 @@ export const constans = () => {
 
     const maxUint32 = Math.pow(2,32) - 1;
     const maxUint192 = BigNumber.from('2').pow(192).sub(1);
-    const openseaLink = `https://testnets.opensea.io/assets/${chains[process.env.REACT_APP_CHAIN_ID]}/${BadgeAddress}`;
+    const openseaLink = `${process.env.REACT_APP_OPENSEA_LINK}/assets/${chains[process.env.REACT_APP_CHAIN_ID]}/${BadgeAddress}`;
     const defaultImg = 'assets/images/img/default.png';
-    const ipfsPath = 'http://ipfs.learnblockchain.cn';
+    const ipfsPath = 'https://ipfs.decert.me';
 
     return {
         maxUint32,
