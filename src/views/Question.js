@@ -57,12 +57,14 @@ export default function Quests(params) {
                 </div>
                 <div className="question-bottom">
                     <ul>
-                        <li>
-                            <div className="img">
-                                <img src={hashAvatar(detail.creator)} alt="" />
-                            </div>
-                            <p>{NickName(detail.creator)}</p>
-                        </li>
+                        <Link to={`/user/${detail.creator}`}>
+                            <li>
+                                <div className="img">
+                                    <img src={hashAvatar(detail.creator)} alt="" />
+                                </div>
+                                <p>{NickName(detail.creator)}</p>
+                            </li>
+                        </Link>
                             
                         {
                             detail.metadata.properties.difficulty !== null &&

@@ -1,0 +1,145 @@
+.User{
+    width: 1020px;
+    margin: 0 auto;
+    margin-bottom: 100px;
+    padding-top: 135px;
+}
+.User-info{
+    height: 130px;
+    display: flex;
+    align-items: center;
+    position: relative;
+    .btn{
+        width: 160px;
+        height: 42px;
+        border-radius: 21px;
+        border: none;
+        box-shadow: none;
+        background-color: #1F1E2E;
+        color: white;
+        font-size: 12px;
+        position: absolute;
+        right: 0;
+        bottom: 0;
+    }
+    .img{
+        width: 130px;
+        height: 130px;
+        margin-right: 28px;
+        background-color: yellowgreen;
+        border-radius: 50%;
+        overflow: hidden;
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .info{
+        .name{
+            font-size: 30px;
+            font-weight: 500;
+            line-height: 25px;
+        }
+        .address{
+            margin-top: 10px;
+            color: #585858;
+            font-size: 18px;
+            font-weight: 300;
+            line-height: 25px;
+            cursor: pointer;
+        }
+        .social{
+            margin-top: 10px;
+            .icon{
+                // width: 16px;
+                // height: 12px;
+                width: 25px;
+                height: 25px;
+                background-color: #00000000;
+            }
+        }
+        .desc{
+            max-width: 600px;
+            margin-top: 10px;
+            color: #9E9E9E;
+            font-size: 12px;
+            line-height: 25px;
+            //超出换行省略号
+            overflow: hidden;
+            text-overflow: ellipsis;
+            /* 作为弹性伸缩盒子模型显示 */
+            display: -webkit-box;
+            /* 设置伸缩盒子的子元素排列方式--从上到下垂直排列 */
+            -webkit-box-orient: vertical;
+            /* 显示的行 */
+            -webkit-line-clamp: 2;
+        }
+    }
+}
+.User-list{
+    margin-top: 70px;
+    ul{
+        display: flex;
+        li{
+            cursor: pointer;
+            user-select: none;
+        }
+    }
+    .challenge{
+        margin-bottom: 25px;
+        li{
+            margin-right: 37px;
+            color: #A4A4A4;
+            font-size: 30px;
+            font-weight: 600;
+            line-height: 25px;
+        }
+        .active{
+            color: #000;
+            cursor: auto;
+        }
+    }
+    .status{
+        li{
+            margin-right: 40px;
+            color: #9E9E9E;
+            font-size: 24px;
+            font-weight: 350;
+            line-height: 35px;
+        }
+        .active{
+            color: #333333;
+            cursor: auto;
+        }
+    }
+}
+.User-content{
+    padding-block: 15px 50px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    .nodata{
+        width: 100%;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        p{
+            margin-bottom: 35px;
+            color: #C1C1C1;
+            font-size: 20px;
+            line-height: 28px;
+        }
+        .nodata-btn{
+            height: 44px;
+            padding: 10px 56px;
+            border-radius: 10px;
+            background: #FFFFFF;
+            border: 1px solid #000000;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 24px;
+        }
+    }
+}

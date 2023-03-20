@@ -43,7 +43,6 @@ export default function Explore(params) {
 
     const io = new IntersectionObserver(ioes => {
         ioes.forEach(async(ioe) => {
-            console.log(ioe);
             const el = ioe.target
             const intersectionRatio = ioe.intersectionRatio
             if (intersectionRatio > 0 && intersectionRatio <= 1) {

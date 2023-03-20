@@ -1,6 +1,7 @@
 {
     "header": {
         "explore": "Explore",
+        "lesson": "课程",
         "connect": "Connect wallet",
         "disconnect": "Disconnect",
         "profile": "Profile"
@@ -9,7 +10,7 @@
         "slogan1": "You are what you build.",
         "slogan2": "Decentralized skills learning and certification platform",
         "btn-explore": "Explore challenges",
-        "btn-publish": "Creative a challenge"
+        "btn-publish": "Create a Challenge"
     },
     "btn-submit": "Submit",
     "btn-add": "Add",
@@ -17,6 +18,8 @@
     "btn-sumbit-confirm": "Confirm and submit",
     "btn-go-challenge": "View challenge details",
     "btn-edit-profile": "Edit Profile",
+    "btn-cancel": "Cancel",
+    "btn-save": "Save",
 
     "diff": "Difficulty",
     "diff-info": {
@@ -45,7 +48,9 @@
             "submit": {
                 "title": "Submit succeed",
                 "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet."
-            }
+            },
+            "save": "Update success!",
+            "copy": "Copy success!"
         },
         "error": {
             "submit": {

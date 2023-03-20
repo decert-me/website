@@ -1,1 +1,1 @@
-module.exports = "0x66C54CB10Ef3d038aaBA2Ac06d2c25B326be8142";
+module.exports = process.env.REACT_APP_CONTRACT_BADGE_ADDRESS;

@@ -5,5 +5,19 @@
     "challenge-publish": "Created challenges",
     "type0": "All",
     "type1": "Claimable",
-    "type2": "Claimed"
+    "type2": "Claimed",
+    "claimble": "Claimable",
+    "nothing": "No more yet",
+    "edit": {
+        "title": "Edit profile",
+        "upload": "Upload picture",
+        "uploading": "Uploading",
+        "inner": {
+            "name": "Name",
+            "desc": "Personal profile",
+            "tips": {
+                "desc": "Please describe your interests or experience."
+            }
+        }
+    }
 }

@@ -5,5 +5,19 @@
     "challenge-publish": "发布的挑战",
     "type0": "全部",
     "type1": "可领取的",
-    "type2": "已领取的"
+    "type2": "已领取的",
+    "claimble": "可领取",
+    "nothing": "暂无更多",
+    "edit": {
+        "title": "编辑资料",
+        "upload": "上传头像",
+        "uploading": "上传中...",
+        "inner": {
+            "name": "用户名",
+            "desc": "个人介绍",
+            "tips": {
+                "desc": "请介绍你的兴趣或经验。"
+            }
+        }
+    }
 }

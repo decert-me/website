@@ -23,11 +23,11 @@ export default function AppHeader(params) {
     let [isHome, setIsHome] = useState();
 
     const items = [
-        // {
-        //     label: (<Link to={{pathname: '/myInfo'}}> Profile </Link>),
-        //     key: '1',
-        //     icon: '',
-        // },
+        {
+            label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("translation:header.profile")} </p>),
+            key: '1',
+            icon: '',
+        },
         {
             label: (<p onClick={() => disconnect()}> {t("translation:header.disconnect")} </p>),
             key: '2',
@@ -70,22 +70,24 @@ export default function AppHeader(params) {
                             <img src={require("@/assets/images/img/logo-black.png")} alt="" />
                         }
                     </div>
+                    <Link to="/lesson">{t("translation:header.lesson")}</Link>
                     <Link to="/explore">{t("translation:header.explore")}</Link>
-                    {/* TODO: test ===> */}
+                </div>
+
+                <div className='nav-right'>
                     <Button 
+                        type="ghost"
+                        ghost
                         onClick={() => {
                             let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
-                            console.log(i18n.language);
                             i18n.changeLanguage(lang);
                             localStorage.setItem("decert.lang", lang)
                         }}
                     >
-                        切换语言
+                        {i18n.language === 'zh-CN' ? "中文" : "EN"}
                     </Button>
-                </div>
                 {
                     isConnected ?
-                    <div>
                         <Dropdown
                             placement="bottom" 
                             arrow
@@ -97,13 +99,13 @@ export default function AppHeader(params) {
                                 <p>{NickName(address)}</p>
                             </div>
                         </Dropdown>
-                    </div>
                     :
                     <div>
                         <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
                         <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
                     </div>
                 }
+                </div>
             </div>
         </div>
     )
