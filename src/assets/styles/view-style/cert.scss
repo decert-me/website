@@ -1,0 +1,117 @@
+.Cert{
+    width: 1660px;
+    min-height: 1080px;
+    margin: 55px auto 0;
+    display: flex;
+}
+.divider{
+    margin-block: 33px;
+    border-color: #D8D8D8;
+}
+.Cert-sidbar{
+    width: 400px;
+    padding-right: 60px;
+    padding-top: 20px;
+    box-sizing: content-box;
+    .search{
+        .search-title{
+            margin-bottom: 18px;
+            font-size: 26px;
+            font-weight: 600;
+            line-height: 25px;
+        }
+        .search-inner{
+            height: 50px;
+            padding-block: 13px;
+            padding-inline: 10px 18px;
+            display: flex;
+            align-items: center;
+            border-radius: 5px;
+            border: 2px solid #000;
+        }
+        .icon{
+            margin-right: 8px;
+            font-size: 20px;
+        }
+        input{
+            padding: 0;
+            font-weight: 500;
+        }
+    }
+    .user{
+        display: flex;
+        align-items: center;
+        position: relative;
+        .avatar > .img{
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            overflow: hidden;
+            img{
+                width: 100%;
+                height: 100%;
+            }
+        }
+        .user-info{
+            margin-left: 15px;
+            .name{
+                max-width: 200px;
+                margin-bottom: 14px;
+                font-size: 24px;
+                font-weight: 500;
+                line-height: 25px;
+                white-space: nowrap;  
+                text-overflow:ellipsis; 
+                overflow:hidden;
+                word-break: break-all;
+            }
+            .address{
+                max-width: 200px;
+                font-size: 18px;
+                line-height: 25px;
+            }
+        }
+        .share{
+            min-width: 60px;
+            height: 34px;
+            position: absolute;
+            right: 34px;
+            top: 6px;
+            border: none;
+            box-shadow: none;
+            border-radius: 4px;
+            background-color: #AED2ED;
+            color: #3D3D3D;
+        }
+    }
+    .nfts{
+        p:nth-child(1){
+            margin-bottom: 13px;
+            color: #3D3D3D;
+            line-height: 20px;
+        }
+        div:nth-child(2),p:nth-child(3){
+            font-size: 18px;
+            font-weight: 700;
+            line-height: 27px;
+        }
+        p:nth-child(3){
+            margin-bottom: 16px;
+        }
+        .add{
+            margin-bottom: 27px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            button{
+                width: 40px;
+                height: 40px;
+                padding: 0;
+                color: #fff;
+                font-size: 20px;
+                background-color: #4E7592;
+                border: none;
+            }
+        }
+    }
+}

@@ -2,6 +2,7 @@
     "header": {
         "explore": "探索",
         "lesson": "课程",
+        "cert": "认证",
         "connect": "链接钱包",
         "disconnect": "断开连接",
         "profile": "个人中心"

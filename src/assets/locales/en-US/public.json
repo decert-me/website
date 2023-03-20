@@ -2,6 +2,7 @@
     "header": {
         "explore": "Explore",
         "lesson": "课程",
+        "cert": "认证",
         "connect": "Connect wallet",
         "disconnect": "Disconnect",
         "profile": "Profile"

@@ -72,12 +72,14 @@ export default function AppHeader(params) {
                     </div>
                     <Link to="/lesson">{t("translation:header.lesson")}</Link>
                     <Link to="/explore">{t("translation:header.explore")}</Link>
+                    {/* <Link to="/explore">{t("translation:header.cert")}</Link> */}
                 </div>
 
                 <div className='nav-right'>
                     <Button 
                         type="ghost"
                         ghost
+                        className='lang'
                         onClick={() => {
                             let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
                             i18n.changeLanguage(lang);
