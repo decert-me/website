@@ -29,8 +29,13 @@ export default function AppHeader(params) {
             icon: '',
         },
         {
-            label: (<p onClick={() => disconnect()}> {t("translation:header.disconnect")} </p>),
+            label: (<p onClick={() => navigateTo(`/${address}`)}> {t("translation:header.cert")} </p>),
             key: '2',
+            icon: '',
+        },
+        {
+            label: (<p onClick={() => disconnect()}> {t("translation:header.disconnect")} </p>),
+            key: '3',
             icon: '',
         }
     ]

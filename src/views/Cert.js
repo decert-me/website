@@ -6,19 +6,36 @@ import { hashAvatar } from "@/utils/HashAvatar";
 import {
     CopyOutlined
 } from '@ant-design/icons';
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "@/assets/styles/view-style/cert.scss"
 import { NickName } from "@/utils/NickName";
 import { useTranslation } from "react-i18next";
 import { Copy } from "@/utils/Copy";
+import { useLocation, useNavigate } from "react-router-dom";
 
 
 export default function Cert(params) {
     
     const { t } = useTranslation(["translation","profile", "explore"]);
-    let [account, setAccount] = useState('0x286E147aA2b92ed8301F22895c1c0E0D8904F10d');
+    const navigateTo = useNavigate();
+    const location = useLocation();
+    let [account, setAccount] = useState();
+
+    const init = () => {
+        account = location.pathname.split('/')[1];
+        if (account.length !== 42) {
+            navigateTo('/search');
+            return
+        }
+        setAccount(account)
+    }
+
+    useEffect(() => {
+        init();
+    },[location])
 
     return (
+        account &&
         <div className="Cert">
             <div className="Cert-sidbar">
                 <div className="search">
