@@ -10,10 +10,10 @@
     "nothing": "No more yet",
     "edit": {
         "title": "Edit profile",
-        "upload": "Upload new picture",
+        "upload": "Upload picture",
         "uploading": "Uploading",
         "inner": {
-            "name": "User name",
+            "name": "Name",
             "desc": "Personal profile",
             "tips": {
                 "desc": "Please describe your interests or experience."

@@ -70,6 +70,7 @@ export default function AppHeader(params) {
                             <img src={require("@/assets/images/img/logo-black.png")} alt="" />
                         }
                     </div>
+                    <Link to="/lesson">{t("translation:header.lesson")}</Link>
                     <Link to="/explore">{t("translation:header.explore")}</Link>
                 </div>
 

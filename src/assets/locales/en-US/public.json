@@ -1,6 +1,7 @@
 {
     "header": {
         "explore": "Explore",
+        "lesson": "课程",
         "connect": "Connect wallet",
         "disconnect": "Disconnect",
         "profile": "Profile"
@@ -9,7 +10,7 @@
         "slogan1": "You are what you build.",
         "slogan2": "Decentralized skills learning and certification platform",
         "btn-explore": "Explore challenges",
-        "btn-publish": "Creative a challenge"
+        "btn-publish": "Create a Challenge"
     },
     "btn-submit": "Submit",
     "btn-add": "Add",

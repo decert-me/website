@@ -5,7 +5,9 @@ import Question from "@/views/Question";
 import Challenge from "@/views/Challenge";
 import Claim from "@/views/Claim";
 import User from "@/views/User/index";
-import UserEdit from "../views/User/edit";
+import UserEdit from "@/views/User/edit";
+import Cert from "@/views/Cert";
+import Lesson from "@/views/Lesson";
 
 const routes = [
     { 
@@ -44,6 +46,14 @@ const routes = [
           element: <UserEdit />
         }
       ]
+    },
+    { 
+      path: "/:address",
+      element: <Cert />,
+    },
+      { 
+      path: "/lesson",
+      element: <Lesson />,
     }
     
     
