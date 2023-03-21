@@ -1,19 +1,12 @@
-import { Button, Divider, Input } from "antd";
-import {
-    SearchOutlined
-} from "@ant-design/icons"
-import { hashAvatar } from "@/utils/HashAvatar";
-import {
-    CopyOutlined
-} from '@ant-design/icons';
+import { Button, Divider } from "antd";
 import { useEffect, useState } from "react";
 import "@/assets/styles/view-style/cert.scss"
-import { NickName } from "@/utils/NickName";
 import { useTranslation } from "react-i18next";
-import { Copy } from "@/utils/Copy";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getUser } from "@/request/api/public";
-import { useVerifyAccount } from "@/hooks/useVerifyAccount";
+import { getContracts } from "@/request/api/nft";
+import CertSearch from "@/components/Cert/Search";
+import CertUser from "@/components/Cert/User";
+import CertNfts from "@/components/Cert/Nfts";
 
 
 export default function Cert(params) {
@@ -22,18 +15,8 @@ export default function Cert(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
     let [account, setAccount] = useState();
-    const { verify: run, isLoading } = useVerifyAccount({address: account});
 
-
-    const getInfo = async() => {
-        const user = await getUser({address: account})
-        if (!user.data) {
-            return
-        }else{
-            console.log(user);
-        }
-    }
-
+    
     const init = () => {
         account = location.pathname.split('/')[1];
         if (account.length !== 42) {
@@ -41,7 +24,6 @@ export default function Cert(params) {
             return
         }
         setAccount(account);
-        getInfo();
     }
 
     useEffect(() => {
@@ -53,42 +35,11 @@ export default function Cert(params) {
         account &&
         <div className="Cert">
             <div className="Cert-sidbar">
-                <div className="search">
-                    <p className="search-title">
-                        搜索
-                    </p>
-                    <div className="search-inner">
-                        <SearchOutlined className="icon" />
-                        <Input bordered={false} />
-                    </div>
-                </div>
+                <CertSearch />
                 <Divider className="divider"  />
-                <div className="user">
-                    <div className="avatar">
-                        <div className="img">
-                            <img src={hashAvatar(account)} alt="" />
-                        </div>
-                    </div>
-                    <div className="user-info">
-                        <p className="name">
-                            {/* {info.nickname ? info.nickname : NickName(info.address)} */}
-                            Dave
-                        </p>
-                        <p className="address" onClick={() => Copy(account, t("translation:message.success.copy"))}>
-                            {NickName(account)}<CopyOutlined style={{color: "#3C6EB9", marginLeft: "12px"}} />
-                        </p>
-                        <Button className="share" >分享</Button>
-                    </div>
-                </div>
+                <CertUser account={account} />
                 <Divider className="divider" />
-                <div className="nfts">
-                    <p>SBT 收藏:</p>
-                    <div className="add">
-                        添加技能 SBT
-                        <Button>+</Button>
-                    </div>
-                    <p>全部（4）</p>
-                </div>
+                <CertNfts account={account} />
             </div>
             <div className="Cert-content">
 xx
