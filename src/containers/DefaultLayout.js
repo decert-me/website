@@ -56,6 +56,16 @@ export default function DefaultLayout(params) {
         }
     }
 
+    const isCert = (path, type) => {
+        if (path && path.split('/')[1].length === 42) {
+            if (type === "toggle") {
+                navigateTo(`/${address}`)
+            }else{
+                navigateTo('/search')
+            }
+        }
+    }
+
     const sign = () => {
         GetSign({address: address, signer: signer, disconnect: disconnect})
     }
@@ -70,12 +80,14 @@ export default function DefaultLayout(params) {
             ClearStorage();
             localStorage.setItem("decert.address", address);
             isClaim(path);
+            isCert(path, 'toggle');
             sign()
         }else if (addr && !address) {
             // 已登陆  ====>  未登录
             ClearStorage();
             isClaim(path);
             isExplore(path);
+            isCert(path, 'signout');
         }
     }
 

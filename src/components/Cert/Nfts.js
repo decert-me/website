@@ -1,5 +1,6 @@
 import { getContracts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
+import { useUpdateEffect } from "ahooks";
 import { Button, List, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import ModalAddSbt from "./ModalAddSbt";
@@ -9,9 +10,10 @@ import ModalAddSbt from "./ModalAddSbt";
 
 export default function CertNfts(props) {
     
-    const { account } = props;
+    const { account, changeContract } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     let [list, setList] = useState();
+    let [selectItem, setSelectItem] = useState();
 
     const show = () => {
         setIsModalOpen(true);
@@ -29,12 +31,32 @@ export default function CertNfts(props) {
         list = contracts.data;
         setTimeout(() => {
             setList([...list]);
+            setSelectItem(0);
         }, 1000);
     }
 
     useEffect(() => {
         init();
-    },[])
+    },[account])
+
+    useUpdateEffect(() => {
+        let check;
+        if (selectItem === 0) {
+            check = {
+                address: account
+            }
+        }else{
+            list.map(e => {
+                if (e.id === selectItem) {
+                    check = {
+                        address: account,
+                        contract_id: e.id
+                    }
+                }
+            })
+        }
+        changeContract(check)
+    },[selectItem])
 
     return (
 
@@ -47,11 +69,22 @@ export default function CertNfts(props) {
             {
                 list ? 
                 <>
-                    <p className="list-title">全部（{list.length}）</p>
                     <ul>
+                        <li
+                            className={`${selectItem === 0 ? "active" : ""}`}
+                            onClick={() => {setSelectItem(0)}}
+                        >
+                            <div></div>
+                            <p className="li-content">全部</p>
+                            <p>(10)</p>
+                        </li>
                         {
                             list.map(e => 
-                                <li key={e.id}>
+                                <li 
+                                    key={e.id} 
+                                    className={`${selectItem === e.id ? "active" : ""}`}
+                                    onClick={() => {setSelectItem(e.id)}}
+                                >
                                     <div className="img">
                                         <img src={process.env.REACT_APP_NFT_BASE_URL+e.contract_logo} alt="" />
                                     </div>

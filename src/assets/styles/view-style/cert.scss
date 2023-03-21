@@ -5,12 +5,16 @@
     display: flex;
 }
 .divider{
+    width: 370px;
     margin-block: 33px;
     border-color: #D8D8D8;
 }
+.mt50{
+    margin-top: 50px;
+}
 .Cert-sidbar{
-    width: 400px;
-    padding-right: 60px;
+    width: 410px;
+    padding-right: 10px;
     padding-top: 20px;
     box-sizing: content-box;
     .search{
@@ -39,6 +43,7 @@
         }
     }
     .user{
+        width: 370px;
         display: flex;
         align-items: center;
         position: relative;
@@ -76,8 +81,8 @@
             min-width: 60px;
             height: 34px;
             position: absolute;
-            right: 34px;
-            top: 6px;
+            right: 0;
+            top: 0;
             border: none;
             box-shadow: none;
             border-radius: 4px;
@@ -86,6 +91,7 @@
         }
     }
     .nfts{
+        width: 370px;
         p:nth-child(1){
             margin-bottom: 13px;
             color: #3D3D3D;
@@ -95,9 +101,6 @@
             font-size: 18px;
             font-weight: 700;
             line-height: 27px;
-        }
-        .list-title{
-            margin-bottom: 16px;
         }
         .add{
             margin-bottom: 27px;
@@ -115,6 +118,9 @@
             }
         }
         ul{
+            .active,li:hover{
+                background-color: rgba($color: #4e7592, $alpha: 0.1);
+            }
             li{
                 height: 50px;
                 padding: 5px;
@@ -135,16 +141,94 @@
                     overflow:hidden;
 
                 }
-
-                .active,&:hover{
-                    background-color: rgba($color: #4e7592, $alpha: 0.1);
-                }
                 .img{
                     width: 43px;
                     height: 43px;
                     margin-right: 12px; 
                     border-radius: 5px;
                     overflow: hidden;
+                }
+            }
+        }
+    }
+}
+.Cert-content{
+    width: calc(100% - 400px);
+    padding: 40px;
+    padding-right: 0;
+    border-left: 1px solid #D8D8D8;
+    ul{
+        display: flex;
+        color: #666666;
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 34px;
+        li{
+            margin-right: 50px;
+            cursor: pointer;
+        }
+        .active{
+            color: #000;
+        }
+    }
+    .nfts{
+        margin-top: 43px;
+        display: flex;
+        flex-wrap: wrap;
+        gap: 25px;
+        .nft-detail{
+            width: 282px;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px 1px #999;
+            &:hover{
+                .nft-info .bottom{
+                    bottom: 0;
+                }
+            }
+            .img{
+                width: 100%;
+                height: 270px;
+                background-color: yellowgreen;
+                img{
+                    width: 100%;
+                    height: auto;
+                }
+            }
+            .nft-info{
+                width: 100%;
+                height: 100px;
+                background-color: #fff;
+                position: relative;
+                .bottom{
+                    width: 100%;
+                    height: 36px;
+                    position: absolute;
+                    bottom: -36px;
+                    color: #fff;
+                    background-color: #495FEA;
+
+                    transition: bottom 0.2s;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    p{
+                        width: calc(100% - 60px);
+                        text-align: center;
+                    }
+                    .more{
+                        width: 60px;
+                        height: 100%;
+                        border-left: 1px solid #fff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        .icon{
+                            font-size: 20px;
+                            transform: rotate(90deg);
+                        }
+                    }
                 }
             }
         }
