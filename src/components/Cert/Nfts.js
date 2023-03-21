@@ -1,6 +1,8 @@
 import { getContracts } from "@/request/api/nft";
+import { findFastestGateway } from "@/utils/LoadImg";
 import { Button, List, Skeleton } from "antd";
 import { useEffect, useState } from "react";
+import ModalAddSbt from "./ModalAddSbt";
 
 
 
@@ -8,11 +10,16 @@ import { useEffect, useState } from "react";
 export default function CertNfts(props) {
     
     const { account } = props;
+    const [isModalOpen, setIsModalOpen] = useState(false);
     let [list, setList] = useState();
 
     const show = () => {
-        
+        setIsModalOpen(true);
     }
+
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
 
     const init = async() => {
         const contracts = await getContracts({address: account});
@@ -23,7 +30,6 @@ export default function CertNfts(props) {
         setTimeout(() => {
             setList([...list]);
         }, 1000);
-        console.log(list);
     }
 
     useEffect(() => {
@@ -59,6 +65,8 @@ export default function CertNfts(props) {
                 :
                 <Skeleton active />
             }
+
+            <ModalAddSbt isModalOpen={isModalOpen} handleCancel={handleCancel} />
         </div>
     )
 }

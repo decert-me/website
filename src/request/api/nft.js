@@ -8,6 +8,12 @@ export const getContracts = (data) => {
     })
 }
 
-
+export const getContractNfts = (data) => {
+    return nftAxios({
+        url: `/contract/${data.address}?chain_id=${data.chainId}&page=1&pageSize=1`,
+        method: "get",
+        data
+    })
+}
 
 

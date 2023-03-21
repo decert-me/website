@@ -117,8 +117,8 @@
         ul{
             li{
                 height: 50px;
-                padding: 4px;
-                margin-bottom: 7px;
+                padding: 5px;
+                margin-bottom: 10px;
                 border-radius: 5px;
                 display: flex;
                 align-items: center;
@@ -136,7 +136,7 @@
 
                 }
 
-                &:hover{
+                .active,&:hover{
                     background-color: rgba($color: #4e7592, $alpha: 0.1);
                 }
                 .img{

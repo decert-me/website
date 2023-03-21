@@ -7,6 +7,17 @@ let nftAxios = axios.create({
   timeout: 30000 // 请求超时设置
   //   withCredentials: false, // 跨域请求是否需要携带 cookie
 });
+// 创建请求拦截
+nftAxios.interceptors.request.use(
+  config => {
+    // 如果开启 token 认证
+    config.headers["x-token"] = localStorage.getItem(`decert.token`); // 请求头携带 token
+    return config;
+  },
+  error => {
+    Promise.reject(error);
+  }
+);
 nftAxios.interceptors.response.use(
   res => {
     let data = res.data;
