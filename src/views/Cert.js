@@ -12,6 +12,8 @@ import { NickName } from "@/utils/NickName";
 import { useTranslation } from "react-i18next";
 import { Copy } from "@/utils/Copy";
 import { useLocation, useNavigate } from "react-router-dom";
+import { getUser } from "@/request/api/public";
+import { useVerifyAccount } from "@/hooks/useVerifyAccount";
 
 
 export default function Cert(params) {
@@ -20,6 +22,17 @@ export default function Cert(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
     let [account, setAccount] = useState();
+    const { verify: run, isLoading } = useVerifyAccount({address: account});
+
+
+    const getInfo = async() => {
+        const user = await getUser({address: account})
+        if (!user.data) {
+            return
+        }else{
+            console.log(user);
+        }
+    }
 
     const init = () => {
         account = location.pathname.split('/')[1];
@@ -27,12 +40,14 @@ export default function Cert(params) {
             navigateTo('/search');
             return
         }
-        setAccount(account)
+        setAccount(account);
+        getInfo();
     }
 
     useEffect(() => {
         init();
     },[location])
+
 
     return (
         account &&
@@ -62,7 +77,7 @@ export default function Cert(params) {
                         <p className="address" onClick={() => Copy(account, t("translation:message.success.copy"))}>
                             {NickName(account)}<CopyOutlined style={{color: "#3C6EB9", marginLeft: "12px"}} />
                         </p>
-                        <Button className="share">分享</Button>
+                        <Button className="share" >分享</Button>
                     </div>
                 </div>
                 <Divider className="divider" />
