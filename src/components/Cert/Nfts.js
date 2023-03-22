@@ -10,7 +10,7 @@ import ModalAddSbt from "./ModalAddSbt";
 
 export default function CertNfts(props) {
     
-    const { account, changeContract, total, isMe } = props;
+    const { account, changeContract, total, isMe, refetch } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     let [list, setList] = useState();
     let [selectItem, setSelectItem] = useState();
@@ -102,7 +102,11 @@ export default function CertNfts(props) {
                 <Skeleton active />
             }
 
-            <ModalAddSbt isModalOpen={isModalOpen} handleCancel={handleCancel} />
+            <ModalAddSbt 
+                isModalOpen={isModalOpen} 
+                handleCancel={handleCancel}
+                refetch={refetch}
+             />
         </div>
     )
 }

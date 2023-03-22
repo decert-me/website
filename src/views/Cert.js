@@ -1,4 +1,4 @@
-import { Divider } from "antd";
+import { Divider, Spin } from "antd";
 import { useEffect, useState } from "react";
 import "@/assets/styles/view-style/cert.scss"
 import { useTranslation } from "react-i18next";
@@ -27,6 +27,8 @@ export default function Cert(params) {
     let [checkTotal, setCheckTotal] = useState({
         all: 0, open: 0, hide: 0
     });
+    
+    let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
     const { data, isSuccess } = useEnsAddress({
@@ -52,19 +54,26 @@ export default function Cert(params) {
                     setCheckTotal({...checkTotal});
                 }
             }
+            setLoading(false);
         })
+    }
+
+    const refetch = () => {
+        setLoading(true);
+        setTimeout(() => {
+            changeContract({
+                address: account,
+                contract_id: selectContract,
+                status: selectStatus
+            })
+        }, 1000);
     }
 
     const changeNftStatus = (id, status) => {
         modifyNftStatus({ID: id, status: status})
         .then(res => {
             if (res) {
-                // 重新获取
-                changeContract({
-                    address: account,
-                    contract_id: selectContract,
-                    status: selectStatus
-                })
+                refetch();
             }
         })
     }
@@ -110,6 +119,7 @@ export default function Cert(params) {
                     changeContract={changeContract} 
                     total={total} 
                     isMe={isMe}
+                    refetch={refetch}
                 />
             </div>
             <div className="Cert-content">
@@ -124,7 +134,10 @@ export default function Cert(params) {
 
                 <div className="nfts">
                     {
-                        list &&
+                        loading ? 
+                        <Spin />
+                        :
+                        list && 
                         list.map(e => 
                             <NftBox 
                                 info={e}

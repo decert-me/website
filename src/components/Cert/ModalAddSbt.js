@@ -1,4 +1,4 @@
-import { Button, Divider, Input, Modal, Select, Skeleton, Space } from "antd";
+import { Button, Divider, Input, message, Modal, Select, Skeleton, Space } from "antd";
 import {
     CloseCircleOutlined,
     CheckOutlined,
@@ -33,13 +33,15 @@ const renderoption = (option) => {
 
 export default function ModalAddSbt(props) {
     
-    const { isModalOpen, handleCancel } = props;
+    const { isModalOpen, handleCancel, refetch } = props;
     const { chains } = constans();
     let [options, setOptions] = useState();
+    let [loading, setLoading] = useState();
     let [config, setConfig] = useState({
         chainId: 137, address: "", page: 1, pageSize: 10
     })
     let [list, setList] = useState();
+    let [cache, setCache] = useState();
     let [gateway, setGateway] = useState(
         "https://nftscan.mypinata.cloud/ipfs/"
         // "https://dweb.link/ipfs/"
@@ -49,22 +51,26 @@ export default function ModalAddSbt(props) {
     let [deleteIds, setDeleteIds] = useState([]);
 
     const changeList = (id) => {
-        list.map(e => {
+        cache.map(e => {
             if (e.id === id) {
                 e.flag = e.flag === 1 ? 2 : 1;
             }
         })
-        setList([...list]);
+        setCache([...cache]);
     }
 
-    const checked = (id, arr) => {
+    const checked = (id, type) => {
         changeList(id);
         let flag = true;
+        let arr = type === 1 ? addIds : deleteIds;
         arr.map((e,i) => {
             if (e === id) {
                 arr.splice(i,1);
-                setAddIds([...addIds]);
-                setDeleteIds([...deleteIds]);
+                if (type === 1) {
+                    setAddIds([...arr]);
+                }else{
+                    setDeleteIds([...arr]);
+                }
                 flag = false;
             }
         })
@@ -72,29 +78,62 @@ export default function ModalAddSbt(props) {
             return
         }
         arr.push(id);
-        setAddIds([...addIds]);
-        setDeleteIds([...deleteIds]);
+        if (type === 1) {
+            setAddIds([...arr]);
+        }else{
+            setDeleteIds([...arr]);
+        }
+    }
+
+    const addNft = () => {
+        new Promise((resolve, reject) => {
+            if (addIds.length > 0) {
+                flagNft({
+                    ids: addIds,
+                    flag: 2
+                })
+                .then(res => {
+                    resolve();
+                })
+            }else{
+                resolve();
+            }
+        });
+    }
+      
+    const reduceNft = () => {
+        new Promise((resolve, reject) => {
+            if (deleteIds.length > 0) {
+                flagNft({
+                    ids: deleteIds,
+                    flag: 1
+                })
+                .then(res => {
+                    resolve();
+                })
+            }else{
+                resolve();
+            }
+        });
     }
 
     const confirm = () => {
-        if (addIds.length > 0) {
-            flagNft({
-                ids: addIds,
-                flag: 2
-            })
-            .then(res => {
-                console.log(res);
-            })
-        }
-        if (deleteIds.length > 0) {
-            flagNft({
-                ids: deleteIds,
-                flag: 1
-            })
-            .then(res => {
-                console.log(res);
-            })
-        }
+        setLoading(true);
+        const promise1 = addNft();
+        const promise2 = reduceNft();
+        Promise.all([promise1, promise2])
+        .then(results => {
+            // 处理结果
+            setLoading(false);
+            message.success('操作成功')
+            setTimeout(() => {
+                handleCancel()
+            }, 500);
+        })
+        .catch(error => {
+            setLoading(false);
+            // 处理错误
+        });
     }
 
     const changeConfig = (v, key) => {
@@ -131,8 +170,11 @@ export default function ModalAddSbt(props) {
             getContractNfts(config)
             .then(res => {
                 if (res.data) {
-                    list = res.data?.list ? res.data?.list : [];
+                    let arr = res.data?.list ? res.data?.list : [];
+                    list = arr.slice();
                     setList([...list]);
+                    cache = JSON.parse(JSON.stringify(arr));
+                    setCache([...cache]);
                 }
             })
         }
@@ -148,7 +190,11 @@ export default function ModalAddSbt(props) {
             footer={null}
             open={isModalOpen}
             onCancel={handleCancel}
-            afterClose={() => {setList([...[]])}}
+            afterClose={() => {
+                setList([...[]])
+                setCache([...[]])
+                refetch()
+            }}
             closeIcon={<CloseCircleOutlined />}
             destroyOnClose
             width="1164px"
@@ -185,6 +231,7 @@ export default function ModalAddSbt(props) {
                 </div>
 
                 <Button 
+                    loading={loading}
                     className="confirm" 
                     onClick={() => confirm()} 
                     disabled={addIds.length === 0 && deleteIds.length === 0} 
@@ -195,11 +242,11 @@ export default function ModalAddSbt(props) {
                 <div className="list-content">
                     {
                         list &&
-                        list.map(e => 
+                        list.map((e,i) => 
                             <div 
-                                className={`box ${e.flag === 2 ? "box-active" : ""}`}
+                                className={`box ${cache[i].flag === 2 ? "box-active" : ""}`}
                                 key={e.id}
-                                onClick={() => checked(e.id,e.flag === 1 ? addIds : deleteIds)}
+                                onClick={() => checked(e.id,e.flag)}
                             >
                                 <div className="img">
                                     <img src={`${gateway}${e.image_uri}`} alt="" />
@@ -207,7 +254,7 @@ export default function ModalAddSbt(props) {
                                 <p>{e.name}</p>
                                 <div className="checkbox">
                                     {
-                                        e.flag === 2 &&
+                                        cache[i].flag === 2 &&
                                         <CheckOutlined />
                                     }
                                 </div>
