@@ -55,7 +55,8 @@ export default function ModalAddSbt(props) {
         arr.map((e,i) => {
             if (e === id) {
                 arr.splice(i,1);
-                // setIds([...arr]);
+                setAddIds([...addIds]);
+                setDeleteIds([...deleteIds]);
                 flag = false;
             }
         })
@@ -63,28 +64,31 @@ export default function ModalAddSbt(props) {
             return
         }
         arr.push(id);
+        setAddIds([...addIds]);
+        setDeleteIds([...deleteIds]);
         // setIds([...arr]);
     }
 
     const confirm = () => {
-        setAddIds([...addIds]);
-        setDeleteIds([...deleteIds]);
-        console.log(addIds, deleteIds);
-        return
-        flagNft({
-            ids: addIds,
-            flag: 2
-        })
-        .then(res => {
-            console.log(res);
-        })
-        flagNft({
-            ids: deleteIds,
-            flag: 1
-        })
-        .then(res => {
-            console.log(res);
-        })
+
+        if (addIds.length > 0) {
+            flagNft({
+                ids: addIds,
+                flag: 2
+            })
+            .then(res => {
+                console.log(res);
+            })
+        }
+        if (deleteIds.length > 0) {
+            flagNft({
+                ids: deleteIds,
+                flag: 1
+            })
+            .then(res => {
+                console.log(res);
+            })
+        }
     }
 
     const changeConfig = (v, key) => {
@@ -104,7 +108,6 @@ export default function ModalAddSbt(props) {
             console.log('err ==>',err);
         })
     }
-
 
     const init = () => {
         let arr = [];
@@ -139,7 +142,9 @@ export default function ModalAddSbt(props) {
             footer={null}
             open={isModalOpen}
             onCancel={handleCancel}
+            afterClose={() => {setList([...[]])}}
             closeIcon={<CloseCircleOutlined />}
+            destroyOnClose
             width="1164px"
         >
             <p className="title">请添加可作为你技能能力证明的SBT</p>
@@ -173,7 +178,11 @@ export default function ModalAddSbt(props) {
                     </div>
                 </div>
 
-                <Button className="confirm" onClick={() => confirm()}>确认</Button>
+                <Button 
+                    className="confirm" 
+                    onClick={() => confirm()} 
+                    disabled={addIds.length === 0 && deleteIds.length === 0} 
+                >确认</Button>
             </div>
             <Divider style={{marginBlock: "30px"}} />
             <div className="content">
