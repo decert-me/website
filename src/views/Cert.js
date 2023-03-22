@@ -10,6 +10,7 @@ import { getAllNft, modifyNftStatus } from "@/request/api/nft";
 import NftBox from "@/components/Cert/NftBox";
 import { useUpdateEffect } from "ahooks";
 import { useAccount, useEnsAddress } from "wagmi";
+import { ethers } from "ethers";
 
 
 export default function Cert(params) {
@@ -79,13 +80,13 @@ export default function Cert(params) {
     }
 
     const init = () => {
-        account = urlAddr;
-        setIsMe(address === urlAddr);
-        if (account.length !== 42) {
-            navigateTo('/search');
-            return
+        if (urlAddr === ethers.constants.AddressZero) {
+            // 错误地址
+        }else{
+            account = urlAddr;
+            setIsMe(address === urlAddr);
+            setAccount(account);
         }
-        setAccount(account);
     }
 
     useEffect(() => {

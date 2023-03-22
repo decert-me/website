@@ -52,7 +52,7 @@ const routes = [
       path: "/:address",
       element: <Cert />,
     },
-      { 
+    { 
       path: "/lesson",
       element: <Lesson />,
     },
