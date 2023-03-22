@@ -7,7 +7,7 @@ import {
 import "@/assets/styles/component-style/cert/modal-addsbt.scss"
 import { useEffect, useState } from "react";
 import { constans } from "@/utils/constans";
-import { getContractNfts } from "@/request/api/nft";
+import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 const { Option } = Select;
 
@@ -15,7 +15,11 @@ const renderoption = (option) => {
     return (
       <Space>
         {/* <Icon type={option.icon} /> */}
-        <QuestionOutlined />
+        <div className="img" style={{width: "20px", height: "20px"}}>
+        <img src={option.icon} alt="" />
+
+        </div>
+        {/* <QuestionOutlined /> */}
         <span>{option.label}</span>
       </Space>
     );
@@ -35,7 +39,7 @@ export default function ModalAddSbt(props) {
     const { chains } = constans();
     let [options, setOptions] = useState();
     let [config, setConfig] = useState({
-        chainId: 137, address: ""
+        chainId: 137, address: "", page: 1, pageSize: 10
     })
     let [list, setList] = useState();
     let [gateway, setGateway] = useState(
@@ -43,9 +47,44 @@ export default function ModalAddSbt(props) {
         // "https://dweb.link/ipfs/"
         );
 
+    let [addIds, setAddIds] = useState([]);
+    let [deleteIds, setDeleteIds] = useState([]);
+
+    const checked = (id, arr) => {
+        let flag = true;
+        arr.map((e,i) => {
+            if (e === id) {
+                arr.splice(i,1);
+                // setIds([...arr]);
+                flag = false;
+            }
+        })
+        if (!flag) {
+            return
+        }
+        arr.push(id);
+        // setIds([...arr]);
+    }
 
     const confirm = () => {
-        console.log();
+        setAddIds([...addIds]);
+        setDeleteIds([...deleteIds]);
+        console.log(addIds, deleteIds);
+        return
+        flagNft({
+            ids: addIds,
+            flag: 2
+        })
+        .then(res => {
+            console.log(res);
+        })
+        flagNft({
+            ids: deleteIds,
+            flag: 1
+        })
+        .then(res => {
+            console.log(res);
+        })
     }
 
     const changeConfig = (v, key) => {
@@ -141,8 +180,12 @@ export default function ModalAddSbt(props) {
                 {
                     list &&
                     list.map(e => 
-                        <div className="box" key={e.id}>
-                            <Skeleton.Image active />
+                        <div 
+                            className="box" 
+                            key={e.id}
+                            onClick={() => checked(e.id,e.flag === 1 ? addIds : deleteIds)}
+                        >
+                            {/* <Skeleton.Image active /> */}
                             <div className="img">
                                 <img src={`${gateway}${e.image_uri}`} alt="" />
                             </div>

@@ -10,7 +10,7 @@ export const getContracts = (data) => {
 
 export const getContractNfts = (data) => {
     return nftAxios({
-        url: `/contract/${data.address}?chain_id=${data.chainId}&page=1&pageSize=1`,
+        url: `/contract/${data.address}?chain_id=${data.chainId}&page=${data.page}&pageSize=${data.pageSize}`,
         method: "get",
         data
     })
@@ -18,7 +18,7 @@ export const getContractNfts = (data) => {
 
 export const getAllNft = (data) => {
     return nftAxios({
-        url: `/own${data.address ? '/'+data.address : ''}${data.contract_id ? "?contract_id="+data.contract_id : ''}`,
+        url: `/own${data.address ? '/'+data.address : ''}${data.contract_id ? "?contract_id="+data.contract_id : ''}${data.status ? "?status="+data.status : ''}`,
         method: "get",
         data
     })
@@ -28,6 +28,15 @@ export const modifyNftStatus = (data) => {
     return nftAxios({
         url: `/own/collection/:${data.ID}`,
         method: "put",
+        data
+    })
+}
+
+
+export const flagNft = (data) => {
+    return nftAxios({
+        url: `/own/collection`,
+        method: "post",
         data
     })
 }

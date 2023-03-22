@@ -61,6 +61,7 @@ export default function NftBox(props) {
                         <p>显示</p>
                     }
                     <Dropdown
+                        className='dropdown'
                         menu={{
                         items
                         }}

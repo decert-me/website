@@ -152,6 +152,12 @@
         }
     }
 }
+.dropdown:hover{
+    .nft-detail .nft-info .bottom{
+        bottom: 0;
+    }
+}
+
 .Cert-content{
     width: calc(100% - 400px);
     padding: 40px;

@@ -5,12 +5,12 @@ import BadgeAddress from "@/contracts/Badge.address";
 export const constans = () => {
 
     const chains = {
-        "80001": {name: "mumbai", icon: ""},
-        "56": {name: "BNB", icon: ""},
-        "137": {name: "Polygon", icon: ""},
-        "10": {name: "Optimism", icon: ""},
-        "1": {name: "Ethereum", icon: ""},
-        "42161": {name: "Arbitrum One", icon: ""}
+        "80001": {name: "mumbai", icon: require("@/assets/images/img/net-Polygon.png")},
+        "56": {name: "BNB", icon: require("@/assets/images/img/net-BNB.png")},
+        "137": {name: "Polygon", icon: require("@/assets/images/img/net-Polygon.png")},
+        "10": {name: "Optimism", icon: require("@/assets/images/img/net-Optimism.png")},
+        "1": {name: "Ethereum", icon: require("@/assets/images/img/net-ETH.png")},
+        "42161": {name: "Arbitrum One", icon: require("@/assets/images/img/net-Arbitrum.png")}
     }
 
     const maxUint32 = Math.pow(2,32) - 1;

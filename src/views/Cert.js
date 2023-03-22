@@ -8,6 +8,7 @@ import CertUser from "@/components/Cert/User";
 import CertNfts from "@/components/Cert/Nfts";
 import { getAllNft, modifyNftStatus } from "@/request/api/nft";
 import NftBox from "@/components/Cert/NftBox";
+import { useUpdateEffect } from "ahooks";
 
 
 export default function Cert(params) {
@@ -18,24 +19,39 @@ export default function Cert(params) {
     let [account, setAccount] = useState();
     let [list, setList] = useState();
     let [total, setTotal] = useState();
+    let [checkTotal, setCheckTotal] = useState({
+        all: 0, open: 0, hide: 0
+    });
+    let [selectStatus, setSelectStatus] = useState();
+    let [selectContract, setSelectContract] = useState();
 
 
 
     const changeContract = (obj) => {
+        setSelectContract(obj.contract_id);
         getAllNft(obj)
         .then(res => {
-            console.log(res);
             if (res.data) {
                 list = res.data.list;
                 setList([...list]);
                 if (!obj.contract_id) {
                     setTotal(res.data.total);
                 }
+                if (!obj.status) {
+                    checkTotal = {
+                        all: res.data.total,
+                        open: res.data.total_public,
+                        hide: res.data.total_hidden
+                    }
+                    setCheckTotal({...checkTotal});
+                }
             }
         })
     }
 
     const changeNftStatus = (id, status) => {
+        console.log(id, status);
+        return
         modifyNftStatus({ID: id, status: status})
         .then(res => {
             console.log(res);
@@ -55,6 +71,13 @@ export default function Cert(params) {
         init();
     },[location])
 
+    useUpdateEffect(() => {
+        changeContract({
+            address: account,
+            contract_id: selectContract,
+            status: selectStatus
+        })
+    },[selectStatus])
 
     return (
         account &&
@@ -68,16 +91,20 @@ export default function Cert(params) {
             </div>
             <div className="Cert-content">
                 <ul>
-                    <li className="active">全部</li>
-                    <li>公开</li>
-                    <li>隐藏</li>
+                    <li className="active" onClick={() => {setSelectStatus(null)}}>全部({checkTotal.all})</li>
+                    <li onClick={() => {setSelectStatus(2)}}>公开({checkTotal.open})</li>
+                    <li onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
                 </ul>
 
                 <div className="nfts">
                     {
                         list &&
                         list.map(e => 
-                            <NftBox info={e} changeNftStatus={changeNftStatus} />                            
+                            <NftBox 
+                                info={e}
+                                changeNftStatus={changeNftStatus}
+                                key={e.id}
+                            />                            
                         )
                     }
                 </div>
