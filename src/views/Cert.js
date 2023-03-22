@@ -7,6 +7,7 @@ import CertSearch from "@/components/Cert/Search";
 import CertUser from "@/components/Cert/User";
 import CertNfts from "@/components/Cert/Nfts";
 import { getAllNft } from "@/request/api/nft";
+import NftBox from "@/components/Cert/NftBox";
 
 
 export default function Cert(params) {
@@ -15,6 +16,8 @@ export default function Cert(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
     let [account, setAccount] = useState();
+    let [list, setList] = useState();
+    let [total, setTotal] = useState();
 
 
 
@@ -22,6 +25,13 @@ export default function Cert(params) {
         getAllNft(obj)
         .then(res => {
             console.log(res);
+            if (res.data) {
+                list = res.data.list;
+                setList([...list]);
+                if (!obj.contract_id) {
+                    setTotal(res.data.total);
+                }
+            }
         })
     }
 
@@ -47,7 +57,7 @@ export default function Cert(params) {
                 <Divider className="divider"  />
                 <CertUser account={account} />
                 <div className="mt50"></div>
-                <CertNfts account={account} changeContract={changeContract} />
+                <CertNfts account={account} changeContract={changeContract} total={total} />
             </div>
             <div className="Cert-content">
                 <ul>
@@ -57,8 +67,12 @@ export default function Cert(params) {
                 </ul>
 
                 <div className="nfts">
-                    
-                    
+                    {
+                        list &&
+                        list.map(e => 
+                            <NftBox info={e} />                            
+                        )
+                    }
                 </div>
             </div>
         </div>

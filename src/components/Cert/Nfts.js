@@ -10,7 +10,7 @@ import ModalAddSbt from "./ModalAddSbt";
 
 export default function CertNfts(props) {
     
-    const { account, changeContract } = props;
+    const { account, changeContract, total } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     let [list, setList] = useState();
     let [selectItem, setSelectItem] = useState();
@@ -76,7 +76,7 @@ export default function CertNfts(props) {
                         >
                             <div></div>
                             <p className="li-content">全部</p>
-                            <p>(10)</p>
+                            <p>({total})</p>
                         </li>
                         {
                             list.map(e => 

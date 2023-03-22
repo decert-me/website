@@ -1,12 +1,19 @@
 import {
     EyeOutlined,
-    EyeInvisibleOutlined
+    EyeInvisibleOutlined,
+    MoreOutlined
   } from '@ant-design/icons';
+import { Dropdown } from 'antd';
+import { useEffect, useState } from 'react';
 
 
 export default function NftBox(props) {
     
     const { info } = props;
+    let [gateway, setGateway] = useState(
+        "https://nftscan.mypinata.cloud/ipfs/"
+        // "https://dweb.link/ipfs/"
+        );
 
     const items = [
         {
@@ -20,9 +27,15 @@ export default function NftBox(props) {
         }
     ]
 
+    useEffect(() => {
+        console.log(info);
+    },[info])
+
     return (
         <div className="nft-detail">
-            <div className="img"></div>
+            <div className="img">
+                <img src={`${gateway}${info.image_uri}`} alt="" />
+            </div>
             <div className="nft-info">
                 <p className="nft-title"></p>
                 <div className="bottom">
