@@ -6,7 +6,7 @@ import { useLocation, useNavigate } from "react-router-dom";
 import CertSearch from "@/components/Cert/Search";
 import CertUser from "@/components/Cert/User";
 import CertNfts from "@/components/Cert/Nfts";
-import { getAllNft } from "@/request/api/nft";
+import { getAllNft, modifyNftStatus } from "@/request/api/nft";
 import NftBox from "@/components/Cert/NftBox";
 
 
@@ -32,6 +32,13 @@ export default function Cert(params) {
                     setTotal(res.data.total);
                 }
             }
+        })
+    }
+
+    const changeNftStatus = (id, status) => {
+        modifyNftStatus({ID: id, status: status})
+        .then(res => {
+            console.log(res);
         })
     }
 
@@ -70,7 +77,7 @@ export default function Cert(params) {
                     {
                         list &&
                         list.map(e => 
-                            <NftBox info={e} />                            
+                            <NftBox info={e} changeNftStatus={changeNftStatus} />                            
                         )
                     }
                 </div>

@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 export default function NftBox(props) {
     
-    const { info } = props;
+    const { info, changeNftStatus } = props;
     let [gateway, setGateway] = useState(
         "https://nftscan.mypinata.cloud/ipfs/"
         // "https://dweb.link/ipfs/"
@@ -20,7 +20,7 @@ export default function NftBox(props) {
           key: '1',
           label: (
                 info.status === 1 ?
-                <div><EyeOutlined />取消隐藏</div>
+                <div onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}><EyeOutlined />取消隐藏</div>
                 :
                 <div><EyeInvisibleOutlined />隐藏</div>
           ),
@@ -34,10 +34,25 @@ export default function NftBox(props) {
     return (
         <div className="nft-detail">
             <div className="img">
-                <img src={`${gateway}${info.image_uri}`} alt="" />
+                <img 
+                    src={
+                        info.image_uri ? 
+                        `${gateway}${info.image_uri}`
+                        :
+                        ``
+                    } 
+                    alt="" 
+                />
             </div>
             <div className="nft-info">
-                <p className="nft-title"></p>
+                <p className="nft-title">
+                    {
+                        info.name ? 
+                        info.name
+                        :
+                        '#'+info.token_id
+                    }
+                </p>
                 <div className="bottom">
                     {
                         info.status === 1 ?
