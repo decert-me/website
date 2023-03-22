@@ -1,7 +1,7 @@
 import { Button, Divider, Input, Modal, Select, Skeleton, Space } from "antd";
 import {
     CloseCircleOutlined,
-    QuestionOutlined,
+    CheckOutlined,
     SearchOutlined
 } from '@ant-design/icons';
 import "@/assets/styles/component-style/cert/modal-addsbt.scss"
@@ -14,12 +14,10 @@ const { Option } = Select;
 const renderoption = (option) => {
     return (
       <Space>
-        {/* <Icon type={option.icon} /> */}
         <div className="img" style={{width: "20px", height: "20px"}}>
         <img src={option.icon} alt="" />
 
         </div>
-        {/* <QuestionOutlined /> */}
         <span>{option.label}</span>
       </Space>
     );
@@ -50,7 +48,17 @@ export default function ModalAddSbt(props) {
     let [addIds, setAddIds] = useState([]);
     let [deleteIds, setDeleteIds] = useState([]);
 
+    const changeList = (id) => {
+        list.map(e => {
+            if (e.id === id) {
+                e.flag = e.flag === 1 ? 2 : 1;
+            }
+        })
+        setList([...list]);
+    }
+
     const checked = (id, arr) => {
+        changeList(id);
         let flag = true;
         arr.map((e,i) => {
             if (e === id) {
@@ -66,11 +74,9 @@ export default function ModalAddSbt(props) {
         arr.push(id);
         setAddIds([...addIds]);
         setDeleteIds([...deleteIds]);
-        // setIds([...arr]);
     }
 
     const confirm = () => {
-
         if (addIds.length > 0) {
             flagNft({
                 ids: addIds,
@@ -186,22 +192,29 @@ export default function ModalAddSbt(props) {
             </div>
             <Divider style={{marginBlock: "30px"}} />
             <div className="content">
-                {
-                    list &&
-                    list.map(e => 
-                        <div 
-                            className="box" 
-                            key={e.id}
-                            onClick={() => checked(e.id,e.flag === 1 ? addIds : deleteIds)}
-                        >
-                            {/* <Skeleton.Image active /> */}
-                            <div className="img">
-                                <img src={`${gateway}${e.image_uri}`} alt="" />
-                            </div>
-                            <p>{e.name}</p>
-                        </div>    
-                    )
-                }
+                <div className="list-content">
+                    {
+                        list &&
+                        list.map(e => 
+                            <div 
+                                className={`box ${e.flag === 2 ? "box-active" : ""}`}
+                                key={e.id}
+                                onClick={() => checked(e.id,e.flag === 1 ? addIds : deleteIds)}
+                            >
+                                <div className="img">
+                                    <img src={`${gateway}${e.image_uri}`} alt="" />
+                                </div>
+                                <p>{e.name}</p>
+                                <div className="checkbox">
+                                    {
+                                        e.flag === 2 &&
+                                        <CheckOutlined />
+                                    }
+                                </div>
+                            </div>    
+                        )
+                    }
+                </div>
             </div>
         </Modal>
     )

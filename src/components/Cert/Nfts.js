@@ -10,7 +10,7 @@ import ModalAddSbt from "./ModalAddSbt";
 
 export default function CertNfts(props) {
     
-    const { account, changeContract, total } = props;
+    const { account, changeContract, total, isMe } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     let [list, setList] = useState();
     let [selectItem, setSelectItem] = useState();
@@ -62,10 +62,13 @@ export default function CertNfts(props) {
 
         <div className="nfts">
             <p>SBT 收藏:</p>
-            <div className="add">
-                添加技能 SBT
-                <Button onClick={() => show()}>+</Button>
-            </div>
+            {
+                isMe &&
+                <div className="add">
+                    添加技能 SBT
+                    <Button onClick={() => show()}>+</Button>
+                </div>
+            }
             {
                 list ? 
                 <>

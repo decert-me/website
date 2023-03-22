@@ -59,22 +59,27 @@ export default function DefaultLayout(params) {
     const isCert = (path, type) => {
         if (path && path.split('/')[1].length === 42) {
             if (type === "toggle") {
-                navigateTo(`/${address}`)
+                navigateTo(`/${address}`);
+            }else if (type === "signout"){
+                navigateTo('/search');
             }else{
-                navigateTo('/search')
+                setTimeout(() => {
+                    navigateTo(0);
+                }, 500);
             }
         }
     }
 
-    const sign = () => {
-        GetSign({address: address, signer: signer, disconnect: disconnect})
+    const sign = async() => {
+        await GetSign({address: address, signer: signer, disconnect: disconnect})
     }
 
-    const verifySignUpType = (addr, path) => {
+    const verifySignUpType = async(addr, path) => {
         if (addr === null && address) {
             // 未登录  ====>  登录
             localStorage.setItem("decert.address", address);
-            sign()
+            await sign()
+            isCert(path, 'reload');
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
             ClearStorage();

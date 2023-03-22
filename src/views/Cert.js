@@ -9,7 +9,7 @@ import CertNfts from "@/components/Cert/Nfts";
 import { getAllNft, modifyNftStatus } from "@/request/api/nft";
 import NftBox from "@/components/Cert/NftBox";
 import { useUpdateEffect } from "ahooks";
-import { useEnsAddress } from "wagmi";
+import { useAccount, useEnsAddress } from "wagmi";
 
 
 export default function Cert(params) {
@@ -18,6 +18,9 @@ export default function Cert(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
     const { address: urlAddr } = useParams();
+    const { address } = useAccount();
+
+    let [isMe, setIsMe] = useState();
     let [account, setAccount] = useState();
     let [list, setList] = useState();
     let [total, setTotal] = useState();
@@ -68,6 +71,7 @@ export default function Cert(params) {
 
     const init = () => {
         account = urlAddr;
+        setIsMe(address === urlAddr);
         if (account.length !== 42) {
             navigateTo('/search');
             return
@@ -101,14 +105,22 @@ export default function Cert(params) {
                 <Divider className="divider"  />
                 <CertUser account={account} />
                 <div className="mt50"></div>
-                <CertNfts account={account} changeContract={changeContract} total={total} />
+                <CertNfts 
+                    account={account} 
+                    changeContract={changeContract} 
+                    total={total} 
+                    isMe={isMe}
+                />
             </div>
             <div className="Cert-content">
-                <ul>
-                    <li className="active" onClick={() => {setSelectStatus(null)}}>全部({checkTotal.all})</li>
-                    <li onClick={() => {setSelectStatus(2)}}>公开({checkTotal.open})</li>
-                    <li onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
-                </ul>
+                {
+                    isMe &&
+                    <ul>
+                        <li className="active" onClick={() => {setSelectStatus(null)}}>全部({checkTotal.all})</li>
+                        <li onClick={() => {setSelectStatus(2)}}>公开({checkTotal.open})</li>
+                        <li onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
+                    </ul>
+                }
 
                 <div className="nfts">
                     {
@@ -118,6 +130,7 @@ export default function Cert(params) {
                                 info={e}
                                 changeNftStatus={changeNftStatus}
                                 key={e.id}
+                                isMe={isMe}
                             />                            
                         )
                     }

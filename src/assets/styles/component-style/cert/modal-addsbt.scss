@@ -66,14 +66,36 @@
     }
     .content{
         min-height: 776px;
-        display: flex;
-        flex-wrap: wrap;
+        .list-content{
+            flex-wrap: wrap;
+            display: flex;
+            gap: 45px;
+        }
+        .box-active, .box:hover{
+            .checkbox{
+                display: block !important;
+            }
+        }
         .box{
             width: 210px;
             height: 210px;
-            margin-right: 45px;
+            position: relative;
             &:nth-child(4n){
                 margin-right: 0;
+            }
+            .checkbox{
+                width: 32px;
+                height: 29px;
+                border: 1px solid #CECECE;
+                border-bottom: none;
+                border-right: none;
+                position: absolute;
+                right: 0;
+                bottom: 0;
+                display: none;
+                text-align: center;
+                line-height: 29px;
+                color: #07A35A;
             }
             display: flex;
             flex-direction: column;

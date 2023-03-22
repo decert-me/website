@@ -9,7 +9,7 @@ import { useEffect, useState } from 'react';
 
 export default function NftBox(props) {
     
-    const { info, changeNftStatus } = props;
+    const { info, changeNftStatus, isMe } = props;
     let [gateway, setGateway] = useState(
         "https://nftscan.mypinata.cloud/ipfs/"
         // "https://dweb.link/ipfs/"
@@ -60,26 +60,29 @@ export default function NftBox(props) {
                         '#'+info.token_id
                     }
                 </p>
-                <div className="bottom">
-                    {
-                        info.status === 1 ?
-                        <p>隐藏</p>
-                        :
-                        <p>显示</p>
-                    }
-                    <Dropdown
-                        className='dropdown'
-                        menu={{
-                        items
-                        }}
-                        placement="topLeft"
-                        trigger={['click']}
-                    >
-                        <div className="more">
-                            <MoreOutlined className="icon" />
-                        </div>
-                    </Dropdown>
-                </div>
+                {
+                    isMe &&
+                    <div className="bottom">
+                        {
+                            info.status === 1 ?
+                            <p>隐藏</p>
+                            :
+                            <p>显示</p>
+                        }
+                        <Dropdown
+                            className='dropdown'
+                            menu={{
+                            items
+                            }}
+                            placement="topLeft"
+                            trigger={['click']}
+                        >
+                            <div className="more">
+                                <MoreOutlined className="icon" />
+                            </div>
+                        </Dropdown>
+                    </div>
+                }
             </div>
         </div>
     )
