@@ -8,15 +8,23 @@ import {
 import { Button, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 
 
 
 export default function CertUser(props) {
 
     const { account } = props;
+    const location = useLocation();
     const { t } = useTranslation(["translation","profile", "explore"]);
     let [socials, setSocials] = useState();
     let [info, setInfo] = useState();
+
+
+    const share = () => {
+      let text = window.location.origin + location.pathname + location.search + location.hash;
+      Copy(text, '成功')
+    }
 
     const init = async() => {
         const user = await getUser({address: account});
@@ -61,7 +69,7 @@ export default function CertUser(props) {
               {NickName(account)}
               <CopyOutlined style={{ color: "#3C6EB9", marginLeft: "12px" }} />
             </p>
-            <Button className="share">分享</Button>
+            <Button className="share" onClick={share}>分享</Button>
           </div>
         </>
       ) : (

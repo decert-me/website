@@ -2,7 +2,7 @@ import { Divider } from "antd";
 import { useEffect, useState } from "react";
 import "@/assets/styles/view-style/cert.scss"
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import CertSearch from "@/components/Cert/Search";
 import CertUser from "@/components/Cert/User";
 import CertNfts from "@/components/Cert/Nfts";
@@ -17,6 +17,7 @@ export default function Cert(params) {
     const { t } = useTranslation(["translation","profile", "explore"]);
     const navigateTo = useNavigate();
     const location = useLocation();
+    const { address: urlAddr } = useParams();
     let [account, setAccount] = useState();
     let [list, setList] = useState();
     let [total, setTotal] = useState();
@@ -28,8 +29,6 @@ export default function Cert(params) {
     const { data, isSuccess } = useEnsAddress({
         name: account
     })
-
-
 
     const changeContract = (obj) => {
         setSelectContract(obj.contract_id);
@@ -68,7 +67,7 @@ export default function Cert(params) {
     }
 
     const init = () => {
-        account = location.pathname.split('/')[1];
+        account = urlAddr;
         if (account.length !== 42) {
             navigateTo('/search');
             return
