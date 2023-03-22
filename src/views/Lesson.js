@@ -9,7 +9,7 @@ export default function Lesson(params) {
     return (
         <div className="Lesson">
             <p className="title">{t("header.lesson")}</p>
-            <p className="subtitle">{t("header.lesson-sub")}</p>
+            {/* <p className="subtitle">{t("header.lesson-sub")}</p> */}
             <div className="content">
                 <a href="https://decert.me/tutorial/block_basic/start/" target="_blank" rel="noopener noreferrer">
                 <div className="box">
