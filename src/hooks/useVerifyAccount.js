@@ -1,6 +1,5 @@
 import { useState } from "react";
-import { useEnsAddress, usePrepareSendTransaction } from "wagmi";
-import { ethers } from "ethers";
+import { useEnsAddress } from "wagmi";
 import { useNavigate } from "react-router-dom";
 import { message } from "antd";
 
@@ -12,14 +11,6 @@ export const useVerifyAccount = (props) => {
     let [isPass, setIsPass] = useState(false);
     let [isLoading, setIsLoading] = useState();
 
-    const { isSuccess: addrSuccess, refetch: getAddr } = usePrepareSendTransaction({
-        request: {
-          to: address,
-          value: ethers.utils.parseEther('0'),
-        },
-        enabled: false
-    })
-
     const { data: account, isSuccess: ensSuccess, refetch: getEns } = useEnsAddress({
         name: address,
         enabled: false
@@ -27,10 +18,9 @@ export const useVerifyAccount = (props) => {
 
     const verify = async() => {
         setIsLoading(true);
-        await getAddr();
         await getEns();
         setTimeout(() => {
-            if (addrSuccess || ensSuccess) {
+            if (ensSuccess) {
                 isPass=true;
                 setIsPass(isPass);
                 navigateTo(`/${account}`)

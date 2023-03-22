@@ -26,7 +26,7 @@ export const getAllNft = (data) => {
 
 export const modifyNftStatus = (data) => {
     return nftAxios({
-        url: `/own/collection/:${data.ID}`,
+        url: `/own/collection/${data.ID}`,
         method: "put",
         data
     })

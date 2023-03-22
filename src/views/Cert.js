@@ -9,6 +9,7 @@ import CertNfts from "@/components/Cert/Nfts";
 import { getAllNft, modifyNftStatus } from "@/request/api/nft";
 import NftBox from "@/components/Cert/NftBox";
 import { useUpdateEffect } from "ahooks";
+import { useEnsAddress } from "wagmi";
 
 
 export default function Cert(params) {
@@ -24,6 +25,9 @@ export default function Cert(params) {
     });
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
+    const { data, isSuccess } = useEnsAddress({
+        name: account
+    })
 
 
 
@@ -50,11 +54,16 @@ export default function Cert(params) {
     }
 
     const changeNftStatus = (id, status) => {
-        console.log(id, status);
-        return
         modifyNftStatus({ID: id, status: status})
         .then(res => {
-            console.log(res);
+            if (res) {
+                // 重新获取
+                changeContract({
+                    address: account,
+                    contract_id: selectContract,
+                    status: selectStatus
+                })
+            }
         })
     }
 
@@ -71,6 +80,12 @@ export default function Cert(params) {
         init();
     },[location])
 
+    useEffect(() => {
+        if (isSuccess) {
+            setAccount(data);
+        }
+    },[isSuccess])
+
     useUpdateEffect(() => {
         changeContract({
             address: account,
@@ -80,7 +95,7 @@ export default function Cert(params) {
     },[selectStatus])
 
     return (
-        account &&
+        account && data &&
         <div className="Cert">
             <div className="Cert-sidbar">
                 <CertSearch />

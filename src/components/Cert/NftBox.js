@@ -19,17 +19,24 @@ export default function NftBox(props) {
         {
           key: '1',
           label: (
-                info.status === 1 ?
-                <div onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}><EyeOutlined />取消隐藏</div>
-                :
-                <div><EyeInvisibleOutlined />隐藏</div>
+                // <div onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}><EyeOutlined />取消隐藏</div>
+                // :
+                // <div><EyeInvisibleOutlined />隐藏</div>
+                <div onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}>
+                    {
+                        info.status === 1 ?
+                        <>
+                        <EyeOutlined />取消隐藏
+                        </>
+                        :
+                        <>
+                        <EyeInvisibleOutlined />隐藏
+                        </>
+                    }
+                </div>
           ),
         }
     ]
-
-    useEffect(() => {
-        console.log(info);
-    },[info])
 
     return (
         <div className="nft-detail">
@@ -66,6 +73,7 @@ export default function NftBox(props) {
                         items
                         }}
                         placement="topLeft"
+                        trigger={['click']}
                     >
                         <div className="more">
                             <MoreOutlined className="icon" />
