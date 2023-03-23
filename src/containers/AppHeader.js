@@ -32,9 +32,7 @@ export default function AppHeader(params) {
             label: (
                 <p onClick={() => {
                     navigateTo(`/${address}`)
-                    setTimeout(() => {
-                        navigateTo(0)
-                    }, 100);
+                    navigateTo(0)
                 }}> 
                     {t("translation:header.cert")} 
                 </p>

@@ -16,10 +16,8 @@ export default function CertSearch(props) {
 
 
     const goCert = () => {
-        navigateTo(`/${account}`);
-        setTimeout(() => {
-            navigateTo(0)
-        }, 100);
+        navigateTo(`/${account}`, {replace: true});
+        navigateTo(0);
     }
 
     const { runAsync: debounce } = useRequest(goCert, {

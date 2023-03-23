@@ -51,6 +51,7 @@ const routes = [
     { 
       path: "/:address",
       element: <Cert />,
+      key: Math.random().toString()
     },
     { 
       path: "/lesson",
