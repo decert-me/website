@@ -2,7 +2,7 @@ import {
     ArrowLeftOutlined,
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getQuests } from "../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import { Progress } from 'antd';
@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 export default function Challenge(params) {
 
     const { t } = useTranslation(["explore"]);
+    const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
     let [detail, setDetail] = useState();
@@ -38,6 +39,7 @@ export default function Challenge(params) {
     const checkPage = (type) => {
         page = type === 'add' ? page+1 : page-1;
         setPage(page);
+        saveAnswer()
     }
 
     const changePage = (index) => {
@@ -50,7 +52,31 @@ export default function Challenge(params) {
         .then(res => {
             detail = res ? res.data : {};
             setDetail({...detail});
-            answers = new Array(Number(detail.metadata.properties.questions.length))
+            // 获取本地存储 ===> 
+            const local = JSON.parse(localStorage.getItem("decert.cache"));
+            const cacheAnswers = local ? local : null;
+            if (cacheAnswers[id]) {
+                // 存在该题cache
+                answers = cacheAnswers[id];
+                try {
+                    answers.forEach((e,i) => {
+                        if (!e) {
+                            page = i+2;
+                            setPage(page)
+                            throw ""
+                        }
+                    })
+                } catch (err) {
+                }
+                if (page === 1) {
+                    page = answers.length;
+                    setPage(page)
+                }
+            }else{
+                answers = new Array(Number(detail.metadata.properties.questions.length)).fill(undefined);
+                cacheAnswers[id] = answers;
+                saveAnswer()
+            }
             setAnswers([...answers])
         })
     }
@@ -58,21 +84,23 @@ export default function Challenge(params) {
     const changeAnswer = (e) => {
         answers[index] = e;
         setAnswers([...answers]);
-        console.log('answers ===>',answers);
     }
 
-    const sumbit = () => {
-        // 本地 ==> 存储答案 ==> 跳转领取页
-        let cache = localStorage.getItem("decert.cache") ? 
-            JSON.parse(localStorage.getItem("decert.cache")) 
-            : {};
+    const saveAnswer = () => {
+        console.log('setItem');
+        let cache = JSON.parse(localStorage.getItem("decert.cache"));
         cache[detail.tokenId] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
+    }
+
+    const submit = () => {
+        // 本地 ==> 存储答案 ==> 跳转领取页
+        saveAnswer()
         navigateTo(`/claim/${detail.tokenId}`)
     }
 
     useEffect(() => {
-        const id = location?.pathname?.split("/")[2];
+        const id = questId;
         id && getData(id);
     }, []);
 
@@ -110,7 +138,7 @@ export default function Challenge(params) {
                     <ModalAnswers
                         isModalOpen={isModalOpen}
                         handleCancel={handleCancel}
-                        submit={sumbit}
+                        submit={submit}
                         answers={answers}
                         changePage={changePage}
                     />
@@ -136,7 +164,7 @@ export default function Challenge(params) {
                         page={page} 
                         total={detail.metadata.properties.questions.length} 
                         onChange={checkPage} 
-                        sumbit={openAnswers}
+                        submit={openAnswers}
                     />
                 </>
             }
