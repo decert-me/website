@@ -22,9 +22,11 @@ export default function Search(params) {
 
     const start = async() => {
         await verify();
-        setTimeout(() => {
-            navigateTo(`/${account}`)
-        }, 500);
+        if (address) {
+            setTimeout(() => {
+                navigateTo(`/${account}`)
+            }, 500);
+        }
     }
 
     return (

@@ -9,8 +9,9 @@ import CertNfts from "@/components/Cert/Nfts";
 import { getAllNft, modifyNftStatus } from "@/request/api/nft";
 import NftBox from "@/components/Cert/NftBox";
 import { useUpdateEffect } from "ahooks";
-import { useAccount, useEnsAddress } from "wagmi";
+import { useAccount, useEnsAddress, useEnsName } from "wagmi";
 import { ethers } from "ethers";
+import { useAccountInit } from "@/hooks/useAccountInit";
 
 
 export default function Cert(params) {
@@ -22,7 +23,8 @@ export default function Cert(params) {
     const { address } = useAccount();
 
     let [isMe, setIsMe] = useState();
-    let [account, setAccount] = useState();
+    let [accountAddr, setAddr] = useState();
+    let [accountEns, setEns] = useState();
     let [list, setList] = useState();
     let [total, setTotal] = useState();
     let [checkTotal, setCheckTotal] = useState({
@@ -32,13 +34,14 @@ export default function Cert(params) {
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
-    const { data, isSuccess, status } = useEnsAddress({
-        name: account
+    const { status, addr, ens, refetch: accountInit } = useAccountInit({
+        address: accountAddr,
+        ensAddr: accountEns
     })
 
     const changeContract = (obj) => {
         setSelectContract(obj.contract_id);
-        getAllNft(obj)
+        getAllNft(obj) 
         .then(res => {
             if (res.data) {
                 list = res.data.list;
@@ -63,7 +66,7 @@ export default function Cert(params) {
         setLoading(true);
         setTimeout(() => {
             changeContract({
-                address: account,
+                address: accountAddr,
                 contract_id: selectContract,
                 status: selectStatus
             })
@@ -80,80 +83,104 @@ export default function Cert(params) {
     }
 
     const init = () => {
-        if (urlAddr === ethers.constants.AddressZero) {
-            // 错误地址
+        if (urlAddr.length !== 42) {
+            // ENS
+            accountEns = urlAddr;
+            setEns(accountEns);
+            console.log(accountEns);
         }else{
-            account = urlAddr;
+            // ADDR
+            accountAddr = urlAddr;
+            setAddr(accountAddr);
             setIsMe(address === urlAddr);
-            setAccount(account);
         }
     }
+
+    const initValue = async() => {
+        if (urlAddr.length !== 42) {
+            await accountInit()
+            setAddr(addr);
+        }else{
+            await accountInit()
+            setAddr(addr);
+            setEns(ens);
+        }
+    }
+
+
+    useEffect(() => {
+        if (status === 'idle') {
+            initValue()
+        }
+    },[status])
 
     useEffect(() => {
         init();
     },[location])
 
-    useEffect(() => {
-        if (isSuccess) {
-            setAccount(data);
-            console.log('====> data', data);
-        }else{
-            setAccount(ethers.constants.AddressZero);
-            console.log('====> data',account);
-        }
-    },[status])
-
     useUpdateEffect(() => {
         changeContract({
-            address: account,
+            address: accountAddr,
             contract_id: selectContract,
             status: selectStatus
         })
     },[selectStatus])
 
     return (
-        account && data &&
         <div className="Cert">
-            <div className="Cert-sidbar">
-                <CertSearch />
-                <Divider className="divider"  />
-                <CertUser account={account} />
-                <div className="mt50"></div>
-                <CertNfts 
-                    account={account} 
-                    changeContract={changeContract} 
-                    total={total} 
-                    isMe={isMe}
-                    refetch={refetch}
-                />
-            </div>
-            <div className="Cert-content">
-                {
-                    isMe &&
-                    <ul>
-                        <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>全部({checkTotal.all})</li>
-                        <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>公开({checkTotal.open})</li>
-                        <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
-                    </ul>
-                }
-
-                <div className="nfts">
-                    {
-                        loading ? 
-                        <Spin />
-                        :
-                        list && 
-                        list.map(e => 
-                            <NftBox 
-                                info={e}
-                                changeNftStatus={changeNftStatus}
-                                key={e.id}
-                                isMe={isMe}
-                            />                            
-                        )
-                    }
+            {
+                status === "success" ?
+                <>
+                <div className="Cert-sidbar">
+                    <CertSearch />
+                    <Divider className="divider"  />
+                    <CertUser account={accountAddr} />
+                    <div className="mt50"></div>
+                    <CertNfts 
+                        account={accountAddr} 
+                        changeContract={changeContract} 
+                        total={total} 
+                        isMe={isMe}
+                        refetch={refetch}
+                    />
                 </div>
-            </div>
+                <div className="Cert-content">
+                    {
+                        isMe &&
+                        <ul>
+                            <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>全部({checkTotal.all})</li>
+                            <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>公开({checkTotal.open})</li>
+                            <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
+                        </ul>
+                    }
+
+                    <div className="nfts">
+                        {
+                            loading ? 
+                            <Spin />
+                            :
+                            list && 
+                            list.map(e => 
+                                <NftBox 
+                                    info={e}
+                                    changeNftStatus={changeNftStatus}
+                                    key={e.id}
+                                    isMe={isMe}
+                                />                            
+                            )
+                        }
+                    </div>
+                </div>
+                </>
+                :
+                <Spin
+                    size="large"
+                    style={{
+                        textAlign: "center",
+                        margin: "200px auto 0"
+                    }} 
+                />
+            }
         </div>
     )
 }
