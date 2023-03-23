@@ -39,7 +39,6 @@ export default function Cert(params) {
     })
 
     const changeContract = (obj) => {
-        console.log(status);
         if (status === 'error' || !accountAddr) {
             setLoading(false);
             return
