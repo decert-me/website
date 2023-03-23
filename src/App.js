@@ -48,7 +48,7 @@ const wagmiClient = createClient({
 export default function App() {
   window.Buffer = window.Buffer || require("buffer").Buffer;
 
-  // 语种初始化
+  // 语种初始化 && cache
   useEffect(() => {
     let lang
     if (localStorage.getItem("decert.lang")) {
@@ -58,6 +58,7 @@ export default function App() {
       localStorage.setItem("decert.lang",lang)
     }
     i18n.changeLanguage(lang);
+    !localStorage.getItem("decert.cache") && localStorage.setItem("decert.cache", {})
   },[])
   return (
     <>
