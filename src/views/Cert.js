@@ -32,7 +32,7 @@ export default function Cert(params) {
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
-    const { data, isSuccess } = useEnsAddress({
+    const { data, isSuccess, status } = useEnsAddress({
         name: account
     })
 
@@ -96,8 +96,12 @@ export default function Cert(params) {
     useEffect(() => {
         if (isSuccess) {
             setAccount(data);
+            console.log('====> data', data);
+        }else{
+            setAccount(ethers.constants.AddressZero);
+            console.log('====> data',account);
         }
-    },[isSuccess])
+    },[status])
 
     useUpdateEffect(() => {
         changeContract({
@@ -127,9 +131,9 @@ export default function Cert(params) {
                 {
                     isMe &&
                     <ul>
-                        <li className="active" onClick={() => {setSelectStatus(null)}}>全部({checkTotal.all})</li>
-                        <li onClick={() => {setSelectStatus(2)}}>公开({checkTotal.open})</li>
-                        <li onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
+                        <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>全部({checkTotal.all})</li>
+                        <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>公开({checkTotal.open})</li>
+                        <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
                     </ul>
                 }
 
