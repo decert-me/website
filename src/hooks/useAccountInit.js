@@ -14,9 +14,7 @@ export const useAccountInit = (props) => {
         name: ensAddr ? ensAddr : address,
         chainId: 1,
         enabled: false,
-        onError(err) {
-            console.log(err);
-        }
+        cacheTime: 2_000
     })
 
     const { 
@@ -25,7 +23,8 @@ export const useAccountInit = (props) => {
     } = useEnsName({
         address: address,
         chainId: 1,
-        enabled: false
+        enabled: false,
+        cacheTime: 2_000
     })
 
     const { 
@@ -34,13 +33,12 @@ export const useAccountInit = (props) => {
     } = useEnsAvatar({
         address: address,
         chainId: 1,
-        enabled: false,
-        onSuccess() {
-            console.log(ensAvatar);
-        }
+        enabled: false
     })
 
     const refetch = async() => {
+        setStatus('loading')
+        console.log('执行 =====>');
         if (ensAddr) {
             // ENS
             await getAddr()
@@ -56,7 +54,8 @@ export const useAccountInit = (props) => {
     }
 
     useEffect(() => {
-        if ((address || ensAddr) && !status) {
+        if ((address || ensAddr) && status !== 'loading') {
+            console.log(status);
             setStatus('idle')
         }
     },[address, ensAddr])

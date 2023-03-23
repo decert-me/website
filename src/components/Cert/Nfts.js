@@ -25,7 +25,7 @@ export default function CertNfts(props) {
 
     const init = async() => {
         const contracts = await getContracts({address: account});
-        if (!contracts.data) {
+        if (!contracts || !contracts.data) {
             return
         }
         list = contracts.data;
@@ -101,12 +101,14 @@ export default function CertNfts(props) {
                 :
                 <Skeleton active />
             }
-
-            <ModalAddSbt 
-                isModalOpen={isModalOpen} 
-                handleCancel={handleCancel}
-                refetch={refetch}
-             />
+            {
+                account &&
+                <ModalAddSbt 
+                    isModalOpen={isModalOpen} 
+                    handleCancel={handleCancel}
+                    refetch={refetch}
+                />
+            }
         </div>
     )
 }

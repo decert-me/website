@@ -3,6 +3,9 @@ import Identicon from "identicon.js";
 
 export function hashAvatar(address) {
     
+    if (!address || address.length !== 42) {
+        return require("@/assets/images/img/default.png")
+    }
     // address 15+ hex chars
     var options = {
         // foreground: [r, g, b, 255],               // rgba black

@@ -4,41 +4,39 @@ import {
 import { useRequest, useUpdateEffect } from "ahooks";
 import { Input } from "antd";
 import { ethers } from "ethers";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { useNavigate, useParams } from "react-router-dom";
 import { useEnsAddress } from "wagmi";
 
 export default function CertSearch(props) {
 
     const navigateTo = useNavigate();
+    const { address } = useParams();
     let [account, setAccount] = useState();
 
-    const { data, isSuccess, refetch } = useEnsAddress({
-        name: account,
-        enabled: false
-    })
 
-    const changeAccount = (v) => {
-        setAccount(v);
+
+    const goCert = () => {
+        navigateTo(`/${account}`);
     }
 
-    const { runAsync: debounce } = useRequest(changeAccount, {
-        debounceWait: 300,
+    const { runAsync: debounce } = useRequest(goCert, {
+        debounceWait: 1000,
         manual: true
     });
 
-    const getData = async() => {
-        await refetch();
-        if (data) {
-            navigateTo(`/${data}`);
-        }else{
-            navigateTo(`/${ethers.constants.AddressZero}`);
-        }
+    const changeAccount = (v) => {
+        console.log('xiugai ');
+        account = v;
+        setAccount(account);
+        debounce();
     }
 
-    useUpdateEffect(() => {
-        getData()
-    },[account])
+    useEffect(() => {
+        account = address;
+        setAccount(account)
+    },[address])
+
 
     return (
         <div className="search">
@@ -47,7 +45,7 @@ export default function CertSearch(props) {
             </p>
             <div className="search-inner">
                 <SearchOutlined className="icon" />
-                <Input bordered={false} onChange={(e) => debounce(e.target.value)} />
+                <Input bordered={false} value={account} onChange={(e) => changeAccount(e.target.value)} />
             </div>
         </div>
     )

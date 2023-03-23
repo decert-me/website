@@ -17,7 +17,6 @@ import { useAccountInit } from "@/hooks/useAccountInit";
 export default function Cert(params) {
     
     const { t } = useTranslation(["translation","profile", "explore"]);
-    const navigateTo = useNavigate();
     const location = useLocation();
     const { address: urlAddr } = useParams();
     const { address } = useAccount();
@@ -40,6 +39,7 @@ export default function Cert(params) {
     })
 
     const changeContract = (obj) => {
+        console.log('调用 ====>',obj);
         setSelectContract(obj.contract_id);
         getAllNft(obj) 
         .then(res => {
@@ -87,7 +87,6 @@ export default function Cert(params) {
             // ENS
             accountEns = urlAddr;
             setEns(accountEns);
-            console.log(accountEns);
         }else{
             // ADDR
             accountAddr = urlAddr;
@@ -107,6 +106,18 @@ export default function Cert(params) {
         }
     }
 
+    const clear = () => {
+        setEns('');
+        setAddr('');
+        setIsMe();
+        setList();
+        setTotal();
+        checkTotal={
+            all: 0, open: 0, hide: 0
+        };
+        setCheckTotal({...checkTotal});
+    }
+
 
     useEffect(() => {
         if (status === 'idle') {
@@ -116,6 +127,7 @@ export default function Cert(params) {
     },[status])
 
     useEffect(() => {
+        clear();
         init();
     },[location])
 
