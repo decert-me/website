@@ -29,7 +29,16 @@ export default function AppHeader(params) {
             icon: '',
         },
         {
-            label: (<p onClick={() => navigateTo(`/${address}`)}> {t("translation:header.cert")} </p>),
+            label: (
+                <p onClick={() => {
+                    navigateTo(`/${address}`)
+                    setTimeout(() => {
+                        navigateTo(0)
+                    }, 100);
+                }}> 
+                    {t("translation:header.cert")} 
+                </p>
+            ),
             key: '2',
             icon: '',
         },

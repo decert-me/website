@@ -1,9 +1,8 @@
 import {
     SearchOutlined
 } from "@ant-design/icons"
-import { useRequest, useUpdateEffect } from "ahooks";
+import { useRequest } from "ahooks";
 import { Input } from "antd";
-import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 import { useEnsAddress } from "wagmi";
@@ -18,6 +17,9 @@ export default function CertSearch(props) {
 
     const goCert = () => {
         navigateTo(`/${account}`);
+        setTimeout(() => {
+            navigateTo(0)
+        }, 100);
     }
 
     const { runAsync: debounce } = useRequest(goCert, {
@@ -26,7 +28,6 @@ export default function CertSearch(props) {
     });
 
     const changeAccount = (v) => {
-        console.log('xiugai ');
         account = v;
         setAccount(account);
         debounce();

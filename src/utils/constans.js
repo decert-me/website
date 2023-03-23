@@ -13,6 +13,10 @@ export const constans = () => {
         "42161": {name: "Arbitrum One", icon: require("@/assets/images/img/net-Arbitrum.png")}
     }
 
+    const initChains = [
+
+    ]
+
     const maxUint32 = Math.pow(2,32) - 1;
     const maxUint192 = BigNumber.from('2').pow(192).sub(1);
     const openseaLink = `${process.env.REACT_APP_OPENSEA_LINK}/assets/${chains[process.env.REACT_APP_CHAIN_ID].name}/${BadgeAddress}`;
@@ -25,6 +29,7 @@ export const constans = () => {
         openseaLink,
         defaultImg,
         ipfsPath,
-        chains
+        chains,
+        initChains
     }
 }

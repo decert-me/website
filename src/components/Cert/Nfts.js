@@ -1,7 +1,9 @@
 import { getContracts } from "@/request/api/nft";
+import { constans } from "@/utils/constans";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { useUpdateEffect } from "ahooks";
 import { Button, List, Skeleton } from "antd";
+import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import ModalAddSbt from "./ModalAddSbt";
 
@@ -12,6 +14,7 @@ export default function CertNfts(props) {
     
     const { account, changeContract, total, isMe, refetch } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const { initChains } = constans();
     let [list, setList] = useState();
     let [selectItem, setSelectItem] = useState();
 
@@ -24,7 +27,7 @@ export default function CertNfts(props) {
     };
 
     const init = async() => {
-        const contracts = await getContracts({address: account});
+        const contracts = await getContracts({address: account ? account : ethers.constants.AddressZero});
         if (!contracts || !contracts.data) {
             return
         }
@@ -79,7 +82,7 @@ export default function CertNfts(props) {
                         >
                             <div></div>
                             <p className="li-content">全部</p>
-                            <p>({total})</p>
+                            <p>({total ? total : 0})</p>
                         </li>
                         {
                             list.map(e => 

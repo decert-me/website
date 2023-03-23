@@ -39,7 +39,11 @@ export default function Cert(params) {
     })
 
     const changeContract = (obj) => {
-        console.log('调用 ====>',obj);
+        console.log(status);
+        if (status === 'error' || !accountAddr) {
+            setLoading(false);
+            return
+        }
         setSelectContract(obj.contract_id);
         getAllNft(obj) 
         .then(res => {
@@ -106,28 +110,13 @@ export default function Cert(params) {
         }
     }
 
-    const clear = () => {
-        setEns('');
-        setAddr('');
-        setIsMe();
-        setList();
-        setTotal();
-        checkTotal={
-            all: 0, open: 0, hide: 0
-        };
-        setCheckTotal({...checkTotal});
-    }
-
-
     useEffect(() => {
         if (status === 'idle') {
-            console.log('执行 ==>');
             initValue()
         }
     },[status])
 
     useEffect(() => {
-        clear();
         init();
     },[location])
 
@@ -142,7 +131,7 @@ export default function Cert(params) {
     return (
         <div className="Cert">
             {
-                status === "success" ?
+                status === "success" || status === "error" ?
                 <>
                 <div className="Cert-sidbar">
                     <CertSearch />
@@ -155,6 +144,7 @@ export default function Cert(params) {
                         total={total} 
                         isMe={isMe}
                         refetch={refetch}
+                        status={status}
                     />
                 </div>
                 <div className="Cert-content">
@@ -171,6 +161,9 @@ export default function Cert(params) {
                         {
                             loading ? 
                             <Spin />
+                            :
+                            status === "error" ? 
+                            <></>
                             :
                             list && 
                             list.map(e => 
