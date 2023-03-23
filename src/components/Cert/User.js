@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 
 export default function CertUser(props) {
 
-    const { account } = props;
+    const { account, ensName } = props;
     const location = useLocation();
     const { t } = useTranslation(["translation","profile", "explore"]);
     let [socials, setSocials] = useState();
@@ -28,15 +28,17 @@ export default function CertUser(props) {
 
     const init = async() => {
         const user = await getUser({address: account});
-        if (!user.data) {
+        if (user.status !== 0) {
             return
         }
-        socials = user.data.socials;
-        setSocials({...socials});
+        if (user.data) {
+          socials = user.data.socials;
+          setSocials({...socials});
+        }
         info = {
-            nickname: user.data.nickname ? user.data.nickname : NickName(account),
+            nickname: user?.data?.nickname ? user?.data?.nickname : ensName ? ensName : NickName(account),
             address: account,
-            avatar: user.data.avatar ? process.env.REACT_APP_DEVELOP_BASE_URL + user.data.avatar : hashAvatar(account)
+            avatar: user?.data?.avatar ? process.env.REACT_APP_DEVELOP_BASE_URL + user?.data?.avatar : hashAvatar(account)
         }
         setTimeout(() => {
             setInfo({...info})

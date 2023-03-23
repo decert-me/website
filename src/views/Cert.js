@@ -110,6 +110,7 @@ export default function Cert(params) {
 
     useEffect(() => {
         if (status === 'idle') {
+            console.log('执行 ==>');
             initValue()
         }
     },[status])
@@ -134,7 +135,7 @@ export default function Cert(params) {
                 <div className="Cert-sidbar">
                     <CertSearch />
                     <Divider className="divider"  />
-                    <CertUser account={accountAddr} />
+                    <CertUser account={accountAddr} ensName={accountEns} />
                     <div className="mt50"></div>
                     <CertNfts 
                         account={accountAddr} 
