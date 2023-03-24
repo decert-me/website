@@ -11,7 +11,7 @@ import ModalAddSbt from "./ModalAddSbt";
 
 export default function CertNfts(props) {
     
-    const { account, changeContractId, total, isMe, refetch } = props;
+    const { account, changeContractId, total, isMe } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     let [list, setList] = useState();
     let [selectItem, setSelectItem] = useState(0);

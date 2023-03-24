@@ -87,24 +87,11 @@ export default function Cert(params) {
         })
     }
 
-    const refetch = () => {
-        setLoading(true);
-        list = [];
-        setList([...list]);
-        setTimeout(() => {
-            changeContract({
-                address: accountAddr,
-                contract_id: selectContract,
-                status: selectStatus
-            })
-        }, 1000);
-    }
-
     const changeNftStatus = (id, status) => {
         modifyNftStatus({ID: id, status: status})
         .then(res => {
             if (res) {
-                refetch();
+                getInitList();
             }
         })
     }
@@ -194,7 +181,6 @@ export default function Cert(params) {
                         changeContractId={setSelectContract} 
                         total={total} 
                         isMe={isMe}
-                        refetch={refetch}
                         status={status}
                     />
                 </div>
