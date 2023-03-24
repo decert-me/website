@@ -43,7 +43,6 @@ export default function Cert(params) {
     })
 
     const changeContract = async(obj) => {
-        console.log('=====>',obj);
         if (status === 'error' || !accountAddr) {
             setLoading(false);
             return
@@ -123,7 +122,6 @@ export default function Cert(params) {
             const el = ioe.target
             const intersectionRatio = ioe.intersectionRatio
             if (intersectionRatio > 0 && intersectionRatio <= 1) {
-                console.log('go =====>',);
                 pageConfig.page += 1;
                 setPageConfig({...pageConfig});
                 await changeContract({
@@ -156,7 +154,7 @@ export default function Cert(params) {
         init();
     },[location])
     
-    const test = async() => {
+    const getInitList = async() => {
         list = [];
         setList([...list]);
         setLoading(true);
@@ -171,15 +169,13 @@ export default function Cert(params) {
     }
 
     useUpdateEffect(() => {
-        
-        test()
-        
+        getInitList()
     },[selectStatus, selectContract])
 
     return (
         <div className="Cert">
             {
-                (status === "success" && accountAddr) || status === "error" ?
+                status === "success" || status === "error" ?
                 <>
                 <div className="Cert-sidbar">
                     <CertSearch />

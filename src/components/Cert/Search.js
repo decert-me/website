@@ -16,6 +16,9 @@ export default function CertSearch(props) {
 
 
     const goCert = () => {
+        if (!account) {
+            return
+        }
         navigateTo(`/${account}`, {replace: true});
         navigateTo(0);
     }
