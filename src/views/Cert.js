@@ -211,9 +211,7 @@ export default function Cert(params) {
                         <div className="scroll">
                             {
                                 loading && status !== "error" ? 
-                                <>
-                                {LoadingComponents}
-                                </>
+                                LoadingComponents
                                 :
                                 status === "error" ? 
                                 <></>
@@ -234,10 +232,7 @@ export default function Cert(params) {
                             }
                             {
                                 pageConfig.page * pageConfig.pageSize < checkTotal.all &&
-                                <>
-                                {LoadingComponents}
-                                <h1>xxx</h1>
-                                </>
+                                LoadingComponents
                             }
                         </div>
                     </div>

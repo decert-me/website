@@ -99,7 +99,6 @@ export default function CertNfts(props) {
                 <ModalAddSbt 
                     isModalOpen={isModalOpen} 
                     handleCancel={handleCancel}
-                    refetch={refetch}
                 />
             }
         </div>

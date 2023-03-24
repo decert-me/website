@@ -10,6 +10,7 @@ import { constans } from "@/utils/constans";
 import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { ipfsToImg } from "@/utils/IpfsToImg";
+import { useNavigate } from "react-router-dom";
 const { Option } = Select;
 
 const renderoption = (option) => {
@@ -34,7 +35,8 @@ const renderoption = (option) => {
 
 export default function ModalAddSbt(props) {
     
-    const { isModalOpen, handleCancel, refetch } = props;
+    const { isModalOpen, handleCancel } = props;
+    const navigateTo = useNavigate();
     const { chains } = constans();
     let [options, setOptions] = useState();
     let [loading, setLoading] = useState();
@@ -192,9 +194,7 @@ export default function ModalAddSbt(props) {
             open={isModalOpen}
             onCancel={handleCancel}
             afterClose={() => {
-                setList([...[]])
-                setCache([...[]])
-                refetch()
+                navigateTo(0);
             }}
             closeIcon={<CloseCircleOutlined />}
             destroyOnClose
