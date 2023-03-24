@@ -32,7 +32,7 @@ export default function Cert(params) {
         all: 0, open: 0, hide: 0
     });
     let [pageConfig, setPageConfig] = useState({
-        page: 1, pageSize: 1
+        page: 0, pageSize: 1
     })
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
@@ -43,11 +43,11 @@ export default function Cert(params) {
     })
 
     const changeContract = async(obj) => {
+        console.log('=====>',obj);
         if (status === 'error' || !accountAddr) {
             setLoading(false);
             return
         }
-        setSelectContract(obj.contract_id);
         await getAllNft({
             ...obj,
             ...pageConfig
@@ -56,7 +56,7 @@ export default function Cert(params) {
             if (res.data) {
                 list = list.concat(res.data.list);
                 setList([...list]);
-                if (!obj.contract_id) {
+                if (!selectContract) {
                     setTotal(res.data.total);
                 }
                 if (!obj.status) {
@@ -74,6 +74,8 @@ export default function Cert(params) {
 
     const refetch = () => {
         setLoading(true);
+        list = [];
+        setList([...list]);
         setTimeout(() => {
             changeContract({
                 address: accountAddr,
@@ -118,10 +120,10 @@ export default function Cert(params) {
 
     const io = new IntersectionObserver(ioes => {
         ioes.forEach(async(ioe) => {
-            console.log(ioe);
             const el = ioe.target
             const intersectionRatio = ioe.intersectionRatio
             if (intersectionRatio > 0 && intersectionRatio <= 1) {
+                console.log('go =====>',);
                 pageConfig.page += 1;
                 setPageConfig({...pageConfig});
                 await changeContract({
@@ -131,7 +133,7 @@ export default function Cert(params) {
                 })
                 io.unobserve(el)
             }
-            if (pageConfig.page * pageConfig.pageSize < total) {
+            if (pageConfig.page * pageConfig.pageSize < checkTotal.all) {
                 isInViewPortOfThree()
             }
         })
@@ -139,7 +141,6 @@ export default function Cert(params) {
 
     // 执行交叉观察器
     function isInViewPortOfThree () {
-        console.log(document.querySelector(".loading"));
         io.observe(document.querySelector(".loading"))
     }
 
@@ -147,7 +148,6 @@ export default function Cert(params) {
         if (status === 'idle') {
             initValue()
         }else if (status === 'success') {
-            
             isInViewPortOfThree()
         }
     },[status])
@@ -156,13 +156,25 @@ export default function Cert(params) {
         init();
     },[location])
     
-    useUpdateEffect(() => {
-        changeContract({
+    const test = async() => {
+        list = [];
+        setList([...list]);
+        setLoading(true);
+        pageConfig.page = 1;
+        setPageConfig({...pageConfig})
+        await changeContract({
             address: accountAddr,
             contract_id: selectContract,
             status: selectStatus
         })
-    },[selectStatus])
+        isInViewPortOfThree()
+    }
+
+    useUpdateEffect(() => {
+        
+        test()
+        
+    },[selectStatus, selectContract])
 
     return (
         <div className="Cert">
@@ -176,7 +188,7 @@ export default function Cert(params) {
                     <div className="mt50"></div>
                     <CertNfts 
                         account={accountAddr} 
-                        changeContract={changeContract} 
+                        changeContractId={setSelectContract} 
                         total={total} 
                         isMe={isMe}
                         refetch={refetch}
@@ -228,7 +240,7 @@ export default function Cert(params) {
                                 </>
                             }
                             {
-                                pageConfig.page * pageConfig.pageSize < total &&
+                                pageConfig.page * pageConfig.pageSize < checkTotal.all &&
                                 <div className="loading">
                                     <Spin 
                                         indicator={

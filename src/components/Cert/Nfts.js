@@ -12,11 +12,11 @@ import ModalAddSbt from "./ModalAddSbt";
 
 export default function CertNfts(props) {
     
-    const { account, changeContract, total, isMe, refetch } = props;
+    const { account, changeContractId, total, isMe, refetch } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     const { initChains } = constans();
     let [list, setList] = useState();
-    let [selectItem, setSelectItem] = useState();
+    let [selectItem, setSelectItem] = useState(0);
 
     const show = () => {
         setIsModalOpen(true);
@@ -34,7 +34,6 @@ export default function CertNfts(props) {
         list = contracts.data;
         setTimeout(() => {
             setList([...list]);
-            setSelectItem(0);
         }, 1000);
     }
 
@@ -43,22 +42,15 @@ export default function CertNfts(props) {
     },[account])
 
     useUpdateEffect(() => {
-        let check;
         if (selectItem === 0) {
-            check = {
-                address: account
-            }
-        }else{
-            list.map(e => {
-                if (e.id === selectItem) {
-                    check = {
-                        address: account,
-                        contract_id: e.id
-                    }
-                }
-            })
+            changeContractId(null)
         }
-        changeContract(check)
+        list.map(e => {
+            if (e.id === selectItem) {
+                changeContractId(e.id)
+            }
+        })
+        
     },[selectItem])
 
     return (
