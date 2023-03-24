@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import { constans } from "@/utils/constans";
 import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
+import { ipfsToImg } from "@/utils/IpfsToImg";
 const { Option } = Select;
 
 const renderoption = (option) => {
@@ -249,7 +250,7 @@ export default function ModalAddSbt(props) {
                                 onClick={() => checked(e.id,e.flag)}
                             >
                                 <div className="img">
-                                    <img src={`${gateway}${e.image_uri}`} alt="" />
+                                    <img src={ipfsToImg(e)} alt="" />
                                 </div>
                                 <p>{e.name}</p>
                                 <div className="checkbox">

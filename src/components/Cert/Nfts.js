@@ -1,8 +1,7 @@
 import { getContracts } from "@/request/api/nft";
-import { constans } from "@/utils/constans";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { useUpdateEffect } from "ahooks";
-import { Button, List, Skeleton } from "antd";
+import { Button, Skeleton } from "antd";
 import { ethers } from "ethers";
 import { useEffect, useState } from "react";
 import ModalAddSbt from "./ModalAddSbt";
@@ -14,7 +13,6 @@ export default function CertNfts(props) {
     
     const { account, changeContractId, total, isMe, refetch } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const { initChains } = constans();
     let [list, setList] = useState();
     let [selectItem, setSelectItem] = useState(0);
 

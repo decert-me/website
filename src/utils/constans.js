@@ -13,14 +13,10 @@ export const constans = () => {
         "42161": {name: "Arbitrum One", icon: require("@/assets/images/img/net-Arbitrum.png")}
     }
 
-    const initChains = [
-
-    ]
-
     const maxUint32 = Math.pow(2,32) - 1;
     const maxUint192 = BigNumber.from('2').pow(192).sub(1);
     const openseaLink = `${process.env.REACT_APP_OPENSEA_LINK}/assets/${chains[process.env.REACT_APP_CHAIN_ID].name}/${BadgeAddress}`;
-    const defaultImg = 'assets/images/img/default.png';
+    const defaultImg = '/assets/images/img/default.png';
     const ipfsPath = 'https://ipfs.decert.me';
 
     return {
@@ -30,6 +26,5 @@ export const constans = () => {
         defaultImg,
         ipfsPath,
         chains,
-        initChains
     }
 }

@@ -1,10 +1,11 @@
+import { ipfsToImg } from '@/utils/IpfsToImg';
 import {
     EyeOutlined,
     EyeInvisibleOutlined,
     MoreOutlined
   } from '@ant-design/icons';
 import { Dropdown } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 
 
 export default function NftBox(props) {
@@ -42,12 +43,7 @@ export default function NftBox(props) {
         <div className="nft-detail">
             <div className="img">
                 <img 
-                    src={
-                        info.image_uri ? 
-                        `${gateway}${info.image_uri}`
-                        :
-                        ``
-                    } 
+                    src={ipfsToImg(info)} 
                     alt="" 
                 />
             </div>

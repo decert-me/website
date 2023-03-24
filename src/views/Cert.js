@@ -16,6 +16,22 @@ import { useAccount } from "wagmi";
 import { useAccountInit } from "@/hooks/useAccountInit";
 
 
+const LoadingComponents = (
+    <div className="loading">
+        <Spin 
+            indicator={
+                <LoadingOutlined
+                    style={{
+                    fontSize: 24,
+                    }}
+                    spin
+                />
+            } 
+        />
+        <p>加载中...</p>
+    </div>
+)
+
 export default function Cert(params) {
     
     const { t } = useTranslation(["translation","profile", "explore"]);
@@ -106,17 +122,6 @@ export default function Cert(params) {
         }
     }
 
-    const initValue = async() => {
-        if (urlAddr.length !== 42) {
-            await accountInit()
-            setAddr(addr);
-        }else{
-            await accountInit()
-            setAddr(addr);
-            setEns(ens);
-        }
-    }
-
     const io = new IntersectionObserver(ioes => {
         ioes.forEach(async(ioe) => {
             const el = ioe.target
@@ -144,8 +149,10 @@ export default function Cert(params) {
 
     useEffect(() => {
         if (status === 'idle') {
-            initValue()
+            accountInit()
         }else if (status === 'success') {
+            setAddr(addr);
+            setEns(ens);
             isInViewPortOfThree()
         }
     },[status])
@@ -203,20 +210,10 @@ export default function Cert(params) {
                         <div className="nfts">
                         <div className="scroll">
                             {
-                                loading ? 
-                                <div className="loading">
-                                    <Spin 
-                                        indicator={
-                                            <LoadingOutlined
-                                                style={{
-                                                fontSize: 24,
-                                                }}
-                                                spin
-                                            />
-                                        } 
-                                    />
-                                    <p>加载中...</p>
-                                </div>
+                                loading && status !== "error" ? 
+                                <>
+                                {LoadingComponents}
+                                </>
                                 :
                                 status === "error" ? 
                                 <></>
@@ -237,19 +234,10 @@ export default function Cert(params) {
                             }
                             {
                                 pageConfig.page * pageConfig.pageSize < checkTotal.all &&
-                                <div className="loading">
-                                    <Spin 
-                                        indicator={
-                                            <LoadingOutlined
-                                                style={{
-                                                fontSize: 24,
-                                                }}
-                                                spin
-                                            />
-                                        } 
-                                    />
-                                    <p>加载中...</p>
-                                </div>
+                                <>
+                                {LoadingComponents}
+                                <h1>xxx</h1>
+                                </>
                             }
                         </div>
                     </div>

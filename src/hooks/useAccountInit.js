@@ -53,15 +53,15 @@ export const useAccountInit = (props) => {
 
     useEffect(() => {
         if (ensAddr && getAddrstatus !== "idle") {
+
             status = getAddrstatus == "error" ? 'error' : 'success';
             setStatus(status);
-            // getAddrstatus == "error" ? setStatus('error') : setStatus('success')
-        }else if ( getAddrstatus !== "idle" &&  getEnsstatus !== "idle") {
+            
+        }else if (address && getAddrstatus !== "idle" &&  getEnsstatus !== "idle") {
+            
             status = getAddrstatus == "error" && getEnsstatus == "error" ? 'error' : 'success';
             setStatus(status);
 
-            // getEnsstatus == "error" && 
-            // getAddrstatus == "error" ? setStatus('error') : setStatus('success')
         }
     },[getEnsstatus, getAddrstatus])
 
