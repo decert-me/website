@@ -130,7 +130,7 @@ export default function Cert(params) {
     return (
         <div className="Cert">
             {
-                status === "success" || status === "error" ?
+                (status === "success" && accountAddr) || status === "error" ?
                 <>
                 <div className="Cert-sidbar">
                     <CertSearch />

@@ -60,6 +60,9 @@ export default function DefaultLayout(params) {
         if (path && path.split('/')[1].length === 42) {
             if (type === "toggle") {
                 navigateTo(`/${address}`);
+                navigateTo(0);
+                setTimeout(() => {
+                }, 20);
             }else if (type === "signout"){
                 navigateTo('/search');
             }else{
@@ -83,10 +86,10 @@ export default function DefaultLayout(params) {
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
             ClearStorage();
+            await sign()
             localStorage.setItem("decert.address", address);
             isClaim(path);
             isCert(path, 'toggle');
-            sign()
         }else if (addr && !address) {
             // 已登陆  ====>  未登录
             ClearStorage();
