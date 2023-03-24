@@ -15,7 +15,7 @@ export const useAccountInit = (props) => {
         name: ensAddr ? ensAddr : address,
         chainId: 1,
         enabled: false,
-        // cacheTime: 2_000
+        cacheTime: 2_000
     })
 
     const { 
@@ -26,7 +26,7 @@ export const useAccountInit = (props) => {
         address: address,
         chainId: 1,
         enabled: false,
-        // cacheTime: 2_000
+        cacheTime: 2_000
     })
 
     const { 

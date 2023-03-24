@@ -26,13 +26,13 @@ export default function Cert(params) {
     let [isMe, setIsMe] = useState();
     let [accountAddr, setAddr] = useState();
     let [accountEns, setEns] = useState();
-    let [list, setList] = useState();
+    let [list, setList] = useState([]);
     let [total, setTotal] = useState();
     let [checkTotal, setCheckTotal] = useState({
         all: 0, open: 0, hide: 0
     });
     let [pageConfig, setPageConfig] = useState({
-        page: 0, pageSize: 12
+        page: 1, pageSize: 1
     })
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
@@ -48,15 +48,13 @@ export default function Cert(params) {
             return
         }
         setSelectContract(obj.contract_id);
-        pageConfig.page += 1;
-        setPageConfig({...pageConfig});
         await getAllNft({
             ...obj,
             ...pageConfig
         }) 
         .then(res => {
             if (res.data) {
-                list = res.data.list;
+                list = list.concat(res.data.list);
                 setList([...list]);
                 if (!obj.contract_id) {
                     setTotal(res.data.total);
@@ -120,9 +118,12 @@ export default function Cert(params) {
 
     const io = new IntersectionObserver(ioes => {
         ioes.forEach(async(ioe) => {
+            console.log(ioe);
             const el = ioe.target
             const intersectionRatio = ioe.intersectionRatio
             if (intersectionRatio > 0 && intersectionRatio <= 1) {
+                pageConfig.page += 1;
+                setPageConfig({...pageConfig});
                 await changeContract({
                     address: accountAddr,
                     contract_id: selectContract,
@@ -130,25 +131,24 @@ export default function Cert(params) {
                 })
                 io.unobserve(el)
             }
-            // if (!isOver) {
-            //     isInViewPortOfThree()
-            // }
+            if (pageConfig.page * pageConfig.pageSize < total) {
+                isInViewPortOfThree()
+            }
         })
     })
 
     // 执行交叉观察器
     function isInViewPortOfThree () {
+        console.log(document.querySelector(".loading"));
         io.observe(document.querySelector(".loading"))
     }
 
     useEffect(() => {
-        // isInViewPortOfThree()
-
-    },[])
-
-    useEffect(() => {
         if (status === 'idle') {
             initValue()
+        }else if (status === 'success') {
+            
+            isInViewPortOfThree()
         }
     },[status])
 
@@ -196,7 +196,19 @@ export default function Cert(params) {
                         <div className="scroll">
                             {
                                 loading ? 
-                                <Spin />
+                                <div className="loading">
+                                    <Spin 
+                                        indicator={
+                                            <LoadingOutlined
+                                                style={{
+                                                fontSize: 24,
+                                                }}
+                                                spin
+                                            />
+                                        } 
+                                    />
+                                    <p>加载中...</p>
+                                </div>
                                 :
                                 status === "error" ? 
                                 <></>
