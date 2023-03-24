@@ -87,7 +87,6 @@ export default function Challenge(params) {
     }
 
     const saveAnswer = () => {
-        console.log('setItem');
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
         cache[detail.tokenId] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
