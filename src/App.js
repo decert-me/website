@@ -58,7 +58,7 @@ export default function App() {
       localStorage.setItem("decert.lang",lang)
     }
     i18n.changeLanguage(lang);
-    !localStorage.getItem("decert.cache") && localStorage.setItem("decert.cache", {})
+    !localStorage.getItem("decert.cache") && localStorage.setItem("decert.cache", JSON.stringify({}))
   },[])
   return (
     <>
