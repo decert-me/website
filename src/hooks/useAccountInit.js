@@ -15,7 +15,7 @@ export const useAccountInit = (props) => {
         name: ensAddr ? ensAddr : address,
         chainId: 1,
         enabled: false,
-        cacheTime: 2_000
+        // cacheTime: 2_000
     })
 
     const { 
@@ -26,7 +26,7 @@ export const useAccountInit = (props) => {
         address: address,
         chainId: 1,
         enabled: false,
-        cacheTime: 2_000
+        // cacheTime: 2_000
     })
 
     const { 
@@ -44,16 +44,21 @@ export const useAccountInit = (props) => {
             // ENS
             await getAddr()
             // await getEnsAvatar()
-            getAddrstatus == "error" ? setStatus('error') : setStatus('success')
         }else if(address) {
             // ADDR
             await getAddr()
             await getEns()
-            // await getEnsAvatar()
+        }
+    }
+
+    useEffect(() => {
+        if (ensAddr) {
+            getAddrstatus == "error" ? setStatus('error') : setStatus('success')
+        }else{
             getEnsstatus == "error" && 
             getAddrstatus == "error" ? setStatus('error') : setStatus('success')
         }
-    }
+    },[getEnsstatus, getAddrstatus])
 
     useEffect(() => {
         if ((address || ensAddr) && !status) {

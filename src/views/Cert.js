@@ -1,16 +1,18 @@
 import { Divider, Spin } from "antd";
+import {
+    LoadingOutlined
+} from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import "@/assets/styles/view-style/cert.scss"
 import { useTranslation } from "react-i18next";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import CertSearch from "@/components/Cert/Search";
 import CertUser from "@/components/Cert/User";
 import CertNfts from "@/components/Cert/Nfts";
 import { getAllNft, modifyNftStatus } from "@/request/api/nft";
 import NftBox from "@/components/Cert/NftBox";
 import { useUpdateEffect } from "ahooks";
-import { useAccount, useEnsAddress, useEnsName } from "wagmi";
-import { ethers } from "ethers";
+import { useAccount } from "wagmi";
 import { useAccountInit } from "@/hooks/useAccountInit";
 
 
@@ -29,7 +31,9 @@ export default function Cert(params) {
     let [checkTotal, setCheckTotal] = useState({
         all: 0, open: 0, hide: 0
     });
-    
+    let [pageConfig, setPageConfig] = useState({
+        page: 0, pageSize: 12
+    })
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
@@ -38,13 +42,18 @@ export default function Cert(params) {
         ensAddr: accountEns
     })
 
-    const changeContract = (obj) => {
+    const changeContract = async(obj) => {
         if (status === 'error' || !accountAddr) {
             setLoading(false);
             return
         }
         setSelectContract(obj.contract_id);
-        getAllNft(obj) 
+        pageConfig.page += 1;
+        setPageConfig({...pageConfig});
+        await getAllNft({
+            ...obj,
+            ...pageConfig
+        }) 
         .then(res => {
             if (res.data) {
                 list = res.data.list;
@@ -109,6 +118,34 @@ export default function Cert(params) {
         }
     }
 
+    const io = new IntersectionObserver(ioes => {
+        ioes.forEach(async(ioe) => {
+            const el = ioe.target
+            const intersectionRatio = ioe.intersectionRatio
+            if (intersectionRatio > 0 && intersectionRatio <= 1) {
+                await changeContract({
+                    address: accountAddr,
+                    contract_id: selectContract,
+                    status: selectStatus
+                })
+                io.unobserve(el)
+            }
+            // if (!isOver) {
+            //     isInViewPortOfThree()
+            // }
+        })
+    })
+
+    // 执行交叉观察器
+    function isInViewPortOfThree () {
+        io.observe(document.querySelector(".loading"))
+    }
+
+    useEffect(() => {
+        // isInViewPortOfThree()
+
+    },[])
+
     useEffect(() => {
         if (status === 'idle') {
             initValue()
@@ -118,7 +155,7 @@ export default function Cert(params) {
     useEffect(() => {
         init();
     },[location])
-
+    
     useUpdateEffect(() => {
         changeContract({
             address: accountAddr,
@@ -155,27 +192,48 @@ export default function Cert(params) {
                             <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
                         </ul>
                     }
-
-                    <div className="nfts">
-                        {
-                            loading ? 
-                            <Spin />
-                            :
-                            status === "error" ? 
-                            <></>
-                            :
-                            list && 
-                            list.map(e => 
-                                <NftBox 
-                                    info={e}
-                                    changeNftStatus={changeNftStatus}
-                                    key={e.id}
-                                    isMe={isMe}
-                                />                            
-                            )
-                        }
+                        <div className="nfts">
+                        <div className="scroll">
+                            {
+                                loading ? 
+                                <Spin />
+                                :
+                                status === "error" ? 
+                                <></>
+                                :
+                                <>
+                                {
+                                    list && 
+                                    list.map(e => 
+                                        <NftBox 
+                                            info={e}
+                                            changeNftStatus={changeNftStatus}
+                                            key={e.id}
+                                            isMe={isMe}
+                                        />                            
+                                    )
+                                }
+                                </>
+                            }
+                            {
+                                pageConfig.page * pageConfig.pageSize < total &&
+                                <div className="loading">
+                                    <Spin 
+                                        indicator={
+                                            <LoadingOutlined
+                                                style={{
+                                                fontSize: 24,
+                                                }}
+                                                spin
+                                            />
+                                        } 
+                                    />
+                                    <p>加载中...</p>
+                                </div>
+                            }
+                        </div>
                     </div>
-                </div>
+                    </div>
                 </>
                 :
                 <Spin

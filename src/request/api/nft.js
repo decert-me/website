@@ -18,7 +18,7 @@ export const getContractNfts = (data) => {
 
 export const getAllNft = (data) => {
     return nftAxios({
-        url: `/own${data.address ? '/'+data.address : ''}${data.contract_id ? "?contract_id="+data.contract_id : ''}${data.status ? "?status="+data.status : ''}`,
+        url: `/own${data.address ? '/'+data.address : ''}?page=${data.page}&pageSize=${data.pageSize}${data.contract_id ? "&contract_id="+data.contract_id : ''}${data.status ? "&status="+data.status : ''}`,
         method: "get",
         data
     })

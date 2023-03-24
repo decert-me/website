@@ -160,10 +160,10 @@
 
 .Cert-content{
     width: calc(100% - 400px);
-    padding: 40px;
-    padding-right: 0;
+    padding-block: 40px;
     border-left: 1px solid #D8D8D8;
     ul{
+        padding-inline: 40px;
         display: flex;
         color: #666666;
         font-size: 24px;
@@ -178,10 +178,32 @@
         }
     }
     .nfts{
+        padding-inline: 20px;
+        padding-bottom: 50px;
         margin-top: 43px;
-        display: flex;
-        flex-wrap: wrap;
-        gap: 25px;
+        height: 920px;
+        overflow: scroll;
+        &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari 和 Opera */
+        }
+        .scroll{
+            width: 1243px;
+            padding-inline: 20px;
+            // margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+        .loading{
+            width: 100%;
+            padding-block: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            p{
+                margin-inline: 15px;
+            }
+        }
         .nft-detail{
             width: 282px;
             border-radius: 10px;
