@@ -48,7 +48,7 @@ export default function Cert(params) {
         all: 0, open: 0, hide: 0
     });
     let [pageConfig, setPageConfig] = useState({
-        page: 0, pageSize: 1
+        page: 0, pageSize: 12
     })
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();

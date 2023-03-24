@@ -1,4 +1,4 @@
-import { Button, Divider, Input, message, Modal, Select, Skeleton, Space } from "antd";
+import { Button, Divider, Input, message, Modal, Select, Space } from "antd";
 import {
     CloseCircleOutlined,
     CheckOutlined,
