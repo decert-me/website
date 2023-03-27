@@ -63,6 +63,14 @@ export default function Publish(params) {
         }
     })
 
+    const clearLocal = () => {
+        localStorage.removeItem("decert.store");
+        message.success("清除成功")
+        setTimeout(() => {
+            navigateTo(0);
+        }, 500);
+    }
+
     const showAddModal = () => {
         setShowAddQs(true);
     }
@@ -223,8 +231,8 @@ export default function Publish(params) {
             }
         ]
         setFields([...fields])
-    }
 
+    }
     useEffect(() => {
         changeSumScore()
     },[questions])
@@ -432,6 +440,7 @@ export default function Publish(params) {
                         {t("translation:btn-submit")}
                     </Button>
                 </Form.Item>
+                <Button onClick={() => clearLocal()}>清空草稿</Button>
             </Form>
 
         </div>
