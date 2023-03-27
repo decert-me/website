@@ -16,14 +16,14 @@ import { GetPercent, GetScorePercent } from "@/utils/GetPercent";
 import { ClaimShareSuccess } from "../CustomMessage";
 import { useTranslation } from "react-i18next";
 import { constans } from "@/utils/constans";
-import { convertToken } from "@/utils/convert";
-import { GetSign } from "@/utils/GetSign";
+import { useVerifyToken } from "@/hooks/useVerifyToken";
 
 
 export default function CustomCompleted(props) {
     
     const { answers, detail, tokenId, isClaim } = props;
     const { t } = useTranslation(["claim", "translation"]);
+    const { verify } = useVerifyToken();
     const { data: signer } = useSigner();
     const { address, isConnected } = useAccount();
     const { decode } = Encryption();
@@ -117,12 +117,14 @@ export default function CustomCompleted(props) {
         setHrefUrl(hrefUrl);
     }
 
-    const hrefSubmit = () => {
+    const hrefSubmit = async() => {
 
-        const token = localStorage.getItem('decert.token')
-
-        if (isConnected && (!token || !convertToken(token))) {
-            GetSign({address: address, signer: signer})
+        let hasHash = true;
+        await verify()
+        .catch(() => {
+            hasHash = false;
+        })
+        if (!hasHash) {
             return
         }
 

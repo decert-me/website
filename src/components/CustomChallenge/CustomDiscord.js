@@ -1,12 +1,11 @@
 import { Button, message } from "antd";
 import { useEffect, useState } from "react"
-import { useAccount, useSigner } from "wagmi"
+import { useAccount } from "wagmi"
 import { verifyDiscord } from "@/request/api/public"
 import { Link } from "react-router-dom";
 import { useRequest } from "ahooks";
 import { useTranslation } from "react-i18next";
-import { convertToken } from "@/utils/convert";
-import { GetSign } from "@/utils/GetSign";
+import { useVerifyToken } from "@/hooks/useVerifyToken";
 
 
 
@@ -15,32 +14,32 @@ export default function CustomDiscord(props) {
     
     const { t } = useTranslation(["claim"]);
     const { step, setStep } = props;
-    const { address, isConnected } = useAccount();
-    const { data: signer } = useSigner();
+    const { address } = useAccount();
+    const { verify: verifyHash } = useVerifyToken();
     let [isBind, setIsBind] = useState();
     let [username, setUsername] = useState();
     let [isLoading, setIsLoading] = useState();
 
-    const verify = (isClick) => {
-        const token = localStorage.getItem('decert.token')
-
-        if (isConnected && (!token || !convertToken(token))) {
-            GetSign({address: address, signer: signer})
+    const verify = async(isClick) => {
+        let hasHash = true;
+        await verifyHash()
+        .catch(() => {
+            hasHash = false;
+        })
+        if (!hasHash) {
             return
         }
 
-        if (token) {
-            verifyDiscord({address: address, isClick: isClick})
-            .then(res => {
-                isBind = !res ? false : res.data ? true : false;
-                setIsBind(isBind);
-                username = isBind && res.data?.username ? res.data.username : null;
-                setUsername(username);
-                if (isClick) {
-                    message.success(res.message);
-                }
-            })
-        }
+        verifyDiscord({address: address, isClick: isClick})
+        .then(res => {
+            isBind = !res ? false : res.data ? true : false;
+            setIsBind(isBind);
+            username = isBind && res.data?.username ? res.data.username : null;
+            setUsername(username);
+            if (isClick) {
+                message.success(res.message);
+            }
+        })
     }
 
     const { run } = useRequest(verify, {

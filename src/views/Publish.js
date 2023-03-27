@@ -16,8 +16,6 @@ import { createQuest } from "../controller";
 import { useNavigate } from "react-router-dom";
 import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
-import { GetSign } from "@/utils/GetSign";
-import { convertToken } from "@/utils/convert";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 const { Dragger } = Upload;
 const { TextArea } = Input;
@@ -25,7 +23,7 @@ const { TextArea } = Input;
 export default function Publish(params) {
     
     const navigateTo = useNavigate();
-    const { address, isConnected } = useAccount();
+    const { isConnected } = useAccount();
     const { data: signer } = useSigner();
     const { verify } = useVerifyToken();
     const { t } = useTranslation(["publish", "translation"]);
