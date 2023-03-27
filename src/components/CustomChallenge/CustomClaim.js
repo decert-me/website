@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import ModalLoading from "../CustomModal/ModalLoading";
 import { GetScorePercent } from "@/utils/GetPercent";
 import { useTranslation } from "react-i18next";
+import { useVerifyToken } from "@/hooks/useVerifyToken";
 
 
 export default function CustomClaim(props) {
@@ -16,6 +17,7 @@ export default function CustomClaim(props) {
     const { step, cliamObj, img, showInner, isClaim } = props;
     const { t } = useTranslation(["claim"]);
     const { chain } = useNetwork();
+    const { verify } = useVerifyToken();
     const { data: signer } = useSigner();
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID),
@@ -44,13 +46,23 @@ export default function CustomClaim(props) {
     })
 
     const cliam = async() => {
-        let obj = {...cliamObj};
-        obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
+
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);
             return
         }
 
+        let hasHash = true;
+        await verify()
+        .catch(() => {
+            hasHash = false;
+        })
+        if (!hasHash) {
+            return
+        }
+
+        let obj = {...cliamObj};
+        obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
         setWriteLoading(true);
         const signature = await getClaimHash(obj);
         if (signature) {

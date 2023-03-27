@@ -16,17 +16,23 @@ import { createQuest } from "../controller";
 import { useNavigate } from "react-router-dom";
 import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
+
 import axios from "axios";
 import { ConfirmClearQuest } from "@/components/CustomConfirm/ConfirmClearQuest";
+import { useVerifyToken } from "@/hooks/useVerifyToken";
+
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
 export default function Publish(params) {
     
     const navigateTo = useNavigate();
-    const { address, isConnected } = useAccount();
+    const { isConnected } = useAccount();
     const { data: signer } = useSigner();
+
     const { ipfsPath, maxUint32, maxUint192 } = constans();
+    const { verify } = useVerifyToken();
+
     const { t } = useTranslation(["publish", "translation"]);
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID),
@@ -123,11 +129,15 @@ export default function Publish(params) {
             setConnectModal(true)
             return
         }
-        // 已登录 未签名
-        // if (isConnected && (!token || !convertToken(token))) {
-        //     GetSign({address: address, signer: signer})
-        //     return
-        // }
+        // 已登录 未签名 || 签名过期
+        let hasHash = true;
+        await verify()
+        .catch(() => {
+            hasHash = false;
+        })
+        if (!hasHash) {
+            return
+        }
         // 链不同
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);
@@ -232,7 +242,15 @@ export default function Publish(params) {
         ]
         setFields([...fields])
 
+    
+    const clearLocal = () => {
+        localStorage.removeItem("decert.store");
+        message.success("清除成功")
+        setTimeout(() => {
+            navigateTo(0);
+        }, 500);
     }
+
     useEffect(() => {
         changeSumScore()
     },[questions])
@@ -426,7 +444,6 @@ export default function Publish(params) {
                 </div>
 
 
-                
                 <div className="Publish-btns">
                     <div className="btns">
                         <div className="left">
