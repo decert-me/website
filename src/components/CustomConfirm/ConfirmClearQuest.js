@@ -10,7 +10,7 @@ const json = {
 
 
 export const ConfirmClearQuest = (clearLocal) => {
-    const obj = json[i18n.language].message.success.submit;
+    const obj = json[i18n.language];
 
     return (
         confirm({
@@ -19,13 +19,13 @@ export const ConfirmClearQuest = (clearLocal) => {
             width: "527px",
             className: "ConfirmClearQuest",
             content: (
-                <p>清空所有内容？</p>
+                <p>{obj.confirm.clear}</p>
             ),
-            okText: '确认',
+            okText: obj["btn-confirm"],
             okButtonProps: (() => {
                 return <Button type="primary"></Button>
             }),
-            cancelText: '取消',
+            cancelText: obj["btn-cancel"],
             cancelButtonProps: (() => {
                 return <Button type="primary" ghost></Button>
             }),

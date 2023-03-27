@@ -22,6 +22,10 @@
     "btn-edit-profile": "编辑资料",
     "btn-cancel": "取消",
     "btn-save": "保存",
+    "btn-confirm": "确认",
+    "btn-publish": "发布挑战",
+    "btn-view": "预览",
+    "btn-clear": "清空所有",
 
     "diff": "难度",
     "diff-info": {
@@ -35,6 +39,9 @@
         "h": "{{time}} 时",
         "d": "{{time}} 天",
         "w": "{{time}} 周"
+    },
+    "confirm": {
+        "clear": "清空所有内容？"
     },
     "modal": {
         "claim": {

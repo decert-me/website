@@ -434,13 +434,13 @@ export default function Publish(params) {
                             {
                                 // localStorage.getItem("decert.store") &&
                                 <Button onClick={() => ConfirmClearQuest(clearLocal)}>
-                                    清空所有
+                                    {t("translation:btn-clear")}
                                 </Button>
                             }
                         </div>
                         <div className="right">
                             <Button type="primary" ghost>
-                                预览
+                                {t("translation:btn-view")}
                             </Button>
                             <Form.Item
                                 style={{
@@ -453,7 +453,7 @@ export default function Publish(params) {
                                     htmlType="submit" 
                                     loading={ writeLoading || waitLoading }
                                 >
-                                    {t("translation:btn-submit")}
+                                    {t("translation:btn-publish")}
                                 </Button>
                             </Form.Item>
                         </div>
