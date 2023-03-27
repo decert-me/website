@@ -6,6 +6,7 @@ export const constans = () => {
 
     const chains = {
         "80001": "mumbai",
+        "137": "polygon"
     }
 
     const maxUint32 = Math.pow(2,32) - 1;
