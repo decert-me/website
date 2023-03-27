@@ -16,6 +16,7 @@ import { createQuest } from "../controller";
 import { useNavigate } from "react-router-dom";
 import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
+import axios from "axios";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -24,6 +25,7 @@ export default function Publish(params) {
     const navigateTo = useNavigate();
     const { address, isConnected } = useAccount();
     const { data: signer } = useSigner();
+    const { ipfsPath, maxUint32, maxUint192 } = constans();
     const { t } = useTranslation(["publish", "translation"]);
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID),
@@ -35,6 +37,9 @@ export default function Publish(params) {
         }
     })
     const { chain } = useNetwork();
+    const [form] = Form.useForm();
+    let [fields, setFields] = useState([]);
+    
     let [isSwitch, setIsSwitch] = useState(false);
     let [showAddQs, setShowAddQs] = useState(false);
     let [questions, setQuestions] = useState([]);
@@ -52,6 +57,7 @@ export default function Publish(params) {
         onSuccess() {
             setTimeout(() => {
                 message.success(t("message.success.create"));
+                localStorage.removeItem("decert.store");
                 navigateTo("/explore")
             }, 1000);
         }
@@ -89,11 +95,9 @@ export default function Publish(params) {
     }
 
     const write = (sign, obj) => {
-        console.log(chain);
         createQuest(obj, sign, signer)
         .then(res => {
             setWriteLoading(false);
-            console.log('res ==>',res);
             if (res) {
                 submitHash({hash: res})
                 setCreateQuestHash(res)
@@ -106,7 +110,6 @@ export default function Publish(params) {
             setIsClick(true);
             return
         }
-        // const token = localStorage.getItem(`decert.token`);
         // 未登录
         if (!isConnected) {
             setConnectModal(true)
@@ -152,8 +155,8 @@ export default function Publish(params) {
             title: values.title,
             description: values.desc,
             'start_ts': '0', 
-            'end_ts': constans().maxUint32.toString(), 
-            'supply': constans().maxUint192.toString(),       
+            'end_ts': maxUint32.toString(), 
+            'supply': maxUint192.toString(),       
         })
         const questData = {
             'startTs': 0, 
@@ -162,6 +165,11 @@ export default function Publish(params) {
             'title': values.title,
             'uri': "ipfs://"+jsonHash.hash, 
         }
+        let questCache = {
+            hash: jsonHash.hash,
+            questions: questions
+        }
+        localStorage.setItem("decert.store", JSON.stringify(questCache))
         signature && write(signature.data, questData)
     };
 
@@ -172,8 +180,52 @@ export default function Publish(params) {
         }
     };
 
+    const init = async() => {
+        // 1、local
+        let local = localStorage.getItem("decert.store");
+        if (!local) {
+            return
+        }
+        const cache = JSON.parse(local);
+        const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
+        questions = cache.questions;
+        setQuestions([...questions]);
+        fields = [
+            {
+                name: [
+                    "title"
+                ],
+                value: questCache.data.title
+            },
+            {
+                name: [
+                    "desc"
+                ],
+                value: questCache.data.description
+            },
+            {
+                name: [
+                    "score"
+                ],
+                value: questCache.data.properties.passingScore
+            },
+            {
+                name: [
+                    "difficulty"
+                ],
+                value: questCache.data.properties.difficulty
+            },
+            {
+                name: [
+                    "time"
+                ],
+                value: questCache.data.properties.estimateTime
+            }
+        ]
+        setFields([...fields])
+    }
+
     useEffect(() => {
-        console.log('questions ==>',questions);
         changeSumScore()
     },[questions])
 
@@ -182,6 +234,10 @@ export default function Publish(params) {
             switchNetwork()
         }
     },[switchNetwork, isSwitch])
+
+    useEffect(() => {
+        init();
+    },[])
 
     return (
         <div className="Publish">
@@ -199,6 +255,7 @@ export default function Publish(params) {
                 className="inner"
                 name="challenge"
                 layout="vertical"
+                form={form}
                 labelCol={{
                     span: 5,
                 }}
@@ -208,6 +265,7 @@ export default function Publish(params) {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 autoComplete="off"
+                fields={fields}
             >
                 <Form.Item
                     label={t("inner.title")}
