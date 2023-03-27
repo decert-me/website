@@ -18,6 +18,7 @@ import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
 import { GetSign } from "@/utils/GetSign";
 import { convertToken } from "@/utils/convert";
+import { useVerifyToken } from "@/hooks/useVerifyToken";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -26,6 +27,7 @@ export default function Publish(params) {
     const navigateTo = useNavigate();
     const { address, isConnected } = useAccount();
     const { data: signer } = useSigner();
+    const { verify } = useVerifyToken();
     const { t } = useTranslation(["publish", "translation"]);
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID),
@@ -108,15 +110,18 @@ export default function Publish(params) {
             setIsClick(true);
             return
         }
-        const token = localStorage.getItem(`decert.token`);
         // 未登录
         if (!isConnected) {
             setConnectModal(true)
             return
         }
         // 已登录 未签名 || 签名过期
-        if (isConnected && (!token || !convertToken(token))) {
-            GetSign({address: address, signer: signer})
+        let hasHash = true;
+        await verify()
+        .catch(() => {
+            hasHash = false;
+        })
+        if (!hasHash) {
             return
         }
         // 链不同
