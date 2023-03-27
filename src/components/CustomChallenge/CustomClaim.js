@@ -4,11 +4,13 @@ import {
 } from '@ant-design/icons';
 import { getClaimHash, submitHash } from "../../request/api/public";
 import { claim } from "../../controller";
-import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useAccount, useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
 import ModalLoading from "../CustomModal/ModalLoading";
 import { GetScorePercent } from "@/utils/GetPercent";
 import { useTranslation } from "react-i18next";
+import { convertToken } from "@/utils/convert";
+import { GetSign } from "@/utils/GetSign";
 
 
 export default function CustomClaim(props) {
@@ -17,6 +19,7 @@ export default function CustomClaim(props) {
     const { t } = useTranslation(["claim"]);
     const { chain } = useNetwork();
     const { data: signer } = useSigner();
+    const { address, isConnected } = useAccount();
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID),
         onError(error) {
@@ -44,13 +47,20 @@ export default function CustomClaim(props) {
     })
 
     const cliam = async() => {
-        let obj = {...cliamObj};
-        obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
+        const token = localStorage.getItem(`decert.token`);
+
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);
             return
         }
 
+        if (isConnected && (!token || !convertToken(token))) {
+            GetSign({address: address, signer: signer})
+            return
+        }
+
+        let obj = {...cliamObj};
+        obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
         setWriteLoading(true);
         const signature = await getClaimHash(obj);
         if (signature) {
