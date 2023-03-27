@@ -61,7 +61,12 @@
             height: 42px;
             padding-inline: 18px;
             border-radius: 5px;
-            color: #94A5B7;
+            border-color: #3360F4;
+            color: #3360F4;
+            &:hover{
+                color: #FF0000;
+                border-color: #FF0000;
+            }
         }
         .right{
             display: flex;
