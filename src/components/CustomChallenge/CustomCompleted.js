@@ -16,6 +16,8 @@ import { GetPercent, GetScorePercent } from "@/utils/GetPercent";
 import { ClaimShareSuccess } from "../CustomMessage";
 import { useTranslation } from "react-i18next";
 import { constans } from "@/utils/constans";
+import { convertToken } from "@/utils/convert";
+import { GetSign } from "@/utils/GetSign";
 
 
 export default function CustomCompleted(props) {
@@ -116,6 +118,14 @@ export default function CustomCompleted(props) {
     }
 
     const hrefSubmit = () => {
+
+        const token = localStorage.getItem('decert.token')
+
+        if (isConnected && (!token || !convertToken(token))) {
+            GetSign({address: address, signer: signer})
+            return
+        }
+
         const pattern = /^https:\/\/twitter\.com\/.*/i;
         if (!pattern.test(hrefUrl)) {
             message.warning(t("message.link"))
