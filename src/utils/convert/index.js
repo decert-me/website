@@ -9,7 +9,7 @@ export const convertToken = (token) => {
         const now = parseInt(new Date().getTime() / 1000);
         var status = now > userinfo.exp ? false : true;   //false 超时 : true 未超时
     } catch (error) {
-        localStorage.clear();
+        localStorage.removeItem("decert.token");
     }
 
     return status
