@@ -90,6 +90,10 @@ export default function DefaultLayout(params) {
         run(addr, path)
     },[address])
 
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    },[location])
+
     return (
         <Layout>
             <Header style={headerStyle}>

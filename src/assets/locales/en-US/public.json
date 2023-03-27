@@ -22,6 +22,10 @@
     "btn-edit-profile": "Edit Profile",
     "btn-cancel": "Cancel",
     "btn-save": "Save",
+    "btn-confirm": "Confirm",
+    "btn-publish": "Publish",
+    "btn-view": "Preview",
+    "btn-clear": "Clear data",
 
     "diff": "Difficulty",
     "diff-info": {
@@ -35,6 +39,9 @@
         "h": "{{time}} h",
         "d": "{{time}} day",
         "w": "{{time}} week"
+    },
+    "confirm": {
+        "clear": "Clear all data？"
     },
     "modal": {
         "claim": {
