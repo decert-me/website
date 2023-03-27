@@ -1,10 +1,12 @@
 import { Button, message } from "antd";
 import { useEffect, useState } from "react"
-import { useAccount } from "wagmi"
+import { useAccount, useSigner } from "wagmi"
 import { verifyDiscord } from "@/request/api/public"
 import { Link } from "react-router-dom";
 import { useRequest } from "ahooks";
 import { useTranslation } from "react-i18next";
+import { convertToken } from "@/utils/convert";
+import { GetSign } from "@/utils/GetSign";
 
 
 
@@ -13,13 +15,20 @@ export default function CustomDiscord(props) {
     
     const { t } = useTranslation(["claim"]);
     const { step, setStep } = props;
-    const { address } = useAccount();
+    const { address, isConnected } = useAccount();
+    const { data: signer } = useSigner();
     let [isBind, setIsBind] = useState();
     let [username, setUsername] = useState();
     let [isLoading, setIsLoading] = useState();
 
     const verify = (isClick) => {
         const token = localStorage.getItem('decert.token')
+
+        if (isConnected && (!token || !convertToken(token))) {
+            GetSign({address: address, signer: signer})
+            return
+        }
+
         if (token) {
             verifyDiscord({address: address, isClick: isClick})
             .then(res => {
