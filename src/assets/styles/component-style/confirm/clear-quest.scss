@@ -1,0 +1,36 @@
+
+.ConfirmClearQuest{
+    .ant-modal-content{
+        padding: 0;
+    }
+    .ant-modal-body{
+        padding: 55px 50px 40px;
+    }
+    .ant-modal-confirm-content{
+        width: 100%;
+        margin: 0 auto;
+        p{
+            text-align: center;
+            color: #3D3D3D;
+            font-size: 20px;
+            line-height: 29px;
+        }
+    }
+    .ant-modal-confirm-btns{
+        margin-top: 70px;
+        display: flex;
+        justify-content: space-between;
+        button{
+            width: 171px;
+            height: 40px;
+            border-radius: 5px;
+            font-size: 16px;
+            font-weight: 350;
+            line-height: 23px;
+            &:first-child{
+                color: #3360F4;
+                border-color: #3360F4;
+            }
+        }
+    }
+}

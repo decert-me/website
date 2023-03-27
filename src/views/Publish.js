@@ -17,6 +17,7 @@ import { useNavigate } from "react-router-dom";
 import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
 import axios from "axios";
+import { ConfirmClearQuest } from "@/components/CustomConfirm/ConfirmClearQuest";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -425,25 +426,39 @@ export default function Publish(params) {
                     </Form.Item>
                 </div>
 
-                <Form.Item 
-                    style={{
-                        display: "flex",
-                        justifyContent: "center"
-                    }}
-                >
-                    <Button 
-                        className="submit"
-                        type="primary" 
-                        htmlType="submit" 
-                        loading={ writeLoading || waitLoading }
-                    >
-                        {t("translation:btn-submit")}
-                    </Button>
-                </Form.Item>
-                {
-                    localStorage.getItem("decert.store") &&
-                    <Button onClick={() => clearLocal()}>清空草稿</Button>
-                }
+
+                
+                <div className="Publish-btns">
+                    <div className="btns">
+                        <div className="left">
+                            {
+                                // localStorage.getItem("decert.store") &&
+                                <Button onClick={() => ConfirmClearQuest(clearLocal)}>
+                                    清空所有
+                                </Button>
+                            }
+                        </div>
+                        <div className="right">
+                            <Button type="primary" ghost>
+                                预览
+                            </Button>
+                            <Form.Item
+                                style={{
+                                    margin: 0
+                                }}
+                            >
+                                <Button 
+                                    className="submit"
+                                    type="primary" 
+                                    htmlType="submit" 
+                                    loading={ writeLoading || waitLoading }
+                                >
+                                    {t("translation:btn-submit")}
+                                </Button>
+                            </Form.Item>
+                        </div>
+                    </div>
+                </div>
             </Form>
 
         </div>
