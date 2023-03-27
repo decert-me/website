@@ -16,6 +16,8 @@ import { createQuest } from "../controller";
 import { useNavigate } from "react-router-dom";
 import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
+import { GetSign } from "@/utils/GetSign";
+import { convertToken } from "@/utils/convert";
 const { Dragger } = Upload;
 const { TextArea } = Input;
 
@@ -106,17 +108,17 @@ export default function Publish(params) {
             setIsClick(true);
             return
         }
-        // const token = localStorage.getItem(`decert.token`);
+        const token = localStorage.getItem(`decert.token`);
         // 未登录
         if (!isConnected) {
             setConnectModal(true)
             return
         }
-        // 已登录 未签名
-        // if (isConnected && (!token || !convertToken(token))) {
-        //     GetSign({address: address, signer: signer})
-        //     return
-        // }
+        // 已登录 未签名 || 签名过期
+        if (isConnected && (!token || !convertToken(token))) {
+            GetSign({address: address, signer: signer})
+            return
+        }
         // 链不同
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);
@@ -173,7 +175,6 @@ export default function Publish(params) {
     };
 
     useEffect(() => {
-        console.log('questions ==>',questions);
         changeSumScore()
     },[questions])
 
