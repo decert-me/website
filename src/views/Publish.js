@@ -241,14 +241,6 @@ export default function Publish(params) {
             }
         ]
         setFields([...fields])
-
-    
-    const clearLocal = () => {
-        localStorage.removeItem("decert.store");
-        message.success("清除成功")
-        setTimeout(() => {
-            navigateTo(0);
-        }, 500);
     }
 
     useEffect(() => {
