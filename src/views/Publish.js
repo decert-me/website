@@ -66,7 +66,6 @@ export default function Publish(params) {
 
     const clearLocal = () => {
         localStorage.removeItem("decert.store");
-        message.success("清除成功")
         setTimeout(() => {
             navigateTo(0);
         }, 500);
@@ -431,12 +430,9 @@ export default function Publish(params) {
                 <div className="Publish-btns">
                     <div className="btns">
                         <div className="left">
-                            {
-                                // localStorage.getItem("decert.store") &&
-                                <Button onClick={() => ConfirmClearQuest(clearLocal)}>
-                                    {t("translation:btn-clear")}
-                                </Button>
-                            }
+                            <Button onClick={() => ConfirmClearQuest(clearLocal)}>
+                                {t("translation:btn-clear")}
+                            </Button>
                         </div>
                         <div className="right">
                             <Button type="primary" ghost>
