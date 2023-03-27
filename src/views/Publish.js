@@ -440,7 +440,10 @@ export default function Publish(params) {
                         {t("translation:btn-submit")}
                     </Button>
                 </Form.Item>
-                <Button onClick={() => clearLocal()}>清空草稿</Button>
+                {
+                    localStorage.getItem("decert.store") &&
+                    <Button onClick={() => clearLocal()}>清空草稿</Button>
+                }
             </Form>
 
         </div>
