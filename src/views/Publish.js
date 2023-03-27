@@ -435,9 +435,9 @@ export default function Publish(params) {
                             </Button>
                         </div>
                         <div className="right">
-                            <Button type="primary" ghost>
+                            {/* <Button type="primary" ghost>
                                 {t("translation:btn-view")}
-                            </Button>
+                            </Button> */}
                             <Form.Item
                                 style={{
                                     margin: 0
