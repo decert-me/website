@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import { useEffect } from "react";
 import BeforeRouterEnter from "@/components/BeforeRouterEnter";
 import { WagmiConfig, configureChains, createClient } from 'wagmi'
-import { avalanche, goerli, mainnet, optimism, polygonMumbai } from 'wagmi/chains'
+import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
 
 // import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 // import { InjectedConnector } from 'wagmi/connectors/injected'
@@ -16,7 +16,7 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { publicProvider } from 'wagmi/providers/public'
 
 const { chains, provider, webSocketProvider } = configureChains(
-  [mainnet, goerli, optimism, avalanche, polygonMumbai],
+  [mainnet, goerli, polygonMumbai, polygon],
   [
     // alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! }),
     // infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY! }),
