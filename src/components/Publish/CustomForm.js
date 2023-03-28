@@ -4,6 +4,7 @@ import { InboxOutlined } from '@ant-design/icons';
 import CustomQuestion from "../CustomItem/CustomQuestion";
 import { ConfirmClearQuest } from "@/components/CustomConfirm/ConfirmClearQuest";
 import { useTranslation } from "react-i18next";
+import CustomEditor from "../CustomItem/CustomEditor";
 
 const { Dragger } = Upload;
 const { TextArea } = Input;
@@ -24,7 +25,8 @@ export default function CustomForm(props) {
         questions,
         isClick,
         sumScore,
-        waitLoading
+        waitLoading,
+        changeRecommend
     } = props;
     const [form] = Form.useForm();
     
@@ -70,6 +72,15 @@ export default function CustomForm(props) {
                   />
             </Form.Item>
 
+            <Form.Item 
+                // label={t("inner.desc")}
+                label="推荐学习内容"
+                name="editor"
+                className="Editor-hide"
+            >
+                <CustomEditor changeTitle={changeRecommend} />
+            </Form.Item>
+            
             <Form.Item 
                 label={t("inner.img")}
                 name="fileList"

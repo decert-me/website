@@ -68,7 +68,7 @@ export default function Quests(params) {
                         </Link>
                             
                         {
-                            detail.metadata.properties.difficulty !== null &&
+                            detail.metadata.properties?.difficulty !== null &&
                             <li>
                                 {t("translation:diff")}: {t(`translation:diff-info.${convertDifficulty(detail.metadata.properties.difficulty)}`)}
                             </li>

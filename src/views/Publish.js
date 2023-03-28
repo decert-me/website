@@ -46,6 +46,7 @@ export default function Publish(params) {
     let [sumScore, setSumScore] = useState(0);
     let [connectModal, setConnectModal] = useState();
     let [isClick, setIsClick] = useState();
+    let [recommend, setRecommend] = useState();
     
     const { encode } = Encryption();
 
@@ -97,16 +98,24 @@ export default function Publish(params) {
         setSumScore(sumScore);
     }
 
+    const changeRecommend = (e) => {
+        recommend = e;
+        setRecommend(recommend);
+    }
+
     const cancelModalConnect = () => {
         setConnectModal(false);
     }
 
-    const write = (sign, obj) => {
+    const write = (sign, obj, params) => {
         createQuest(obj, sign, signer)
         .then(res => {
             setWriteLoading(false);
             if (res) {
-                submitHash({hash: res})
+                submitHash({
+                    hash: res, 
+                    params: params
+                })
                 setCreateQuestHash(res)
             }
         })
@@ -154,12 +163,11 @@ export default function Publish(params) {
                 endTIme: null,
                 url: "",
                 requires: [],
-                difficulty: values.difficulty !== null ? values.difficulty : null,
+                difficulty: values.difficulty !== undefined ? values.difficulty : null,
                 estimateTime: values.time ? values.time : null
             },
             version: 1
         }
-
         const jsonHash = await ipfsJson({body: obj});
         const signature = jsonHash && await addQuests({
             uri: "ipfs://"+jsonHash.hash,
@@ -180,8 +188,11 @@ export default function Publish(params) {
             hash: jsonHash.hash,
             questions: questions
         }
+        let params = {
+            recommend: recommend
+        }
         localStorage.setItem("decert.store", JSON.stringify(questCache))
-        signature && write(signature.data, questData)
+        signature && write(signature.data, questData, JSON.stringify(params))
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -274,6 +285,7 @@ export default function Publish(params) {
                 isClick={isClick}
                 sumScore={sumScore}
                 waitLoading={waitLoading}
+                changeRecommend={changeRecommend}
             />
 
         </div>

@@ -1,11 +1,14 @@
-import { useEffect, useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 import { useLocation, useNavigate } from "react-router-dom";
 import { useAccount, useSigner } from "wagmi";
 import CustomCompleted from "../components/CustomChallenge/CustomCompleted";
 import { balanceOf } from "../controller";
 import "@/assets/styles/component-style"
 import { getQuests } from "../request/api/public";
-
+import pluginGfm from '@bytemd/plugin-gfm'
+import frontmatter from '@bytemd/plugin-frontmatter'
+import breaks from '@bytemd/plugin-breaks'
+import highlight from '@bytemd/plugin-highlight-ssr'
 
 
 export default function Claim(props) {
@@ -14,6 +17,8 @@ export default function Claim(props) {
     const navigateTo = useNavigate();
     const { data: signer } = useSigner();
     const { address, isConnected, isDisconnected } = useAccount();
+    const plugins = useMemo(() => [pluginGfm(),frontmatter(),highlight(),breaks()], [])
+
     let [tokenId, setTokenId] = useState();
     let [detail, setDetail] = useState();
     let [answers, setAnswers] = useState();
@@ -73,6 +78,7 @@ export default function Claim(props) {
                     detail={detail} 
                     tokenId={tokenId} 
                     isClaim={isClaim}
+                    plugins={plugins}
                 />
             }
         </div>

@@ -2,6 +2,9 @@
     width: 1200px;
     padding-block: 105px;
     margin: 0 auto;
+    .Editor-hide .bytemd-toolbar-right{
+        display: none;
+    }
     h3{
         margin-bottom: 42px;
         font-size: 30px;

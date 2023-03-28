@@ -1,7 +1,8 @@
-import { Button, Input, message, Progress, Steps, Tooltip } from "antd";
+import { Button, Divider, Input, message, Progress, Steps, Tooltip } from "antd";
 import {
     QuestionCircleOutlined,
-    UploadOutlined
+    UploadOutlined,
+    ExpandOutlined
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -17,11 +18,12 @@ import { ClaimShareSuccess } from "../CustomMessage";
 import { useTranslation } from "react-i18next";
 import { constans } from "@/utils/constans";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
+import { Viewer } from "@bytemd/react";
 
 
 export default function CustomCompleted(props) {
     
-    const { answers, detail, tokenId, isClaim } = props;
+    const { answers, detail, tokenId, isClaim, plugins } = props;
     const { t } = useTranslation(["claim", "translation"]);
     const { verify } = useVerifyToken();
     const { data: signer } = useSigner();
@@ -190,7 +192,21 @@ export default function CustomCompleted(props) {
                                 :
                                     <p className="title">{t("unpass")}</p>
                             }
-                            <p>{t("desc")}</p>
+                            {
+                                !answerInfo.isPass && detail.recommend ? 
+                                <div className="viewer" >
+                                    <div className="viewer-head">
+                                        <p>推荐学习</p>
+                                        <p><ExpandOutlined style={{ marginRight: "10px" }} />查看全文</p>
+                                    </div>
+                                    <Divider />
+                                    <div className="viewer-content">
+                                        <Viewer value={JSON.parse(detail.recommend)} plugins={plugins} />
+                                    </div>
+                                </div>
+                                :
+                                <p className="desc">{t("desc")}</p>
+                            }
                         </div>
                         <div className="score">
                             <p className="network">{detail.title}</p>
