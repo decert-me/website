@@ -2,8 +2,18 @@
     width: 1200px;
     padding-block: 105px;
     margin: 0 auto;
-    .Editor-hide .bytemd-toolbar-right{
-        display: none;
+    .Editor-hide {
+
+        .bytemd-toolbar-right{
+            display: none;
+        }
+        .bytemd-toolbar-left{
+            .bytemd-tippy{
+                &:nth-child(6), &:nth-child(7), &:nth-child(8){
+                    display: none;
+                }
+            }
+        }
     }
     h3{
         margin-bottom: 42px;
