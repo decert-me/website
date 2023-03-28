@@ -186,7 +186,8 @@ export default function Publish(params) {
         }
         let questCache = {
             hash: jsonHash.hash,
-            questions: questions
+            questions: questions,
+            recommend: recommend
         }
         let params = {
             recommend: recommend
@@ -212,35 +213,27 @@ export default function Publish(params) {
         const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
         questions = cache.questions;
         setQuestions([...questions]);
+        recommend = cache.recommend;
+        setRecommend(recommend);
         fields = [
             {
-                name: [
-                    "title"
-                ],
+                name: ["title"],
                 value: questCache.data.title
             },
             {
-                name: [
-                    "desc"
-                ],
+                name: ["desc"],
                 value: questCache.data.description
             },
             {
-                name: [
-                    "score"
-                ],
+                name: ["score"],
                 value: questCache.data.properties.passingScore
             },
             {
-                name: [
-                    "difficulty"
-                ],
+                name: ["difficulty"],
                 value: questCache.data.properties.difficulty
             },
             {
-                name: [
-                    "time"
-                ],
+                name: ["time"],
                 value: questCache.data.properties.estimateTime
             }
         ]
@@ -286,6 +279,7 @@ export default function Publish(params) {
                 sumScore={sumScore}
                 waitLoading={waitLoading}
                 changeRecommend={changeRecommend}
+                recommend={recommend}
             />
 
         </div>
