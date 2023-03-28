@@ -2,7 +2,7 @@ import {
     ArrowLeftOutlined,
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
-import { Link, useLocation, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getQuests } from "../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import { Progress } from 'antd';
@@ -16,6 +16,7 @@ import { useTranslation } from 'react-i18next';
 export default function Challenge(params) {
 
     const { t } = useTranslation(["explore"]);
+    const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
     let [detail, setDetail] = useState();
@@ -72,8 +73,12 @@ export default function Challenge(params) {
     }
 
     useEffect(() => {
-        const id = location?.pathname?.split("/")[2];
-        id && getData(id);
+        // questId && init()
+        if (questId != 0) {
+            getData(questId);
+        }else{
+            console.log(questId);
+        }
     }, []);
 
     useEffect(() => {

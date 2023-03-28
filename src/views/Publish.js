@@ -116,6 +116,55 @@ export default function Publish(params) {
         })
     }
 
+    const getJson = async(values) => {
+        console.log(values);
+        const { answers, questions: qs } = filterQuestions(questions);
+        let obj = {
+            title: values.title,
+            description: values.desc,
+            image: "ipfs://"+values.fileList?.file.response.hash,
+            properties: {
+                questions: qs,
+                answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
+                passingScore: values.score,
+                startTime: new Date().toISOString(),
+                endTIme: null,
+                url: "",
+                requires: [],
+                difficulty: values.difficulty !== undefined ? values.difficulty : null,
+                estimateTime: values.time ? values.time : null
+            },
+            version: 1
+        }
+        const jsonHash = await ipfsJson({body: obj});
+        return jsonHash
+    }
+
+    const saveCache = (questCache) => {
+        localStorage.setItem("decert.store", JSON.stringify(questCache))
+    }
+
+    const goPreview = () => {
+        setTimeout(() => {
+            navigateTo(`/challenge/0`)
+        }, 500);
+    }
+
+    const preview = async(values) => {
+        if (localStorage.getItem("decert.store")) {
+            goPreview()
+        }else{
+            const jsonHash = await getJson(values);
+            let questCache = {
+                hash: jsonHash.hash,
+                questions: questions,
+                recommend: values.editor
+            }
+            localStorage.setItem("decert.store", JSON.stringify(questCache))
+            goPreview();
+        }
+    }
+
     const onFinish = async(values) => {
         if (questions.length === 0) {
             setIsClick(true);
@@ -145,25 +194,7 @@ export default function Publish(params) {
         }
         setWriteLoading(true);
         // 1. 处理 答案、问题
-        const { answers, questions: qs } = filterQuestions(questions);
-        let obj = {
-            title: values.title,
-            description: values.desc,
-            image: "ipfs://"+values.fileList.file.response.hash,
-            properties: {
-                questions: qs,
-                answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-                passingScore: values.score,
-                startTime: new Date().toISOString(),
-                endTIme: null,
-                url: "",
-                requires: [],
-                difficulty: values.difficulty !== undefined ? values.difficulty : null,
-                estimateTime: values.time ? values.time : null
-            },
-            version: 1
-        }
-        const jsonHash = await ipfsJson({body: obj});
+        const jsonHash = await getJson(values);
         const signature = jsonHash && await addQuests({
             uri: "ipfs://"+jsonHash.hash,
             title: values.title,
@@ -179,15 +210,16 @@ export default function Publish(params) {
             'title': values.title,
             'uri': "ipfs://"+jsonHash.hash, 
         }
+        
+        let params = {
+            recommend: values.editor
+        }
         let questCache = {
             hash: jsonHash.hash,
             questions: questions,
             recommend: values.editor
         }
-        let params = {
-            recommend: values.editor
-        }
-        localStorage.setItem("decert.store", JSON.stringify(questCache))
+        saveCache(questCache);
         signature && write(signature.data, questData, JSON.stringify(params))
     };
 
@@ -274,6 +306,7 @@ export default function Publish(params) {
                 sumScore={sumScore}
                 waitLoading={waitLoading}
                 recommend={recommend}
+                preview={preview}
             />
 
         </div>
