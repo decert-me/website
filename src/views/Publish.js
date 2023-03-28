@@ -98,11 +98,6 @@ export default function Publish(params) {
         setSumScore(sumScore);
     }
 
-    const changeRecommend = (e) => {
-        recommend = e;
-        setRecommend(recommend);
-    }
-
     const cancelModalConnect = () => {
         setConnectModal(false);
     }
@@ -187,10 +182,10 @@ export default function Publish(params) {
         let questCache = {
             hash: jsonHash.hash,
             questions: questions,
-            recommend: recommend
+            recommend: values.editor
         }
         let params = {
-            recommend: recommend
+            recommend: values.editor
         }
         localStorage.setItem("decert.store", JSON.stringify(questCache))
         signature && write(signature.data, questData, JSON.stringify(params))
@@ -278,7 +273,6 @@ export default function Publish(params) {
                 isClick={isClick}
                 sumScore={sumScore}
                 waitLoading={waitLoading}
-                changeRecommend={changeRecommend}
                 recommend={recommend}
             />
 

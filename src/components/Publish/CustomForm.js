@@ -26,7 +26,6 @@ export default function CustomForm(props) {
         isClick,
         sumScore,
         waitLoading,
-        changeRecommend,
         recommend
     } = props;
     const [form] = Form.useForm();
@@ -79,7 +78,7 @@ export default function CustomForm(props) {
                 name="editor"
                 className="Editor-hide"
             >
-                <CustomEditor changeTitle={changeRecommend} initialValues={recommend} />
+                <CustomEditor initialValues={recommend} />
             </Form.Item>
             
             <Form.Item 

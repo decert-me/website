@@ -22,7 +22,7 @@ export default function CustomEditor(props) {
     let [editValue, setEditValue] = useState('')
 
     useEffect(() => {
-        if (editValue) {
+        if (changeTitle && editValue) {
             changeTitle(editValue)
         }
         if (id) {
