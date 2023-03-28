@@ -154,7 +154,7 @@ export default function Publish(params) {
                 endTIme: null,
                 url: "",
                 requires: [],
-                difficulty: values.difficulty ? values.difficulty : null,
+                difficulty: values.difficulty !== null ? values.difficulty : null,
                 estimateTime: values.time ? values.time : null
             },
             version: 1
@@ -201,6 +201,7 @@ export default function Publish(params) {
         const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
         questions = cache.questions;
         setQuestions([...questions]);
+        console.log(questCache.data.properties.difficulty);
         fields = [
             {
                 name: [
