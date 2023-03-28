@@ -1,25 +1,30 @@
 import {
     ArrowLeftOutlined,
+    ExportOutlined
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getQuests } from "../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
-import { Progress } from 'antd';
+import { Button, Progress } from 'antd';
 import CustomPagination from '../components/CustomPagination';
 import CustomInput from '../components/CustomChallenge/CustomInput';
 import ModalAnswers from '../components/CustomModal/ModalAnswers';
 import CustomCheckbox from '../components/CustomChallenge/CustomCheckbox';
 import CustomRadio from '../components/CustomChallenge/CustomRadio';
 import { useTranslation } from 'react-i18next';
+import axios from "axios";
+import { constans } from '@/utils/constans';
 
 export default function Challenge(params) {
 
     const { t } = useTranslation(["explore"]);
+    const { ipfsPath } = constans();
     const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
     let [detail, setDetail] = useState();
+    let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
     let [percent, setPercent] = useState();
     
@@ -72,12 +77,27 @@ export default function Challenge(params) {
         navigateTo(`/claim/${detail.tokenId}`)
     }
 
+    const cacheInit = async() => {
+        const local = localStorage.getItem("decert.store");
+        if (!local) {
+            navigateTo("/explore");
+            return
+        }
+        const cache = JSON.parse(local);
+        const request = await axios.get(`${ipfsPath}/${cache.hash}`)
+        cacheDetail = request.data;
+        setCacheDetail({...cacheDetail});
+
+        answers = new Array(Number(cache.questions.length))
+        setAnswers([...answers])
+        console.log(cacheDetail);
+    }
+
     useEffect(() => {
-        // questId && init()
         if (questId != 0) {
             getData(questId);
         }else{
-            console.log(questId);
+            cacheInit();
         }
     }, []);
 
@@ -110,26 +130,50 @@ export default function Challenge(params) {
         <div className="Challenge">
             
             {
-                detail &&
+                (detail || cacheDetail) &&
                 <>
-                    <ModalAnswers
-                        isModalOpen={isModalOpen}
-                        handleCancel={handleCancel}
-                        submit={sumbit}
-                        answers={answers}
-                        changePage={changePage}
-                    />
-                    <Link to={`/quests/${detail.tokenId}`}>
-                        <div className="title">
-                            <ArrowLeftOutlined />
-                            <p>{detail?.title}</p>
+                    {
+                        detail ?
+                        <>
+                            <ModalAnswers
+                                isModalOpen={isModalOpen}
+                                handleCancel={handleCancel}
+                                submit={sumbit}
+                                answers={answers}
+                                changePage={changePage}
+                            />
+                            <Link to={`/quests/${detail.tokenId}`}>
+                                <div className="title">
+                                    <ArrowLeftOutlined />
+                                    <p>{detail?.title}</p>
+                                </div>
+                            </Link>
+                        </>
+                        :
+                        <>
+                        <div className="preview-head">
+                            预览模式
+                            <div className="btns">
+                                <Button>确认发布</Button>
+                                <Button className="btn-exit" onClick={() => {navigateTo("/publish")}}>
+                                    <ExportOutlined className='icon' />
+                                    退出预览
+                                </Button>
+                            </div>
                         </div>
-                    </Link>
+                        
+                        </>
+                    }
                     <div className="content">
                         <h4>{t("challenge.title")} #{page}</h4>
                         {
                             // switchType(detail.metadata.properties.questions[index])
+                            detail ? 
                             detail.metadata.properties.questions.map((e,i) => {
+                                return i === index && switchType(e,i)
+                            })
+                            :
+                            cacheDetail.properties.questions.map((e,i) => {
                                 return i === index && switchType(e,i)
                             })
                         }
@@ -138,8 +182,14 @@ export default function Challenge(params) {
                         <Progress percent={percent} showInfo={false} />
                     </div>
                     <CustomPagination
+                        type={detail ? "write" : "preview"}
                         page={page} 
-                        total={detail.metadata.properties.questions.length} 
+                        total={
+                            detail ?
+                            detail.metadata.properties.questions.length
+                            :
+                            cacheDetail.properties.questions.length
+                        } 
                         onChange={checkPage} 
                         sumbit={openAnswers}
                     />
