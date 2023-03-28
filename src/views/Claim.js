@@ -16,7 +16,7 @@ export default function Claim(props) {
     const location = useLocation();
     const navigateTo = useNavigate();
     const { data: signer } = useSigner();
-    const { address, isConnected, isDisconnected } = useAccount();
+    const { address, isDisconnected } = useAccount();
     const plugins = useMemo(() => [pluginGfm(),frontmatter(),highlight(),breaks()], [])
 
     let [tokenId, setTokenId] = useState();

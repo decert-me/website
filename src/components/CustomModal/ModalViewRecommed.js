@@ -8,7 +8,7 @@ import { Viewer } from "@bytemd/react";
 
 export default function ModalViewRecommed(props) {
 
-    const { text, plugins } = props;
+    const { text, plugins, viewText } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const showModal = () => {
@@ -37,7 +37,7 @@ export default function ModalViewRecommed(props) {
         </Modal>
             <p onClick={showModal}>
                 <ExpandOutlined style={{ marginRight: "10px" }} />
-                查看全文
+                {viewText}
             </p>
         </>
     )

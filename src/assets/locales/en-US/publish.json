@@ -11,6 +11,7 @@
         "ques-score": "Score",
         "true": "Right",
         "false": "Wrong",
+        "recommend": "推荐学习内容",
         "rule": {
             "title": "Please enter the title",
             "img": "Please upload image",

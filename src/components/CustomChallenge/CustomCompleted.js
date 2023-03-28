@@ -195,8 +195,12 @@ export default function CustomCompleted(props) {
                                 !answerInfo.isPass && detail.recommend ? 
                                 <div className="viewer" >
                                     <div className="viewer-head">
-                                        <p>推荐学习</p>
-                                        <ModalViewRecommed text={JSON.parse(detail.recommend)} plugins={plugins} />
+                                        <p>{t("recommend")}</p>
+                                        <ModalViewRecommed 
+                                            text={JSON.parse(detail.recommend)} 
+                                            plugins={plugins}
+                                            viewText={t("view")}
+                                        />
 
                                     </div>
                                     <Divider />

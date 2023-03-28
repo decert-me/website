@@ -73,8 +73,7 @@ export default function CustomForm(props) {
             </Form.Item>
 
             <Form.Item 
-                // label={t("inner.desc")}
-                label="推荐学习内容"
+                label={t("inner.recommend")}
                 name="editor"
                 className="Editor-hide"
             >
