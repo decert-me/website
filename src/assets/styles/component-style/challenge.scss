@@ -98,7 +98,15 @@
                 border-top: 2px solid #E8E8E8;
             }
             .viewer-content{
+                height: 200px;
                 padding: 14px 20px;
+                
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 8;
+
                 font-size: 16px;
                 line-height: 23px;
                 background-color: #FAFAFA;

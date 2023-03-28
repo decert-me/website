@@ -2,7 +2,6 @@ import { Button, Divider, Input, message, Progress, Steps, Tooltip } from "antd"
 import {
     QuestionCircleOutlined,
     UploadOutlined,
-    ExpandOutlined
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -19,6 +18,7 @@ import { useTranslation } from "react-i18next";
 import { constans } from "@/utils/constans";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { Viewer } from "@bytemd/react";
+import ModalViewRecommed from "../CustomModal/ModalViewRecommed";
 
 
 export default function CustomCompleted(props) {
@@ -154,7 +154,6 @@ export default function CustomCompleted(props) {
     }
 
     const getStep = async() => {
-        // const res = await verifyDiscord({address: address})
         // 判断当前步骤
         if (!answerInfo.isPass) {
             step = 0;
@@ -197,7 +196,8 @@ export default function CustomCompleted(props) {
                                 <div className="viewer" >
                                     <div className="viewer-head">
                                         <p>推荐学习</p>
-                                        <p><ExpandOutlined style={{ marginRight: "10px" }} />查看全文</p>
+                                        <ModalViewRecommed text={JSON.parse(detail.recommend)} plugins={plugins} />
+
                                     </div>
                                     <Divider />
                                     <div className="viewer-content">
