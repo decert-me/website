@@ -22,6 +22,7 @@ export default function Quests(params) {
         .then(res => {
             detail = res ? res.data : {};
             setDetail({...detail});
+            console.log(detail);
         })
     }
 
@@ -46,7 +47,7 @@ export default function Quests(params) {
                             alt="" />
                     </div>
                     <div className="content">
-                        <p className="desc">{detail.description}</p>
+                        <p className="desc">{detail.metadata.description}</p>
                         <div>
                             <h3>{t("ques.title")}</h3>
                             <p className="desc">

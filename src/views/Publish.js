@@ -201,7 +201,6 @@ export default function Publish(params) {
         const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
         questions = cache.questions;
         setQuestions([...questions]);
-        console.log(questCache.data.properties.difficulty);
         fields = [
             {
                 name: [
