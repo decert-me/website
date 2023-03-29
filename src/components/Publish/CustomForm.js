@@ -1,10 +1,10 @@
 import { UploadProps } from "@/utils/UploadProps";
-import { Button, Divider, Form, Input, InputNumber, Select, Upload } from "antd";
+import { Button, Divider, Empty, Form, Input, InputNumber, Select, Upload } from "antd";
 import { InboxOutlined } from '@ant-design/icons';
 import CustomQuestion from "../CustomItem/CustomQuestion";
-import { ConfirmClearQuest } from "@/components/CustomConfirm/ConfirmClearQuest";
 import { useTranslation } from "react-i18next";
 import CustomEditor from "../CustomItem/CustomEditor";
+import { ConfirmClearQuest } from "../CustomConfirm/ConfirmClearQuest";
 
 const { Dragger } = Upload;
 const { TextArea } = Input;
@@ -19,7 +19,6 @@ export default function CustomForm(props) {
         onFinishFailed, 
         deleteQuestion, 
         writeLoading, 
-        clearLocal, 
         showAddModal,
         fields,
         questions,
@@ -27,7 +26,8 @@ export default function CustomForm(props) {
         sumScore,
         waitLoading,
         recommend,
-        preview
+        preview,
+        clearQuest
     } = props;
     const [form] = Form.useForm();
     
@@ -122,6 +122,26 @@ export default function CustomForm(props) {
             
             {/* question list */}
             <div className="questions">
+                <div className="quest-head">
+                    <div className="left">
+                        <span>*</span> {t("inner.ques")} 
+                    </div>
+                    {
+                        questions.length !== 0 &&
+                        <Button 
+                            type="link" 
+                            onClick={() => ConfirmClearQuest(clearQuest)}
+                        >
+                            {t("inner.clear")} 
+                        </Button>
+                    }
+                </div>
+                {
+                    questions.length !== 0 ?
+                    <Divider />
+                    :
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={"no data"} />
+                }
                 {
                     questions.map((e,i) => 
                         <CustomQuestion
@@ -129,13 +149,14 @@ export default function CustomForm(props) {
                             item={e} 
                             index={i+1} 
                             deleteQuestion={deleteQuestion} 
+                            label={t("inner.ques-score")}
                         />
                     )
                 }
             </div>
 
             {/* add multiple */}
-            <div className="btns">
+            <div className="add-btns">
                 <Button
                     type="link" 
                     onClick={() => showAddModal()}
@@ -147,6 +168,7 @@ export default function CustomForm(props) {
                     Add code question
                 </Button> */}
             </div>
+            <Divider />
 
             <div className="challenge-info">
                 <Form.Item 

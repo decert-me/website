@@ -150,6 +150,11 @@ export default function Publish(params) {
         }, 500);
     }
 
+    const clearQuest = () => {
+        questions = [];
+        setQuestions([...questions]);
+    }
+
     const preview = async(values) => {
         const jsonHash = await getJson(values);
         let questCache = {
@@ -305,6 +310,7 @@ export default function Publish(params) {
                 waitLoading={waitLoading}
                 recommend={recommend}
                 preview={preview}
+                clearQuest={clearQuest}
             />
 
         </div>

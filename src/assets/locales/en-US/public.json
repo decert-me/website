@@ -41,7 +41,7 @@
         "w": "{{time}} week"
     },
     "confirm": {
-        "clear": "Clear all data？"
+        "clear": "Clear all quiz？"
     },
     "modal": {
         "claim": {
