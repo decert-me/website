@@ -11,13 +11,14 @@
         "ques-score": "Score",
         "true": "Right",
         "false": "Wrong",
-        "recommend": "推荐学习内容",
+        "recommend": "Recommend Tutorial",
         "rule": {
             "title": "Please enter the title",
             "img": "Please upload image",
             "score": "Please set a passing score",
             "ques-score": "Please enter quiz score",
-            "answer": "Please enter your answer"
+            "answer": "Please enter your answer",
+            "recommend": "Please recommend tutorials that can help complete this challenge."
         },
         "content": {
             "img": {

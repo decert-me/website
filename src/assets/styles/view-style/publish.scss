@@ -3,7 +3,15 @@
     padding-block: 105px;
     margin: 0 auto;
     .Editor-hide {
-
+        .ant-col{
+            max-width: 100%;
+            .tip{
+                margin-left: 14px;
+                font-size: 12px;
+                color: #999999;
+                line-height: 17px;
+            }
+        }
         .bytemd-toolbar-right{
             display: none;
         }

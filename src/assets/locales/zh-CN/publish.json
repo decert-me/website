@@ -11,13 +11,14 @@
         "ques-score": "题目分数",
         "true": "正确",
         "false": "错误",
-        "recommend": "推荐学习内容",
+        "recommend": "推荐教程",
         "rule": {
             "title": "请输入标题",
             "img": "请上传图片",
             "score": "请设置及格分",
             "ques-score": "请输入题目分数",
-            "answer": "请输入答案"
+            "answer": "请输入答案",
+            "recommend": "请推荐可以帮助完成此挑战的教程。"
         },
         "content": {
             "img": {

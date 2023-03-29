@@ -73,7 +73,12 @@ export default function CustomForm(props) {
             </Form.Item>
 
             <Form.Item 
-                label={t("inner.recommend")}
+                label={
+                    <>
+                        {t("inner.recommend")}
+                        <span className="tip">*{t("inner.rule.recommend")}</span>
+                    </>
+                }
                 name="editor"
                 className="Editor-hide"
             >
