@@ -151,18 +151,14 @@ export default function Publish(params) {
     }
 
     const preview = async(values) => {
-        if (localStorage.getItem("decert.store")) {
-            goPreview()
-        }else{
-            const jsonHash = await getJson(values);
-            let questCache = {
-                hash: jsonHash.hash,
-                questions: questions,
-                recommend: values.editor
-            }
-            localStorage.setItem("decert.store", JSON.stringify(questCache))
-            goPreview();
+        const jsonHash = await getJson(values);
+        let questCache = {
+            hash: jsonHash.hash,
+            questions: questions,
+            recommend: values.editor
         }
+        localStorage.setItem("decert.store", JSON.stringify(questCache))
+        goPreview();
     }
 
     const onFinish = async(values) => {
@@ -237,34 +233,36 @@ export default function Publish(params) {
             return
         }
         const cache = JSON.parse(local);
-        const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
         questions = cache.questions;
         setQuestions([...questions]);
         recommend = cache.recommend;
         setRecommend(recommend);
-        fields = [
-            {
-                name: ["title"],
-                value: questCache.data.title
-            },
-            {
-                name: ["desc"],
-                value: questCache.data.description
-            },
-            {
-                name: ["score"],
-                value: questCache.data.properties.passingScore
-            },
-            {
-                name: ["difficulty"],
-                value: questCache.data.properties.difficulty
-            },
-            {
-                name: ["time"],
-                value: questCache.data.properties.estimateTime
-            }
-        ]
-        setFields([...fields])
+        if (cache?.hash) {
+            const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
+            fields = [
+                {
+                    name: ["title"],
+                    value: questCache.data.title
+                },
+                {
+                    name: ["desc"],
+                    value: questCache.data.description
+                },
+                {
+                    name: ["score"],
+                    value: questCache.data.properties.passingScore
+                },
+                {
+                    name: ["difficulty"],
+                    value: questCache.data.properties.difficulty
+                },
+                {
+                    name: ["time"],
+                    value: questCache.data.properties.estimateTime
+                }
+            ]
+            setFields([...fields])
+        }
     }
 
     useEffect(() => {
