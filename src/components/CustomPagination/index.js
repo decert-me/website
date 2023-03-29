@@ -39,6 +39,19 @@ export default function CustomPagination(props) {
                     />
                 )
             }
+            {
+                type === "preview" && 
+                (
+                    page === total ?
+                    ""
+                    :
+                    <Button 
+                        className='btn'
+                        icon={<ArrowRightOutlined />} 
+                        onClick={() => onChange('add')}
+                    />
+                )
+            }
         </div>
     )
 }
