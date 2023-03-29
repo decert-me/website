@@ -210,9 +210,9 @@ export default function CustomForm(props) {
             <div className="Publish-btns">
                 <div className="btns">
                     <div className="left">
-                        <Button onClick={() => ConfirmClearQuest(clearLocal)}>
+                        {/* <Button onClick={() => ConfirmClearQuest(clearLocal)}>
                             {t("translation:btn-clear")}
-                        </Button>
+                        </Button> */}
                     </div>
                     <div className="right">
                         <Button 
