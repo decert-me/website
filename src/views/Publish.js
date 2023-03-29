@@ -17,6 +17,7 @@ import { useTranslation } from "react-i18next";
 
 import axios from "axios";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
+import { useUpdateEffect } from "ahooks";
 
 export default function Publish(params) {
     
@@ -144,6 +145,22 @@ export default function Publish(params) {
         localStorage.setItem("decert.store", JSON.stringify(questCache))
     }
 
+    const changeQuestCache = () => {
+        const cache = localStorage.getItem("decert.store");
+        if (!cache) {
+            let questCache = {
+                hash: "",
+                questions: questions,
+                recommend: ""
+            }
+            localStorage.setItem("decert.store", JSON.stringify(questCache));
+        }else{
+            let store = JSON.parse(cache);
+            store.questions = questions;
+            localStorage.setItem("decert.store", JSON.stringify(store));
+        }
+    }
+
     const goPreview = () => {
         setTimeout(() => {
             navigateTo(`/preview`)
@@ -155,12 +172,13 @@ export default function Publish(params) {
         setQuestions([...questions]);
     }
 
-    const preview = async(values) => {
+    const preview = async(values, isOver) => {
         const jsonHash = await getJson(values);
         let questCache = {
             hash: jsonHash.hash,
             questions: questions,
-            recommend: values.editor
+            recommend: values.editor,
+            isOver: isOver
         }
         localStorage.setItem("decert.store", JSON.stringify(questCache))
         goPreview();
@@ -270,7 +288,8 @@ export default function Publish(params) {
         }
     }
 
-    useEffect(() => {
+    useUpdateEffect(() => {
+        changeQuestCache()
         changeSumScore()
     },[questions])
 

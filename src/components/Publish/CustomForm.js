@@ -31,6 +31,18 @@ export default function CustomForm(props) {
     } = props;
     const [form] = Form.useForm();
     
+    const checkPreview = async() => {
+        let flag;
+        await form.validateFields()
+        .then(() => {
+            flag = true;
+        })
+        .catch(() => {
+            flag = false;
+        })
+        preview(form.getFieldsValue(), flag)
+    }
+
     return (
         <Form
             className="inner"
@@ -247,7 +259,7 @@ export default function CustomForm(props) {
                             disabled={
                                 questions.length === 0
                             }
-                            onClick={() => preview(form.getFieldsValue())}
+                            onClick={() => checkPreview()}
                         >
                             {t("translation:btn-view")}
                         </Button>

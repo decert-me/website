@@ -85,7 +85,7 @@ export default function Challenge(params) {
 
     const cacheInit = async() => {
         const local = localStorage.getItem("decert.store");
-        if (!local) {
+        if (!local || (local && JSON.parse(local).questions.length === 0)) {
             navigateTo("/explore");
             return
         }
