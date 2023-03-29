@@ -146,7 +146,7 @@ export default function Publish(params) {
 
     const goPreview = () => {
         setTimeout(() => {
-            navigateTo(`/challenge/0`)
+            navigateTo(`/preview`)
         }, 500);
     }
 

@@ -100,10 +100,10 @@ export default function Challenge(params) {
     }
 
     useEffect(() => {
-        if (questId != 0) {
-            getData(questId);
-        }else{
+        if (location.pathname === "/preview") {
             cacheInit();
+        }else{
+            getData(questId);
         }
     }, []);
 

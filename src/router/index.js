@@ -31,6 +31,10 @@ const routes = [
       element: <Challenge />,
     },
     { 
+      path: "/preview",
+      element: <Challenge />,
+    },
+    { 
       path: "/claim/:questId",
       element: <Claim />,
     },
