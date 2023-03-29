@@ -1,9 +1,10 @@
+import { Viewer } from '@bytemd/react';
 import { Checkbox } from 'antd';
 import { useEffect, useState } from 'react';
 
 export default function CustomCheckbox(props) {
 
-    const { label, value, options, defaultValue } = props;
+    const { label, value, options, defaultValue, plugins } = props;
     let [items, setItems] = useState();
     const onChange = (checkedValues) => {
         value(checkedValues)
@@ -23,7 +24,9 @@ export default function CustomCheckbox(props) {
 
     return (
         <div className="CustomCheckbox">
-            <p className="inner-title">{label}</p>
+            <div className="inner-title">
+                <Viewer value={label} plugins={plugins} />
+            </div>
             {
                 items &&
                 <Checkbox.Group 

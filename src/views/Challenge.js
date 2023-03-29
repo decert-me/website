@@ -2,7 +2,7 @@ import {
     ArrowLeftOutlined,
     ExportOutlined
 } from '@ant-design/icons';
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getQuests } from "../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
@@ -15,10 +15,16 @@ import CustomRadio from '../components/CustomChallenge/CustomRadio';
 import { useTranslation } from 'react-i18next';
 import axios from "axios";
 import { constans } from '@/utils/constans';
+import pluginGfm from '@bytemd/plugin-gfm'
+import frontmatter from '@bytemd/plugin-frontmatter'
+import highlight from '@bytemd/plugin-highlight-ssr'
+import breaks from '@bytemd/plugin-breaks'
 
 export default function Challenge(params) {
 
     const { t } = useTranslation(["explore"]);
+    const plugins = useMemo(() => [pluginGfm(),frontmatter(),highlight(),breaks()], [])
+
     const { ipfsPath } = constans();
     const { questId } = useParams();
     const location = useLocation();
@@ -114,11 +120,11 @@ export default function Challenge(params) {
     // 2: 填空 0: 单选 1: 多选
         switch (question.type) {
             case 2:
-                return <CustomInput key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
+                return <CustomInput plugins={plugins} key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
             case 1:
-                return <CustomCheckbox key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
+                return <CustomCheckbox plugins={plugins} key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             case 0:
-                return <CustomRadio key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
+                return <CustomRadio plugins={plugins} key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             default:
                 break;
         }
