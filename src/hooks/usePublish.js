@@ -8,6 +8,7 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
+import { useUpdateEffect } from "ahooks";
 
 
 
@@ -33,6 +34,8 @@ export const usePublish = (props) => {
     let [isSwitch, setIsSwitch] = useState(false);
     const [signIn, setSignIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
+    const [isOk, setIsOk] = useState(false);
+    
     let [detail, setDetail] = useState();
     let [createQuestHash, setCreateQuestHash] = useState();
     const { isLoading: transactionLoading } = useWaitForTransaction({
@@ -117,6 +120,10 @@ export const usePublish = (props) => {
         setDetail({...detail});
     }
 
+    useUpdateEffect(() => {
+        detail && setIsOk(true)
+    },[detail])
+
     useEffect(() => {
         jsonHash && init();
     },[jsonHash])
@@ -131,6 +138,7 @@ export const usePublish = (props) => {
         publish,                //  发布
         processingData,         //  合约交互
         cancelModalConnect,     //  关闭链接钱包
+        isOk,                   //  publish 准备就绪
         signIn,                 //  弹出链接钱包
         isLoading,              //  发布中
         transactionLoading      //  交易上链中
