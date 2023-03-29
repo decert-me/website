@@ -58,12 +58,10 @@ export default function CustomConnect(props) {
                 handleCancel={cancelModalConnect} 
             />
             {
-                step === 1 && localStorage.getItem('decert.token') ? 
+                localStorage.getItem('decert.token') ? 
                 <>
                     <p>{NickName(address)}</p>
                     <p>{t("wallet.connected")}</p>
-                    {step}
-                    <h1>{localStorage.getItem('decert.token')} </h1>
                 </>
                 :
                 <>

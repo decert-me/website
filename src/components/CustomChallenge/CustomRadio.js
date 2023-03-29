@@ -1,9 +1,10 @@
+import { Viewer } from '@bytemd/react';
 import { Radio } from 'antd';
 import { useEffect, useState } from 'react';
 
 export default function CustomRadio(props) {
     
-    const { label, value, options, defaultValue } = props;
+    const { label, value, options, defaultValue, plugins } = props;
     let [items, setItems] = useState();
 
     const onChange = (e) => {
@@ -24,7 +25,9 @@ export default function CustomRadio(props) {
 
     return(
         <div className="CustomRadio">
-            <p className="inner-title">{label}</p>
+            <div className="inner-title">
+                <Viewer value={label} plugins={plugins} />
+            </div>
             {
                 items &&
                 <Radio.Group className='CustomRadio' options={items} onChange={onChange} defaultValue={defaultValue} />

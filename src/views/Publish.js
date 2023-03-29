@@ -1,13 +1,11 @@
-import { Button, Divider, Form, Input, InputNumber, message, Select, Upload } from "antd";
-import { InboxOutlined } from '@ant-design/icons';
+import { message } from "antd";
 import "@/assets/styles/view-style/publish.scss"
 import "@/assets/styles/component-style";
 import { useEffect, useState } from "react";
 import ModalAddQuestion from "@/components/CustomModal/ModalAddQuestion";
-import CustomQuestion from "@/components/CustomItem/CustomQuestion";
 import ModalConnect from '@/components/CustomModal/ModalConnect';
+import CustomForm from '@/components/Publish/CustomForm';
 
-import { UploadProps } from "@/utils/UploadProps";
 import { Encryption } from "@/utils/Encryption";
 import { filterQuestions } from "@/utils/filter";
 import { useAccount, useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
@@ -18,11 +16,7 @@ import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
 
 import axios from "axios";
-import { ConfirmClearQuest } from "@/components/CustomConfirm/ConfirmClearQuest";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
-
-const { Dragger } = Upload;
-const { TextArea } = Input;
 
 export default function Publish(params) {
     
@@ -44,7 +38,6 @@ export default function Publish(params) {
         }
     })
     const { chain } = useNetwork();
-    const [form] = Form.useForm();
     let [fields, setFields] = useState([]);
     
     let [isSwitch, setIsSwitch] = useState(false);
@@ -53,6 +46,7 @@ export default function Publish(params) {
     let [sumScore, setSumScore] = useState(0);
     let [connectModal, setConnectModal] = useState();
     let [isClick, setIsClick] = useState();
+    let [recommend, setRecommend] = useState();
     
     const { encode } = Encryption();
 
@@ -108,15 +102,63 @@ export default function Publish(params) {
         setConnectModal(false);
     }
 
-    const write = (sign, obj) => {
+    const write = (sign, obj, params) => {
         createQuest(obj, sign, signer)
         .then(res => {
             setWriteLoading(false);
             if (res) {
-                submitHash({hash: res})
+                submitHash({
+                    hash: res, 
+                    params: params
+                })
                 setCreateQuestHash(res)
             }
         })
+    }
+
+    const getJson = async(values) => {
+        console.log(values);
+        const { answers, questions: qs } = filterQuestions(questions);
+        let obj = {
+            title: values.title,
+            description: values.desc,
+            image: "ipfs://"+values.fileList?.file.response.hash,
+            properties: {
+                questions: qs,
+                answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
+                passingScore: values.score,
+                startTime: new Date().toISOString(),
+                endTIme: null,
+                url: "",
+                requires: [],
+                difficulty: values.difficulty !== undefined ? values.difficulty : null,
+                estimateTime: values.time ? values.time : null
+            },
+            version: 1
+        }
+        const jsonHash = await ipfsJson({body: obj});
+        return jsonHash
+    }
+
+    const saveCache = (questCache) => {
+        localStorage.setItem("decert.store", JSON.stringify(questCache))
+    }
+
+    const goPreview = () => {
+        setTimeout(() => {
+            navigateTo(`/preview`)
+        }, 500);
+    }
+
+    const preview = async(values) => {
+        const jsonHash = await getJson(values);
+        let questCache = {
+            hash: jsonHash.hash,
+            questions: questions,
+            recommend: values.editor
+        }
+        localStorage.setItem("decert.store", JSON.stringify(questCache))
+        goPreview();
     }
 
     const onFinish = async(values) => {
@@ -148,26 +190,7 @@ export default function Publish(params) {
         }
         setWriteLoading(true);
         // 1. 处理 答案、问题
-        const { answers, questions: qs } = filterQuestions(questions);
-        let obj = {
-            title: values.title,
-            description: values.desc,
-            image: "ipfs://"+values.fileList.file.response.hash,
-            properties: {
-                questions: qs,
-                answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-                passingScore: values.score,
-                startTime: new Date().toISOString(),
-                endTIme: null,
-                url: "",
-                requires: [],
-                difficulty: values.difficulty ? values.difficulty : null,
-                estimateTime: values.time ? values.time : null
-            },
-            version: 1
-        }
-
-        const jsonHash = await ipfsJson({body: obj});
+        const jsonHash = await getJson(values);
         const signature = jsonHash && await addQuests({
             uri: "ipfs://"+jsonHash.hash,
             title: values.title,
@@ -183,12 +206,17 @@ export default function Publish(params) {
             'title': values.title,
             'uri': "ipfs://"+jsonHash.hash, 
         }
+        
+        let params = {
+            recommend: values.editor
+        }
         let questCache = {
             hash: jsonHash.hash,
-            questions: questions
+            questions: questions,
+            recommend: values.editor
         }
-        localStorage.setItem("decert.store", JSON.stringify(questCache))
-        signature && write(signature.data, questData)
+        saveCache(questCache);
+        signature && write(signature.data, questData, JSON.stringify(params))
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -205,42 +233,36 @@ export default function Publish(params) {
             return
         }
         const cache = JSON.parse(local);
-        const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
         questions = cache.questions;
         setQuestions([...questions]);
-        fields = [
-            {
-                name: [
-                    "title"
-                ],
-                value: questCache.data.title
-            },
-            {
-                name: [
-                    "desc"
-                ],
-                value: questCache.data.description
-            },
-            {
-                name: [
-                    "score"
-                ],
-                value: questCache.data.properties.passingScore
-            },
-            {
-                name: [
-                    "difficulty"
-                ],
-                value: questCache.data.properties.difficulty
-            },
-            {
-                name: [
-                    "time"
-                ],
-                value: questCache.data.properties.estimateTime
-            }
-        ]
-        setFields([...fields])
+        recommend = cache.recommend;
+        setRecommend(recommend);
+        if (cache?.hash) {
+            const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
+            fields = [
+                {
+                    name: ["title"],
+                    value: questCache.data.title
+                },
+                {
+                    name: ["desc"],
+                    value: questCache.data.description
+                },
+                {
+                    name: ["score"],
+                    value: questCache.data.properties.passingScore
+                },
+                {
+                    name: ["difficulty"],
+                    value: questCache.data.properties.difficulty
+                },
+                {
+                    name: ["time"],
+                    value: questCache.data.properties.estimateTime
+                }
+            ]
+            setFields([...fields])
+        }
     }
 
     useEffect(() => {
@@ -269,202 +291,21 @@ export default function Publish(params) {
                 questionChange={questionChange}
               />
             <h3>{t("title")}</h3>
-            <Form
-                className="inner"
-                name="challenge"
-                layout="vertical"
-                form={form}
-                labelCol={{
-                    span: 5,
-                }}
-                initialValues={{
-                    remember: true,
-                }}
+            <CustomForm 
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                autoComplete="off"
+                deleteQuestion={deleteQuestion}
+                writeLoading={writeLoading}
+                clearLocal={clearLocal}
+                showAddModal={showAddModal}
                 fields={fields}
-            >
-                <Form.Item
-                    label={t("inner.title")}
-                    name="title"
-                    rules={[{
-                        required: true,
-                        message: t("inner.rule.title"),
-                    }]}
-                >
-                    <Input />
-                </Form.Item>
-
-                <Form.Item 
-                    label={t("inner.desc")}
-                    name="desc"
-                >
-                    <TextArea 
-                        maxLength={300} 
-                        showCount
-                        autoSize={{
-                            minRows: 3,
-                            maxRows: 5,
-                        }}
-                      />
-                </Form.Item>
-
-                <Form.Item 
-                    label={t("inner.img")}
-                    name="fileList"
-                    valuePropName="img"
-                    rules={[{
-                        required: true,
-                        message: t("inner.rule.img"),
-                    }]}
-                    wrapperCol={{
-                        offset: 1,
-                    }}
-                    style={{
-                        maxWidth: 380,
-                    }}
-                >
-                    <Dragger 
-                        {...UploadProps} 
-                        listType="picture-card"
-                    >
-                        <p className="ant-upload-drag-icon" style={{ color: "#a0aec0" }}>
-                            <InboxOutlined />
-                        </p>
-                        <p className="ant-upload-text " style={{ color: "#a0aec0" }}>
-                            {t("inner.content.img.p1")}
-                        </p>
-                        <p className="ant-upload-hint " style={{ color: "#a0aec0" }}>
-                            {t("inner.content.img.p2")}
-                            <span style={{ color: "#f14e4e", fontSize: "20px" }}>*</span>
-                        </p>
-                    </Dragger>
-                </Form.Item>
-
-                <Divider />
-                
-                {/* question list */}
-                <div className="questions">
-                    {
-                        questions.map((e,i) => 
-                            <CustomQuestion 
-                                key={i} 
-                                item={e} 
-                                index={i+1} 
-                                deleteQuestion={deleteQuestion} 
-                            />
-                        )
-                    }
-                </div>
-
-                {/* add multiple */}
-                <div className="btns">
-                    <Button 
-                        type="link" 
-                        onClick={() => showAddModal()}
-                        danger={questions.length === 0 && isClick}
-                    >
-                        {t("inner.add")}
-                    </Button>
-                    {/* <Button type="link">
-                        Add code question
-                    </Button> */}
-                </div>
-
-                <div className="challenge-info">
-                    <Form.Item 
-                        label={t("inner.score")}
-                        name="score"
-                        rules={[{
-                            required: true,
-                            message: t("inner.rule.score"),
-                        }]}
-                    >
-                        <InputNumber
-                            min={1} 
-                            max={sumScore === 0 ? 1 : sumScore}
-                            controls={false}
-                            precision={0}
-                            style={{
-                                width: "150px"
-                            }}
-                        />
-                    </Form.Item>
-
-                    <div className="form-item">
-                        <p className="title">{t("inner.total")}</p>
-                        <InputNumber 
-                            value={sumScore} 
-                            disabled
-                            style={{
-                                width: "150px"
-                            }}
-                        />
-                    </div>
-
-                    <Form.Item 
-                        label={t("translation:diff")}
-                        name="difficulty"
-                    >
-                        <Select
-                            options={[
-                                {value:0,label: t("translation:diff-info.easy")},
-                                {value:1,label: t("translation:diff-info.normal")},
-                                {value:2,label: t("translation:diff-info.diff")}
-                            ]}
-                        />
-                    </Form.Item>
-
-                    <Form.Item 
-                        label={t("translation:time")}
-                        name="time"
-                    >
-                        <Select 
-                            options={[
-                                {value: 600,label: t("translation:time-info.m", {time: "10"})},
-                                {value: 1800,label: t("translation:time-info.m", {time: "30"})},
-                                {value: 3600,label: t("translation:time-info.h", {time: "1"})},
-                                {value: 7200,label: t("translation:time-info.h", {time: "2"})},
-                                {value: 14400,label: t("translation:time-info.h", {time: "4"})},
-                                {value: 86400,label: t("translation:time-info.d", {time: "1"})},
-                                {value: 259200,label: t("translation:time-info.d", {time: "3"})},
-                                {value: 604800,label: t("translation:time-info.w", {time: "1"})}
-                            ]}
-                        />
-                    </Form.Item>
-                </div>
-
-
-                <div className="Publish-btns">
-                    <div className="btns">
-                        <div className="left">
-                            <Button onClick={() => ConfirmClearQuest(clearLocal)}>
-                                {t("translation:btn-clear")}
-                            </Button>
-                        </div>
-                        <div className="right">
-                            {/* <Button type="primary" ghost>
-                                {t("translation:btn-view")}
-                            </Button> */}
-                            <Form.Item
-                                style={{
-                                    margin: 0
-                                }}
-                            >
-                                <Button 
-                                    className="submit"
-                                    type="primary" 
-                                    htmlType="submit" 
-                                    loading={ writeLoading || waitLoading }
-                                >
-                                    {t("translation:btn-publish")}
-                                </Button>
-                            </Form.Item>
-                        </div>
-                    </div>
-                </div>
-            </Form>
+                questions={questions}
+                isClick={isClick}
+                sumScore={sumScore}
+                waitLoading={waitLoading}
+                recommend={recommend}
+                preview={preview}
+            />
 
         </div>
     )
