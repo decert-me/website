@@ -1,4 +1,4 @@
-import { CloseOutlined } from '@ant-design/icons';
+import { CloseOutlined, EditOutlined } from '@ant-design/icons';
 import { Viewer } from '@bytemd/react'
 import { Divider, Popconfirm } from 'antd';
 import { useTranslation } from 'react-i18next';
@@ -25,9 +25,9 @@ export default function CustomQuestion(props) {
                     </div>
                 </div>
                 <div className="operation">
-                    {/* <div className="edit" onClick={() => edit(index - 1)}>
-
-                    </div> */}
+                    <div className="close">
+                        <EditOutlined />
+                    </div>
                     <Popconfirm
                         title={t("translation:pop.delete.title")}
                         description={t("translation:pop.delete.desc")}

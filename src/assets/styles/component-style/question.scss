@@ -18,8 +18,11 @@
     }
     .operation{
         padding-right: 15px;
+        display: flex;
+        font-size: 18px;
     }
     .close{
+        margin-left: 25px;
         cursor: pointer;
     }
 }
