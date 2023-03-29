@@ -108,7 +108,7 @@ export default function Challenge(params) {
             percent = page === total ? 100 : (100/ total) * page;
             setPercent(percent);
         }
-    },[page, detail])
+    },[page, detail, cacheDetail])
 
     const switchType = (question,i) => {
     // 2: 填空 0: 单选 1: 多选
