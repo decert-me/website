@@ -67,5 +67,13 @@
                 "desc": "Please do not delete or modify the content of the tweet."
             }
         }
+    },
+    "pop": {
+        "yes": "Yes",
+        "no": "No",
+        "delete": {
+            "title": "Delete the quiz",
+            "desc": "Are you sure to delete this quiz?"
+        }
     }
 }

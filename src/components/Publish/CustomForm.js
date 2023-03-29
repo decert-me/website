@@ -149,7 +149,6 @@ export default function CustomForm(props) {
                             item={e} 
                             index={i+1} 
                             deleteQuestion={deleteQuestion} 
-                            label={t("inner.sc")}
                         />
                     )
                 }

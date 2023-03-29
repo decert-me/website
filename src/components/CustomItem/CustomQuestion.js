@@ -1,10 +1,12 @@
 import { CloseOutlined } from '@ant-design/icons';
 import { Viewer } from '@bytemd/react'
 import { Divider, Popconfirm } from 'antd';
+import { useTranslation } from 'react-i18next';
 
 export default function CustomQuestion(props) {
     
-    const { item, index, deleteQuestion, label } = props;
+    const { item, index, deleteQuestion } = props;
+    const { t } = useTranslation(["publish", "translation"]);
 
     const deleteQuest = () => {
         deleteQuestion(index - 1)
@@ -19,7 +21,7 @@ export default function CustomQuestion(props) {
                         <div className="question-title">
                         <Viewer value={item.title} />
                         </div>
-                        <p>{label}: {item.score}</p>
+                        <p>{t("inner.sc")}: {item.score}</p>
                     </div>
                 </div>
                 <div className="operation">
@@ -27,10 +29,10 @@ export default function CustomQuestion(props) {
 
                     </div> */}
                     <Popconfirm
-                        title="Delete the task"
-                        description="Are you sure to delete this task?"
-                        okText="Yes"
-                        cancelText="No"
+                        title={t("translation:pop.delete.title")}
+                        description={t("translation:pop.delete.desc")}
+                        okText={t("translation:pop.yes")}
+                        cancelText={t("translation:pop.no")}
                         onConfirm={deleteQuest}
                     >
                         <div className="close">
