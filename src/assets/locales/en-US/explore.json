@@ -20,6 +20,8 @@
         }
     },
     "message": {
-       
+        "error": {
+            "publish": "Please exit preview model and complete the challenge content."
+        }
     }
 }

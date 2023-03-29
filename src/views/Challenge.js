@@ -96,7 +96,7 @@ export default function Challenge(params) {
     const publish = () => {
         const local = JSON.parse(localStorage.getItem("decert.store"))
         if (!local.isOver) {
-            message.error("xxx");
+            message.error(t("message.error.publish"));
             return
         }else{
             write();
