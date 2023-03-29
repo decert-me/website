@@ -152,12 +152,12 @@ export default function Challenge(params) {
                         :
                         <>
                         <div className="preview-head">
-                            预览模式
+                            {t("mode-preview")}
                             <div className="btns">
                                 {/* <Button>确认发布</Button> */}
                                 <Button className="btn-exit" onClick={() => {navigateTo("/publish")}}>
                                     <ExportOutlined className='icon' />
-                                    退出预览
+                                    {t("btn-exit")}
                                 </Button>
                             </div>
                         </div>
