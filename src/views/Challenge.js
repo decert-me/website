@@ -103,8 +103,8 @@ export default function Challenge(params) {
 
     useEffect(() => {
         // 修改进度条
-        if (detail) {
-            const total = detail?.metadata.properties.questions.length;
+        if (detail || cacheDetail) {
+            const total = detail?.metadata.properties.questions.length ? detail?.metadata.properties.questions.length : cacheDetail.properties.questions.length;
             percent = page === total ? 100 : (100/ total) * page;
             setPercent(percent);
         }
