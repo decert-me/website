@@ -1,6 +1,7 @@
 {
-    "mode-preview": "预览模式",
     "btn-exit": "退出预览",
+    "btn-publish": "确认发布",
+    "mode-preview": "预览模式",
     "title": "探索挑战",
     "btn-challenge": "挑战",
     "btn-start": "开始挑战",

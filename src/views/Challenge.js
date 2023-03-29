@@ -6,7 +6,7 @@ import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getQuests } from "../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
-import { Button, Progress } from 'antd';
+import { Button, message, Progress } from 'antd';
 import CustomPagination from '../components/CustomPagination';
 import CustomInput from '../components/CustomChallenge/CustomInput';
 import ModalAnswers from '../components/CustomModal/ModalAnswers';
@@ -19,6 +19,8 @@ import pluginGfm from '@bytemd/plugin-gfm'
 import frontmatter from '@bytemd/plugin-frontmatter'
 import highlight from '@bytemd/plugin-highlight-ssr'
 import breaks from '@bytemd/plugin-breaks'
+import { usePublish } from '@/hooks/usePublish';
+import ModalConnect from '@/components/CustomModal/ModalConnect';
 
 export default function Challenge(params) {
 
@@ -33,15 +35,24 @@ export default function Challenge(params) {
     let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
     let [percent, setPercent] = useState();
-    
+    let [publishObj, setPublishObj] = useState({});
+    const { publish: write, signIn, isLoading, transactionLoading, cancelModalConnect } = usePublish({
+        jsonHash: publishObj?.jsonHash, 
+        recommend: publishObj?.recommend
+    });
+
     let [page, setPage] = useState(1);
     const index = page-1;
+
+
 
     const [isModalOpen, setIsModalOpen] = useState(false);
 
     const openAnswers = () => {
         setIsModalOpen(true);
     };
+
+    
 
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -70,7 +81,6 @@ export default function Challenge(params) {
     const changeAnswer = (e) => {
         answers[index] = e;
         setAnswers([...answers]);
-        console.log('answers ===>',answers);
     }
 
     const sumbit = () => {
@@ -83,6 +93,16 @@ export default function Challenge(params) {
         navigateTo(`/claim/${detail.tokenId}`)
     }
 
+    const publish = () => {
+        const local = JSON.parse(localStorage.getItem("decert.store"))
+        if (!local.isOver) {
+            message.error("xxx");
+            return
+        }else{
+            write();
+        }
+    }
+
     const cacheInit = async() => {
         const local = localStorage.getItem("decert.store");
         if (!local || (local && JSON.parse(local).questions.length === 0)) {
@@ -90,6 +110,11 @@ export default function Challenge(params) {
             return
         }
         const cache = JSON.parse(local);
+        publishObj = {
+            jsonHash: cache.hash,
+            recommend: cache.recommend
+        }
+        setPublishObj({...publishObj});
         const request = await axios.get(`${ipfsPath}/${cache.hash}`)
         cacheDetail = request.data;
         setCacheDetail({...cacheDetail});
@@ -134,7 +159,10 @@ export default function Challenge(params) {
     return (
         
         <div className="Challenge">
-            
+            <ModalConnect
+                isModalOpen={signIn} 
+                handleCancel={cancelModalConnect} 
+            />
             {
                 (detail || cacheDetail) &&
                 <>
@@ -160,7 +188,9 @@ export default function Challenge(params) {
                         <div className="preview-head">
                             {t("mode-preview")}
                             <div className="btns">
-                                {/* <Button>确认发布</Button> */}
+                                <Button loading={isLoading || transactionLoading} onClick={() => publish()}>
+                                    {t("btn-publish")}
+                                </Button>
                                 <Button className="btn-exit" onClick={() => {navigateTo("/publish")}}>
                                     <ExportOutlined className='icon' />
                                     {t("btn-exit")}
