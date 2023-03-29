@@ -4,7 +4,7 @@ import routes from "@/router";
 
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useAccount, useDisconnect, useSigner } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest } from "ahooks";
@@ -19,6 +19,7 @@ export default function DefaultLayout(params) {
     const { data: signer } = useSigner();
     const navigateTo = useNavigate();
     const location = useLocation();
+    let [footerHide, setFooterHide] = useState(false);
 
     const headerStyle = {
         width: "100%",
@@ -41,6 +42,7 @@ export default function DefaultLayout(params) {
         textAlign: 'center',
         color: '#fff',
         backgroundColor: '#000',
+        display: footerHide ? "none" : "block"
     };
 
     const isClaim = (path) => {
@@ -84,6 +86,13 @@ export default function DefaultLayout(params) {
         manual: true
     });
 
+    const footerChange = () => {
+        if (location.pathname === "/publish") {
+            return true
+        }
+        return false
+    }
+
     useEffect(() => {
         const path = location.pathname;
         const addr = localStorage.getItem('decert.address');
@@ -92,6 +101,8 @@ export default function DefaultLayout(params) {
 
     useEffect(() => {
         window.scrollTo(0, 0);
+        footerHide = footerChange() ? true : false;
+        setFooterHide(footerHide);
     },[location])
 
     return (
