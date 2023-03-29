@@ -223,7 +223,9 @@ export default function CustomForm(props) {
                         <Button 
                             type="primary" 
                             ghost 
-                            // onClick={preview}
+                            disabled={
+                                questions.length === 0
+                            }
                             onClick={() => preview(form.getFieldsValue())}
                         >
                             {t("translation:btn-view")}
