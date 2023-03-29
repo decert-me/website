@@ -1,5 +1,5 @@
 import React from "react";
-import { MinusCircleOutlined } from "@ant-design/icons";
+import { MinusCircleOutlined, PlusCircleFilled } from "@ant-design/icons";
 import { Button, Form, Input, Select } from "antd";
 import { useTranslation } from "react-i18next";
 
@@ -57,10 +57,39 @@ export default function CustomAddAnswer(params) {
                   {fields.length === 1 ? null : <MinusCircleOutlined onClick={() => remove(name)} />}
                 </div>
             ))}
-
-            <Button type="link" style={{ width: 200 }} onClick={() => add()} block>
-              {t("translation:btn-add-answer")}
-            </Button>
+            <div
+              style={{
+                marginBottom: "10px",
+                display: "flex",
+                alignItems: "center"
+              }}
+            >
+              <Button 
+                type="link" 
+                style={{ 
+                  textAlign: "left",
+                  padding: 0,
+                  fontSize: "18px"
+                }} 
+                onClick={() => add()} 
+              >
+                <PlusCircleFilled />
+                <span style={{
+                  color: "#282828"
+                }}>
+                {t("translation:btn-add-answer")}
+                </span>
+              </Button>
+              <p 
+                style={{
+                  marginLeft: "16px",
+                  color: "#999999"
+                }}
+              >
+                <span style={{color: "#FF0000"}}>*</span>
+                {t("inner.rule.add")}
+              </p>
+            </div>
           </div>
         )}
       </Form.List>

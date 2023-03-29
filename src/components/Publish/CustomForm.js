@@ -124,7 +124,7 @@ export default function CustomForm(props) {
             <div className="questions">
                 <div className="quest-head">
                     <div className="left">
-                        <span>*</span> {t("inner.ques")} 
+                        <span>*</span> {t("inner.test")} 
                     </div>
                     {
                         questions.length !== 0 &&
@@ -149,7 +149,7 @@ export default function CustomForm(props) {
                             item={e} 
                             index={i+1} 
                             deleteQuestion={deleteQuestion} 
-                            label={t("inner.ques-score")}
+                            label={t("inner.sc")}
                         />
                     )
                 }

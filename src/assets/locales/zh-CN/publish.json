@@ -8,8 +8,10 @@
         "score": "及格分",
         "total": "总分",
         "ques": "题目",
-        "clear": "清空所有",
+        "clear": "清空测验",
+        "test": "测验",
         "ques-score": "题目分数",
+        "sc": "分数",
         "true": "正确",
         "false": "错误",
         "recommend": "推荐教程",
@@ -19,7 +21,8 @@
             "score": "请设置及格分",
             "ques-score": "请输入题目分数",
             "answer": "请输入答案",
-            "recommend": "请推荐可以帮助完成此挑战的教程。"
+            "recommend": "请推荐可以帮助完成此挑战的教程。",
+            "add": "单一选项是填空题，多个选项是选择题。"
         },
         "content": {
             "img": {

@@ -9,7 +9,9 @@
         "total": "Total score",
         "ques": "Quiz",
         "clear": "Clear quiz",
+        "test": "Quiz",
         "ques-score": "Score",
+        "sc": "Score",
         "true": "Right",
         "false": "Wrong",
         "recommend": "Recommend Tutorial",
@@ -19,7 +21,8 @@
             "score": "Please set a passing score",
             "ques-score": "Please enter quiz score",
             "answer": "Please enter your answer",
-            "recommend": "Please recommend tutorials that can help complete this challenge."
+            "recommend": "Please recommend tutorials that can help complete this challenge.",
+            "add": "Single options are fill-in-the-blank, while multiple options are multiple-choice."
         },
         "content": {
             "img": {
