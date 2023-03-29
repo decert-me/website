@@ -26,7 +26,8 @@ export default function CustomForm(props) {
         isClick,
         sumScore,
         waitLoading,
-        recommend
+        recommend,
+        preview
     } = props;
     const [form] = Form.useForm();
     
@@ -214,14 +215,19 @@ export default function CustomForm(props) {
             <div className="Publish-btns">
                 <div className="btns">
                     <div className="left">
-                        <Button onClick={() => ConfirmClearQuest(clearLocal)}>
+                        {/* <Button onClick={() => ConfirmClearQuest(clearLocal)}>
                             {t("translation:btn-clear")}
-                        </Button>
+                        </Button> */}
                     </div>
                     <div className="right">
-                        {/* <Button type="primary" ghost>
+                        <Button 
+                            type="primary" 
+                            ghost 
+                            // onClick={preview}
+                            onClick={() => preview(form.getFieldsValue())}
+                        >
                             {t("translation:btn-view")}
-                        </Button> */}
+                        </Button>
                         <Form.Item
                             style={{
                                 margin: 0
