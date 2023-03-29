@@ -3,6 +3,9 @@ import { useTranslation } from "react-i18next";
 import { ConfirmClearQuest } from "../CustomConfirm/ConfirmClearQuest";
 import { CustomQuestion, CustomEditor } from "@/components/CustomItem";
 import { FormTime, FormDiff, FormUpload } from "@/components/Publish";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { constans } from "@/utils/constans";
 
 const { TextArea } = Input;
 
@@ -15,7 +18,6 @@ export default function CustomForm(props) {
         deleteQuestion, 
         writeLoading, 
         showAddModal,
-        fields,
         questions,
         isClick,
         sumScore,
@@ -26,6 +28,8 @@ export default function CustomForm(props) {
     } = props;
     const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
+    const { ipfsPath} = constans();
+    let [fields, setFields] = useState([]);
     
     const checkPreview = async() => {
         let flag;
@@ -38,6 +42,44 @@ export default function CustomForm(props) {
         })
         preview(form.getFieldsValue(), flag)
     }
+
+    const init = async() => {
+        const local = localStorage.getItem("decert.store");
+        if (!local) {
+            return
+        }
+        const cache = JSON.parse(local);
+        if (cache?.hash) {
+            const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
+            fields = [
+                {
+                    name: ["title"],
+                    value: questCache.data.title
+                },
+                {
+                    name: ["desc"],
+                    value: questCache.data.description
+                },
+                {
+                    name: ["score"],
+                    value: questCache.data.properties.passingScore
+                },
+                {
+                    name: ["difficulty"],
+                    value: questCache.data.properties.difficulty
+                },
+                {
+                    name: ["time"],
+                    value: questCache.data.properties.estimateTime
+                }
+            ]
+            setFields([...fields])
+        }
+    }
+
+    useEffect(() => {
+        init();
+    },[])
 
     return (
         <Form

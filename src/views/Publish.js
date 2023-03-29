@@ -15,7 +15,6 @@ import { useNavigate } from "react-router-dom";
 import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
 
-import axios from "axios";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { useUpdateEffect } from "ahooks";
 
@@ -25,7 +24,7 @@ export default function Publish(params) {
     const { isConnected } = useAccount();
     const { data: signer } = useSigner();
 
-    const { ipfsPath, maxUint32, maxUint192 } = constans();
+    const { maxUint32, maxUint192 } = constans();
     const { verify } = useVerifyToken();
 
     const { t } = useTranslation(["publish", "translation"]);
@@ -39,7 +38,6 @@ export default function Publish(params) {
         }
     })
     const { chain } = useNetwork();
-    let [fields, setFields] = useState([]);
     
     let [isSwitch, setIsSwitch] = useState(false);
     let [showAddQs, setShowAddQs] = useState(false);
@@ -118,7 +116,6 @@ export default function Publish(params) {
     }
 
     const getJson = async(values) => {
-        console.log(values);
         const { answers, questions: qs } = filterQuestions(questions);
         let obj = {
             title: values.title,
@@ -250,7 +247,6 @@ export default function Publish(params) {
     };
 
     const init = async() => {
-        // 1、local
         let local = localStorage.getItem("decert.store");
         if (!local) {
             return
@@ -260,32 +256,6 @@ export default function Publish(params) {
         setQuestions([...questions]);
         recommend = cache.recommend;
         setRecommend(recommend);
-        if (cache?.hash) {
-            const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
-            fields = [
-                {
-                    name: ["title"],
-                    value: questCache.data.title
-                },
-                {
-                    name: ["desc"],
-                    value: questCache.data.description
-                },
-                {
-                    name: ["score"],
-                    value: questCache.data.properties.passingScore
-                },
-                {
-                    name: ["difficulty"],
-                    value: questCache.data.properties.difficulty
-                },
-                {
-                    name: ["time"],
-                    value: questCache.data.properties.estimateTime
-                }
-            ]
-            setFields([...fields])
-        }
     }
 
     useUpdateEffect(() => {
@@ -322,7 +292,6 @@ export default function Publish(params) {
                 writeLoading={writeLoading}
                 clearLocal={clearLocal}
                 showAddModal={showAddModal}
-                fields={fields}
                 questions={questions}
                 isClick={isClick}
                 sumScore={sumScore}
