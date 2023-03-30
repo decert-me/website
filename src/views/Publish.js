@@ -13,6 +13,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useUpdateEffect } from "ahooks";
 import { usePublish } from "@/hooks/usePublish";
+import ModalEditQuestion from "@/components/CustomModal/ModalEditQuestion";
 
 export default function Publish(params) {
     
@@ -20,6 +21,10 @@ export default function Publish(params) {
     const { t } = useTranslation(["publish", "translation"]);
     
     let [showAddQs, setShowAddQs] = useState(false);
+    let [showEditQs, setShowEditQs] = useState(false);
+    let [selectQs, setSelectQs] = useState();
+    let [selectIndex, setSelectIndex] = useState();
+    
     let [questions, setQuestions] = useState([]);
     let [sumScore, setSumScore] = useState(0);
     let [isClick, setIsClick] = useState();
@@ -32,24 +37,25 @@ export default function Publish(params) {
     });
     const { encode } = Encryption();
 
-    const clearLocal = () => {
-        localStorage.removeItem("decert.store");
-        setTimeout(() => {
-            navigateTo(0);
-        }, 500);
-    }
-
     const showAddModal = () => {
         setShowAddQs(true);
     }
-
-    const hideAddModal = () => {
-        setShowAddQs(false);
+    
+    const showEditModal = (index) => {
+        setSelectIndex(index);
+        selectQs = questions[index];
+        setSelectQs({...selectQs});
+        setShowEditQs(true);
     }
 
     const questionChange = ( val => {
         questions.push(val)
         setQuestions([...questions])
+    })
+
+    const questionEdit = ( (val) => {
+        questions[selectIndex] = val;
+        setQuestions([...questions]);
     })
 
     const deleteQuestion = (i) => {
@@ -143,14 +149,17 @@ export default function Publish(params) {
             recommend: values.editor
         }
         setPublishObj({...publishObj});
-        console.log(publishObj);
         let questCache = {
             hash: jsonHash.hash,
             questions: questions,
             recommend: values.editor
         }
         saveCache(questCache);
-        setIsWrite(true);
+        if (isWrite) {
+            publish();
+        }else{
+            setIsWrite(true);
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -195,8 +204,16 @@ export default function Publish(params) {
             />
             <ModalAddQuestion 
                 isModalOpen={showAddQs} 
-                handleCancel={hideAddModal}
+                handleCancel={() => {setShowAddQs(false)}}
                 questionChange={questionChange}
+                selectQs={selectQs}
+              />
+            <ModalEditQuestion
+                isModalOpen={showEditQs} 
+                handleCancel={() => {setShowEditQs(false)}}
+                questionChange={questionEdit}
+                selectIndex={selectIndex}
+                selectQs={selectQs}
               />
             <h3>{t("title")}</h3>
             <CustomForm 
@@ -205,8 +222,8 @@ export default function Publish(params) {
                 deleteQuestion={deleteQuestion}
                 writeLoading={isLoading}
                 waitLoading={transactionLoading}
-                clearLocal={clearLocal}
                 showAddModal={showAddModal}
+                showEditModal={showEditModal}
                 questions={questions}
                 isClick={isClick}
                 sumScore={sumScore}

@@ -26,7 +26,8 @@ export default function CustomForm(props) {
         waitLoading,
         recommend,
         preview,
-        clearQuest
+        clearQuest,
+        showEditModal
     } = props;
     const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
@@ -200,7 +201,8 @@ export default function CustomForm(props) {
                             key={i} 
                             item={e} 
                             index={i+1} 
-                            deleteQuestion={deleteQuestion} 
+                            deleteQuestion={deleteQuestion}
+                            showEditModal={showEditModal} 
                         />
                     )
                 }

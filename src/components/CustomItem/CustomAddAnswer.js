@@ -1,13 +1,18 @@
-import React from "react";
 import { MinusCircleOutlined, PlusCircleFilled } from "@ant-design/icons";
 import { Button, Form, Input, Select } from "antd";
 import { useTranslation } from "react-i18next";
 
-export default function CustomAddAnswer(params) {
+export default function CustomAddAnswer(props) {
+
+  const { fields } = props;
+
   const { t } = useTranslation(['publish', 'translation']);
 
     return (
-        <Form.List name={"options"} initialValue={[{}]}>
+        <Form.List 
+          name={"options"} 
+          initialValue={fields ? fields : []}
+        >
         {(fields, { add, remove }) => (
           <div style={{ borderBottom: "1px solid #D8D8D8" }}>
             {fields.map(({ key, name, ...restField }) => ( 
