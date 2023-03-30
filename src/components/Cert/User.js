@@ -14,7 +14,7 @@ import { useLocation } from "react-router-dom";
 
 export default function CertUser(props) {
 
-    const { account, ensName } = props;
+    const { account, ensName, status } = props;
     const location = useLocation();
     const { t } = useTranslation(["translation","profile", "explore"]);
     let [socials, setSocials] = useState();
@@ -71,7 +71,7 @@ export default function CertUser(props) {
               {NickName(account)}
               <CopyOutlined style={{ color: "#3C6EB9", marginLeft: "12px" }} />
             </p>
-            <Button className="share" onClick={share}>分享</Button>
+            <Button className="share" onClick={share} disabled={status=="error"}>分享</Button>
           </div>
         </>
       ) : (
