@@ -12,7 +12,7 @@ import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { ipfsToImg } from "@/utils/IpfsToImg";
 import { useNavigate } from "react-router-dom";
-import { useUpdateEffect } from "ahooks";
+import { useRequest, useUpdateEffect } from "ahooks";
 const { Option } = Select;
 
 const renderoption = (option) => {
@@ -215,9 +215,23 @@ export default function ModalAddSbt(props) {
         io.observe(document.querySelector(".loading"))
     }
 
+    const { run } = useRequest(getList, {
+        debounceWait: 1000,
+        manual: true,
+      });
+
     useEffect(() => {
         if (config.address.length === 42) {
-            getList();
+            run();
+        }else{
+            list = [];
+            cache = [];
+            setList([...list]);
+            setCache([...cache]);
+            pageConfig = {
+                page: 0, pageSize: 16, total: 0
+            };
+            setPageConfig({...pageConfig});
         }
     },[config])
 
@@ -306,9 +320,7 @@ export default function ModalAddSbt(props) {
                                     key={e.id}
                                     onClick={() => checked(e.id,e.flag)}
                                 >
-                                    <div className="img">
-                                        <img src={ipfsToImg(e)} alt="" />
-                                    </div>
+                                    {ipfsToImg(e)}
                                     <p>{e.name}</p>
                                     <div className="checkbox">
                                         {

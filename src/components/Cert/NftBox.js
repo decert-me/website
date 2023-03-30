@@ -41,12 +41,7 @@ export default function NftBox(props) {
 
     return (
         <div className="nft-detail">
-            <div className="img">
-                <img 
-                    src={ipfsToImg(info)} 
-                    alt="" 
-                />
-            </div>
+            {ipfsToImg(info)}
             <div className="nft-info">
                 <p className="nft-title">
                     {

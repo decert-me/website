@@ -9,6 +9,7 @@ export const ipfsToImg = (e) => {
     const { defaultImg } = constans();
     const url = e.image_uri;
     const contractUrl = e.contract_logo;
+    let type = "img";
 
     let selectValue = "";
 
@@ -19,6 +20,9 @@ export const ipfsToImg = (e) => {
     }else {
         if (url.indexOf('Qm') === 0 || url.indexOf('ba') === 0) {
             selectValue = gateway+url;
+        }else if(url.indexOf('svg') !== -1){
+            selectValue = url;
+            type = "svg"
         }else{
             selectValue = url;
         }
@@ -33,5 +37,9 @@ export const ipfsToImg = (e) => {
     //     return url
     // }
 
-    return selectValue;
+    if (type === "img") {
+        return <div className="img"><img src={selectValue} alt="" /></div>
+    }else{
+        return <div className="img" dangerouslySetInnerHTML={{__html: selectValue}} />
+    }
 }
