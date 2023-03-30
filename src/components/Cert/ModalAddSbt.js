@@ -42,6 +42,7 @@ export default function ModalAddSbt(props) {
     const { chains } = constans();
     let [options, setOptions] = useState();
     let [loading, setLoading] = useState();
+    let [isLoading, setisLoading] = useState(false);
     let [config, setConfig] = useState({
         // chainId: 137, address: "", page: 1, pageSize: 10
         chainId: 137, address: ""
@@ -56,7 +57,7 @@ export default function ModalAddSbt(props) {
     let [addIds, setAddIds] = useState([]);
     let [deleteIds, setDeleteIds] = useState([]);
     let [pageConfig, setPageConfig] = useState({
-        page: 0, pageSize: 10, total: 0
+        page: 0, pageSize: 16, total: 0
     })
 
     const changeList = (id) => {
@@ -175,6 +176,7 @@ export default function ModalAddSbt(props) {
     }
 
     const getList = async() => {
+        setisLoading(true);
         pageConfig.page += 1;
         setPageConfig({...pageConfig})
 
@@ -192,6 +194,7 @@ export default function ModalAddSbt(props) {
                 setList([...list]);
                 cache = cache.concat(JSON.parse(JSON.stringify(arr)));
                 setCache([...cache]);
+                setisLoading(false);
             }
         })
     }
@@ -283,24 +286,38 @@ export default function ModalAddSbt(props) {
             <div className="content">
                 <div className="list-content">
                     {
-                        list &&
-                        list.map((e,i) => 
-                            <div 
-                                className={`box ${cache[i].flag === 2 ? "box-active" : ""}`}
-                                key={e.id}
-                                onClick={() => checked(e.id,e.flag)}
-                            >
-                                <div className="img">
-                                    <img src={ipfsToImg(e)} alt="" />
-                                </div>
-                                <p>{e.name}</p>
-                                <div className="checkbox">
-                                    {
-                                        cache[i].flag === 2 &&
-                                        <CheckOutlined />
-                                    }
-                                </div>
-                            </div>    
+                        list.length === 0 && isLoading ?
+                        <Spin
+                                indicator={
+                                    <LoadingOutlined
+                                        style={{
+                                        fontSize: 24,
+                                        }}
+                                        spin
+                                    />
+                                } 
+                            />
+                        :
+                        (
+                            list &&
+                            list.map((e,i) => 
+                                <div 
+                                    className={`box ${cache[i].flag === 2 ? "box-active" : ""}`}
+                                    key={e.id}
+                                    onClick={() => checked(e.id,e.flag)}
+                                >
+                                    <div className="img">
+                                        <img src={ipfsToImg(e)} alt="" />
+                                    </div>
+                                    <p>{e.name}</p>
+                                    <div className="checkbox">
+                                        {
+                                            cache[i].flag === 2 &&
+                                            <CheckOutlined />
+                                        }
+                                    </div>
+                                </div>    
+                            )
                         )
                     }
                     {
