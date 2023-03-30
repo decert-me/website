@@ -159,7 +159,9 @@ export default function Cert(params) {
             contract_id: selectContract,
             status: selectStatus
         })
-        isInViewPortOfThree()
+        if (status === "success") {
+            isInViewPortOfThree()
+        }
     }
 
     useUpdateEffect(() => {
