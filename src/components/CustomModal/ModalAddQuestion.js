@@ -65,7 +65,7 @@ export default function ModalAddQuestion(props) {
             maskClosable={false}
             destroyOnClose={true}
         >
-            <h5>*{t("inner.ques")}</h5>
+            <h5>*{t("inner.test")}</h5>
             <CustomEditor changeTitle={changeTitle} />
 
             <Form
@@ -75,7 +75,7 @@ export default function ModalAddQuestion(props) {
                 <CustomAddAnswer />
 
                 <Form.Item
-                    label={t("inner.ques-score")}
+                    label={t("inner.sc")}
                     name="score"
                     rules={[
                         {

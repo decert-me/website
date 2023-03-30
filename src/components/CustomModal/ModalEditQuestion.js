@@ -125,7 +125,7 @@ export default function ModalEditQuestion(props) {
                 <CustomAddAnswer fields={fields} />
 
                 <Form.Item
-                    label={t("inner.ques-score")}
+                    label={t("inner.sc")}
                     name="score"
                     rules={[
                         {
