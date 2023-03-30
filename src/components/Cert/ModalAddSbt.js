@@ -1,8 +1,9 @@
-import { Button, Divider, Input, message, Modal, Select, Space } from "antd";
+import { Button, Divider, Input, message, Modal, Select, Space, Spin } from "antd";
 import {
     CloseCircleOutlined,
     CheckOutlined,
-    SearchOutlined
+    SearchOutlined,
+    LoadingOutlined
 } from '@ant-design/icons';
 import "@/assets/styles/component-style/cert/modal-addsbt.scss"
 import { useEffect, useState } from "react";
@@ -11,6 +12,7 @@ import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { ipfsToImg } from "@/utils/IpfsToImg";
 import { useNavigate } from "react-router-dom";
+import { useUpdateEffect } from "ahooks";
 const { Option } = Select;
 
 const renderoption = (option) => {
@@ -41,10 +43,11 @@ export default function ModalAddSbt(props) {
     let [options, setOptions] = useState();
     let [loading, setLoading] = useState();
     let [config, setConfig] = useState({
-        chainId: 137, address: "", page: 1, pageSize: 10
+        // chainId: 137, address: "", page: 1, pageSize: 10
+        chainId: 137, address: ""
     })
-    let [list, setList] = useState();
-    let [cache, setCache] = useState();
+    let [list, setList] = useState([]);
+    let [cache, setCache] = useState([]);
     let [gateway, setGateway] = useState(
         "https://nftscan.mypinata.cloud/ipfs/"
         // "https://dweb.link/ipfs/"
@@ -52,6 +55,9 @@ export default function ModalAddSbt(props) {
 
     let [addIds, setAddIds] = useState([]);
     let [deleteIds, setDeleteIds] = useState([]);
+    let [pageConfig, setPageConfig] = useState({
+        page: 0, pageSize: 10, total: 0
+    })
 
     const changeList = (id) => {
         cache.map(e => {
@@ -168,24 +174,59 @@ export default function ModalAddSbt(props) {
         setOptions([...options]);
     }
 
+    const getList = async() => {
+        pageConfig.page += 1;
+        setPageConfig({...pageConfig})
+
+        await getContractNfts({...config, ...pageConfig})
+        .then(res => {
+            if (res.data) {
+                pageConfig = {
+                    page: res.data.page,
+                    pageSize: res.data.pageSize,
+                    total: res.data.total
+                }
+                setPageConfig({...pageConfig})
+                let arr = res.data?.list ? res.data?.list : [];
+                list = list.concat(arr.slice());
+                setList([...list]);
+                cache = cache.concat(JSON.parse(JSON.stringify(arr)));
+                setCache([...cache]);
+            }
+        })
+    }
+
+    const io = new IntersectionObserver(ioes => {
+        ioes.forEach(async(ioe) => {
+            const el = ioe.target
+            const intersectionRatio = ioe.intersectionRatio
+            if (intersectionRatio > 0 && intersectionRatio <= 1) {
+                await getList()
+                io.unobserve(el)
+            }
+        })
+    })
+
+    // 执行交叉观察器
+    function isInViewPortOfThree () {
+        io.observe(document.querySelector(".loading"))
+    }
+
     useEffect(() => {
         if (config.address.length === 42) {
-            getContractNfts(config)
-            .then(res => {
-                if (res.data) {
-                    let arr = res.data?.list ? res.data?.list : [];
-                    list = arr.slice();
-                    setList([...list]);
-                    cache = JSON.parse(JSON.stringify(arr));
-                    setCache([...cache]);
-                }
-            })
+            getList();
         }
     },[config])
 
     useEffect(() => {
         init();
     },[])
+
+    useUpdateEffect(() => {
+        if (pageConfig.page !== 0 && list.length !== pageConfig.total) {
+            isInViewPortOfThree()
+        }
+    },[list])
 
     return (
         <Modal
@@ -261,6 +302,22 @@ export default function ModalAddSbt(props) {
                                 </div>
                             </div>    
                         )
+                    }
+                    {
+                        pageConfig.page * pageConfig.pageSize < pageConfig.total &&
+                        <div className="loading">
+                            <Spin
+                                indicator={
+                                    <LoadingOutlined
+                                        style={{
+                                        fontSize: 24,
+                                        }}
+                                        spin
+                                    />
+                                } 
+                            />
+                            <p>加载中...</p>
+                        </div>
                     }
                 </div>
             </div>
