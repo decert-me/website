@@ -15,7 +15,6 @@ export default function ModalEditQuestion(props) {
     let [fields, setFields] = useState();
 
     const changeTitle = (e) => {
-        console.log(e);
         questionTitle = e;
         setQuestionTitle(questionTitle);
     }
@@ -142,7 +141,7 @@ export default function ModalEditQuestion(props) {
                     />
                 </Form.Item>
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">{t("translation:btn-add")}</Button>
+                    <Button type="primary" htmlType="submit">{t("translation:btn-save")}</Button>
                 </Form.Item>
             </Form>
         </Modal>
