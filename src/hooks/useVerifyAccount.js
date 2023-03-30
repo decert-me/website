@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useEnsAddress } from "wagmi";
 import { message } from "antd";
 
@@ -15,20 +15,22 @@ export const useVerifyAccount = (props) => {
 
     const verify = async() => {
         setIsLoading(true);
-        await getEns();
+        return await new Promise((resolve, reject) => {
+            getEns()
+            .then(res => {
+                if (res.data) {
+                    resolve(res.data)
+                    setIsLoading(false);
+                }else{
+                    message.error("请输入正确的地址");
+                    setIsLoading(false);
+                }
+            })
+        })
+        .then(res => {
+            return res
+        })
     }
-
-    useEffect(() => {
-        setTimeout(() => {
-            if (status === "error") {
-                message.error("请输入正确的地址");
-                setIsLoading(false);
-            }
-            if ("success") {
-                setIsLoading(false);
-            }
-        }, timeout ? timeout : 1000);
-    },[status])
 
     return {
         verify,

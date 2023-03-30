@@ -12,7 +12,7 @@ export default function Search(params) {
 
     let [account, setAccount] = useState();
     const navigateTo = useNavigate();
-    const { verify, isLoading, account: address } = useVerifyAccount({address: account});
+    const { verify, isLoading} = useVerifyAccount({address: account});
 
 
     const changeAccount = (v) => {
@@ -21,10 +21,10 @@ export default function Search(params) {
     }
 
     const start = async() => {
-        await verify();
-        if (address) {
+        const ensAddress = await verify();
+        if (ensAddress) {
             setTimeout(() => {
-                navigateTo(`/${account}`)
+                navigateTo(`/${ensAddress}`)
             }, 500);
         }
     }
