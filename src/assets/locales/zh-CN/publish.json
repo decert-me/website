@@ -15,6 +15,7 @@
         "true": "正确",
         "false": "错误",
         "recommend": "推荐教程",
+        "nodata": "暂无数据",
         "rule": {
             "title": "请输入标题",
             "img": "请上传图片",
