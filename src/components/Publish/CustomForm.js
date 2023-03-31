@@ -193,7 +193,7 @@ export default function CustomForm(props) {
                     questions.length !== 0 ?
                     <Divider />
                     :
-                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={"no data"} />
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t("inner.nodata")} />
                 }
                 {
                     questions.map((e,i) => 
