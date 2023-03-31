@@ -9,6 +9,7 @@ import { useTranslation } from 'react-i18next';
 export default function CustomPagination(props) {
 
     const { page, total, onChange, sumbit, type } = props;
+
     const { t } = useTranslation(["translation"]);
     
     return (

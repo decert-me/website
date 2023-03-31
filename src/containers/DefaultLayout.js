@@ -58,26 +58,46 @@ export default function DefaultLayout(params) {
         }
     }
 
-    const sign = () => {
-        GetSign({address: address, signer: signer, disconnect: disconnect})
+    const isCert = (path, type) => {
+        if (path && path.split('/')[1].length === 42) {
+            if (type === "toggle") {
+                navigateTo(`/${address}`);
+                navigateTo(0);
+                setTimeout(() => {
+                }, 20);
+            }else if (type === "signout"){
+                navigateTo('/search');
+            }else{
+                setTimeout(() => {
+                    navigateTo(0);
+                }, 500);
+            }
+        }
     }
 
-    const verifySignUpType = (addr, path) => {
+    const sign = async() => {
+        await GetSign({address: address, signer: signer, disconnect: disconnect})
+    }
+
+    const verifySignUpType = async(addr, path) => {
         if (addr === null && address) {
             // 未登录  ====>  登录
             localStorage.setItem("decert.address", address);
-            sign()
+            await sign()
+            isCert(path, 'reload');
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
             ClearStorage();
+            await sign()
             localStorage.setItem("decert.address", address);
             isClaim(path);
-            sign()
+            isCert(path, 'toggle');
         }else if (addr && !address) {
             // 已登陆  ====>  未登录
             ClearStorage();
             isClaim(path);
             isExplore(path);
+            isCert(path, 'signout');
         }
     }
 

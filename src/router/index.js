@@ -8,6 +8,7 @@ import User from "@/views/User/index";
 import UserEdit from "@/views/User/edit";
 import Cert from "@/views/Cert";
 import Lesson from "@/views/Lesson";
+import Search from "@/views/Search";
 
 const routes = [
     { 
@@ -54,10 +55,15 @@ const routes = [
     { 
       path: "/:address",
       element: <Cert />,
+      key: Math.random().toString()
     },
-      { 
+    { 
       path: "/lesson",
       element: <Lesson />,
+    },
+    { 
+      path: "/search",
+      element: <Search />,
     }
     
     

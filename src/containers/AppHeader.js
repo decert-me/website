@@ -29,8 +29,20 @@ export default function AppHeader(params) {
             icon: '',
         },
         {
-            label: (<p onClick={() => disconnect()}> {t("translation:header.disconnect")} </p>),
+            label: (
+                <p onClick={() => {
+                    navigateTo(`/${address}`)
+                    navigateTo(0)
+                }}> 
+                    {t("translation:header.cert")} 
+                </p>
+            ),
             key: '2',
+            icon: '',
+        },
+        {
+            label: (<p onClick={() => disconnect()}> {t("translation:header.disconnect")} </p>),
+            key: '3',
             icon: '',
         }
     ]
@@ -45,7 +57,7 @@ export default function AppHeader(params) {
 
     useEffect(() => {
         if (location) {
-            isHome = location.pathname === '/' ? true : false;
+            isHome = (location.pathname === '/' || location.pathname === '/search') ? true : false;
             setIsHome(isHome);
         }
     },[location])
@@ -72,7 +84,7 @@ export default function AppHeader(params) {
                     </div>
                     <Link to="/lesson">{t("translation:header.lesson")}</Link>
                     <Link to="/explore">{t("translation:header.explore")}</Link>
-                    {/* <Link to="/explore">{t("translation:header.cert")}</Link> */}
+                    <Link to="/search">{t("translation:header.cert")}</Link>
                 </div>
 
                 <div className='nav-right'>

@@ -61,6 +61,7 @@ export default function Challenge(params) {
     const checkPage = (type) => {
         page = type === 'add' ? page+1 : page-1;
         setPage(page);
+        saveAnswer()
     }
 
     const changePage = (index) => {
@@ -73,7 +74,31 @@ export default function Challenge(params) {
         .then(res => {
             detail = res ? res.data : {};
             setDetail({...detail});
-            answers = new Array(Number(detail.metadata.properties.questions.length))
+            // 获取本地存储 ===> 
+            const local = JSON.parse(localStorage.getItem("decert.cache"));
+            const cacheAnswers = local ? local : null;
+            if (cacheAnswers[id]) {
+                // 存在该题cache
+                answers = cacheAnswers[id];
+                try {
+                    answers.forEach((e,i) => {
+                        if (!e) {
+                            page = i+2;
+                            setPage(page)
+                            throw ""
+                        }
+                    })
+                } catch (err) {
+                }
+                if (page === 1) {
+                    page = answers.length;
+                    setPage(page)
+                }
+            }else{
+                answers = new Array(Number(detail.metadata.properties.questions.length)).fill(undefined);
+                cacheAnswers[id] = answers;
+                saveAnswer()
+            }
             setAnswers([...answers])
         })
     }
@@ -83,13 +108,15 @@ export default function Challenge(params) {
         setAnswers([...answers]);
     }
 
-    const sumbit = () => {
-        // 本地 ==> 存储答案 ==> 跳转领取页
-        let cache = localStorage.getItem("decert.cache") ? 
-            JSON.parse(localStorage.getItem("decert.cache")) 
-            : {};
+    const saveAnswer = () => {
+        let cache = JSON.parse(localStorage.getItem("decert.cache"));
         cache[detail.tokenId] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
+    }
+
+    const submit = () => {
+        // 本地 ==> 存储答案 ==> 跳转领取页
+        saveAnswer()
         navigateTo(`/claim/${detail.tokenId}`)
     }
 
@@ -227,7 +254,7 @@ export default function Challenge(params) {
                             cacheDetail.properties.questions.length
                         } 
                         onChange={checkPage} 
-                        sumbit={openAnswers}
+                        submit={openAnswers}
                     />
                 </>
             }
