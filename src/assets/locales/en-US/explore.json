@@ -1,6 +1,7 @@
 {
-    "mode-preview": "Preview",
     "btn-exit": "Exit",
+    "btn-publish": "Publish",
+    "mode-preview": "Preview",
     "title": "Explore challenges",
     "btn-challenge": "Challenge",
     "btn-start": "Start Challenge",
@@ -19,6 +20,8 @@
         }
     },
     "message": {
-       
+        "error": {
+            "publish": "Please exit preview model and complete the challenge content."
+        }
     }
 }

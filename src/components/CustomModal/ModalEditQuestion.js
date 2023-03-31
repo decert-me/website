@@ -1,19 +1,18 @@
-import { Button, Form, Input, InputNumber, message, Modal } from "antd";
-import { useState } from "react";
+import { Button, Form, InputNumber, message, Modal } from "antd";
+import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { filterType } from "../../utils/filter";
 import CustomAddAnswer from "../CustomItem/CustomAddAnswer";
 import CustomEditor from "../CustomItem/CustomEditor";
 
 
-export default function ModalAddQuestion(props) {
+export default function ModalEditQuestion(props) {
     
-    const { isModalOpen, handleCancel, questionChange } = props;
+    const { isModalOpen, handleCancel, questionChange, selectIndex, selectQs } = props;
     const { t } = useTranslation(['publish', 'translation']);
     let [questionTitle, setQuestionTitle] = useState('');
-    let [score, setScore] = useState();
     let [questInfo,setQuestInfo] = useState({});
-    
+    let [fields, setFields] = useState();
 
     const changeTitle = (e) => {
         questionTitle = e;
@@ -44,7 +43,7 @@ export default function ModalAddQuestion(props) {
             ...questInfo,
             title: questionTitle,
             options: optionArr,
-            score: score,
+            score: values.score,
             type: type,
             answers: ans
         }
@@ -53,6 +52,51 @@ export default function ModalAddQuestion(props) {
         setQuestionTitle('')
         handleCancel()
     }
+
+    const getAnswer = (i) => {
+        let option = null;
+        switch (selectQs.type) {
+            case 0:
+                // 单选
+                option = selectQs.answers === i ? 2 : 1;
+                break;
+            case 1: 
+                // 多选
+                option = selectQs.answers.includes(i) ? 2 : 1;
+            default:
+                // 填空
+                break;
+        }
+        return option
+    }
+
+    useEffect(() => {
+        if (selectQs) {
+            switch (selectQs.type) {
+                case 2:
+                    // 填空
+                    break;
+                case 1:
+                    // 多选
+                default:
+                    // 单选
+                    break;
+            }
+            let arr = [];
+            selectQs.options.map((e,i) => {
+                arr.push({
+                    "key": i,
+                    "name": i,
+                    "isListField": true,
+                    "fieldKey": i,
+                    "title": e,
+                    "options": getAnswer(i)
+                })
+            })
+            fields = arr;
+            setFields([...fields]);
+        }
+    },[selectQs])
 
     return (
         <Modal
@@ -65,14 +109,20 @@ export default function ModalAddQuestion(props) {
             maskClosable={false}
             destroyOnClose={true}
         >
-            <h5>*{t("inner.test")}</h5>
-            <CustomEditor changeTitle={changeTitle} />
+            <h5>*{t("inner.ques")}</h5>
+            <CustomEditor changeTitle={changeTitle} initialValues={selectQs?.title} />
 
             <Form
                 layout="vertical"
                 onFinish={onFinish}
+                fields={[
+                    {
+                        name: ["score"],
+                        value: selectQs?.score
+                    }
+                ]}
             >
-                <CustomAddAnswer />
+                <CustomAddAnswer fields={fields} />
 
                 <Form.Item
                     label={t("inner.sc")}
@@ -86,14 +136,12 @@ export default function ModalAddQuestion(props) {
                 >
                     <InputNumber 
                         min={1} 
-                        value={score} 
-                        onChange={(e)=>setScore(e)} 
                         controls={false}
                         precision={0}
                     />
                 </Form.Item>
                 <Form.Item>
-                    <Button type="primary" htmlType="submit">{t("translation:btn-add")}</Button>
+                    <Button type="primary" htmlType="submit">{t("translation:btn-save")}</Button>
                 </Form.Item>
             </Form>
         </Modal>

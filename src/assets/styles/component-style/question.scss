@@ -3,12 +3,26 @@
     display: flex;
     justify-content: space-between;
     align-items: flex-start;
-
+    .info{
+        width: 80%;
+        display: flex;
+    }
     .content{
-        width: 100%;
+        width: 98%;
         padding-left: 20px;
+        p{
+            white-space: nowrap;  
+            text-overflow:ellipsis; 
+            overflow:hidden;
+        }
+    }
+    .operation{
+        padding-right: 15px;
+        display: flex;
+        font-size: 18px;
     }
     .close{
+        margin-left: 25px;
         cursor: pointer;
     }
 }

@@ -1,36 +1,89 @@
-import { UploadProps } from "@/utils/UploadProps";
-import { Button, Divider, Form, Input, InputNumber, Select, Upload } from "antd";
-import { InboxOutlined } from '@ant-design/icons';
-import CustomQuestion from "../CustomItem/CustomQuestion";
-import { ConfirmClearQuest } from "@/components/CustomConfirm/ConfirmClearQuest";
+import { Button, Divider, Empty, Form, Input, InputNumber, Select, Upload } from "antd";
 import { useTranslation } from "react-i18next";
-import CustomEditor from "../CustomItem/CustomEditor";
+import { ConfirmClearQuest } from "../CustomConfirm/ConfirmClearQuest";
+import { CustomQuestion, CustomEditor } from "@/components/CustomItem";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { constans } from "@/utils/constans";
+import { UploadProps } from "@/utils/UploadProps";
+import { InboxOutlined } from '@ant-design/icons';
 
-const { Dragger } = Upload;
 const { TextArea } = Input;
+const { Dragger } = Upload;
 
 
 export default function CustomForm(props) {
-
-    const { t } = useTranslation(["publish", "translation"]);
 
     const { 
         onFinish, 
         onFinishFailed, 
         deleteQuestion, 
         writeLoading, 
-        clearLocal, 
         showAddModal,
-        fields,
         questions,
         isClick,
         sumScore,
         waitLoading,
         recommend,
-        preview
+        preview,
+        clearQuest,
+        showEditModal
     } = props;
+    const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
+    const { ipfsPath} = constans();
+    let [fields, setFields] = useState([]);
     
+    const checkPreview = async() => {
+        let flag;
+        await form.validateFields()
+        .then(() => {
+            flag = true;
+        })
+        .catch(() => {
+            flag = false;
+        })
+        preview(form.getFieldsValue(), flag)
+    }
+
+    const init = async() => {
+        const local = localStorage.getItem("decert.store");
+        if (!local) {
+            return
+        }
+        const cache = JSON.parse(local);
+        if (cache?.hash) {
+            const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
+            fields = [
+                {
+                    name: ["title"],
+                    value: questCache.data.title
+                },
+                {
+                    name: ["desc"],
+                    value: questCache.data.description
+                },
+                {
+                    name: ["score"],
+                    value: questCache.data.properties.passingScore
+                },
+                {
+                    name: ["difficulty"],
+                    value: questCache.data.properties.difficulty
+                },
+                {
+                    name: ["time"],
+                    value: questCache.data.properties.estimateTime
+                }
+            ]
+            setFields([...fields])
+        }
+    }
+
+    useEffect(() => {
+        init();
+    },[])
+
     return (
         <Form
             className="inner"
@@ -101,7 +154,7 @@ export default function CustomForm(props) {
                     maxWidth: 380,
                 }}
             >
-                <Dragger 
+                <Dragger
                     {...UploadProps} 
                     listType="picture-card"
                 >
@@ -122,20 +175,41 @@ export default function CustomForm(props) {
             
             {/* question list */}
             <div className="questions">
+                <div className="quest-head">
+                    <div className="left">
+                        <span>*</span> {t("inner.test")} 
+                    </div>
+                    {
+                        questions.length !== 0 &&
+                        <Button 
+                            type="link" 
+                            onClick={() => ConfirmClearQuest(clearQuest)}
+                        >
+                            {t("inner.clear")} 
+                        </Button>
+                    }
+                </div>
+                {
+                    questions.length !== 0 ?
+                    <Divider />
+                    :
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={"no data"} />
+                }
                 {
                     questions.map((e,i) => 
                         <CustomQuestion
                             key={i} 
                             item={e} 
                             index={i+1} 
-                            deleteQuestion={deleteQuestion} 
+                            deleteQuestion={deleteQuestion}
+                            showEditModal={showEditModal} 
                         />
                     )
                 }
             </div>
 
             {/* add multiple */}
-            <div className="btns">
+            <div className="add-btns">
                 <Button
                     type="link" 
                     onClick={() => showAddModal()}
@@ -143,10 +217,8 @@ export default function CustomForm(props) {
                 >
                     {t("inner.add")}
                 </Button>
-                {/* <Button type="link">
-                    Add code question
-                </Button> */}
             </div>
+            <Divider />
 
             <div className="challenge-info">
                 <Form.Item 
@@ -196,7 +268,7 @@ export default function CustomForm(props) {
                     label={t("translation:time")}
                     name="time"
                 >
-                    <Select 
+                    <Select
                         options={[
                             {value: 600,label: t("translation:time-info.m", {time: "10"})},
                             {value: 1800,label: t("translation:time-info.m", {time: "30"})},
@@ -215,9 +287,6 @@ export default function CustomForm(props) {
             <div className="Publish-btns">
                 <div className="btns">
                     <div className="left">
-                        {/* <Button onClick={() => ConfirmClearQuest(clearLocal)}>
-                            {t("translation:btn-clear")}
-                        </Button> */}
                     </div>
                     <div className="right">
                         <Button 
@@ -226,7 +295,7 @@ export default function CustomForm(props) {
                             disabled={
                                 questions.length === 0
                             }
-                            onClick={() => preview(form.getFieldsValue())}
+                            onClick={() => checkPreview()}
                         >
                             {t("translation:btn-view")}
                         </Button>

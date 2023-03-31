@@ -1,6 +1,6 @@
 {
     "header": {
-        "explore": "Explore",
+        "explore": "Challenges",
         "lesson": "Tutorial",
         "lesson-sub": "Recommended course",
         "cert": "认证",
@@ -16,7 +16,7 @@
     },
     "btn-submit": "Submit",
     "btn-add": "Add",
-    "btn-add-answer": "Add answer",
+    "btn-add-answer": "Add option",
     "btn-sumbit-confirm": "Confirm and submit",
     "btn-go-challenge": "View challenge details",
     "btn-edit-profile": "Edit Profile",
@@ -41,7 +41,7 @@
         "w": "{{time}} week"
     },
     "confirm": {
-        "clear": "Clear all data？"
+        "clear": "Clear all quiz？"
     },
     "modal": {
         "claim": {
@@ -66,6 +66,14 @@
                 "title": "Format error",
                 "desc": "Please do not delete or modify the content of the tweet."
             }
+        }
+    },
+    "pop": {
+        "yes": "Yes",
+        "no": "No",
+        "delete": {
+            "title": "Delete the quiz",
+            "desc": "Are you sure to delete this quiz?"
         }
     }
 }

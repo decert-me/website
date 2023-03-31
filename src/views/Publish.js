@@ -8,80 +8,54 @@ import CustomForm from '@/components/Publish/CustomForm';
 
 import { Encryption } from "@/utils/Encryption";
 import { filterQuestions } from "@/utils/filter";
-import { useAccount, useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
-import { addQuests, ipfsJson, submitHash } from "../request/api/public";
-import { createQuest } from "../controller";
+import { ipfsJson } from "../request/api/public";
 import { useNavigate } from "react-router-dom";
-import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
-
-import axios from "axios";
-import { useVerifyToken } from "@/hooks/useVerifyToken";
+import { useUpdateEffect } from "ahooks";
+import { usePublish } from "@/hooks/usePublish";
+import ModalEditQuestion from "@/components/CustomModal/ModalEditQuestion";
 
 export default function Publish(params) {
     
     const navigateTo = useNavigate();
-    const { isConnected } = useAccount();
-    const { data: signer } = useSigner();
-
-    const { ipfsPath, maxUint32, maxUint192 } = constans();
-    const { verify } = useVerifyToken();
-
     const { t } = useTranslation(["publish", "translation"]);
-    const { switchNetwork } = useSwitchNetwork({
-        chainId: Number(process.env.REACT_APP_CHAIN_ID),
-        onError(error) {
-            setIsSwitch(false);
-        },
-        onSuccess() {
-            setIsSwitch(false);
-        }
-    })
-    const { chain } = useNetwork();
-    let [fields, setFields] = useState([]);
     
-    let [isSwitch, setIsSwitch] = useState(false);
     let [showAddQs, setShowAddQs] = useState(false);
+    let [showEditQs, setShowEditQs] = useState(false);
+    let [selectQs, setSelectQs] = useState();
+    let [selectIndex, setSelectIndex] = useState();
+    
     let [questions, setQuestions] = useState([]);
     let [sumScore, setSumScore] = useState(0);
-    let [connectModal, setConnectModal] = useState();
     let [isClick, setIsClick] = useState();
     let [recommend, setRecommend] = useState();
-    
+    let [publishObj, setPublishObj] = useState({});
+    let [isWrite, setIsWrite] = useState(false);
+    const { publish, signIn, isLoading, isOk, transactionLoading, cancelModalConnect } = usePublish({
+        jsonHash: publishObj?.jsonHash, 
+        recommend: publishObj?.recommend
+    });
     const { encode } = Encryption();
-
-    // 创建challenge
-    let [createQuestHash, setCreateQuestHash] = useState();
-    let [writeLoading, setWriteLoading] = useState();
-    const { isLoading: waitLoading } = useWaitForTransaction({
-        hash: createQuestHash,
-        onSuccess() {
-            setTimeout(() => {
-                message.success(t("message.success.create"));
-                localStorage.removeItem("decert.store");
-                navigateTo("/explore")
-            }, 1000);
-        }
-    })
-
-    const clearLocal = () => {
-        localStorage.removeItem("decert.store");
-        setTimeout(() => {
-            navigateTo(0);
-        }, 500);
-    }
 
     const showAddModal = () => {
         setShowAddQs(true);
     }
-
-    const hideAddModal = () => {
-        setShowAddQs(false);
+    
+    const showEditModal = (index) => {
+        setSelectIndex(index);
+        selectQs = questions[index];
+        setSelectQs({...selectQs});
+        setShowEditQs(true);
     }
 
     const questionChange = ( val => {
         questions.push(val)
         setQuestions([...questions])
+    })
+
+    const questionEdit = ( (val) => {
+        questions[selectIndex] = val;
+        setQuestions([...questions]);
     })
 
     const deleteQuestion = (i) => {
@@ -98,26 +72,7 @@ export default function Publish(params) {
         setSumScore(sumScore);
     }
 
-    const cancelModalConnect = () => {
-        setConnectModal(false);
-    }
-
-    const write = (sign, obj, params) => {
-        createQuest(obj, sign, signer)
-        .then(res => {
-            setWriteLoading(false);
-            if (res) {
-                submitHash({
-                    hash: res, 
-                    params: params
-                })
-                setCreateQuestHash(res)
-            }
-        })
-    }
-
     const getJson = async(values) => {
-        console.log(values);
         const { answers, questions: qs } = filterQuestions(questions);
         let obj = {
             title: values.title,
@@ -144,79 +99,67 @@ export default function Publish(params) {
         localStorage.setItem("decert.store", JSON.stringify(questCache))
     }
 
+    const changeQuestCache = () => {
+        const cache = localStorage.getItem("decert.store");
+        if (!cache) {
+            let questCache = {
+                hash: "",
+                questions: questions,
+                recommend: ""
+            }
+            localStorage.setItem("decert.store", JSON.stringify(questCache));
+        }else{
+            let store = JSON.parse(cache);
+            store.questions = questions;
+            localStorage.setItem("decert.store", JSON.stringify(store));
+        }
+    }
+
     const goPreview = () => {
         setTimeout(() => {
             navigateTo(`/preview`)
         }, 500);
     }
 
-    const preview = async(values) => {
+    const clearQuest = () => {
+        questions = [];
+        setQuestions([...questions]);
+    }
+
+    const preview = async(values, isOver) => {
         const jsonHash = await getJson(values);
         let questCache = {
             hash: jsonHash.hash,
             questions: questions,
-            recommend: values.editor
+            recommend: values.editor,
+            isOver: isOver
         }
         localStorage.setItem("decert.store", JSON.stringify(questCache))
         goPreview();
     }
 
     const onFinish = async(values) => {
-        if (questions.length === 0) {
-            setIsClick(true);
-            return
-        }
-        // 未登录
-        if (!isConnected) {
-            setConnectModal(true)
-            return
-        }
-        // 已登录 未签名 || 签名过期
-        let hasHash = true;
-        await verify()
-        .catch(() => {
-            hasHash = false;
-        })
-        if (!hasHash) {
-            return
-        }
-        // 链不同
-        if (chain.id != process.env.REACT_APP_CHAIN_ID) {
-            setIsSwitch(true);
-            return
-        }
+        // 上传图片后删除
         if (!values.fileList.file.response.hash) {
             return
         }
-        setWriteLoading(true);
-        // 1. 处理 答案、问题
         const jsonHash = await getJson(values);
-        const signature = jsonHash && await addQuests({
-            uri: "ipfs://"+jsonHash.hash,
-            title: values.title,
-            description: values.desc,
-            'start_ts': '0', 
-            'end_ts': maxUint32.toString(), 
-            'supply': maxUint192.toString(),       
-        })
-        const questData = {
-            'startTs': 0, 
-            'endTs': 0, 
-            'supply': 0, 
-            'title': values.title,
-            'uri': "ipfs://"+jsonHash.hash, 
-        }
-        
-        let params = {
+        publishObj = {
+            jsonHash: jsonHash.hash,
             recommend: values.editor
         }
+        setPublishObj({...publishObj});
         let questCache = {
             hash: jsonHash.hash,
             questions: questions,
             recommend: values.editor
         }
         saveCache(questCache);
-        signature && write(signature.data, questData, JSON.stringify(params))
+        if (isWrite) {
+            publish();
+        }else{
+            setIsWrite(true);
+        }
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -227,7 +170,6 @@ export default function Publish(params) {
     };
 
     const init = async() => {
-        // 1、local
         let local = localStorage.getItem("decert.store");
         if (!local) {
             return
@@ -237,43 +179,18 @@ export default function Publish(params) {
         setQuestions([...questions]);
         recommend = cache.recommend;
         setRecommend(recommend);
-        if (cache?.hash) {
-            const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
-            fields = [
-                {
-                    name: ["title"],
-                    value: questCache.data.title
-                },
-                {
-                    name: ["desc"],
-                    value: questCache.data.description
-                },
-                {
-                    name: ["score"],
-                    value: questCache.data.properties.passingScore
-                },
-                {
-                    name: ["difficulty"],
-                    value: questCache.data.properties.difficulty
-                },
-                {
-                    name: ["time"],
-                    value: questCache.data.properties.estimateTime
-                }
-            ]
-            setFields([...fields])
-        }
     }
 
-    useEffect(() => {
+    useUpdateEffect(() => {
+        changeQuestCache()
         changeSumScore()
     },[questions])
 
-    useEffect(() => {
-        if (isSwitch && switchNetwork) {
-            switchNetwork()
+    useUpdateEffect(() => {
+        if (isWrite, isOk) {
+            publish();
         }
-    },[switchNetwork, isSwitch])
+    },[isOk])
 
     useEffect(() => {
         init();
@@ -282,29 +199,37 @@ export default function Publish(params) {
     return (
         <div className="Publish">
             <ModalConnect
-                isModalOpen={connectModal} 
+                isModalOpen={signIn} 
                 handleCancel={cancelModalConnect} 
             />
             <ModalAddQuestion 
                 isModalOpen={showAddQs} 
-                handleCancel={hideAddModal}
+                handleCancel={() => {setShowAddQs(false)}}
                 questionChange={questionChange}
+                selectQs={selectQs}
+              />
+            <ModalEditQuestion
+                isModalOpen={showEditQs} 
+                handleCancel={() => {setShowEditQs(false)}}
+                questionChange={questionEdit}
+                selectIndex={selectIndex}
+                selectQs={selectQs}
               />
             <h3>{t("title")}</h3>
             <CustomForm 
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 deleteQuestion={deleteQuestion}
-                writeLoading={writeLoading}
-                clearLocal={clearLocal}
+                writeLoading={isLoading}
+                waitLoading={transactionLoading}
                 showAddModal={showAddModal}
-                fields={fields}
+                showEditModal={showEditModal}
                 questions={questions}
                 isClick={isClick}
                 sumScore={sumScore}
-                waitLoading={waitLoading}
                 recommend={recommend}
                 preview={preview}
+                clearQuest={clearQuest}
             />
 
         </div>

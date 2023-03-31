@@ -1,6 +1,6 @@
 {
     "header": {
-        "explore": "探索",
+        "explore": "挑战",
         "lesson": "教程",
         "lesson-sub": "推荐课程",
         "cert": "认证",
@@ -16,7 +16,7 @@
     },
     "btn-submit": "提交",
     "btn-add": "添加",
-    "btn-add-answer": "添加答案",
+    "btn-add-answer": "添加选项",
     "btn-sumbit-confirm": "确认并提交",
     "btn-go-challenge": "查看挑战详情",
     "btn-edit-profile": "编辑资料",
@@ -35,13 +35,13 @@
     },
     "time": "预估时间",
     "time-info": {
-        "m": "{{time}} 分",
-        "h": "{{time}} 时",
+        "m": "{{time}} 分钟",
+        "h": "{{time}} 小时",
         "d": "{{time}} 天",
         "w": "{{time}} 周"
     },
     "confirm": {
-        "clear": "清空所有内容？"
+        "clear": "确认清空？"
     },
     "modal": {
         "claim": {
@@ -66,6 +66,14 @@
                 "title": "格式错误",
                 "desc": "请勿删除或修改推文内容。"
             }
+        }
+    },
+    "pop": {
+        "yes": "是",
+        "no": "否",
+        "delete": {
+            "title": "删除测验",
+            "desc": "您确定要删除此测验吗?"
         }
     }
 }
