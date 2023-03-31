@@ -199,7 +199,7 @@ export default function Challenge(params) {
                             <ModalAnswers
                                 isModalOpen={isModalOpen}
                                 handleCancel={handleCancel}
-                                submit={sumbit}
+                                submit={submit}
                                 answers={answers}
                                 changePage={changePage}
                             />
