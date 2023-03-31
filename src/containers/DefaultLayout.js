@@ -61,6 +61,16 @@ export default function DefaultLayout(params) {
         }
     }
 
+    const isUser = (path) => {
+        if (path && path.indexOf('user') !== -1) {
+            if (!address) {
+                navigateTo(0);
+            }else{
+                navigateTo(`/user/${address}`);
+            }
+        }
+    }
+    
     const sign = () => {
         GetSign({address: address, signer: signer, disconnect: disconnect})
     }
@@ -78,12 +88,14 @@ export default function DefaultLayout(params) {
             ClearStorage();
             localStorage.setItem("decert.address", address);
             isClaim(path);
+            isUser(path);
             sign()
         }else if (addr && !address) {
             // 已登陆  ====>  未登录
             ClearStorage();
             isClaim(path);
             isExplore(path);
+            isUser(path);
         }
     }
 
