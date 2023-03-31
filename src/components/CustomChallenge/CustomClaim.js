@@ -96,10 +96,10 @@ export default function CustomClaim(props) {
     }
 
     const shareTwitter = () => {
-        let title = t("claim.share.title", {what: "@DecertMe"});
+        let title = t("claim.share.title", {what: "@decertme"});
         let url = `https://decert.me/quests/${cliamObj.tokenId}`;
         window.open(
-        `https://twitter.com/share?text=${title}%0A&hashtags=${"DecertMe"}&url=${url}%0A`,
+        `https://twitter.com/share?text=${title}%0A&hashtags=${"DeCert"}&url=${url}%0A`,
         );
     }
 

@@ -14,7 +14,7 @@ export default function Index(params) {
             <div className="main">
                 <div className="main-center">
                 <div className="weight-info">
-                    <h3>Decert.me</h3>
+                    <h3>DeCert.me</h3>
                     {/* describe */}
                     <div className="describe">
                     <p>{t("home.slogan1")}</p>

@@ -62,7 +62,6 @@ export default function AppHeader(params) {
                 <div className='nav-left'>
                     <div className="logo" onClick={() => navigateTo("/")}>
                         {/*  */} 
-                        {/* <p>Decert.me</p> */}
                         {
                             isHome ? 
                             <img src={require("@/assets/images/img/logo-white.png")} alt="" />
