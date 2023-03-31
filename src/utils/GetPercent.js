@@ -1,13 +1,25 @@
+import Big from "big.js";
 
 
 export const GetPercent = (total, score) => {
-    let num = (score / total);
-    let percent = Number(num.toString().match(/^\d+(?:\.\d{0,4})?/)) * 100;
+
+    let newTotal = new Big(total);
+    let newScore = new Big(score);
+    let num = newScore.div(newTotal).toString();
+
+    let newNum = new Big(num.match(/^\d+(?:\.\d{0,4})?/));
+    let percent = newNum.times(100).toString();
+
     return percent
 }
 
 export const GetScorePercent = (total, score) => {
-    let num = (score / total);
-    let percent = Number(num.toString().match(/^\d+(?:\.\d{0,4})?/)) * 10000;
+    let newTotal = new Big(total);
+    let newScore = new Big(score);
+    let num = newScore.div(newTotal).toString();
+
+    let newNum = new Big(num.match(/^\d+(?:\.\d{0,4})?/));
+    let percent = newNum.times(10000).toString();
+
     return percent
 }
