@@ -109,7 +109,7 @@ export default function User(props) {
             nickname: user.data.nickname ? user.data.nickname : NickName(account),
             address: account,
             description: user.data.description,
-            avatar: user.data.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(account)
+            avatar: user.data.avatar ? window.document.location.hostname + user.data.avatar : hashAvatar(account)
         }
         setTimeout(() => {
             setInfo({...info})
