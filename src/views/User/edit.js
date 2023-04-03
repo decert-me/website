@@ -104,7 +104,7 @@ export default function UserEdit(params) {
             nickname: user?.nickname ? user.nickname : NickName(account),
             address: account,
             description: user?.description ? user.description : "",
-            avatar: user?.avatar ? window.document.location.hostname + user.avatar : hashAvatar(account)
+            avatar: user?.avatar ? process.env.REACT_APP_BASE_URL + user.avatar : hashAvatar(account)
         }
         setInfo({...info});
         console.log(info);
