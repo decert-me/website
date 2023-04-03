@@ -10,7 +10,7 @@ export const GetPercent = (total, score) => {
     let newNum = new Big(num.match(/^\d+(?:\.\d{0,4})?/));
     let percent = newNum.times(100).toString();
 
-    return percent
+    return Number(percent)
 }
 
 export const GetScorePercent = (total, score) => {
@@ -21,5 +21,5 @@ export const GetScorePercent = (total, score) => {
     let newNum = new Big(num.match(/^\d+(?:\.\d{0,4})?/));
     let percent = newNum.times(10000).toString();
 
-    return percent
+    return Number(percent)
 }
