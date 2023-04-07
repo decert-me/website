@@ -5,7 +5,7 @@ import routes from "@/router";
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import { useEffect, useState } from "react";
-import { useAccount, useDisconnect, useSigner } from "wagmi";
+import { useAccount, useDisconnect, useSigner, useSwitchNetwork } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest } from "ahooks";
 import { GetSign } from "@/utils/GetSign";
@@ -20,6 +20,9 @@ export default function DefaultLayout(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
     let [footerHide, setFooterHide] = useState(false);
+    const { switchNetwork } = useSwitchNetwork({
+        chainId: Number(process.env.REACT_APP_CHAIN_ID)
+    });
 
     const headerStyle = {
         width: "100%",
@@ -74,9 +77,19 @@ export default function DefaultLayout(params) {
             }
         }
     }
-
-    const sign = async() => {
-        await GetSign({address: address, signer: signer, disconnect: disconnect})
+    
+    const isUser = (path) => {
+        if (path && path.indexOf('user') !== -1) {
+            if (!address) {
+                navigateTo(0);
+            }else{
+                navigateTo(`/user/${address}`);
+            }
+        }
+    }
+    
+    const sign = () => {
+        GetSign({address: address, signer: signer, disconnect: disconnect})
     }
 
     const verifySignUpType = async(addr, path) => {
@@ -85,6 +98,10 @@ export default function DefaultLayout(params) {
             localStorage.setItem("decert.address", address);
             await sign()
             isCert(path, 'reload');
+            sign()
+            if (switchNetwork) {
+                switchNetwork()
+            }
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
             ClearStorage();
@@ -92,12 +109,15 @@ export default function DefaultLayout(params) {
             localStorage.setItem("decert.address", address);
             isClaim(path);
             isCert(path, 'toggle');
+            isUser(path);
+            sign()
         }else if (addr && !address) {
             // 已登陆  ====>  未登录
             ClearStorage();
             isClaim(path);
             isExplore(path);
             isCert(path, 'signout');
+            isUser(path);
         }
     }
 

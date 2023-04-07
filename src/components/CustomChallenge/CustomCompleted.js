@@ -68,7 +68,6 @@ export default function CustomCompleted(props) {
                         successNum+=1;
                     }
                 }else{
-                    console.log(' answers[i]', e , answers);
                     if (e == answers[i]) {
                         score+=questions[i].score;
                         successNum+=1;
@@ -83,6 +82,7 @@ export default function CustomCompleted(props) {
                 passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
                 isPass: score >= detail.metadata.properties.passingScore
             }
+            console.log(answerInfo);
         }else{
             // 已领取
             questions.map(e => {

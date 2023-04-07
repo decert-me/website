@@ -59,6 +59,7 @@ export default function Challenge(params) {
     };
 
     const checkPage = (type) => {
+        window.scrollTo(0, 0);
         page = type === 'add' ? page+1 : page-1;
         setPage(page);
         saveAnswer()
