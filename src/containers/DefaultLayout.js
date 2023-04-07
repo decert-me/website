@@ -61,6 +61,23 @@ export default function DefaultLayout(params) {
         }
     }
 
+    const isCert = (path, type) => {
+        if (path && path.split('/')[1].length === 42) {
+            if (type === "toggle") {
+                navigateTo(`/${address}`);
+                navigateTo(0);
+                setTimeout(() => {
+                }, 20);
+            }else if (type === "signout"){
+                navigateTo('/search');
+            }else{
+                setTimeout(() => {
+                    navigateTo(0);
+                }, 500);
+            }
+        }
+    }
+
     const isUser = (path) => {
         if (path && path.indexOf('user') !== -1) {
             if (!address) {
@@ -71,14 +88,15 @@ export default function DefaultLayout(params) {
         }
     }
     
-    const sign = () => {
-        GetSign({address: address, signer: signer, disconnect: disconnect})
+    const sign = async() => {
+        await GetSign({address: address, signer: signer, disconnect: disconnect})
     }
 
-    const verifySignUpType = (addr, path) => {
+    const verifySignUpType = async(addr, path) => {
         if (addr === null && address) {
             // 未登录  ====>  登录
             localStorage.setItem("decert.address", address);
+            isCert(path, 'reload');
             sign()
             if (switchNetwork) {
                 switchNetwork()
@@ -88,6 +106,7 @@ export default function DefaultLayout(params) {
             ClearStorage();
             localStorage.setItem("decert.address", address);
             isClaim(path);
+            isCert(path, 'toggle');
             isUser(path);
             sign()
         }else if (addr && !address) {
@@ -95,6 +114,7 @@ export default function DefaultLayout(params) {
             ClearStorage();
             isClaim(path);
             isExplore(path);
+            isCert(path, 'signout');
             isUser(path);
         }
     }

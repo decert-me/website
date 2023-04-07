@@ -8,7 +8,8 @@ import { useTranslation } from 'react-i18next';
 
 export default function CustomPagination(props) {
 
-    const { page, total, onChange, sumbit, type } = props;
+    const { page, total, onChange, submit, type } = props;
+
     const { t } = useTranslation(["translation"]);
     
     return (
@@ -28,7 +29,7 @@ export default function CustomPagination(props) {
                 type === "write" &&
                 (
                     page === total ?
-                    <Button className='submit' onClick={sumbit}>
+                    <Button className='submit' onClick={submit}>
                         {t("btn-submit")}
                     </Button>
                     :

@@ -2,30 +2,29 @@ import { message } from "antd";
 import axios from "axios";
 
 // Client-side-only code
-let ipfsAxios = axios.create({
-  baseURL: process.env.REACT_APP_IPFS_BASE_URL,
-  timeout: process.env.REACT_APP_IPFS_TIMEOUT // 请求超时设置
+let nftAxios = axios.create({
+  baseURL: process.env.REACT_APP_NFT_BASE_URL + process.env.REACT_APP_NFT_API,
+  timeout: 120000 // 请求超时设置
   //   withCredentials: false, // 跨域请求是否需要携带 cookie
 });
 // 创建请求拦截
-ipfsAxios.interceptors.request.use(
+nftAxios.interceptors.request.use(
   config => {
     // 如果开启 token 认证
     config.headers["x-token"] = localStorage.getItem(`decert.token`); // 请求头携带 token
-    config.headers["x-lang"] = localStorage.getItem(`decert.lang`) ? localStorage.getItem(`decert.lang`) : navigator.language; // 请求头携带 token
     return config;
   },
   error => {
     Promise.reject(error);
   }
 );
-ipfsAxios.interceptors.response.use(
+nftAxios.interceptors.response.use(
   res => {
     let data = res.data;
-    // if (data.status !== '1') {
-    //   message.error(data.message)
-    //   return null
-    // }
+    if (data.status !== 0) {
+      message.error(data.message)
+      return null
+    }
     // if (data.data.reload) {
     //   localStorage.clear();
     // }
@@ -35,4 +34,4 @@ ipfsAxios.interceptors.response.use(
   }
 )
 
-export default ipfsAxios;
+export default nftAxios;

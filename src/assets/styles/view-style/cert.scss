@@ -5,12 +5,16 @@
     display: flex;
 }
 .divider{
+    width: 370px;
     margin-block: 33px;
     border-color: #D8D8D8;
 }
+.mt50{
+    margin-top: 50px;
+}
 .Cert-sidbar{
-    width: 400px;
-    padding-right: 60px;
+    width: 410px;
+    padding-right: 10px;
     padding-top: 20px;
     box-sizing: content-box;
     .search{
@@ -39,6 +43,7 @@
         }
     }
     .user{
+        width: 370px;
         display: flex;
         align-items: center;
         position: relative;
@@ -69,14 +74,15 @@
                 max-width: 200px;
                 font-size: 18px;
                 line-height: 25px;
+                cursor: pointer;
             }
         }
         .share{
             min-width: 60px;
             height: 34px;
             position: absolute;
-            right: 34px;
-            top: 6px;
+            right: 0;
+            top: 0;
             border: none;
             box-shadow: none;
             border-radius: 4px;
@@ -85,18 +91,16 @@
         }
     }
     .nfts{
+        width: 370px;
         p:nth-child(1){
             margin-bottom: 13px;
             color: #3D3D3D;
             line-height: 20px;
         }
-        div:nth-child(2),p:nth-child(3){
+        div:nth-child(2),.list-title{
             font-size: 18px;
             font-weight: 700;
             line-height: 27px;
-        }
-        p:nth-child(3){
-            margin-bottom: 16px;
         }
         .add{
             margin-bottom: 27px;
@@ -111,6 +115,161 @@
                 font-size: 20px;
                 background-color: #4E7592;
                 border: none;
+            }
+        }
+        ul{
+            .active,li:hover{
+                background-color: rgba($color: #4e7592, $alpha: 0.1);
+            }
+            li{
+                height: 50px;
+                padding: 5px;
+                margin-bottom: 10px;
+                border-radius: 5px;
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+                transition: background-color 0.2s;
+                p{
+                    font-size: 18px;
+                    font-weight: 500;
+                }
+                .li-content{
+                    max-width: calc(100% - 85px);                
+                    white-space: nowrap;  
+                    text-overflow:ellipsis; 
+                    overflow:hidden;
+
+                }
+                .img{
+                    width: 43px;
+                    height: 43px;
+                    margin-right: 12px; 
+                    border-radius: 5px;
+                    overflow: hidden;
+                }
+            }
+        }
+    }
+}
+.dropdown:hover{
+    .nft-detail .nft-info .bottom{
+        bottom: 0;
+    }
+}
+
+.Cert-content{
+    width: calc(100% - 400px);
+    padding-block: 40px;
+    border-left: 1px solid #D8D8D8;
+    ul{
+        padding-inline: 40px;
+        display: flex;
+        color: #666666;
+        font-size: 24px;
+        font-weight: 500;
+        line-height: 34px;
+        li{
+            margin-right: 50px;
+            cursor: pointer;
+        }
+        .active{
+            color: #000;
+        }
+    }
+    .nfts{
+        padding-inline: 20px;
+        padding-bottom: 50px;
+        margin-top: 43px;
+        height: 920px;
+        overflow: scroll;
+        &::-webkit-scrollbar {
+            display: none; /* Chrome, Safari 和 Opera */
+        }
+        .scroll{
+            width: 1243px;
+            padding-inline: 20px;
+            // margin: 0 auto;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 25px;
+        }
+        .loading{
+            width: 100%;
+            padding-block: 50px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            p{
+                margin-inline: 15px;
+            }
+        }
+        .nft-detail{
+            width: 282px;
+            border-radius: 20px;
+            
+            overflow: hidden;
+            box-shadow: 0 4px 10px 1px #999;
+            &:hover{
+                .nft-info .bottom{
+                    bottom: 0;
+                }
+            }
+            .img{
+                width: 100%;
+                height: 270px;
+                img{
+                    width: 100%;
+                    height: auto;
+                }
+            }
+            .nft-info{
+                width: 100%;
+                height: 100px;
+                background-color: #fff;
+                position: relative;
+                .nft-title{
+                    width: 100%;
+                    height: 60px;
+                    padding: 14px 21px 0 12px;
+                    color: #17151C;
+                    font-size: 16px;
+                    font-weight: 500;
+                    line-height: 22px;
+                    white-space: nowrap;  
+                    text-overflow:ellipsis; 
+                    overflow:hidden;
+                }
+                .bottom{
+                    width: 100%;
+                    height: 36px;
+                    position: absolute;
+                    bottom: -36px;
+                    color: #fff;
+                    background-color: #495FEA;
+
+                    transition: bottom 0.2s;
+                    display: flex;
+                    justify-content: space-between;
+                    align-items: center;
+                    p{
+                        width: calc(100% - 60px);
+                        text-align: center;
+                    }
+                    .more{
+                        width: 60px;
+                        height: 100%;
+                        border-left: 1px solid #fff;
+                        display: flex;
+                        align-items: center;
+                        justify-content: center;
+                        cursor: pointer;
+                        .icon{
+                            font-size: 20px;
+                            transform: rotate(90deg);
+                        }
+                    }
+                }
             }
         }
     }
