@@ -77,7 +77,7 @@ export default function DefaultLayout(params) {
             }
         }
     }
-    
+
     const isUser = (path) => {
         if (path && path.indexOf('user') !== -1) {
             if (!address) {
@@ -88,15 +88,14 @@ export default function DefaultLayout(params) {
         }
     }
     
-    const sign = () => {
-        GetSign({address: address, signer: signer, disconnect: disconnect})
+    const sign = async() => {
+        await GetSign({address: address, signer: signer, disconnect: disconnect})
     }
 
     const verifySignUpType = async(addr, path) => {
         if (addr === null && address) {
             // 未登录  ====>  登录
             localStorage.setItem("decert.address", address);
-            await sign()
             isCert(path, 'reload');
             sign()
             if (switchNetwork) {
@@ -105,7 +104,6 @@ export default function DefaultLayout(params) {
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
             ClearStorage();
-            await sign()
             localStorage.setItem("decert.address", address);
             isClaim(path);
             isCert(path, 'toggle');
