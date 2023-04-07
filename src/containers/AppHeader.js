@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAccount, useDisconnect, useSwitchNetwork } from 'wagmi';
+import { useAccount, useDisconnect } from 'wagmi';
 import { Button, Dropdown } from 'antd';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import "@/assets/styles/container.scss"
@@ -15,9 +15,6 @@ export default function AppHeader(params) {
     const { t } = useTranslation();
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
-    const { switchNetwork } = useSwitchNetwork({
-        chainId: Number(process.env.REACT_APP_CHAIN_ID)
-    });
     const location = useLocation();
     let [isConnect, setIsConnect] = useState(false);
     let [isHome, setIsHome] = useState();
@@ -49,12 +46,6 @@ export default function AppHeader(params) {
             setIsHome(isHome);
         }
     },[location])
-
-    useEffect(() => {
-        if (switchNetwork) {
-            switchNetwork()
-        }
-    },[switchNetwork])
 
     return (
         <div id={`${isHome ? "Header-bg" : "Header"}`}>
