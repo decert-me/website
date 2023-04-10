@@ -6,11 +6,13 @@ import { useState } from "react";
 import "@/assets/styles/view-style/search.scss"
 import { useVerifyAccount } from "@/hooks/useVerifyAccount";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 
 export default function Search(params) {
 
     let [account, setAccount] = useState();
+    const { t } = useTranslation("cert");
     const navigateTo = useNavigate();
     const { verify, isLoading} = useVerifyAccount({address: account});
 
@@ -32,14 +34,14 @@ export default function Search(params) {
     return (
         <div className="Search">
             <div className="Search-content">
-                <p className="title">What have you built .</p>
-                <p className="subtitle">A collection of your Internet identity portals</p>
+                <p className="title">{t("vitae.title")}</p>
+                <p className="subtitle">{t("vitae.subtitle")}</p>
                 <div className="inner">
                     <div className="icon">
                         <SearchOutlined />
                     </div>
-                    <Input placeholder="Search by address" bordered={null} onChange={(e) => changeAccount(e.target.value)} />
-                    <Button onClick={() => start()} loading={isLoading} >Get started</Button>
+                    <Input placeholder={t("vitae.inner")} bordered={null} onChange={(e) => changeAccount(e.target.value)} />
+                    <Button onClick={() => start()} loading={isLoading} >{t("vitae.btn")}</Button>
                 </div>
             </div>
         </div>

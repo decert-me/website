@@ -28,20 +28,20 @@ export default function Index(params) {
                     <Button
                         className="challenge-btn"
                         onClick={() => {
-                            navigateTo("/explore");
+                            navigateTo("/challenges");
                         }}
                     >
                         <span className="btn">{t("home.btn-explore")}</span>
                     </Button>
                     {/* Creative a challenge */}
-                    {/* <Button
+                    <Button
                         className="creative-btn"
                         onClick={() => {
                             navigateTo("/publish");
                         }}
                     >
-                        <span className="creative">创建挑战</span>
-                    </Button> */}
+                        <span className="creative">{t("home.btn-publish")}</span>
+                    </Button>
                     </div>
                 </div>
                 </div>

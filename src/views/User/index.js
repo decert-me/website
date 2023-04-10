@@ -228,7 +228,7 @@ export default function User(props) {
                         <p>{t("profile:challenge-none")}</p>
                         {
                             isMe &&
-                            <Link to={"/explore"}>
+                            <Link to={"/challenges"}>
                                 <Button className="nodata-btn">{t("explore:btn-start")}</Button>
                             </Link>
                         }
