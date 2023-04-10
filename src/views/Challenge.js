@@ -83,7 +83,7 @@ export default function Challenge(params) {
                 answers = cacheAnswers[id];
                 try {
                     answers.forEach((e,i) => {
-                        if (!e) {
+                        if (e === null) {
                             page = i+1;
                             setPage(page)
                             throw ""
