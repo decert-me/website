@@ -63,13 +63,7 @@ export default function Explore(params) {
 
     useEffect(() => {
         isInViewPortOfThree()
-        
     }, []);
-
-    useEffect(() => {
-        window.scrollTo(0, 0);
-        console.log('xxx');
-    },[location])
 
     return (
         <div className="Explore">
