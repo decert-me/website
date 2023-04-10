@@ -138,8 +138,8 @@ export default function Cert(params) {
         if (status === 'idle') {
             accountInit()
         }else if (status === 'success') {
-            setAddr(addr);
-            setEns(ens);
+            setAddr(addr ? addr : accountAddr);
+            setEns(ens ? ens : accountEns);
             isInViewPortOfThree()
         }
     },[status])
