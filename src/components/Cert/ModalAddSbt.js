@@ -281,7 +281,7 @@ export default function ModalAddSbt(props) {
                         <Input 
                             placeholder="请输入合约地址" 
                             bordered={false}
-                            onChange={(e) => changeConfig(e.target.value, 'address')}
+                            onChange={(e) => changeConfig(e.target.value.trim(), 'address')}
                         />
                         <div className="icon">
                             <SearchOutlined />

@@ -40,7 +40,7 @@ export default function Search(params) {
                     <div className="icon">
                         <SearchOutlined />
                     </div>
-                    <Input placeholder={t("vitae.inner")} bordered={null} onChange={(e) => changeAccount(e.target.value)} />
+                    <Input placeholder={t("vitae.inner")} bordered={null} onChange={(e) => changeAccount(e.target.value.trim())} />
                     <Button onClick={() => start()} loading={isLoading} >{t("vitae.btn")}</Button>
                 </div>
             </div>
