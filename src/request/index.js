@@ -1,3 +1,4 @@
+import store, { showCustomSigner } from "@/redux/store.js";
 import { message } from "antd";
 import axios from "axios";
 import { ClaimShareError } from "../components/CustomMessage/index.js";
@@ -28,6 +29,10 @@ serviceAxios.interceptors.response.use(
   res => {
     let data = res.data;
     if (data.status !== 0) {
+      if (data.data.reload) {
+        store.dispatch(showCustomSigner());
+        return
+      }
       if (res.config.url === '/users/discord' && res.config.data.indexOf('isClick') === -1) {
         return null
       }

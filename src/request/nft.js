@@ -1,3 +1,4 @@
+import store, { showCustomSigner } from "@/redux/store";
 import { message } from "antd";
 import axios from "axios";
 
@@ -21,13 +22,15 @@ nftAxios.interceptors.request.use(
 nftAxios.interceptors.response.use(
   res => {
     let data = res.data;
+    if (data.data.reload) {
+      store.dispatch(showCustomSigner());
+      return
+    }
     if (data.status !== 0) {
       message.error(data.message)
       return null
     }
-    // if (data.data.reload) {
-    //   localStorage.clear();
-    // }
+    
     // 处理自己的业务逻辑，比如判断 token 是否过期等等
     // 代码块
     return data;

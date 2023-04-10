@@ -13,6 +13,7 @@ export async function GetSign(params) {
                     message = res.data.loginMessage;
                 }
             })
+            console.log(message);
         // 2、获取签名
             await signer?.signMessage(message)
             .then(async(res) => {
