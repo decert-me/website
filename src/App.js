@@ -62,11 +62,9 @@ export default function App() {
   },[])
   return (
     <>
-    <Provider store={store}>
-        <WagmiConfig client={wagmiClient}>
-          <BeforeRouterEnter />
-        </WagmiConfig>
-    </Provider>
+      <WagmiConfig client={wagmiClient}>
+        <BeforeRouterEnter />
+      </WagmiConfig>
     </>
   )
 }
