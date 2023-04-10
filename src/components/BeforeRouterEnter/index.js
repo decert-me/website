@@ -4,8 +4,6 @@ import { Provider } from 'react-redux';
 
 export default function BeforeRouterEnter() {
     return (
-        <Provider store={store}>
-            <DefaultLayout />
-        </Provider>
+        <DefaultLayout />
     )
 }

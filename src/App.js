@@ -9,7 +9,7 @@ import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 // import { SafeConnector } from 'wagmi/connectors/safe'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-
+import { Provider } from 'react-redux';
 // import { alchemyProvider } from 'wagmi/providers/alchemy'
 // import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
@@ -62,9 +62,11 @@ export default function App() {
   },[])
   return (
     <>
+    <Provider store={store}>
         <WagmiConfig client={wagmiClient}>
           <BeforeRouterEnter />
         </WagmiConfig>
+    </Provider>
     </>
   )
 }
