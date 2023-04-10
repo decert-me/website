@@ -2,8 +2,7 @@ import { getContracts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { useUpdateEffect } from "ahooks";
 import { Button, Skeleton } from "antd";
-import { ethers } from "ethers";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import ModalAddSbt from "./ModalAddSbt";
 
 
@@ -11,9 +10,8 @@ import ModalAddSbt from "./ModalAddSbt";
 
 export default function CertNfts(props) {
     
-    const { account, changeContractId, total, isMe } = props;
+    const { account, changeContractId, total, isMe, nftlist: list } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
-    let [list, setList] = useState();
     let [selectItem, setSelectItem] = useState(0);
 
     const show = () => {
@@ -23,24 +21,6 @@ export default function CertNfts(props) {
     const handleCancel = () => {
         setIsModalOpen(false);
     };
-
-    const init = async() => {
-        if (!account) {
-            return
-        }
-        const contracts = await getContracts({address: account});
-        if (!contracts || contracts.status !== 0) {
-            return
-        }
-        list = contracts.data ? contracts.data : [];
-        setTimeout(() => {
-            setList([...list]);
-        }, 1000);
-    }
-
-    useEffect(() => {
-        init();
-    },[account])
 
     useUpdateEffect(() => {
         if (selectItem === 0) {
