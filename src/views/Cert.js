@@ -176,7 +176,14 @@ export default function Cert(params) {
                 <div className="Cert-sidbar">
                     <CertSearch />
                     <Divider className="divider"  />
-                    <CertUser account={addr} ensName={ens ? ens : accountEns} status={status} />
+                    {
+                        addr && 
+                        <CertUser 
+                            account={addr} 
+                            ensName={ens ? ens : accountEns} 
+                            status={status} 
+                        />
+                    }
                     <div className="mt50"></div>
                     <CertNfts 
                         account={accountAddr} 
