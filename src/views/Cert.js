@@ -180,7 +180,7 @@ export default function Cert(params) {
                         accountAddr && 
                         <CertUser 
                             account={accountAddr} 
-                            ensName={ens ? ens : accountEns} 
+                            ensName={accountEns} 
                             status={status} 
                         />
                     }
