@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import BeforeRouterEnter from "@/components/BeforeRouterEnter";
 import { WagmiConfig, configureChains, createClient } from 'wagmi'
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
-import { Provider } from 'react-redux';
 // import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
 // import { InjectedConnector } from 'wagmi/connectors/injected'
 // import { LedgerConnector } from 'wagmi/connectors/ledger'
@@ -63,11 +62,9 @@ export default function App() {
   },[])
   return (
     <>
-      <Provider store={store}>
         <WagmiConfig client={wagmiClient}>
           <BeforeRouterEnter />
         </WagmiConfig>
-      </Provider>
     </>
   )
 }
