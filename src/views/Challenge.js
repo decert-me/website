@@ -84,7 +84,7 @@ export default function Challenge(params) {
                 try {
                     answers.forEach((e,i) => {
                         if (!e) {
-                            page = i+2;
+                            page = i+1;
                             setPage(page)
                             throw ""
                         }
