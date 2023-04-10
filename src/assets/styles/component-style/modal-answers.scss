@@ -45,9 +45,12 @@
     }
     .answers{
         margin-top: 45px;
+        height: 210px;
+        overflow-y: scroll;
         .point{
             width: 40px;
             height: 40px;
+            margin-bottom: 15px;
             margin-right: 55px;
             border-radius: 50%;
             color: #fff;
@@ -57,6 +60,9 @@
             align-items: center;
             justify-content: center;
             cursor: pointer;
+            &:nth-child(8n){
+                margin-right: 0;
+            }
         }
     }
     .submit{

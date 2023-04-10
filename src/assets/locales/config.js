@@ -16,20 +16,25 @@ import claimCN from './zh-CN/claim.json';
 import profileUS from './en-US/profile.json';
 import profileCN from './zh-CN/profile.json';
 
+import certUS from './en-US/cert.json';
+import certCN from './zh-CN/cert.json';
+
 const resources = {
     "zh-CN": {
         translation: publicCN,
         publish: publishCN,
         explore: exploreCN,
         claim: claimCN,
-        profile: profileCN
+        profile: profileCN,
+        cert: certCN
     },
     "en-US": {
         translation: publicUS,
         publish: publishUS,
         explore: exploreUS,
         claim: claimUS,
-        profile: profileUS
+        profile: profileUS,
+        cert: certUS
     }
 };
 

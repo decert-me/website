@@ -20,7 +20,7 @@ export const ipfsToImg = (e) => {
     }else {
         if (url.indexOf('Qm') === 0 || url.indexOf('ba') === 0) {
             selectValue = gateway+url;
-        }else if(url.indexOf('svg') !== -1){
+        }else if(url.indexOf('<svg') !== -1){
             selectValue = url;
             type = "svg"
         }else{

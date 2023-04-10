@@ -84,7 +84,7 @@ export default function Challenge(params) {
                 try {
                     answers.forEach((e,i) => {
                         if (!e) {
-                            page = i+2;
+                            page = i+1;
                             setPage(page)
                             throw ""
                         }
@@ -134,7 +134,7 @@ export default function Challenge(params) {
     const cacheInit = async() => {
         const local = localStorage.getItem("decert.store");
         if (!local || (local && JSON.parse(local).questions.length === 0)) {
-            navigateTo("/explore");
+            navigateTo("/challenges");
             return
         }
         const cache = JSON.parse(local);

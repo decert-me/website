@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react"
 import { Col, Row, Button, Spin } from "antd";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { getQuests } from "../request/api/public"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import "@/assets/styles/view-style/explore.scss"
@@ -12,6 +12,7 @@ export default function Explore(params) {
     
     const { t } = useTranslation(["explore"]);
     const { address } = useAccount();
+    const location = useLocation();
     const navigateTo = useNavigate();
     const { ipfsPath, defaultImg } = constans();
     

@@ -47,7 +47,7 @@ export default function CertSearch(props) {
             </p>
             <div className="search-inner">
                 <SearchOutlined className="icon" />
-                <Input bordered={false} value={account} onChange={(e) => changeAccount(e.target.value)} />
+                <Input bordered={false} value={account} onChange={(e) => changeAccount(e.target.value.trim())} />
             </div>
         </div>
     )

@@ -37,7 +37,7 @@ export default function DefaultLayout(params) {
       
     const contentStyle = {
         minHeight: "calc(100vh - 300px)",
-        backgroundColor: location.pathname === "/lesson" ? "#F6F7F9" : '#fff',
+        backgroundColor: location.pathname === "/tutorials" ? "#F6F7F9" : '#fff',
     };
       
     const footerStyle = {
@@ -69,7 +69,7 @@ export default function DefaultLayout(params) {
                 setTimeout(() => {
                 }, 20);
             }else if (type === "signout"){
-                navigateTo('/search');
+                navigateTo('/vitae');
             }else{
                 setTimeout(() => {
                     navigateTo(0);

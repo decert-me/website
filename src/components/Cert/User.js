@@ -27,22 +27,25 @@ export default function CertUser(props) {
     }
 
     const init = async() => {
-        const user = await getUser({address: account});
-        if (user.status !== 0) {
-            return
-        }
-        if (user.data) {
-          socials = user.data.socials;
-          setSocials({...socials});
-        }
-        info = {
-            nickname: user?.data?.nickname ? user?.data?.nickname : ensName ? ensName : NickName(account),
-            address: account,
-            avatar: user?.data?.avatar ? process.env.REACT_APP_DEVELOP_BASE_URL + user?.data?.avatar : hashAvatar(account)
-        }
-        setTimeout(() => {
-            setInfo({...info})
-        }, 1000);
+      if (!account) {
+        return
+      }
+      const user = await getUser({address: account});
+      if (user.status !== 0) {
+          return
+      }
+      if (user.data) {
+        socials = user.data.socials;
+        setSocials({...socials});
+      }
+      info = {
+          nickname: user?.data?.nickname ? user?.data?.nickname : ensName ? ensName : NickName(account),
+          address: account,
+          avatar: user?.data?.avatar ? process.env.REACT_APP_DEVELOP_BASE_URL + user?.data?.avatar : hashAvatar(account)
+      }
+      setTimeout(() => {
+          setInfo({...info})
+      }, 1000);
     }
 
     useEffect(() => {

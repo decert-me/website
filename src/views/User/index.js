@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
 import {
     EditOutlined,
@@ -15,6 +15,7 @@ import Pagination from "@/components/User/Pagination";
 import { Copy } from "@/utils/Copy";
 import CustomSocial from "@/components/CustomItem/CustomSocial";
 import { useTranslation } from "react-i18next";
+import { useUpdateEffect } from "ahooks";
 
 
 export default function User(props) {
@@ -22,6 +23,7 @@ export default function User(props) {
     const location = useLocation();
     const { t } = useTranslation(["translation","profile", "explore"]);
     const { address } = useAccount();
+    const { address: paramsAddr } = useParams();
     let [account, setAccount] = useState();
     let [isMe, setIsMe] = useState();
     let [info, setInfo] = useState();
@@ -117,7 +119,7 @@ export default function User(props) {
     }
 
     const init = () => {
-        account = location?.pathname?.split("/").slice(-1)[0];
+        account = paramsAddr;
         setAccount(account);
         setIsMe(address === account);
         getInfo();
@@ -125,7 +127,12 @@ export default function User(props) {
 
     useEffect(() => {
         init();
-    }, [location]);
+    }, []);
+
+    useUpdateEffect(() => {
+        init();
+        getList();
+    },[paramsAddr])
 
     useEffect(() => {
         getList();
@@ -228,7 +235,7 @@ export default function User(props) {
                         <p>{t("profile:challenge-none")}</p>
                         {
                             isMe &&
-                            <Link to={"/explore"}>
+                            <Link to={"/challenges"}>
                                 <Button className="nodata-btn">{t("explore:btn-start")}</Button>
                             </Link>
                         }

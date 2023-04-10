@@ -25,11 +25,14 @@ export default function CertNfts(props) {
     };
 
     const init = async() => {
-        const contracts = await getContracts({address: account ? account : ethers.constants.AddressZero});
-        if (!contracts || !contracts.data) {
+        if (!account) {
             return
         }
-        list = contracts.data;
+        const contracts = await getContracts({address: account});
+        if (!contracts || contracts.status !== 0) {
+            return
+        }
+        list = contracts.data ? contracts.data : [];
         setTimeout(() => {
             setList([...list]);
         }, 1000);
@@ -54,7 +57,6 @@ export default function CertNfts(props) {
     return (
 
         <div className="nfts">
-            <p>SBT 收藏:</p>
             {
                 isMe &&
                 <div className="add">

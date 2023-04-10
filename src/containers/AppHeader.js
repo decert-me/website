@@ -54,7 +54,7 @@ export default function AppHeader(params) {
 
     useEffect(() => {
         if (location) {
-            isHome = (location.pathname === '/' || location.pathname === '/search') ? true : false;
+            isHome = (location.pathname === '/' || location.pathname === '/vitae') ? true : false;
             setIsHome(isHome);
         }
     },[location])
@@ -72,9 +72,9 @@ export default function AppHeader(params) {
                             <img src={require("@/assets/images/img/logo-black.png")} alt="" />
                         }
                     </div>
-                    <Link to="/lesson">{t("translation:header.lesson")}</Link>
-                    <Link to="/explore">{t("translation:header.explore")}</Link>
-                    <Link to="/search">{t("translation:header.cert")}</Link>
+                    <Link to="/tutorials">{t("translation:header.lesson")}</Link>
+                    <Link to="/challenges">{t("translation:header.explore")}</Link>
+                    <Link to="/vitae">{t("translation:header.cert")}</Link>
                 </div>
 
                 <div className='nav-right'>

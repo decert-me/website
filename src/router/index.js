@@ -16,7 +16,7 @@ const routes = [
       element: <Index />,
     },
     { 
-      path: "/explore",
+      path: "/challenges",
       element: <Explore />,
     },
     { 
@@ -58,11 +58,11 @@ const routes = [
       key: Math.random().toString()
     },
     { 
-      path: "/lesson",
+      path: "/tutorials",
       element: <Lesson />,
     },
     { 
-      path: "/search",
+      path: "/vitae",
       element: <Search />,
     }
     

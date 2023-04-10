@@ -36,7 +36,7 @@ export default function CustomDiscord(props) {
             setIsBind(isBind);
             username = isBind && res.data?.username ? res.data.username : null;
             setUsername(username);
-            if (isClick) {
+            if (isClick && res) {
                 message.success(res.message);
             }
         })
