@@ -109,7 +109,7 @@ export default function ModalEditQuestion(props) {
             maskClosable={false}
             destroyOnClose={true}
         >
-            <h5>*{t("inner.ques")}</h5>
+            <h5>*{t("inner.ques")} #{selectIndex + 1}</h5>
             <CustomEditor changeTitle={changeTitle} initialValues={selectQs?.title} />
 
             <Form
