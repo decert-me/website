@@ -138,8 +138,8 @@ export default function Cert(params) {
         if (status === 'idle') {
             accountInit()
         }else if (status === 'success') {
-            setAddr(addr);
-            setEns(ens);
+            setAddr(addr ? addr : accountAddr);
+            setEns(ens ? ens : accountEns);
             isInViewPortOfThree()
         }
     },[status])
@@ -176,7 +176,14 @@ export default function Cert(params) {
                 <div className="Cert-sidbar">
                     <CertSearch />
                     <Divider className="divider"  />
-                    <CertUser account={addr} ensName={ens ? ens : accountEns} status={status} />
+                    {
+                        accountAddr && 
+                        <CertUser 
+                            account={accountAddr} 
+                            ensName={accountEns} 
+                            status={status} 
+                        />
+                    }
                     <div className="mt50"></div>
                     <CertNfts 
                         account={accountAddr} 
