@@ -182,7 +182,7 @@ export default function ModalAddSbt(props) {
 
         await getContractNfts({...config, ...pageConfig})
         .then(res => {
-            if (res.data) {
+            if (res?.data) {
                 pageConfig = {
                     page: res.data.page,
                     pageSize: res.data.pageSize,
