@@ -59,7 +59,7 @@ export default function Cert(params) {
     })
 
     const changeContract = async(obj) => {
-        if (status === 'error' || !accountAddr) {
+        if (status === 'error' || !addr) {
             setLoading(false);
             return
         }
@@ -117,7 +117,7 @@ export default function Cert(params) {
                 pageConfig.page += 1;
                 setPageConfig({...pageConfig});
                 await changeContract({
-                    address: accountAddr,
+                    address: addr,
                     contract_id: selectContract,
                     status: selectStatus
                 })
@@ -176,7 +176,7 @@ export default function Cert(params) {
                 <div className="Cert-sidbar">
                     <CertSearch />
                     <Divider className="divider"  />
-                    <CertUser account={accountAddr} ensName={accountEns} status={status} />
+                    <CertUser account={addr} ensName={ens ? ens : accountEns} status={status} />
                     <div className="mt50"></div>
                     <CertNfts 
                         account={accountAddr} 

@@ -10,6 +10,7 @@ export const useVerifyAccount = (props) => {
 
     const { data: account, isSuccess: ensSuccess, refetch: getEns, status } = useEnsAddress({
         name: address,
+        chainId: 1,
         enabled: false
     })
 

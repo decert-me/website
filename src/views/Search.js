@@ -11,7 +11,7 @@ import { useTranslation } from "react-i18next";
 
 export default function Search(params) {
 
-    let [account, setAccount] = useState();
+    let [account, setAccount] = useState("0xdwong.eth");
     const { t } = useTranslation("cert");
     const navigateTo = useNavigate();
     const { verify, isLoading} = useVerifyAccount({address: account});
@@ -26,7 +26,7 @@ export default function Search(params) {
         const ensAddress = await verify();
         if (ensAddress) {
             setTimeout(() => {
-                navigateTo(`/${ensAddress}`)
+                navigateTo(`/${account}`)
             }, 500);
         }
     }
@@ -40,7 +40,7 @@ export default function Search(params) {
                     <div className="icon">
                         <SearchOutlined />
                     </div>
-                    <Input placeholder={t("vitae.inner")} bordered={null} onChange={(e) => changeAccount(e.target.value.trim())} />
+                    <Input placeholder={t("vitae.inner")} bordered={null} value={account} onChange={(e) => changeAccount(e.target.value.trim())} />
                     <Button onClick={() => start()} loading={isLoading} >{t("vitae.btn")}</Button>
                 </div>
             </div>
