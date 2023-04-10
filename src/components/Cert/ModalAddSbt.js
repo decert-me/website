@@ -194,8 +194,8 @@ export default function ModalAddSbt(props) {
                 setList([...list]);
                 cache = cache.concat(JSON.parse(JSON.stringify(arr)));
                 setCache([...cache]);
-                setisLoading(false);
             }
+            setisLoading(false);
         })
     }
 
