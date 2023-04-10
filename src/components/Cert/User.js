@@ -49,7 +49,6 @@ export default function CertUser(props) {
     }
 
     useEffect(() => {
-      console.log(account, ensName);
       init()
     },[account])
 

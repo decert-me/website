@@ -9,7 +9,7 @@ import { useLocation, useParams } from "react-router-dom";
 import CertSearch from "@/components/Cert/Search";
 import CertUser from "@/components/Cert/User";
 import CertNfts from "@/components/Cert/Nfts";
-import { getAllNft, modifyNftStatus } from "@/request/api/nft";
+import { getAllNft, getContracts, modifyNftStatus } from "@/request/api/nft";
 import NftBox from "@/components/Cert/NftBox";
 import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
@@ -43,6 +43,7 @@ export default function Cert(params) {
     let [accountAddr, setAddr] = useState();
     let [accountEns, setEns] = useState();
     let [list, setList] = useState([]);
+    let [nftlist, setNftList] = useState();
     let [total, setTotal] = useState();
     let [checkTotal, setCheckTotal] = useState({
         all: 0, open: 0, hide: 0
@@ -130,7 +131,13 @@ export default function Cert(params) {
     })
 
     // 执行交叉观察器
-    function isInViewPortOfThree () {
+    async function isInViewPortOfThree (params) {
+        const contracts = await getContracts({address: params? params : accountAddr});
+        if (!contracts || contracts.status !== 0) {
+            return
+        }
+        nftlist = contracts.data ? contracts.data : [];
+        setNftList([...nftlist]);
         io.observe(document.querySelector(".loading"))
     }
 
@@ -140,7 +147,7 @@ export default function Cert(params) {
         }else if (status === 'success') {
             setAddr(addr ? addr : accountAddr);
             setEns(ens ? ens : accountEns);
-            isInViewPortOfThree()
+            isInViewPortOfThree(addr ? addr : accountAddr)
         }
     },[status])
 
@@ -191,6 +198,7 @@ export default function Cert(params) {
                         total={total} 
                         isMe={isMe}
                         status={status}
+                        nftlist={nftlist}
                     />
                 </div>
                 <div className="Cert-content">
@@ -202,7 +210,7 @@ export default function Cert(params) {
                             <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
                         </ul>
                     }
-                        <div className="nfts">
+                    <div className="nfts">
                         <div className="scroll">
                             {
                                 loading && status !== "error" ? 

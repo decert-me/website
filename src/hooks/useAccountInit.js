@@ -6,27 +6,33 @@ export const useAccountInit = (props) => {
 
     const { address, ensAddr } = props;
     let [status, setStatus] = useState('');  // 'idle' | 'error' | 'loading' | 'success'
+    let [addr, setAddr] = useState();
+    let [ens, setEns] = useState();
 
     const { 
-        data: addr, 
         refetch: getAddr,
         status: getAddrstatus
     } = useEnsAddress({
         name: ensAddr ? ensAddr : address,
         chainId: 1,
         enabled: false,
-        cacheTime: 2_000
+        cacheTime: 2_000,
+        onSuccess(res){
+            setAddr(res);
+        }
     })
 
     const { 
-        data: ens, 
         refetch: getEns,
         status: getEnsstatus
     } = useEnsName({
         address: address,
         chainId: 1,
         enabled: false,
-        cacheTime: 2_000
+        cacheTime: 2_000,
+        onSuccess(res){
+            setEns(res);
+        }
     })
 
     const { 
@@ -52,18 +58,16 @@ export const useAccountInit = (props) => {
     }
 
     useEffect(() => {
-        if (ensAddr && getAddrstatus !== "idle") {
-
-            status = getAddrstatus == "error" ? 'error' : 'success';
-            setStatus(status);
-            
-        }else if (address && getAddrstatus !== "idle" &&  getEnsstatus !== "idle") {
-            
-            status = getAddrstatus == "error" && getEnsstatus == "error" ? 'error' : 'success';
-            setStatus(status);
-
+        if (ens || addr) {
+            if (ensAddr && getAddrstatus !== "idle") {
+                status = getAddrstatus == "error" ? 'error' : 'success';
+                setStatus(status);
+            }else if (address && getAddrstatus !== "idle" &&  getEnsstatus !== "idle") {
+                status = getAddrstatus == "error" && getEnsstatus == "error" ? 'error' : 'success';
+                setStatus(status);
+            }
         }
-    },[getEnsstatus, getAddrstatus])
+    },[getEnsstatus, getAddrstatus, ens, addr])
 
     useEffect(() => {
         if ((address || ensAddr) && !status) {
