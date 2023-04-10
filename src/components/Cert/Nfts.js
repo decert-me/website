@@ -25,7 +25,10 @@ export default function CertNfts(props) {
     };
 
     const init = async() => {
-        const contracts = await getContracts({address: account ? account : ethers.constants.AddressZero});
+        if (!account) {
+            return
+        }
+        const contracts = await getContracts({address: account});
         if (!contracts || contracts.status !== 0) {
             return
         }
