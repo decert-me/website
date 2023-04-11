@@ -10,6 +10,7 @@ import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest } from "ahooks";
 import { GetSign } from "@/utils/GetSign";
 import CustomSigner from "@/redux/CustomSigner";
+import store from "@/redux/store";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
@@ -154,7 +155,7 @@ export default function DefaultLayout(params) {
             <Content style={contentStyle}>
                 { outlet }
             </Content>
-            <CustomSigner />
+            <CustomSigner store={store} />
             <Footer style={footerStyle}>
                 <AppFooter />
             </Footer>

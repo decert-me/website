@@ -25,6 +25,9 @@ function CustomSigner(props) {
     }
 
     async function goSigner() {
+      if (!address) {
+        return
+      }
         openModal()
         await GetSign({address: address, signer: signer, disconnect: disconnect})
         .then(() => {

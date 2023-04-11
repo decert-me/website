@@ -9,7 +9,8 @@ import pluginGfm from '@bytemd/plugin-gfm'
 import frontmatter from '@bytemd/plugin-frontmatter'
 import breaks from '@bytemd/plugin-breaks'
 import highlight from '@bytemd/plugin-highlight-ssr'
-
+import { LoadingOutlined } from '@ant-design/icons';
+import { Spin } from 'antd';
 
 export default function Claim(props) {
     
@@ -72,7 +73,7 @@ export default function Claim(props) {
     return (
         <div className="Claim">
             {
-                detail &&
+                detail ?
                 <CustomCompleted 
                     answers={answers} 
                     detail={detail} 
@@ -80,6 +81,19 @@ export default function Claim(props) {
                     isClaim={isClaim}
                     plugins={plugins}
                 />
+                :
+                <div className="claim-loading">
+                    <Spin 
+                        indicator={
+                            <LoadingOutlined
+                                style={{
+                                fontSize: "50px",
+                                }}
+                                spin
+                            />
+                        } 
+                    />
+                </div>
             }
         </div>
     )
