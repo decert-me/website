@@ -59,4 +59,4 @@ function mapDispatchToProps(dispatch) {
   };
 }
 
-export default CustomSigner;
+export default connect(mapStateToProps, mapDispatchToProps)(CustomSigner);
