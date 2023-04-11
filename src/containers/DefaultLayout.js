@@ -58,7 +58,7 @@ export default function DefaultLayout(params) {
     }
 
     const isExplore = (path) => {
-        if (path && path.indexOf('explore') !== -1) {
+        if (path && path.indexOf('challenges') !== -1) {
             navigateTo(0)
         }
     }
@@ -111,6 +111,7 @@ export default function DefaultLayout(params) {
             localStorage.setItem("decert.address", address);
             isClaim(path);
             isCert(path, 'toggle');
+            isExplore(path);
             isUser(path);
             sign()
         }else if (addr && !address) {
