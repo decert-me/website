@@ -27,7 +27,7 @@ export default function Search(params) {
     const start = async() => {
         if (account === "tinyxiong.eth") {
             setTimeout(() => {
-                navigateTo(`/0xD6823f807C45eFDC56c9aE8Db0226CA10af6E8AB`)
+                navigateTo(`/tinyxiong.eth`)
             }, 500);
             return
         }
