@@ -18,6 +18,9 @@ export const constans = () => {
     const openseaLink = `${process.env.REACT_APP_OPENSEA_LINK}/assets/${chains[process.env.REACT_APP_CHAIN_ID].name}/${BadgeAddress}`;
     const defaultImg = '/assets/images/img/default.png';
     const ipfsPath = 'https://ipfs.decert.me';
+    const screenSize = {
+        mobile: "(max-width: 480px)",
+    }
 
     return {
         maxUint32,
@@ -26,5 +29,6 @@ export const constans = () => {
         defaultImg,
         ipfsPath,
         chains,
+        screenSize
     }
 }

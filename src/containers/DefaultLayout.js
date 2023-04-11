@@ -1,7 +1,7 @@
 import { useLocation, useNavigate, useRoutes } from "react-router-dom";
 import { Layout } from "antd";
 import routes from "@/router";
-
+import { useMediaQuery } from 'react-responsive'
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import { useEffect, useState } from "react";
@@ -11,6 +11,7 @@ import { useRequest } from "ahooks";
 import { GetSign } from "@/utils/GetSign";
 import CustomSigner from "@/redux/CustomSigner";
 import store from "@/redux/store";
+import { constans } from "@/utils/constans";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
@@ -21,6 +22,10 @@ export default function DefaultLayout(params) {
     const { data: signer } = useSigner();
     const navigateTo = useNavigate();
     const location = useLocation();
+    const { screenSize } = constans();
+    const isMobile = useMediaQuery({
+        query: screenSize.mobile
+    })
     let [footerHide, setFooterHide] = useState(false);
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID)
@@ -148,7 +153,7 @@ export default function DefaultLayout(params) {
     },[location])
 
     return (
-        <Layout>
+        <Layout className={isMobile ? "Mobile" : ""}>
             <Header style={headerStyle}>
                 <AppHeader />
             </Header>
