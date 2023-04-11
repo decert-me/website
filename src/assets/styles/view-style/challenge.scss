@@ -1,6 +1,7 @@
 .Challenge{
     width: 1380px;
-    margin: 150px auto 0;
+    margin: 80px auto 0;
+    min-height: 100vh;
     padding-bottom: 100px;
     position: relative;
     .preview-head{
@@ -53,9 +54,13 @@
         }
     }
     .content{
-        min-height: 900px;
-        padding: 25px 65px;
-        margin-block: 15px 55px;
+        // height: 600px;
+        height: calc(100vh - 390px);
+        // min-height: 600px;
+        padding: 25px 65px 70px;
+        box-sizing: content-box;
+        overflow-y: scroll;
+        margin-block: 15px;
         border: 2px solid #DCDCDC;
         h4{
             margin-bottom: 20px;
@@ -65,7 +70,7 @@
             line-height: 41px;
         }
         .inner-title{
-            font-size: 36px;
+            font-size: 20px;
             font-weight: 500;
             line-height: 52px;
         }
