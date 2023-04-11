@@ -28,6 +28,12 @@
                 border-radius: 50%;
                 overflow: hidden;
             }
+            .ant-upload.ant-upload-select{
+                width: auto;
+                height: auto;
+                background-color: #00000000;
+                border: none;
+            }
             .btn{
                 height: 28px;
                 margin-top: 14px;
