@@ -156,14 +156,14 @@ export default function DefaultLayout(params) {
     return (
         <Layout className={isMobile ? "Mobile" : ""}>
             <Header style={headerStyle}>
-                <AppHeader />
+                <AppHeader isMobile={isMobile} />
             </Header>
             <Content style={contentStyle}>
                 { outlet }
             </Content>
             <CustomSigner store={store} />
             <Footer style={footerStyle}>
-                <AppFooter />
+                <AppFooter isMobile={isMobile} />
             </Footer>
         </Layout>
     )

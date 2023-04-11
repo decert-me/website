@@ -4,13 +4,16 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAccount, useDisconnect } from 'wagmi';
 import { Button, Dropdown } from 'antd';
+import {
+    MenuOutlined
+  } from '@ant-design/icons';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import "@/assets/styles/container.scss"
 import "@/assets/styles/mobile/container.scss"
 import { hashAvatar } from '@/utils/HashAvatar';
 import { NickName } from '@/utils/NickName';
 
-export default function AppHeader(params) {
+export default function AppHeader({ isMobile }) {
     
     const { address, isConnected } = useAccount()
     const { t } = useTranslation();
@@ -77,42 +80,66 @@ export default function AppHeader(params) {
                     <Link to="/challenges">{t("translation:header.explore")}</Link>
                     <Link to="/vitae">{t("translation:header.cert")}</Link>
                 </div>
-
-                <div className='nav-right'>
-                    <Button 
-                        type="ghost"
-                        ghost
-                        className='lang'
-                        onClick={() => {
-                            let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
-                            i18n.changeLanguage(lang);
-                            localStorage.setItem("decert.lang", lang)
-                        }}
-                    >
-                        {i18n.language === 'zh-CN' ? "中文" : "EN"}
-                    </Button>
                 {
-                    isConnected ?
-                        <Dropdown
-                            placement="bottom" 
-                            arrow
-                            menu={{items}}
-                            
-                        >
-                            <div className="user">
-                                <img src={hashAvatar(address)} alt="" />
-                                <p>{NickName(address)}</p>
+                    isMobile ? 
+                    <div className='nav-right'>
+                        {
+                            isConnected ?
+                                <>
+                                    <div className="user">
+                                        <img src={hashAvatar(address)} alt="" />
+                                    </div>
+                                    <Dropdown
+                                        placement="bottom" 
+                                        arrow
+                                        menu={{items}}
+                                    >
+                                       <MenuOutlined style={{fontSize: "16px"}} /> 
+                                    </Dropdown>
+                                </>
+                            :
+                            <div>
+                                <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
+                                <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
                             </div>
-                        </Dropdown>
+                        }
+                    </div>
                     :
-                    <div>
-                        <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
-                        <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
+                    <div className='nav-right'>
+                        <Button 
+                            type="ghost"
+                            ghost
+                            className='lang'
+                            onClick={() => {
+                                let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
+                                i18n.changeLanguage(lang);
+                                localStorage.setItem("decert.lang", lang)
+                            }}
+                        >
+                            {i18n.language === 'zh-CN' ? "中文" : "EN"}
+                        </Button>
+                        {
+                            isConnected ?
+                                <Dropdown
+                                    placement="bottom" 
+                                    arrow
+                                    menu={{items}}
+                                    
+                                >
+                                    <div className="user">
+                                        <img src={hashAvatar(address)} alt="" />
+                                        <p>{NickName(address)}</p>
+                                    </div>
+                                </Dropdown>
+                            :
+                            <div>
+                                <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
+                                <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
+                            </div>
+                        }
                     </div>
                 }
-                </div>
 
-                
             </div>
         </div>
     )

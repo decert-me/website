@@ -1,6 +1,7 @@
 import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import "@/assets/styles/view-style/index.scss"
+import "@/assets/styles/mobile/view-style/index.scss"
 import { useTranslation } from "react-i18next";
 
 export default function Index(params) {
