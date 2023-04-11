@@ -6,6 +6,7 @@ import { useAccount, useDisconnect } from 'wagmi';
 import { Button, Dropdown } from 'antd';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import "@/assets/styles/container.scss"
+import "@/assets/styles/mobile/container.scss"
 import { hashAvatar } from '@/utils/HashAvatar';
 import { NickName } from '@/utils/NickName';
 
@@ -110,6 +111,8 @@ export default function AppHeader(params) {
                     </div>
                 }
                 </div>
+
+                
             </div>
         </div>
     )
