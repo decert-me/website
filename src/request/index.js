@@ -29,7 +29,7 @@ serviceAxios.interceptors.response.use(
   res => {
     let data = res.data;
     if (data.status !== 0) {
-      if (data.data.reload) {
+      if (data.data?.reload) {
         store.dispatch(showCustomSigner());
         return
       }
