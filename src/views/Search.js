@@ -11,7 +11,9 @@ import { useTranslation } from "react-i18next";
 
 export default function Search(params) {
 
-    let [account, setAccount] = useState("tinyxiong.eth");
+    // let [account, setAccount] = useState("tinyxiong.eth");
+    let [account, setAccount] = useState("0xD6823f807C45eFDC56c9aE8Db0226CA10af6E8AB");
+    
     const { t } = useTranslation("cert");
     const navigateTo = useNavigate();
     const { verify, isLoading} = useVerifyAccount({address: account});
