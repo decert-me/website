@@ -1,7 +1,8 @@
-import { Button, Divider, Input, message, Progress, Steps, Tooltip } from "antd";
+import { Button, Divider, Input, message, Progress, Spin, Steps, Tooltip } from "antd";
 import {
     QuestionCircleOutlined,
     UploadOutlined,
+    LoadingOutlined
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
@@ -181,7 +182,7 @@ export default function CustomCompleted(props) {
     return (
         <div className="CustomCompleted">
             {
-                answerInfo &&
+                answerInfo ?
                  <div className="completed-content">
                     <div className="content-info">
                         <div className="desc">
@@ -332,6 +333,19 @@ export default function CustomCompleted(props) {
                         </div>
                     </div>
                  </div>
+                 :
+                 <div className="claim-loading">
+                    <Spin 
+                        indicator={
+                            <LoadingOutlined
+                                style={{
+                                fontSize: "50px",
+                                }}
+                                spin
+                            />
+                        } 
+                    />
+                </div>
             }
         </div>
     )

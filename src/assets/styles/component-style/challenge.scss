@@ -63,6 +63,13 @@
     //     background-color: #000;
     // }
 }
+.Claim{
+    .claim-loading{
+        margin: 200px auto 0;
+        min-height: calc(100vh - 300px);
+        text-align: center;
+    }
+}
 
 .CustomCompleted{
     .completed-content{
