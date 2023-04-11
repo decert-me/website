@@ -30,6 +30,9 @@ export default function CustomDiscord(props) {
             return
         }
 
+        if (!address) {
+            return
+        }
         verifyDiscord({address: address, isClick: isClick})
         .then(res => {
             isBind = !res ? false : res.data ? true : false;
