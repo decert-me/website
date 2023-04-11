@@ -22,7 +22,7 @@ nftAxios.interceptors.request.use(
 nftAxios.interceptors.response.use(
   res => {
     let data = res.data;
-    if (data.data.reload) {
+    if (data.data?.reload) {
       store.dispatch(showCustomSigner());
       return
     }
