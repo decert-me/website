@@ -16,12 +16,11 @@ const { Header, Footer, Content } = Layout;
 export default function DefaultLayout(params) {
 
     const outlet = useRoutes(routes);
-    const { address, isConnected } = useAccount();
+    const { address } = useAccount();
     const { disconnect } = useDisconnect();
     const { data: signer } = useSigner();
     const navigateTo = useNavigate();
     const location = useLocation();
-    // let [isMobile, setIsMobile] = useState(context);
     const { isMobile } = useContext(MyContext);
     let [footerHide, setFooterHide] = useState(false);
     const { switchNetwork } = useSwitchNetwork({

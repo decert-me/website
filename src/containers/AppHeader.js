@@ -6,7 +6,8 @@ import { useAccount, useDisconnect } from 'wagmi';
 import { Button, Dropdown } from 'antd';
 import {
     MenuOutlined,
-    CloseOutlined
+    CloseOutlined,
+    GlobalOutlined
   } from '@ant-design/icons';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import "@/assets/styles/container.scss"
@@ -62,6 +63,12 @@ export default function AppHeader({ isMobile }) {
 
     const hideModal = () => {
         setIsConnect(false);
+    }
+
+    const toggleI18n = () => {
+        let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
+        i18n.changeLanguage(lang);
+        localStorage.setItem("decert.lang", lang)
     }
 
     useEffect(() => {
@@ -135,7 +142,12 @@ export default function AppHeader({ isMobile }) {
                                     </Link>
                                     )
                                 }
+                                    <li className="toggle" onClick={() => toggleI18n()}>
+                                        <GlobalOutlined className='icon' />
+                                        <p>{i18n.language === 'zh-CN' ? "中文" : "EN"}</p>
+                                    </li>
                                 </ul>
+
                                 {
                                     isConnected ?
                                     <Button danger type="primary" onClick={() => disconnect()}>{t("translation:header.disconnect")}</Button>
@@ -152,11 +164,7 @@ export default function AppHeader({ isMobile }) {
                             type="ghost"
                             ghost
                             className='lang'
-                            onClick={() => {
-                                let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
-                                i18n.changeLanguage(lang);
-                                localStorage.setItem("decert.lang", lang)
-                            }}
+                            onClick={() => toggleI18n()}
                         >
                             {i18n.language === 'zh-CN' ? "中文" : "EN"}
                         </Button>
