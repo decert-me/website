@@ -79,7 +79,7 @@ export default function AppHeader({ isMobile }) {
                     <div className="logo" onClick={() => navigateTo("/")}>
                         {/*  */} 
                         {
-                            isHome ? 
+                            isHome || isOpenM ? 
                             <img src={require("@/assets/images/img/logo-white.png")} alt="" />
                             :
                             <img src={require("@/assets/images/img/logo-black.png")} alt="" />
@@ -113,8 +113,8 @@ export default function AppHeader({ isMobile }) {
                         }
                             
                             <div 
-                                className="icon-menu"
-                                style={{fontSize: "16px"}} 
+                                className={isOpenM ? "cfff":""}
+                                style={{fontSize: "16px"}}
                                 onClick={() => {setIsOpenM(!isOpenM)}} 
                             >
                                 {

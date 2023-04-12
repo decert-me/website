@@ -22,7 +22,7 @@ export default function Explore(params) {
     
     let [isOver, setIsOver] = useState();
     let [challenges, setChallenges] = useState([]);
-    let [isMobile, setIsMobile] = useState();
+    let [isMobile, setIsMobile] = useState(store.getState().isMobile);
 
     function handleMobileChange() {
         isMobile = store.getState().isMobile;
