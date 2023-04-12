@@ -81,11 +81,13 @@ export default function Quests(params) {
                             </li>
                         }
                     </ul>
-                    <Link to={`/challenge/${detail.tokenId}`} className="btn">
-                        <Button>
-                            {t("btn-start")}
-                        </Button>
-                    </Link>
+                    <div className="bottombar">
+                        <Link to={`/challenge/${detail.tokenId}`} className="btn">
+                            <Button>
+                                {t("btn-start")}
+                            </Button>
+                        </Link>
+                    </div>
                 </div>
             </div>
         </>
