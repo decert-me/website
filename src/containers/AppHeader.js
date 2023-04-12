@@ -5,7 +5,8 @@ import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAccount, useDisconnect } from 'wagmi';
 import { Button, Dropdown } from 'antd';
 import {
-    MenuOutlined
+    MenuOutlined,
+    CloseOutlined
   } from '@ant-design/icons';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import "@/assets/styles/container.scss"
@@ -22,6 +23,7 @@ export default function AppHeader({ isMobile }) {
     const location = useLocation();
     let [isConnect, setIsConnect] = useState(false);
     let [isHome, setIsHome] = useState();
+    let [isOpenM, setIsOpenM] = useState(false);
 
     const items = [
         {
@@ -48,6 +50,12 @@ export default function AppHeader({ isMobile }) {
         }
     ]
 
+    const menus = [
+        {to: "/tutorials", label: t("translation:header.lesson")},
+        {to: "/challenges", label: t("translation:header.explore")},
+        {to: "/vitae", label: t("translation:header.cert")}
+    ]
+
     const openModal = () => {
         setIsConnect(true);
     }
@@ -60,12 +68,13 @@ export default function AppHeader({ isMobile }) {
         if (location) {
             isHome = (location.pathname === '/' || location.pathname === '/vitae') ? true : false;
             setIsHome(isHome);
+            setIsOpenM(false);
         }
     },[location])
 
     return (
         <div id={`${isHome ? "Header-bg" : "Header"}`}>
-            <div className="header-content">
+            <div className={`header-content ${isOpenM ? "bg000" : ""}`}>
                 <div className='nav-left'>
                     <div className="logo" onClick={() => navigateTo("/")}>
                         {/*  */} 
@@ -76,33 +85,58 @@ export default function AppHeader({ isMobile }) {
                             <img src={require("@/assets/images/img/logo-black.png")} alt="" />
                         }
                     </div>
-                    <Link to="/tutorials">{t("translation:header.lesson")}</Link>
-                    <Link to="/challenges">{t("translation:header.explore")}</Link>
-                    <Link to="/vitae">{t("translation:header.cert")}</Link>
+                    {
+                        menus.map((e,i) =>
+                            <Link to={e.to} key={i}>
+                                {e.label}
+                            </Link>
+                        )
+                    }
                 </div>
                 {
                     isMobile ? 
                     <div className='nav-right'>
                         {
-                            isConnected ?
-                                <>
+                            isConnected &&
+                                <Dropdown
+                                    placement="bottom" 
+                                    arrow
+                                    menu={{items}}
+                                >
                                     <div className="user">
                                         <img src={hashAvatar(address)} alt="" />
                                     </div>
-                                    <Dropdown
-                                        placement="bottom" 
-                                        arrow
-                                        menu={{items}}
-                                    >
-                                       <MenuOutlined style={{fontSize: "16px"}} /> 
-                                    </Dropdown>
-                                </>
-                            :
-                            <div>
+                                </Dropdown>
+                        }
+                            
+                            <div 
+                                className="icon-menu"
+                                style={{fontSize: "16px"}} 
+                                onClick={() => {setIsOpenM(!isOpenM)}} 
+                            >
+                                {
+                                    isOpenM ?
+                                    <CloseOutlined />
+                                    :
+                                    <MenuOutlined /> 
+                                }
+                            </div>
+                            <div className={`mask-box ${isOpenM ? "mask-box-show" : ""}`}>
+                                <ul>
+                                {
+                                    menus.map((e,i) =>
+                                    <li key={i}>
+                                        <Link to={e.to}>
+                                            {e.label}
+                                        </Link>
+                                    </li>
+                                    )
+                                }
+                                </ul>
                                 <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
                                 <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
                             </div>
-                        }
+                        
                     </div>
                     :
                     <div className='nav-right'>

@@ -1,11 +1,18 @@
 import DefaultLayout from "@/containers/DefaultLayout";
+import { constans } from "@/utils/constans";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
+import { useMediaQuery } from 'react-responsive'
+import store, { setMobile } from "@/redux/store";
 
 export default function BeforeRouterEnter() {
 
     const location = useLocation();
     const defaultTitle = "DeCert.me"
+    const { screenSize } = constans();
+    const isMobile = useMediaQuery({
+        query: screenSize.mobile
+    })
 
     function changeTitle() {
         let newTitle = document.title;
@@ -29,6 +36,10 @@ export default function BeforeRouterEnter() {
     useEffect(() => {
         changeTitle();
     },[location])
+
+    useEffect(() => {
+        store.dispatch(setMobile(isMobile));
+    },[isMobile])
 
     return (
         <DefaultLayout />
