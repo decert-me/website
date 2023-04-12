@@ -17,9 +17,10 @@
         }
         .user{
             height: 32px;
-            padding-right: 10px;
-            border-radius: 20px;
-            img{
+            margin-right: 20px;
+            padding-right: 2px;
+            background-color: #00000000;
+                img{
                 width: 28px;
                 height: 28px;
                 margin-left: 2px;
@@ -60,7 +61,6 @@
             .mask-box-show{
                 display: block;
             }
-            
         }
     }
     #Header{
@@ -72,16 +72,6 @@
         .user{
             color: #fff;
             background-color: #000;
-        }
-    }
-    #Header-bg{
-        background-color: rgba(0,0,0,0.5);
-        &,.nav-left a, .lang{
-            color: #fff;
-        }
-        .user{
-            color: #000;
-            background-color: #fff;
         }
     }
 

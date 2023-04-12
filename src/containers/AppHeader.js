@@ -97,7 +97,7 @@ export default function AppHeader({ isMobile }) {
                     isMobile ? 
                     <div className='nav-right'>
                         {
-                            isConnected &&
+                            isConnected && !isOpenM &&
                                 <Dropdown
                                     placement="bottom" 
                                     arrow
@@ -133,7 +133,12 @@ export default function AppHeader({ isMobile }) {
                                     )
                                 }
                                 </ul>
-                                <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
+                                {
+                                    isConnected ?
+                                    <Button danger type="primary" onClick={() => disconnect()}>{t("translation:header.disconnect")}</Button>
+                                    :
+                                    <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
+                                }
                                 <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
                             </div>
                         
