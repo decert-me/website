@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { Link, useLocation } from "react-router-dom";
 import { getQuests } from "../request/api/public";
 import "@/assets/styles/view-style/question.scss"
+import "@/assets/styles/mobile/view-style/question.scss"
 import { hashAvatar } from "../utils/HashAvatar";
 import { convertDifficulty, convertTime } from "../utils/convert";
 import { NickName } from "../utils/NickName";
@@ -80,7 +81,7 @@ export default function Quests(params) {
                             </li>
                         }
                     </ul>
-                    <Link to={`/challenge/${detail.tokenId}`}>
+                    <Link to={`/challenge/${detail.tokenId}`} className="btn">
                         <Button>
                             {t("btn-start")}
                         </Button>

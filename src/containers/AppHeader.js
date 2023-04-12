@@ -128,11 +128,11 @@ export default function AppHeader({ isMobile }) {
                                 <ul>
                                 {
                                     menus.map((e,i) =>
-                                    <li key={i}>
-                                        <Link to={e.to}>
+                                    <Link to={e.to} key={i}>
+                                        <li>
                                             {e.label}
-                                        </Link>
-                                    </li>
+                                        </li>
+                                    </Link>
                                     )
                                 }
                                 </ul>
