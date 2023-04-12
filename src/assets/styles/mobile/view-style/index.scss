@@ -1,78 +1,52 @@
+.Mobile{
 .main {
     .main-center {
-        min-height: 1025px;
-        height: calc(100vh - 300px);
-  
-        background: #814cdd;
-        padding-top: 150px;
+        padding-top: 260px;
+        min-height: 100vh;
         .weight-info {
-          text-align: center;
           width: 100%;
           height: 612px;
-          overflow: hidden;
-          color: #ffffff;
-          margin: 0 auto;
           h3 {
-            font-size: 250px;
-            font-weight: 800;
-            color: #ffffff;
+            font-size: 60px;
+            font-weight: 900;
           }
         }
         // describe
         .describe {
-          width: 767px;
-          height: 93px;
-          margin: 0 auto;
-          margin-top: -66px;
+          width: auto;
+          height: 25px;
+          margin-top: -0px;
           p {
-            font-size: 64px;
-            font-weight: 900;
-            color: #ffffff;
+            font-size: 17px;
           }
         }
         // text
         .text {
-          width: 608px;
-          height: 35px;
-          margin: 0 auto;
-          margin-bottom: 74px;
+          width: auto;
+          height: 17px;
+          margin-bottom: 30px;
           p {
-            font-size: 24px;
-            color: #ffffff;
+            font-size: 12px;
           }
         }
     
         // challenge-btn
         .mar {
-          width: 520px;
-          height: 72px;
-          margin: 0 auto;
-          display: flex;
-          .challenge-btn {
-            width: 240px;
-            height: 72px;
-            background: #ffffff;
-            border-radius: 1343px 1343px 1343px 1343px;
-            opacity: 1;
-            text-align: center;
-            margin-right: 40px;
-            .btn {
-              font-size: 19px;
-              color: #814cdd;
-            }
-          }
-          .creative-btn {
-            width: 240px;
-            height: 72px;
-            border-radius: 1343px 1343px 1343px 1343px;
-            opacity: 1;
-            background: #814cdd;
-            border: 2px solid #ffffff;
-            .creative {
-              font-size: 19px;
-              color: #ffffff;
+          width: auto;
+          height: 120px;
+          flex-direction: column;
+          align-items: center;
+          button{
+            width: 174px;
+            height: 50px;
+            border-radius: 25px;
+            font-size: 14px;
+            &:nth-child(1){
+              margin-right: 0px;
+              margin-bottom: 20px;
             }
           }
         }
       }
+}
 }

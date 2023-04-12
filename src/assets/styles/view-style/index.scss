@@ -50,28 +50,19 @@
         height: 72px;
         margin: 0 auto;
         display: flex;
-        .challenge-btn {
+        justify-content: space-between;
+        button{
           width: 240px;
           height: 72px;
-          background: #ffffff;
-          border-radius: 1343px 1343px 1343px 1343px;
-          opacity: 1;
-          text-align: center;
-          margin-right: 40px;
-          .btn {
-            font-size: 19px;
+          border-radius: 1343px;
+          font-size: 19px;
+          &:nth-child(1){
+            margin-right: 40px;
+            background: #ffffff;
             color: #814cdd;
           }
-        }
-        .creative-btn {
-          width: 240px;
-          height: 72px;
-          border-radius: 1343px 1343px 1343px 1343px;
-          opacity: 1;
-          background: #814cdd;
-          border: 2px solid #ffffff;
-          .creative {
-            font-size: 19px;
+          &:nth-child(2){
+            background: #814cdd;
             color: #ffffff;
           }
         }
