@@ -13,7 +13,7 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 // import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import MyProvider from './provider';
-
+import { StyleProvider } from '@ant-design/cssinjs';
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet, goerli, polygonMumbai, polygon],
   [
@@ -62,9 +62,11 @@ export default function App() {
   return (
     <>
       <WagmiConfig client={wagmiClient}>
-        <MyProvider>
-          <BeforeRouterEnter />
-        </MyProvider>
+        <StyleProvider hashPriority="high">
+          <MyProvider>
+            <BeforeRouterEnter />
+          </MyProvider>
+        </StyleProvider>
       </WagmiConfig>
     </>
   )

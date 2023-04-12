@@ -4,6 +4,7 @@ import { useAccount, useSigner } from "wagmi";
 import CustomCompleted from "../components/CustomChallenge/CustomCompleted";
 import { balanceOf } from "../controller";
 import "@/assets/styles/component-style"
+import "@/assets/styles/mobile/view-style/claim.scss"
 import { getQuests } from "../request/api/public";
 import pluginGfm from '@bytemd/plugin-gfm'
 import frontmatter from '@bytemd/plugin-frontmatter'
