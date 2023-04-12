@@ -4,12 +4,15 @@ import {
 import { Button, Modal } from "antd";
 import "@/assets/styles/component-style"
 import { useTranslation } from 'react-i18next';
+import MyContext from '@/provider/context';
+import { useContext } from 'react';
 
 
 export default function ModalAnswers(props) {
     
     const { isModalOpen, handleCancel, submit, answers, changePage } = props;
     const { t } = useTranslation(["explore", "translation"]);
+    const { isMobile } = useContext(MyContext);
 
     const checkPage = (i) => {
         handleCancel()
@@ -23,7 +26,7 @@ export default function ModalAnswers(props) {
 
     return (
         <Modal
-            className="ModalAnswers" 
+            className={`ModalAnswers ${isMobile ? "mobile-ModalAnswers" : ""}`} 
             open={isModalOpen}
             onCancel={handleCancel}
             footer={null}
