@@ -1,4 +1,5 @@
 import "@/assets/styles/view-style/lesson.scss"
+import "@/assets/styles/mobile/view-style/lesson.scss"
 import { useTranslation } from "react-i18next";
 
 export default function Lesson(params) {
