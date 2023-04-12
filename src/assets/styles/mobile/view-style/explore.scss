@@ -1,0 +1,82 @@
+.Mobile{
+    .Explore {
+        width: auto;
+        min-height: calc(100vh - 300px);
+        padding-top: 83px;
+        // title
+        h3 {
+          height: 26px;
+          font-size: 18px;
+          font-weight: 700;
+          color: #000000;
+        }
+        // depass
+        .depass {
+          margin-top: 63px;
+          h4 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #3d3d3d;
+          }
+        }
+        // challenges
+        .challenges {
+          padding: 0;
+          padding-block: 32px 150px;
+          h4 {
+            font-size: 20px;
+            font-weight: 800;
+            color: #3d3d3d;
+          }
+        }
+      }
+      
+      // challenge-item jsx
+      .challenge-item {
+        margin-block: 0 10px;
+        padding: 8px;
+        width: 100%;
+        height: 106px;
+        .left-info {
+          width: 205px;
+          height: 88px;
+          .title {
+            font-size: 17px;
+            font-weight: 500;
+          }
+          .desc{
+            margin-top: 0;
+            height: 17px;
+            font-size: 12px;
+            -webkit-line-clamp: 1;
+          }
+          .btn {
+            margin-top: 20px;
+            height: 23px;
+            font-size: 12px;
+            font-weight: 700;
+            color: #171717;
+            border-radius: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+          }
+        }
+        .right-sbt {
+          width: 88px;
+          height: 88px;
+          img {
+            width: 100%;
+            height: 100%;
+          }
+          .item-claimed{
+            width: 75px;
+            height: 18px;
+            right: -24px;
+            top: 2px;
+            line-height: 15px;
+            font-size: 12px;
+          }
+        }
+    }
+}

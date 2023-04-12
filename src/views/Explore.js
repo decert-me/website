@@ -1,18 +1,19 @@
 import { useEffect, useRef, useState } from "react"
 import { Col, Row, Button, Spin } from "antd";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { getQuests } from "../request/api/public"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import "@/assets/styles/view-style/explore.scss"
+import "@/assets/styles/mobile/view-style/explore.scss"
 import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
 import { constans } from "@/utils/constans";
+import store from "@/redux/store";
 
 export default function Explore(params) {
     
     const { t } = useTranslation(["explore"]);
     const { address } = useAccount();
-    const location = useLocation();
     const navigateTo = useNavigate();
     const { ipfsPath, defaultImg } = constans();
     
@@ -21,6 +22,14 @@ export default function Explore(params) {
     
     let [isOver, setIsOver] = useState();
     let [challenges, setChallenges] = useState([]);
+    let [isMobile, setIsMobile] = useState();
+
+    function handleMobileChange() {
+        isMobile = store.getState().isMobile;
+        setIsMobile(isMobile);
+    }
+
+    store.subscribe(handleMobileChange);
     
     const goChallenge = (item) => {
         if (address && item.claimed) {
@@ -74,7 +83,7 @@ export default function Explore(params) {
                 <Row gutter={18} style={{margin: 0}}>
                     {
                         challenges.map(item => (
-                        <Col span={12} key={item.id}>
+                        <Col span={isMobile ? 24 : 12} key={item.id}>
                             <div className="challenge-item">
                                 <div className="left-info">
                                 <div className="title">{item.title}</div>
@@ -90,7 +99,7 @@ export default function Explore(params) {
 
                                 <LazyLoadImage
                                     src={
-                                        item.metadata.image.split("//")[1]
+                                        item.metadata.image?.split("//")[1]
                                             ? `${ipfsPath}/${item.metadata.image.split("//")[1]}`
                                             : defaultImg
                                     }

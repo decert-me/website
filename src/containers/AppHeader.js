@@ -99,9 +99,12 @@ export default function AppHeader({ isMobile }) {
                         {
                             isConnected && !isOpenM &&
                                 <Dropdown
-                                    placement="bottom" 
-                                    arrow
+                                    placement="bottomRight" 
                                     menu={{items}}
+                                    overlayStyle={{
+                                        width: "160px",
+                                        fontWeight: 500
+                                    }}
                                 >
                                     <div className="user">
                                         <img src={hashAvatar(address)} alt="" />
