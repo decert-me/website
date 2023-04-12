@@ -2,16 +2,23 @@ import {
     ArrowLeftOutlined,
     ExportOutlined
 } from '@ant-design/icons';
+import { 
+    Button, 
+    message, 
+    Progress 
+} from 'antd';
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getQuests } from "../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
-import { Button, message, Progress } from 'antd';
+import "@/assets/styles/mobile/view-style/challenge.scss"
 import CustomPagination from '../components/CustomPagination';
-import CustomInput from '../components/CustomChallenge/CustomInput';
 import ModalAnswers from '../components/CustomModal/ModalAnswers';
-import CustomCheckbox from '../components/CustomChallenge/CustomCheckbox';
-import CustomRadio from '../components/CustomChallenge/CustomRadio';
+import { 
+    CustomRadio, 
+    CustomInput, 
+    CustomCheckbox 
+} from '../components/CustomChallenge';
 import { useTranslation } from 'react-i18next';
 import axios from "axios";
 import { constans } from '@/utils/constans';
@@ -149,7 +156,6 @@ export default function Challenge(params) {
 
         answers = new Array(Number(cache.questions.length))
         setAnswers([...answers])
-        console.log(cacheDetail);
     }
 
     useEffect(() => {

@@ -1,5 +1,7 @@
+$container-width: 93vw;
+
 .Lesson{
-    width: 93vw;
+    width: $container-width;
     margin: 83px auto 0;
     padding-bottom: 200px;
     .title{
