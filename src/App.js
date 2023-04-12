@@ -12,6 +12,7 @@ import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 // import { alchemyProvider } from 'wagmi/providers/alchemy'
 // import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
+import MyProvider from './provider';
 
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet, goerli, polygonMumbai, polygon],
@@ -61,7 +62,9 @@ export default function App() {
   return (
     <>
       <WagmiConfig client={wagmiClient}>
-        <BeforeRouterEnter />
+        <MyProvider>
+          <BeforeRouterEnter />
+        </MyProvider>
       </WagmiConfig>
     </>
   )

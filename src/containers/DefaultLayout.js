@@ -3,13 +3,14 @@ import { Layout } from "antd";
 import routes from "@/router";
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useAccount, useDisconnect, useSigner, useSwitchNetwork } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest } from "ahooks";
 import { GetSign } from "@/utils/GetSign";
 import CustomSigner from "@/redux/CustomSigner";
 import store from "@/redux/store";
+import MyContext from "@/provider/context";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
@@ -20,7 +21,8 @@ export default function DefaultLayout(params) {
     const { data: signer } = useSigner();
     const navigateTo = useNavigate();
     const location = useLocation();
-    let [isMobile, setIsMobile] = useState();
+    // let [isMobile, setIsMobile] = useState(context);
+    const { isMobile } = useContext(MyContext);
     let [footerHide, setFooterHide] = useState(false);
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID)
@@ -49,13 +51,6 @@ export default function DefaultLayout(params) {
         backgroundColor: '#000',
         display: footerHide ? "none" : "block"
     };
-
-    function handleMobileChange() {
-        isMobile = store.getState().isMobile;
-        setIsMobile(isMobile);
-    }
-
-    store.subscribe(handleMobileChange);
 
     const isClaim = (path) => {
         if (path && path.indexOf('claim') !== -1) {
