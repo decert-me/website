@@ -10,6 +10,7 @@ export default function BeforeRouterEnter() {
     const location = useLocation();
     const defaultTitle = "DeCert.me"
     const { screenSize } = constans();
+    const baseSize = 16;
     const isMobile = useMediaQuery({
         query: screenSize.mobile
     })
@@ -33,9 +34,26 @@ export default function BeforeRouterEnter() {
         document.title = newTitle;
     }
 
+    function setRemUnit() {
+        const clientWidth = document.documentElement.clientWidth;
+        if (clientWidth < 490) {
+            const scale = document.documentElement.clientWidth / 390;
+            document.documentElement.style.fontSize = baseSize * Math.min(scale, 2) + 'px'
+        }
+    }
+
     useEffect(() => {
         changeTitle();
     },[location])
+
+    useEffect(() => {
+        setRemUnit();
+        window.addEventListener('resize', setRemUnit);
+    
+        return () => {
+          window.removeEventListener('resize', setRemUnit);
+        };
+      }, []);
 
     useEffect(() => {
         store.dispatch(setMobile(isMobile));

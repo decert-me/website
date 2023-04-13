@@ -7,11 +7,12 @@ import {
 import CustomClaim from "./CustomClaim";
 import CustomConnect from "./CustomConnect";
 import CustomDiscord from "./CustomDiscord";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GetScorePercent } from "@/utils/GetPercent";
 import { submitClaimTweet } from "@/request/api/public";
 import { ClaimShareSuccess } from "../CustomMessage";
+import MyContext from "@/provider/context";
 
 
 
@@ -30,6 +31,8 @@ export default function CustomClaimStep(props) {
     } = props;
     const { openseaLink, defaultImg, ipfsPath } = constans(); 
     const { t } = useTranslation(["claim", "translation"]);
+    const { isMobile } = useContext(MyContext);
+
     let [hrefUrl, setHrefUrl] = useState();
     let [isLoading, setIsLoading] = useState();
 
