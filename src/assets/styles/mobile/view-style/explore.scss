@@ -1,20 +1,20 @@
 .Mobile{
     .Explore {
         width: auto;
-        min-height: calc(100vh - 300px);
-        padding-top: 83px;
+        min-height: calc(100vh - 18.75rem);
+        padding-top: 5.1875rem;
         // title
         h3 {
-          height: 26px;
-          font-size: 18px;
+          height: 1.625rem;
+          font-size: 1.125rem;
           font-weight: 700;
           color: #000000;
         }
         // depass
         .depass {
-          margin-top: 63px;
+          margin-top: 3.9375rem;
           h4 {
-            font-size: 20px;
+            font-size: 1.25rem;
             font-weight: 800;
             color: #3d3d3d;
           }
@@ -22,9 +22,9 @@
         // challenges
         .challenges {
           padding: 0;
-          padding-block: 32px 150px;
+          padding-block: 2rem 9.375rem;
           h4 {
-            font-size: 20px;
+            font-size: 1.25rem;
             font-weight: 800;
             color: #3d3d3d;
           }
@@ -33,27 +33,27 @@
       
       // challenge-item jsx
       .challenge-item {
-        margin-block: 0 10px;
-        padding: 8px;
+        margin-block: 0 .625rem;
+        padding: .5rem;
         width: 100%;
-        height: 106px;
+        height: 6.625rem;
         .left-info {
-          width: 205px;
-          height: 88px;
+          width: 12.8125rem;
+          height: 5.5rem;
           .title {
-            font-size: 17px;
+            font-size: 1.0625rem;
             font-weight: 500;
           }
           .desc{
             margin-top: 0;
-            height: 17px;
-            font-size: 12px;
+            height: 1.0625rem;
+            font-size: .75rem;
             -webkit-line-clamp: 1;
           }
           .btn {
-            margin-top: 20px;
-            height: 23px;
-            font-size: 12px;
+            margin-top: 1.25rem;
+            height: 1.4375rem;
+            font-size: .75rem;
             font-weight: 700;
             color: #171717;
             border-radius: 0;
@@ -63,19 +63,19 @@
           }
         }
         .right-sbt {
-          width: 88px;
-          height: 88px;
+          width: 5.5rem;
+          height: 5.5rem;
           img {
             width: 100%;
             height: 100%;
           }
           .item-claimed{
-            width: 75px;
-            height: 18px;
-            right: -24px;
-            top: 2px;
-            line-height: 15px;
-            font-size: 12px;
+            width: 4.6875rem;
+            height: 1.125rem;
+            right: -1.5rem;
+            top: .125rem;
+            line-height: .9375rem;
+            font-size: .75rem;
           }
         }
     }

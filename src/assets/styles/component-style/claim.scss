@@ -211,20 +211,6 @@
    
 }
 
-.tip-content{
-    width: 100%;
-    padding-inline: 23px;
-    padding-block: 8px 27px;
-    color: #17151C;
-    line-height: 20px;
-    .step{
-        color: #9E9E9E;
-    }
-    span{
-        color: #727272;
-    }
-}
-
 .innerHref{
     margin-left: 24px;
     padding-inline: 12px 10px;
@@ -263,6 +249,9 @@
         font-size: 16px;
         font-weight: 500;
         line-height: 23px;
+    }
+    .discord-box{
+        margin-right: 18px;
     }
 }
 
@@ -311,4 +300,20 @@
     color: #8C52DF;
     border: 1px solid #8C52DF;
 }
+}
+.tooltip{
+    max-width: 290px !important;
+}
+.tip-content{
+    width: 100%;
+    padding-inline: 23px;
+    padding-block: 8px 27px;
+    color: #17151C;
+    line-height: 20px;
+    .step{
+        color: #9E9E9E;
+    }
+    span{
+        color: #727272;
+    }
 }

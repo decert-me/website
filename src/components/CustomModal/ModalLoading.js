@@ -2,17 +2,20 @@ import { Button, Modal, Spin } from "antd";
 import { LoadingOutlined, CloseOutlined } from '@ant-design/icons';
 import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
+import MyContext from "@/provider/context";
+import { useContext } from "react";
 
 export default function ModalLoading(props) {
 
     const { ipfsPath, defaultImg, openseaLink } = constans();
     const { t } = useTranslation(["translation"]);
+    const { isMobile } = useContext(MyContext);
     const { isModalOpen, handleCancel, isLoading, img, tokenId, shareTwitter } = props;
 
     const icon = (
         <LoadingOutlined
           style={{
-            fontSize: 200,
+            fontSize: isMobile ? 100 : 200,
           }}
           spin
         />
@@ -20,7 +23,7 @@ export default function ModalLoading(props) {
 
     return (
         <Modal
-            className="ModalLoading" 
+            className={`ModalLoading ${isMobile ? "ModalLoading-mobile" : ""}`}
             open={isModalOpen}
             onCancel={handleCancel}
             footer={null}

@@ -2,16 +2,16 @@ $container-width: 93vw;
 .Mobile{
     .Challenge{
         width: $container-width;
-        margin: 80px auto 0;
+        margin: 5rem auto 0;
         min-height: 100vh;
-        padding-bottom: 100px;
+        padding-bottom: 6.25rem;
         .preview-head{
-            margin-bottom: 50px;
+            margin-bottom: 3.125rem;
             text-align: center;
             position: relative;
-            font-size: 20px;
+            font-size: 1.25rem;
             font-weight: 500;
-            line-height: 29px;
+            line-height: 1.8125rem;
             .btns{
                 position: absolute;
                 top: 0;
@@ -19,49 +19,49 @@ $container-width: 93vw;
                 display: flex;
             }
             button{
-                min-width: 100px;
-                height: 40px;
-                margin-left: 20px;
+                min-width: 6.25rem;
+                height: 2.5rem;
+                margin-left: 1.25rem;
                 border-radius: 0;
                 border-color: #000;
-                font-size: 16px;
-                line-height: 23px;
+                font-size: 1rem;
+                line-height: 1.4375rem;
                 
             }
             .btn-exit{
                 border: none;
                 box-shadow: none;
-                font-size: 20px;
+                font-size: 1.25rem;
                 display: flex;
                 align-items: center;
                 .icon{
-                    font-size: 24px;
+                    font-size: 1.5rem;
                 }
             }
         }
         .title{
-            font-size: 16px;
+            font-size: 1rem;
             span{
-                font-size: 20px;
+                font-size: 1.25rem;
             }
             p{
-                margin-left: 20px;
+                margin-left: 1.25rem;
             }
         }
         .content{
-            height: calc(100vh - 390px);
-            padding: 11px 18px 70px;
-            margin-block: 10px; 
-            border: 1px solid #DCDCDC;
+            height: calc(100vh - 24.375rem);
+            padding: .6875rem 1.125rem 4.375rem;
+            margin-block: .625rem; 
+            border: .0625rem solid #DCDCDC;
             h4{
-                margin-bottom: 8px;
-                font-size: 16px;
+                margin-bottom: .5rem;
+                font-size: 1rem;
                 font-weight: 500;
-                line-height: 23px;
+                line-height: 1.4375rem;
             }
             .inner-title{
-                line-height: 29px;
-                font-size: 16px;
+                line-height: 1.8125rem;
+                font-size: 1rem;
             }
         }
         .progress{
@@ -70,49 +70,49 @@ $container-width: 93vw;
         }
     }
     .CustomInput .custom-input{
-        font-size: 18px;
+        font-size: 1.125rem;
     }
     .CustomRadio{
         .ant-radio-wrapper{
-            margin-bottom: 25px;
-            font-size: 12px;
-            line-height: 17px;
+            margin-bottom: 1.5625rem;
+            font-size: .75rem;
+            line-height: 1.0625rem;
         }
         .ant-radio-inner{
-            width: 22px;
-            height: 22px;
+            width: 1.375rem;
+            height: 1.375rem;
         }
         .ant-radio{
-            margin-right: 11px;
+            margin-right: .6875rem;
         }
     }
     .CustomCheckbox{
         .ant-checkbox-wrapper{
-            margin-bottom: 25px;
-            font-size: 12px;
-            line-height: 17px;
+            margin-bottom: 1.5625rem;
+            font-size: .75rem;
+            line-height: 1.0625rem;
         }
         .ant-checkbox-wrapper .ant-checkbox{
-            margin-right: 10px;
+            margin-right: .625rem;
         }
         .ant-checkbox, .ant-checkbox-inner{
-            width: 22px;
-            height: 22px;
+            width: 1.375rem;
+            height: 1.375rem;
         }
     }
     .CustomPagination{
         .btn{
-            min-width: 28px;
-            width: 28px;
-            height: 28px;
-            font-size: 19px;
-            margin-inline: 10px;
+            min-width: 1.75rem;
+            width: 1.75rem;
+            height: 1.75rem;
+            font-size: 1.1875rem;
+            margin-inline: .625rem;
         }
         .submit{
-            width: 78px;
-            height: 30px;
-            margin-left: 13px;
-            font-size: 12px;
+            width: 4.875rem;
+            height: 1.875rem;
+            margin-left: .8125rem;
+            font-size: .75rem;
         }
     }
 }

@@ -1,49 +1,49 @@
 .Mobile{
 .main {
     .main-center {
-        padding-top: 260px;
+        padding-top: 16.25rem;
         min-height: 100vh;
         .weight-info {
           width: 100%;
-          height: 612px;
+          height: 38.25rem;
           h3 {
-            font-size: 60px;
+            font-size: 3.75rem;
             font-weight: 900;
           }
         }
         // describe
         .describe {
           width: auto;
-          height: 25px;
-          margin-top: -0px;
+          height: 1.5625rem;
+          margin-top: 0rem;
           p {
-            font-size: 17px;
+            font-size: 1.0625rem;
           }
         }
         // text
         .text {
           width: auto;
-          height: 17px;
-          margin-bottom: 30px;
+          height: 1.0625rem;
+          margin-bottom: 1.875rem;
           p {
-            font-size: 12px;
+            font-size: .75rem;
           }
         }
     
         // challenge-btn
         .mar {
           width: auto;
-          height: 120px;
+          height: 7.5rem;
           flex-direction: column;
           align-items: center;
           button{
-            width: 174px;
-            height: 50px;
-            border-radius: 25px;
-            font-size: 14px;
+            width: 10.875rem;
+            height: 3.125rem;
+            border-radius: 1.5625rem;
+            font-size: .875rem;
             &:nth-child(1){
-              margin-right: 0px;
-              margin-bottom: 20px;
+              margin-right: 0rem;
+              margin-bottom: 1.25rem;
             }
           }
         }

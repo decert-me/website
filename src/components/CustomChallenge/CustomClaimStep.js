@@ -179,12 +179,13 @@ export default function CustomClaimStep(props) {
                         </div>
                         <Tooltip
                             overlayInnerStyle={{
-                                width: "290px", 
-                                borderRadius: "25px"
+                                borderRadius: isMobile ? "8px": "25px"
+                                
                             }} 
                             placement="topRight" 
                             title={tip} 
-                            color="#D8D8D8" 
+                            overlayClassName={isMobile ? "tooltip-m" : "tooltip"}
+                            color={isMobile ? "#FFF" : "#D8D8D8"} 
                         >
                             <QuestionCircleOutlined className="tips" />
                         </Tooltip>

@@ -104,7 +104,7 @@ export default function CustomDiscord(props) {
                     {
                         step >= 2 &&
                         <div>
-                            <Button loading={isLoading} onClick={() => onclick()} style={{marginRight: "18px"}}>
+                            <Button className="discord-box" loading={isLoading} onClick={() => onclick()}>
                                 {t("verify")}
                             </Button>
                             <Link to={`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`} target="_blank">

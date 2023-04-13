@@ -26,7 +26,7 @@ export default function ModalAnswers(props) {
 
     return (
         <Modal
-            className={`ModalAnswers ${isMobile ? "mobile-ModalAnswers" : ""}`} 
+            className={`ModalAnswers ${isMobile ? "ModalAnswers-mobile" : ""}`} 
             open={isModalOpen}
             onCancel={handleCancel}
             footer={null}
