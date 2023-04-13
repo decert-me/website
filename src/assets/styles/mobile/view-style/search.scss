@@ -1,0 +1,41 @@
+.Mobile .Search{
+    padding-block: 19.375rem 11.875rem;
+    min-height: calc(100vh - 18.75rem);
+    .Search-content{
+        width: auto;
+        position: relative;
+        .title{
+            font-size: 1.875rem;
+            line-height: 2.6875rem;
+        }
+        .subtitle{
+            margin-top: 1.4375rem;
+            font-size: .75rem;
+            line-height: 1.0625rem;
+        }
+        .inner{
+            width: 19.0625rem;
+            height: 3.125rem;
+            padding-inline: 1.25rem;
+            margin: 1.9375rem auto 0;
+            border-radius: 1.5625rem;
+            .icon{
+                margin-right: 1.125rem;
+                font-size: 1.875rem;
+            }
+            input{
+                font-size: 1.0625rem;
+                line-height: 1.4375rem;
+            }
+            button{
+                width: 19.0625rem;
+                height: 3.125rem;
+                font-size: 1rem;
+                border-radius: 1.5625rem;
+                position: absolute;
+                bottom: -4.375rem;
+                left: calc((100% - 19.0625rem) / 2);
+            }
+        }
+    }
+}

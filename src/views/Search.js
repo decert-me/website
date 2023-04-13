@@ -4,6 +4,7 @@ import {
 } from "@ant-design/icons"
 import { useState } from "react";
 import "@/assets/styles/view-style/search.scss"
+import "@/assets/styles/mobile/view-style/search.scss"
 import { useVerifyAccount } from "@/hooks/useVerifyAccount";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
