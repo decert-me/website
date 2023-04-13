@@ -1,36 +1,37 @@
 $container-width: 93vw;
-
-.Lesson{
-    width: $container-width;
-    margin: 83px auto 0;
-    padding-bottom: 200px;
-    .title{
-        margin-bottom: 32px;
-        font-size: 18px;
-        line-height: 26px;
-        text-align: center;
-    }
-    .content{
-        flex-direction: column;
-        a{
-            margin-bottom: 20px;
+.Mobile{
+    .Lesson{
+        width: $container-width;
+        margin: 83px auto 0;
+        padding-bottom: 200px;
+        .title{
+            margin-bottom: 32px;
+            font-size: 18px;
+            line-height: 26px;
+            text-align: center;
         }
-        .box{
-            width: 100%;
-            min-height: 250px;
-            border-radius: 7px;
-            .img{
-                height: 157px;
+        .content{
+            flex-direction: column;
+            a{
+                margin-bottom: 20px;
             }
-            .box-content{
-                padding: 13px 24px 20px 14px;
-                .box-title{
-                    font-size: 13px;
-                    line-height: 19px;
+            .box{
+                width: 100%;
+                min-height: 250px;
+                border-radius: 7px;
+                .img{
+                    height: 157px;
                 }
-                .box-desc{
-                    font-size: 8px;
-                    line-height: 12px;
+                .box-content{
+                    padding: 13px 24px 20px 14px;
+                    .box-title{
+                        font-size: 13px;
+                        line-height: 19px;
+                    }
+                    .box-desc{
+                        font-size: 8px;
+                        line-height: 12px;
+                    }
                 }
             }
         }
