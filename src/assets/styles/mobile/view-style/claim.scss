@@ -1,128 +1,118 @@
+$container-width: 93vw;
 .Mobile{
     .CustomCompleted{
         .completed-content{
-            width: 100vw;
-            margin: 0 auto;
-            margin-block: 100px;
+            width: $container-width;
+            margin-block: 75px;
         }
         .content-info{
-            display: flex;
-            justify-content: space-between;
-        
+            flex-direction: column;
         }
         .desc{
-            max-width: 495px;
-            .viewer{
-                font-weight: 500;
-                .viewer-head{
-                    padding: 40px 14px 10px 20px;
-                    display: flex;
-                    justify-content: space-between;
-                    align-items: center;
-                    
-                    font-size: 20px;
-                    line-height: 29px;
-                    p:last-child{
-                        font-size: 14px;
-                        color: #3D3D3D;
-                        line-height: 23px;
-                        cursor: pointer;
-                    }
-                }
-                .ant-divider{
-                    border-top: 2px solid #E8E8E8;
-                }
-                .viewer-content{
-                    height: 200px;
-                    padding: 14px 20px;
-                    
-                    overflow: hidden;
-                    text-overflow: ellipsis;
-                    display: -webkit-box;
-                    -webkit-box-orient: vertical;
-                    -webkit-line-clamp: 8;
-    
-                    font-size: 16px;
-                    line-height: 23px;
-                    background-color: #FAFAFA;
-                }
-            }
             .title, .desc{
-                color: #EA0606;
-                font-size: 24px;
-                font-weight: 500;
-                line-height: 35px;
+                color: #4D4D4D;
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 17px;
             }
             .title{
-                margin-left: -25px;
+                margin-left: 0;
                 color: #000;
-                font-size: 40px;
+                text-align: center;
+                font-size: 20px;
+                line-height: 29px;
                 font-weight: 500;
-                line-height: 58px;
+            }
+            .desc{
+                height: 34px;
+                margin-block: 6px 21px;
             }
         }
         .score{
-            width: 560px;
-            height: 250px;
+            width: $container-width;
+            height: 215px;
             position: relative;
             .network{
-                margin-bottom: 10px;
-                color: #767676;
-                font-size: 24px;
-                font-weight: 900;
-                line-height: 35px;
+                margin-bottom: 6px;
+                font-size: 13px;
+                line-height: 18px;
             }
             h4, .pass{
-                color: #666666;
-                line-height: 46px;
+                line-height: 35px;
             }
             h4{
                 margin: 0;
-                font-size: 32px;
-            }
-            .pass{
                 font-size: 24px;
             }
+            .pass{
+                font-size: 13px;
+            }
             .score-detail{
-                display: flex;
-                flex-direction: column;
-                align-items: center;
                 position: absolute;
                 right: 0;
-                bottom: 0;
+                top: 0;
                 .circle {
-                    margin-bottom: 30px;
-                    position: relative;
-                    display: flex;
-                    align-items: center;
-                    justify-content: center;
-                    user-select: none;
                     .ant-progress-text{
-                        position: absolute;
-                        font-size: 64px;
-                        font-weight: 500;
-                        // color: #17151C;
-                        line-height: 93px;
+                        font-size: 50px;
+                        line-height: 72px;
+                    }
+                    .ant-progress-inner{
+                        width: 140px !important;
+                        height: 140px !important;
                     }
                 }
-                .btn{
-                    display: inline-block;
-                    padding: 2px 5px;
-                    color: #9E9E9E;
-                    border: none;
-                    border-radius: 0;
-                    background-color: #D8D8D8;
-                    font-size: 24px;
+            }
+            .btn{
+                width: 172px;
+                padding-block: 7px;
+                display: inline-block;
+                text-align: center;
+                color: #242228;
+                background-color: #EEEEEE;
+                font-size: 12px;
+                font-weight: 400;
+                line-height: 17px;
+                position: absolute;
+                bottom: 0;
+                left: calc((100% - 172px) / 2);
+            }
+        }
+        .viewer{
+            margin-top: 60px;
+            .viewer-head{
+                padding: 0;
+                margin-bottom: 5px;
+                display: flex;
+                align-items: flex-end;
+                justify-content: space-between;
+                font-size: 12px;
+                p:first-child{
+                    font-size: 20px;
                     font-weight: 500;
-                    line-height: 35px;
-                    cursor: pointer;
                 }
-    
+            }
+            .ant-divider{
+                display: none;
+            }
+            .viewer-content{
+                height: 200px;
+                padding: 14px 20px;
+                
+                border: 1px solid #DCDCDC;
+                overflow: hidden;
+                text-overflow: ellipsis;
+                display: -webkit-box;
+                -webkit-box-orient: vertical;
+                -webkit-line-clamp: 8;
+
+                font-size: 16px;
+                line-height: 23px;
+                background-color: #FAFAFA;
             }
         }
         .content-step{
-            display: flex;
-            justify-content: space-between;
+            margin-top: 60px;
+            flex-direction: column;
             h5{
                 margin: 0;
                 font-size: 24px;
