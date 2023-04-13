@@ -102,6 +102,7 @@ $container-width: 93vw;
     }
     .CustomPagination{
         .btn{
+            min-width: 28px;
             width: 28px;
             height: 28px;
             font-size: 19px;
