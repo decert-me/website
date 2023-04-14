@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button } from "antd";
 import { useNavigate } from "react-router-dom";
 import "@/assets/styles/view-style/index.scss"
 import "@/assets/styles/mobile/view-style/index.scss"
@@ -9,14 +9,6 @@ export default function Index(params) {
     const navigateTo = useNavigate();
     const { t } = useTranslation();
 
-    const test = () => {
-        message.success({
-            content: "wwwwwwwwww",
-            
-        })
-
-    }
-
     return (
         <div className="Home ">
             <div className="main">
@@ -24,7 +16,7 @@ export default function Index(params) {
                 <div className="weight-info">
                     <h3>DeCert.me</h3>
                     {/* describe */}
-                    <div className="describe" onClick={test}>
+                    <div className="describe">
                     <p>{t("home.slogan1")}</p>
                     </div>
                     {/* text */}
