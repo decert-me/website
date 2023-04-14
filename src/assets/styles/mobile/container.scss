@@ -3,7 +3,8 @@
         .header-content{
             width: 100%;
             height: 3.75rem;
-            padding-inline: .9375rem;
+            padding-left: .9375rem;
+            padding-right: .9375rem;
         }
         .bg000{
             background-color: #000;
@@ -43,7 +44,8 @@
                 left: 0;
                 li{
                     height: 4.375rem;
-                    padding-inline: 2.125rem;
+                    padding-left: 2.125rem;
+                    padding-right: 2.125rem;
                     line-height: 4.375rem;
                     font-size: 1.25rem;
                     font-weight: 700;

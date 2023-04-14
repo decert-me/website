@@ -82,7 +82,8 @@
 .ModalAnswers-mobile{
     .ant-modal-content{
         min-height: 25rem;
-        padding-inline: 1.0625rem !important;
+        padding-left: 1.0625rem !important;
+        padding-right: 1.0625rem !important;
     }
     .ant-modal-close{
         width: 1.25rem;

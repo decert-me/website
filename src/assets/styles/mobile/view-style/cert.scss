@@ -76,7 +76,8 @@ $container-width: 90vw;
     }
     .Cert-content{
         width: 100%;
-        padding-block: 45px;
+        padding-top: 45px;
+        padding-bottom: 45px;
         border: none;
         position: relative;
         .back{
@@ -92,7 +93,8 @@ $container-width: 90vw;
             font-size: 20px;
         }
         ul{
-            padding-inline: 0;
+            padding-left: 0;
+            padding-right: 0;
             font-size: 16px;
             line-height: 24px;
             li{
@@ -101,13 +103,15 @@ $container-width: 90vw;
             }
         }
         .nfts{
-            padding-inline: 0;
+            padding-left: 0;
+            padding-right: 0;
             margin-top: 22px;
             height: 400px;
             overflow: scroll;
             .scroll{
                 width: 100%;
-                padding-inline: 0;
+                padding-left: 0;
+                padding-right: 0;
                 display: flex;
                 flex-wrap: wrap;
                 gap: 14px;
