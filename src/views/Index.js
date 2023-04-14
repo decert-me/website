@@ -23,7 +23,7 @@ export default function Index(params) {
             <div className="main">
                 <div className="main-center">
                 <div className="weight-info">
-                    <h3 onClick={success}>DeCert.me</h3>
+                    <h3>DeCert.me</h3>
                     {/* describe */}
                     <div className="describe" onClick={test}>
                     <p>{t("home.slogan1")}</p>
