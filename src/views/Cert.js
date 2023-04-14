@@ -147,12 +147,12 @@ export default function Cert(params) {
     }
 
     async function initView() {
-        await beforeView()
-        isInViewPortOfThree(addr ? addr : accountAddr)
+        await beforeView(addr ? addr : accountAddr)
+        isInViewPortOfThree()
     }
 
     // 执行交叉观察器
-    function isInViewPortOfThree (params) {
+    function isInViewPortOfThree () {
         io.observe(document.querySelector(".loading"))
     }
 

@@ -1,4 +1,3 @@
-import { getContracts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { useUpdateEffect } from "ahooks";
 import { Button, Skeleton } from "antd";
