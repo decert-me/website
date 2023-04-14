@@ -3,7 +3,8 @@ $container-width: 93vw;
     .CustomCompleted{
         .completed-content{
             width: $container-width;
-            margin-block: 4.6875rem;
+            margin-top: 4.6875rem;
+            margin-bottom: 4.6875rem;
         }
         .content-info{
             flex-direction: column;
@@ -25,7 +26,8 @@ $container-width: 93vw;
             }
             .desc{
                 height: 3.75rem;
-                margin-block: .375rem 1.3125rem;
+                margin-top: .375rem;
+                margin-bottom: 1.3125rem;
             }
         }
         .score{
