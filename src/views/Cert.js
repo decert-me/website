@@ -1,6 +1,7 @@
 import { Divider, Spin } from "antd";
 import {
-    LoadingOutlined
+    LoadingOutlined,
+    LeftOutlined
 } from '@ant-design/icons';
 import { useContext, useEffect, useState } from "react";
 import "@/assets/styles/view-style/cert.scss"
@@ -232,14 +233,17 @@ export default function Cert(params) {
                 </div>
                 <div className={`Cert-content ${isList ? "none" : ""}`}>
                     {
-                        isMobile && <div className="back" onClick={() => goback()}>back</div>
+                        isMobile && 
+                        <div className="back" onClick={() => goback()}>
+                            <LeftOutlined />
+                        </div>
                     }
                     {
                         isMe &&
                         <ul>
-                            <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>全部({checkTotal.all})</li>
-                            <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>公开({checkTotal.open})</li>
-                            <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
+                            <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>全部&nbsp;({checkTotal.all})</li>
+                            <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>公开&nbsp;({checkTotal.open})</li>
+                            <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏&nbsp;({checkTotal.hide})</li>
                         </ul>
                     }
                     <div className="nfts">
