@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
 import {
     EditOutlined,
@@ -7,6 +7,7 @@ import {
 } from '@ant-design/icons';
 import { Button, Skeleton } from "antd";
 import "@/assets/styles/view-style/user.scss"
+import "@/assets/styles/mobile/view-style/user.scss"
 import { getChallengeComplete, getChallengeCreate, getUser } from "@/request/api/public";
 import { NickName } from "@/utils/NickName";
 import { hashAvatar } from "@/utils/HashAvatar";
@@ -20,7 +21,6 @@ import { useUpdateEffect } from "ahooks";
 
 export default function User(props) {
     
-    const location = useLocation();
     const { t } = useTranslation(["translation","profile", "explore"]);
     const { address } = useAccount();
     const { address: paramsAddr } = useParams();

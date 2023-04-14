@@ -1,12 +1,10 @@
 import { useEffect, useState } from "react";
 import "@/assets/styles/component-style/index"
-import { useTranslation } from "react-i18next";
 
 
 export default function Pagination(props) {
     
     const { pageConfig, togglePage } = props;
-    const { t } = useTranslation(["profile"]);
     let [pages, setPages] = useState();
 
     useEffect(() => {
@@ -25,17 +23,6 @@ export default function Pagination(props) {
                         onClick={() => {togglePage(i+1)}}
                     >{i+1}</div>
                 )
-                // :
-                // <div 
-                // className="nothing"
-                // style={{
-                //     width: "100%",
-                //     paddingTop: "50px",
-                //     textAlign: "center"
-                // }}
-                // >
-                //     {t("nothing")}
-                // </div>
             }
         </div>
     )
