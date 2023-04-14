@@ -86,8 +86,9 @@
         padding-right: 1.0625rem !important;
     }
     .ant-modal-close{
-        width: 1.25rem;
-        height: 1.25rem;
+        width: 1.25rem !important;
+        height: 1.25rem !important;
+        right: 17px;
         .anticon-close-square{
             font-size: 1.25rem !important;
         }
@@ -112,6 +113,7 @@
         margin-top: 1.875rem;
         height: 10rem;
         overflow-y: scroll;
+        list-style: none;
         .point{
             width: 1.875rem;
             height: 1.875rem;
