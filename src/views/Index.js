@@ -1,4 +1,4 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import "@/assets/styles/view-style/index.scss"
 import "@/assets/styles/mobile/view-style/index.scss"
@@ -9,15 +9,31 @@ export default function Index(params) {
     const navigateTo = useNavigate();
     const { t } = useTranslation();
 
+    const [messageApi, contextHolder] = message.useMessage();
+    const success = () => {
+        messageApi.open({
+          type: 'success',
+          content: 'This is a prompt message for success, and it will disappear in 10 seconds',
+          duration: 1000,
+        });
+    };
+    const test = () => {
+        message.success({
+            content: "wwwwwwwwww",
+            
+        })
+
+    }
 
     return (
         <div className="Home ">
+            {contextHolder}
             <div className="main">
                 <div className="main-center">
                 <div className="weight-info">
-                    <h3>DeCert.me</h3>
+                    <h3 onClick={success}>DeCert.me</h3>
                     {/* describe */}
-                    <div className="describe">
+                    <div className="describe" onClick={test}>
                     <p>{t("home.slogan1")}</p>
                     </div>
                     {/* text */}
