@@ -1,4 +1,5 @@
 import DefaultLayout from "@/containers/DefaultLayout";
+import "@/assets/styles/mobile/antd.scss"
 import { constans } from "@/utils/constans";
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
