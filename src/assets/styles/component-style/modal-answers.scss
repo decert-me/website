@@ -78,7 +78,10 @@
         background-color: #000000;
     }
 }
-
+.ant-modal-mask{
+    left: 0;
+    right: 0;
+}
 .ModalAnswers-mobile{
     .ant-modal-content{
         min-height: 25rem;
