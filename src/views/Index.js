@@ -9,14 +9,7 @@ export default function Index(params) {
     const navigateTo = useNavigate();
     const { t } = useTranslation();
 
-    const [messageApi, contextHolder] = message.useMessage();
-    const success = () => {
-        messageApi.open({
-          type: 'success',
-          content: 'This is a prompt message for success, and it will disappear in 10 seconds',
-          duration: 1000,
-        });
-    };
+
     const test = () => {
         message.success({
             content: "wwwwwwwwww",
@@ -27,7 +20,6 @@ export default function Index(params) {
 
     return (
         <div className="Home ">
-            {contextHolder}
             <div className="main">
                 <div className="main-center">
                 <div className="weight-info">
