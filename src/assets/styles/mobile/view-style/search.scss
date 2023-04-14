@@ -1,5 +1,6 @@
 .Mobile .Search{
-    padding-block: 19.375rem 11.875rem;
+    padding-top: 19.375rem;
+    padding-bottom: 11.875rem;
     min-height: calc(100vh - 18.75rem);
     .Search-content{
         width: auto;
@@ -16,7 +17,8 @@
         .inner{
             width: 19.0625rem;
             height: 3.125rem;
-            padding-inline: 1.25rem;
+            padding-left: 1.25rem;
+            padding-right: 1.25rem;
             margin: 1.9375rem auto 0;
             border-radius: 1.5625rem;
             .icon{
