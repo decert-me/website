@@ -2,18 +2,17 @@ import { Divider, Spin } from "antd";
 import {
     LoadingOutlined
 } from '@ant-design/icons';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import "@/assets/styles/view-style/cert.scss"
+import "@/assets/styles/mobile/view-style/cert.scss"
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
-import CertSearch from "@/components/Cert/Search";
-import CertUser from "@/components/Cert/User";
-import CertNfts from "@/components/Cert/Nfts";
+import { CertSearch, CertUser, CertNfts, NftBox } from "@/components/Cert";
 import { getAllNft, getContracts, modifyNftStatus } from "@/request/api/nft";
-import NftBox from "@/components/Cert/NftBox";
 import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
 import { useAccountInit } from "@/hooks/useAccountInit";
+import MyContext from "@/provider/context";
 
 
 const LoadingComponents = (
@@ -39,6 +38,8 @@ export default function Cert(params) {
     const { address: urlAddr } = useParams();
     const { address } = useAccount();
 
+    let [isList, setIsList] = useState(true);
+    const { isMobile } = useContext(MyContext);
     let [isMe, setIsMe] = useState();
     let [accountAddr, setAddr] = useState();
     let [accountEns, setEns] = useState();
@@ -110,18 +111,22 @@ export default function Cert(params) {
         }
     }
 
+    const change = async() => {
+        pageConfig.page += 1;
+        setPageConfig({...pageConfig});
+        await changeContract({
+            address: addr,
+            contract_id: selectContract,
+            status: selectStatus
+        })
+    }
+
     const io = new IntersectionObserver(ioes => {
         ioes.forEach(async(ioe) => {
             const el = ioe.target
             const intersectionRatio = ioe.intersectionRatio
             if (intersectionRatio > 0 && intersectionRatio <= 1) {
-                pageConfig.page += 1;
-                setPageConfig({...pageConfig});
-                await changeContract({
-                    address: addr,
-                    contract_id: selectContract,
-                    status: selectStatus
-                })
+                change()
                 io.unobserve(el)
             }
             if (pageConfig.page * pageConfig.pageSize < checkTotal.all) {
@@ -130,15 +135,38 @@ export default function Cert(params) {
         })
     })
 
-    // 执行交叉观察器
-    async function isInViewPortOfThree (params) {
+    async function beforeView(params) {
         const contracts = await getContracts({address: params? params : accountAddr});
         if (!contracts || contracts.status !== 0) {
             return
         }
+        isMobile && await change()
         nftlist = contracts.data ? contracts.data : [];
         setNftList([...nftlist]);
+    }
+
+    async function initView() {
+        await beforeView()
+        isInViewPortOfThree(addr ? addr : accountAddr)
+    }
+
+    // 执行交叉观察器
+    function isInViewPortOfThree (params) {
         io.observe(document.querySelector(".loading"))
+    }
+
+    function changeContractId(params) {
+        setSelectContract(params);
+        if (isMobile) {
+            window.scrollTo(0, 0);
+            setIsList(false);
+        }
+    }
+
+    function goback(params) {
+        window.scrollTo(0, 0);
+        setIsList(true);
+        setSelectContract(null);
     }
 
     useEffect(() => {
@@ -147,7 +175,7 @@ export default function Cert(params) {
         }else if (status === 'success') {
             setAddr(addr ? addr : accountAddr);
             setEns(ens ? ens : accountEns);
-            isInViewPortOfThree(addr ? addr : accountAddr)
+            initView()
         }
     },[status])
 
@@ -180,7 +208,7 @@ export default function Cert(params) {
             {
                 status === "success" || status === "error" ?
                 <>
-                <div className="Cert-sidbar">
+                <div className={`Cert-sidbar ${isList ? "" : "none"}`}>
                     <CertSearch />
                     <Divider className="divider"  />
                     {
@@ -194,14 +222,18 @@ export default function Cert(params) {
                     <div className="mt50"></div>
                     <CertNfts 
                         account={accountAddr} 
-                        changeContractId={setSelectContract} 
+                        changeContractId={changeContractId} 
                         total={total} 
                         isMe={isMe}
                         status={status}
                         nftlist={nftlist}
+                        isMobile={isMobile}
                     />
                 </div>
-                <div className="Cert-content">
+                <div className={`Cert-content ${isList ? "none" : ""}`}>
+                    {
+                        isMobile && <div className="back" onClick={() => goback()}>back</div>
+                    }
                     {
                         isMe &&
                         <ul>

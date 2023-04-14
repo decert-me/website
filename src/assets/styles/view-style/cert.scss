@@ -78,30 +78,28 @@
             }
         }
         .share{
-            min-width: 60px;
-            height: 34px;
+            width: 35px;
+            height: 35px;
+            padding: 0;
             position: absolute;
             right: 0;
             top: 0;
             border: none;
             box-shadow: none;
             border-radius: 4px;
-            background-color: #AED2ED;
-            color: #3D3D3D;
+            background-color: #E4E4E4;
+            color: #E4E4E4;
+            font-size: 23px;
+            stroke: #999999;
+            stroke-width: 23px;
+            &:hover{
+                background-color: #9999999a;
+                color: #9999999a !important;
+            }
         }
     }
     .nfts{
         width: 370px;
-        p:nth-child(1){
-            margin-bottom: 13px;
-            color: #3D3D3D;
-            line-height: 20px;
-        }
-        div:nth-child(2),.list-title{
-            font-size: 18px;
-            font-weight: 700;
-            line-height: 27px;
-        }
         .add{
             margin-bottom: 27px;
             display: flex;

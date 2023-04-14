@@ -9,8 +9,12 @@ import { Button, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-
-
+import { createFromIconfontCN } from '@ant-design/icons';
+const IconFont = createFromIconfontCN({
+  scriptUrl: [
+    "//at.alicdn.com/t/c/font_4015269_oaebbfmee5.js"
+  ],
+});
 
 export default function CertUser(props) {
 
@@ -74,7 +78,11 @@ export default function CertUser(props) {
               {NickName(account)}
               <CopyOutlined style={{ color: "#3C6EB9", marginLeft: "12px" }} />
             </p>
-            <Button className="share" onClick={share} disabled={status=="error"}>分享</Button>
+            
+            <Button className="share" onClick={share} disabled={status=="error"}>
+              <IconFont type="icon-share" />
+            </Button>
+
           </div>
         </>
       ) : (
