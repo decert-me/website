@@ -5,14 +5,12 @@ import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
 import { useMediaQuery } from 'react-responsive'
 import store, { setMobile } from "@/redux/store";
-import { message } from "antd";
 
 export default function BeforeRouterEnter() {
 
     const location = useLocation();
     const defaultTitle = "DeCert.me"
     const { screenSize } = constans();
-    const [contextHolder] = message.useMessage();
     const baseSize = 16;
     const isMobile = useMediaQuery({
         query: screenSize.mobile
@@ -64,9 +62,6 @@ export default function BeforeRouterEnter() {
     },[isMobile])
 
     return (
-        <>
-            {contextHolder}
-            <DefaultLayout />
-        </>
+        <DefaultLayout />
     )
 }

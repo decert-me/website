@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useRoutes } from "react-router-dom";
-import { Layout } from "antd";
+import { Layout, message } from "antd";
 import routes from "@/router";
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
@@ -22,6 +22,7 @@ export default function DefaultLayout(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
     const { isMobile } = useContext(MyContext);
+    const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID)
@@ -157,6 +158,7 @@ export default function DefaultLayout(params) {
             <Content style={contentStyle}>
                 { outlet }
             </Content>
+            {contextHolder}
             <CustomSigner store={store} />
             <Footer style={footerStyle}>
                 <AppFooter isMobile={isMobile} />
