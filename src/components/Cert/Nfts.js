@@ -10,7 +10,7 @@ import ModalAddSbt from "./ModalAddSbt";
 
 export default function CertNfts(props) {
     
-    const { account, changeContractId, total, isMe, nftlist: list } = props;
+    const { ensParse, changeContractId, total, isMe, nftlist: list } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
     let [selectItem, setSelectItem] = useState(0);
 
@@ -77,7 +77,7 @@ export default function CertNfts(props) {
                 <Skeleton active />
             }
             {
-                account &&
+                ensParse.address &&
                 <ModalAddSbt 
                     isModalOpen={isModalOpen} 
                     handleCancel={handleCancel}

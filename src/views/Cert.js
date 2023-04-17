@@ -13,7 +13,7 @@ import { getAllNft, getContracts, modifyNftStatus } from "@/request/api/nft";
 import NftBox from "@/components/Cert/NftBox";
 import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
-import { useAccountInit } from "@/hooks/useAccountInit";
+import { getEns } from "@/request/api/public";
 
 
 const LoadingComponents = (
@@ -40,8 +40,6 @@ export default function Cert(params) {
     const { address } = useAccount();
 
     let [isMe, setIsMe] = useState();
-    let [accountAddr, setAddr] = useState();
-    let [accountEns, setEns] = useState();
     let [list, setList] = useState([]);
     let [nftlist, setNftList] = useState();
     let [total, setTotal] = useState();
@@ -54,13 +52,14 @@ export default function Cert(params) {
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
-    const { status, addr, ens, refetch: accountInit } = useAccountInit({
-        address: accountAddr,
-        ensAddr: accountEns
-    })
+    let [ensParse, setEnsParse] = useState({
+        address: "",
+        avatar: "",
+        domain: ""
+    });
 
     const changeContract = async(obj) => {
-        if (status === 'error' || !addr) {
+        if (!ensParse.address) {
             setLoading(false);
             return
         }
@@ -97,19 +96,6 @@ export default function Cert(params) {
         })
     }
 
-    const init = () => {
-        if (urlAddr.length !== 42) {
-            // ENS
-            accountEns = urlAddr;
-            setEns(accountEns);
-        }else{
-            // ADDR
-            accountAddr = urlAddr;
-            setAddr(accountAddr);
-            setIsMe(address === urlAddr);
-        }
-    }
-
     const io = new IntersectionObserver(ioes => {
         ioes.forEach(async(ioe) => {
             const el = ioe.target
@@ -118,7 +104,7 @@ export default function Cert(params) {
                 pageConfig.page += 1;
                 setPageConfig({...pageConfig});
                 await changeContract({
-                    address: addr,
+                    address: ensParse.address,
                     contract_id: selectContract,
                     status: selectStatus
                 })
@@ -131,8 +117,8 @@ export default function Cert(params) {
     })
 
     // 执行交叉观察器
-    async function isInViewPortOfThree (params) {
-        const contracts = await getContracts({address: params? params : accountAddr});
+    async function isInViewPortOfThree () {
+        const contracts = await getContracts({address: ensParse.address});
         if (!contracts || contracts.status !== 0) {
             return
         }
@@ -141,15 +127,23 @@ export default function Cert(params) {
         io.observe(document.querySelector(".loading"))
     }
 
-    useEffect(() => {
-        if (status === 'idle') {
-            accountInit()
-        }else if (status === 'success') {
-            setAddr(addr ? addr : accountAddr);
-            setEns(ens ? ens : accountEns);
-            isInViewPortOfThree(addr ? addr : accountAddr)
-        }
-    },[status])
+    const init = async() => {
+        await new Promise((resolve, reject) => {
+           getEns({address: urlAddr})
+            .then(res => {
+                res ? resolve(res.data) : reject()
+            })
+        }).then(res => {
+            ensParse = res;
+            setEnsParse({...ensParse});
+            setIsMe(res.address === address);
+            isInViewPortOfThree()
+        }).catch(err => {
+            setLoading(false);
+            nftlist = [];
+            setNftList([...nftlist]);
+        })
+    }
 
     useEffect(() => {
         init();
@@ -162,13 +156,11 @@ export default function Cert(params) {
         pageConfig.page = 1;
         setPageConfig({...pageConfig})
         await changeContract({
-            address: accountAddr,
+            address: ensParse.address,
             contract_id: selectContract,
             status: selectStatus
         })
-        if (status === "success") {
-            isInViewPortOfThree()
-        }
+        ensParse.address && isInViewPortOfThree()
     }
 
     useUpdateEffect(() => {
@@ -178,27 +170,18 @@ export default function Cert(params) {
     return (
         <div className="Cert">
             {
-                status === "success" || status === "error" ?
                 <>
                 <div className="Cert-sidbar">
                     <CertSearch />
-                    <Divider className="divider"  />
-                    {
-                        accountAddr && 
-                        <CertUser 
-                            account={accountAddr} 
-                            ensName={accountEns} 
-                            status={status} 
-                        />
-                    }
+                    <Divider className="divider" />
+                    <CertUser ensParse={ensParse} urlAddr={urlAddr} />
                     <div className="mt50"></div>
                     <CertNfts 
-                        account={accountAddr} 
                         changeContractId={setSelectContract} 
                         total={total} 
                         isMe={isMe}
-                        status={status}
                         nftlist={nftlist}
+                        ensParse={ensParse}
                     />
                 </div>
                 <div className="Cert-content">
@@ -213,10 +196,10 @@ export default function Cert(params) {
                     <div className="nfts">
                         <div className="scroll">
                             {
-                                loading && status !== "error" ? 
-                                LoadingComponents
+                                loading ? 
+                                    LoadingComponents
                                 :
-                                status === "error" ? 
+                                !ensParse.address ? 
                                 <></>
                                 :
                                 <>
@@ -241,14 +224,6 @@ export default function Cert(params) {
                     </div>
                     </div>
                 </>
-                :
-                <Spin
-                    size="large"
-                    style={{
-                        textAlign: "center",
-                        margin: "200px auto 0"
-                    }} 
-                />
             }
         </div>
     )
