@@ -195,8 +195,8 @@ export default function ModalAddSbt(props) {
                 cache = cache.concat(JSON.parse(JSON.stringify(arr)));
                 setCache([...cache]);
             }
-            setisLoading(false);
         })
+        setisLoading(false);
     }
 
     const io = new IntersectionObserver(ioes => {
