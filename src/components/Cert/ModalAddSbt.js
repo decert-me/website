@@ -6,13 +6,14 @@ import {
     LoadingOutlined
 } from '@ant-design/icons';
 import "@/assets/styles/component-style/cert/modal-addsbt.scss"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { constans } from "@/utils/constans";
 import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { ipfsToImg } from "@/utils/IpfsToImg";
 import { useNavigate } from "react-router-dom";
 import { useRequest, useUpdateEffect } from "ahooks";
+import MyContext from "@/provider/context";
 const { Option } = Select;
 
 const renderoption = (option) => {
@@ -40,6 +41,7 @@ export default function ModalAddSbt(props) {
     const { isModalOpen, handleCancel } = props;
     const navigateTo = useNavigate();
     const { chains } = constans();
+    const { isMobile } = useContext(MyContext);
     let [options, setOptions] = useState();
     let [loading, setLoading] = useState();
     let [isLoading, setisLoading] = useState(false);
@@ -247,7 +249,7 @@ export default function ModalAddSbt(props) {
 
     return (
         <Modal
-            className="ModalAddSbt"
+            className={`${isMobile ? "ModalAddSbt-mobile" : "ModalAddSbt"}`}
             footer={null}
             open={isModalOpen}
             onCancel={handleCancel}
