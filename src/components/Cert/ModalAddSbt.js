@@ -180,23 +180,27 @@ export default function ModalAddSbt(props) {
         pageConfig.page += 1;
         setPageConfig({...pageConfig})
 
-        await getContractNfts({...config, ...pageConfig})
-        .then(res => {
-            if (res?.data) {
-                pageConfig = {
-                    page: res.data.page,
-                    pageSize: res.data.pageSize,
-                    total: res.data.total
+            getContractNfts({...config, ...pageConfig})
+            .then(res => {
+                if (res?.data) {
+                    pageConfig = {
+                        page: res.data.page,
+                        pageSize: res.data.pageSize,
+                        total: res.data.total
+                    }
+                    setPageConfig({...pageConfig})
+                    let arr = res.data?.list ? res.data?.list : [];
+                    list = list.concat(arr.slice());
+                    setList([...list]);
+                    cache = cache.concat(JSON.parse(JSON.stringify(arr)));
+                    setCache([...cache]);
                 }
-                setPageConfig({...pageConfig})
-                let arr = res.data?.list ? res.data?.list : [];
-                list = list.concat(arr.slice());
-                setList([...list]);
-                cache = cache.concat(JSON.parse(JSON.stringify(arr)));
-                setCache([...cache]);
-            }
-        })
-        setisLoading(false);
+                setisLoading(false);
+            })
+            .catch(err => {
+                console.log(err);
+                setisLoading(false);
+            })
     }
 
     const io = new IntersectionObserver(ioes => {
