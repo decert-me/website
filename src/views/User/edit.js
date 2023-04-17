@@ -1,4 +1,5 @@
 import "@/assets/styles/view-style/user-edit.scss"
+import "@/assets/styles/mobile/view-style/user-edit.scss"
 import { Button, Input, message, Upload } from "antd"
 import {
     PlusOutlined,

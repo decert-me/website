@@ -6,6 +6,7 @@ $container-width: 90vw;
         display: flex;
         flex-direction: column;
         overflow: hidden;
+        min-height: 40rem;
     }
     .divider{
         width: 100%;
@@ -58,6 +59,7 @@ $container-width: 90vw;
         }
         .nfts{
             width: 100%;
+            min-height: 25rem;
             .add{
                 margin-bottom: 1.25rem;
                 font-size: 1.125rem;
@@ -107,7 +109,7 @@ $container-width: 90vw;
             padding-left: 0;
             padding-right: 0;
             margin-top: 1.375rem;
-            height: 25rem;
+            height: 30rem;
             overflow: scroll;
             .scroll{
                 width: 100%;
