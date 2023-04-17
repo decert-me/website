@@ -40,7 +40,6 @@ export default function CertUser(props) {
           address: ensParse.address,
           avatar: user?.data?.avatar ? process.env.REACT_APP_BASE_URL + user?.data?.avatar : ensParse.avatar ? ensParse.avatar : hashAvatar(ensParse.address)
       }
-      console.log(info, ensParse);
       setTimeout(() => {
           setInfo({...info})
       }, 1000);

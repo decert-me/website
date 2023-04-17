@@ -256,7 +256,7 @@ export default function ModalAddSbt(props) {
             }}
             closeIcon={<CloseCircleOutlined />}
             destroyOnClose
-            width="1164px"
+            width="1085px"
         >
             <p className="title">请添加可作为你技能能力证明的SBT</p>
             <div className="search">
