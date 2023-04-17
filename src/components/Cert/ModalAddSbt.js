@@ -221,18 +221,15 @@ export default function ModalAddSbt(props) {
       });
 
     useEffect(() => {
-        if (config.address.length === 42) {
-            run();
-        }else{
-            list = [];
-            cache = [];
-            setList([...list]);
-            setCache([...cache]);
-            pageConfig = {
-                page: 0, pageSize: 16, total: 0
-            };
-            setPageConfig({...pageConfig});
-        }
+        list = [];
+        cache = [];
+        setList([...list]);
+        setCache([...cache]);
+        pageConfig = {
+            page: 0, pageSize: 16, total: 0
+        };
+        setPageConfig({...pageConfig});
+        run();
     },[config])
 
     useEffect(() => {
