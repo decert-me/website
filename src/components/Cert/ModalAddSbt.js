@@ -229,7 +229,9 @@ export default function ModalAddSbt(props) {
             page: 0, pageSize: 16, total: 0
         };
         setPageConfig({...pageConfig});
-        run();
+        if (config.address) {
+            run();
+        }
     },[config])
 
     useEffect(() => {
