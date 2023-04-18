@@ -59,6 +59,7 @@ export default function Cert(params) {
     });
 
     const changeContract = async(obj) => {
+        setLoading(true)
         if (!ensParse.address) {
             setLoading(false);
             return
@@ -214,12 +215,13 @@ export default function Cert(params) {
                                         />                            
                                     )
                                 }
+                                {
+                                    pageConfig.page * pageConfig.pageSize < checkTotal.all &&
+                                    LoadingComponents
+                                }
                                 </>
                             }
-                            {
-                                pageConfig.page * pageConfig.pageSize < checkTotal.all &&
-                                LoadingComponents
-                            }
+                            
                         </div>
                     </div>
                     </div>
