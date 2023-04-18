@@ -31,7 +31,7 @@ export default function AddSbt(props) {
       }
     
       const dropdownRender = (menu) => (
-        <div>
+        <div className={isMobile ? "dropdownMenu" : ""}>
           <div style={{ padding: '4px 8px', fontWeight: 'bold' }}>Select Chain ID</div>
           {menu}
         </div>

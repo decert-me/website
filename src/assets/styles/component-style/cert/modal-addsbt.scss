@@ -124,7 +124,12 @@
     }
 }
 
-
+.dropdownMenu{
+    font-size: 9px;
+    .label{
+        font-size: 9px;
+    }
+}
 .ModalAddSbt-mobile{
     .ant-modal-close{
         width: 20px;
