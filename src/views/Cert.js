@@ -1,4 +1,4 @@
-import { Divider, Spin } from "antd";
+import { Button, Divider, Spin } from "antd";
 import {
     LoadingOutlined,
     LeftOutlined
@@ -14,6 +14,7 @@ import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
 import { useAccountInit } from "@/hooks/useAccountInit";
 import MyContext from "@/provider/context";
+import AddSbt from "@/components/Cert/AddSbt";
 
 
 const LoadingComponents = (
@@ -47,6 +48,8 @@ export default function Cert(params) {
     let [list, setList] = useState([]);
     let [nftlist, setNftList] = useState();
     let [total, setTotal] = useState();
+    let [addSbtPanel, setAddSbtPanel] = useState();
+    
     let [checkTotal, setCheckTotal] = useState({
         all: 0, open: 0, hide: 0
     });
@@ -120,6 +123,10 @@ export default function Cert(params) {
             contract_id: selectContract,
             status: selectStatus
         })
+    }
+    
+    const goAddSbt = () => {
+        setAddSbtPanel(true);
     }
 
     const io = new IntersectionObserver(ioes => {
@@ -209,7 +216,7 @@ export default function Cert(params) {
             {
                 status === "success" || status === "error" ?
                 <>
-                <div className={`Cert-sidbar ${isList ? "" : "none"}`}>
+                <div className={`Cert-sidbar ${isList ? "" : "none"} ${addSbtPanel ? "none" : ""}`}>
                     <CertSearch />
                     <Divider className="divider"  />
                     {
@@ -229,9 +236,10 @@ export default function Cert(params) {
                         status={status}
                         nftlist={nftlist}
                         isMobile={isMobile}
+                        goAddSbt={goAddSbt}
                     />
                 </div>
-                <div className={`Cert-content ${isList ? "none" : ""}`}>
+                <div className={`Cert-content ${isList ? "none" : ""} ${addSbtPanel ? "none" : ""}`}>
                     {
                         isMobile && 
                         <div className="back" onClick={() => goback()}>
@@ -275,7 +283,20 @@ export default function Cert(params) {
                             }
                         </div>
                     </div>
-                    </div>
+                </div>
+                <div className={`Cert-addsbt ${addSbtPanel ? "" : "none"}`}>
+                    {
+                        isMobile && 
+                        <>
+                        <div className="back">
+                            <div className="icon" onClick={() => {setAddSbtPanel(false)}}>
+                                <LeftOutlined />
+                            </div>
+                        </div>
+                        <AddSbt isMobile={isMobile} />
+                        </>
+                    }
+                </div>
                 </>
                 :
                 <Spin
