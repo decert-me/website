@@ -1,13 +1,24 @@
-import { Button } from "antd";
+import { Button, message } from "antd";
 import { useNavigate } from "react-router-dom";
 import "@/assets/styles/view-style/index.scss"
 import "@/assets/styles/mobile/view-style/index.scss"
 import { useTranslation } from "react-i18next";
+import MyContext from "@/provider/context";
+import { useContext } from "react";
 
 export default function Index(params) {
     
     const navigateTo = useNavigate();
     const { t } = useTranslation();
+    const { isMobile } = useContext(MyContext);
+
+    function goCreate(params) {
+        if (isMobile) {
+            message.info("请在pc上打开")
+            return
+        }
+        navigateTo("/publish");
+    }
 
     return (
         <div className="Home ">
@@ -36,9 +47,7 @@ export default function Index(params) {
                     {/* Creative a challenge */}
                     <Button
                         className="creative-btn"
-                        onClick={() => {
-                            navigateTo("/publish");
-                        }}
+                        onClick={() => goCreate()}
                     >
                         <span className="creative">{t("home.btn-publish")}</span>
                     </Button>

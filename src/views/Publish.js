@@ -1,7 +1,7 @@
 import { message } from "antd";
 import "@/assets/styles/view-style/publish.scss"
 import "@/assets/styles/component-style";
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import ModalAddQuestion from "@/components/CustomModal/ModalAddQuestion";
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import CustomForm from '@/components/Publish/CustomForm';
@@ -14,11 +14,13 @@ import { useTranslation } from "react-i18next";
 import { useUpdateEffect } from "ahooks";
 import { usePublish } from "@/hooks/usePublish";
 import ModalEditQuestion from "@/components/CustomModal/ModalEditQuestion";
+import MyContext from "@/provider/context";
 
 export default function Publish(params) {
     
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
+    const { isMobile } = useContext(MyContext);
     
     let [showAddQs, setShowAddQs] = useState(false);
     let [showEditQs, setShowEditQs] = useState(false);
@@ -195,6 +197,13 @@ export default function Publish(params) {
     useEffect(() => {
         init();
     },[])
+
+    useEffect(() => {
+        if (isMobile) {
+            message.info("请在pc上打开")
+            navigateTo('/')
+        }
+    },[isMobile])
 
     return (
         <div className="Publish">
