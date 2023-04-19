@@ -5,20 +5,17 @@ import routes from "@/router";
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import { useEffect, useState } from "react";
-import { useAccount, useDisconnect, useSigner, useSwitchNetwork } from "wagmi";
+import { useAccount, useSwitchNetwork } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest } from "ahooks";
-import { GetSign } from "@/utils/GetSign";
 import CustomSigner from "@/redux/CustomSigner";
-import store from "@/redux/store";
+import store, { showCustomSigner } from "@/redux/store";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
 
     const outlet = useRoutes(routes);
-    const { address, isConnected } = useAccount();
-    const { disconnect } = useDisconnect();
-    const { data: signer } = useSigner();
+    const { address } = useAccount();
     const navigateTo = useNavigate();
     const location = useLocation();
     let [footerHide, setFooterHide] = useState(false);
@@ -93,7 +90,7 @@ export default function DefaultLayout(params) {
     }
     
     const sign = async() => {
-        await GetSign({address: address, signer: signer, disconnect: disconnect})
+        store.dispatch(showCustomSigner());
     }
 
     const verifySignUpType = async(addr, path) => {
