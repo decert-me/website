@@ -33,16 +33,23 @@ function CustomSigner(props) {
         .then(() => {
             if (localStorage.getItem('decert.token')) {
                 Modal.destroyAll()
+                props.hide()
             }
         })
         .catch(err => {
             Modal.destroyAll()
+            props.hide()
         })
     }
 
     useEffect(() => {
-        props?.isShow && goSigner()
+      console.log('发起');
+      props?.isShow && goSigner()
     },[props])
+
+    useEffect(() => {
+      console.log('进入custom');
+    },[])
 
   return (
     <></>
