@@ -43,13 +43,8 @@ function CustomSigner(props) {
     }
 
     useEffect(() => {
-      console.log('发起');
       props?.isShow && goSigner()
     },[props])
-
-    useEffect(() => {
-      console.log('进入custom');
-    },[])
 
   return (
     <></>
