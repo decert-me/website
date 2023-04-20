@@ -78,14 +78,12 @@ export default function Cert(params) {
             if (res.data) {
                 list = list.concat(res.data.list);
                 setList([...list]);
-                if (!obj.status) {
-                    checkTotal = {
-                        all: res.data.total,
-                        open: res.data.total_public,
-                        hide: res.data.total_hidden
-                    }
-                    setCheckTotal({...checkTotal});
+                checkTotal = {
+                    all: res.data.total,
+                    open: res.data.total_public,
+                    hide: res.data.total_hidden
                 }
+                setCheckTotal({...checkTotal});
             }
             setLoading(false);
         })
