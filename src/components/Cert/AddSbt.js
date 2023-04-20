@@ -38,221 +38,224 @@ export default function AddSbt(props) {
       );
       
 
-    const { chains } = constans();
-    let [options, setOptions] = useState();
-    let [loading, setLoading] = useState();
-    let [isLoading, setisLoading] = useState(false);
-    let [config, setConfig] = useState({
-        // chainId: 137, address: "", page: 1, pageSize: 10
-        chainId: 137, address: ""
-    })
-    let [list, setList] = useState([]);
-    let [cache, setCache] = useState([]);
-    let [gateway, setGateway] = useState(
-        "https://nftscan.mypinata.cloud/ipfs/"
-        // "https://dweb.link/ipfs/"
-        );
-
-    let [addIds, setAddIds] = useState([]);
-    let [deleteIds, setDeleteIds] = useState([]);
-    let [pageConfig, setPageConfig] = useState({
-        page: 0, pageSize: 16, total: 0
-    })
-
-    const changeList = (id) => {
-        cache.map(e => {
-            if (e.id === id) {
-                e.flag = e.flag === 1 ? 2 : 1;
-            }
-        })
-        setCache([...cache]);
-    }
-
-    const checked = (id, type) => {
-        changeList(id);
-        let flag = true;
-        let arr = type === 1 ? addIds : deleteIds;
-        arr.map((e,i) => {
-            if (e === id) {
-                arr.splice(i,1);
-                if (type === 1) {
-                    setAddIds([...arr]);
-                }else{
-                    setDeleteIds([...arr]);
-                }
-                flag = false;
-            }
-        })
-        if (!flag) {
-            return
-        }
-        arr.push(id);
-        if (type === 1) {
-            setAddIds([...arr]);
-        }else{
-            setDeleteIds([...arr]);
-        }
-    }
-
-    const addNft = () => {
-        new Promise((resolve, reject) => {
-            if (addIds.length > 0) {
-                flagNft({
-                    ids: addIds,
-                    flag: 2
-                })
-                .then(res => {
-                    resolve();
-                })
-            }else{
-                resolve();
-            }
+      const { chains } = constans();
+      let [options, setOptions] = useState();
+      let [loading, setLoading] = useState();
+      let [isLoading, setisLoading] = useState(false);
+      let [config, setConfig] = useState({
+          // chainId: 137, address: "", page: 1, pageSize: 10
+          chainId: 137, address: ""
+      })
+      let [list, setList] = useState([]);
+      let [cache, setCache] = useState([]);
+      let [gateway, setGateway] = useState(
+          "https://nftscan.mypinata.cloud/ipfs/"
+          // "https://dweb.link/ipfs/"
+          );
+  
+      let [addIds, setAddIds] = useState([]);
+      let [deleteIds, setDeleteIds] = useState([]);
+      let [pageConfig, setPageConfig] = useState({
+          page: 0, pageSize: 16, total: 0
+      })
+  
+      const changeList = (id) => {
+          cache.map(e => {
+              if (e.id === id) {
+                  e.flag = e.flag === 1 ? 2 : 1;
+              }
+          })
+          setCache([...cache]);
+      }
+  
+      const checked = (id, type) => {
+          changeList(id);
+          let flag = true;
+          let arr = type === 1 ? addIds : deleteIds;
+          arr.map((e,i) => {
+              if (e === id) {
+                  arr.splice(i,1);
+                  if (type === 1) {
+                      setAddIds([...arr]);
+                  }else{
+                      setDeleteIds([...arr]);
+                  }
+                  flag = false;
+              }
+          })
+          if (!flag) {
+              return
+          }
+          arr.push(id);
+          if (type === 1) {
+              setAddIds([...arr]);
+          }else{
+              setDeleteIds([...arr]);
+          }
+      }
+  
+      const addNft = () => {
+          new Promise((resolve, reject) => {
+              if (addIds.length > 0) {
+                  flagNft({
+                      ids: addIds,
+                      flag: 2
+                  })
+                  .then(res => {
+                      resolve();
+                  })
+              }else{
+                  resolve();
+              }
+          });
+      }
+        
+      const reduceNft = () => {
+          new Promise((resolve, reject) => {
+              if (deleteIds.length > 0) {
+                  flagNft({
+                      ids: deleteIds,
+                      flag: 1
+                  })
+                  .then(res => {
+                      resolve();
+                  })
+              }else{
+                  resolve();
+              }
+          });
+      }
+  
+      const confirm = () => {
+          setLoading(true);
+          const promise1 = addNft();
+          const promise2 = reduceNft();
+          Promise.all([promise1, promise2])
+          .then(results => {
+              // 处理结果
+              setLoading(false);
+              message.success('操作成功')
+              setTimeout(() => {
+                  handleCancel()
+              }, 500);
+          })
+          .catch(error => {
+              setLoading(false);
+              // 处理错误
+          });
+      }
+  
+      const changeConfig = (v, key) => {
+          config[key] = v;
+          setConfig({...config});
+      }
+  
+      const selectGateway = () => {
+          findFastestGateway()
+          .then(res => {
+              if (res) {
+                  gateway = res;
+                  setGateway(gateway);
+              }
+          })
+          .catch(err => {
+              console.log('err ==>',err);
+          })
+      }
+  
+      const init = () => {
+          let arr = [];
+          for (const i in chains) {
+              arr.push({
+                  value: Number(i), label: chains[i].name, icon: chains[i].icon 
+              })
+          }
+          options = arr;
+          setOptions([...options]);
+      }
+  
+      const getList = async() => {
+          setisLoading(true);
+          pageConfig.page += 1;
+          setPageConfig({...pageConfig})
+  
+              getContractNfts({...config, ...pageConfig})
+              .then(res => {
+                  if (res?.data) {
+                      pageConfig = {
+                          page: res.data.page,
+                          pageSize: res.data.pageSize,
+                          total: res.data.total
+                      }
+                      setPageConfig({...pageConfig})
+                      let arr = res.data?.list ? res.data?.list : [];
+                      list = list.concat(arr.slice());
+                      setList([...list]);
+                      cache = cache.concat(JSON.parse(JSON.stringify(arr)));
+                      setCache([...cache]);
+                  }
+                  setisLoading(false);
+              })
+              .catch(err => {
+                  console.log(err);
+                  setisLoading(false);
+              })
+      }
+  
+      const io = new IntersectionObserver(ioes => {
+          ioes.forEach(async(ioe) => {
+              const el = ioe.target
+              const intersectionRatio = ioe.intersectionRatio
+              if (intersectionRatio > 0 && intersectionRatio <= 1) {
+                  await getList()
+                  io.unobserve(el)
+              }
+          })
+      })
+  
+      // 执行交叉观察器
+      function isInViewPortOfThree () {
+          io.observe(document.querySelector(".loading"))
+      }
+  
+      const { run } = useRequest(getList, {
+          debounceWait: 1000,
+          manual: true,
         });
-    }
-      
-    const reduceNft = () => {
-        new Promise((resolve, reject) => {
-            if (deleteIds.length > 0) {
-                flagNft({
-                    ids: deleteIds,
-                    flag: 1
-                })
-                .then(res => {
-                    resolve();
-                })
-            }else{
-                resolve();
-            }
-        });
-    }
-
-    const confirm = () => {
-        setLoading(true);
-        const promise1 = addNft();
-        const promise2 = reduceNft();
-        Promise.all([promise1, promise2])
-        .then(results => {
-            // 处理结果
-            setLoading(false);
-            message.success('操作成功')
-            setTimeout(() => {
-                handleCancel && handleCancel()
-            }, 500);
-        })
-        .catch(error => {
-            setLoading(false);
-            // 处理错误
-        });
-    }
-
-    const changeConfig = (v, key) => {
-        config[key] = v;
-        setConfig({...config});
-    }
-
-    const selectGateway = () => {
-        findFastestGateway()
-        .then(res => {
-            if (res) {
-                gateway = res;
-                setGateway(gateway);
-            }
-        })
-        .catch(err => {
-            console.log('err ==>',err);
-        })
-    }
-
-    const init = () => {
-        let arr = [];
-        for (const i in chains) {
-            arr.push({
-                value: Number(i), label: chains[i].name, icon: chains[i].icon 
-            })
-        }
-        options = arr;
-        setOptions([...options]);
-    }
-
-    const getList = async() => {
-        setisLoading(true);
-        pageConfig.page += 1;
-        setPageConfig({...pageConfig})
-
-        await getContractNfts({...config, ...pageConfig})
-        .then(res => {
-            if (res?.data) {
-                pageConfig = {
-                    page: res.data.page,
-                    pageSize: res.data.pageSize,
-                    total: res.data.total
-                }
-                setPageConfig({...pageConfig})
-                let arr = res.data?.list ? res.data?.list : [];
-                list = list.concat(arr.slice());
-                setList([...list]);
-                cache = cache.concat(JSON.parse(JSON.stringify(arr)));
-                setCache([...cache]);
-            }
-            setisLoading(false);
-        })
-    }
-
-    const io = new IntersectionObserver(ioes => {
-        ioes.forEach(async(ioe) => {
-            const el = ioe.target
-            const intersectionRatio = ioe.intersectionRatio
-            if (intersectionRatio > 0 && intersectionRatio <= 1) {
-                await getList()
-                io.unobserve(el)
-            }
-        })
-    })
-
-    // 执行交叉观察器
-    function isInViewPortOfThree () {
-        io.observe(document.querySelector(".loading"))
-    }
-
-    const { run } = useRequest(getList, {
-        debounceWait: 1000,
-        manual: true,
-      });
-
-    useEffect(() => {
-        if (config.address.length === 42) {
-            run();
-        }else{
-            list = [];
-            cache = [];
-            setList([...list]);
-            setCache([...cache]);
-            pageConfig = {
-                page: 0, pageSize: 16, total: 0
-            };
-            setPageConfig({...pageConfig});
-        }
-    },[config])
-
-    useEffect(() => {
-        init();
-    },[])
-
-    useUpdateEffect(() => {
-        if (pageConfig.page !== 0 && list.length !== pageConfig.total) {
-            isInViewPortOfThree()
-        }
-    },[list])
+  
+      useEffect(() => {
+          list = [];
+          cache = [];
+          setList([...list]);
+          setCache([...cache]);
+          pageConfig = {
+              page: 0, pageSize: 16, total: 0
+          };
+          setPageConfig({...pageConfig});
+          if (config.address) {
+              run();
+          }
+      },[config])
+  
+      useEffect(() => {
+          init();
+      },[])
+  
+      useUpdateEffect(() => {
+          if (pageConfig.page !== 0 && list.length !== pageConfig.total) {
+              isInViewPortOfThree()
+          }
+      },[list])
 
     return (
         <>
-            <p className="title">请添加可作为你技能能力证明的SBT</p>
+                        <p className="title">请添加可作为你技能能力证明的SBT</p>
             <div className="search">
                 <div className="inner">
                     {
                         options &&
                         <Select
-                            style={{ width: isMobile ? 110 : 180 }}
+                            style={{ width: 180 }}
                             value={config.chainId}
                             onChange={(e) => changeConfig(e, 'chainId')}
                             bordered={false}
@@ -269,6 +272,7 @@ export default function AddSbt(props) {
                         <Input 
                             placeholder="请输入合约地址" 
                             bordered={false}
+                            disabled={loading}
                             onChange={(e) => changeConfig(e.target.value.trim(), 'address')}
                         />
                         <div className="icon">
