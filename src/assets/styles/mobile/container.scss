@@ -93,8 +93,43 @@
             background-color: #00000000;
         }
     }
-
+    .ant-layout-footer{
+        padding: 0 !important;
+    }
     #Footer{
-        display: none;
+        height: 100%;
+        position: relative;
+        .left {
+          height: 5.4375rem;
+          margin-top: .6875rem;
+          margin-left: 1.0625rem;
+          text-align: left;
+          .title{
+            font-size: 1.8125rem;
+            font-weight: 900;
+            line-height: 2.625rem;
+          }
+          .describe {
+            font-size: .5625rem;
+            line-height: .8125rem;
+            margin-bottom: 1.375rem;
+          }
+          .versions {
+            font-size: .4375rem;
+            line-height: .625rem;
+          }
+        }
+        // icon
+        .right {
+            width: 2.25rem;
+            margin: 0;
+            position: absolute;
+            right: 1.6875rem;
+            bottom: .6875rem;
+            img {
+                width: .4375rem;
+                height: .4375rem;
+            }
+        }
     }
 }

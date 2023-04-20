@@ -3,16 +3,21 @@ import Discord from '@/assets/images/icon/discord.png'
 import Notion from '@/assets/images/icon/notion.png'
 import Github from '@/assets/images/icon/github.png'
 
-export default function AppFooter(params) {
+export default function AppFooter({ isMobile }) {
     
 
     return (
         <div id="Footer">
             {/* logo info */}
           <div className="left">
-            <div className="logo">
-              <img src={require("@/assets/images/img/logo-white.png")} alt="" />
-            </div>
+            {
+              isMobile ?
+              <p className='title'>DeCert.me</p>
+              :
+              <div className="logo">
+                <img src={require("@/assets/images/img/logo-white.png")} alt="" />
+              </div>
+            }
             <p className="describe">You are what you build.</p>
             <span className="versions">© 2023 DeCert.me | </span>
             <a href="https://beian.miit.gov.cn/" target="_blank"><span className='versions' style={{color: "#fff"}}>粤ICP备17140514号-3</span></a>

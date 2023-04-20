@@ -4,7 +4,7 @@ import routes from "@/router";
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import { useContext, useEffect, useState } from "react";
-import { useAccount, useSwitchNetwork } from "wagmi";
+import { useAccount } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest } from "ahooks";
 import CustomSigner from "@/redux/CustomSigner";
@@ -21,9 +21,6 @@ export default function DefaultLayout(params) {
     const { isMobile } = useContext(MyContext);
     const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
-    const { switchNetwork } = useSwitchNetwork({
-        chainId: Number(process.env.REACT_APP_CHAIN_ID)
-    });
 
     const headerStyle = {
         width: "100%",
@@ -37,16 +34,16 @@ export default function DefaultLayout(params) {
     };
       
     const contentStyle = {
-        minHeight: "calc(100vh - 300px)",
+        minHeight: isMobile ? "calc(100vh - 108px)" : "calc(100vh - 300px)",
         backgroundColor: location.pathname === "/tutorials" ? "#F6F7F9" : '#fff',
     };
       
     const footerStyle = {
-        height: "300px",
+        height: isMobile ? "108px" : "300px",
         textAlign: 'center',
         color: '#fff',
         backgroundColor: '#000',
-        display: footerHide ? "none" : "block"
+        display: footerHide ? "none" : "block",
     };
 
     const isClaim = (path) => {
