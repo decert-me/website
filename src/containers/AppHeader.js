@@ -14,6 +14,7 @@ import "@/assets/styles/container.scss"
 import "@/assets/styles/mobile/container.scss"
 import { hashAvatar } from '@/utils/HashAvatar';
 import { NickName } from '@/utils/NickName';
+import { useWeb3Modal } from "@web3modal/react";
 
 export default function AppHeader({ isMobile }) {
     
@@ -25,7 +26,7 @@ export default function AppHeader({ isMobile }) {
     let [isConnect, setIsConnect] = useState(false);
     let [isHome, setIsHome] = useState();
     let [isOpenM, setIsOpenM] = useState(false);
-
+    const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
     const items = [
         {
             label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("translation:header.profile")} </p>),
@@ -58,6 +59,10 @@ export default function AppHeader({ isMobile }) {
     ]
 
     const openModal = () => {
+        if (isMobile) {
+            open()
+            return
+        }
         setIsConnect(true);
     }
 

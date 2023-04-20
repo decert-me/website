@@ -9,11 +9,17 @@ import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 // import { SafeConnector } from 'wagmi/connectors/safe'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
+import { WalletConnectLegacyConnector } from 'wagmi/connectors/walletConnectLegacy';
 // import { alchemyProvider } from 'wagmi/providers/alchemy'
 // import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import MyProvider from './provider';
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs';
+import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
+import { Web3Modal } from '@web3modal/react'
+
+const projectId = process.env.REACT_APP_PROJECT_ID;
+
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet, goerli, polygonMumbai, polygon],
   [
@@ -21,8 +27,18 @@ const { chains, provider, webSocketProvider } = configureChains(
     // infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY! }),
     publicProvider(),
   ],
+  [w3mProvider({ projectId })],
   { targetQuorum: 1 },
 )
+
+const web3modalClient = createClient({
+  autoConnect: true,
+  connectors: [
+    ...w3mConnectors({ projectId, version: 1, chains })
+  ],
+  provider,
+  webSocketProvider,
+})
 
 const wagmiClient = createClient({
   autoConnect: true,
@@ -33,7 +49,7 @@ const wagmiClient = createClient({
         UNSTABLE_shimOnConnectSelectAccount: true,
       },
     }),
-    new WalletConnectConnector({
+    new WalletConnectLegacyConnector({
       chains,
       options: {
         qrcode: true,
@@ -43,6 +59,8 @@ const wagmiClient = createClient({
   provider,
   webSocketProvider,
 })
+
+const ethereumClient = new EthereumClient(web3modalClient, chains)
 
 export default function App() {
   window.Buffer = window.Buffer || require("buffer").Buffer;
@@ -68,6 +86,7 @@ export default function App() {
           </MyProvider>
         </StyleProvider>
       </WagmiConfig>
+      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
     </>
   )
 }
