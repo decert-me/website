@@ -98,6 +98,9 @@ export default function CustomClaim(props) {
     const shareTwitter = () => {
         let title = t("claim.share.title", {what: "@decertme"});
         let url = `https://decert.me/quests/${cliamObj.tokenId}`;
+        const userAgent = navigator.userAgent.toLowerCase();
+        console.log(userAgent);
+        return
         window.open(
         `https://twitter.com/share?text=${title}%0A&hashtags=${"DeCert"}&url=${url}%0A`,
         );
