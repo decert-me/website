@@ -75,6 +75,7 @@ $container-width: 93vw;
             display: flex;
             justify-content: center;
             background-color: #fff;
+            z-index: 1;
         }
         button{
             width: $container-width;
