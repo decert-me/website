@@ -12,7 +12,6 @@ import { CertSearch, CertUser, CertNfts, NftBox } from "@/components/Cert";
 import { getAllNft, getContracts, modifyNftStatus } from "@/request/api/nft";
 import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
-import { useAccountInit } from "@/hooks/useAccountInit";
 import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
 import { getEns } from "@/request/api/public";
@@ -44,8 +43,6 @@ export default function Cert(params) {
     let [isList, setIsList] = useState(true);
     const { isMobile } = useContext(MyContext);
     let [isMe, setIsMe] = useState();
-    // let [accountAddr, setAddr] = useState();
-    // let [accountEns, setEns] = useState();
     let [list, setList] = useState([]);
     let [nftlist, setNftList] = useState();
     let [total, setTotal] = useState();
@@ -60,10 +57,7 @@ export default function Cert(params) {
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
-    // const { status, addr, ens, refetch: accountInit } = useAccountInit({
-    //     address: accountAddr,
-    //     ensAddr: accountEns
-    // })
+    let [isRequest, setIsRequest] = useState(false);
     let [ensParse, setEnsParse] = useState({
         address: "",
         avatar: "",
@@ -97,6 +91,7 @@ export default function Cert(params) {
             }
             setLoading(false);
         })
+        setIsRequest(false);
     }
 
     const changeNftStatus = (id, status) => {
@@ -112,9 +107,11 @@ export default function Cert(params) {
         ioes.forEach(async(ioe) => {
             const el = ioe.target
             const intersectionRatio = ioe.intersectionRatio
-            if (intersectionRatio > 0 && intersectionRatio <= 1) {
+            if (intersectionRatio > 0 && intersectionRatio <= 1 && !isRequest) {
+                setIsRequest(true);
                 pageConfig.page += 1;
                 setPageConfig({...pageConfig});
+                console.log('执行 =-==>');
                 await changeContract({
                     address: ensParse.address,
                     contract_id: selectContract,
@@ -167,9 +164,12 @@ export default function Cert(params) {
     },[location])
     
     const getInitList = async() => {
+        if (isRequest) {
+            return
+        }
+        setIsRequest(true);
         list = [];
         setList([...list]);
-        setLoading(true);
         pageConfig.page = 1;
         setPageConfig({...pageConfig})
         await changeContract({
@@ -183,105 +183,10 @@ export default function Cert(params) {
     useUpdateEffect(() => {
         getInitList()
     },[selectStatus, selectContract])
-
-    // const changeContract = async(obj) => {
-    //     if (status === 'error' || !addr) {
-    //         setLoading(false);
-    //         return
-    //     }
-    //     await getAllNft({
-    //         ...obj,
-    //         ...pageConfig
-    //     }) 
-    //     .then(res => {
-    //         if (res.data) {
-    //             list = list.concat(res.data.list);
-    //             setList([...list]);
-    //             if (!selectContract) {
-    //                 setTotal(res.data.total);
-    //             }
-    //             if (!obj.status) {
-    //                 checkTotal = {
-    //                     all: res.data.total,
-    //                     open: res.data.total_public,
-    //                     hide: res.data.total_hidden
-    //                 }
-    //                 setCheckTotal({...checkTotal});
-    //             }
-    //         }
-    //         setLoading(false);
-    //     })
-    // }
-
-    // const changeNftStatus = (id, status) => {
-    //     modifyNftStatus({ID: id, status: status})
-    //     .then(res => {
-    //         if (res) {
-    //             getInitList();
-    //         }
-    //     })
-    // }
-
-    // const init = () => {
-    //     if (urlAddr.length !== 42) {
-    //         // ENS
-    //         accountEns = urlAddr;
-    //         setEns(accountEns);
-    //     }else{
-    //         // ADDR
-    //         accountAddr = urlAddr;
-    //         setAddr(accountAddr);
-    //         setIsMe(address === urlAddr);
-    //     }
-    // }
-
-    // const change = async() => {
-    //     pageConfig.page += 1;
-    //     setPageConfig({...pageConfig});
-    //     await changeContract({
-    //         address: addr,
-    //         contract_id: selectContract,
-    //         status: selectStatus
-    //     })
-    // }
     
     const goAddSbt = () => {
         setAddSbtPanel(true);
     }
-
-    // const io = new IntersectionObserver(ioes => {
-    //     ioes.forEach(async(ioe) => {
-    //         const el = ioe.target
-    //         const intersectionRatio = ioe.intersectionRatio
-    //         if (intersectionRatio > 0 && intersectionRatio <= 1) {
-    //             change()
-    //             io.unobserve(el)
-    //         }
-    //         if (pageConfig.page * pageConfig.pageSize < checkTotal.all) {
-    //             isInViewPortOfThree()
-    //         }
-    //     })
-    // })
-
-    // async function beforeView(params) {
-    //     const contracts = await getContracts({address: params? params : accountAddr});
-    //     if (!contracts || contracts.status !== 0) {
-    //         return
-    //     }
-    //     isMobile && await change()
-    //     nftlist = contracts.data ? contracts.data : [];
-    //     setNftList([...nftlist]);
-    // }
-
-    // async function initView() {
-    //     await beforeView(addr ? addr : accountAddr)
-    //     isInViewPortOfThree()
-    // }
-
-    // // 执行交叉观察器
-    // function isInViewPortOfThree () {
-    //     io.observe(document.querySelector(".loading"))
-    // }
 
     function changeContractId(params) {
         setSelectContract(params);
@@ -297,39 +202,23 @@ export default function Cert(params) {
         setSelectContract(null);
     }
 
-    // useEffect(() => {
-    //     if (status === 'idle') {
-    //         accountInit()
-    //     }else if (status === 'success') {
-    //         setAddr(addr ? addr : accountAddr);
-    //         setEns(ens ? ens : accountEns);
-    //         initView()
-    //     }
-    // },[status])
-
-    // useEffect(() => {
-    //     init();
-    // },[location])
-    
-    // const getInitList = async() => {
-    //     list = [];
-    //     setList([...list]);
-    //     setLoading(true);
-    //     pageConfig.page = 1;
-    //     setPageConfig({...pageConfig})
-    //     await changeContract({
-    //         address: accountAddr,
-    //         contract_id: selectContract,
-    //         status: selectStatus
-    //     })
-    //     if (status === "success") {
-    //         isInViewPortOfThree()
-    //     }
-    // }
-
-    // useUpdateEffect(() => {
-    //     getInitList()
-    // },[selectStatus, selectContract])
+    function checkNum() {
+        let num;
+        switch (selectStatus) {
+            case null:
+                num = checkTotal.all
+                break;
+            case 2:
+                num = checkTotal.open
+                break;
+            case 1:
+                num = checkTotal.hide
+                break;
+            default:
+                break;
+        }
+        return num
+    }
 
     return (
         <div className="Cert">
@@ -386,9 +275,11 @@ export default function Cert(params) {
                                         />                            
                                     )
                                 }
-                                                                {
-                                    pageConfig.page * pageConfig.pageSize < checkTotal.all &&
+                                {
+                                    pageConfig.page * pageConfig.pageSize < (!selectStatus ? checkTotal.all : selectStatus === 2 ? checkTotal.open : checkTotal.hide) ?
                                     LoadingComponents
+                                    :
+                                    <></>
                                 }
                                 </>
                             }
