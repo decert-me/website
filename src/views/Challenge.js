@@ -9,7 +9,7 @@ import {
 } from 'antd';
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { getQuests } from "../request/api/public";
+import { getQuests, submitChallenge } from "../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
 import CustomPagination from '../components/CustomPagination';
@@ -122,9 +122,14 @@ export default function Challenge(params) {
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
     }
 
-    const submit = () => {
+    const submit = async() => {
         // 本地 ==> 存储答案 ==> 跳转领取页
         saveAnswer()
+        // 提交答题次数给后端
+        await submitChallenge({
+            token_id: detail.tokenId,
+            answer: JSON.stringify(answers)
+        })
         navigateTo(`/claim/${detail.tokenId}`)
     }
 
