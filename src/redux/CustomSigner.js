@@ -33,15 +33,17 @@ function CustomSigner(props) {
         .then(() => {
             if (localStorage.getItem('decert.token')) {
                 Modal.destroyAll()
+                props.hide()
             }
         })
         .catch(err => {
             Modal.destroyAll()
+            props.hide()
         })
     }
 
     useEffect(() => {
-        props?.isShow && goSigner()
+      props?.isShow && goSigner()
     },[props])
 
   return (
