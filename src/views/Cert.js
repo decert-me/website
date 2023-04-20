@@ -103,6 +103,11 @@ export default function Cert(params) {
         })
     }
 
+    function test(params) {
+        console.log('执行 =-==>',selectContract);
+        
+    }
+
     const io = new IntersectionObserver(ioes => {
         ioes.forEach(async(ioe) => {
             const el = ioe.target
@@ -111,7 +116,8 @@ export default function Cert(params) {
                 setIsRequest(true);
                 pageConfig.page += 1;
                 setPageConfig({...pageConfig});
-                console.log('执行 =-==>');
+                console.log('执行 =-==>',selectContract);
+                test();
                 await changeContract({
                     address: ensParse.address,
                     contract_id: selectContract,
@@ -137,7 +143,13 @@ export default function Cert(params) {
         }
         nftlist = contracts.data ? contracts.data : [];
         setNftList([...nftlist]);
-
+        let num = 0
+        nftlist.map(e => {
+            if (e?.count) {
+                num+=e.count
+            }
+        })
+        setTotal(num);
         isInViewPortOfThree();
     }
 
@@ -158,11 +170,7 @@ export default function Cert(params) {
             setNftList([...nftlist]);
         })
     }
-
-    useEffect(() => {
-        init();
-    },[location])
-    
+ 
     const getInitList = async() => {
         if (isRequest) {
             return
@@ -172,6 +180,7 @@ export default function Cert(params) {
         setList([...list]);
         pageConfig.page = 1;
         setPageConfig({...pageConfig})
+        console.log('2=====>',selectContract,);
         await changeContract({
             address: ensParse.address,
             contract_id: selectContract,
@@ -202,24 +211,10 @@ export default function Cert(params) {
         setSelectContract(null);
     }
 
-    function checkNum() {
-        let num;
-        switch (selectStatus) {
-            case null:
-                num = checkTotal.all
-                break;
-            case 2:
-                num = checkTotal.open
-                break;
-            case 1:
-                num = checkTotal.hide
-                break;
-            default:
-                break;
-        }
-        return num
-    }
-
+    useEffect(() => {
+        init();
+    },[location])
+   
     return (
         <div className="Cert">
             {
@@ -300,14 +295,6 @@ export default function Cert(params) {
                     }
                 </div>
                 </>
-                // :
-                // <Spin
-                //     size="large"
-                //     style={{
-                //         textAlign: "center",
-                //         margin: "200px auto 0"
-                //     }} 
-                // />
             }
         </div>
     )

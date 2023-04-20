@@ -10,6 +10,7 @@ import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { createFromIconfontCN } from '@ant-design/icons';
+import { useUpdateEffect } from "ahooks";
 const IconFont = createFromIconfontCN({
   scriptUrl: [
     "//at.alicdn.com/t/c/font_4015269_oaebbfmee5.js"
@@ -39,17 +40,18 @@ export default function CertUser(props) {
         socials = user.data.socials;
         setSocials({...socials});
       }
-      info = {
-          nickname: user?.data?.nickname ? user?.data?.nickname : ensParse.domain ? ensParse.domain : urlAddr ? urlAddr : NickName(ensParse.address),
-          address: ensParse.address,
-          avatar: user?.data?.avatar ? process.env.REACT_APP_BASE_URL + user?.data?.avatar : ensParse.avatar ? ensParse.avatar : hashAvatar(ensParse.address)
-      }
+      console.log(ensParse);
       setTimeout(() => {
+        info = {
+            nickname: user?.data?.nickname ? user?.data?.nickname : ensParse.domain ? ensParse.domain : urlAddr ? urlAddr : NickName(ensParse.address),
+            address: ensParse.address,
+            avatar: user?.data?.avatar ? process.env.REACT_APP_BASE_URL + user?.data?.avatar : ensParse.avatar ? ensParse.avatar : hashAvatar(ensParse.address)
+        }
           setInfo({...info})
       }, 1000);
     }
 
-    useEffect(() => {
+    useUpdateEffect(() => {
       init()
     },[ensParse])
 
