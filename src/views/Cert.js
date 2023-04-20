@@ -3,7 +3,7 @@ import {
     LoadingOutlined,
     LeftOutlined
 } from '@ant-design/icons';
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "@/assets/styles/view-style/cert.scss"
 import "@/assets/styles/mobile/view-style/cert.scss"
 import { useTranslation } from "react-i18next";
@@ -54,6 +54,7 @@ export default function Cert(params) {
     let [pageConfig, setPageConfig] = useState({
         page: 0, pageSize: 12
     })
+    const scrollRef = useRef(null);
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
@@ -77,9 +78,6 @@ export default function Cert(params) {
             if (res.data) {
                 list = list.concat(res.data.list);
                 setList([...list]);
-                if (!selectContract) {
-                    setTotal(res.data.total);
-                }
                 if (!obj.status) {
                     checkTotal = {
                         all: res.data.total,
@@ -103,46 +101,17 @@ export default function Cert(params) {
         })
     }
 
-    function test(params) {
-        console.log('执行 =-==>',selectContract);
-        
-    }
 
-    const io = new IntersectionObserver(ioes => {
-        ioes.forEach(async(ioe) => {
-            const el = ioe.target
-            const intersectionRatio = ioe.intersectionRatio
-            if (intersectionRatio > 0 && intersectionRatio <= 1 && !isRequest) {
-                setIsRequest(true);
-                pageConfig.page += 1;
-                setPageConfig({...pageConfig});
-                console.log('执行 =-==>',selectContract);
-                test();
-                await changeContract({
-                    address: ensParse.address,
-                    contract_id: selectContract,
-                    status: selectStatus
-                })
-                io.unobserve(el)
-            }
-            if (pageConfig.page * pageConfig.pageSize < checkTotal.all) {
-                isInViewPortOfThree()
-            }
-        })
-    })
 
-    // 执行交叉观察器
-    async function isInViewPortOfThree () {
-        io.observe(document.querySelector(".loading"))
-    }
-
-    async function beforeIo(params) {
+    async function initContracts(params) {
+        // 运行一次 ==>
         const contracts = await getContracts({address: ensParse.address});
         if (!contracts || contracts.status !== 0) {
             return
         }
         nftlist = contracts.data ? contracts.data : [];
         setNftList([...nftlist]);
+
         let num = 0
         nftlist.map(e => {
             if (e?.count) {
@@ -150,7 +119,7 @@ export default function Cert(params) {
             }
         })
         setTotal(num);
-        isInViewPortOfThree();
+        getNfts()
     }
 
     const init = async() => {
@@ -163,7 +132,7 @@ export default function Cert(params) {
             ensParse = res;
             setEnsParse({...ensParse});
             setIsMe(res.address === address);
-            beforeIo()
+            initContracts();
         }).catch(err => {
             setLoading(false);
             nftlist = [];
@@ -171,28 +140,19 @@ export default function Cert(params) {
         })
     }
  
+    // 切换条件
     const getInitList = async() => {
-        if (isRequest) {
-            return
-        }
-        setIsRequest(true);
         list = [];
         setList([...list]);
         pageConfig.page = 1;
         setPageConfig({...pageConfig})
-        console.log('2=====>',selectContract,);
         await changeContract({
             address: ensParse.address,
             contract_id: selectContract,
             status: selectStatus
         })
-        ensParse.address && isInViewPortOfThree()
     }
-
-    useUpdateEffect(() => {
-        getInitList()
-    },[selectStatus, selectContract])
-    
+   
     const goAddSbt = () => {
         setAddSbtPanel(true);
     }
@@ -211,9 +171,39 @@ export default function Cert(params) {
         setSelectContract(null);
     }
 
+    // 获取列表
+    async function getNfts(params) {
+        pageConfig.page += 1;
+        setPageConfig({...pageConfig});
+        await changeContract({
+            address: ensParse.address,
+            contract_id: selectContract,
+            status: selectStatus
+        })
+    }
+
+    function handleScroll() {
+        const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
+        const isLoading = document.querySelector(".loading");
+        if ((scrollTop + clientHeight >= (scrollHeight - 130)) && isLoading) {
+            getNfts();
+        }
+    };
+
     useEffect(() => {
         init();
     },[location])
+
+    useUpdateEffect(() => {
+        getInitList()
+    },[selectStatus, selectContract])
+
+    useEffect(() => {
+          scrollRef.current.addEventListener('scroll', handleScroll);
+          return () => {
+            scrollRef.current.removeEventListener('scroll', handleScroll);
+          };
+    }, []);
    
     return (
         <div className="Cert">
@@ -249,7 +239,7 @@ export default function Cert(params) {
                             <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏&nbsp;({checkTotal.hide})</li>
                         </ul>
                     }
-                    <div className="nfts">
+                    <div className="nfts" ref={scrollRef}>
                         <div className="scroll">
                             {
                                 loading ?
