@@ -123,7 +123,7 @@ export default function DefaultLayout(params) {
     });
 
     const footerChange = () => {
-        if (location.pathname === "/publish") {
+        if (location.pathname === "/publish" || location.pathname.indexOf("/quests") !== -1) {
             return true
         }
         return false
