@@ -101,9 +101,6 @@ export default function DefaultLayout(params) {
             localStorage.setItem("decert.address", address);
             isCert(path, 'reload');
             sign()
-            if (switchNetwork) {
-                switchNetwork()
-            }
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
             ClearStorage();

@@ -7,7 +7,9 @@ export default function ModalConnect(props) {
 
     const { isModalOpen, handleCancel } = props;
     const isMounted = useIsMounted();
-    const { connect, connectors } = useConnect();
+    const { connect, connectors } = useConnect({
+        chainId: Number(process.env.REACT_APP_CHAIN_ID)
+    });
     const { connector, isReconnecting } = useAccount({
         onConnect() {
             handleCancel()
