@@ -19,7 +19,6 @@ export default function BeforeRouterEnter() {
 
     function changeTitle() {
         let newTitle = document.title;
-        console.log(location);
         if (location.pathname.indexOf("/challenges") === 0) {
             newTitle = `CHALLENGES - ${defaultTitle}`;
         }else if (location.pathname.indexOf("/publish") === 0) {

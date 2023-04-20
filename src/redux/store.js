@@ -33,6 +33,10 @@ export function showCustomSigner() {
     return { type: 'SHOW' };
 }
 
+export function hideCustomSigner() {
+  return { type: 'HIDE' };
+}
+
 export function setMobile(isMobile) { 
   return { type: 'SET_MOBILE', payload: isMobile }; 
 }

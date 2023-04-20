@@ -9,7 +9,7 @@ import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest } from "ahooks";
 import CustomSigner from "@/redux/CustomSigner";
 import MyContext from "@/provider/context";
-import store, { showCustomSigner } from "@/redux/store";
+import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
@@ -89,6 +89,7 @@ export default function DefaultLayout(params) {
     }
     
     const sign = async() => {
+        store.dispatch(hideCustomSigner());
         store.dispatch(showCustomSigner());
     }
 
