@@ -18,7 +18,7 @@ const IconFont = createFromIconfontCN({
 
 export default function CertUser(props) {
 
-    const { account, ensName, status } = props;
+    const { ensParse, urlAddr } = props;
     const location = useLocation();
     const { t } = useTranslation(["translation","profile", "explore"]);
     let [socials, setSocials] = useState();
@@ -31,21 +31,18 @@ export default function CertUser(props) {
     }
 
     const init = async() => {
-      if (!account) {
-        return
+      let user;
+      if (ensParse.address) {
+        user = await getUser({address: ensParse.address});
       }
-      const user = await getUser({address: account});
-      if (user.status !== 0) {
-          return
-      }
-      if (user.data) {
+      if (user?.data) {
         socials = user.data.socials;
         setSocials({...socials});
       }
       info = {
-          nickname: user?.data?.nickname ? user?.data?.nickname : ensName ? ensName : NickName(account),
-          address: account,
-          avatar: user?.data?.avatar ? process.env.REACT_APP_DEVELOP_BASE_URL + user?.data?.avatar : hashAvatar(account)
+          nickname: user?.data?.nickname ? user?.data?.nickname : ensParse.domain ? ensParse.domain : urlAddr ? urlAddr : NickName(ensParse.address),
+          address: ensParse.address,
+          avatar: user?.data?.avatar ? process.env.REACT_APP_BASE_URL + user?.data?.avatar : ensParse.avatar ? ensParse.avatar : hashAvatar(ensParse.address)
       }
       setTimeout(() => {
           setInfo({...info})
@@ -54,15 +51,15 @@ export default function CertUser(props) {
 
     useEffect(() => {
       init()
-    },[account])
+    },[ensParse])
 
   return (
     <div className="user">
       {info ? (
         <>
-          <div className="avatar">
+         <div className="avatar">
             <div className="img">
-              <img src={hashAvatar(account)} alt="" />
+              <img src={info.avatar} alt="" />
             </div>
           </div>
           <div className="user-info">
@@ -72,14 +69,14 @@ export default function CertUser(props) {
             <p
               className="address"
               onClick={() =>
-                Copy(account, t("translation:message.success.copy"))
+                Copy(ensParse.address, t("translation:message.success.copy"))
               }
             >
-              {NickName(account)}
+              {NickName(ensParse.address)}
               <CopyOutlined style={{ color: "#3C6EB9", marginLeft: "12px" }} />
             </p>
             
-            <Button className="share" onClick={share} disabled={status=="error"}>
+            <Button className="share" onClick={share} disabled={!ensParse.address}>
               <IconFont type="icon-share" />
             </Button>
 

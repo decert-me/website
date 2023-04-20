@@ -109,6 +109,15 @@ export const verifyDiscord = (data) => {
     })
 }
 
+// 获取 Ens 
+export const getEns = (data) => {
+    return serviceAxios({
+        url: `/ens/${data.address}`,
+        method: "get",
+        data
+    })
+}
+
 // 获取铸造所需签名
 export const getClaimHash = (data) => {
     return serviceAxios({

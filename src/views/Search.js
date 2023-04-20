@@ -5,19 +5,17 @@ import {
 import { useState } from "react";
 import "@/assets/styles/view-style/search.scss"
 import "@/assets/styles/mobile/view-style/search.scss"
-import { useVerifyAccount } from "@/hooks/useVerifyAccount";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-
+import { getEns } from "@/request/api/public";
 
 export default function Search(params) {
 
     let [account, setAccount] = useState("tinyxiong.eth");
-    // let [account, setAccount] = useState("0xD6823f807C45eFDC56c9aE8Db0226CA10af6E8AB");
+    let [isLoading, setIsLoading] = useState(false);
     
     const { t } = useTranslation("cert");
     const navigateTo = useNavigate();
-    const { verify, isLoading} = useVerifyAccount({address: account});
 
 
     const changeAccount = (v) => {
@@ -26,18 +24,18 @@ export default function Search(params) {
     }
 
     const start = async() => {
-        if (account === "tinyxiong.eth") {
-            setTimeout(() => {
-                navigateTo(`/tinyxiong.eth`)
-            }, 500);
-            return
-        }
-        const ensAddress = await verify();
-        if (ensAddress) {
-            setTimeout(() => {
-                navigateTo(`/${account}`)
-            }, 500);
-        }
+        setIsLoading(true);
+        await getEns({address: account})
+        .then(res => {
+            if (res?.data) {
+                setTimeout(() => {
+                    navigateTo(`/${account}`)
+                }, 500);
+            }
+        })
+        setTimeout(() => {
+            setIsLoading(false);
+        }, 500);
     }
 
     return (

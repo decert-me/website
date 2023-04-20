@@ -15,6 +15,7 @@ import { useAccount } from "wagmi";
 import { useAccountInit } from "@/hooks/useAccountInit";
 import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
+import { getEns } from "@/request/api/public";
 
 
 const LoadingComponents = (
@@ -43,8 +44,8 @@ export default function Cert(params) {
     let [isList, setIsList] = useState(true);
     const { isMobile } = useContext(MyContext);
     let [isMe, setIsMe] = useState();
-    let [accountAddr, setAddr] = useState();
-    let [accountEns, setEns] = useState();
+    // let [accountAddr, setAddr] = useState();
+    // let [accountEns, setEns] = useState();
     let [list, setList] = useState([]);
     let [nftlist, setNftList] = useState();
     let [total, setTotal] = useState();
@@ -59,13 +60,18 @@ export default function Cert(params) {
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
-    const { status, addr, ens, refetch: accountInit } = useAccountInit({
-        address: accountAddr,
-        ensAddr: accountEns
-    })
+    // const { status, addr, ens, refetch: accountInit } = useAccountInit({
+    //     address: accountAddr,
+    //     ensAddr: accountEns
+    // })
+    let [ensParse, setEnsParse] = useState({
+        address: "",
+        avatar: "",
+        domain: ""
+    });
 
     const changeContract = async(obj) => {
-        if (status === 'error' || !addr) {
+        if (!ensParse.address) {
             setLoading(false);
             return
         }
@@ -102,39 +108,18 @@ export default function Cert(params) {
         })
     }
 
-    const init = () => {
-        if (urlAddr.length !== 42) {
-            // ENS
-            accountEns = urlAddr;
-            setEns(accountEns);
-        }else{
-            // ADDR
-            accountAddr = urlAddr;
-            setAddr(accountAddr);
-            setIsMe(address === urlAddr);
-        }
-    }
-
-    const change = async() => {
-        pageConfig.page += 1;
-        setPageConfig({...pageConfig});
-        await changeContract({
-            address: addr,
-            contract_id: selectContract,
-            status: selectStatus
-        })
-    }
-    
-    const goAddSbt = () => {
-        setAddSbtPanel(true);
-    }
-
     const io = new IntersectionObserver(ioes => {
         ioes.forEach(async(ioe) => {
             const el = ioe.target
             const intersectionRatio = ioe.intersectionRatio
             if (intersectionRatio > 0 && intersectionRatio <= 1) {
-                change()
+                pageConfig.page += 1;
+                setPageConfig({...pageConfig});
+                await changeContract({
+                    address: ensParse.address,
+                    contract_id: selectContract,
+                    status: selectStatus
+                })
                 io.unobserve(el)
             }
             if (pageConfig.page * pageConfig.pageSize < checkTotal.all) {
@@ -143,25 +128,160 @@ export default function Cert(params) {
         })
     })
 
-    async function beforeView(params) {
-        const contracts = await getContracts({address: params? params : accountAddr});
+    // 执行交叉观察器
+    async function isInViewPortOfThree () {
+        io.observe(document.querySelector(".loading"))
+    }
+
+    async function beforeIo(params) {
+        const contracts = await getContracts({address: ensParse.address});
         if (!contracts || contracts.status !== 0) {
             return
         }
-        isMobile && await change()
         nftlist = contracts.data ? contracts.data : [];
         setNftList([...nftlist]);
+
+        isInViewPortOfThree();
     }
 
-    async function initView() {
-        await beforeView(addr ? addr : accountAddr)
-        isInViewPortOfThree()
+    const init = async() => {
+        await new Promise((resolve, reject) => {
+           getEns({address: urlAddr})
+            .then(res => {
+                res ? resolve(res.data) : reject()
+            })
+        }).then(res => {
+            ensParse = res;
+            setEnsParse({...ensParse});
+            setIsMe(res.address === address);
+            beforeIo()
+        }).catch(err => {
+            setLoading(false);
+            nftlist = [];
+            setNftList([...nftlist]);
+        })
     }
 
-    // 执行交叉观察器
-    function isInViewPortOfThree () {
-        io.observe(document.querySelector(".loading"))
+    useEffect(() => {
+        init();
+    },[location])
+    
+    const getInitList = async() => {
+        list = [];
+        setList([...list]);
+        setLoading(true);
+        pageConfig.page = 1;
+        setPageConfig({...pageConfig})
+        await changeContract({
+            address: ensParse.address,
+            contract_id: selectContract,
+            status: selectStatus
+        })
+        ensParse.address && isInViewPortOfThree()
     }
+
+    useUpdateEffect(() => {
+        getInitList()
+    },[selectStatus, selectContract])
+
+    // const changeContract = async(obj) => {
+    //     if (status === 'error' || !addr) {
+    //         setLoading(false);
+    //         return
+    //     }
+    //     await getAllNft({
+    //         ...obj,
+    //         ...pageConfig
+    //     }) 
+    //     .then(res => {
+    //         if (res.data) {
+    //             list = list.concat(res.data.list);
+    //             setList([...list]);
+    //             if (!selectContract) {
+    //                 setTotal(res.data.total);
+    //             }
+    //             if (!obj.status) {
+    //                 checkTotal = {
+    //                     all: res.data.total,
+    //                     open: res.data.total_public,
+    //                     hide: res.data.total_hidden
+    //                 }
+    //                 setCheckTotal({...checkTotal});
+    //             }
+    //         }
+    //         setLoading(false);
+    //     })
+    // }
+
+    // const changeNftStatus = (id, status) => {
+    //     modifyNftStatus({ID: id, status: status})
+    //     .then(res => {
+    //         if (res) {
+    //             getInitList();
+    //         }
+    //     })
+    // }
+
+    // const init = () => {
+    //     if (urlAddr.length !== 42) {
+    //         // ENS
+    //         accountEns = urlAddr;
+    //         setEns(accountEns);
+    //     }else{
+    //         // ADDR
+    //         accountAddr = urlAddr;
+    //         setAddr(accountAddr);
+    //         setIsMe(address === urlAddr);
+    //     }
+    // }
+
+    // const change = async() => {
+    //     pageConfig.page += 1;
+    //     setPageConfig({...pageConfig});
+    //     await changeContract({
+    //         address: addr,
+    //         contract_id: selectContract,
+    //         status: selectStatus
+    //     })
+    // }
+    
+    const goAddSbt = () => {
+        setAddSbtPanel(true);
+    }
+
+    // const io = new IntersectionObserver(ioes => {
+    //     ioes.forEach(async(ioe) => {
+    //         const el = ioe.target
+    //         const intersectionRatio = ioe.intersectionRatio
+    //         if (intersectionRatio > 0 && intersectionRatio <= 1) {
+    //             change()
+    //             io.unobserve(el)
+    //         }
+    //         if (pageConfig.page * pageConfig.pageSize < checkTotal.all) {
+    //             isInViewPortOfThree()
+    //         }
+    //     })
+    // })
+
+    // async function beforeView(params) {
+    //     const contracts = await getContracts({address: params? params : accountAddr});
+    //     if (!contracts || contracts.status !== 0) {
+    //         return
+    //     }
+    //     isMobile && await change()
+    //     nftlist = contracts.data ? contracts.data : [];
+    //     setNftList([...nftlist]);
+    // }
+
+    // async function initView() {
+    //     await beforeView(addr ? addr : accountAddr)
+    //     isInViewPortOfThree()
+    // }
+
+    // // 执行交叉观察器
+    // function isInViewPortOfThree () {
+    //     io.observe(document.querySelector(".loading"))
+    // }
 
     function changeContractId(params) {
         setSelectContract(params);
@@ -177,63 +297,54 @@ export default function Cert(params) {
         setSelectContract(null);
     }
 
-    useEffect(() => {
-        if (status === 'idle') {
-            accountInit()
-        }else if (status === 'success') {
-            setAddr(addr ? addr : accountAddr);
-            setEns(ens ? ens : accountEns);
-            initView()
-        }
-    },[status])
+    // useEffect(() => {
+    //     if (status === 'idle') {
+    //         accountInit()
+    //     }else if (status === 'success') {
+    //         setAddr(addr ? addr : accountAddr);
+    //         setEns(ens ? ens : accountEns);
+    //         initView()
+    //     }
+    // },[status])
 
-    useEffect(() => {
-        init();
-    },[location])
+    // useEffect(() => {
+    //     init();
+    // },[location])
     
-    const getInitList = async() => {
-        list = [];
-        setList([...list]);
-        setLoading(true);
-        pageConfig.page = 1;
-        setPageConfig({...pageConfig})
-        await changeContract({
-            address: accountAddr,
-            contract_id: selectContract,
-            status: selectStatus
-        })
-        if (status === "success") {
-            isInViewPortOfThree()
-        }
-    }
+    // const getInitList = async() => {
+    //     list = [];
+    //     setList([...list]);
+    //     setLoading(true);
+    //     pageConfig.page = 1;
+    //     setPageConfig({...pageConfig})
+    //     await changeContract({
+    //         address: accountAddr,
+    //         contract_id: selectContract,
+    //         status: selectStatus
+    //     })
+    //     if (status === "success") {
+    //         isInViewPortOfThree()
+    //     }
+    // }
 
-    useUpdateEffect(() => {
-        getInitList()
-    },[selectStatus, selectContract])
+    // useUpdateEffect(() => {
+    //     getInitList()
+    // },[selectStatus, selectContract])
 
     return (
         <div className="Cert">
             {
-                status === "success" || status === "error" ?
                 <>
                 <div className={`Cert-sidbar ${isList ? "" : "none"} ${addSbtPanel ? "none" : ""}`}>
                     <CertSearch />
                     <Divider className="divider"  />
-                    {
-                        accountAddr && 
-                        <CertUser 
-                            account={accountAddr} 
-                            ensName={accountEns} 
-                            status={status} 
-                        />
-                    }
+                    <CertUser ensParse={ensParse} urlAddr={urlAddr} />
                     <div className="mt50"></div>
                     <CertNfts 
-                        account={accountAddr} 
+                        ensParse={ensParse}
                         changeContractId={changeContractId} 
                         total={total} 
                         isMe={isMe}
-                        status={status}
                         nftlist={nftlist}
                         isMobile={isMobile}
                         goAddSbt={goAddSbt}
@@ -257,10 +368,10 @@ export default function Cert(params) {
                     <div className="nfts">
                         <div className="scroll">
                             {
-                                loading && status !== "error" ? 
+                                loading ?
                                 LoadingComponents
                                 :
-                                status === "error" ? 
+                                !ensParse.address ? 
                                 <></>
                                 :
                                 <>
@@ -275,11 +386,11 @@ export default function Cert(params) {
                                         />                            
                                     )
                                 }
+                                                                {
+                                    pageConfig.page * pageConfig.pageSize < checkTotal.all &&
+                                    LoadingComponents
+                                }
                                 </>
-                            }
-                            {
-                                pageConfig.page * pageConfig.pageSize < checkTotal.all &&
-                                LoadingComponents
                             }
                         </div>
                     </div>
@@ -298,14 +409,14 @@ export default function Cert(params) {
                     }
                 </div>
                 </>
-                :
-                <Spin
-                    size="large"
-                    style={{
-                        textAlign: "center",
-                        margin: "200px auto 0"
-                    }} 
-                />
+                // :
+                // <Spin
+                //     size="large"
+                //     style={{
+                //         textAlign: "center",
+                //         margin: "200px auto 0"
+                //     }} 
+                // />
             }
         </div>
     )
