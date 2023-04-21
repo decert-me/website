@@ -69,7 +69,7 @@ export default function CustomClaimStep(props) {
                 setIsLoading(false);
             }, 500);
             if (res) {
-                ClaimShareSuccess();
+                ClaimShareSuccess({isMobile: isMobile});
             }
         })
     }
