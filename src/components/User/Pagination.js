@@ -1,8 +1,8 @@
 import { useEffect, useState } from "react";
 import "@/assets/styles/component-style/index"
+import { Pagination } from "antd";
 
-
-export default function Pagination(props) {
+export default function Paginations(props) {
     
     const { pageConfig, togglePage } = props;
     let [pages, setPages] = useState();
@@ -13,17 +13,13 @@ export default function Pagination(props) {
     },[pageConfig])
 
     return (
-        <div className="Pagination">
-            {
-                pages > 1 &&
-                Array.from({length: pages}).map((e,i) => 
-                    <div 
-                        className={`box ${pageConfig.page === i+1 ? "active" : ""}`} 
-                        key={i}
-                        onClick={() => {togglePage(i+1)}}
-                    >{i+1}</div>
-                )
-            }
-        </div>
+        pageConfig.total > 0 &&
+            <Pagination
+                className="Pagination" 
+                pageSize={10}
+                total={pageConfig.total} 
+                defaultCurrent={1}
+                onChange={togglePage} 
+            /> 
     )
 }
