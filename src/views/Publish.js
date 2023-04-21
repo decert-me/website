@@ -200,7 +200,7 @@ export default function Publish(params) {
 
     useEffect(() => {
         if (isMobile) {
-            message.info("请在pc上打开")
+            message.info(t("translation:message.info.mobile-publish"))
             navigateTo('/')
         }
     },[isMobile])

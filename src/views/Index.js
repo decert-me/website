@@ -14,7 +14,7 @@ export default function Index(params) {
 
     function goCreate(params) {
         if (isMobile) {
-            message.info("请在pc上打开")
+            message.info(t("message.info.mobile-publish"))
             return
         }
         navigateTo("/publish");
