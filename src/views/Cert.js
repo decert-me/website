@@ -15,6 +15,7 @@ import { useAccount } from "wagmi";
 import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
 import { getEns } from "@/request/api/public";
+import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 
 
 const LoadingComponents = (
@@ -187,6 +188,11 @@ export default function Cert(params) {
         manual: true
     });
 
+    const sign = async() => {
+        store.dispatch(hideCustomSigner());
+        store.dispatch(showCustomSigner());
+    }
+
     function handleScroll() {
         const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
         const isLoading = document.querySelector(".loading");
@@ -209,6 +215,10 @@ export default function Cert(params) {
             scrollRef.current?.removeEventListener('scroll', handleScroll);
         };
     }, []);
+
+    useUpdateEffect(() => {
+        isMe && !localStorage.getItem("decert.token") && sign()
+    },[isMe])
    
     return (
         <div className="Cert">
