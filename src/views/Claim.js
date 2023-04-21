@@ -30,6 +30,7 @@ export default function Claim(props) {
         .then(res => {
             detail = res ? res.data : {};
             setDetail({...detail});
+            console.log(detail);
         })
         if (cache && cache[id] && (num == 0 || !num)) {
             // 已答 未领 ==>
@@ -59,12 +60,12 @@ export default function Claim(props) {
         .then(res => {
             switchStatus(tokenId, res);
         })
-        tokenId && isDisconnected && switchStatus(tokenId);
+        tokenId && !address && switchStatus(tokenId);
     }
 
     useEffect(() => {
         init()
-    },[signer, isDisconnected])
+    },[signer, address])
 
     return (
         <div className="Claim">
