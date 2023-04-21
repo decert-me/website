@@ -1,42 +1,42 @@
 .Mobile .Search{
-    padding-top: 19.375rem;
-    padding-bottom: 11.875rem;
-    min-height: calc(100vh - 18.75rem);
+    padding-top: 310px;
+    padding-bottom: 190px;
+    min-height: calc(100vh - 108px);
     .Search-content{
         width: auto;
         position: relative;
         .title{
-            font-size: 1.875rem;
-            line-height: 2.6875rem;
+            font-size: 30px;
+            line-height: 43px;
         }
         .subtitle{
-            margin-top: 1.4375rem;
-            font-size: .75rem;
-            line-height: 1.0625rem;
+            margin-top: 23px;
+            font-size: 12px;
+            line-height: 17px;
         }
         .inner{
-            width: 19.0625rem;
-            height: 3.125rem;
-            padding-left: 1.25rem;
-            padding-right: 1.25rem;
-            margin: 1.9375rem auto 0;
-            border-radius: 1.5625rem;
+            width: 305px;
+            height: 50px;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin: 31px auto 0;
+            border-radius: 25px;
             .icon{
-                margin-right: 1.125rem;
-                font-size: 1.875rem;
+                margin-right: 18px;
+                font-size: 30px;
             }
             input{
-                font-size: 1.0625rem;
-                line-height: 1.4375rem;
+                font-size: 17px;
+                line-height: 23px;
             }
             button{
-                width: 19.0625rem;
-                height: 3.125rem;
-                font-size: 1rem;
-                border-radius: 1.5625rem;
+                width: 305px;
+                height: 50px;
+                font-size: 16px;
+                border-radius: 25px;
                 position: absolute;
-                bottom: -4.375rem;
-                left: calc((100% - 19.0625rem) / 2);
+                bottom: -70px;
+                left: calc((100% - 305px) / 2);
             }
         }
     }
