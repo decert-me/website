@@ -24,7 +24,7 @@ export default function ModalAddSbt(props) {
             }}
             closeIcon={<CloseCircleOutlined />}
             destroyOnClose
-            width="1164px"
+            width="1050px"
         >
             <AddSbt handleCancel={handleCancel} />
         </Modal>
