@@ -3,7 +3,7 @@ import { message } from "antd";
 
 
 export const Copy = (text, successText) => {
-    const tempInput = document.createElement('input');
+    const tempInput = document.createElement('textarea');
     tempInput.value = text;
     document.body.appendChild(tempInput);
     tempInput.select();

@@ -10,11 +10,11 @@ import ModalLoading from "../CustomModal/ModalLoading";
 import { GetScorePercent } from "@/utils/GetPercent";
 import { useTranslation } from "react-i18next";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
-
+import { Copy } from "@/utils/Copy"
 
 export default function CustomClaim(props) {
     
-    const { step, cliamObj, img, showInner, isClaim } = props;
+    const { step, cliamObj, img, showInner, isClaim, isMobile } = props;
     const { t } = useTranslation(["claim"]);
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
@@ -90,6 +90,12 @@ export default function CustomClaim(props) {
     }
 
     const share = () => {
+        if (isMobile) {
+            // 移动端点击分享推特处理
+            const text = "我在 @decertme 上完成了一个挑战并获得了链上能力认证的徽章。\r\nhttps://decert.me/quests/10182\r\n#DeCert"
+            Copy(text, '成功')
+            return
+        }
         showInner();
         shareTwitter();
 

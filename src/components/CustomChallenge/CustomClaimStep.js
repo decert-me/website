@@ -155,6 +155,7 @@ export default function CustomClaimStep(props) {
                                     img={detail.metadata.image}
                                     showInner={showInner}
                                     isClaim={isClaim}
+                                    isMobile={isMobile}
                                 />
                             )
                         }
