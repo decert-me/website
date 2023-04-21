@@ -89,16 +89,16 @@ export default function DefaultLayout(params) {
     }
     
     const sign = async() => {
-        store.dispatch(hideCustomSigner());
-        store.dispatch(showCustomSigner());
+        await store.dispatch(hideCustomSigner());
+        await store.dispatch(showCustomSigner());
     }
 
     const verifySignUpType = async(addr, path) => {
         if (addr === null && address) {
             // 未登录  ====>  登录
             localStorage.setItem("decert.address", address);
-            isCert(path, 'reload');
-            sign()
+            await sign()
+            // isCert(path, 'reload');
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
             ClearStorage();

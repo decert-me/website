@@ -2,6 +2,7 @@ import { GetSign } from '@/utils/GetSign';
 import { Modal } from 'antd';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { useAccount, useDisconnect, useSigner } from 'wagmi';
 const { confirm } = Modal;
 
@@ -10,6 +11,8 @@ function CustomSigner(props) {
     const { data: signer } = useSigner();
     const { address } = useAccount();
     const { disconnect } = useDisconnect();
+    const navigateTo = useNavigate();
+    const location = useLocation();
 
     function openModal() {
         confirm({
@@ -29,11 +32,15 @@ function CustomSigner(props) {
         return
       }
         openModal()
+        console.log({address: address, signer: signer, disconnect: disconnect});
         await GetSign({address: address, signer: signer, disconnect: disconnect})
         .then(() => {
             if (localStorage.getItem('decert.token')) {
-                Modal.destroyAll()
-                props.hide()
+                Modal.destroyAll();
+                props.hide();
+                if (location.pathname.indexOf("/claim") === -1) {
+                  navigateTo(0)
+                }
             }
         })
         .catch(err => {
@@ -43,8 +50,8 @@ function CustomSigner(props) {
     }
 
     useEffect(() => {
-      props?.isShow && goSigner()
-    },[props])
+      props?.isShow && signer && goSigner()
+    },[props, signer])
 
   return (
     <></>
