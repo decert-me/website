@@ -10,7 +10,7 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
 import { CertSearch, CertUser, CertNfts, NftBox } from "@/components/Cert";
 import { getAllNft, getContracts, modifyNftStatus } from "@/request/api/nft";
-import { useUpdateEffect } from "ahooks";
+import { useRequest, useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
 import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
@@ -142,7 +142,9 @@ export default function Cert(params) {
     const getInitList = async() => {
         list = [];
         setList([...list]);
-        pageConfig.page = 1;
+        pageConfig = {
+            page: 1, pageSize: 12
+        };
         setPageConfig({...pageConfig})
         await changeContract({
             address: ensParse.address,
@@ -180,11 +182,16 @@ export default function Cert(params) {
         })
     }
 
+    const { runAsync } = useRequest(getNfts, {
+        debounceWait: 300,
+        manual: true
+    });
+
     function handleScroll() {
         const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
         const isLoading = document.querySelector(".loading");
         if ((scrollTop + clientHeight >= (scrollHeight - 130)) && isLoading) {
-            getNfts();
+            runAsync();
         }
     };
 
