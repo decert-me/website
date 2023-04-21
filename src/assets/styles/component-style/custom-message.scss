@@ -18,3 +18,37 @@
         }
     }
 }
+.mobile-message-share{
+    width: 22.5rem !important;
+    margin: 6.25rem auto 0;
+    padding: 0 !important;
+    .anticon{
+        font-size: 1.5rem !important;
+    }
+    .ant-message-notice-content{
+        padding: 1.6875rem !important;
+        padding-bottom: 2.3125rem !important;
+        background-color: #f4ffec !important;
+        border-radius: .6875rem !important;
+
+        font-size: .875rem;
+        line-height: 1.25rem;
+        color: #333333;
+
+        h4{
+            margin-bottom: 1rem;
+            color: #000000;
+            font-size: 1.125rem;
+            font-weight: 500;
+            line-height: 1.625rem;
+        }
+        h1{
+            margin: 0;
+        }
+    }
+    .ant-message-custom-content{
+        display: flex;
+        align-items: flex-start;
+        text-align: left;
+    }
+}

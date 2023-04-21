@@ -5,7 +5,6 @@ import "@/assets/styles/mobile/view-style/index.scss"
 import { useTranslation } from "react-i18next";
 import MyContext from "@/provider/context";
 import { useContext } from "react";
-import { ClaimShareSuccess } from "@/components/CustomMessage";
 
 export default function Index(params) {
     
@@ -14,8 +13,6 @@ export default function Index(params) {
     const { isMobile } = useContext(MyContext);
 
     function goCreate(params) {
-        // ClaimShareSuccess()
-        // return
         if (isMobile) {
             message.info(t("message.info.mobile-publish"))
             return
