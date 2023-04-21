@@ -25,7 +25,7 @@ export const ClaimShareSuccess = ({isMobile}) => {
                     <p>{obj.desc}</p>
                 </div>
             ),
-            duration: 99999
+            duration: 3
         })
     )
 
