@@ -5,14 +5,14 @@ import {
     EditOutlined,
     CopyOutlined
 } from '@ant-design/icons';
-import { Button, Skeleton } from "antd";
+import { Button, Pagination, Skeleton } from "antd";
 import "@/assets/styles/view-style/user.scss"
 import "@/assets/styles/mobile/view-style/user.scss"
 import { getChallengeComplete, getChallengeCreate, getUser } from "@/request/api/public";
 import { NickName } from "@/utils/NickName";
 import { hashAvatar } from "@/utils/HashAvatar";
 import ChallengeItem from "@/components/User/ChallengeItem";
-import Pagination from "@/components/User/Pagination";
+// import Pagination from "@/components/User/Pagination";
 import { Copy } from "@/utils/Copy";
 import CustomSocial from "@/components/CustomItem/CustomSocial";
 import { useTranslation } from "react-i18next";
@@ -241,7 +241,8 @@ export default function User(props) {
                         }
                     </div>
                 }
-                <Pagination pageConfig={pageConfig} togglePage={togglePage} />
+                {/* <Pagination pageConfig={pageConfig} togglePage={togglePage} /> */}
+                <Pagination className="Pagination" total={Math.ceil(pageConfig.total / pageConfig.pageSize)} onChange={togglePage} />
             </div>
         </div>
     )
