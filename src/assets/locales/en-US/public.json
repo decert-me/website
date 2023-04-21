@@ -59,7 +59,9 @@
                 "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet."
             },
             "save": "Update success!",
-            "copy": "Copy success!"
+            "copy": "Copy success!",
+            "copy-share": "Copy success! Please go to the Twitter app to share the content."
+
         },
         "error": {
             "submit": {

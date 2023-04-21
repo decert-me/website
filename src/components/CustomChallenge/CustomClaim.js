@@ -15,7 +15,7 @@ import { Copy } from "@/utils/Copy"
 export default function CustomClaim(props) {
     
     const { step, cliamObj, img, showInner, isClaim, isMobile } = props;
-    const { t } = useTranslation(["claim"]);
+    const { t } = useTranslation(["claim", "translation"]);
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const { data: signer } = useSigner();
@@ -100,7 +100,7 @@ export default function CustomClaim(props) {
         if (isMobile) {
             // 移动端点击分享推特处理
             const text = `${title}\r\n${url}\r\n#DeCert`
-            Copy(text, '复制成功,请自行前往推特页面分享该内容')
+            Copy(text, t("translation:message.success.copy-share"))
             return
         }
         window.open(
