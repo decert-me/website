@@ -5,7 +5,7 @@ import {
     LoadingOutlined
 } from '@ant-design/icons';
 import "@/assets/styles/component-style/cert/modal-addsbt.scss"
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { constans } from "@/utils/constans";
 import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
@@ -16,6 +16,7 @@ const { Option } = Select;
 export default function AddSbt(props) {
     
     const { handleCancel, isMobile } = props;
+    const scrollRef = useRef(null);
 
     const renderoption = (option) => {
         return (
@@ -174,6 +175,7 @@ export default function AddSbt(props) {
           setOptions([...options]);
       }
   
+    //   修改链或修改合约地址
       const getList = async() => {
           setisLoading(true);
           pageConfig.page += 1;
@@ -201,27 +203,18 @@ export default function AddSbt(props) {
                   setisLoading(false);
               })
       }
-  
-      const io = new IntersectionObserver(ioes => {
-          ioes.forEach(async(ioe) => {
-              const el = ioe.target
-              const intersectionRatio = ioe.intersectionRatio
-              if (intersectionRatio > 0 && intersectionRatio <= 1) {
-                  await getList()
-                  io.unobserve(el)
-              }
-          })
-      })
-  
-      // 执行交叉观察器
-      function isInViewPortOfThree () {
-          io.observe(document.querySelector(".loading"))
-      }
-  
-      const { run } = useRequest(getList, {
-          debounceWait: 1000,
-          manual: true,
-        });
+    const { runAsync } = useRequest(getList, {
+        debounceWait: 300,
+        manual: true
+    });
+
+    function handleScroll() {
+        const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
+        const isLoading = document.querySelector(".loading");
+        if ((scrollTop + clientHeight >= (scrollHeight - 130)) && isLoading) {
+            runAsync();
+        }
+    };
   
       useEffect(() => {
           list = [];
@@ -233,7 +226,7 @@ export default function AddSbt(props) {
           };
           setPageConfig({...pageConfig});
           if (config.address) {
-              run();
+            runAsync();
           }
       },[config])
   
@@ -241,11 +234,18 @@ export default function AddSbt(props) {
           init();
       },[])
   
-      useUpdateEffect(() => {
-          if (pageConfig.page !== 0 && list.length !== pageConfig.total) {
-              isInViewPortOfThree()
-          }
-      },[list])
+    //   useUpdateEffect(() => {
+    //       if (pageConfig.page !== 0 && list.length !== pageConfig.total) {
+    //           isInViewPortOfThree()
+    //       }
+    //   },[list])
+
+    useEffect(() => {
+        scrollRef.current?.addEventListener('scroll', handleScroll);
+      return () => {
+          scrollRef.current?.removeEventListener('scroll', handleScroll);
+      };
+  }, []);
 
     return (
         <>
@@ -289,7 +289,7 @@ export default function AddSbt(props) {
                 >确认</Button>
             </div>
             <Divider style={{marginBlock: "30px"}} />
-            <div className="content">
+            <div className="content" ref={scrollRef} >
                 <div className="list-content">
                     {
                         list.length === 0 && isLoading ?
