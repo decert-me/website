@@ -91,19 +91,18 @@ export default function CustomClaim(props) {
 
     const share = () => {
         showInner();
-        if (isMobile) {
-            // 移动端点击分享推特处理
-            const text = "我在 @decertme 上完成了一个挑战并获得了链上能力认证的徽章。\r\nhttps://decert.me/quests/10182\r\n#DeCert"
-            Copy(text, '复制成功,请自行前往推特页面分享该内容')
-            return
-        }
         shareTwitter();
-
     }
 
     const shareTwitter = () => {
         let title = t("claim.share.title", {what: "@decertme"});
         let url = `https://decert.me/quests/${cliamObj.tokenId}`;
+        if (isMobile) {
+            // 移动端点击分享推特处理
+            const text = `${title}\r\n${url}\r\n#DeCert`
+            Copy(text, '复制成功,请自行前往推特页面分享该内容')
+            return
+        }
         window.open(
         `https://twitter.com/share?text=${title}%0A&hashtags=${"DeCert"}&url=${url}%0A`,
         );
