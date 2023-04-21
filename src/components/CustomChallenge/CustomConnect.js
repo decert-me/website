@@ -5,20 +5,26 @@ import ModalConnect from '@/components/CustomModal/ModalConnect';
 import { NickName } from "../../utils/NickName";
 import { useRequest } from "ahooks";
 import { useTranslation } from "react-i18next";
+import { useWeb3Modal } from "@web3modal/react";
 
 
 export default function CustomConnect(props) {
     
     const { t } = useTranslation(["claim"]);
-    const { step, setStep } = props;
+    const { step, setStep, isMobile } = props;
     const { address } = useAccount();
     let [connectModal, setConnectModal] = useState();
+    const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
 
     const cancelModalConnect = () => {
         setConnectModal(false);
     }
 
     const openModalConnect = () => {
+        if (isMobile) {
+            open()
+            return
+        }
         setConnectModal(true);
     }
     

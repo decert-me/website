@@ -93,7 +93,7 @@ export default function CustomClaim(props) {
         if (isMobile) {
             // 移动端点击分享推特处理
             const text = "我在 @decertme 上完成了一个挑战并获得了链上能力认证的徽章。\r\nhttps://decert.me/quests/10182\r\n#DeCert"
-            Copy(text, '成功')
+            Copy(text, '复制成功,请自行前往推特页面分享该内容')
             return
         }
         showInner();

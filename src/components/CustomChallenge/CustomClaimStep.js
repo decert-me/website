@@ -130,6 +130,7 @@ export default function CustomClaimStep(props) {
                                 <CustomConnect
                                     step={step}
                                     setStep={changeStep}
+                                    isMobile={isMobile}
                                 />
                             )
                         },
