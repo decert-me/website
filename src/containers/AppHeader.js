@@ -60,6 +60,7 @@ export default function AppHeader({ isMobile }) {
 
     const openModal = () => {
         if (isMobile) {
+            setIsOpenM(!isOpenM)
             open()
             return
         }
