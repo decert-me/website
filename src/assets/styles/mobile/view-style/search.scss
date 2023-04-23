@@ -1,0 +1,43 @@
+.Mobile .Search{
+    padding-top: 310px;
+    padding-bottom: 190px;
+    min-height: calc(100vh - 108px);
+    .Search-content{
+        width: auto;
+        position: relative;
+        .title{
+            font-size: 30px;
+            line-height: 43px;
+        }
+        .subtitle{
+            margin-top: 23px;
+            font-size: 12px;
+            line-height: 17px;
+        }
+        .inner{
+            width: 305px;
+            height: 50px;
+            padding-left: 20px;
+            padding-right: 20px;
+            margin: 31px auto 0;
+            border-radius: 25px;
+            .icon{
+                margin-right: 18px;
+                font-size: 30px;
+            }
+            input{
+                font-size: 17px;
+                line-height: 23px;
+            }
+            button{
+                width: 305px;
+                height: 50px;
+                font-size: 16px;
+                border-radius: 25px;
+                position: absolute;
+                bottom: -70px;
+                left: calc((100% - 305px) / 2);
+            }
+        }
+    }
+}

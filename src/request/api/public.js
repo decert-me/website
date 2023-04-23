@@ -73,6 +73,15 @@ export const getQuests = (data) => {
     })
 }
 
+// 提交 challenge 
+export const submitChallenge = (data) => {
+    return serviceAxios({
+        url: `/challenge`,
+        method: "post",
+        data
+    })
+}
+
 // 添加 challenge
 export const addQuests = (data) => {
     return serviceAxios({
@@ -95,6 +104,15 @@ export const submitHash = (data) => {
 export const verifyDiscord = (data) => {
     return serviceAxios({
         url: `/users/discord`,
+        method: "get",
+        data
+    })
+}
+
+// 获取 Ens 
+export const getEns = (data) => {
+    return serviceAxios({
+        url: `/ens/${data.address}`,
         method: "get",
         data
     })

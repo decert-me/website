@@ -1,19 +1,21 @@
-import { Divider, Spin } from "antd";
+import { Button, Divider, Spin } from "antd";
 import {
-    LoadingOutlined
+    LoadingOutlined,
+    LeftOutlined
 } from '@ant-design/icons';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import "@/assets/styles/view-style/cert.scss"
+import "@/assets/styles/mobile/view-style/cert.scss"
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
-import CertSearch from "@/components/Cert/Search";
-import CertUser from "@/components/Cert/User";
-import CertNfts from "@/components/Cert/Nfts";
+import { CertSearch, CertUser, CertNfts, NftBox } from "@/components/Cert";
 import { getAllNft, getContracts, modifyNftStatus } from "@/request/api/nft";
-import NftBox from "@/components/Cert/NftBox";
-import { useUpdateEffect } from "ahooks";
+import { useRequest, useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
-import { useAccountInit } from "@/hooks/useAccountInit";
+import MyContext from "@/provider/context";
+import AddSbt from "@/components/Cert/AddSbt";
+import { getEns } from "@/request/api/public";
+import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 
 
 const LoadingComponents = (
@@ -39,28 +41,33 @@ export default function Cert(params) {
     const { address: urlAddr } = useParams();
     const { address } = useAccount();
 
+    let [isList, setIsList] = useState(true);
+    const { isMobile } = useContext(MyContext);
     let [isMe, setIsMe] = useState();
-    let [accountAddr, setAddr] = useState();
-    let [accountEns, setEns] = useState();
     let [list, setList] = useState([]);
     let [nftlist, setNftList] = useState();
     let [total, setTotal] = useState();
+    let [addSbtPanel, setAddSbtPanel] = useState();
+    
     let [checkTotal, setCheckTotal] = useState({
         all: 0, open: 0, hide: 0
     });
     let [pageConfig, setPageConfig] = useState({
         page: 0, pageSize: 12
     })
+    const scrollRef = useRef(null);
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
-    const { status, addr, ens, refetch: accountInit } = useAccountInit({
-        address: accountAddr,
-        ensAddr: accountEns
-    })
+    let [isRequest, setIsRequest] = useState(false);
+    let [ensParse, setEnsParse] = useState({
+        address: "",
+        avatar: "",
+        domain: ""
+    });
 
     const changeContract = async(obj) => {
-        if (status === 'error' || !addr) {
+        if (!ensParse.address) {
             setLoading(false);
             return
         }
@@ -72,20 +79,16 @@ export default function Cert(params) {
             if (res.data) {
                 list = list.concat(res.data.list);
                 setList([...list]);
-                if (!selectContract) {
-                    setTotal(res.data.total);
+                checkTotal = {
+                    all: res.data.total,
+                    open: res.data.total_public,
+                    hide: res.data.total_hidden
                 }
-                if (!obj.status) {
-                    checkTotal = {
-                        all: res.data.total,
-                        open: res.data.total_public,
-                        hide: res.data.total_hidden
-                    }
-                    setCheckTotal({...checkTotal});
-                }
+                setCheckTotal({...checkTotal});
             }
             setLoading(false);
         })
+        setIsRequest(false);
     }
 
     const changeNftStatus = (id, status) => {
@@ -97,126 +100,167 @@ export default function Cert(params) {
         })
     }
 
-    const init = () => {
-        if (urlAddr.length !== 42) {
-            // ENS
-            accountEns = urlAddr;
-            setEns(accountEns);
-        }else{
-            // ADDR
-            accountAddr = urlAddr;
-            setAddr(accountAddr);
-            setIsMe(address === urlAddr);
-        }
-    }
 
-    const io = new IntersectionObserver(ioes => {
-        ioes.forEach(async(ioe) => {
-            const el = ioe.target
-            const intersectionRatio = ioe.intersectionRatio
-            if (intersectionRatio > 0 && intersectionRatio <= 1) {
-                pageConfig.page += 1;
-                setPageConfig({...pageConfig});
-                await changeContract({
-                    address: addr,
-                    contract_id: selectContract,
-                    status: selectStatus
-                })
-                io.unobserve(el)
-            }
-            if (pageConfig.page * pageConfig.pageSize < checkTotal.all) {
-                isInViewPortOfThree()
-            }
-        })
-    })
 
-    // 执行交叉观察器
-    async function isInViewPortOfThree (params) {
-        const contracts = await getContracts({address: params? params : accountAddr});
+    async function initContracts(params) {
+        // 运行一次 ==>
+        const contracts = await getContracts({address: ensParse.address});
         if (!contracts || contracts.status !== 0) {
             return
         }
         nftlist = contracts.data ? contracts.data : [];
         setNftList([...nftlist]);
-        io.observe(document.querySelector(".loading"))
+
+        let num = 0
+        nftlist.map(e => {
+            if (e?.count) {
+                num+=e.count
+            }
+        })
+        setTotal(num);
+        getNfts()
     }
 
-    useEffect(() => {
-        if (status === 'idle') {
-            accountInit()
-        }else if (status === 'success') {
-            setAddr(addr ? addr : accountAddr);
-            setEns(ens ? ens : accountEns);
-            isInViewPortOfThree(addr ? addr : accountAddr)
+    const init = async() => {
+        await new Promise((resolve, reject) => {
+           getEns({address: urlAddr})
+            .then(res => {
+                res ? resolve(res.data) : reject()
+            })
+        }).then(res => {
+            ensParse = res;
+            setEnsParse({...ensParse});
+            setIsMe(res.address === address);
+            initContracts();
+        }).catch(err => {
+            setLoading(false);
+            nftlist = [];
+            setNftList([...nftlist]);
+        })
+    }
+ 
+    // 切换条件
+    const getInitList = async() => {
+        list = [];
+        setList([...list]);
+        pageConfig = {
+            page: 1, pageSize: 12
+        };
+        setPageConfig({...pageConfig})
+        await changeContract({
+            address: ensParse.address,
+            contract_id: selectContract,
+            status: selectStatus
+        })
+    }
+   
+    const goAddSbt = () => {
+        setAddSbtPanel(true);
+    }
+
+    function changeContractId(params) {
+        setSelectContract(params);
+        if (isMobile) {
+            window.scrollTo(0, 0);
+            setIsList(false);
         }
-    },[status])
+    }
+
+    function goback(params) {
+        window.scrollTo(0, 0);
+        setIsList(true);
+        setSelectContract(null);
+    }
+
+    // 获取列表
+    async function getNfts(params) {
+        pageConfig.page += 1;
+        setPageConfig({...pageConfig});
+        await changeContract({
+            address: ensParse.address,
+            contract_id: selectContract,
+            status: selectStatus
+        })
+    }
+
+    const { runAsync } = useRequest(getNfts, {
+        debounceWait: 300,
+        manual: true
+    });
+
+    const sign = async() => {
+        store.dispatch(hideCustomSigner());
+        store.dispatch(showCustomSigner());
+    }
+
+    function handleScroll() {
+        const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
+        const isLoading = document.querySelector(".loading");
+        if ((scrollTop + clientHeight >= (scrollHeight - 130)) && isLoading) {
+            runAsync();
+        }
+    };
 
     useEffect(() => {
         init();
     },[location])
-    
-    const getInitList = async() => {
-        list = [];
-        setList([...list]);
-        setLoading(true);
-        pageConfig.page = 1;
-        setPageConfig({...pageConfig})
-        await changeContract({
-            address: accountAddr,
-            contract_id: selectContract,
-            status: selectStatus
-        })
-        if (status === "success") {
-            isInViewPortOfThree()
-        }
-    }
 
     useUpdateEffect(() => {
         getInitList()
     },[selectStatus, selectContract])
 
+    useEffect(() => {
+          scrollRef.current?.addEventListener('scroll', handleScroll);
+        return () => {
+            scrollRef.current?.removeEventListener('scroll', handleScroll);
+        };
+    }, []);
+
+    useUpdateEffect(() => {
+        isMe && !localStorage.getItem("decert.token") && sign()
+    },[isMe])
+   
     return (
         <div className="Cert">
             {
-                status === "success" || status === "error" ?
                 <>
-                <div className="Cert-sidbar">
+                <div className={`Cert-sidbar ${isList ? "" : "none"} ${addSbtPanel ? "none" : ""}`}>
                     <CertSearch />
                     <Divider className="divider"  />
-                    {
-                        accountAddr && 
-                        <CertUser 
-                            account={accountAddr} 
-                            ensName={accountEns} 
-                            status={status} 
-                        />
-                    }
+                    <CertUser ensParse={ensParse} urlAddr={urlAddr} />
                     <div className="mt50"></div>
                     <CertNfts 
-                        account={accountAddr} 
-                        changeContractId={setSelectContract} 
+                        ensParse={ensParse}
+                        changeContractId={changeContractId} 
                         total={total} 
                         isMe={isMe}
-                        status={status}
                         nftlist={nftlist}
+                        isMobile={isMobile}
+                        goAddSbt={goAddSbt}
                     />
                 </div>
-                <div className="Cert-content">
+                <div className={`Cert-content ${isList ? "none" : ""} ${addSbtPanel ? "none" : ""}`}>
+                    {
+                        isMobile && 
+                        <div className="back" onClick={() => goback()}>
+                            <LeftOutlined />
+                        </div>
+                    }
                     {
                         isMe &&
                         <ul>
-                            <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>全部({checkTotal.all})</li>
-                            <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>公开({checkTotal.open})</li>
-                            <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏({checkTotal.hide})</li>
+                            <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>全部&nbsp;({checkTotal.all})</li>
+                            <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>公开&nbsp;({checkTotal.open})</li>
+                            <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏&nbsp;({checkTotal.hide})</li>
                         </ul>
                     }
-                    <div className="nfts">
+                    <div className="nfts" ref={scrollRef}>
                         <div className="scroll">
                             {
-                                loading && status !== "error" ? 
+                                loading ?
                                 LoadingComponents
                                 :
-                                status === "error" ? 
+                                !ensParse.address ? 
                                 <></>
                                 :
                                 <>
@@ -231,24 +275,31 @@ export default function Cert(params) {
                                         />                            
                                     )
                                 }
+                                {
+                                    pageConfig.page * pageConfig.pageSize < (!selectStatus ? checkTotal.all : selectStatus === 2 ? checkTotal.open : checkTotal.hide) ?
+                                    LoadingComponents
+                                    :
+                                    <></>
+                                }
                                 </>
-                            }
-                            {
-                                pageConfig.page * pageConfig.pageSize < checkTotal.all &&
-                                LoadingComponents
                             }
                         </div>
                     </div>
-                    </div>
+                </div>
+                <div className={`Cert-addsbt ${addSbtPanel ? "" : "none"}`}>
+                    {
+                        isMobile && 
+                        <>
+                        <div className="back">
+                            <div className="icon" onClick={() => {setAddSbtPanel(false)}}>
+                                <LeftOutlined />
+                            </div>
+                        </div>
+                        <AddSbt isMobile={isMobile} />
+                        </>
+                    }
+                </div>
                 </>
-                :
-                <Spin
-                    size="large"
-                    style={{
-                        textAlign: "center",
-                        margin: "200px auto 0"
-                    }} 
-                />
             }
         </div>
     )

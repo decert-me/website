@@ -1,4 +1,3 @@
-import { getContracts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { useUpdateEffect } from "ahooks";
 import { Button, Skeleton } from "antd";
@@ -10,17 +9,28 @@ import ModalAddSbt from "./ModalAddSbt";
 
 export default function CertNfts(props) {
     
-    const { account, changeContractId, total, isMe, nftlist: list } = props;
+    const { ensParse, changeContractId, total, isMe, nftlist: list, isMobile, goAddSbt } = props;
     const [isModalOpen, setIsModalOpen] = useState(false);
-    let [selectItem, setSelectItem] = useState(0);
+    let [selectItem, setSelectItem] = useState(isMobile ? null : 0);
 
     const show = () => {
+        if (isMobile) {
+            goAddSbt()
+            return
+        }
         setIsModalOpen(true);
     }
 
     const handleCancel = () => {
         setIsModalOpen(false);
     };
+
+    const change = (id) => {
+        if (isMobile && id === selectItem) {
+            changeContractId(id) 
+        }
+        setSelectItem(id);
+    }
 
     useUpdateEffect(() => {
         if (selectItem === 0) {
@@ -50,7 +60,7 @@ export default function CertNfts(props) {
                     <ul>
                         <li
                             className={`${selectItem === 0 ? "active" : ""}`}
-                            onClick={() => {setSelectItem(0)}}
+                            onClick={() => change(0)}
                         >
                             <div></div>
                             <p className="li-content">全部</p>
@@ -61,7 +71,7 @@ export default function CertNfts(props) {
                                 <li 
                                     key={e.id} 
                                     className={`${selectItem === e.id ? "active" : ""}`}
-                                    onClick={() => {setSelectItem(e.id)}}
+                                    onClick={() => change(e.id)}
                                 >
                                     <div className="img">
                                         <img src={process.env.REACT_APP_NFT_BASE_URL+e.contract_logo} alt="" />
@@ -77,7 +87,7 @@ export default function CertNfts(props) {
                 <Skeleton active />
             }
             {
-                account &&
+                ensParse.address &&
                 <ModalAddSbt 
                     isModalOpen={isModalOpen} 
                     handleCancel={handleCancel}

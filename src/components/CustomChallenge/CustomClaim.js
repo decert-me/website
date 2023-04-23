@@ -10,12 +10,12 @@ import ModalLoading from "../CustomModal/ModalLoading";
 import { GetScorePercent } from "@/utils/GetPercent";
 import { useTranslation } from "react-i18next";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
-
+import { Copy } from "@/utils/Copy"
 
 export default function CustomClaim(props) {
     
-    const { step, cliamObj, img, showInner, isClaim } = props;
-    const { t } = useTranslation(["claim"]);
+    const { step, cliamObj, img, showInner, isClaim, isMobile } = props;
+    const { t } = useTranslation(["claim", "translation"]);
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const { data: signer } = useSigner();
@@ -92,12 +92,17 @@ export default function CustomClaim(props) {
     const share = () => {
         showInner();
         shareTwitter();
-
     }
 
     const shareTwitter = () => {
         let title = t("claim.share.title", {what: "@decertme"});
         let url = `https://decert.me/quests/${cliamObj.tokenId}`;
+        if (isMobile) {
+            // 移动端点击分享推特处理
+            const text = `${title}\r\n${url}\r\n#DeCert`
+            Copy(text, t("translation:message.success.copy-share"))
+            return
+        }
         window.open(
         `https://twitter.com/share?text=${title}%0A&hashtags=${"DeCert"}&url=${url}%0A`,
         );

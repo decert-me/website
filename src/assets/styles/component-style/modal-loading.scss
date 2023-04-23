@@ -1,6 +1,7 @@
 .ModalLoading{
     .ant-modal-content{
-        padding: 0;
+        padding: 0 !important;
+        border-radius: 0 !important;
     }
     .claimed{
         padding-block: 96px 83px;
@@ -66,6 +67,51 @@
             font-size: 16px;
             line-height: 19px;
             background-color: #3662EC;
+        }
+    }
+}
+.ModalLoading-mobile{
+    .claimed{
+        padding: 2.5rem 6.25rem 1.5625rem;
+    }
+    .claiming{
+        padding: 2.5rem 6.25rem 1.5625rem;
+        .loading{
+            width: 9.375rem;
+            height: 9.375rem;
+            border-radius: 1.25rem;
+        }
+        .loading-title{
+            margin-top: 4.0625rem;
+            font-size: 1.125rem;
+        }
+        .loading-tip{
+            width: 12.5rem;
+            margin-top: 1.6875rem;
+            font-size: .75rem;
+            line-height: .9375rem;
+        }
+    }
+    .content{
+        .img{
+            width: 9.375rem;
+            height: 9.375rem;
+            margin-top: 1.0625rem;
+            border-radius: .3125rem;
+        }
+        .title{
+            font-size: 1.125rem;
+        }
+        a{
+            margin-block: 1.0625rem;
+            font-size: .875rem;
+        }
+        .btn{
+            width: 9.375rem;
+            height: 2.5rem;
+            border-radius: 1.25rem;
+            font-size: .75rem;
+            line-height: 1.0625rem;
         }
     }
 }

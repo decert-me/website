@@ -1,10 +1,10 @@
 .ModalAnswers{
     .ant-modal-content{
         min-height: 560px;
-        padding-inline: 60px;
-        border-radius: 0;
+        padding-inline: 60px !important;
+        border-radius: 0 !important;
         text-align: center;
-        position: relative;
+        position: relative !important;
     }
     .ant-modal-close{
         width: 33px;
@@ -76,5 +76,64 @@
         font-weight: 500;
         border: none;
         background-color: #000000;
+    }
+}
+.ModalAnswers-mobile{
+    .ant-modal-content{
+        min-height: 25rem;
+        padding-left: 1.0625rem !important;
+        padding-right: 1.0625rem !important;
+    }
+    .ant-modal-close{
+        width: 1.25rem !important;
+        height: 1.25rem !important;
+        right: 17px;
+        .anticon-close-square{
+            font-size: 1.25rem !important;
+        }
+    }
+    h5{
+        margin-top: .625rem;
+        font-size: 1.25rem;
+    }
+    .tips{
+        .point{
+            width: 1rem;
+            height: 1rem;
+            margin-right: .625rem;
+        }
+        li{
+            margin-right: 1.25rem;
+            font-size: .75rem;
+            line-height: 1.0625rem;
+        }
+    }
+    .answers{
+        margin-top: 1.875rem;
+        height: 10rem;
+        overflow-y: scroll;
+        list-style: none;
+        .point{
+            width: 1.875rem;
+            height: 1.875rem;
+            margin-bottom: 1.125rem;
+            margin-right: 2.375rem;
+            font-size: .875rem;
+            &:nth-child(8n){
+                margin-right: 2.375rem;
+            }
+            &:nth-child(5n){
+                margin-right: 0rem;
+            }
+        }
+    }
+    .submit{
+        width: 8.75rem;
+        height: 1.875rem;
+        left: calc((100% - 8.75rem) / 2);
+        bottom: 1.875rem;
+        font-size: .75rem;
+        font-weight: 400;
+        border-radius: .1875rem;
     }
 }

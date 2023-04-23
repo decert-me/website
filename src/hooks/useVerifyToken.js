@@ -1,14 +1,10 @@
+import store, { showCustomSigner } from "@/redux/store";
 import { convertToken } from "@/utils/convert";
-import { GetSign } from "@/utils/GetSign"
-import { useAccount, useDisconnect, useSigner } from "wagmi";
-
-
+import { useAccount } from "wagmi";
 
 export const useVerifyToken = () => {
 
-    const { data: signer } = useSigner();
-    const { address, isConnected } = useAccount();
-    const { disconnect } = useDisconnect();
+    const { isConnected } = useAccount();
 
     const verify = async() => {
         
@@ -17,15 +13,8 @@ export const useVerifyToken = () => {
             const isToken = convertToken(token);
 
             if (isConnected && (!token || !isToken)) {
-                GetSign({address: address, signer: signer, disconnect: disconnect})
-                .then(() => {
-                    if (localStorage.getItem('decert.token')) {
-                        resolve(true);
-                    }
-                })
-                .catch(err => {
-                    reject();
-                })
+                await store.dispatch(showCustomSigner());
+                reject();
             }else{
                 resolve(true);
             }

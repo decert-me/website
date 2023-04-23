@@ -1,0 +1,91 @@
+$container-width: 93vw;
+
+.Mobile{
+    .User{
+        width: $container-width;
+        padding-top: 6.25rem;
+    }
+    .User-info{
+        height: 11.25rem;
+        align-items: flex-start;
+        .btn{
+            width: 7.5rem;
+            height: 2.1875rem;
+            margin: 0 auto;
+            border-radius: 1.125rem;
+            font-size: .75rem;
+            position: absolute;
+            left: 0;
+            bottom: 0;
+        }
+        .img{
+            width: 3.75rem;
+            height: 3.75rem;
+            margin-right: .625rem;
+        }
+        .info{
+            .name{
+                font-size: 1.125rem;
+            }
+            .address{
+                margin-top: 0rem;
+                font-size: .875rem;
+            }
+            .social{
+                margin-top: 0;
+                .icon{
+                    width: 1rem;
+                    height: 1rem;
+                }
+            }
+            .desc{
+                max-width: 16.875rem;
+                line-height: 1.125rem;
+            }
+        }
+    }
+    .User-list{
+        margin-top: 3.125rem;
+        .challenge{
+            margin-bottom: .9375rem;
+            li{
+                margin-right: 1.5625rem;
+                font-size: 1.25rem;
+                &:last-child{
+                    margin-right: 0;
+                }
+            }
+            .active{
+                color: #000;
+                cursor: auto;
+            }
+        }
+        .status{
+            li{
+                margin-right: 1.0625rem;
+                font-size: .875rem;
+                line-height: 1.25rem;
+            }
+        }
+    }
+    .User-content{
+        padding-top: 1.6875rem;
+        padding-bottom: 3.125rem;
+        gap: .625rem;
+        .nodata{
+            width: 100%;
+            height: 15.625rem;
+            p{
+                margin-bottom: .875rem;
+                font-size: .75rem;
+                line-height: 1.0625rem;
+            }
+            .nodata-btn{
+                height: 2.75rem;
+                padding: .8125rem 4rem;
+                font-size: .75rem;
+                line-height: 1.125rem;
+            }
+        }
+    }
+}

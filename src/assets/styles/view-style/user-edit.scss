@@ -1,7 +1,7 @@
 .UserEdit{
     width: 850px;
     margin: 0 auto;
-    padding-top: 93px;
+    padding-block: 93px;
 }
 .UserEdit-inner{
     height: 590px;
@@ -27,6 +27,12 @@
                 border: 2px solid #EEEEEE;
                 border-radius: 50%;
                 overflow: hidden;
+            }
+            .ant-upload.ant-upload-select{
+                width: auto;
+                height: auto;
+                background-color: #00000000;
+                border: none;
             }
             .btn{
                 height: 28px;
@@ -54,8 +60,6 @@
             input{
                 font-size: 16px;
                 line-height: 24px;
-            }
-            .textarea{
             }
             textarea{
                 padding: 17px 32px;

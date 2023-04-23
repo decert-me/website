@@ -1,0 +1,43 @@
+.Mobile{
+    .UserEdit{
+        width: 21.875rem;
+        padding-top: 5rem;
+        padding-bottom: 5rem;
+    }
+    .UserEdit-inner{
+        height: auto;
+        min-height: 34.375rem;
+        .title{
+            height: 4.25rem;
+            font-size: 1.25rem;
+        }
+        .content{
+            padding: 2.4375rem .9375rem 2.6875rem;
+            .avatar{
+                .btn{
+                    padding-left: 1.625rem;
+                    padding-right: 1.625rem;
+                }
+            }
+            .inner{
+                margin-top: 1.625rem;
+                .label{
+                    margin-bottom: .75rem;
+                }
+                .input{
+                    padding-left: 1.4375rem;
+                    padding-right: 1.4375rem;
+                }
+                input{
+                    font-size: .75rem;
+                    line-height: 1.125rem;
+                }
+                textarea{
+                    padding: .875rem 1.25rem;
+                    border-radius: .9375rem;
+                    font-size: .75rem;
+                }
+            }
+        }
+    }
+}

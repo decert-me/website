@@ -4,12 +4,19 @@ import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useAccount, useDisconnect } from 'wagmi';
 import { Button, Dropdown } from 'antd';
+import {
+    MenuOutlined,
+    CloseOutlined,
+    GlobalOutlined
+  } from '@ant-design/icons';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import "@/assets/styles/container.scss"
+import "@/assets/styles/mobile/container.scss"
 import { hashAvatar } from '@/utils/HashAvatar';
 import { NickName } from '@/utils/NickName';
+import { useWeb3Modal } from "@web3modal/react";
 
-export default function AppHeader(params) {
+export default function AppHeader({ isMobile }) {
     
     const { address, isConnected } = useAccount()
     const { t } = useTranslation();
@@ -18,7 +25,8 @@ export default function AppHeader(params) {
     const location = useLocation();
     let [isConnect, setIsConnect] = useState(false);
     let [isHome, setIsHome] = useState();
-
+    let [isOpenM, setIsOpenM] = useState(false);
+    const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
     const items = [
         {
             label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("translation:header.profile")} </p>),
@@ -44,7 +52,17 @@ export default function AppHeader(params) {
         }
     ]
 
+    const menus = [
+        {to: "/tutorials", label: t("translation:header.lesson")},
+        {to: "/challenges", label: t("translation:header.explore")},
+        {to: "/vitae", label: t("translation:header.cert")}
+    ]
+
     const openModal = () => {
+        if (isMobile) {
+            open()
+            return
+        }
         setIsConnect(true);
     }
 
@@ -52,64 +70,131 @@ export default function AppHeader(params) {
         setIsConnect(false);
     }
 
+    const toggleI18n = () => {
+        let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
+        i18n.changeLanguage(lang);
+        localStorage.setItem("decert.lang", lang)
+    }
+
     useEffect(() => {
         if (location) {
             isHome = (location.pathname === '/' || location.pathname === '/vitae') ? true : false;
             setIsHome(isHome);
+            setIsOpenM(false);
         }
     },[location])
 
     return (
         <div id={`${isHome ? "Header-bg" : "Header"}`}>
-            <div className="header-content">
+            <div className={`header-content ${isOpenM ? "bg000" : ""}`}>
                 <div className='nav-left'>
                     <div className="logo" onClick={() => navigateTo("/")}>
                         {/*  */} 
                         {
-                            isHome ? 
+                            isHome || isOpenM ? 
                             <img src={require("@/assets/images/img/logo-white.png")} alt="" />
                             :
                             <img src={require("@/assets/images/img/logo-black.png")} alt="" />
                         }
                     </div>
-                    <Link to="/tutorials">{t("translation:header.lesson")}</Link>
-                    <Link to="/challenges">{t("translation:header.explore")}</Link>
-                    <Link to="/vitae">{t("translation:header.cert")}</Link>
+                    {
+                        menus.map((e,i) =>
+                            <Link to={e.to} key={i}>
+                                {e.label}
+                            </Link>
+                        )
+                    }
                 </div>
-
-                <div className='nav-right'>
-                    <Button 
-                        type="ghost"
-                        ghost
-                        className='lang'
-                        onClick={() => {
-                            let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
-                            i18n.changeLanguage(lang);
-                            localStorage.setItem("decert.lang", lang)
-                        }}
-                    >
-                        {i18n.language === 'zh-CN' ? "中文" : "EN"}
-                    </Button>
                 {
-                    isConnected ?
-                        <Dropdown
-                            placement="bottom" 
-                            arrow
-                            menu={{items}}
+                    isMobile ? 
+                    <div className='nav-right'>
+                        {
+                            isConnected && !isOpenM &&
+                                <Dropdown
+                                    placement="bottomRight" 
+                                    menu={{items}}
+                                    overlayStyle={{
+                                        width: "160px",
+                                        fontWeight: 500
+                                    }}
+                                >
+                                    <div className="user">
+                                        <img src={hashAvatar(address)} alt="" />
+                                    </div>
+                                </Dropdown>
+                        }
                             
-                        >
-                            <div className="user">
-                                <img src={hashAvatar(address)} alt="" />
-                                <p>{NickName(address)}</p>
+                            <div 
+                                className={isOpenM ? "cfff":""}
+                                style={{fontSize: "16px"}}
+                                onClick={() => {setIsOpenM(!isOpenM)}} 
+                            >
+                                {
+                                    isOpenM ?
+                                    <CloseOutlined />
+                                    :
+                                    <MenuOutlined /> 
+                                }
                             </div>
-                        </Dropdown>
+                            <div className={`mask-box ${isOpenM ? "mask-box-show" : ""}`}>
+                                <ul>
+                                {
+                                    menus.map((e,i) =>
+                                    <Link to={e.to} key={i}>
+                                        <li>
+                                            {e.label}
+                                        </li>
+                                    </Link>
+                                    )
+                                }
+                                    <li className="toggle" onClick={() => toggleI18n()}>
+                                        <GlobalOutlined className='icon' />
+                                        <p>{i18n.language === 'zh-CN' ? "中文" : "EN"}</p>
+                                    </li>
+                                </ul>
+
+                                {
+                                    isConnected ?
+                                    <Button danger type="primary" onClick={() => disconnect()}>{t("translation:header.disconnect")}</Button>
+                                    :
+                                    <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
+                                }
+                                <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
+                            </div>
+                        
+                    </div>
                     :
-                    <div>
-                        <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
-                        <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
+                    <div className='nav-right'>
+                        <Button 
+                            type="ghost"
+                            ghost
+                            className='lang'
+                            onClick={() => toggleI18n()}
+                        >
+                            {i18n.language === 'zh-CN' ? "中文" : "EN"}
+                        </Button>
+                        {
+                            isConnected ?
+                                <Dropdown
+                                    placement="bottom" 
+                                    arrow
+                                    menu={{items}}
+                                    
+                                >
+                                    <div className="user">
+                                        <img src={hashAvatar(address)} alt="" />
+                                        <p>{NickName(address)}</p>
+                                    </div>
+                                </Dropdown>
+                            :
+                            <div>
+                                <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
+                                <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
+                            </div>
+                        }
                     </div>
                 }
-                </div>
+
             </div>
         </div>
     )

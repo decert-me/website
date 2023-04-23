@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
 import {
     EditOutlined,
@@ -7,20 +7,20 @@ import {
 } from '@ant-design/icons';
 import { Button, Skeleton } from "antd";
 import "@/assets/styles/view-style/user.scss"
+import "@/assets/styles/mobile/view-style/user.scss"
 import { getChallengeComplete, getChallengeCreate, getUser } from "@/request/api/public";
 import { NickName } from "@/utils/NickName";
 import { hashAvatar } from "@/utils/HashAvatar";
 import ChallengeItem from "@/components/User/ChallengeItem";
-import Pagination from "@/components/User/Pagination";
-import { Copy } from "@/utils/Copy";
 import CustomSocial from "@/components/CustomItem/CustomSocial";
+import { Copy } from "@/utils/Copy";
 import { useTranslation } from "react-i18next";
 import { useUpdateEffect } from "ahooks";
+import Paginations from "@/components/User/Pagination";
 
 
 export default function User(props) {
     
-    const location = useLocation();
     const { t } = useTranslation(["translation","profile", "explore"]);
     const { address } = useAccount();
     const { address: paramsAddr } = useParams();
@@ -241,7 +241,7 @@ export default function User(props) {
                         }
                     </div>
                 }
-                <Pagination pageConfig={pageConfig} togglePage={togglePage} />
+                <Paginations pageConfig={pageConfig} togglePage={togglePage} />
             </div>
         </div>
     )

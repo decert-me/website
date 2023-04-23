@@ -1,6 +1,7 @@
 import { formatTimeToStrYMD } from "@/utils/date";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "@/assets/styles/component-style/index"
+import "@/assets/styles/mobile/component-style/user/challengeItem.scss"
 import { useNavigate } from "react-router-dom";
 import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";

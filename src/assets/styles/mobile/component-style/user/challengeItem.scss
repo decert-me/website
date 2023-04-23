@@ -1,0 +1,39 @@
+.Mobile{
+    .ChallengeItem{
+        width: 21.875rem;
+        height: 6.25rem;
+        padding: .75rem;
+        .tags{
+            padding: .25rem 1.125rem .3125rem;
+            font-size: .5rem;
+            line-height: .75rem;
+            border-bottom-left-radius: .3125rem;
+        }
+        .img{
+            width: 4.6875rem;
+            height: 4.6875rem;
+        }
+        .content{
+            width: calc(100% - .625rem - 4.6875rem);
+            margin-left: .625rem;
+            .flex{
+                .icon{
+                    width: 1.0625rem;
+                    height: 1.0625rem;
+                }
+                .date{
+                    font-size: .625rem;
+                    .icon{
+                        width: .5rem;
+                        height: .5rem;
+                    }
+                }
+            }
+            .title{
+                color: #17151C;
+                font-size: .875rem;
+                line-height: 1.25rem;
+            }
+        }
+    }
+}

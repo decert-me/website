@@ -1,8 +1,8 @@
 {
     "desc-none": "No bio",
     "challenge-none": "No data",
-    "challenge-completed": "Completed challenges",
-    "challenge-publish": "Created challenges",
+    "challenge-completed": "Completed",
+    "challenge-publish": "Created",
     "type0": "All",
     "type1": "Claimable",
     "type2": "Claimed",

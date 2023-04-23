@@ -1,0 +1,39 @@
+$container-width: 93vw;
+.Mobile{
+    .Lesson{
+        width: $container-width;
+        margin: 5.1875rem auto 0;
+        padding-bottom: 12.5rem;
+        .title{
+            margin-bottom: 2rem;
+            font-size: 1.125rem;
+            line-height: 1.625rem;
+            text-align: center;
+        }
+        .content{
+            flex-direction: column;
+            a{
+                margin-bottom: 1.25rem;
+            }
+            .box{
+                width: 100%;
+                min-height: 15.625rem;
+                border-radius: .4375rem;
+                .img{
+                    height: 9.8125rem;
+                }
+                .box-content{
+                    padding: .8125rem 1.5rem 1.25rem .875rem;
+                    .box-title{
+                        font-size: .8125rem;
+                        line-height: 1.1875rem;
+                    }
+                    .box-desc{
+                        font-size: .5rem;
+                        line-height: .75rem;
+                    }
+                }
+            }
+        }
+    }
+}
