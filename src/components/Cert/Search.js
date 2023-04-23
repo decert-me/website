@@ -4,14 +4,15 @@ import {
 import { useRequest } from "ahooks";
 import { Input } from "antd";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
-import { useEnsAddress } from "wagmi";
 
 export default function CertSearch(props) {
 
     const navigateTo = useNavigate();
     const { address } = useParams();
     let [account, setAccount] = useState();
+    const { t } = useTranslation(["cert"]);
 
 
 
@@ -43,11 +44,11 @@ export default function CertSearch(props) {
     return (
         <div className="search">
             <p className="search-title">
-                搜索
+                {t("sidbar.search")}
             </p>
             <div className="search-inner">
                 <SearchOutlined className="icon" />
-                <Input bordered={false} value={account} onChange={(e) => changeAccount(e.target.value.trim())} />
+                <Input placeholder={t("sidbar.rule")} bordered={false} value={account} onChange={(e) => changeAccount(e.target.value.trim())} />
             </div>
         </div>
     )

@@ -1,4 +1,4 @@
-import { Button, Divider, Input, message, Select, Space, Spin } from "antd";
+import { Button, Divider, Input, Select, Space, Spin } from "antd";
 import {
     CheckOutlined,
     SearchOutlined,
@@ -11,14 +11,36 @@ import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { ipfsToImg } from "@/utils/IpfsToImg";
 import { useRequest, useUpdateEffect } from "ahooks";
+import { useTranslation } from "react-i18next";
 const { Option } = Select;
 
 export default function AddSbt(props) {
     
     const { handleCancel, isMobile } = props;
     const scrollRef = useRef(null);
+    const { chains } = constans();
+    const { t } = useTranslation(["translation", "cert"]);
+    let [options, setOptions] = useState();
+    let [loading, setLoading] = useState();
+    let [isLoading, setisLoading] = useState(false);
+    let [config, setConfig] = useState({
+        // chainId: 137, address: "", page: 1, pageSize: 10
+        chainId: 137, address: ""
+    })
+    let [list, setList] = useState([]);
+    let [cache, setCache] = useState([]);
+    let [gateway, setGateway] = useState(
+          "https://nftscan.mypinata.cloud/ipfs/"
+          // "https://dweb.link/ipfs/"
+          );
+  
+      let [addIds, setAddIds] = useState([]);
+      let [deleteIds, setDeleteIds] = useState([]);
+      let [pageConfig, setPageConfig] = useState({
+          page: 0, pageSize: 16, total: 0
+      })
 
-    const renderoption = (option) => {
+      const renderoption = (option) => {
         return (
           <Space>
             <div className="img" style={{width: "20px", height: "20px"}}>
@@ -33,32 +55,10 @@ export default function AddSbt(props) {
     
       const dropdownRender = (menu) => (
         <div className={isMobile ? "dropdownMenu" : ""}>
-          <div style={{ padding: '4px 8px', fontWeight: 'bold' }}>Select Chain ID</div>
+          <div style={{ padding: '4px 8px', fontWeight: 'bold' }}>{t("modal.add-sbt.select")}</div>
           {menu}
         </div>
       );
-      
-
-      const { chains } = constans();
-      let [options, setOptions] = useState();
-      let [loading, setLoading] = useState();
-      let [isLoading, setisLoading] = useState(false);
-      let [config, setConfig] = useState({
-          // chainId: 137, address: "", page: 1, pageSize: 10
-          chainId: 137, address: ""
-      })
-      let [list, setList] = useState([]);
-      let [cache, setCache] = useState([]);
-      let [gateway, setGateway] = useState(
-          "https://nftscan.mypinata.cloud/ipfs/"
-          // "https://dweb.link/ipfs/"
-          );
-  
-      let [addIds, setAddIds] = useState([]);
-      let [deleteIds, setDeleteIds] = useState([]);
-      let [pageConfig, setPageConfig] = useState({
-          page: 0, pageSize: 16, total: 0
-      })
   
       const changeList = (id) => {
           cache.map(e => {
@@ -135,7 +135,6 @@ export default function AddSbt(props) {
           .then(results => {
               // 处理结果
               setLoading(false);
-              message.success('操作成功')
               setTimeout(() => {
                   handleCancel()
               }, 500);
@@ -210,7 +209,7 @@ export default function AddSbt(props) {
 
     function handleScroll() {
         const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
-        const isLoading = document.querySelector(".loading");
+        const isLoading = document.querySelector(".search .loading");
         if ((scrollTop + clientHeight >= (scrollHeight - 130)) && isLoading) {
             runAsync();
         }
@@ -233,12 +232,6 @@ export default function AddSbt(props) {
       useEffect(() => {
           init();
       },[])
-  
-    //   useUpdateEffect(() => {
-    //       if (pageConfig.page !== 0 && list.length !== pageConfig.total) {
-    //           isInViewPortOfThree()
-    //       }
-    //   },[list])
 
     useEffect(() => {
         scrollRef.current?.addEventListener('scroll', handleScroll);
@@ -249,13 +242,13 @@ export default function AddSbt(props) {
 
     return (
         <>
-                        <p className="title">请添加可作为你技能能力证明的SBT</p>
+            <p className="title">{t("modal.add-sbt.title")}</p>
             <div className="search">
                 <div className="inner">
                     {
                         options &&
                         <Select
-                            style={{ width: 180 }}
+                            style={{ width: isMobile ? 110 : 180 }}
                             value={config.chainId}
                             onChange={(e) => changeConfig(e, 'chainId')}
                             bordered={false}
@@ -270,7 +263,7 @@ export default function AddSbt(props) {
                     }
                     <div className="input">
                         <Input 
-                            placeholder="请输入合约地址" 
+                            placeholder={t("modal.add-sbt.rule")}
                             bordered={false}
                             disabled={loading}
                             onChange={(e) => changeConfig(e.target.value.trim(), 'address')}
@@ -286,7 +279,7 @@ export default function AddSbt(props) {
                     className="confirm" 
                     onClick={() => confirm()} 
                     disabled={addIds.length === 0 && deleteIds.length === 0} 
-                >确认</Button>
+                >{t("btn-confirm")}</Button>
             </div>
             <Divider style={{marginBlock: "30px"}} />
             <div className="content" ref={scrollRef} >
@@ -305,6 +298,8 @@ export default function AddSbt(props) {
                             />
                         :
                         (
+                            <>
+                            {
                             list &&
                             list.map((e,i) => 
                                 <div 
@@ -322,23 +317,25 @@ export default function AddSbt(props) {
                                     </div>
                                 </div>    
                             )
-                        )
-                    }
-                    {
-                        pageConfig.page * pageConfig.pageSize < pageConfig.total &&
-                        <div className="loading">
-                            <Spin
-                                indicator={
-                                    <LoadingOutlined
-                                        style={{
-                                        fontSize: 24,
-                                        }}
-                                        spin
+                            }
+                            {
+                                pageConfig.page * pageConfig.pageSize < pageConfig.total &&
+                                <div className="loading">
+                                    <Spin
+                                        indicator={
+                                            <LoadingOutlined
+                                                style={{
+                                                fontSize: 24,
+                                                }}
+                                                spin
+                                            />
+                                        } 
                                     />
-                                } 
-                            />
-                            <p>加载中...</p>
-                        </div>
+                                    <p>{t("status.load")}...</p>
+                                </div>
+                            }
+                            </>
+                        )
                     }
                 </div>
             </div>

@@ -4,5 +4,16 @@
         "subtitle": "your web3 Vitae & reputation portal",
         "inner": "Search by address or ENS",
         "btn": "Get Started"
+    },
+    "sidbar": {
+        "search": "Search",
+        "rule": "Search by ENS or address",
+        "list": {
+            "all": "All",
+            "hide": "Hidden",
+            "public": "Public",
+            "unhide": "Unhide",
+            "add": "Add NFT"
+        }
     }
 }

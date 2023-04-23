@@ -6,11 +6,13 @@ import {
   } from '@ant-design/icons';
 import { Dropdown } from 'antd';
 import { useState } from 'react';
+import { useTranslation } from 'react-i18next';
 
 
 export default function NftBox(props) {
     
     const { info, changeNftStatus, isMe } = props;
+    const { t } = useTranslation(["cert"]);
     let [gateway, setGateway] = useState(
         "https://nftscan.mypinata.cloud/ipfs/"
         // "https://dweb.link/ipfs/"
@@ -27,11 +29,11 @@ export default function NftBox(props) {
                     {
                         info.status === 1 ?
                         <>
-                        <EyeOutlined />取消隐藏
+                        <EyeOutlined />&nbsp;{t("sidbar.list.unhide")}
                         </>
                         :
                         <>
-                        <EyeInvisibleOutlined />隐藏
+                        <EyeInvisibleOutlined />&nbsp;{t("sidbar.list.hide")}
                         </>
                     }
                 </div>
@@ -56,9 +58,9 @@ export default function NftBox(props) {
                     <div className="bottom">
                         {
                             info.status === 1 ?
-                            <p>隐藏</p>
+                            <p>{t("sidbar.list.hide")}</p>
                             :
-                            <p>显示</p>
+                            <p>{t("sidbar.list.public")}</p>
                         }
                         <Dropdown
                             className='dropdown'

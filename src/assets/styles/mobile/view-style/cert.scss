@@ -1,8 +1,10 @@
 $container-width: 90vw;
 .Mobile{
     .Cert{
-        width: $container-width;
-        margin: 5rem auto 0;
+        width: 100vw;
+        margin: 0;
+        margin-top: 5rem;
+        padding: 0 5vw;
         display: flex;
         flex-direction: column;
         overflow: hidden;
@@ -64,6 +66,10 @@ $container-width: 90vw;
                 margin-bottom: 1.25rem;
                 font-size: 1.125rem;
                 font-weight: 700;
+                p{
+                    font-size: 1.125rem;
+                    line-height: 1.625rem;
+                }
                 button{
                     width: 2rem;
                     height: 2rem;
@@ -73,6 +79,10 @@ $container-width: 90vw;
             ul{
                 .active,li:hover{
                     background-color: rgba($color: #4e7592, $alpha: 0);
+                }
+                li{
+                    padding: .3125rem .625rem;
+
                 }
             }
         }
@@ -101,15 +111,17 @@ $container-width: 90vw;
             font-size: 1rem;
             line-height: 1.5rem;
             li{
-                width: 4.6875rem;
+                min-width: 4.6875rem;
+                width: auto;
                 margin-right: .875rem;
             }
         }
         .nfts{
-            padding-left: 0;
-            padding-right: 0;
-            margin-top: 1.375rem;
+            width: 100vw;
             height: 30rem;
+            padding: 1.375rem 5vw 0;
+            position: relative;
+            left: -5vw;
             overflow: scroll;
             .scroll{
                 width: 100%;
@@ -215,15 +227,15 @@ $container-width: 90vw;
                     border-left: .125rem solid #BABABA;
                     position: relative;
                     input{
-                        padding-left: 2.5rem;
+                        padding-left: 1.5rem;
                     }
                     .icon{
                         position: absolute;
-                        left: .875rem;
+                        left: .3rem;
                         top: 0rem;
                         color: #BABABA;
                         font-size: 1.125rem;
-                        line-height: 1.9375rem;
+                        line-height: 2.0625rem;
                     }
                 }
             }
