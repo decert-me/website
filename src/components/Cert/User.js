@@ -28,7 +28,7 @@ export default function CertUser(props) {
 
     const share = () => {
       let text = window.location.origin + location.pathname + location.search + location.hash;
-      Copy(text, '成功')
+      Copy(text, t("message.success.copy-link"))
     }
 
     const init = async() => {
@@ -71,7 +71,7 @@ export default function CertUser(props) {
             <p
               className="address"
               onClick={() =>
-                Copy(ensParse.address, t("translation:message.success.copy"))
+                Copy(ensParse.address, t("message.success.copy-addr"))
               }
             >
               {NickName(ensParse.address)}
