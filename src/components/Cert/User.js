@@ -40,7 +40,6 @@ export default function CertUser(props) {
         socials = user.data.socials;
         setSocials({...socials});
       }
-      console.log(ensParse);
       setTimeout(() => {
         info = {
             nickname: user?.data?.nickname ? user?.data?.nickname : ensParse.domain ? ensParse.domain : urlAddr ? urlAddr : NickName(ensParse.address),

@@ -12,6 +12,7 @@ import { findFastestGateway } from "@/utils/LoadImg";
 import { ipfsToImg } from "@/utils/IpfsToImg";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 const { Option } = Select;
 
 export default function AddSbt(props) {
@@ -19,6 +20,7 @@ export default function AddSbt(props) {
     const { handleCancel, isMobile } = props;
     const scrollRef = useRef(null);
     const { chains } = constans();
+    const navigateTo = useNavigate();
     const { t } = useTranslation(["translation", "cert"]);
     let [options, setOptions] = useState();
     let [loading, setLoading] = useState();
@@ -135,8 +137,9 @@ export default function AddSbt(props) {
           .then(results => {
               // 处理结果
               setLoading(false);
+              handleCancel()
               setTimeout(() => {
-                  handleCancel()
+                navigateTo(0);
               }, 500);
           })
           .catch(error => {
