@@ -30,7 +30,7 @@ export default function DefaultLayout(params) {
         backgroundColor: 'rgba(0,0,0,0)',
         position: "fixed",
         color: "#fff",
-        zIndex: 1
+        zIndex: 999
     };
       
     const contentStyle = {
