@@ -3,6 +3,7 @@ import { useUpdateEffect } from "ahooks";
 import { Button, Skeleton } from "antd";
 import { useState } from "react";
 import ModalAddSbt from "./ModalAddSbt";
+import { useTranslation } from "react-i18next";
 
 
 
@@ -10,6 +11,7 @@ import ModalAddSbt from "./ModalAddSbt";
 export default function CertNfts(props) {
     
     const { ensParse, changeContractId, total, isMe, nftlist: list, isMobile, goAddSbt } = props;
+    const { t } = useTranslation(["translation", "cert"]);
     const [isModalOpen, setIsModalOpen] = useState(false);
     let [selectItem, setSelectItem] = useState(isMobile ? null : 0);
 
@@ -50,7 +52,7 @@ export default function CertNfts(props) {
             {
                 isMe &&
                 <div className="add">
-                    添加技能 SBT
+                    <p>{t("cert:sidbar.list.add")}</p>
                     <Button onClick={() => show()}>+</Button>
                 </div>
             }
@@ -63,7 +65,7 @@ export default function CertNfts(props) {
                             onClick={() => change(0)}
                         >
                             <div></div>
-                            <p className="li-content">全部</p>
+                            <p className="li-content">{t("cert:sidbar.list.all")}</p>
                             <p>({total ? total : 0})</p>
                         </li>
                         {

@@ -4,5 +4,16 @@
         "subtitle": "你的Web3 履历与信誉门户",
         "inner": "通过钱包地址/ENS检索",
         "btn": "开始检索"
+    },
+    "sidbar": {
+        "search": "搜索",
+        "rule": "输入 ENS 或钱包地址",
+        "list": {
+            "all": "全部",
+            "hide": "隐藏",
+            "public": "公开",
+            "unhide": "取消隐藏",
+            "add": "添加 NFT"
+        }
     }
 }

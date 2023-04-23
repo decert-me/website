@@ -19,9 +19,6 @@ export default function ModalAddSbt(props) {
             footer={null}
             open={isModalOpen}
             onCancel={handleCancel}
-            afterClose={() => {
-                navigateTo(0);
-            }}
             closeIcon={<CloseCircleOutlined />}
             destroyOnClose
             width="1050px"

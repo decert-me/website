@@ -16,27 +16,11 @@ import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
 import { getEns } from "@/request/api/public";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
-
-
-const LoadingComponents = (
-    <div className="loading">
-        <Spin 
-            indicator={
-                <LoadingOutlined
-                    style={{
-                    fontSize: 24,
-                    }}
-                    spin
-                />
-            } 
-        />
-        <p>加载中...</p>
-    </div>
-)
+import CustomLoading from "@/components/CustomLoading";
 
 export default function Cert(params) {
     
-    const { t } = useTranslation(["translation","profile", "explore"]);
+    const { t } = useTranslation(["cert"]);
     const location = useLocation();
     const { address: urlAddr } = useParams();
     const { address } = useAccount();
@@ -249,16 +233,16 @@ export default function Cert(params) {
                     {
                         isMe &&
                         <ul>
-                            <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>全部&nbsp;({checkTotal.all})</li>
-                            <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>公开&nbsp;({checkTotal.open})</li>
-                            <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>隐藏&nbsp;({checkTotal.hide})</li>
+                            <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>{t("cert:sidbar.list.all")}&nbsp;({checkTotal.all})</li>
+                            <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>{t("cert:sidbar.list.public")}&nbsp;({checkTotal.open})</li>
+                            <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>{t("cert:sidbar.list.hide")}&nbsp;({checkTotal.hide})</li>
                         </ul>
                     }
                     <div className="nfts" ref={scrollRef}>
                         <div className="scroll">
                             {
                                 loading ?
-                                LoadingComponents
+                                <CustomLoading />
                                 :
                                 !ensParse.address ? 
                                 <></>
@@ -276,10 +260,8 @@ export default function Cert(params) {
                                     )
                                 }
                                 {
-                                    pageConfig.page * pageConfig.pageSize < (!selectStatus ? checkTotal.all : selectStatus === 2 ? checkTotal.open : checkTotal.hide) ?
-                                    LoadingComponents
-                                    :
-                                    <></>
+                                    pageConfig.page * pageConfig.pageSize < (!selectStatus ? checkTotal.all : selectStatus === 2 ? checkTotal.open : checkTotal.hide) &&
+                                    <CustomLoading />
                                 }
                                 </>
                             }

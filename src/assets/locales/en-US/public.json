@@ -33,6 +33,10 @@
        "normal": "Normal",
        "diff": "Difficult"
     },
+    "status": {
+        "load": "loading",
+        "none": "no more"
+    },
     "time": "Time",
     "time-info": {
         "m": "{{time}} min",
@@ -50,6 +54,11 @@
             "claimed": "You've got an SBT!",
             "link": "View SBT details",
             "share": "Share on twitter"
+        },
+        "add-sbt": {
+            "title": "Add the NFT you want to display",
+            "rule": "Please enter the contract address",
+            "select": "Select a Network"
         }
     },
     "message": {
@@ -60,8 +69,9 @@
             },
             "save": "Update success!",
             "copy": "Copy success!",
-            "copy-share": "Copy success! Please go to the Twitter app to share the content."
-
+            "copy-share": "Copy success! Please go to the Twitter app to share the content.",
+            "copy-link": "Link opied",
+            "copy-addr": "Address copied"
         },
         "error": {
             "submit": {
