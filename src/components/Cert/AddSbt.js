@@ -114,19 +114,19 @@ export default function AddSbt(props) {
       }
         
       const reduceNft = () => {
-          new Promise((resolve, reject) => {
-              if (deleteIds.length > 0) {
-                  flagNft({
-                      ids: deleteIds,
-                      flag: 1
-                  })
-                  .then(res => {
-                      resolve();
-                  })
-              }else{
-                  resolve();
-              }
-          });
+        new Promise((resolve, reject) => {
+            if (deleteIds.length > 0) {
+                flagNft({
+                    ids: deleteIds,
+                    flag: 1
+                })
+                .then(res => {
+                    resolve();
+                })
+            }else{
+                resolve();
+            }
+        });
       }
   
       const confirm = () => {
@@ -137,13 +137,13 @@ export default function AddSbt(props) {
           .then(results => {
               // 处理结果
               setLoading(false);
-              handleCancel()
+              handleCancel && handleCancel()
               setTimeout(() => {
                 navigateTo(0);
               }, 500);
           })
           .catch(error => {
-              setLoading(false);
+                setLoading(false);
               // 处理错误
           });
       }

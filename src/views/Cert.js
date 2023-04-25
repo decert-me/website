@@ -177,6 +177,11 @@ export default function Cert(params) {
         store.dispatch(showCustomSigner());
     }
 
+    function mobileGoBack(params) {
+        setAddSbtPanel(false)
+        console.log(addSbtPanel);
+    }
+
     function handleScroll() {
         const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
         const isLoading = document.querySelector(".loading");
@@ -208,7 +213,7 @@ export default function Cert(params) {
         <div className="Cert">
             {
                 <>
-                <div className={`Cert-sidbar ${isList ? "" : "none"} ${addSbtPanel ? "none" : ""}`}>
+                <div className={`Cert-sidbar ${!isList || addSbtPanel ? "none" : ""}`}>
                     <CertSearch />
                     <Divider className="divider"  />
                     <CertUser ensParse={ensParse} urlAddr={urlAddr} />
@@ -223,7 +228,7 @@ export default function Cert(params) {
                         goAddSbt={goAddSbt}
                     />
                 </div>
-                <div className={`Cert-content ${isList ? "none" : ""} ${addSbtPanel ? "none" : ""}`}>
+                <div className={`Cert-content ${isList || addSbtPanel ? "none" : ""}`}>
                     {
                         isMobile && 
                         <div className="back" onClick={() => goback()}>
@@ -273,7 +278,7 @@ export default function Cert(params) {
                         isMobile && 
                         <>
                         <div className="back">
-                            <div className="icon" onClick={() => {setAddSbtPanel(false)}}>
+                            <div className="icon" onClick={() => mobileGoBack()}>
                                 <LeftOutlined />
                             </div>
                         </div>
