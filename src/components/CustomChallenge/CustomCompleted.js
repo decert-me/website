@@ -16,7 +16,9 @@ export default function CustomCompleted(props) {
     
     const { answers, detail, tokenId, isClaim } = props;
     const { verify } = useVerifyToken();
-    const { data: signer } = useSigner();
+    const { data: signer } = useSigner({
+        chainId: Number(process.env.REACT_APP_CHAIN_ID)
+    });
     const { address, isConnected } = useAccount();
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
@@ -109,8 +111,8 @@ export default function CustomCompleted(props) {
     }
 
     useEffect(() => {
-        init()
-    },[])
+        signer && init()
+    },[signer])
 
     return (
         <div className="CustomCompleted">
@@ -121,6 +123,7 @@ export default function CustomCompleted(props) {
                         answerInfo={answerInfo}
                         percent={percent}
                         detail={detail}
+                        isClaim={isClaim}
                     />
                     <CustomClaimStep
                         detail={detail}

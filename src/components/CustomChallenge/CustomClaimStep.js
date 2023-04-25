@@ -117,7 +117,7 @@ export default function CustomClaimStep(props) {
                             description: (
                                 <div className={`step-box ${step === 0 ? "checked-step" : ''}`}>
                                     {
-                                        answerInfo.isPass ?
+                                        answerInfo.isPass || isClaim ?
                                         t("step.pass")
                                         :
                                         t("step.unpass")
