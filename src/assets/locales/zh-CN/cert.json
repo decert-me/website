@@ -8,6 +8,7 @@
     "sidbar": {
         "search": "搜索",
         "rule": "输入 ENS 或钱包地址",
+        "nodata": "什么也没有~",
         "list": {
             "all": "全部",
             "hide": "隐藏",

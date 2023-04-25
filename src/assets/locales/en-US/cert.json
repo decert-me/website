@@ -8,6 +8,7 @@
     "sidbar": {
         "search": "Search",
         "rule": "Search by ENS or address",
+        "nodata": "No data",
         "list": {
             "all": "All",
             "hide": "Hidden",

@@ -265,6 +265,15 @@ export default function Cert(params) {
                                     )
                                 }
                                 {
+                                    list.length === 0 &&
+                                    <div className="nodata">
+                                        <p>{t("cert:sidbar.nodata")}</p>
+                                        <Button onClick={goAddSbt}>
+                                            {t("cert:sidbar.list.add")}
+                                        </Button>
+                                    </div>
+                                }
+                                {
                                     pageConfig.page * pageConfig.pageSize < (!selectStatus ? checkTotal.all : selectStatus === 2 ? checkTotal.open : checkTotal.hide) &&
                                     <CustomLoading />
                                 }
