@@ -5,11 +5,12 @@ import {
 import { useEffect, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
 import { useAccount, useSigner } from "wagmi";
-import { chainScores } from "@/controller";
+// import { chainScores } from "@/controller";
 import { GetPercent } from "@/utils/GetPercent";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import CustomClaimInfo from "./CustomClaimInfo";
 import CustomClaimStep from "./CustomClaimStep";
+import { useBadgeContract } from "@/controller/contract";
 
 
 export default function CustomCompleted(props) {
@@ -22,12 +23,17 @@ export default function CustomCompleted(props) {
     const { address, isConnected } = useAccount();
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
-
+    
     let [answerInfo, setAnswerInfo] = useState();
     let [step, setStep] = useState(0);
     let [isShow, setIsShow] = useState();
     let [percent, setPercent] = useState(0);
-    
+    let [scoresArgs, setScoresArgs] = useState([Number(tokenId), address]);
+    const { data, isLoading, refetch } = useBadgeContract({
+        functionName: "scores",
+        args: scoresArgs
+    })
+
     const contrast = async(arr) => {
         const questions = detail.metadata.properties.questions;
         let totalScore = 0;
@@ -63,17 +69,16 @@ export default function CustomCompleted(props) {
             questions.map(e => {
                 totalScore += e.score;
             })
-            await chainScores(address, tokenId, signer)
-            .then(res => {
-                percent = res / 100;
-                answerInfo = {
-                    totalScore: totalScore,
-                    score: res / 100,
-                    passingScore: detail.metadata.properties.passingScore,
-                    passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
-                    isPass: res / 100 >= detail.metadata.properties.passingScore
-                }
-            })
+            await refetch()
+            const res = data?.toString();
+            percent = res / 100;
+            answerInfo = {
+                totalScore: totalScore,
+                score: res / 100,
+                passingScore: detail.metadata.properties.passingScore,
+                passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
+                isPass: res / 100 >= detail.metadata.properties.passingScore
+            }
         }
         setAnswerInfo({...answerInfo});
         setPercent(percent);
