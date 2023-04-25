@@ -212,7 +212,7 @@ export default function AddSbt(props) {
 
     function handleScroll() {
         const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
-        const isLoading = document.querySelector(".ModalAddSbt .loading");
+        const isLoading = document.querySelector(".sbt-loading");
         if ((scrollTop + clientHeight >= (scrollHeight - 130)) && isLoading) {
             runAsync();
         }
@@ -323,7 +323,7 @@ export default function AddSbt(props) {
                             }
                             {
                                 pageConfig.page * pageConfig.pageSize < pageConfig.total &&
-                                <div className="loading">
+                                <div className="sbt-loading">
                                     <Spin
                                         indicator={
                                             <LoadingOutlined
