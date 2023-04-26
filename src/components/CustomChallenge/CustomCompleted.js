@@ -28,7 +28,7 @@ export default function CustomCompleted(props) {
     let [step, setStep] = useState(0);
     let [isShow, setIsShow] = useState();
     let [percent, setPercent] = useState(0);
-    let [scoresArgs, setScoresArgs] = useState([Number(tokenId), address]);
+    let [scoresArgs, setScoresArgs] = useState(address ? [Number(tokenId), address] : null);
     const { data, isLoading, refetch } = useBadgeContract({
         functionName: "scores",
         args: scoresArgs
