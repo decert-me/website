@@ -87,7 +87,6 @@ export default function Challenge(params) {
                 try {
                     answers.forEach((e,i) => {
                         if (e === null) {
-                            console.log(page);
                             page = i+1;
                             setPage(page)
                             console.log(page);
@@ -164,8 +163,10 @@ export default function Challenge(params) {
 
     useEffect(() => {
         if (location.pathname === "/preview") {
+            // 预览模式
             cacheInit();
         }else{
+            // 挑战模式
             getData(questId);
         }
     }, []);
@@ -213,6 +214,7 @@ export default function Challenge(params) {
                                 submit={submit}
                                 answers={answers}
                                 changePage={changePage}
+                                detail={detail}
                             />
                             <div style={{display: "flex"}}>
                                 <Link to={`/quests/${detail.tokenId}`} className="title">
@@ -240,7 +242,7 @@ export default function Challenge(params) {
                         
                         </>
                     }
-                    <div className="content">
+                    <div className="content custom-scroll">
                         <h4>{t("challenge.title")} #{page}</h4>
                         {
                             // switchType(detail.metadata.properties.questions[index])
@@ -255,7 +257,7 @@ export default function Challenge(params) {
                         }
                     </div>
                     <div className="progress">
-                        <Progress percent={percent} showInfo={false} />
+                        <Progress strokeLinecap="butt" percent={percent} showInfo={false} />
                     </div>
                     <CustomPagination
                         type={detail ? "write" : "preview"}
@@ -267,7 +269,8 @@ export default function Challenge(params) {
                             cacheDetail.properties.questions.length
                         } 
                         onChange={checkPage} 
-                        submit={openAnswers}
+                        openAnswers={openAnswers}
+                        submit={submit}
                     />
                 </>
             }

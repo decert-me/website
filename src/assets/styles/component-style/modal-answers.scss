@@ -26,6 +26,18 @@
     .normal{
         background-color: #D8D8D8;
     }
+    .error{
+        background-color: #FF0000;
+    }
+    .fc-success{
+        color: #67DF46;
+    }
+    .fc-normal{
+        color: #9E9E9E;
+    }
+    .fc-error{
+        color: #FF0000;
+    }
     .tips{
         .point{
             width: 24px;
@@ -39,14 +51,12 @@
             align-items: center;
             font-size: 18px;
             font-weight: 500;
-            color: #9E9E9E;
             line-height: 21px;
         }
     }
     .answers{
         margin-top: 45px;
         height: 210px;
-        overflow-y: scroll;
         .point{
             width: 40px;
             height: 40px;

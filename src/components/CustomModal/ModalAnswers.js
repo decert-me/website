@@ -5,14 +5,20 @@ import { Button, Modal } from "antd";
 import "@/assets/styles/component-style"
 import { useTranslation } from 'react-i18next';
 import MyContext from '@/provider/context';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
+import { Encryption } from '@/utils/Encryption';
+import { useRequest, useUpdateEffect } from 'ahooks';
 
 
 export default function ModalAnswers(props) {
     
-    const { isModalOpen, handleCancel, submit, answers, changePage } = props;
-    const { t } = useTranslation(["explore", "translation"]);
+    const { isModalOpen, handleCancel, submit, answers, changePage, detail } = props;
+    const { t } = useTranslation(["explore", "translation", "publish"]);
     const { isMobile } = useContext(MyContext);
+    const { decode } = Encryption();
+    const key = process.env.REACT_APP_ANSWERS_KEY;
+    let [realAnswer, setRealAnswer] = useState([]);
+    let [statusAnswer, setStatusAnswer] = useState([]);
 
     const checkPage = (i) => {
         handleCancel()
@@ -24,6 +30,32 @@ export default function ModalAnswers(props) {
         submit();
     }
 
+    function getResult(params) {
+        answers.map((e,i) => {  
+            statusAnswer[i] = !e ? "none" : e === realAnswer[i] ? "success" : "error";
+        })
+        setStatusAnswer([...statusAnswer]);
+    }
+
+    const { runAsync } = useRequest(getResult, {
+        debounceWait: 1000,
+        manual: true
+    });
+
+    function init(params) {
+        realAnswer = eval(decode(key, detail.metadata.properties.answers));
+        setRealAnswer([...realAnswer]);
+        // 初次进入计算
+        getResult();
+    }
+    
+    useUpdateEffect(() => {
+        runAsync();
+    },[answers])
+
+    useEffect(() => {
+        detail && init()
+    },[])
     return (
         <Modal
             className={`ModalAnswers ${isMobile ? "ModalAnswers-mobile" : ""}`} 
@@ -38,16 +70,17 @@ export default function ModalAnswers(props) {
         >
             <h5>{t("modal.challenge.title")}</h5>
             <ul className="tips">
-                <li><div className="point success" />{t("modal.challenge.complete")}</li>
-                <li><div className="point normal" />{t("modal.challenge.uncomplete")}</li>
+                <li className='fc-success'><div className="point success" />{t("publish:inner.true")}</li>
+                <li className='fc-normal'><div className="point normal" />{t("modal.challenge.uncomplete")}</li>
+                <li className='fc-error'><div className="point error" />{t("publish:inner.false")}</li>
             </ul>
             
-            <ul className="answers">
+            <ul className="answers custom-scroll">
                 {
                     answers.map((e,i) => 
                         <li 
                             key={i} 
-                            className={`point ${e || e === 0 ? "success":"normal"}`}
+                            className={`point ${statusAnswer[i] === "success" ? "success" : statusAnswer[i] === "none" ? "normal" : "error" }`}
                             onClick={() => checkPage(i)}
                         >{i+1}</li>
                     )
@@ -55,7 +88,6 @@ export default function ModalAnswers(props) {
             </ul>
 
             <Button className='submit' onClick={checkSubmit}>{t("translation:btn-sumbit-confirm")}</Button>
-            
         </Modal>
     )
 }

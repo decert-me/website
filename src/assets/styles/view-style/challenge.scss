@@ -60,7 +60,7 @@
         padding: 25px 65px 70px;
         box-sizing: content-box;
         overflow-y: scroll;
-        margin-block: 15px;
+        margin-top: 15px;
         border: 2px solid #DCDCDC;
         h4{
             margin-bottom: 20px;
@@ -76,7 +76,17 @@
         }
     }
     .progress{
-        width: 1173px;
+        width: 100%;
         margin: 0 auto;
+        line-height: 0;
+        .ant-progress{
+            line-height: 0;
+        }
+        .ant-progress-bg{
+            height: 11px !important;
+        }
+        .ant-progress-inner{
+            background-color: #969696;
+        }
     }
 }

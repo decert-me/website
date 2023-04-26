@@ -7,10 +7,8 @@ import "@/assets/styles/mobile/view-style/claim.scss"
 import { getQuests } from "../request/api/public";
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-import { balanceOf } from "@/controller";
 export default function Claim(props) {
     
-    const location = useLocation();
     const navigateTo = useNavigate();
     const { data: signer } = useSigner({
         chainId: Number(process.env.REACT_APP_CHAIN_ID)

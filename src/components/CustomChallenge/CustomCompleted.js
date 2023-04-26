@@ -63,7 +63,6 @@ export default function CustomCompleted(props) {
                 passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
                 isPass: score >= detail.metadata.properties.passingScore
             }
-            console.log(answerInfo);
         }else{
             // 已领取
             questions.map(e => {
@@ -116,7 +115,7 @@ export default function CustomCompleted(props) {
     }
 
     useEffect(() => {
-        signer && init()
+        init()
     },[signer])
 
     return (
@@ -130,18 +129,21 @@ export default function CustomCompleted(props) {
                         detail={detail}
                         isClaim={isClaim}
                     />
-                    <CustomClaimStep
-                        detail={detail}
-                        step={step}
-                        changeStep={changeStep}
-                        tokenId={tokenId}
-                        answers={answers}
-                        showInner={showInner}
-                        isClaim={isClaim}
-                        isShow={isShow}
-                        verify={verify}
-                        answerInfo={answerInfo}
-                    />
+                    {
+                        answerInfo.isPass && 
+                        <CustomClaimStep
+                            detail={detail}
+                            step={step}
+                            changeStep={changeStep}
+                            tokenId={tokenId}
+                            answers={answers}
+                            showInner={showInner}
+                            isClaim={isClaim}
+                            isShow={isShow}
+                            verify={verify}
+                            answerInfo={answerInfo}
+                        />
+                    }
                  </div>
                  :
                  <div className="claim-loading">
