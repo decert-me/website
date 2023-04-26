@@ -9,16 +9,16 @@ import {
 } from 'antd';
 import { useEffect, useMemo, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { getQuests, submitChallenge } from "../request/api/public";
+import { getQuests, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
-import CustomPagination from '../components/CustomPagination';
-import ModalAnswers from '../components/CustomModal/ModalAnswers';
+import CustomPagination from '../../components/CustomPagination';
+import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 import { 
     CustomRadio, 
     CustomInput, 
     CustomCheckbox 
-} from '../components/CustomChallenge';
+} from '../../components/CustomChallenge';
 import { useTranslation } from 'react-i18next';
 import axios from "axios";
 import { constans } from '@/utils/constans';
