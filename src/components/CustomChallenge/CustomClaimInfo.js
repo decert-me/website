@@ -12,7 +12,7 @@ import MyContext from "@/provider/context";
 
 export default function CustomClaimInfo(props) {
     
-    const { answerInfo, percent, detail } = props
+    const { answerInfo, percent, detail, isClaim } = props
     const { t } = useTranslation(["claim", "translation"]);
     const plugins = useMemo(() => [pluginGfm(),frontmatter(),highlight(),breaks()], [])
     const { isMobile } = useContext(MyContext);
@@ -24,14 +24,14 @@ export default function CustomClaimInfo(props) {
                 <div className="content-info">
                     <div className="desc">
                         {
-                            answerInfo.isPass ? 
+                            answerInfo.isPass || isClaim ? 
                                 <p className="title">{t("pass")}  🎉🎉</p>
                             :
                                 <p className="title">{t("unpass")}</p>
                         }
                         <p className="desc">
                         {
-                            answerInfo.isPass && t("desc")
+                            answerInfo.isPass || isClaim && t("desc")
                         }
                         </p>
                     </div>
@@ -56,7 +56,7 @@ export default function CustomClaimInfo(props) {
                         </Link>
                     </div>
                     {
-                        !answerInfo.isPass && detail.recommend &&
+                        !answerInfo.isPass && detail.recommend && !isClaim &&
                         <div className="viewer" >
                             <div className="viewer-head">
                                 <p>{t("recommend")}</p>
@@ -78,13 +78,13 @@ export default function CustomClaimInfo(props) {
                 <div className="content-info">
                     <div className="desc">
                         {
-                            answerInfo.isPass ? 
+                            answerInfo.isPass || isClaim ? 
                                 <p className="title">{t("pass")}  🎉🎉</p>
                             :
                                 <p className="title">{t("unpass")}</p>
                         }
                         {
-                            !answerInfo.isPass && detail.recommend ? 
+                            !answerInfo.isPass && detail.recommend && !isClaim ? 
                             <div className="viewer" >
                                 <div className="viewer-head">
                                     <p>{t("recommend")}</p>

@@ -85,20 +85,24 @@ export default function Challenge(params) {
             // 获取本地存储 ===> 
             const local = JSON.parse(localStorage.getItem("decert.cache"));
             const cacheAnswers = local ? local : null;
+            let flag = false;
             if (cacheAnswers[id]) {
                 // 存在该题cache
                 answers = cacheAnswers[id];
                 try {
                     answers.forEach((e,i) => {
                         if (e === null) {
+                            console.log(page);
                             page = i+1;
                             setPage(page)
+                            console.log(page);
                             throw ""
                         }
                     })
                 } catch (err) {
+                    flag = true;
                 }
-                if (page === 1) {
+                if (page === 1 && !flag) {
                     page = answers.length;
                     setPage(page)
                 }

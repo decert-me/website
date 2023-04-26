@@ -8,7 +8,7 @@ import "@/assets/styles/view-style/cert.scss"
 import "@/assets/styles/mobile/view-style/cert.scss"
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
-import { CertSearch, CertUser, CertNfts, NftBox } from "@/components/Cert";
+import { CertSearch, CertUser, CertNfts, NftBox, ModalAddSbt } from "@/components/Cert";
 import { getAllNft, getContracts, modifyNftStatus } from "@/request/api/nft";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
@@ -32,6 +32,8 @@ export default function Cert(params) {
     let [nftlist, setNftList] = useState();
     let [total, setTotal] = useState();
     let [addSbtPanel, setAddSbtPanel] = useState();
+    const [isModalOpen, setIsModalOpen] = useState(false);
+
     
     let [checkTotal, setCheckTotal] = useState({
         all: 0, open: 0, hide: 0
@@ -139,7 +141,11 @@ export default function Cert(params) {
     }
    
     const goAddSbt = () => {
-        setAddSbtPanel(true);
+        if (isMobile) {
+            setAddSbtPanel(true)
+            return
+        }
+        setIsModalOpen(true);
     }
 
     function changeContractId(params) {
@@ -177,6 +183,10 @@ export default function Cert(params) {
         store.dispatch(showCustomSigner());
     }
 
+    const handleCancel = () => {
+        setIsModalOpen(false);
+    };
+
     function handleScroll() {
         const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
         const isLoading = document.querySelector(".loading");
@@ -207,68 +217,81 @@ export default function Cert(params) {
     return (
         <div className="Cert">
             {
-                <>
-                <div className={`Cert-sidbar ${isList ? "" : "none"} ${addSbtPanel ? "none" : ""}`}>
-                    <CertSearch />
-                    <Divider className="divider"  />
-                    <CertUser ensParse={ensParse} urlAddr={urlAddr} />
-                    <div className="mt50"></div>
-                    <CertNfts 
-                        ensParse={ensParse}
-                        changeContractId={changeContractId} 
-                        total={total} 
-                        isMe={isMe}
-                        nftlist={nftlist}
-                        isMobile={isMobile}
-                        goAddSbt={goAddSbt}
-                    />
-                </div>
-                <div className={`Cert-content ${isList ? "none" : ""} ${addSbtPanel ? "none" : ""}`}>
-                    {
-                        isMobile && 
-                        <div className="back" onClick={() => goback()}>
-                            <LeftOutlined />
-                        </div>
-                    }
-                    {
-                        isMe &&
-                        <ul>
-                            <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>{t("cert:sidbar.list.all")}&nbsp;({checkTotal.all})</li>
-                            <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>{t("cert:sidbar.list.public")}&nbsp;({checkTotal.open})</li>
-                            <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>{t("cert:sidbar.list.hide")}&nbsp;({checkTotal.hide})</li>
-                        </ul>
-                    }
-                    <div className="nfts" ref={scrollRef}>
-                        <div className="scroll">
+                ensParse.address &&
+                <ModalAddSbt
+                    isModalOpen={isModalOpen} 
+                    handleCancel={handleCancel}
+                />
+            }
+            <div className={`Cert-sidbar ${!isList || addSbtPanel ? "none" : ""}`}>
+                <CertSearch />
+                <Divider className="divider"  />
+                <CertUser ensParse={ensParse} urlAddr={urlAddr} />
+                <div className="mt50"></div>
+                <CertNfts 
+                    changeContractId={changeContractId} 
+                    total={total} 
+                    isMe={isMe}
+                    nftlist={nftlist}
+                    isMobile={isMobile}
+                    goAddSbt={goAddSbt}
+                />
+            </div>
+            <div className={`Cert-content ${isList || addSbtPanel ? "none" : ""}`}>
+                {
+                    isMobile && 
+                    <div className="back" onClick={() => goback()}>
+                        <LeftOutlined />
+                    </div>
+                }
+                {
+                    isMe &&
+                    <ul>
+                        <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>{t("cert:sidbar.list.all")}&nbsp;({checkTotal.all})</li>
+                        <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>{t("cert:sidbar.list.public")}&nbsp;({checkTotal.open})</li>
+                        <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>{t("cert:sidbar.list.hide")}&nbsp;({checkTotal.hide})</li>
+                    </ul>
+                }
+                <div className="nfts" ref={scrollRef}>
+                    <div className="scroll">
+                        {
+                            loading ?
+                            <CustomLoading />
+                            :
+                            !ensParse.address ? 
+                            <></>
+                            :
+                            <>
                             {
-                                loading ?
-                                <CustomLoading />
-                                :
-                                !ensParse.address ? 
-                                <></>
-                                :
-                                <>
-                                {
-                                    list && 
-                                    list.map(e => 
-                                        <NftBox 
-                                            info={e}
-                                            changeNftStatus={changeNftStatus}
-                                            key={e.id}
-                                            isMe={isMe}
-                                        />                            
-                                    )
-                                }
-                                {
-                                    pageConfig.page * pageConfig.pageSize < (!selectStatus ? checkTotal.all : selectStatus === 2 ? checkTotal.open : checkTotal.hide) &&
-                                    <CustomLoading />
-                                }
-                                </>
+                                list && 
+                                list.map(e => 
+                                    <NftBox 
+                                        info={e}
+                                        changeNftStatus={changeNftStatus}
+                                        key={e.id}
+                                        isMe={isMe}
+                                    />                            
+                                )
                             }
-                        </div>
+                            {
+                                list.length === 0 &&
+                                <div className="nodata">
+                                    <p>{t("cert:sidbar.nodata")}</p>
+                                    <Button onClick={goAddSbt}>
+                                        {t("cert:sidbar.list.add")}
+                                    </Button>
+                                </div>
+                            }
+                            {
+                                pageConfig.page * pageConfig.pageSize < (!selectStatus ? checkTotal.all : selectStatus === 2 ? checkTotal.open : checkTotal.hide) &&
+                                <CustomLoading />
+                            }
+                            </>
+                        }
                     </div>
                 </div>
-                <div className={`Cert-addsbt ${addSbtPanel ? "" : "none"}`}>
+            </div>
+            <div className={`Cert-addsbt ${addSbtPanel ? "" : "none"}`}>
                     {
                         isMobile && 
                         <>
@@ -280,9 +303,7 @@ export default function Cert(params) {
                         <AddSbt isMobile={isMobile} />
                         </>
                     }
-                </div>
-                </>
-            }
+            </div>
         </div>
     )
 }
