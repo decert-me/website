@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { Link, useLocation, useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
 import {
     EditOutlined,
@@ -23,6 +23,7 @@ export default function User(props) {
     
     const { t } = useTranslation(["translation","profile", "explore"]);
     const { address } = useAccount();
+    const location = useLocation();
     const { address: paramsAddr } = useParams();
     let [account, setAccount] = useState();
     let [isMe, setIsMe] = useState();
@@ -126,6 +127,8 @@ export default function User(props) {
     }
 
     useEffect(() => {
+        checkType = location.search.indexOf("created") ? 1 : 0;
+        setCheckType(checkType)
         init();
     }, []);
 

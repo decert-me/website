@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button, Rate } from "antd";
 import { getUser } from "@/request/api/public";
@@ -35,11 +35,13 @@ export default function Info(props) {
         <div className="quest-info">
             <ul className="info-top">
                 <li>
-                    <p className="title">创建者</p>
+                    <p className="title mt13">创建者</p>
                     <div className="info-content">
-                        <div className="img">
-                            <img src={avatar(user)} alt="" />
-                        </div>
+                        <Link to={{pathname: `/user/${user.address}`, search: "to=created"}}>
+                            <div className="img">
+                                <img src={avatar(user)} alt="" />
+                            </div>
+                        </Link>
                         &nbsp;&nbsp;&nbsp;&nbsp;
                         <p className="name">{nickname(user)}</p>
                     </div>
@@ -48,17 +50,10 @@ export default function Info(props) {
                     <p className="title">{t("publish:inner.desc")}</p>
                     <div className="info-content desc">
                         {/* <p className="desc">{detail.metadata.description}</p> */}
-                        {/* <CustomViewer label={detail.metadata.description} /> */}
-                        <CustomViewer label={`🎫 Create a simple NFT to learn basics of 🏗 scaffold-eth. You'll use 👷‍♀️ HardHat to compile and deploy smart contracts. Then, you'll use a template React app full of important Ethereum components and hooks. Finally, you'll deploy an NFT to a public network to share with friends! 🚀
- 
-🌟 The final deliv, an NFT to a public network to share with f
-🎫 Create a simple NFT to learn basics of 🏗 scaffold-eth. You'll use 👷‍♀️ HardHat to compile and deploy smart contracts. Then, you'll use a template React app full of important Ethereum components and hooks. Finally, you'll deploy an NFT to a public network to share with friends! 🚀
-
-🌟 The final deliv, an NFT to a public network to share with f
-🎫 Create a simple NFT to learn basics of 🏗 scaffold-eth. You'll use 👷‍♀️ HardHat to compile and deploy smart contracts. Then, you'll use a template React app full of important Ethereum components and hooks. Finally, you'll deploy an NFT to a public network to share with friends! 🚀
-
-🌟 The final deliv, an NFT to a public network to share with f
-`} />
+                        {
+                            detail.metadata.description &&
+                            <CustomViewer label={detail.metadata.description} />
+                        }
                     </div>
                 </li>
                 <li>
@@ -70,14 +65,21 @@ export default function Info(props) {
                 <li>
                     <p className="title">{t("translation:diff")}</p>
                     <div className="info-content">
-                        <Rate disabled defaultValue={detail.metadata.properties.difficulty + 1} count={3} />
+                        {
+                            detail.metadata.properties?.difficulty !== null &&
+                            <Rate disabled defaultValue={detail.metadata.properties.difficulty + 1} count={3} />
+                        }
                     </div>
                 </li>
                 <li>
                     <p className="title">{t("translation:time")}</p>
                     <div className="info-content">
                         <p className="time">
-                        {t(`translation:time-info.${convertTime(detail.metadata.properties.estimateTime).type}`,{time:convertTime(detail.metadata.properties.estimateTime).time})}
+
+                        {
+                            detail.metadata.properties.estimateTime &&
+                            t(`translation:time-info.${convertTime(detail.metadata.properties.estimateTime).type}`,{time:convertTime(detail.metadata.properties.estimateTime).time})
+                        }
                         </p>
                     </div>
                 </li>

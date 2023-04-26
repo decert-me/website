@@ -154,6 +154,7 @@
     }
     .info-content{
         width: 500px;
+        min-height: 47px;
         padding-bottom: 23px;
         border-bottom: 1px solid #D8D8D8;
         display: flex;
@@ -166,6 +167,9 @@
             width: 100%;
             height: 100%;
         }
+    }
+    .mt13{
+        margin-top: 13px;
     }
     .name{
         width: 400px;
@@ -225,7 +229,8 @@
     }
 }
 .info-top{
-    height: 550px;
+    height: 535px;
+    margin-top: 13px;
     overflow: hidden;
 }
 .info-bottom{

@@ -1,6 +1,7 @@
 import { getChallengers } from "@/request/api/quests"
 import { avatar } from "@/utils/user";
 import { useEffect, useState } from "react"
+import { Link } from "react-router-dom";
 
 export default function Challenger(props) {
     
@@ -31,7 +32,9 @@ export default function Challenger(props) {
                     {
                         detail.users.map((e,i) => 
                             <li key={i}>
-                                <img src={avatar(e)} alt="" />
+                                <Link to={`/${e.address}`}>
+                                    <img src={avatar(e)} alt="" />
+                                </Link>
                             </li>
                         )
                     }
