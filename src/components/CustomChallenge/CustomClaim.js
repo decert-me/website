@@ -100,7 +100,8 @@ export default function CustomClaim(props) {
         if (isMobile) {
             // 移动端点击分享推特处理
             const text = `${title}\r\n${url}\r\n#DeCert`
-            Copy(text, t("translation:message.success.copy-share"))
+            const newStr = text.replace(/%0A/g, '\n');
+            Copy(newStr, t("translation:message.success.copy-share"))
             return
         }
         window.open(
