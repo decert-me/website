@@ -123,6 +123,15 @@ $container-width: 90vw;
             position: relative;
             left: -5vw;
             overflow: scroll;
+            .nodata{
+                p{
+                    font-size: 12px;
+                    font-weight: 900;
+                    color: #C1C1C1;
+                    line-height: 18px;
+                    display: block;
+                }
+            }
             .scroll{
                 width: 100%;
                 padding-left: 0;

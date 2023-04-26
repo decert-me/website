@@ -1,66 +1,74 @@
 import { useEffect, useState } from "react"
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAccount, useSigner } from "wagmi";
 import CustomCompleted from "../components/CustomChallenge/CustomCompleted";
-import { balanceOf } from "../controller";
 import "@/assets/styles/component-style"
 import "@/assets/styles/mobile/view-style/claim.scss"
 import { getQuests } from "../request/api/public";
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
-
+import { balanceOf } from "@/controller";
 export default function Claim(props) {
     
     const location = useLocation();
     const navigateTo = useNavigate();
-    const { data: signer } = useSigner();
+    const { data: signer } = useSigner({
+        chainId: Number(process.env.REACT_APP_CHAIN_ID)
+    });
     const { address, isDisconnected } = useAccount();
+    const { questId } = useParams();
 
-    let [tokenId, setTokenId] = useState();
     let [detail, setDetail] = useState();
     let [answers, setAnswers] = useState();
 
     let [isClaim, setIsClaim] = useState(false);
 
-    const switchStatus = async(id, num) => {
+    const switchStatus = async(id) => {
         // 获取tokenId ===> 
         const cache = JSON.parse(localStorage.getItem('decert.cache'));
-        console.log(cache);
-        await getQuests({id: id})
-        .then(res => {
-            detail = res ? res.data : {};
-            setDetail({...detail});
-            console.log(detail);
-        })
-        if (cache && cache[id] && (num == 0 || !num)) {
-            // 已答 未领 ==>
-            answers = cache[id];
-            setAnswers([...answers]);
-        }else if (num == 1) {
-            // 已答 已领 ==>
-            if (cache && cache[id]) {
-                // 重新挑战
-                answers = cache[id];
-                setAnswers([...answers]);
-            }
+        
+        new Promise(async(resolve, reject) => {
+            // let chainScores = 0;
+            // await balanceOf(address, questId, signer)
+            // .then(res => {
+            //     chainScores = res
+            // })
+            getQuests({id: id})
+            .then(res => {
+                // TODO: ==> num
+                detail = res ? res.data : {};
+                setDetail({...detail});
+                if (res.data.claimed) {
+                    resolve()
+                }else{
+                    reject()
+                }
+            })
+        }).then(res => {
+            //  已领取
+            // console.log(detail);
+
+            // if (cache && cache[id]) {
+            //     // 重新挑战
+            //     answers = cache[id];
+            //     setAnswers([...answers]);
+            // }
             // 获取 分数
             setIsClaim(true);
-        }else if ((num == 0 || !num)){
-            // 未答 未领 ==>
-            navigateTo(`/challenge/${id}`)
-        }
+        }).catch(err => {
+            // 未领取
+            if (cache && cache[id]) {
+                // 已答 未领 ==>
+                answers = cache[id];
+                setAnswers([...answers]);
+            }else{
+                navigateTo(`/challenge/${id}`)
+            }
+        })
     }
 
     const init = () =>{
-        tokenId = location?.pathname?.split("/")[2];
-        setTokenId(tokenId);
-
-        tokenId && signer &&
-        balanceOf(address, tokenId, signer)
-        .then(res => {
-            switchStatus(tokenId, res);
-        })
-        tokenId && !address && switchStatus(tokenId);
+        questId && switchStatus(questId);
     }
 
     useEffect(() => {
@@ -74,7 +82,7 @@ export default function Claim(props) {
                 <CustomCompleted 
                     answers={answers} 
                     detail={detail} 
-                    tokenId={tokenId} 
+                    tokenId={questId} 
                     isClaim={isClaim}
                 />
                 :
