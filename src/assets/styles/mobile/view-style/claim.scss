@@ -10,106 +10,64 @@ $container-width: 93vw;
             flex-direction: column;
         }
         .desc{
-            .title, .desc{
-                color: #4D4D4D;
-                font-size: .75rem;
-                font-weight: 400;
-                line-height: 1.0625rem;
-            }
             .title{
-                margin-left: 0;
-                color: #000;
-                text-align: center;
                 font-size: 1.25rem;
                 line-height: 1.8125rem;
-                font-weight: 500;
-            }
-            .desc{
-                height: 3.75rem;
-                margin-top: .375rem;
-                margin-bottom: 1.3125rem;
+                text-align: center;
             }
         }
         .score{
-            width: $container-width;
-            height: 13.4375rem;
-            position: relative;
-            .network{
-                margin-bottom: .375rem;
-                font-size: .8125rem;
-                line-height: 1.125rem;
-            }
-            h4, .pass{
-                line-height: 2.1875rem;
-            }
-            h4{
-                margin: 0;
-                font-size: 1.5rem;
-            }
-            .pass{
-                font-size: .8125rem;
-            }
-            .score-detail{
-                position: absolute;
-                right: 0;
-                top: 0;
-                .circle {
-                    .ant-progress-text{
-                        font-size: 3.125rem;
-                        line-height: 4.5rem;
-                    }
-                    .ant-progress-inner{
-                        width: 8.75rem !important;
-                        height: 8.75rem !important;
-                    }
+            margin-top: 3.75rem;
+            .circle {
+                .ant-progress-text{
+                    font-size: 3.125rem;
+                    line-height: 4.5rem;
                 }
             }
+            .info{
+                margin-left: 1.875rem;
+                .network{
+                    max-width: calc($container-width - 1.875rem - 8.75rem);
+                    margin-bottom: 1.25rem;
+                    font-size: 1.125rem;
+                    line-height: 1.625rem;
+                }
+                .pass{
+                    font-size: .625rem;
+                    line-height: 1.25rem;
+                }
+            }
+            
+        }
+        .mr{
+            width: 100%;
+            margin: 2.75rem auto 0;
+            display: flex;
+            justify-content: center;
             .btn{
-                width: 10.75rem;
-                padding-top: .4375rem;
-                padding-bottom: .4375rem;
-                display: inline-block;
-                text-align: center;
-                color: #242228;
-                background-color: #EEEEEE;
+                height: 1.9375rem;
+                margin: 0;
+                padding: 0 2.625rem;
+                border-radius: .3125rem;
                 font-size: .75rem;
                 font-weight: 400;
                 line-height: 1.0625rem;
-                position: absolute;
-                bottom: 0;
-                left: calc((100% - 10.75rem) / 2);
             }
         }
         .viewer{
             margin-top: 3.75rem;
             .viewer-head{
-                padding: 0;
-                margin-bottom: .3125rem;
-                display: flex;
-                align-items: flex-end;
-                justify-content: space-between;
-                font-size: .75rem;
-                p:first-child{
-                    font-size: 1.125rem;
-                    font-weight: 500;
-                }
+                font-size: 1.125rem;
+                line-height: 1.625rem;
             }
             .ant-divider{
                 display: none;
             }
             .viewer-content{
-                height: 12.5rem;
-                padding: .875rem 1.25rem;
-                
+                margin-top: .5rem;
+                min-height: 18.75rem;
+                padding: 1.25rem;
                 border: .0625rem solid #DCDCDC;
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 8;
-
-                font-size: 1rem;
-                line-height: 1.4375rem;
                 background-color: #FAFAFA;
             }
         }

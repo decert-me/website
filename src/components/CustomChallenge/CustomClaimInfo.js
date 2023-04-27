@@ -26,60 +26,6 @@ export default function CustomClaimInfo(props) {
     return (
         <>
             {
-                isMobile ?
-                <div className="content-info">
-                    <div className="desc">
-                        {
-                            answerInfo.isPass || isClaim ? 
-                                <p className="title">{t("pass")}  🎉🎉</p>
-                            :
-                                <p className="title">{t("unpass")}</p>
-                        }
-                        <p className="desc">
-                        {
-                            answerInfo.isPass || isClaim && t("desc")
-                        }
-                        </p>
-                    </div>
-                    <div className="score">
-                        <p className="network">{detail.title}</p>
-                        <p className="pass">{t("score.passScore",{score: answerInfo.passingPercent})}</p>
-                        <div className="score-detail">
-                            <div className="circle">
-                                <Progress
-                                    type="circle"
-                                    percent={percent}
-                                    width={172}
-                                    format={(percent) => percent}
-                                    strokeWidth={6}
-                                />
-                            </div>
-                            
-                        </div>
-                        <Link className="btn" to={`/quests/${detail.tokenId}`}>
-                            {t("translation:btn-go-challenge")}
-                        </Link>
-                    </div>
-                    {
-                        !answerInfo.isPass && detail.recommend && !isClaim &&
-                        <div className="viewer" >
-                            <div className="viewer-head">
-                                <p>{t("recommend")}</p>
-                                <ModalViewRecommed
-                                    text={JSON.parse(detail.recommend)} 
-                                    plugins={plugins}
-                                    viewText={t("view")}
-                                />
-                    
-                            </div>
-                            <Divider />
-                            <div className="viewer-content">
-                                <Viewer value={JSON.parse(detail.recommend)} plugins={plugins} />
-                            </div>
-                        </div>
-                    }
-                </div>
-                :
                 <div className="content-info">
                     <div className="desc">
                         {
@@ -94,7 +40,7 @@ export default function CustomClaimInfo(props) {
                             <Progress
                                 type="circle"
                                 percent={percent}
-                                width={230}
+                                width={isMobile ? 140 : 230}
                                 format={(percent) => percent}
                                 strokeWidth={3}
                             />
@@ -102,11 +48,22 @@ export default function CustomClaimInfo(props) {
                         <div className="info">
                             <p className="network">{detail.title}</p>
                             <p className="pass">{t("score.passScore",{score: answerInfo.passingPercent})}</p>
+                            {
+                                !isMobile && 
+                                <Button className="btn" onClick={reChallenge}>
+                                    {t("translation:btn-go-challenge")}
+                                </Button>
+                            }
+                        </div>
+                    </div>
+                    {
+                        isMobile && 
+                        <div className="mr">
                             <Button className="btn" onClick={reChallenge}>
                                 {t("translation:btn-go-challenge")}
                             </Button>
                         </div>
-                    </div>
+                    }
                     {
                             !answerInfo.isPass && detail.recommend && !isClaim ? 
                             <div className="viewer" >

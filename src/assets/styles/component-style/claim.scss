@@ -14,12 +14,6 @@
         margin-block: 100px;
     }
     .desc{
-        .title, .desc{
-            color: #EA0606;
-            font-size: 24px;
-            font-weight: 500;
-            line-height: 35px;
-        }
         .title{
             color: #000;
             font-size: 40px;
@@ -56,21 +50,21 @@
                 line-height: 26px;
                 font-weight: 500;
             }
-            .btn{
-                height: 40px;
-                margin-top: 80px;
-                padding-inline: 32px;
-                background: #8C51DF;
-                border-radius: 6px;
-                border: none;
-                box-shadow: none;
-                font-size: 18px;
-                color: #fff;
-                font-weight: 500;
-                line-height: 26px;
-            }
         }
         
+    }
+    .btn{
+        height: 40px;
+        margin-top: 80px;
+        padding-inline: 32px;
+        background: #8C51DF;
+        border-radius: 6px;
+        border: none;
+        box-shadow: none;
+        font-size: 18px;
+        color: #fff;
+        font-weight: 500;
+        line-height: 26px;
     }
     .viewer{
         margin-top: 100px;
