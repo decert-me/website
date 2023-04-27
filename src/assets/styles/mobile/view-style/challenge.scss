@@ -45,15 +45,19 @@ $container-width: 93vw;
                 font-size: 1.25rem;
             }
             p{
+                width: 264px;
                 margin-left: 1.25rem;
+                white-space: nowrap;  
+                text-overflow:ellipsis; 
+                overflow:hidden;
             }
         }
         .content{
-            height: calc(100vh - 24.375rem);
+            height: auto;
             padding: .6875rem 1.125rem 4.375rem;
             margin-top: .625rem;
             margin-bottom: .625rem;
-            border: .0625rem solid #DCDCDC;
+            border: none;
             h4{
                 margin-bottom: .5rem;
                 font-size: 1rem;
@@ -97,19 +101,57 @@ $container-width: 93vw;
             height: 1.375rem;
         }
     }
+    .progress{
+        width: 100vw;
+        z-index: 100;
+        position: fixed;
+        left: 0;
+        bottom: 84px;
+        .ant-progress{
+            margin: 0;
+        }
+    }
     .CustomPagination{
+        width: 100vw;
+        height: 84px;
+        padding: 17px 20px 37px 24px;
+        margin: 0;
+        z-index: 100;
+        position: fixed;
+        left: 0;
+        bottom: 0;
+        background-color: #fff;
+        .content-left{
+            color: #3D3D3D;
+        }
+        .content-left, .content-right{
+            width: calc((100vw - 44px) / 4);
+            display: flex;
+        }
+        .content-right{
+            justify-content: flex-end;
+        }
+        .content-center{
+            width: 121.5px;
+            font-size: 18px;
+            justify-content: space-between;
+            align-items: center;
+            p span:first-child{
+                color: #000000;
+            }
+        }
         .btn{
             min-width: 1.75rem;
             width: 1.75rem;
             height: 1.75rem;
+            margin: 0;
             font-size: 1.1875rem;
-            margin-left: .625rem;
-            margin-right: .625rem;
         }
         .submit{
-            width: 4.875rem;
+            width: 4rem;
             height: 1.875rem;
-            margin-left: .8125rem;
+            padding: 0;
+            margin-left: 0;
             font-size: .75rem;
         }
     }

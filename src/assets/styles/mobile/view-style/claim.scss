@@ -72,34 +72,34 @@ $container-width: 93vw;
             }
         }
         .content-step{
-            margin-top: 60px;
+            margin-top: 3.75rem;
             flex-direction: column;
             position: relative;
             h5{
                 margin: 0;
-                font-size: 18px;
-                line-height: 26px;
+                font-size: 1.125rem;
+                line-height: 1.625rem;
                 font-weight: 500;
                 position: absolute;
                 top: 0;
                 left: 0;
             }
             .nft{
-                width: 150px;
+                width: 9.375rem;
                 margin: 0 auto;
                 img{
-                    height: 150px;
+                    height: 9.375rem;
                 }
                 .img{
-                    margin-top: 60px;
-                    width: 150px;
-                    height: 150px;
-                    border-radius: 11px;
+                    margin-top: 3.75rem;
+                    width: 9.375rem;
+                    height: 9.375rem;
+                    border-radius: .6875rem;
                     .icon{
-                        width: 17px;
-                        height: 17px;
-                        right: 5px;
-                        top: 5px;
+                        width: 1.0625rem;
+                        height: 1.0625rem;
+                        right: .3125rem;
+                        top: .3125rem;
                     }
                 }
             }
@@ -107,24 +107,24 @@ $container-width: 93vw;
                 width: 100%;
                 // 自定义step type
                 .step-detail{
-                    margin-top: 50px;
+                    margin-top: 3.125rem;
                     .ant-steps-item-icon{
-                        width: 13px;
-                        height: 13px;
-                        margin-right: 12px;
+                        width: .8125rem;
+                        height: .8125rem;
+                        margin-right: .75rem;
                     }
     
                     .ant-steps-item-tail{
-                        height: 42.5px;
-                        top: 34px !important;
+                        height: 2.6563rem;
+                        top: 2.125rem !important;
                     }
                     .custom-dot{
-                        width: 4px;
-                        height: 4px;
-                        margin-left: 4px;
+                        width: .25rem;
+                        height: .25rem;
+                        margin-left: .25rem;
                     }
                     .ant-steps-item-description{
-                        padding-bottom: 38px;
+                        padding-bottom: 2.375rem;
                     }
                 }
             }

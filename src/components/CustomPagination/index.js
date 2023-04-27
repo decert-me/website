@@ -1,23 +1,32 @@
 import {
     ArrowLeftOutlined,
     ArrowRightOutlined,
+    UnorderedListOutlined
   } from '@ant-design/icons';
 import { Button } from 'antd';
 import "@/assets/styles/component-style/index"
 import { useTranslation } from 'react-i18next';
+import MyContext from '@/provider/context';
+import { useContext } from 'react';
 
 export default function CustomPagination(props) {
 
     const { page, total, onChange, submit, openAnswers, type } = props;
 
     const { t } = useTranslation(["translation"]);
+    const { isMobile } = useContext(MyContext);
     
     return (
         <div className="CustomPagination">
             <div className="content-left">
-                <Button type='link' onClick={openAnswers}>
-                    答题记录
-                </Button>
+                {
+                    isMobile ?
+                    <UnorderedListOutlined onClick={openAnswers} />
+                    :
+                    <Button type='link' onClick={openAnswers}>
+                        答题记录
+                    </Button>
+                }
             </div>
             <div className="content-center">
             <Button

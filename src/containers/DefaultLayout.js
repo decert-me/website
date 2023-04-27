@@ -124,7 +124,7 @@ export default function DefaultLayout(params) {
     });
 
     const footerChange = () => {
-        if (location.pathname === "/publish" || location.pathname.indexOf("/quests") !== -1) {
+        if (location.pathname === "/publish" || location.pathname.indexOf("/quests") !== -1 || (isMobile && location.pathname.indexOf("/challenge") !== -1)) {
             return true
         }
         return false
