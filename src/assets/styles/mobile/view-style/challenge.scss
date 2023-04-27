@@ -45,7 +45,7 @@ $container-width: 93vw;
                 font-size: 1.25rem;
             }
             p{
-                width: 264px;
+                width: 16.5rem;
                 margin-left: 1.25rem;
                 white-space: nowrap;  
                 text-overflow:ellipsis; 
@@ -106,15 +106,15 @@ $container-width: 93vw;
         z-index: 100;
         position: fixed;
         left: 0;
-        bottom: 84px;
+        bottom: 5.25rem;
         .ant-progress{
             margin: 0;
         }
     }
     .CustomPagination{
         width: 100vw;
-        height: 84px;
-        padding: 17px 20px 37px 24px;
+        height: 5.25rem;
+        padding: 1.0625rem 1.25rem 2.3125rem 1.5rem;
         margin: 0;
         z-index: 100;
         position: fixed;
@@ -125,15 +125,15 @@ $container-width: 93vw;
             color: #3D3D3D;
         }
         .content-left, .content-right{
-            width: calc((100vw - 44px) / 4);
+            width: calc((100vw - 2.75rem) / 4);
             display: flex;
         }
         .content-right{
             justify-content: flex-end;
         }
         .content-center{
-            width: 121.5px;
-            font-size: 18px;
+            width: 7.5938rem;
+            font-size: 1.125rem;
             justify-content: space-between;
             align-items: center;
             p span:first-child{

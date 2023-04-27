@@ -94,9 +94,11 @@ export default function Info(props) {
                         </div>
                     </li>
                 }
-                <Button className="submit" onClick={() => goChallenge()}>
-                    {t("btn-start")}
-                </Button>
+                <div className="submit-bg">
+                    <Button className="submit" onClick={() => goChallenge()}>
+                        {t("btn-start")}
+                    </Button>
+                </div>
             </ul>
         </div>
     )
