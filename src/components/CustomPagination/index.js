@@ -13,7 +13,7 @@ export default function CustomPagination(props) {
 
     const { page, total, onChange, submit, openAnswers, type } = props;
 
-    const { t } = useTranslation(["translation"]);
+    const { t } = useTranslation(["translation", "explore"]);
     const { isMobile } = useContext(MyContext);
     
     return (
@@ -24,7 +24,7 @@ export default function CustomPagination(props) {
                     <UnorderedListOutlined onClick={openAnswers} />
                     :
                     <Button type='link' onClick={openAnswers}>
-                        答题记录
+                        {t("explore:modal.challenge.title")}
                     </Button>
                 }
             </div>
