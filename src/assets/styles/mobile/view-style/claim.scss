@@ -25,7 +25,7 @@ $container-width: 93vw;
                 }
             }
             .info{
-                margin-left: 1.875rem;
+                margin-left: 2.625rem;
                 .network{
                     max-width: calc($container-width - 1.875rem - 8.75rem);
                     margin-bottom: 1.25rem;
@@ -92,21 +92,40 @@ $container-width: 93vw;
                 }
                 .img{
                     margin-top: 60px;
+                    width: 150px;
+                    height: 150px;
+                    border-radius: 11px;
                     .icon{
-                        width: 40px;
-                        height: 40px;
-                        border-radius: 50%;
-                        position: absolute;
-                        right: 13px;
-                        top: 13px;
-                        background-color: #69E6F9;
+                        width: 17px;
+                        height: 17px;
+                        right: 5px;
+                        top: 5px;
                     }
                 }
             }
             .step{
                 width: 100%;
+                // 自定义step type
                 .step-detail{
-                    margin-top: 75px;
+                    margin-top: 50px;
+                    .ant-steps-item-icon{
+                        width: 13px;
+                        height: 13px;
+                        margin-right: 12px;
+                    }
+    
+                    .ant-steps-item-tail{
+                        height: 42.5px;
+                        top: 34px !important;
+                    }
+                    .custom-dot{
+                        width: 4px;
+                        height: 4px;
+                        margin-left: 4px;
+                    }
+                    .ant-steps-item-description{
+                        padding-bottom: 38px;
+                    }
                 }
             }
         }
@@ -115,15 +134,12 @@ $container-width: 93vw;
     .step-box{
         width: 100%;
         height: 2.5rem;
-        border-radius: 1.25rem;
+        border-radius: .5rem;
     
         font-size: .75rem;
         font-weight: 500;
         line-height: 1.0625rem;
         
-    }
-    .ant-steps-item-description{
-        padding-bottom: 2.8125rem !important;
     }
     // tips
     .position{
@@ -139,12 +155,13 @@ $container-width: 93vw;
     }
     .innerHref{
         width: 17.25rem;
+        margin-left: 1.5625rem;
         padding-left: .1875rem;
         padding-right: 1.125rem;
         input{
             width: 12.5rem;
             height: 2rem;
-            border-radius: 1.0625rem;
+            border-radius: .5rem;
             font-size: .75rem;
             line-height: 1.0625rem;
         }
@@ -165,7 +182,7 @@ $container-width: 93vw;
             height: 1.875rem;
             padding-left: .625rem;
             padding-right: .625rem;
-            border-radius: .9375rem;
+            border-radius: .5rem;
             font-size: .75rem;
             line-height: 1.0625rem;
         }
@@ -204,11 +221,8 @@ $container-width: 93vw;
             }
             button{
                 height: 2.5rem;
-                border-radius: 1.25rem;
+                border-radius: .5rem;
                 font-size: .75rem;
-            }
-            .claim .anticon-twitter{
-                color: #0495d7;
             }
         }
         .ant-ribbon{
