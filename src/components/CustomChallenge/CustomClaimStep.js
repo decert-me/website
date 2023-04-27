@@ -76,15 +76,15 @@ export default function CustomClaimStep(props) {
 
     const tip = (
         <div className="tip-content">
-            <p className="step">{t("tip.step",{num: 1})}</p>
+            <p className="step">{t("tip.step",{num: 0})}</p>
             <p>{t("tip.step1")}</p>
-            <p className="step">{t("tip.step",{num: 2})}</p>
+            <p className="step">{t("tip.step",{num: 1})}</p>
             <p>
                 {t("tip.step2.p1")}
                 <span><UploadOutlined /></span>
                 {t("tip.step2.p2")}
             </p>
-            <p className="step">{t("tip.step",{num: 3})}</p>
+            <p className="step">{t("tip.step",{num: 2})}</p>
             <p>{t("tip.step3")}</p>
         </div>
     )

@@ -153,6 +153,7 @@
                 .ant-steps-icon-dot{
                     background-color: #ffffff00;
                 }
+                // 结束
                 .ant-steps-item-finish{
                     .ant-steps-icon-dot{
                         background: url("../../images/icon/finish.png") no-repeat center;
@@ -161,14 +162,36 @@
                     .ant-steps-item-tail .custom-dot{
                         background-color: #18BB63;
                     }
+                    .step-box{
+                        background-color: #8C51DF;
+                        color: #fff;
+                        opacity: 0.5;
+                    }
                 } 
-                .ant-steps-item-active .ant-steps-icon-dot{
-                    background: url("../../images/icon/active.png") no-repeat center;
-                    background-size: cover;
-                }
-                .ant-steps-item-wait .ant-steps-icon-dot{
-                    background: url("../../images/icon/wait.png") no-repeat center;
-                    background-size: cover;
+                // 正在
+                .ant-steps-item-active{
+                    .ant-steps-icon-dot{
+                        background: url("../../images/icon/active.png") no-repeat center;
+                        background-size: cover;
+                    }
+                    .step-box{
+                        background-color: #8C51DF;
+                        color: #fff;
+                    }
+                } 
+                // 等待
+                .ant-steps-item-wait{
+                    .ant-steps-icon-dot{
+                        background: url("../../images/icon/wait.png") no-repeat center;
+                        background-size: cover;
+                    }
+                    .step-box{
+                        background-color: #EEEEEE;
+                        color: #999999;
+                        button{
+                            background-color: #EEEEEE;
+                        }
+                    }
                 }
                 .ant-steps-item-description{
                     padding-bottom: 62px;
@@ -181,7 +204,6 @@
 .step-box{
     width: 550px;
     height: 64px;
-    border: 1px solid #8C52DF;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -223,16 +245,16 @@
 }
 
 .innerHref{
-    margin-left: 24px;
+    margin-left: 42px;
     padding-inline: 12px 10px;
     justify-content: space-between;
     font-weight: 500;
+    border: 1px solid #8C52DF;
+
     input{
         width: 384px;
         height: 50px;
-        border-radius: 25px;
-        border-start-end-radius: 25px;
-        border-end-end-radius: 25px;
+        border-radius: 10px;
         border: 1px solid #8C52DF;
         color: #8C52DF;
         font-size: 20px;
@@ -273,7 +295,7 @@
 
 .CustomCliam{
     padding: 0;
-    background-color: #ffffff00;
+    background-color: #ffffff00 !important;
     border: none;
     .box{
         width: 227px;
@@ -297,13 +319,22 @@
             height: 48px;
             border-radius: 10px;
             font-size: 16px;
-            border: 1px solid #8C52DF;
+        }
+
+        .ant-steps-item-active{
+            .claim .anticon-twitter{
+                color: #0495d7;
+            }
             
         }
-        .claim .anticon-twitter{
-            color: #0495d7;
+        // 等待
+        .ant-steps-item-wait{
+            .claim .anticon-twitter{
+                color: #999999;
+            }
         }
     }
+        
 }
 .isClaim{
     // background-color: #8C52DF;

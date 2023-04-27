@@ -95,15 +95,13 @@ export default function CustomCompleted(props) {
 
     const getStep = async() => {
         // 判断当前步骤
-        if (!answerInfo.isPass) {
+        if(isConnected === false || !localStorage.getItem('decert.token')){
             step = 0;
-        }else if(isConnected === false || !localStorage.getItem('decert.token')){
-            step = 1;
         }else if(isConnected === true){
-            step = 2;
+            step = 1;
         }
         if (isClaim) {
-            step = 3
+            step = 2
         }
         // TODO: ===> 领取nft之前校验是否签名
         setStep(step);
