@@ -34,8 +34,8 @@
     },
     "discord": {
         "bind": "Open Discord",
-        "unbind": "Unconnected Discord",
-        "binded": "Connected Discord"
+        "unbind": "Unconnected",
+        "binded": "Connected"
     },
     "claim": {
         "claimed": "Claimed SBT",

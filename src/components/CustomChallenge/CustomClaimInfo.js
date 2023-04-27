@@ -65,7 +65,7 @@ export default function CustomClaimInfo(props) {
                         </div>
                     }
                     {
-                            !answerInfo.isPass && detail.recommend && !isClaim ? 
+                            !answerInfo.isPass && detail.recommend && !isClaim &&
                             <div className="viewer" >
                                 <div className="viewer-head">
                                     <p>{t("recommend")}</p>
@@ -75,8 +75,6 @@ export default function CustomClaimInfo(props) {
                                     <CustomViewer label={JSON.parse(detail.recommend)} />
                                 </div>
                             </div>
-                            :
-                            <p className="desc">{t("desc")}</p>
                     }
                 </div>
             }

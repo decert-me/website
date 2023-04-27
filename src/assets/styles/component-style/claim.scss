@@ -33,9 +33,9 @@
             }
         }
         .info{
-            margin-left: 125px;
+            margin-left: 145px;
             .network{
-                max-width: calc(956px - 125px - 230px);
+                max-width: calc(956px - 145px - 230px);
                 margin-bottom: 16px;
                 font-size: 30px;
                 font-weight: 500;
@@ -85,6 +85,7 @@
         }
     }
     .content-step{
+        margin-top: 120px;
         display: flex;
         justify-content: space-between;
         h5{
@@ -95,29 +96,83 @@
             line-height: 35px;
         }
         .nft{
-            width: 350px;
-            img{
+            .sbt{
                 width: 100%;
-                height: 350px;
+                height: 100%;
             }
             .img{
-                margin-top: 30px;
+                width: 300px;
+                height: 300px;
+                margin-top: 75px;
                 position: relative;
+                border-radius: 22px;
+                overflow: hidden;
                 .icon{
-                    width: 40px;
-                    height: 40px;
+                    width: 34px;
+                    height: 34px;
                     border-radius: 50%;
                     position: absolute;
                     right: 13px;
-                    top: 13px;
-                    background-color: #69E6F9;
+                    top: 11px;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
             }
         }
         .step{
-            width: 580px;
+            width: 591px;
+            // 自定义step type
             .step-detail{
-                margin-top: 75px;
+                margin-top: 40px;
+                .ant-steps-item-icon{
+                    width: 22px;
+                    height: 22px;
+                    margin-right: 19px;
+                }
+
+                .ant-steps-item-tail{
+                    height: 70px;
+                    padding: 0 !important;
+                    top: 52px !important;
+                    display: flex !important;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    &::after{
+                        display: none !important;
+                    }
+                }
+                .custom-dot{
+                    width: 6px;
+                    height: 6px;
+                    margin-left: 7px;
+                    border-radius: 50%;
+                    background-color: rgba($color: #999999, $alpha: 0.5);
+                }
+                .ant-steps-icon-dot{
+                    background-color: #ffffff00;
+                }
+                .ant-steps-item-finish{
+                    .ant-steps-icon-dot{
+                        background: url("../../images/icon/finish.png") no-repeat center;
+                        background-size: cover;
+                    }
+                    .ant-steps-item-tail .custom-dot{
+                        background-color: #18BB63;
+                    }
+                } 
+                .ant-steps-item-active .ant-steps-icon-dot{
+                    background: url("../../images/icon/active.png") no-repeat center;
+                    background-size: cover;
+                }
+                .ant-steps-item-wait .ant-steps-icon-dot{
+                    background: url("../../images/icon/wait.png") no-repeat center;
+                    background-size: cover;
+                }
+                .ant-steps-item-description{
+                    padding-bottom: 62px;
+                }
             }
         }
     }
@@ -131,7 +186,7 @@
     align-items: center;
     justify-content: center;
     color: #8C52DF;
-    border-radius: 32px;
+    border-radius: 10px;
 
     font-size: 20px;
     font-weight: 500;
@@ -193,12 +248,12 @@
 }
 
 .CustomBox{
-    padding-inline: 41px 14px;
+    padding-inline: 40px 10px;
     justify-content: space-between;
     button{
         height: 48px;
         padding-inline: 26px;
-        border-radius: 24px;
+        border-radius: 10px;
         border: none;
         box-shadow: none;
         color: #8C52DF;
@@ -240,7 +295,7 @@
         button{
             width: 100%;
             height: 48px;
-            border-radius: 24px;
+            border-radius: 10px;
             font-size: 16px;
             border: 1px solid #8C52DF;
             

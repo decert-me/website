@@ -7,7 +7,7 @@ import {
 import CustomClaim from "./CustomClaim";
 import CustomConnect from "./CustomConnect";
 import CustomDiscord from "./CustomDiscord";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GetScorePercent } from "@/utils/GetPercent";
 import { submitClaimTweet } from "@/request/api/public";
@@ -89,19 +89,38 @@ export default function CustomClaimStep(props) {
         </div>
     )
 
+    useEffect(() => {
+        const steps = document.querySelectorAll(".ant-steps-item-tail");
+        for (let i = 0; i < steps.length-1; i++) {
+            const dots = [
+                document.createElement("div"),
+                document.createElement("div"),
+                document.createElement("div"),
+                document.createElement("div"),
+                document.createElement("div")
+            ];
+              dots.forEach(dot => {
+                dot.classList = "custom-dot";
+            });
+            steps[i].append(...dots)
+        }
+    },[])
+
     return (
         <div className="content-step">
             <div className="nft">
                     <div className="img">
-                        <a href={`${openseaLink}/${detail.tokenId}`} target="_blank">
-                            <img 
-                                src={
-                                    detail.metadata.image.split("//")[1]
-                                        ? `${ipfsPath}/${detail.metadata.image.split("//")[1]}`
-                                        : defaultImg
-                                }
-                                alt="" 
-                            />
+                        <img 
+                            className="sbt"
+                            src={
+                                detail.metadata.image.split("//")[1]
+                                    ? `${ipfsPath}/${detail.metadata.image.split("//")[1]}`
+                                    : defaultImg
+                            }
+                            alt="" 
+                        />
+                        <a href={`${openseaLink}/${detail.tokenId}`} className="icon" target="_blank">
+                        <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                         </a>
                     </div>
             </div>
@@ -113,18 +132,6 @@ export default function CustomClaimStep(props) {
                     current={step}
                     direction="vertical"
                     items={[
-                        {
-                            description: (
-                                <div className={`step-box ${step === 0 ? "checked-step" : ''}`}>
-                                    {
-                                        answerInfo.isPass || isClaim ?
-                                        t("step.pass")
-                                        :
-                                        t("step.unpass")
-                                    }
-                                </div>
-                            )
-                        },
                         {
                             description: (
                                 <CustomConnect

@@ -34,8 +34,8 @@
     },
     "discord": {
         "bind": "打开 Discord",
-        "unbind": "未绑定 Discord",
-        "binded": "已绑定 Discord"
+        "unbind": "未绑定",
+        "binded": "已绑定"
     },
     "claim": {
         "claimed": "已领取SBT",
