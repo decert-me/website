@@ -68,8 +68,11 @@ export default function CustomCompleted(props) {
             questions.map(e => {
                 totalScore += e.score;
             })
+            let res;
             await refetch()
-            const res = data?.toString();
+            .then(result => {
+                res = result.data?.toString();
+            })
             percent = res / 100;
             answerInfo = {
                 totalScore: totalScore,

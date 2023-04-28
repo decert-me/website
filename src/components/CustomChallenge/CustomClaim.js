@@ -116,7 +116,7 @@ export default function CustomClaim(props) {
     },[switchNetwork, isSwitch])
 
     return (
-        <div className={`CustomBox ${step === 2 ? "checked-step" : ""} CustomCliam step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}>
+        <div className={`CustomBox ${step === 2 ? "checked-step" : ""} ${isClaim || cacheIsClaim ? "" : "CustomCliam" } step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}>
             <ModalLoading 
                 isModalOpen={isModalOpen}
                 handleCancel ={handleCancel}

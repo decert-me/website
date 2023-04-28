@@ -15,6 +15,8 @@ import "@/assets/styles/mobile/container.scss"
 import { hashAvatar } from '@/utils/HashAvatar';
 import { NickName } from '@/utils/NickName';
 import { useWeb3Modal } from "@web3modal/react";
+import logo_white from "@/assets/images/svg/logo-white.png";
+import logo_normal from "@/assets/images/svg/logo-normal.png";
 
 export default function AppHeader({ isMobile }) {
     
@@ -89,18 +91,23 @@ export default function AppHeader({ isMobile }) {
         <div id={`${isHome ? "Header-bg" : "Header"}`}>
             <div className={`header-content ${isOpenM ? "bg000" : ""}`}>
                 <div className='nav-left'>
-                    <div className="logo" onClick={() => navigateTo("/")}>
-                        {/*  */} 
+                    <div 
+                        className="logo" 
+                        onClick={() => navigateTo("/")} 
+                    >
                         {
                             isHome || isOpenM ? 
-                            <img src={require("@/assets/images/img/logo-white.png")} alt="" />
+                            <img src={logo_white} alt="" />
                             :
-                            <img src={require("@/assets/images/img/logo-black.png")} alt="" />
+                            <img src={logo_normal} alt="" />
                         }
                     </div>
                     {
                         menus.map((e,i) =>
-                            <Link to={e.to} key={i}>
+                            <Link 
+                            to={e.to} 
+                            key={i} 
+                            className={location.pathname.indexOf(e.to) !== -1 ? "active" : ""}>
                                 {e.label}
                             </Link>
                         )

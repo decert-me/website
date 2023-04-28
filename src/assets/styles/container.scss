@@ -11,11 +11,12 @@
         align-items: center;
     }
     .nav-left > a{
-        margin-left: 40px;
+        margin-left: 50px;
+        font-weight: 500;
     }
     .logo{
-        width: 107px;
-        height: 32px;
+        width: 138px;
+        height: 100%;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -61,6 +62,9 @@
     background-color: #fff;
     border-bottom: 1px solid #D8D8D8;
     &,.nav-left a{
+        color: #696969;
+    }
+    .nav-left .active{
         color: #000;
     }
     .user{
