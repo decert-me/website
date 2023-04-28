@@ -26,6 +26,12 @@
         display: flex;
         .circle {
             user-select: none;
+            .pass .ant-progress-circle-path{
+                stroke: #18BB63 !important;
+            }
+            .unpass .ant-progress-circle-path{
+                stroke: #FF0000 !important;
+            }
             .ant-progress-text{
                 font-size: 80px;
                 font-weight: 500;

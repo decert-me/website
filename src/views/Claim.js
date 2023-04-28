@@ -26,11 +26,6 @@ export default function Claim(props) {
         const cache = JSON.parse(localStorage.getItem('decert.cache'));
         
         new Promise(async(resolve, reject) => {
-            // let chainScores = 0;
-            // await balanceOf(address, questId, signer)
-            // .then(res => {
-            //     chainScores = res
-            // })
             getQuests({id: id})
             .then(res => {
                 // TODO: ==> num
