@@ -1,7 +1,7 @@
 {
     "verify": "Verify",
-    "pass": "Congratulations on completing the challenge！💪💪💪",
-    "unpass": "Challenge failed, please keep trying.",
+    "pass": "Congratulations on completing the challenge！",
+    "unpass": "Challenge failed, please keep trying！💪💪💪",
     "recommend": "Recommend Tutorial",
     "view": "learn more",
     "desc": "The SBT (Soulbound Token) badge you receive through the challenge is stored permanently on the blockchain and cannot be transferred or sold. It is a proof of your technical ability and adds value to your resume.",
