@@ -116,7 +116,7 @@ export default function CustomClaim(props) {
     },[switchNetwork, isSwitch])
 
     return (
-        <div className={`CustomBox ${step === 3 ? "checked-step" : ""} CustomCliam step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}>
+        <div className={`CustomBox ${step === 2 ? "checked-step" : ""} ${isClaim || cacheIsClaim ? "" : "CustomCliam" } step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}>
             <ModalLoading 
                 isModalOpen={isModalOpen}
                 handleCancel ={handleCancel}
@@ -130,16 +130,16 @@ export default function CustomClaim(props) {
                 t("claim.claimed")
                 :
                 <>
-                    <Badge.Ribbon text={t("claim.share.badge")} >
+                    <Badge.Ribbon text={t("claim.share.badge")} className="custom-badge" color={step !== 2 ? "#CBCBCB" : "blue"}>
                         <div className="box">
-                            <Button disabled={step !== 3} className="share claim" onClick={() => share()}>
+                            <Button disabled={step !== 2} className="share claim" onClick={() => share()}>
                                 <TwitterOutlined />
                                 {t("claim.share.btn")}
                             </Button>
                         </div>
                     </Badge.Ribbon>
                     <div className="box">
-                        <Button className="claim" disabled={step !== 3} loading={writeLoading} onClick={() => cliam()}>
+                        <Button className="claim" disabled={step !== 2} loading={writeLoading} onClick={() => cliam()}>
                             {t("claim.btn")}
                         </Button>
                     </div>

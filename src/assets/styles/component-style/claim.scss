@@ -9,60 +9,12 @@
 
 .CustomCompleted{
     .completed-content{
-        width: 1200px;
+        width: 956px;
         margin: 0 auto;
         margin-block: 100px;
     }
-    .content-info{
-        display: flex;
-        justify-content: space-between;
-    
-    }
     .desc{
-        max-width: 495px;
-        .viewer{
-            font-weight: 500;
-            .viewer-head{
-                padding: 40px 14px 10px 20px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                
-                font-size: 20px;
-                line-height: 29px;
-                p:last-child{
-                    font-size: 14px;
-                    color: #3D3D3D;
-                    line-height: 23px;
-                    cursor: pointer;
-                }
-            }
-            .ant-divider{
-                border-top: 2px solid #E8E8E8;
-            }
-            .viewer-content{
-                height: 200px;
-                padding: 14px 20px;
-                
-                overflow: hidden;
-                text-overflow: ellipsis;
-                display: -webkit-box;
-                -webkit-box-orient: vertical;
-                -webkit-line-clamp: 8;
-
-                font-size: 16px;
-                line-height: 23px;
-                background-color: #FAFAFA;
-            }
-        }
-        .title, .desc{
-            color: #EA0606;
-            font-size: 24px;
-            font-weight: 500;
-            line-height: 35px;
-        }
         .title{
-            margin-left: -25px;
             color: #000;
             font-size: 40px;
             font-weight: 500;
@@ -70,65 +22,76 @@
         }
     }
     .score{
-        width: 560px;
-        height: 250px;
-        position: relative;
-        .network{
-            margin-bottom: 10px;
-            color: #767676;
-            font-size: 24px;
-            font-weight: 900;
-            line-height: 35px;
-        }
-        h4, .pass{
-            color: #666666;
-            line-height: 46px;
-        }
-        h4{
-            margin: 0;
-            font-size: 32px;
-        }
-        .pass{
-            font-size: 24px;
-        }
-        .score-detail{
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            position: absolute;
-            right: 0;
-            bottom: 0;
-            .circle {
-                margin-bottom: 30px;
-                position: relative;
-                display: flex;
-                align-items: center;
-                justify-content: center;
-                user-select: none;
-                .ant-progress-text{
-                    position: absolute;
-                    font-size: 64px;
-                    font-weight: 500;
-                    // color: #17151C;
-                    line-height: 93px;
-                }
+        margin-top: 100px;
+        display: flex;
+        .circle {
+            user-select: none;
+            .pass .ant-progress-circle-path{
+                stroke: #18BB63 !important;
             }
-            .btn{
-                display: inline-block;
-                padding: 2px 5px;
-                color: #9E9E9E;
-                border: none;
-                border-radius: 0;
-                background-color: #D8D8D8;
-                font-size: 24px;
+            .unpass .ant-progress-circle-path{
+                stroke: #FF0000 !important;
+            }
+            .ant-progress-text{
+                font-size: 80px;
                 font-weight: 500;
-                line-height: 35px;
-                cursor: pointer;
+                line-height: 116px;
             }
-
+        }
+        .info{
+            margin-left: 145px;
+            .network{
+                max-width: calc(956px - 145px - 230px);
+                margin-bottom: 16px;
+                font-size: 30px;
+                font-weight: 500;
+                line-height: 43px;
+                white-space: nowrap;  
+                text-overflow:ellipsis; 
+                overflow:hidden;
+            }
+            .pass{
+                font-size: 18px;
+                color: #9E9E9E;
+                line-height: 26px;
+                font-weight: 500;
+            }
+        }
+        
+    }
+    .btn{
+        height: 40px;
+        margin-top: 80px;
+        padding-inline: 32px;
+        background: #8C51DF;
+        border-radius: 6px;
+        border: none;
+        box-shadow: none;
+        font-size: 18px;
+        color: #fff;
+        font-weight: 500;
+        line-height: 26px;
+    }
+    .viewer{
+        margin-top: 100px;
+        .viewer-head{
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 29px;
+        }
+        .ant-divider{
+            margin: 10px 0 15px;
+            border-top: 2px solid #E8E8E8;
+        }
+        .viewer-content{
+            min-height: 500px;
+            padding: 0 20px;
+            font-size: 16px;
+            line-height: 23px;
         }
     }
     .content-step{
+        margin-top: 120px;
         display: flex;
         justify-content: space-between;
         h5{
@@ -139,29 +102,106 @@
             line-height: 35px;
         }
         .nft{
-            width: 350px;
-            img{
+            .sbt{
                 width: 100%;
-                height: 350px;
+                height: 100%;
             }
             .img{
-                margin-top: 30px;
+                width: 300px;
+                height: 300px;
+                margin-top: 75px;
                 position: relative;
+                border-radius: 22px;
+                overflow: hidden;
                 .icon{
-                    width: 40px;
-                    height: 40px;
+                    width: 34px;
+                    height: 34px;
                     border-radius: 50%;
                     position: absolute;
                     right: 13px;
-                    top: 13px;
-                    background-color: #69E6F9;
+                    top: 11px;
+                    img{
+                        width: 100%;
+                        height: 100%;
+                    }
                 }
             }
         }
         .step{
-            width: 580px;
+            width: 591px;
+            // 自定义step type
             .step-detail{
-                margin-top: 75px;
+                margin-top: 40px;
+                .ant-steps-item-icon{
+                    width: 22px;
+                    height: 22px;
+                    margin-right: 19px;
+                }
+
+                .ant-steps-item-tail{
+                    height: 70px;
+                    padding: 0 !important;
+                    top: 52px !important;
+                    display: flex !important;
+                    flex-direction: column;
+                    justify-content: space-between;
+                    &::after{
+                        display: none !important;
+                    }
+                }
+                .custom-dot{
+                    width: 6px;
+                    height: 6px;
+                    margin-left: 7px;
+                    border-radius: 50%;
+                    background-color: rgba($color: #999999, $alpha: 0.5);
+                }
+                .ant-steps-icon-dot{
+                    background-color: #ffffff00;
+                }
+                // 结束
+                .ant-steps-item-finish{
+                    .ant-steps-icon-dot{
+                        background: url("../../images/icon/finish.png") no-repeat center;
+                        background-size: cover;
+                    }
+                    .ant-steps-item-tail .custom-dot{
+                        background-color: #18BB63;
+                    }
+                    .step-box{
+                        background-color: #8C51DF;
+                        color: #fff;
+                        opacity: 0.5;
+                    }
+                } 
+                // 正在
+                .ant-steps-item-active{
+                    .ant-steps-icon-dot{
+                        background: url("../../images/icon/active.png") no-repeat center;
+                        background-size: cover;
+                    }
+                    .step-box{
+                        background-color: #8C51DF;
+                        color: #fff;
+                    }
+                } 
+                // 等待
+                .ant-steps-item-wait{
+                    .ant-steps-icon-dot{
+                        background: url("../../images/icon/wait.png") no-repeat center;
+                        background-size: cover;
+                    }
+                    .step-box{
+                        background-color: #EEEEEE;
+                        color: #999999;
+                        button{
+                            background-color: #EEEEEE;
+                        }
+                    }
+                }
+                .ant-steps-item-description{
+                    padding-bottom: 62px;
+                }
             }
         }
     }
@@ -170,12 +210,11 @@
 .step-box{
     width: 550px;
     height: 64px;
-    border: 1px solid #8C52DF;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #8C52DF;
-    border-radius: 32px;
+    border-radius: 10px;
 
     font-size: 20px;
     font-weight: 500;
@@ -212,16 +251,16 @@
 }
 
 .innerHref{
-    margin-left: 24px;
+    margin-left: 42px;
     padding-inline: 12px 10px;
     justify-content: space-between;
     font-weight: 500;
+    border: 1px solid #8C52DF;
+
     input{
         width: 384px;
         height: 50px;
-        border-radius: 25px;
-        border-start-end-radius: 25px;
-        border-end-end-radius: 25px;
+        border-radius: 10px;
         border: 1px solid #8C52DF;
         color: #8C52DF;
         font-size: 20px;
@@ -237,12 +276,12 @@
 }
 
 .CustomBox{
-    padding-inline: 41px 14px;
+    padding-inline: 40px 10px;
     justify-content: space-between;
     button{
         height: 48px;
         padding-inline: 26px;
-        border-radius: 24px;
+        border-radius: 10px;
         border: none;
         box-shadow: none;
         color: #8C52DF;
@@ -262,7 +301,7 @@
 
 .CustomCliam{
     padding: 0;
-    background-color: #ffffff00;
+    background-color: #ffffff00 !important;
     border: none;
     .box{
         width: 227px;
@@ -284,15 +323,27 @@
         button{
             width: 100%;
             height: 48px;
-            border-radius: 24px;
-            font-size: 16px;
-            border: 1px solid #8C52DF;
+            border-radius: 10px;
+            font-size: 12px;
+            .anticon-twitter{
+                font-size: 16px;
+            }
+        }
+
+        .ant-steps-item-active{
+            .claim .anticon-twitter{
+                color: #0495d7;
+            }
             
         }
-        .claim .anticon-twitter{
-            color: #0495d7;
+        // 等待
+        .ant-steps-item-wait{
+            .claim .anticon-twitter{
+                color: #999999;
+            }
         }
     }
+        
 }
 .isClaim{
     // background-color: #8C52DF;

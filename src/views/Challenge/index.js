@@ -7,32 +7,27 @@ import {
     message, 
     Progress 
 } from 'antd';
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { getQuests, submitChallenge } from "../request/api/public";
+import { getQuests, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
-import CustomPagination from '../components/CustomPagination';
-import ModalAnswers from '../components/CustomModal/ModalAnswers';
+import CustomPagination from '../../components/CustomPagination';
+import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 import { 
     CustomRadio, 
     CustomInput, 
     CustomCheckbox 
-} from '../components/CustomChallenge';
+} from '../../components/CustomChallenge';
 import { useTranslation } from 'react-i18next';
 import axios from "axios";
 import { constans } from '@/utils/constans';
-import pluginGfm from '@bytemd/plugin-gfm'
-import frontmatter from '@bytemd/plugin-frontmatter'
-import highlight from '@bytemd/plugin-highlight-ssr'
-import breaks from '@bytemd/plugin-breaks'
 import { usePublish } from '@/hooks/usePublish';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 
 export default function Challenge(params) {
 
     const { t } = useTranslation(["explore"]);
-    const plugins = useMemo(() => [pluginGfm(),frontmatter(),highlight(),breaks()], [])
 
     const { ipfsPath } = constans();
     const { questId } = useParams();
@@ -92,7 +87,6 @@ export default function Challenge(params) {
                 try {
                     answers.forEach((e,i) => {
                         if (e === null) {
-                            console.log(page);
                             page = i+1;
                             setPage(page)
                             console.log(page);
@@ -169,8 +163,10 @@ export default function Challenge(params) {
 
     useEffect(() => {
         if (location.pathname === "/preview") {
+            // 预览模式
             cacheInit();
         }else{
+            // 挑战模式
             getData(questId);
         }
     }, []);
@@ -188,11 +184,11 @@ export default function Challenge(params) {
     // 2: 填空 0: 单选 1: 多选
         switch (question.type) {
             case 2:
-                return <CustomInput plugins={plugins} key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
+                return <CustomInput key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
             case 1:
-                return <CustomCheckbox plugins={plugins} key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
+                return <CustomCheckbox key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             case 0:
-                return <CustomRadio plugins={plugins} key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
+                return <CustomRadio key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             default:
                 break;
         }
@@ -218,6 +214,7 @@ export default function Challenge(params) {
                                 submit={submit}
                                 answers={answers}
                                 changePage={changePage}
+                                detail={detail}
                             />
                             <div style={{display: "flex"}}>
                                 <Link to={`/quests/${detail.tokenId}`} className="title">
@@ -245,7 +242,7 @@ export default function Challenge(params) {
                         
                         </>
                     }
-                    <div className="content">
+                    <div className="content custom-scroll">
                         <h4>{t("challenge.title")} #{page}</h4>
                         {
                             // switchType(detail.metadata.properties.questions[index])
@@ -260,7 +257,7 @@ export default function Challenge(params) {
                         }
                     </div>
                     <div className="progress">
-                        <Progress percent={percent} showInfo={false} />
+                        <Progress strokeLinecap="butt" percent={percent} showInfo={false} />
                     </div>
                     <CustomPagination
                         type={detail ? "write" : "preview"}
@@ -272,7 +269,8 @@ export default function Challenge(params) {
                             cacheDetail.properties.questions.length
                         } 
                         onChange={checkPage} 
-                        submit={openAnswers}
+                        openAnswers={openAnswers}
+                        submit={submit}
                     />
                 </>
             }

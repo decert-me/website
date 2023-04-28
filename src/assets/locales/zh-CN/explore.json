@@ -5,6 +5,9 @@
     "title": "探索挑战",
     "btn-challenge": "挑战",
     "btn-start": "开始挑战",
+    "creator": "创建者",
+    "reward": "奖励",
+    "challenger": "挑战者",
     "ques": {
         "title": "技术认证",
         "desc": "完成挑战，可获得SBT（灵魂绑定代币）作为技术能力的证明。分享到你的社交平台，让世界知道你的能力。"

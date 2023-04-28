@@ -28,7 +28,7 @@ export default function CustomCompleted(props) {
     let [step, setStep] = useState(0);
     let [isShow, setIsShow] = useState();
     let [percent, setPercent] = useState(0);
-    let [scoresArgs, setScoresArgs] = useState([Number(tokenId), address]);
+    let [scoresArgs, setScoresArgs] = useState(address ? [Number(tokenId), address] : null);
     const { data, isLoading, refetch } = useBadgeContract({
         functionName: "scores",
         args: scoresArgs
@@ -63,14 +63,16 @@ export default function CustomCompleted(props) {
                 passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
                 isPass: score >= detail.metadata.properties.passingScore
             }
-            console.log(answerInfo);
         }else{
             // 已领取
             questions.map(e => {
                 totalScore += e.score;
             })
+            let res;
             await refetch()
-            const res = data?.toString();
+            .then(result => {
+                res = result.data?.toString();
+            })
             percent = res / 100;
             answerInfo = {
                 totalScore: totalScore,
@@ -96,15 +98,13 @@ export default function CustomCompleted(props) {
 
     const getStep = async() => {
         // 判断当前步骤
-        if (!answerInfo.isPass) {
+        if(isConnected === false || !localStorage.getItem('decert.token')){
             step = 0;
-        }else if(isConnected === false || !localStorage.getItem('decert.token')){
-            step = 1;
         }else if(isConnected === true){
-            step = 2;
+            step = 1;
         }
         if (isClaim) {
-            step = 3
+            step = 2
         }
         // TODO: ===> 领取nft之前校验是否签名
         setStep(step);
@@ -116,7 +116,7 @@ export default function CustomCompleted(props) {
     }
 
     useEffect(() => {
-        signer && init()
+        init()
     },[signer])
 
     return (
@@ -130,18 +130,21 @@ export default function CustomCompleted(props) {
                         detail={detail}
                         isClaim={isClaim}
                     />
-                    <CustomClaimStep
-                        detail={detail}
-                        step={step}
-                        changeStep={changeStep}
-                        tokenId={tokenId}
-                        answers={answers}
-                        showInner={showInner}
-                        isClaim={isClaim}
-                        isShow={isShow}
-                        verify={verify}
-                        answerInfo={answerInfo}
-                    />
+                    {
+                        answerInfo.isPass && 
+                        <CustomClaimStep
+                            detail={detail}
+                            step={step}
+                            changeStep={changeStep}
+                            tokenId={tokenId}
+                            answers={answers}
+                            showInner={showInner}
+                            isClaim={isClaim}
+                            isShow={isShow}
+                            verify={verify}
+                            answerInfo={answerInfo}
+                        />
+                    }
                  </div>
                  :
                  <div className="claim-loading">

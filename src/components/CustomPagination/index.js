@@ -1,19 +1,34 @@
 import {
     ArrowLeftOutlined,
     ArrowRightOutlined,
+    UnorderedListOutlined
   } from '@ant-design/icons';
 import { Button } from 'antd';
 import "@/assets/styles/component-style/index"
 import { useTranslation } from 'react-i18next';
+import MyContext from '@/provider/context';
+import { useContext } from 'react';
 
 export default function CustomPagination(props) {
 
-    const { page, total, onChange, submit, type } = props;
+    const { page, total, onChange, submit, openAnswers, type } = props;
 
-    const { t } = useTranslation(["translation"]);
+    const { t } = useTranslation(["translation", "explore"]);
+    const { isMobile } = useContext(MyContext);
     
     return (
         <div className="CustomPagination">
+            <div className="content-left">
+                {
+                    isMobile ?
+                    <UnorderedListOutlined onClick={openAnswers} />
+                    :
+                    <Button type='link' onClick={openAnswers}>
+                        {t("explore:modal.challenge.title")}
+                    </Button>
+                }
+            </div>
+            <div className="content-center">
             <Button
                 className='btn'
                 icon={<ArrowLeftOutlined />} 
@@ -27,18 +42,12 @@ export default function CustomPagination(props) {
             </p>
             {
                 type === "write" &&
-                (
-                    page === total ?
-                    <Button className='submit' onClick={submit}>
-                        {t("btn-submit")}
-                    </Button>
-                    :
-                    <Button 
-                        className='btn'
-                        icon={<ArrowRightOutlined />} 
-                        onClick={() => onChange('add')}
-                    />
-                )
+                <Button 
+                    className='btn'
+                    disabled={page === total}
+                    icon={<ArrowRightOutlined />} 
+                    onClick={() => onChange('add')}
+                />
             }
             {
                 type === "preview" && 
@@ -53,6 +62,12 @@ export default function CustomPagination(props) {
                     />
                 )
             }
+            </div>
+            <div className="content-right">
+                <Button className='submit' onClick={submit}>
+                    {t("btn-submit")}
+                </Button>
+            </div>
         </div>
     )
 }

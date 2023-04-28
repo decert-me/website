@@ -59,8 +59,8 @@ export default function CustomDiscord(props) {
     }
     
     useEffect(() => {
-        if (isBind && step === 2) {
-            setStep(3)
+        if (isBind && step === 1) {
+            setStep(2)
         }
     },[isBind])
 
@@ -91,7 +91,7 @@ export default function CustomDiscord(props) {
     }, [])
 
     return (
-        <div className={`CustomBox step-box ${step === 2 ? "checked-step" : ""}`}>
+        <div className={`CustomBox step-box ${step === 1 ? "checked-step" : ""}`}>
             {
                 isBind ? 
                 <>
@@ -102,7 +102,7 @@ export default function CustomDiscord(props) {
                 <>
                     <p>{t("discord.unbind")}</p>
                     {
-                        step >= 2 &&
+                        step >= 1 &&
                         <div>
                             <Button className="discord-box" loading={isLoading} onClick={() => onclick()}>
                                 {t("verify")}

@@ -2,6 +2,7 @@ import Twitter from '@/assets/images/icon/twitter.png'
 import Discord from '@/assets/images/icon/discord.png'
 import Notion from '@/assets/images/icon/notion.png'
 import Github from '@/assets/images/icon/github.png'
+import logo_white from "@/assets/images/svg/logo-white.png";
 
 export default function AppFooter({ isMobile }) {
     
@@ -15,7 +16,7 @@ export default function AppFooter({ isMobile }) {
               <p className='title'>DeCert.me</p>
               :
               <div className="logo">
-                <img src={require("@/assets/images/img/logo-white.png")} alt="" />
+                <img src={logo_white} alt="" />
               </div>
             }
             <p className="describe">You are what you build.</p>
