@@ -32,7 +32,7 @@ export default function ModalAnswers(props) {
 
     function getResult(params) {
         answers.map((e,i) => {  
-            statusAnswer[i] = !e ? "none" : e === realAnswer[i] ? "success" : "error";
+            statusAnswer[i] = e === null ? "none" : e === realAnswer[i] ? "success" : "error";
         })
         setStatusAnswer([...statusAnswer]);
     }
