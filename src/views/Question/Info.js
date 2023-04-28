@@ -35,7 +35,7 @@ export default function Info(props) {
         <div className="quest-info">
             <ul className="info-top">
                 <li>
-                    <p className="title mt13">创建者</p>
+                    <p className="title mt13">{t("explore:creator")}</p>
                     <div className="info-content">
                         <Link to={{pathname: `/user/${user.address}`, search: "to=created"}}>
                             <div className="img">
@@ -57,7 +57,7 @@ export default function Info(props) {
                     </div>
                 </li>
                 <li>
-                    <p className="title">奖励</p>
+                    <p className="title">{t("explore:reward")}</p>
                     <div className="info-content">
                         <p className="reward">SBT</p>
                     </div>
