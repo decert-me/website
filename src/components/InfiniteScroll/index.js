@@ -36,7 +36,6 @@ export default function InfiniteScroll(props) {
         const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
         const isLoading = document.querySelector(`${className ? '.'+className : ".loading"}`);
         if ((scrollTop + clientHeight >= (scrollHeight - (customHeight ? customHeight : 130))) && isLoading) {
-            console.log('执行 ====>');
             runAsync();
         }
     }

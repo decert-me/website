@@ -41,7 +41,9 @@
         height: 500px;
         border-radius: 20px;
         overflow: hidden;
-        background-color: #bd9b68;
+        // background-color: #bd9b68;
+        background: url("../../images/svg/logo-bg.png") no-repeat center;
+        background-size: cover;
     }
 }
 .quest-challenger{
