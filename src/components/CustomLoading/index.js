@@ -11,7 +11,7 @@ export default function CustomLoading(props) {
     const { t } = useTranslation();
 
     return (
-        <div className={`loading ${className ? className : ""}`}>
+        <div className={`${className ? className : "loading"}`}>
             <Spin 
                 indicator={
                     <LoadingOutlined

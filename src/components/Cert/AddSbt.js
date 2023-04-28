@@ -10,9 +10,10 @@ import { constans } from "@/utils/constans";
 import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { ipfsToImg } from "@/utils/IpfsToImg";
-import { useRequest, useUpdateEffect } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
+import InfiniteScroll from "../InfiniteScroll";
+import CustomLoading from "../CustomLoading";
 const { Option } = Select;
 
 export default function AddSbt(props) {
@@ -166,82 +167,63 @@ export default function AddSbt(props) {
           })
       }
   
-      const init = () => {
-          let arr = [];
-          for (const i in chains) {
-              arr.push({
-                  value: Number(i), label: chains[i].name, icon: chains[i].icon 
-              })
-          }
-          options = arr;
-          setOptions([...options]);
-      }
+    const init = () => {
+        let arr = [];
+        for (const i in chains) {
+            arr.push({
+                value: Number(i), label: chains[i].name, icon: chains[i].icon 
+            })
+        }
+        options = arr;
+        setOptions([...options]);
+    }
   
     //   修改链或修改合约地址
-      const getList = async() => {
-          setisLoading(true);
-          pageConfig.page += 1;
-          setPageConfig({...pageConfig})
+    const getList = async() => {
+        setisLoading(true);
+        pageConfig.page += 1;
+        setPageConfig({...pageConfig})
   
-              getContractNfts({...config, ...pageConfig})
-              .then(res => {
-                  if (res?.data) {
-                      pageConfig = {
-                          page: res.data.page,
-                          pageSize: res.data.pageSize,
-                          total: res.data.total
-                      }
-                      setPageConfig({...pageConfig})
-                      let arr = res.data?.list ? res.data?.list : [];
-                      list = list.concat(arr.slice());
-                      setList([...list]);
-                      cache = cache.concat(JSON.parse(JSON.stringify(arr)));
-                      setCache([...cache]);
-                  }
-                  setisLoading(false);
-              })
-              .catch(err => {
-                  console.log(err);
-                  setisLoading(false);
-              })
-      }
-    const { runAsync } = useRequest(getList, {
-        debounceWait: 300,
-        manual: true
-    });
-
-    function handleScroll() {
-        const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
-        const isLoading = document.querySelector(".sbt-loading");
-        if ((scrollTop + clientHeight >= (scrollHeight - 130)) && isLoading) {
-            runAsync();
-        }
-    };
-  
-      useEffect(() => {
-          list = [];
-          cache = [];
-          setList([...list]);
-          setCache([...cache]);
-          pageConfig = {
-              page: 0, pageSize: 16, total: 0
-          };
-          setPageConfig({...pageConfig});
-          if (config.address) {
-            runAsync();
-          }
-      },[config])
-  
-      useEffect(() => {
-          init();
-      },[])
+        getContractNfts({...config, ...pageConfig})
+        .then(res => {
+            if (res?.data) {
+                pageConfig = {
+                    page: res.data.page,
+                    pageSize: res.data.pageSize,
+                    total: res.data.total
+                }
+                setPageConfig({...pageConfig})
+                let arr = res.data?.list ? res.data?.list : [];
+                list = list.concat(arr.slice());
+                setList([...list]);
+                cache = cache.concat(JSON.parse(JSON.stringify(arr)));
+                setCache([...cache]);
+            }
+            setisLoading(false);
+        })
+        .catch(err => {
+            console.log(err);
+            setisLoading(false);
+        })
+    }
 
     useEffect(() => {
-        scrollRef.current?.addEventListener('scroll', handleScroll);
-      return () => {
-          scrollRef.current?.removeEventListener('scroll', handleScroll);
-      };
-  }, []);
+        list = [];
+        cache = [];
+        setList([...list]);
+        setCache([...cache]);
+        pageConfig = {
+            page: 0, pageSize: 16, total: 0
+        };
+        setPageConfig({...pageConfig});
+        if (config.address) {
+          getList();
+        }
+    },[config])
+  
+    useEffect(() => {
+        init();
+    },[])
 
     return (
         <>
@@ -323,19 +305,15 @@ export default function AddSbt(props) {
                             }
                             {
                                 pageConfig.page * pageConfig.pageSize < pageConfig.total &&
-                                <div className="sbt-loading">
-                                    <Spin
-                                        indicator={
-                                            <LoadingOutlined
-                                                style={{
-                                                fontSize: 24,
-                                                }}
-                                                spin
-                                            />
-                                        } 
-                                    />
-                                    <p>{t("status.load")}...</p>
-                                </div>
+                                <InfiniteScroll 
+                                    className="sbt-loading"
+                                    func={getList}
+                                    isCustom={true}
+                                    scrollRef={scrollRef}
+                                    components={(
+                                        <CustomLoading className="sbt-loading" />
+                                    )}
+                                />
                             }
                             </>
                         )

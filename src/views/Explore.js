@@ -9,6 +9,7 @@ import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
 import { constans } from "@/utils/constans";
 import store from "@/redux/store";
+import InfiniteScroll from "@/components/InfiniteScroll";
 
 export default function Explore(params) {
     
@@ -16,6 +17,7 @@ export default function Explore(params) {
     const { address } = useAccount();
     const navigateTo = useNavigate();
     const { ipfsPath, defaultImg } = constans();
+    const scrollRef = useRef(null);
     
     let [page, setPage] = useState(0);
     const loader = useRef(null);
@@ -51,27 +53,28 @@ export default function Explore(params) {
 
     }
 
-    const io = new IntersectionObserver(ioes => {
-        ioes.forEach(async(ioe) => {
-            const el = ioe.target
-            const intersectionRatio = ioe.intersectionRatio
-            if (intersectionRatio > 0 && intersectionRatio <= 1) {
-                await getChallenge()
-                io.unobserve(el)
-            }
-            if (!isOver) {
-                isInViewPortOfThree()
-            }
-        })
-    })
+    // const io = new IntersectionObserver(ioes => {
+    //     ioes.forEach(async(ioe) => {
+    //         const el = ioe.target
+    //         const intersectionRatio = ioe.intersectionRatio
+    //         if (intersectionRatio > 0 && intersectionRatio <= 1) {
+    //             await getChallenge()
+    //             io.unobserve(el)
+    //         }
+    //         if (!isOver) {
+    //             isInViewPortOfThree()
+    //         }
+    //     })
+    // })
 
     // 执行交叉观察器
-    function isInViewPortOfThree () {
-        io.observe(document.querySelector(".loading"))
-    }
+    // function isInViewPortOfThree () {
+    //     io.observe(document.querySelector(".loading"))
+    // }
 
     useEffect(() => {
-        isInViewPortOfThree()
+        // isInViewPortOfThree()
+        getChallenge()
     }, []);
 
     return (
@@ -79,7 +82,7 @@ export default function Explore(params) {
             {/* title */}
             <h3>{t("title")}</h3>
             {/* Challenge */}
-            <div className="challenges">
+            <div className="challenges" ref={scrollRef}>
                 <Row gutter={18} style={{margin: 0}}>
                     {
                         challenges.map(item => (
@@ -120,7 +123,11 @@ export default function Explore(params) {
                 {
                         !isOver &&
                         <div ref={loader}>
-                            <Spin size="large" className="loading" />
+                            {/* <Spin size="large" className="loading" /> */}
+                            <InfiniteScroll
+                                scrollRef={scrollRef}
+                                func={getChallenge}
+                            />
                         </div>
                     }
                 

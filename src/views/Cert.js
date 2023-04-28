@@ -10,13 +10,14 @@ import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
 import { CertSearch, CertUser, CertNfts, NftBox, ModalAddSbt } from "@/components/Cert";
 import { getAllNft, getContracts, modifyNftStatus } from "@/request/api/nft";
-import { useRequest, useUpdateEffect } from "ahooks";
+import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
 import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
 import { getEns } from "@/request/api/public";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import CustomLoading from "@/components/CustomLoading";
+import InfiniteScroll from "@/components/InfiniteScroll";
 
 export default function Cert(params) {
     
@@ -173,11 +174,6 @@ export default function Cert(params) {
         })
     }
 
-    const { runAsync } = useRequest(getNfts, {
-        debounceWait: 300,
-        manual: true
-    });
-
     const sign = async() => {
         store.dispatch(hideCustomSigner());
         store.dispatch(showCustomSigner());
@@ -187,14 +183,6 @@ export default function Cert(params) {
         setIsModalOpen(false);
     };
 
-    function handleScroll() {
-        const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
-        const isLoading = document.querySelector(".loading");
-        if ((scrollTop + clientHeight >= (scrollHeight - 130)) && isLoading) {
-            runAsync();
-        }
-    };
-
     useEffect(() => {
         init();
     },[location])
@@ -202,13 +190,6 @@ export default function Cert(params) {
     useUpdateEffect(() => {
         getInitList()
     },[selectStatus, selectContract])
-
-    useEffect(() => {
-          scrollRef.current?.addEventListener('scroll', handleScroll);
-        return () => {
-            scrollRef.current?.removeEventListener('scroll', handleScroll);
-        };
-    }, []);
 
     useUpdateEffect(() => {
         isMe && !localStorage.getItem("decert.token") && sign()
@@ -284,7 +265,15 @@ export default function Cert(params) {
                             }
                             {
                                 pageConfig.page * pageConfig.pageSize < (!selectStatus ? checkTotal.all : selectStatus === 2 ? checkTotal.open : checkTotal.hide) &&
-                                <CustomLoading />
+                                
+                                <InfiniteScroll
+                                    func={getNfts}
+                                    isCustom={true}
+                                    scrollRef={scrollRef}
+                                    components={(
+                                        <CustomLoading />
+                                    )}
+                                />
                             }
                             </>
                         }
