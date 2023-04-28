@@ -37,7 +37,7 @@
         "load": "loading",
         "none": "no more"
     },
-    "time": "Time",
+    "time": "Estimated time",
     "time-info": {
         "m": "{{time}} min",
         "h": "{{time}} h",
