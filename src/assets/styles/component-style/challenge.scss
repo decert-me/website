@@ -62,6 +62,13 @@
             width: 35px;
             height: 35px;
         }  
+        .ant-checkbox-checked .ant-checkbox-inner{
+            background-color: #000;   
+            border: none;
+        }
+        .ant-checkbox-inner::after{
+            content: none;
+        }
     }
     // .ant-checkbox-checked .ant-checkbox-inner{
     //     background-color: #000;
