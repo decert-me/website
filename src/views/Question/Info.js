@@ -83,8 +83,6 @@ export default function Info(props) {
                         </p>
                     </div>
                 </li>
-            </ul>
-            <ul className="info-bottom">
                 {
                     detail.recommend &&
                     <li>
@@ -94,6 +92,8 @@ export default function Info(props) {
                         </div>
                     </li>
                 }
+            </ul>
+            <ul className="info-bottom">
                 <div className="submit-bg">
                     <Button className="submit" onClick={() => goChallenge()}>
                         {t("btn-start")}
