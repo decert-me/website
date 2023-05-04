@@ -155,12 +155,12 @@
     }
 }
 .info-top{
-    height: 535px;
+    min-height: calc(500px - 13px - 40px + 45px);
     margin-top: 13px;
     overflow: hidden;
+    margin-bottom: 40px;
 }
 .info-bottom{
-    margin-top: 40px;
     li{
         margin-bottom: 35px;
     }
