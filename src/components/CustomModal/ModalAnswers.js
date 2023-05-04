@@ -31,9 +31,27 @@ export default function ModalAnswers(props) {
     }
 
     function getResult(params) {
-        console.log(answers, statusAnswer);
+        // 答题记录 ===> 
         answers.map((e,i) => {  
-            statusAnswer[i] = (e === null || e === undefined || e === "") ? "none" : e === realAnswer[i] ? "success" : "error";
+            if (e === null || e === undefined || e === "") {
+                statusAnswer[i] = "none"
+            }else{
+                if (typeof realAnswer[i] === "object") {
+                    if (e.length !== realAnswer[i].length) {
+                        statusAnswer[i] = "error";
+                        return
+                    }
+                    let flag = true;
+                    realAnswer[i].map((ele,index) => {
+                        if (ele !== e[index]) {
+                            flag = false;
+                        }
+                    })
+                    statusAnswer[i] = flag ? "success" : "error";
+                }else{
+                    statusAnswer[i] = e === realAnswer[i] ? "success" : "error"
+                }
+            }
         })
         setStatusAnswer([...statusAnswer]);
     }
