@@ -5,7 +5,7 @@ import BadgeAddress from "@/contracts/Badge.address";
 export const constans = () => {
 
     const chains = {
-        "80001": {name: "mumbai", alias: "matic", icon: require("@/assets/images/img/net-Polygon.png")},
+        "80001": {name: "mumbai", icon: require("@/assets/images/img/net-Polygon.png")},
         "56": {name: "BNB", icon: require("@/assets/images/img/net-BNB.png")},
         "137": {name: "Polygon", alias: "matic", icon: require("@/assets/images/img/net-Polygon.png")},
         "10": {name: "Optimism", icon: require("@/assets/images/img/net-Optimism.png")},

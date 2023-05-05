@@ -95,7 +95,6 @@ export async function setMetadata(props) {
             },
         }
         metadata.metadata = obj;
-        console.log(metadata);
     }
     
     return metadata
