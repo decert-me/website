@@ -22,56 +22,6 @@ ul{
   padding: 0;
   margin: 0;
 }
-
-.markdown-body ul{
-  padding-left: 40px;
-  list-style-type: disc;
-}
-.markdown-body .task-list-item{
-  list-style: none;
-}
-.markdown-body blockquote{
-  margin: initial;
-  padding: initial;
-  border: initial;
-  margin-left: 40px;
-  padding-left: 20px;
-  border-left: 2px solid #ccc;
-}
-.markdown-body code {
-  font-family: monospace;
-  background-color: #f7f7f7;
-  padding: 0.2em 0.4em;
-  display: inline-block;
-}
-.markdown-body table {
-  display: inline-block ;
-  font-size: 12px;
-  width: auto;
-  max-width: 100%;
-  overflow: auto;
-  border: 1px solid #f6f6f6;
-  border-collapse: separate;
-  text-indent: initial;
-  border-spacing: 2px;
-}
-.markdown-body thead{
-  background: #f6f6f6;
-  color: #000;
-  text-align: left;
-}
-.markdown-body th{
-  padding: 12px 7px;
-  line-height: 24px;
-}
-.markdown-body td{
-  padding: 12px 7px;
-  line-height: 24px;
-}
-.markdown-body tr:nth-child(2n){
-  background-color: #fcfcfc;
-}
-
 .img{
   position: relative;
   display: flex;
