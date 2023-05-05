@@ -2,7 +2,7 @@ import { BigNumber } from "ethers";
 import BadgeAddress from "@/contracts/Badge.address";
 
 
-export const constans = () => {
+export const constans = (contractType) => {
 
     const chains = {
         "80001": {name: "mumbai", icon: require("@/assets/images/img/net-Polygon.png")},
@@ -14,9 +14,11 @@ export const constans = () => {
     }
     const chainId = process.env.REACT_APP_CHAIN_ID;
 
+    const questAddr = process.env.REACT_APP_CONTRACT_QUEST_ADDRESS;
+
     const maxUint32 = Math.pow(2,32) - 1;
     const maxUint192 = BigNumber.from('2').pow(192).sub(1);
-    const openseaLink = `${process.env.REACT_APP_OPENSEA_LINK}/assets/${chains[chainId].alias ? chains[chainId].alias : chains[process.env.REACT_APP_CHAIN_ID].name}/${BadgeAddress}`;
+    const openseaLink = `${process.env.REACT_APP_OPENSEA_LINK}/assets/${chains[chainId].alias ? chains[chainId].alias : chains[process.env.REACT_APP_CHAIN_ID].name}/${contractType ? questAddr : BadgeAddress}`;
     const defaultImg = require('@/assets/images/img/default.png');
     const ipfsPath = 'https://ipfs.decert.me';
     const screenSize = {

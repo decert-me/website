@@ -8,10 +8,10 @@ import { useTranslation } from "react-i18next";
 
 export default function ChallengeItem(props) {
     
-    const { info, isMe } = props;
+    const { info, isMe, checkType } = props;
     const { t } = useTranslation(["profile"]);
     const navigateTo = useNavigate();
-    const { ipfsPath, defaultImg, openseaLink } = constans();
+    const { ipfsPath, defaultImg, openseaLink } = constans(checkType === 1 ? true : false);
 
     const toQuest = () => {
         if (isMe && info.complete_ts) {

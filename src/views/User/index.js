@@ -229,6 +229,7 @@ export default function User(props) {
                             key={e.id} 
                             info={e}
                             isMe={isMe}
+                            checkType={checkType}
                         />
                     )
                 }
