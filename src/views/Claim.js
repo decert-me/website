@@ -7,6 +7,7 @@ import "@/assets/styles/mobile/view-style/claim.scss"
 import { getQuests } from "../request/api/public";
 import { LoadingOutlined } from '@ant-design/icons';
 import { Spin } from 'antd';
+import { setMetadata } from "@/utils/getMetadata";
 export default function Claim(props) {
     
     const navigateTo = useNavigate();
@@ -26,17 +27,28 @@ export default function Claim(props) {
         const cache = JSON.parse(localStorage.getItem('decert.cache'));
         
         new Promise(async(resolve, reject) => {
-            getQuests({id: id})
+            const res = await getQuests({id: id});
+            setMetadata(res.data)
             .then(res => {
-                // TODO: ==> num
-                detail = res ? res.data : {};
+                detail = res ? res : {};
                 setDetail({...detail});
-                if (res.data.claimed) {
+                if (res.claimed) {
                     resolve()
                 }else{
                     reject()
                 }
             })
+            // getQuests({id: id})
+            // .then(res => {
+            //     // TODO: ==> num
+            //     detail = res ? res.data : {};
+            //     setDetail({...detail});
+            //     if (res.data.claimed) {
+            //         resolve()
+            //     }else{
+            //         reject()
+            //     }
+            // })
         }).then(res => {
             //  已领取
             // console.log(detail);
