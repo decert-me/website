@@ -68,10 +68,11 @@ export const usePublish = (props) => {
     }
 
     const processingData = async() => {
+        console.log("detail ==>", detail);
         const signature = jsonHash && await addQuests({
             uri: "ipfs://"+jsonHash,
             title: detail.title,
-            description: detail.desc,
+            description: detail.description,
             'start_ts': '0', 
             'end_ts': maxUint32.toString(), 
             'supply': maxUint192.toString(),       
@@ -115,8 +116,10 @@ export const usePublish = (props) => {
     }
 
     const init = async() => {
+        // v1.1
         let request = await axios.get(`${ipfsPath}/${jsonHash}`);
-        detail = request.data;
+        let result = await axios.get(`${ipfsPath}/${request.data.attributes.challenge_ipfs_url.replace("ipfs://", '')}`);
+        detail = result.data;
         setDetail({...detail});
     }
 

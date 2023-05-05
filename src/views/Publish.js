@@ -15,12 +15,15 @@ import { useUpdateEffect } from "ahooks";
 import { usePublish } from "@/hooks/usePublish";
 import ModalEditQuestion from "@/components/CustomModal/ModalEditQuestion";
 import MyContext from "@/provider/context";
+import { getMetadata } from "@/utils/getMetadata";
+import { useAccount } from "wagmi";
 
 export default function Publish(params) {
     
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
     const { isMobile } = useContext(MyContext);
+    const { address } = useAccount();
     
     let [showAddQs, setShowAddQs] = useState(false);
     let [showEditQs, setShowEditQs] = useState(false);
@@ -76,24 +79,31 @@ export default function Publish(params) {
 
     const getJson = async(values) => {
         const { answers, questions: qs } = filterQuestions(questions);
-        let obj = {
-            title: values.title,
-            description: values.desc,
-            image: "ipfs://"+values.fileList?.file.response.hash,
-            properties: {
-                questions: qs,
-                answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-                passingScore: values.score,
-                startTime: new Date().toISOString(),
-                endTIme: null,
-                url: "",
-                requires: [],
-                difficulty: values.difficulty !== undefined ? values.difficulty : null,
-                estimateTime: values.time ? values.time : null
-            },
-            version: 1
-        }
-        const jsonHash = await ipfsJson({body: obj});
+        const jsonHash = await getMetadata({
+            values: values,
+            address: address,
+            questions: qs,
+            answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
+            image: "ipfs://"+values.fileList?.file.response.hash
+        })
+        // let obj = {
+        //     title: values.title,
+        //     description: values.desc,
+        //     image: "ipfs://"+values.fileList?.file.response.hash,
+        //     properties: {
+        //         questions: qs,
+        //         answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
+        //         passingScore: values.score,
+        //         startTime: new Date().toISOString(),
+        //         endTIme: null,
+        //         url: "",
+        //         requires: [],
+        //         difficulty: values.difficulty !== undefined ? values.difficulty : null,
+        //         estimateTime: values.time ? values.time : null
+        //     },
+        //     version: 1
+        // }
+        // const jsonHash = await ipfsJson({body: obj});
         return jsonHash
     }
 

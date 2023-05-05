@@ -7,7 +7,7 @@ export const constans = () => {
     const chains = {
         "80001": {name: "mumbai", alias: "matic", icon: require("@/assets/images/img/net-Polygon.png")},
         "56": {name: "BNB", icon: require("@/assets/images/img/net-BNB.png")},
-        "137": {name: "Polygon", icon: require("@/assets/images/img/net-Polygon.png")},
+        "137": {name: "Polygon", alias: "matic", icon: require("@/assets/images/img/net-Polygon.png")},
         "10": {name: "Optimism", icon: require("@/assets/images/img/net-Optimism.png")},
         "1": {name: "Ethereum", icon: require("@/assets/images/img/net-ETH.png")},
         "42161": {name: "Arbitrum One", icon: require("@/assets/images/img/net-Arbitrum.png")}
