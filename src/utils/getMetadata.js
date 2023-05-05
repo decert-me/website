@@ -1,7 +1,5 @@
 import { ipfsJson } from "@/request/api/public";
 import { generateUUID } from "./getUuid";
-import axios from "axios";
-import { constans } from "./constans";
 
 export async function getMetadata({values, address, questions, answers, image}) {
     /**
@@ -41,8 +39,8 @@ export async function getMetadata({values, address, questions, answers, image}) 
     const questHash = await ipfsJson({body: obj});
     const uuid = generateUUID();
     const nft = {
-        name: "Decert Badge",
-        description: "NFT 描述",
+        name: values.title,
+        description: values.desc,
         image: image,
         attributes: {
             challenge_ipfs_url: "ipfs://"+questHash.hash,
@@ -59,7 +57,6 @@ export async function getMetadata({values, address, questions, answers, image}) 
 }
 
 export async function setMetadata(props) {
-    const { ipfsPath } = constans();
     let metadata = props;
     const params = props.metadata;
     switch (params.version) {
@@ -74,9 +71,7 @@ export async function setMetadata(props) {
     }
 
     async function v1_1() {
-        const res = await axios.get(`${ipfsPath}/${params.attributes.challenge_ipfs_url.replace("ipfs://", '')}`);
-        const challenge = res.data;
-        
+        const challenge = props.quest_data;
         let obj = {
             title: challenge.title,
             description: challenge.description,
