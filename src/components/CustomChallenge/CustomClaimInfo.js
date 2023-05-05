@@ -1,13 +1,8 @@
 import { Button, Divider, Progress } from "antd"
-import { Viewer } from "@bytemd/react";
 import { useTranslation } from "react-i18next";
 import { Link, useNavigate } from "react-router-dom"
 import ModalViewRecommed from "../CustomModal/ModalViewRecommed";
-import { useContext, useMemo } from "react";
-import pluginGfm from '@bytemd/plugin-gfm'
-import frontmatter from '@bytemd/plugin-frontmatter'
-import breaks from '@bytemd/plugin-breaks'
-import highlight from '@bytemd/plugin-highlight-ssr'
+import { useContext, useEffect, useMemo } from "react";
 import MyContext from "@/provider/context";
 import CustomViewer from "../CustomViewer";
 
@@ -15,13 +10,16 @@ export default function CustomClaimInfo(props) {
     
     const { answerInfo, percent, detail, isClaim } = props
     const { t } = useTranslation(["claim", "translation"]);
-    const plugins = useMemo(() => [pluginGfm(),frontmatter(),highlight(),breaks()], [])
     const { isMobile } = useContext(MyContext);
     const navigateTo = useNavigate();
 
     function reChallenge(params) {
         navigateTo(`/quests/${detail.tokenId}`);
     }
+
+    useEffect(() => {
+        console.log(detail);
+    },[])
 
     return (
         <>
@@ -73,7 +71,7 @@ export default function CustomClaimInfo(props) {
                                 </div>
                                 <Divider />
                                 <div className="viewer-content">
-                                    <CustomViewer label={JSON.parse(detail.recommend)} />
+                                    <CustomViewer label={detail.recommend} />
                                 </div>
                             </div>
                     }

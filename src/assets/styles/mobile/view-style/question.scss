@@ -55,7 +55,7 @@ $container-width: 89vw;
     
     // content-right
     .quest-info{
-        li{
+        .li{
             flex-direction: column;
             &:last-child{
                 margin: 0;

@@ -34,7 +34,7 @@ export default function Info(props) {
         user &&
         <div className="quest-info">
             <ul className="info-top">
-                <li>
+                <li className="li">
                     <p className="title mt13">{t("explore:creator")}</p>
                     <div className="info-content">
                         <Link to={{pathname: `/user/${user.address}`, search: "to=created"}}>
@@ -46,7 +46,7 @@ export default function Info(props) {
                         <p className="name">{nickname(user)}</p>
                     </div>
                 </li>
-                <li>
+                <li className="li">
                     <p className="title">{t("publish:inner.desc")}</p>
                     <div className="info-content desc">
                         {/* <p className="desc">{detail.metadata.description}</p> */}
@@ -56,13 +56,13 @@ export default function Info(props) {
                         }
                     </div>
                 </li>
-                <li>
+                <li className="li">
                     <p className="title">{t("explore:reward")}</p>
                     <div className="info-content">
                         <p className="reward">SBT</p>
                     </div>
                 </li>
-                <li>
+                <li className="li">
                     <p className="title">{t("translation:diff")}</p>
                     <div className="info-content">
                         {
@@ -71,7 +71,7 @@ export default function Info(props) {
                         }
                     </div>
                 </li>
-                <li>
+                <li className="li">
                     <p className="title">{t("translation:time")}</p>
                     <div className="info-content">
                         <p className="time">
@@ -85,7 +85,7 @@ export default function Info(props) {
                 </li>
                 {
                     detail.recommend &&
-                    <li>
+                    <li className="li">
                         <p className="title">{t("translation:header.lesson")}</p>
                         <div className="recommend desc custom-scroll">
                             <CustomViewer label={detail.recommend} />
