@@ -23,6 +23,34 @@ ul{
   margin: 0;
 }
 
+.markdown-body ul{
+  padding-left: 40px;
+  list-style-type: disc;
+}
+.markdown-body .task-list-item{
+  list-style: none;
+}
+.markdown-body blockquote{
+  margin: initial;
+  padding: initial;
+  border: initial;
+  margin-left: 40px;
+  padding-left: 20px;
+  border-left: 2px solid #ccc;
+}
+.markdown-body code {
+  font-family: monospace;
+  background-color: #f7f7f7;
+  padding: 0.2em 0.4em;
+  display: inline-block;
+}
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 2px;
+  text-align: initial;
+  vertical-align: initial;
+}
+
 .img{
   position: relative;
   display: flex;
