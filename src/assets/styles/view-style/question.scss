@@ -102,19 +102,21 @@
         text-overflow:ellipsis; 
         overflow:hidden;
     }
+    .overflow{
+        .markdown-body{
+            overflow: hidden;
+            text-overflow: ellipsis;
+            display: -webkit-box;
+            -webkit-box-orient: vertical;
+            -webkit-line-clamp: 9;
+        }
+    }
     .desc{
         p{
             font-size: 14px;
             color: #17151C;
             line-height: 20px;
         }
-        // .markdown-body{
-        //     overflow: hidden;
-        //     text-overflow: ellipsis;
-        //     display: -webkit-box;
-        //     -webkit-box-orient: vertical;
-        //     -webkit-line-clamp: 9;
-        // }
     }
     .reward{
         font-size: 14px;

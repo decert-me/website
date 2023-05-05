@@ -48,7 +48,7 @@ export default function Info(props) {
                 </li>
                 <li className="li">
                     <p className="title">{t("publish:inner.desc")}</p>
-                    <div className="info-content desc">
+                    <div className="info-content desc overflow">
                         {/* <p className="desc">{detail.metadata.description}</p> */}
                         {
                             detail.metadata.description &&
