@@ -1,5 +1,7 @@
 import { ipfsJson } from "@/request/api/public";
 import { generateUUID } from "./getUuid";
+import { constans } from "./constans";
+import axios from "axios";
 
 export async function getMetadata({values, address, questions, answers, image}) {
     /**
@@ -58,7 +60,8 @@ export async function getMetadata({values, address, questions, answers, image}) 
 
 export async function setMetadata(props) {
     let metadata = props;
-    const params = props.metadata;
+    const { ipfsPath } = constans();
+    const params = props?.metadata ? props.metadata : props;
     switch (params.version) {
         case 1:
             
@@ -71,7 +74,14 @@ export async function setMetadata(props) {
     }
 
     async function v1_1() {
-        const challenge = props.quest_data;
+        let challenge;
+        if (props.quest_data) {
+            challenge = props.quest_data;
+        }else{
+            const res = await axios.get(`${ipfsPath}/${params.attributes.challenge_ipfs_url.replace("ipfs://", '')}`);
+            challenge = res.data;
+            console.log(challenge);
+        }
         let obj = {
             title: challenge.title,
             description: challenge.description,
@@ -89,7 +99,11 @@ export async function setMetadata(props) {
                 difficulty: params.attributes.difficulty,
             },
         }
-        metadata.metadata = obj;
+        if (props?.metadata) {
+            metadata.metadata = obj;
+        }else{
+            metadata = obj
+        }
     }
     
     return metadata

@@ -127,7 +127,7 @@ export default function User(props) {
     }
 
     useEffect(() => {
-        checkType = location.search.indexOf("created") ? 1 : 0;
+        checkType = location.search.indexOf("created") !== -1 ? 1 : 0;
         setCheckType(checkType)
         init();
     }, []);

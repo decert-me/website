@@ -15,6 +15,9 @@
             text-overflow:ellipsis; 
             overflow:hidden;
         }
+        .question-title{
+            white-space: pre-wrap;
+        }
     }
     .operation{
         padding-right: 15px;

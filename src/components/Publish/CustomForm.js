@@ -65,15 +65,15 @@ export default function CustomForm(props) {
                 },
                 {
                     name: ["score"],
-                    value: questCache.data.properties.passingScore
+                    value: questCache.data.properties?.passingScore
                 },
                 {
                     name: ["difficulty"],
-                    value: questCache.data.properties.difficulty
+                    value: questCache.data.properties?.difficulty
                 },
                 {
                     name: ["time"],
-                    value: questCache.data.properties.estimateTime
+                    value: questCache.data.properties?.estimateTime
                 }
             ]
             setFields([...fields])

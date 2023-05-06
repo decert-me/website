@@ -1,4 +1,3 @@
-import { Viewer } from "@bytemd/react";
 import { Input } from "antd";
 import CustomViewer from "../CustomViewer";
 

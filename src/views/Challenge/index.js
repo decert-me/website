@@ -154,12 +154,15 @@ export default function Challenge(params) {
             recommend: cache.recommend
         }
         setPublishObj({...publishObj});
-        const request = await axios.get(`${ipfsPath}/${cache.hash}`)
-        cacheDetail = request.data;
-        setCacheDetail({...cacheDetail});
-
-        answers = new Array(Number(cache.questions.length))
-        setAnswers([...answers])
+        await axios.get(`${ipfsPath}/${cache.hash}`)
+        .then(async(res) => {
+            const request = await setMetadata(res.data);
+            cacheDetail = request;
+            setCacheDetail({...cacheDetail});
+    
+            answers = new Array(Number(cache.questions.length))
+            setAnswers([...answers])
+        })
     }
 
     useEffect(() => {
@@ -244,7 +247,7 @@ export default function Challenge(params) {
                         </>
                     }
                     <div className="content custom-scroll">
-                        <h4>{t("challenge.title")} #{page}</h4>
+                        <h4 className='challenge-title'>{t("challenge.title")} #{page}</h4>
                         {
                             // switchType(detail.metadata.properties.questions[index])
                             detail ? 
