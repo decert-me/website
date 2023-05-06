@@ -24,6 +24,7 @@ import axios from "axios";
 import { constans } from '@/utils/constans';
 import { usePublish } from '@/hooks/usePublish';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
+import { setMetadata } from '@/utils/getMetadata';
 
 export default function Challenge(params) {
 
@@ -72,10 +73,11 @@ export default function Challenge(params) {
         setPage(page);
     }
 
-    const getData = (id) => {
-        getQuests({id: id})
+    const getData = async (id) => {
+        const res = await getQuests({id: id});
+        setMetadata(res.data)
         .then(res => {
-            detail = res ? res.data : {};
+            detail = res ? res : {};
             setDetail({...detail});
             // 获取本地存储 ===> 
             const local = JSON.parse(localStorage.getItem("decert.cache"));
@@ -89,7 +91,6 @@ export default function Challenge(params) {
                         if (e === null) {
                             page = i+1;
                             setPage(page)
-                            console.log(page);
                             throw ""
                         }
                     })

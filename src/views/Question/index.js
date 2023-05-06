@@ -6,6 +6,7 @@ import "@/assets/styles/mobile/view-style/question.scss"
 import { constans } from "@/utils/constans";
 import Challenger from "./Challenger";
 import Info from "./Info";
+import { setMetadata } from "@/utils/getMetadata";
 
 
 export default function Quests(params) {
@@ -14,10 +15,11 @@ export default function Quests(params) {
     let [detail, setDetail] = useState();
     const { questId } = useParams();
 
-    const getData = (id) => {
-        getQuests({id: id})
+    const getData = async (id) => {
+        const res = await getQuests({id: id});
+        setMetadata(res.data)
         .then(res => {
-            detail = res ? res.data : {};
+            detail = res ? res : {};
             setDetail({...detail});
         })
     }

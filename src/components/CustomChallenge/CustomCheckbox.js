@@ -1,6 +1,6 @@
-import { Viewer } from '@bytemd/react';
 import { Checkbox } from 'antd';
 import { useEffect, useState } from 'react';
+import CustomViewer from '../CustomViewer';
 
 export default function CustomCheckbox(props) {
 
@@ -25,7 +25,8 @@ export default function CustomCheckbox(props) {
     return (
         <div className="CustomCheckbox">
             <div className="inner-title">
-                <Viewer value={label} plugins={plugins} />
+                {/* <Viewer value={label} plugins={plugins} /> */}
+                <CustomViewer label={label} />
             </div>
             {
                 items &&

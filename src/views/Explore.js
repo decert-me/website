@@ -99,20 +99,21 @@ export default function Explore(params) {
                                 </Button>
                                 </div>
                                 <div className="right-sbt">
-
-                                <LazyLoadImage
-                                    src={
-                                        item.metadata.image?.split("//")[1]
-                                            ? `${ipfsPath}/${item.metadata.image.split("//")[1]}`
-                                            : defaultImg
-                                    }
-                                />
-                                {
-                                    item.claimed &&
-                                    <div className="item-claimed">
-                                        pass
+                                    <div className="img">
+                                        <LazyLoadImage
+                                            src={
+                                                item.metadata.image?.split("//")[1]
+                                                    ? `${ipfsPath}/${item.metadata.image.split("//")[1]}`
+                                                    : defaultImg
+                                            }
+                                        />
+                                        {
+                                            item.claimed &&
+                                            <div className="item-claimed">
+                                                pass
+                                            </div>
+                                        }
                                     </div>
-                                }
                                 </div>
                             </div>
                         </Col>

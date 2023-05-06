@@ -41,9 +41,7 @@
         height: 500px;
         border-radius: 20px;
         overflow: hidden;
-        // background-color: #bd9b68;
-        background: url("../../images/svg/logo-bg.png") no-repeat center;
-        background-size: cover;
+        background-color: rgba($color: #8F5A35, $alpha: 5%);
     }
 }
 .quest-challenger{
@@ -69,7 +67,7 @@
 
 // content-right
 .quest-info{
-    li{
+    .li{
         margin-bottom: 30px;
         display: flex;
         align-items: flex-start;
@@ -104,18 +102,20 @@
         text-overflow:ellipsis; 
         overflow:hidden;
     }
-    .desc{
-        p{
-            font-size: 14px;
-            color: #17151C;
-            line-height: 20px;
-        }
+    .overflow{
         .markdown-body{
             overflow: hidden;
             text-overflow: ellipsis;
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 9;
+        }
+    }
+    .desc{
+        p{
+            font-size: 14px;
+            color: #17151C;
+            line-height: 20px;
         }
     }
     .reward{
