@@ -247,7 +247,7 @@ export default function Challenge(params) {
                         </>
                     }
                     <div className="content custom-scroll">
-                        <h4>{t("challenge.title")} #{page}</h4>
+                        <h4 className='challenge-title'>{t("challenge.title")} #{page}</h4>
                         {
                             // switchType(detail.metadata.properties.questions[index])
                             detail ? 
