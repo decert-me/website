@@ -19,7 +19,7 @@ export default function CustomQuestion(props) {
                     <p className="title">{index}.</p>
                     <div className="content">
                         <div className="question-title">
-                        <Viewer value={item.title} />
+                            {item.title}
                         </div>
                         <p>{t("inner.sc")}: {item.score}</p>
                     </div>
