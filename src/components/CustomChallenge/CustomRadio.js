@@ -1,4 +1,3 @@
-import { Viewer } from '@bytemd/react';
 import { Radio } from 'antd';
 import { useEffect, useState } from 'react';
 import CustomViewer from '../CustomViewer';
