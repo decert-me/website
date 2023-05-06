@@ -1,6 +1,7 @@
 import { Viewer } from '@bytemd/react';
 import { Radio } from 'antd';
 import { useEffect, useState } from 'react';
+import CustomViewer from '../CustomViewer';
 
 export default function CustomRadio(props) {
     
@@ -26,7 +27,7 @@ export default function CustomRadio(props) {
     return(
         <div className="CustomRadio">
             <div className="inner-title">
-                <Viewer value={label} plugins={plugins} />
+                <CustomViewer label={label} />
             </div>
             {
                 items &&
