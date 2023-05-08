@@ -105,7 +105,7 @@ export default function CustomCompleted(props) {
             step = 1;
         }
         if (isClaim) {
-            step = 2
+            step = 3
         }
         // TODO: ===> 领取nft之前校验是否签名
         setStep(step);
