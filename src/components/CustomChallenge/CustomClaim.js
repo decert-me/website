@@ -14,7 +14,7 @@ import { Copy } from "@/utils/Copy"
 
 export default function CustomClaim(props) {
     
-    const { step, cliamObj, img, showInner, isClaim, isMobile } = props;
+    const { step, setStep, cliamObj, img, showInner, isClaim, isMobile } = props;
     const { t } = useTranslation(["claim", "translation"]);
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
@@ -42,6 +42,7 @@ export default function CustomClaim(props) {
             delete cache[cliamObj.tokenId];
             localStorage.setItem("decert.cache", JSON.stringify(cache));
             setCacheIsClaim(true);
+            setStep(3)
         }
     })
 
