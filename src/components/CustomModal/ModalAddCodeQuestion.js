@@ -20,6 +20,7 @@ export default function ModalAddCodeQuestion(props) {
     }
 
     function onFinish(params) {
+        console.log(JSON.parse(question));
         questionChange(JSON.parse(question));
     }
 

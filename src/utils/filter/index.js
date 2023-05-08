@@ -44,12 +44,18 @@ export const filterQuestions = (arr) => {
 
     arr.map(e => {
         answers.push(e.answers);
-        questions.push({
-            title: e.title,
-            options: e.options,
-            type: e.type,
-            score: e.score
-        })
+        if (e.type === "coding" || e.type === "spj_code") {
+            // 编程题处理
+            questions.push(e)
+        }else{
+            // 普通题处理
+            questions.push({
+                title: e.title,
+                options: e.options,
+                type: e.type,
+                score: e.score
+            })
+        }
     })
 
     return {
