@@ -32,6 +32,7 @@ export default function Claim(props) {
             .then(res => {
                 detail = res ? res : {};
                 setDetail({...detail});
+                console.log("detail ==>", detail);
                 if (res.claimed) {
                     resolve()
                 }else{
