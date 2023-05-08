@@ -32,15 +32,14 @@ function CustomSigner(props) {
         return
       }
         openModal()
-        console.log({address: address, signer: signer, disconnect: disconnect});
         await GetSign({address: address, signer: signer, disconnect: disconnect})
         .then(() => {
             if (localStorage.getItem('decert.token')) {
                 Modal.destroyAll();
                 props.hide();
-                if (location.pathname.indexOf("/claim") === -1) {
-                  navigateTo(0)
-                }
+                // if (location.pathname.indexOf("/claim") === -1) {
+                //   navigateTo(0)
+                // }
             }
         })
         .catch(err => {

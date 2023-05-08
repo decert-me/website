@@ -98,7 +98,6 @@ export default function DefaultLayout(params) {
             // 未登录  ====>  登录
             localStorage.setItem("decert.address", address);
             await sign()
-            // isCert(path, 'reload');
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
             ClearStorage();

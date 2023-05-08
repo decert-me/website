@@ -1,9 +1,16 @@
 export const filterType = (values) => {
+    /**
+        0 - multiple_choice
+        1 - multiple_response
+        2 - fill_blank
+        3 - coding
+        4 - special_judge_coding
+     */
     let type = ''
     let num = 0
     let ans 
     if (values.options.length === 1){
-        type = 2
+        type = "fill_blank"
         values.options.map((e)=>{
             ans = e.title
         })
@@ -15,14 +22,14 @@ export const filterType = (values) => {
         })
         num === 1 ? type = 0 : type = 1;
         if (num === 1){
-            type = 0
+            type = "multiple_choice"
             values.options.map((e,i)=>{
                 if (e.options === 2){
                     ans = i
                 }
             })
         }else{
-            type = 1
+            type = "multiple_response"
             ans = []
             values.options.map((e,i)=>{
                 if (e.options===2){

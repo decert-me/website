@@ -185,15 +185,20 @@ export default function Challenge(params) {
     },[page, detail, cacheDetail])
 
     const switchType = (question,i) => {
-    // 2: 填空 0: 单选 1: 多选
+    // 2: 填空 0: 单选 1: 多选  ====>  题型展示
+    console.log(typeof question.type, question.type);
         switch (question.type) {
             case 2:
+            case "fill_blank":
                 return <CustomInput key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
             case 1:
+            case "multiple_response":
                 return <CustomCheckbox key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             case 0:
+            case "multiple_choice":
                 return <CustomRadio key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             default:
+                console.log("default ===>", question.type);
                 break;
         }
         return
