@@ -68,7 +68,6 @@ export const usePublish = (props) => {
     }
 
     const processingData = async() => {
-        console.log("detail ==>", detail);
         const signature = jsonHash && await addQuests({
             uri: "ipfs://"+jsonHash,
             title: detail.title,

@@ -17,6 +17,7 @@ import ModalEditQuestion from "@/components/CustomModal/ModalEditQuestion";
 import MyContext from "@/provider/context";
 import { getMetadata } from "@/utils/getMetadata";
 import { useAccount } from "wagmi";
+import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 
 export default function Publish(params) {
     
@@ -26,6 +27,7 @@ export default function Publish(params) {
     const { address } = useAccount();
     
     let [showAddQs, setShowAddQs] = useState(false);
+    let [showAddCodeQs, setShowAddCodeQs] = useState(false);
     let [showEditQs, setShowEditQs] = useState(false);
     let [selectQs, setSelectQs] = useState();
     let [selectIndex, setSelectIndex] = useState();
@@ -42,8 +44,12 @@ export default function Publish(params) {
     });
     const { encode } = Encryption();
 
-    const showAddModal = () => {
+    function showAddModal(params) {
         setShowAddQs(true);
+    }
+
+    function showAddCodeModal(params) {
+        setShowAddCodeQs(true);
     }
     
     const showEditModal = (index) => {
@@ -226,14 +232,20 @@ export default function Publish(params) {
                 handleCancel={() => {setShowAddQs(false)}}
                 questionChange={questionChange}
                 selectQs={selectQs}
-              />
+            />
+            <ModalAddCodeQuestion 
+                isModalOpen={showAddCodeQs} 
+                handleCancel={() => {setShowAddCodeQs(false)}}
+                questionChange={questionChange}
+                selectQs={selectQs}
+            />
             <ModalEditQuestion
                 isModalOpen={showEditQs} 
                 handleCancel={() => {setShowEditQs(false)}}
                 questionChange={questionEdit}
                 selectIndex={selectIndex}
                 selectQs={selectQs}
-              />
+            />
             <h3>{t("title")}</h3>
             <CustomForm 
                 onFinish={onFinish}
@@ -242,6 +254,7 @@ export default function Publish(params) {
                 writeLoading={isLoading}
                 waitLoading={transactionLoading}
                 showAddModal={showAddModal}
+                showAddCodeModal={showAddCodeModal}
                 showEditModal={showEditModal}
                 questions={questions}
                 isClick={isClick}

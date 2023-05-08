@@ -5,6 +5,7 @@
         "desc": "Description",
         "img": "Image",
         "add": "Add choice question or blank filling question",
+        "add-code": "添加编程题",
         "score": "Passing score",
         "total": "Total score",
         "ques": "Quiz",

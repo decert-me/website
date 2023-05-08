@@ -20,6 +20,7 @@ export default function CustomForm(props) {
         deleteQuestion, 
         writeLoading, 
         showAddModal,
+        showAddCodeModal,
         questions,
         isClick,
         sumScore,
@@ -216,6 +217,14 @@ export default function CustomForm(props) {
                     danger={questions.length === 0 && isClick}
                 >
                     {t("inner.add")}
+                </Button>
+
+                <Button
+                    type="link" 
+                    onClick={() => showAddCodeModal()}
+                    danger={questions.length === 0 && isClick}
+                >
+                    {t("inner.add-code")}
                 </Button>
             </div>
             <Divider />
