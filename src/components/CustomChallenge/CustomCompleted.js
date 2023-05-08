@@ -73,13 +73,14 @@ export default function CustomCompleted(props) {
             .then(result => {
                 res = result.data?.toString();
             })
+            console.log("res ===>", res);
             percent = res / 100;
             answerInfo = {
                 totalScore: totalScore,
                 score: res / 100,
                 passingScore: detail.metadata.properties.passingScore,
                 passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
-                isPass: res / 100 >= detail.metadata.properties.passingScore
+                isPass: detail.claimed
             }
         }
         setAnswerInfo({...answerInfo});
