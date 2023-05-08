@@ -79,7 +79,7 @@ export default function CustomCompleted(props) {
                 score: res / 100,
                 passingScore: detail.metadata.properties.passingScore,
                 passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
-                isPass: res / 100 >= detail.metadata.properties.passingScore
+                isPass: detail.claimed
             }
         }
         setAnswerInfo({...answerInfo});
