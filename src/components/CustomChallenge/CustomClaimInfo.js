@@ -1,8 +1,7 @@
 import { Button, Divider, Progress } from "antd"
 import { useTranslation } from "react-i18next";
-import { Link, useNavigate } from "react-router-dom"
-import ModalViewRecommed from "../CustomModal/ModalViewRecommed";
-import { useContext, useEffect, useMemo } from "react";
+import { useNavigate } from "react-router-dom"
+import { useContext } from "react";
 import MyContext from "@/provider/context";
 import CustomViewer from "../CustomViewer";
 
@@ -16,10 +15,6 @@ export default function CustomClaimInfo(props) {
     function reChallenge(params) {
         navigateTo(`/quests/${detail.tokenId}`);
     }
-
-    useEffect(() => {
-        console.log(detail);
-    },[])
 
     return (
         <>
