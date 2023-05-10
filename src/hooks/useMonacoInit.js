@@ -1,13 +1,15 @@
 import { useEffect } from "react";
 import { monacoLanguage } from "@/components/MonacoEditor/monacoLanguage";
+import { useMonaco } from "@monaco-editor/react";
 
 
 
 
 export function useMonacoInit(props) {
     
-    const { language, monaco } = props;
+    const { language } = props;
 
+    const monaco = useMonaco();
     const { languages } = monacoLanguage();
 
     function solidityInit() {
@@ -15,7 +17,7 @@ export function useMonacoInit(props) {
         monaco.languages.setMonarchTokensProvider('solidity', languages.solidity);
     }
 
-    function init() {
+    async function languageInit() {
         switch (language) {
             case "solidity":
                 solidityInit();
@@ -26,7 +28,7 @@ export function useMonacoInit(props) {
         }
     }
 
-    useEffect(() => {
-        monaco && init();
-    },[monaco])
+    return {
+        languageInit
+    }
 }

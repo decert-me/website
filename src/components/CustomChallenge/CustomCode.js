@@ -1,7 +1,7 @@
 import { Editor } from '@bytemd/react'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useUpdateEffect } from 'ahooks';
 import MonacoEditor from '../MonacoEditor';
-
 
 
 
@@ -9,9 +9,33 @@ import MonacoEditor from '../MonacoEditor';
 export default function CustomCode(props) {
 
     const { question } = props;
+    let [cacheQuest, setCacheQuest] = useState();
+    let [selectCode, setSelectCode] = useState();
+    let [selectIndex, setSelectIndex] = useState(0);
+
+
+    function changeCache(value) {
+        cacheQuest[selectIndex] = value;
+        setCacheQuest({...cacheQuest});
+    }
+
+    function toggleCode() {
+        selectCode = cacheQuest.code_snippets[0];
+        setSelectCode({...selectCode});
+    }
+
+    async function init(params) {
+        cacheQuest = question;
+        setCacheQuest({...cacheQuest});
+        toggleCode()
+    }
+
+    useUpdateEffect(() => {
+        toggleCode();
+    },[selectIndex])
 
     useEffect(() => {
-        console.log(question);
+        init();
     },[])
 
     return (
@@ -21,13 +45,16 @@ export default function CustomCode(props) {
                 <div dangerouslySetInnerHTML={{__html: question.description}}>
                 </div>
             </div>
-            <div className="code-out">
-                <MonacoEditor
-                    value={}
-                    onChange={}
-                    language={}
-                />
-            </div>
+            {
+                selectCode &&
+                <div className="code-out">
+                    <MonacoEditor
+                        value={selectCode.code}
+                        onChange={changeCache}
+                        language={selectCode.lang}
+                    />
+                </div>
+            }
         </div>
     )   
 }
