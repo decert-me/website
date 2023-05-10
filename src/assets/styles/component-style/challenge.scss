@@ -74,3 +74,14 @@
     //     background-color: #000;
     // }
 }
+
+.CustomCode{
+    display: flex;
+    justify-content: space-between;
+    background-color: #f7f7f7;
+    .code-desc, .code-out{
+        width: 49.5%;
+        padding: 0 20px;
+        background-color: #fff;
+    }
+}

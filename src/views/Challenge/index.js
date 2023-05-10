@@ -25,6 +25,7 @@ import { constans } from '@/utils/constans';
 import { usePublish } from '@/hooks/usePublish';
 import ModalConnect from '@/components/CustomModal/ModalConnect';
 import { setMetadata } from '@/utils/getMetadata';
+import CustomCode from '@/components/CustomChallenge/CustomCode';
 
 export default function Challenge(params) {
 
@@ -187,6 +188,12 @@ export default function Challenge(params) {
     const switchType = (question,i) => {
     // 2: 填空 0: 单选 1: 多选
         switch (question.type) {
+            case "coding":
+                // 编码
+                return <CustomCode key={i} question={question} />
+            case "special_judge_coding":
+                // 特殊编码题
+                return
             case 2:
                 return <CustomInput key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
             case 1:

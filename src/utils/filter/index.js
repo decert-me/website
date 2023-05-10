@@ -44,7 +44,7 @@ export const filterQuestions = (arr) => {
 
     arr.map(e => {
         answers.push(e.answers);
-        if (e.type === "coding" || e.type === "spj_code") {
+        if (e.type === "coding" || e.type === "special_judge_coding") {
             // 编程题处理
             questions.push(e)
         }else{
