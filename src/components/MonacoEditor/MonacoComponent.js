@@ -16,7 +16,6 @@ export default function MonacoComponent(props) {
     return (
         <Editor
             // width="800"
-            height="300px"
             theme="light"     // light || vs-dark
             language={language}
             value={value}

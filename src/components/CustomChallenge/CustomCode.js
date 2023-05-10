@@ -40,7 +40,7 @@ export default function CustomCode(props) {
 
     return (
         <div className="CustomCode">
-            <div className="code-desc">
+            <div className="code-desc custom-scroll">
                 <p className="code-title">{question.title}</p>
                 <div dangerouslySetInnerHTML={{__html: question.description}}>
                 </div>
