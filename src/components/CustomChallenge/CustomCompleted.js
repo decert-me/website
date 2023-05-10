@@ -11,6 +11,7 @@ import { useVerifyToken } from "@/hooks/useVerifyToken";
 import CustomClaimInfo from "./CustomClaimInfo";
 import CustomClaimStep from "./CustomClaimStep";
 import { useBadgeContract } from "@/controller/contract";
+import Confetti from "react-confetti";
 
 
 export default function CustomCompleted(props) {
@@ -25,6 +26,7 @@ export default function CustomCompleted(props) {
     const key = process.env.REACT_APP_ANSWERS_KEY;
     
     let [answerInfo, setAnswerInfo] = useState();
+    let [showConfetti, setShowConfetti] = useState(false);
     let [step, setStep] = useState(0);
     let [isShow, setIsShow] = useState();
     let [percent, setPercent] = useState(0);
@@ -62,6 +64,10 @@ export default function CustomCompleted(props) {
                 passingScore: detail.metadata.properties.passingScore,
                 passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
                 isPass: score >= detail.metadata.properties.passingScore
+            }
+            // TODO: 添加 react-confetti
+            if (answerInfo.isPass) {
+                setShowConfetti(true);
             }
         }else{
             // 已领取
@@ -122,6 +128,15 @@ export default function CustomCompleted(props) {
 
     return (
         <div className="CustomCompleted">
+            {
+                showConfetti && 
+                <Confetti 
+                    width={document.documentElement.clientWidth} 
+                    height={document.documentElement.clientHeight} 
+                    numberOfPieces={500}
+                    recycle={false}
+                />
+            }
             {
                 answerInfo ?
                  <div className="completed-content">
