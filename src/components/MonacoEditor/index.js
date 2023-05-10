@@ -56,6 +56,8 @@ export default function MonacoEditor(props) {
             language={newLang}
         />
         :
-        <LoadingOutlined style={{ fontSize: "30px"}} />
+        <div style={{height: "calc(100% - 230px)"}}>
+            <LoadingOutlined style={{ fontSize: "30px"}} />
+        </div>
     )
 }

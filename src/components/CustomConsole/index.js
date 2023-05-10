@@ -5,8 +5,9 @@ import Console from "./Console";
 
 
 
-export default function CustomConsole(params) {
+export default function CustomConsole(props) {
     
+    const { question } = props;
 
     const tabs = [
         {
@@ -25,7 +26,7 @@ export default function CustomConsole(params) {
         
         switch (selectTab) {
             case "case":
-                return <TestCase />
+                return <TestCase input={question.input} />
             case "cmd":
                 return <Console />
             default:

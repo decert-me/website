@@ -10,7 +10,7 @@ import { Button } from 'antd';
 
 export default function CustomCode(props) {
 
-    const { question } = props;
+    const { question, index } = props;
     let [cacheQuest, setCacheQuest] = useState();
     let [selectCode, setSelectCode] = useState();
     let [selectIndex, setSelectIndex] = useState(0);
@@ -56,7 +56,9 @@ export default function CustomCode(props) {
                         language={selectCode.lang}
                     />
                     <div className="out-content">
-                        <CustomConsole />
+                        <CustomConsole 
+                            question={question}
+                        />
                         <div className="btns">
                             <Button>执行代码</Button>
                             <Button>提交</Button>

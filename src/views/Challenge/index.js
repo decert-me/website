@@ -190,7 +190,7 @@ export default function Challenge(params) {
         switch (question.type) {
             case "coding":
                 // 编码
-                return <CustomCode key={i} question={question} />
+                return <CustomCode key={i} question={question} index={i} />
             case "special_judge_coding":
                 // 特殊编码题
                 return
