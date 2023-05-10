@@ -94,19 +94,19 @@
         }
     }
     .cancel{
-        border: 1px solid #222222;
-        color: #000000;
+        border: 1px solid #333333;
+        color: #333333;
         &:hover{
             background-color: #f2f2f2;
-            border-color: #00000000 !important;            
-            color: #000 !important;
+            border-color: #8F5A35 !important;            
+            color: #8F5A35 !important;
         }
     }
     .save{
-        background-color: #222222;
+        background-color: #8F5A35;
         color: #fff;
         &:hover{
-            background-color: #000000 !important;
+            background-color: #9F7253 !important;
         }
     }
 }
