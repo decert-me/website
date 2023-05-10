@@ -2,6 +2,8 @@ import { Editor } from '@bytemd/react'
 import { useEffect, useState } from "react";
 import { useUpdateEffect } from 'ahooks';
 import MonacoEditor from '../MonacoEditor';
+import CustomConsole from '../CustomConsole';
+import { Button } from 'antd';
 
 
 
@@ -53,6 +55,13 @@ export default function CustomCode(props) {
                         onChange={changeCache}
                         language={selectCode.lang}
                     />
+                    <div className="out-content">
+                        <CustomConsole />
+                        <div className="btns">
+                            <Button>执行代码</Button>
+                            <Button>提交</Button>
+                        </div>
+                    </div>
                 </div>
             }
         </div>

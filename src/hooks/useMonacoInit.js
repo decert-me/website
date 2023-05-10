@@ -13,13 +13,14 @@ export function useMonacoInit(props) {
     const { languages } = monacoLanguage();
 
     function solidityInit() {
-        monaco.languages.register({ id: 'solidity' });
-        monaco.languages.setMonarchTokensProvider('solidity', languages.solidity);
+        console.log("=====>", monaco);
+        monaco.languages.register({ id: 'Solidity' });
+        monaco.languages.setMonarchTokensProvider('Solidity', languages.solidity);
     }
 
     async function languageInit() {
         switch (language) {
-            case "solidity":
+            case "Solidity":
                 solidityInit();
                 break;
         

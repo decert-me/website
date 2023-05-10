@@ -27,6 +27,7 @@ export default function MonacoEditor(props) {
                 changeLang(language)
                 break;
         }
+        console.log(newLang);
     }
 
     async function monacoInit(params) {

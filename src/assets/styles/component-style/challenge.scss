@@ -79,10 +79,42 @@
     height: calc(100% - 70px);
     display: flex;
     justify-content: space-between;
-    background-color: #f7f7f7;
+    background-color: #fcfcfc;
     .code-desc, .code-out{
         width: 49.5%;
         padding: 0 20px;
         background-color: #fff;
+    }
+    .code-out{
+        padding: 0;
+    }
+    .out-content{
+        border-top: 1px solid rgb(240,240,240);
+        padding-bottom: 10px;
+    }
+    .CustomConsole{
+        .tab ul{
+            height: 36px;
+            display: flex;
+            background-color: #f7f7f7;
+            li{
+                padding: 11px;
+                cursor: pointer;
+            }
+            .active{
+                background-color: #fff;
+            }
+        }
+        .console, .case{
+            height: 120px;
+            margin: 20px;
+        }
+    }
+    .btns{
+        display: flex;
+        justify-content: flex-end;
+        button{
+            margin-right: 20px;
+        }
     }
 }
