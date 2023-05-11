@@ -61,7 +61,6 @@ export default function CustomCode(props) {
                         />
                         <div className="btns">
                             <Button>执行代码</Button>
-                            <Button>提交</Button>
                         </div>
                     </div>
                 </div>

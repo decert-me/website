@@ -33,8 +33,8 @@ export default function MonacoEditor(props) {
     async function monacoInit(params) {
         config({
             paths: {
-                // vs: "https://ipfs.decert.me/lib/monaco-editor@0.36.1"
-                vs: "https://unpkg.com/monaco-editor@0.36.1/min/vs"
+                vs: "https://ipfs.decert.me/lib/monaco-editor@0.36.1"
+                // vs: "https://unpkg.com/monaco-editor@0.36.1/min/vs"
             },
             // monaco: monaco
         })
