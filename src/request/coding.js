@@ -1,13 +1,13 @@
 import axios from "axios";
 
 // Client-side-only code
-let ipfsAxios = axios.create({
-  baseURL: process.env.REACT_APP_IPFS_BASE_URL,
+let codingAxios = axios.create({
+  baseURL: "http://192.168.1.15:8888/v1/",
   timeout: process.env.REACT_APP_IPFS_TIMEOUT // 请求超时设置
   //   withCredentials: false, // 跨域请求是否需要携带 cookie
 });
 // 创建请求拦截
-ipfsAxios.interceptors.request.use(
+codingAxios.interceptors.request.use(
   config => {
     // 如果开启 token 认证
     config.headers["x-token"] = localStorage.getItem(`decert.token`); // 请求头携带 token
@@ -18,7 +18,7 @@ ipfsAxios.interceptors.request.use(
     Promise.reject(error);
   }
 );
-ipfsAxios.interceptors.response.use(
+codingAxios.interceptors.response.use(
   res => {
     let data = res.data;
     // if (data.status !== '1') {
@@ -34,4 +34,4 @@ ipfsAxios.interceptors.response.use(
   }
 )
 
-export default ipfsAxios;
+export default codingAxios;

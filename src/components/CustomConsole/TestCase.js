@@ -4,14 +4,21 @@ const { TextArea } = Input;
 
 export default function TestCase(params) {
     
-    const { input } = params;
+    const { input, changeCodeObj } = params;
     const [value, setValue] = useState(input);
+
+
+    function changeValue(params) {
+        console.log("params ===>", params);
+        changeCodeObj(params.target.value, "input")
+        setValue(params.target.value)
+    }
 
     return (
         <div className="case">
             <TextArea
                 value={value}
-                onChange={(e) => setValue(e.target.value)}
+                onChange={changeValue}
                 placeholder="Controlled autosize"
                 autoSize={{
                     minRows: 5,
