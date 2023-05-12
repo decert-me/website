@@ -3,7 +3,7 @@ import { constans } from "./constans";
 
 
 export const ipfsToImg = (e) => {
-    let gateway = "https://nftscan.mypinata.cloud/ipfs/";
+    let gateway = process.env.REACT_APP_IPFS_PARSE;
     // let gateway = "https://dweb.link/ipfs/";
 
     const { defaultImg } = constans();

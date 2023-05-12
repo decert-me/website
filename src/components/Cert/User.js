@@ -40,11 +40,16 @@ export default function CertUser(props) {
         socials = user.data.socials;
         setSocials({...socials});
       }
+      let ensAvatar;
+      // 头像为ens ==> 解析
+      if (ensParse?.avatar.indexOf("ipfs://") !== -1) {
+        ensAvatar = ensParse.avatar.replace("ipfs://", process.env.REACT_APP_IPFS_PARSE)
+      }
       setTimeout(() => {
         info = {
             nickname: user?.data?.nickname ? user?.data?.nickname : ensParse.domain ? ensParse.domain : urlAddr ? urlAddr : NickName(ensParse.address),
             address: ensParse.address,
-            avatar: user?.data?.avatar ? process.env.REACT_APP_BASE_URL + user?.data?.avatar : ensParse.avatar ? ensParse.avatar : hashAvatar(ensParse.address)
+            avatar: user?.data?.avatar ? process.env.REACT_APP_BASE_URL + user?.data?.avatar : ensAvatar ? ensAvatar : ensParse.avatar ? ensParse.avatar : hashAvatar(ensParse.address)
         }
           setInfo({...info})
       }, 1000);

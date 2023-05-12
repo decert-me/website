@@ -1,6 +1,5 @@
-import { Button, Divider, Spin } from "antd";
+import { Button, Divider } from "antd";
 import {
-    LoadingOutlined,
     LeftOutlined
 } from '@ant-design/icons';
 import { useContext, useEffect, useRef, useState } from "react";
@@ -9,12 +8,11 @@ import "@/assets/styles/mobile/view-style/cert.scss"
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
 import { CertSearch, CertUser, CertNfts, NftBox, ModalAddSbt } from "@/components/Cert";
-import { getAllNft, getContracts, modifyNftStatus } from "@/request/api/nft";
+import { getAllNft, getContracts, getEns, modifyNftStatus } from "@/request/api/nft";
 import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
 import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
-import { getEns } from "@/request/api/public";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import CustomLoading from "@/components/CustomLoading";
 import InfiniteScroll from "@/components/InfiniteScroll";
@@ -46,7 +44,6 @@ export default function Cert(params) {
     let [loading, setLoading] = useState(true);
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
-    let [isRequest, setIsRequest] = useState(false);
     let [ensParse, setEnsParse] = useState({
         address: "",
         avatar: "",
@@ -75,7 +72,6 @@ export default function Cert(params) {
             }
             setLoading(false);
         })
-        setIsRequest(false);
     }
 
     const changeNftStatus = (id, status) => {
