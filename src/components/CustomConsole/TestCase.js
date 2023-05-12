@@ -1,24 +1,30 @@
 import { Input } from 'antd';
-import { useState } from 'react';
+import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 const { TextArea } = Input;
 
-export default function TestCase(params) {
+function TestCase(props, ref) {
     
-    const { input, changeCodeObj } = params;
-    const [value, setValue] = useState(input);
+    const { input, changeCodeObj, className } = props;
+    const [value, setValue] = useState("");
 
+    useImperativeHandle(ref, () => ({
+        changeValue
+    }))
 
     function changeValue(params) {
-        console.log("params ===>", params);
-        changeCodeObj(params.target.value, "input")
-        setValue(params.target.value)
+        changeCodeObj(params, "input")
+        setValue(params)
     }
 
+    useEffect(() => {
+        changeValue(input);
+    },[])
+
     return (
-        <div className="case">
+        <div className={`case ${className}`}>
             <TextArea
                 value={value}
-                onChange={changeValue}
+                onChange={e => changeValue(e.target.value)}
                 autoSize={{
                     minRows: 5,
                 }}
@@ -26,3 +32,4 @@ export default function TestCase(params) {
         </div>
     )
 }
+export default forwardRef(TestCase)

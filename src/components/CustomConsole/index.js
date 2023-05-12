@@ -1,4 +1,4 @@
-import { useState } from "react"
+import { forwardRef, useImperativeHandle, useRef, useState } from "react"
 import Tab from "./Tab";
 import TestCase from "./TestCase";
 import Console from "./Console";
@@ -18,27 +18,23 @@ const tabs = [
     }
 ]
 
-export default function CustomConsole(props) {
+function CustomConsole(props, ref) {
     
     const { question, changeCodeObj, goTest, logs, items } = props;
     const [selectTab, setSelectTab] = useState(tabs[0].key);
-    
+    const caseRef = useRef(null);
+
+    useImperativeHandle(ref, () => ({
+        changeInput
+    }))
+
+    function changeInput(params) {
+        caseRef.current.changeValue(params)
+    }
 
     function runCode() {
         setSelectTab(tabs[1].key);
         goTest();
-    }
-
-    function switchTab() {
-        
-        switch (selectTab) {
-            case "case":
-                return <TestCase input={question.input[0]} changeCodeObj={changeCodeObj} />
-            case "cmd":
-                return <Console logs={logs} />
-            default:
-                break;
-        }
     }
 
     return(
@@ -49,7 +45,16 @@ export default function CustomConsole(props) {
                     selectTab={selectTab}
                     setSelectTab={setSelectTab}
                 />
-                {switchTab()}
+                <TestCase 
+                    className={selectTab === "case" ? "" : "none"}
+                    input={question.input[0]} 
+                    changeCodeObj={changeCodeObj} 
+                    ref={caseRef}
+                />
+                <Console 
+                    className={`${selectTab === "cmd" ? "" : "none"}`}
+                    logs={logs} 
+                />
             </div>
             <div className="btns">
                 <Dropdown
@@ -69,3 +74,5 @@ export default function CustomConsole(props) {
         </>
     )
 }
+
+export default forwardRef(CustomConsole)

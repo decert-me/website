@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useUpdateEffect } from 'ahooks';
 import MonacoEditor from '../MonacoEditor';
 import CustomConsole from '../CustomConsole';
@@ -10,6 +10,8 @@ import { codeTest } from '@/request/api/quests';
 export default function CustomCode(props) {
 
     const { question, token_id } = props;
+    const consoleRef = useRef(null);
+
     let [items, setItems] = useState();   //  测试用例列表
     let [cacheQuest, setCacheQuest] = useState();
     let [selectCode, setSelectCode] = useState();
@@ -89,7 +91,7 @@ export default function CustomCode(props) {
         question.input.map((e, i) => {
             arr.push({
                 key: i,
-                label: <p>示例{i+1}<span>{e}</span></p>
+                label: <p onClick={() => consoleRef.current.changeInput(e)}>示例{i+1}<span>{e}</span></p>
             })
         })
         items = arr;
@@ -126,6 +128,7 @@ export default function CustomCode(props) {
                             goTest={goTest}
                             logs={logs}
                             items={items}
+                            ref={consoleRef}
                         />
                     </div>
                 </div>

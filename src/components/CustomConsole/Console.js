@@ -4,7 +4,7 @@ import { useUpdateEffect } from "ahooks";
 
 export default function Console(props) {
 
-    const { logs } = props;
+    const { logs, className } = props;
     
     useUpdateEffect(() => {
         var element = document.querySelector(".console");
@@ -12,7 +12,7 @@ export default function Console(props) {
     },[logs])
 
     return (
-        <div className="console custom-scroll">
+        <div className={`console custom-scroll ${className}`}>
             <ul>
                 {
                     logs.map((e, i) => 

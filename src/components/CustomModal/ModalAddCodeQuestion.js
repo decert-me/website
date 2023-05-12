@@ -1,3 +1,4 @@
+import { Encryption } from "@/utils/Encryption";
 import { Modal, Input, Space, Button } from "antd";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -8,6 +9,7 @@ export default function ModalAddCodeQuestion(props) {
     const { isModalOpen, handleCancel, questionChange } = props;
     const { t } = useTranslation(['publish', 'translation']);
     let [question, setQuestion] = useState();
+    const { encode } = Encryption();
 
     function onCancel(params) {
         setQuestion(null)
@@ -20,8 +22,12 @@ export default function ModalAddCodeQuestion(props) {
     }
 
     function onFinish(params) {
-        console.log(JSON.parse(question));
-        questionChange(JSON.parse(question));
+        // 答案加密
+        let obj = JSON.parse(question);
+        obj.code_snippets.map(e => {
+            e.correctAnswer = encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(e.correctAnswer))
+        })
+        questionChange(obj);
     }
 
     return (
