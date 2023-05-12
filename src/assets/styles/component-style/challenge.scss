@@ -112,10 +112,11 @@
         }
     }
     .btns{
+        margin: 0 20px;
         display: flex;
-        justify-content: flex-end;
-        button{
-            margin-right: 20px;
+        justify-content: space-between;
+        .ant-dropdown-trigger{
+            line-height: 32px;
         }
     }
 }
