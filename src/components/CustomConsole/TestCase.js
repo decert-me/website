@@ -19,7 +19,6 @@ export default function TestCase(params) {
             <TextArea
                 value={value}
                 onChange={changeValue}
-                placeholder="Controlled autosize"
                 autoSize={{
                     minRows: 5,
                 }}
