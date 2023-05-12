@@ -70,8 +70,9 @@ export default function CustomCode(props) {
                     addLogs(["✅测试用例通过"])
                 }else{
                     // 测试用例失败
-                    addLogs(["❌测试用例未通过", `预期输出结果:\n${res.data.last_expect}`, `实际输出结果:\n${res.data.last_output}`])
+                    addLogs(["❌测试用例未通过"])
                 }
+                addLogs([`预期输出结果:\n${res.data.except_output}`, `实际输出结果:\n${res.data.output}`])
             }
         })
     }
