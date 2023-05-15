@@ -86,7 +86,7 @@ export default forwardRef (function CustomCode(props, ref) {
                 if (res.data.status === 3 && res.data.correct) {
                     // 测试用例成功
                     addLogs(["✅测试用例通过"])
-                }else{
+                }else if (res.data.status === 3) {
                     // 测试用例失败
                     addLogs(["❌测试用例未通过"])
                 }
