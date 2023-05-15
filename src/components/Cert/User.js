@@ -45,6 +45,9 @@ export default function CertUser(props) {
       if (ensParse?.avatar.indexOf("ipfs://") !== -1) {
         ensAvatar = ensParse.avatar.replace("ipfs://", process.env.REACT_APP_IPFS_PARSE)
       }
+      if (ensParse?.avatar.indexOf("https://") !== -1 || ensParse?.avatar.indexOf("http://") !== -1) {
+        ensAvatar = ensParse.avatar;
+      }
       setTimeout(() => {
         info = {
             nickname: user?.data?.nickname ? user?.data?.nickname : ensParse.domain ? ensParse.domain : urlAddr ? urlAddr : NickName(ensParse.address),
