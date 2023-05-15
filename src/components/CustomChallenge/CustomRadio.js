@@ -8,7 +8,7 @@ export default function CustomRadio(props) {
     let [items, setItems] = useState();
 
     const onChange = (e) => {
-        value(e.target.value)
+        value(e.target.value, "multiple_choice")
     };
 
     useEffect(() => {

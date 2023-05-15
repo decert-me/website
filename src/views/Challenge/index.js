@@ -47,17 +47,12 @@ export default function Challenge(params) {
     });
 
     let [page, setPage] = useState(1);
-    const index = page-1;
-
-
-
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const index = page-1;
 
     const openAnswers = () => {
         setIsModalOpen(true);
     };
-
-    
 
     const handleCancel = () => {
         setIsModalOpen(false);
@@ -65,7 +60,6 @@ export default function Challenge(params) {
 
     const checkPage = async(type) => {
         window.scrollTo(0, 0);
-        const index = page-1;
         page = type === 'add' ? page+1 : page-1;
         setPage(page);
         const questType = detail.metadata.properties.questions[page-1].type;
@@ -117,8 +111,12 @@ export default function Challenge(params) {
         })
     }
 
-    const changeAnswer = (e) => {
-        answers[index] = e;
+    const changeAnswer = (value, type) => {
+        // 新版普通题cache添加 ===> TODO:
+        answers[index] = {
+            value: value,
+            type: type
+        }
         setAnswers([...answers]);
     }
 
@@ -129,8 +127,8 @@ export default function Challenge(params) {
     }
 
     const submit = async() => {
-            childRef.current &&
-            await childRef.current.goTest()
+        childRef.current &&
+        await childRef.current.goTest()
         // 本地 ==> 存储答案 ==> 跳转领取页
         saveAnswer()
         // 提交答题次数给后端
@@ -271,7 +269,6 @@ export default function Challenge(params) {
                     <div className="content custom-scroll">
                         <h4 className='challenge-title'>{t("challenge.title")} #{page}</h4>
                         {
-                            // switchType(detail.metadata.properties.questions[index])
                             detail ? 
                             detail.metadata.properties.questions.map((e,i) => {
                                 return i === index && switchType(e,i)

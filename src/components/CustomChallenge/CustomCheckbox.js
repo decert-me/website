@@ -7,7 +7,7 @@ export default function CustomCheckbox(props) {
     const { label, value, options, defaultValue, plugins } = props;
     let [items, setItems] = useState();
     const onChange = (checkedValues) => {
-        value(checkedValues)
+        value(checkedValues,"multiple_response")
     };
 
     useEffect(() => {

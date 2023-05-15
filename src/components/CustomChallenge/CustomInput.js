@@ -13,7 +13,7 @@ export default function CustomInput(props) {
             <Input 
                 className="custom-input" 
                 bordered={false} 
-                onChange={e => value(e.target.value)}  
+                onChange={e => value(e.target.value, "fill_blank")}  
                 defaultValue={defaultValue}
             />
         </div>
