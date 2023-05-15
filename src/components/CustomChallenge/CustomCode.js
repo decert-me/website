@@ -46,9 +46,12 @@ export default forwardRef (function CustomCode(props, ref) {
     }
 
     async function goTest(params) {
+        if (cacheQuest.type !== "special_judge_coding" && cacheQuest.type !== "coding") {
+            return
+        }
         const obj = cacheQuest.code_snippets[selectIndex];
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
-        if (!params && JSON.stringify(obj.code) === JSON.stringify(cache[token_id][index].code)) {
+        if (!params && cache[token_id][index] && JSON.stringify(obj.code) === JSON.stringify(cache[token_id][index].code)) {
             // 切换页面时判断是否需要向后端发起判题
             return
         }
@@ -58,7 +61,7 @@ export default forwardRef (function CustomCode(props, ref) {
         codeObj.quest_index = index;
         // codeObj.type = params;
         setCodeObj({...codeObj})
-        codeTest(codeObj)
+        await codeTest(codeObj)
         .then(res => {
             if (res.data) {
                 // 写入答案
@@ -113,6 +116,7 @@ export default forwardRef (function CustomCode(props, ref) {
 
         // 测试用例列表初始化
         let arr = [];
+        question?.input && 
         question.input.map((e, i) => {
             arr.push({
                 key: i,
