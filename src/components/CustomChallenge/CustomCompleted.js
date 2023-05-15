@@ -45,7 +45,12 @@ export default function CustomCompleted(props) {
             // 未领取
             arr.map((e,i) => {
                 totalScore += questions[i].score;
-                if (typeof e === 'object') {
+                if (e === null) {
+                    if (answers[i].correct) {
+                        score+=questions[i].score;
+                        successNum+=1;
+                    }
+                }else if (typeof e === 'object') {
                     if (JSON.stringify(e) == JSON.stringify(answers[i])) {
                         score+=questions[i].score;
                         successNum+=1;
