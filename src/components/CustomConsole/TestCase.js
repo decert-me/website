@@ -23,10 +23,14 @@ function TestCase(props, ref) {
     return (
         <div className={`case ${className}`}>
             <TextArea
+                className='custom-scroll'
                 value={value}
                 onChange={e => changeValue(e.target.value)}
                 autoSize={{
                     minRows: 5,
+                }}
+                style={{
+                    maxHeight: "100%"
                 }}
             />
         </div>

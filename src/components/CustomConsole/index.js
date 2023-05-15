@@ -47,7 +47,7 @@ function CustomConsole(props, ref) {
                 />
                 <TestCase 
                     className={selectTab === "case" ? "" : "none"}
-                    input={question.input[0]} 
+                    input={question?.input ? question?.input[0] : question.spj_code} 
                     changeCodeObj={changeCodeObj} 
                     ref={caseRef}
                 />

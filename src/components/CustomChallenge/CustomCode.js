@@ -46,7 +46,6 @@ export default forwardRef (function CustomCode(props, ref) {
     }
 
     async function goTest(params) {
-        
         const obj = cacheQuest.code_snippets[selectIndex];
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
         if (!params && JSON.stringify(obj.code) === JSON.stringify(cache[token_id][index].code)) {
