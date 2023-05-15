@@ -9,7 +9,7 @@ import { codeTest } from '@/request/api/quests';
 
 export default forwardRef (function CustomCode(props, ref) {
 
-    const { question, token_id } = props;
+    const { question, token_id, answers, setAnswers, saveAnswer, index } = props;
     const consoleRef = useRef(null);
 
     let [items, setItems] = useState();   //  测试用例列表
@@ -46,20 +46,29 @@ export default forwardRef (function CustomCode(props, ref) {
     }
 
     async function goTest(params) {
-        addLogs(["开始编译..."]);
+        
         const obj = cacheQuest.code_snippets[selectIndex];
+        let cache = JSON.parse(localStorage.getItem("decert.cache"));
+        if (!params && JSON.stringify(obj.code) === JSON.stringify(cache[token_id][index].code)) {
+            // 切换页面时判断是否需要向后端发起判题
+            return
+        }
+        addLogs(["开始编译..."]);
         codeObj.code = obj.code;
         codeObj.lang = obj.lang;
-        codeObj.quest_index = selectIndex;
-        codeObj.type = params;
+        codeObj.quest_index = index;
+        // codeObj.type = params;
         setCodeObj({...codeObj})
-        if (params === "submit") {
-            return await codeTest(codeObj)
-        }
         codeTest(codeObj)
         .then(res => {
-            console.log('res ===>',res);
             if (res.data) {
+                // 写入答案
+                answers[index] = {
+                    correct: res.data.correct,
+                    code: obj.code
+                }
+                setAnswers([...answers]);
+                saveAnswer();
                 switch (res.data.status) {
                     case 1:
                         addLogs(["❌编译失败", res.data.msg])
@@ -82,6 +91,7 @@ export default forwardRef (function CustomCode(props, ref) {
                 addLogs([`预期输出结果:\n${res.data.except_output}`, `实际输出结果:\n${res.data.output}`])
             }
         })
+
     }
 
     function toggleCode() {
@@ -91,6 +101,9 @@ export default forwardRef (function CustomCode(props, ref) {
 
     async function init(params) {
         cacheQuest = question;
+        if (answers[index]) {
+            cacheQuest.code_snippets[selectIndex].code = answers[index].code;
+        }
         setCacheQuest({...cacheQuest});
         toggleCode()
 

@@ -63,21 +63,16 @@ export default function Challenge(params) {
         setIsModalOpen(false);
     };
 
-    const checkPage = (type) => {
+    const checkPage = async(type) => {
         window.scrollTo(0, 0);
         const index = page-1;
         page = type === 'add' ? page+1 : page-1;
         setPage(page);
         const questType = detail.metadata.properties.questions[page-1].type;
         if (questType === "special_judge_coding" || questType === "coding") {
-            childRef.current.goTest("submit").then(res => {
-                answers[index] = res?.data.judge_id;
-                setAnswers([...answers]);
-                saveAnswer();
-            })
-        }else{
-            saveAnswer();
+            await childRef.current.goTest()
         }
+        saveAnswer();
     }
 
     const changePage = (index) => {
@@ -197,11 +192,20 @@ export default function Challenge(params) {
     },[page, detail, cacheDetail])
 
     const switchType = (question,i) => {
-    // 2: 填空 0: 单选 1: 多选
+        // 2: 填空 0: 单选 1: 多选
         switch (question.type) {
             case "coding":
                 // 编码
-                return <CustomCode key={i} question={question} token_id={questId} ref={childRef} />
+                return <CustomCode 
+                    key={i} 
+                    question={question} 
+                    token_id={questId} 
+                    ref={childRef} 
+                    answers={answers}
+                    setAnswers={setAnswers}
+                    saveAnswer={saveAnswer}
+                    index={page-1}
+                />
             case "special_judge_coding":
                 // 特殊编码题
                 return

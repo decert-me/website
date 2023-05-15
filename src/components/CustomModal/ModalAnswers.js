@@ -38,7 +38,7 @@ export default function ModalAnswers(props) {
             }else{
                 if (realAnswer[i] === null) {
                     // 编程题, [id, 正确与否]
-                    statusAnswer[i] = e[1] === "correct" ? "success" : "error";
+                    statusAnswer[i] = e.correct ? "success" : "error";
                     return
                 }else if (typeof realAnswer[i] === "object") {
                     // 多选
