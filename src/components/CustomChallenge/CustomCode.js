@@ -77,8 +77,9 @@ export default forwardRef (function CustomCode(props, ref) {
                     case 2:
                         addLogs(["✅编译成功", "❌运行失败", res.data.msg])
                         break;
-                    default:
+                    case 3:
                         addLogs(["✅编译成功", "✅运行成功"])
+                    default:
                         break;
                 }
                 // 运行成功
@@ -89,7 +90,9 @@ export default forwardRef (function CustomCode(props, ref) {
                     // 测试用例失败
                     addLogs(["❌测试用例未通过"])
                 }
-                addLogs([`预期输出结果:\n${res.data.except_output}`, `实际输出结果:\n${res.data.output}`])
+                if (res.data.except_output) {
+                    addLogs([`预期输出结果:\n${res.data.except_output}`, `实际输出结果:\n${res.data.output}`])
+                }
             }
         })
 
