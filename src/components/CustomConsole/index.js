@@ -34,7 +34,7 @@ function CustomConsole(props, ref) {
 
     function runCode() {
         setSelectTab(tabs[1].key);
-        goTest();
+        goTest("tryRun");
     }
 
     return(

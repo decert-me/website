@@ -7,7 +7,7 @@ import {
     message, 
     Progress 
 } from 'antd';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getQuests, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
@@ -35,6 +35,7 @@ export default function Challenge(params) {
     const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
+    const childRef = useRef(null);
     let [detail, setDetail] = useState();
     let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
@@ -62,11 +63,17 @@ export default function Challenge(params) {
         setIsModalOpen(false);
     };
 
-    const checkPage = (type) => {
+    const checkPage = async(type) => {
         window.scrollTo(0, 0);
         page = type === 'add' ? page+1 : page-1;
         setPage(page);
-        saveAnswer()
+        const questType = detail.metadata.properties.questions[page-1].type;
+        if (questType === "special_judge_coding" || questType === "coding") {
+            await childRef.current.goTest("submit").then(res => {
+                console.log(res);
+            })
+        }
+        saveAnswer();
     }
 
     const changePage = (index) => {
@@ -190,7 +197,7 @@ export default function Challenge(params) {
         switch (question.type) {
             case "coding":
                 // 编码
-                return <CustomCode key={i} question={question} token_id={questId} />
+                return <CustomCode key={i} question={question} token_id={questId} ref={childRef} />
             case "special_judge_coding":
                 // 特殊编码题
                 return
@@ -282,6 +289,7 @@ export default function Challenge(params) {
                         onChange={checkPage} 
                         openAnswers={openAnswers}
                         submit={submit}
+
                     />
                 </>
             }

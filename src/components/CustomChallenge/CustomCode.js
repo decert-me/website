@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { useUpdateEffect } from 'ahooks';
 import MonacoEditor from '../MonacoEditor';
 import CustomConsole from '../CustomConsole';
@@ -7,7 +7,7 @@ import { codeTest } from '@/request/api/quests';
 
 
 
-export default function CustomCode(props) {
+export default forwardRef (function CustomCode(props, ref) {
 
     const { question, token_id } = props;
     const consoleRef = useRef(null);
@@ -25,6 +25,9 @@ export default function CustomCode(props) {
         token_id: Number(token_id)
     });
 
+    useImperativeHandle(ref, () => ({
+        goTest
+    }))
 
     function addLogs(params) {
         logs = logs.concat(params);
@@ -48,6 +51,7 @@ export default function CustomCode(props) {
         codeObj.code = obj.code;
         codeObj.lang = obj.lang;
         codeObj.quest_index = selectIndex;
+        codeObj.type = params;
         setCodeObj({...codeObj})
         codeTest(codeObj)
         .then(res => {
@@ -136,4 +140,4 @@ export default function CustomCode(props) {
             }
         </div>
     )   
-}
+})
