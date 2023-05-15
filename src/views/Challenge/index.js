@@ -63,17 +63,21 @@ export default function Challenge(params) {
         setIsModalOpen(false);
     };
 
-    const checkPage = async(type) => {
+    const checkPage = (type) => {
         window.scrollTo(0, 0);
+        const index = page-1;
         page = type === 'add' ? page+1 : page-1;
         setPage(page);
         const questType = detail.metadata.properties.questions[page-1].type;
         if (questType === "special_judge_coding" || questType === "coding") {
-            await childRef.current.goTest("submit").then(res => {
-                console.log(res);
+            childRef.current.goTest("submit").then(res => {
+                answers[index] = res?.data.judge_id;
+                setAnswers([...answers]);
+                saveAnswer();
             })
+        }else{
+            saveAnswer();
         }
-        saveAnswer();
     }
 
     const changePage = (index) => {

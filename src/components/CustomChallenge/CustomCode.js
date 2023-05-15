@@ -45,7 +45,7 @@ export default forwardRef (function CustomCode(props, ref) {
         setCodeObj({...codeObj});
     }
 
-    function goTest(params) {
+    async function goTest(params) {
         addLogs(["开始编译..."]);
         const obj = cacheQuest.code_snippets[selectIndex];
         codeObj.code = obj.code;
@@ -53,6 +53,9 @@ export default forwardRef (function CustomCode(props, ref) {
         codeObj.quest_index = selectIndex;
         codeObj.type = params;
         setCodeObj({...codeObj})
+        if (params === "submit") {
+            return await codeTest(codeObj)
+        }
         codeTest(codeObj)
         .then(res => {
             console.log('res ===>',res);

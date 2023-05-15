@@ -36,7 +36,12 @@ export default function ModalAnswers(props) {
             if (e === null || e === undefined || e === "") {
                 statusAnswer[i] = "none"
             }else{
-                if (typeof realAnswer[i] === "object") {
+                if (realAnswer[i] === null) {
+                    // 编程题, [id, 正确与否]
+                    statusAnswer[i] = e[1] === "correct" ? "success" : "error";
+                    return
+                }else if (typeof realAnswer[i] === "object") {
+                    // 多选
                     if (e.length !== realAnswer[i].length) {
                         statusAnswer[i] = "error";
                         return
@@ -49,6 +54,7 @@ export default function ModalAnswers(props) {
                     })
                     statusAnswer[i] = flag ? "success" : "error";
                 }else{
+                    // 单选
                     statusAnswer[i] = e === realAnswer[i] ? "success" : "error"
                 }
             }
