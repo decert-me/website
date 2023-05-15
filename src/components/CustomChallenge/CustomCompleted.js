@@ -44,10 +44,10 @@ export default function CustomCompleted(props) {
         if (!isClaim) {
             // 未领取
             arr.map((e,i) => {
-                totalScore += questions[i].score;
+                totalScore += Number(questions[i].score);
                 if (e === null) {
                     if (answers[i].correct) {
-                        score+=questions[i].score;
+                        score+=Number(questions[i].score);
                         successNum+=1;
                     }
                 }else if (typeof e === 'object') {

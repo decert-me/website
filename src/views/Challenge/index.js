@@ -129,7 +129,8 @@ export default function Challenge(params) {
     }
 
     const submit = async() => {
-        await childRef.current.goTest()
+            childRef.current &&
+            await childRef.current.goTest()
         // 本地 ==> 存储答案 ==> 跳转领取页
         saveAnswer()
         // 提交答题次数给后端
