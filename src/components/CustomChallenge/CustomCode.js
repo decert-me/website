@@ -65,7 +65,9 @@ export default forwardRef (function CustomCode(props, ref) {
                 // 写入答案
                 answers[index] = {
                     correct: res.data.correct,
-                    code: obj.code
+                    code: obj.code,
+                    language: question.languages[selectIndex],
+                    type: question.type
                 }
                 setAnswers([...answers]);
                 saveAnswer();
