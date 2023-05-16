@@ -51,12 +51,12 @@ export default function CustomCompleted(props) {
                         successNum+=1;
                     }
                 }else if (typeof e === 'object') {
-                    if (JSON.stringify(e) == JSON.stringify(answers[i])) {
+                    if (JSON.stringify(e) == JSON.stringify(answers[i]?.value)) {
                         score+=questions[i].score;
                         successNum+=1;
                     }
                 }else{
-                    if (e == answers[i]) {
+                    if (e == answers[i]?.value) {
                         score+=questions[i].score;
                         successNum+=1;
                     }
