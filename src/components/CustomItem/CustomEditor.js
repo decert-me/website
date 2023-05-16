@@ -16,7 +16,7 @@ import { constans } from "@/utils/constans"
 
 export default function CustomEditor(props) {
     
-    const { changeTitle, onChange, id, initialValues } = props;
+    const { changeTitle, onChange, id, initialValues, mode } = props;
     const { ipfsPath } = constans();
     const plugins = useMemo(() => [pluginGfm(),frontmatter(),highlight(),breaks(),importHtml()], [])
     let [editValue, setEditValue] = useState('')
@@ -38,6 +38,7 @@ export default function CustomEditor(props) {
 
     return (
         <Editor
+            mode={mode ? mode : "auto"}
             value={editValue}
             plugins={plugins}
             locale={i18n.language !== "zh-CN" ? null : zh_Hans}
@@ -56,7 +57,6 @@ export default function CustomEditor(props) {
             onChange={(e) => {
                 setEditValue(e)
             }}
-            
         />
     )
 }
