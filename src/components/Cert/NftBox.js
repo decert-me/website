@@ -14,8 +14,7 @@ export default function NftBox(props) {
     const { info, changeNftStatus, isMe } = props;
     const { t } = useTranslation(["cert"]);
     let [gateway, setGateway] = useState(
-        process.env.REACT_APP_IPFS_PARSE
-        // "https://dweb.link/ipfs/"
+        process.env.REACT_APP_IPFS_GATEWAY
         );
 
     const items = [

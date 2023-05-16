@@ -3,7 +3,7 @@ import { constans } from "./constans";
 
 
 export const ipfsToImg = (e) => {
-    let gateway = process.env.REACT_APP_IPFS_PARSE;
+    let gateway = process.env.REACT_APP_IPFS_GATEWAY;
     // let gateway = "https://dweb.link/ipfs/";
 
     const { defaultImg } = constans();

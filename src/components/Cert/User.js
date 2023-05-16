@@ -43,7 +43,7 @@ export default function CertUser(props) {
       let ensAvatar;
       // 头像为ens ==> 解析
       if (ensParse?.avatar.indexOf("ipfs://") !== -1) {
-        ensAvatar = ensParse.avatar.replace("ipfs://", process.env.REACT_APP_IPFS_PARSE)
+        ensAvatar = ensParse.avatar.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY)
       }
       if (ensParse?.avatar.indexOf("https://") !== -1 || ensParse?.avatar.indexOf("data:") !== -1) {
         ensAvatar = ensParse.avatar;
