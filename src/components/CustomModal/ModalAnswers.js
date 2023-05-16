@@ -33,7 +33,7 @@ export default function ModalAnswers(props) {
     function getResult(params) {
         // 答题记录 ===> 
         answers.map((e,i) => {  
-            if (e === null || e === undefined || e?.value === "" || e === "") {
+            if (e === null || e === undefined || e?.value === "") {
                 statusAnswer[i] = "none"
             }else{
                 if (realAnswer[i] === null) {

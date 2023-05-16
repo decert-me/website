@@ -87,6 +87,37 @@ export default function Challenge(params) {
             if (cacheAnswers[id]) {
                 // 存在该题cache
                 answers = cacheAnswers[id];
+                // 旧版本cache升级
+                try {
+                    answers.forEach(e => {
+                        // 锁定旧版本普通题
+                        if (
+                            typeof e === "string" || 
+                            typeof e === "number" || 
+                            Array.isArray(e)
+                        ) {
+                            throw ""
+                        }
+                    })
+                } catch (err) {
+                    answers.map((e, i) => {
+                        let type;
+                        if (typeof e === "string") {
+                            type = "fill_blank"
+                        }else if (typeof e === "number") {
+                            type = "multiple_choice"
+                        }else{
+                            type = "multiple_response"
+                        }
+                        answers[i] = {
+                            value: e,
+                            type: type
+                        }
+                    })
+                    setAnswers([...answers])
+                    cacheAnswers[id] = answers;
+                    localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
+                }
                 try {
                     answers.forEach((e,i) => {
                         if (e === null) {
