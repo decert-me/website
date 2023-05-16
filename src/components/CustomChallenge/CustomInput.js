@@ -14,7 +14,7 @@ export default function CustomInput(props) {
                 className="custom-input" 
                 bordered={false} 
                 onChange={e => value(e.target.value, "fill_blank")}  
-                defaultValue={defaultValue}
+                defaultValue={defaultValue?.value}
             />
         </div>
     )

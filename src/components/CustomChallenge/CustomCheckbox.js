@@ -34,7 +34,7 @@ export default function CustomCheckbox(props) {
                     className='custom-checkbox' 
                     options={items} 
                     onChange={onChange} 
-                    defaultValue={defaultValue}
+                    defaultValue={defaultValue?.value}
                 />
             }
         </div>

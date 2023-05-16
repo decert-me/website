@@ -30,7 +30,7 @@ export default function CustomRadio(props) {
             </div>
             {
                 items &&
-                <Radio.Group className='CustomRadio' options={items} onChange={onChange} defaultValue={defaultValue} />
+                <Radio.Group className='CustomRadio' options={items} onChange={onChange} defaultValue={defaultValue?.value} />
             }
         </div>
     )
