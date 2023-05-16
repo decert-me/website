@@ -208,10 +208,13 @@ export default function Challenge(params) {
                     index={page-1}
                 />
             case 2:
+            case "fill_blank":
                 return <CustomInput key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
             case 1:
+            case "multiple_response":
                 return <CustomCheckbox key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             case 0:
+            case "multiple_choice":
                 return <CustomRadio key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             default:
                 break;
