@@ -104,6 +104,8 @@ export default function User(props) {
     const getInfo = async() => {
         const user = await getUser({address: account})
         if (!user.data) {
+            // setSocials("null")
+            // TODO: 空状态显示
             return
         }
         socials = user.data.socials;
@@ -146,35 +148,37 @@ export default function User(props) {
             <div className="User-info">
                 {
                     info ? 
-                    <>
-                    <div className="img">
-                        <img src={info.avatar} alt="" />
-                    </div>
-                    <div className="info">
-                        <p className="name">
-                            {info.nickname ? info.nickname : NickName(info.address)}
-                        </p>
-                        <p className="address" onClick={() => Copy(info.address, t("translation:message.success.copy"))}>
-                            {NickName(info.address)}<CopyOutlined style={{color: "#9E9E9E", marginLeft: "12px"}} />
-                        </p>
-                        <div className="social">
-                            {/* <div className="icon"></div> */}
-                            <CustomSocial socials={socials} />
+                    (
+                        <>
+                        <div className="img">
+                            <img src={info.avatar} alt="" />
                         </div>
-                        <div className="desc">
-                            {info.description ? info.description : t("profile:desc-none")}
+                        <div className="info">
+                            <p className="name">
+                                {info.nickname ? info.nickname : NickName(info.address)}
+                            </p>
+                            <p className="address" onClick={() => Copy(info.address, t("translation:message.success.copy"))}>
+                                {NickName(info.address)}<CopyOutlined style={{color: "#9E9E9E", marginLeft: "12px"}} />
+                            </p>
+                            <div className="social">
+                                {/* <div className="icon"></div> */}
+                                <CustomSocial socials={socials} />
+                            </div>
+                            <div className="desc">
+                                {info.description ? info.description : t("profile:desc-none")}
+                            </div>
                         </div>
-                    </div>
-                    {
-                        isMe &&
-                        <Link to={`/user/edit/${address}`}>
-                            <Button className="btn">
-                                <EditOutlined style={{fontSize: "18px"}} />
-                                {t("translation:btn-edit-profile")}
-                            </Button>
-                        </Link>
-                    }
-                    </>
+                        {
+                            isMe &&
+                            <Link to={`/user/edit/${address}`}>
+                                <Button className="btn">
+                                    <EditOutlined style={{fontSize: "18px"}} />
+                                    {t("translation:btn-edit-profile")}
+                                </Button>
+                            </Link>
+                        }
+                        </>
+                    )
                     :
                     <Skeleton
                         active

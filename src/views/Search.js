@@ -7,7 +7,7 @@ import "@/assets/styles/view-style/search.scss"
 import "@/assets/styles/mobile/view-style/search.scss"
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { getEns } from "@/request/api/public";
+import { getEns } from "@/request/api/nft";
 
 export default function Search(params) {
 
