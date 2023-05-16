@@ -44,6 +44,7 @@ export default function CustomCompleted(props) {
         if (!isClaim) {
             // 未领取
             arr.map((e,i) => {
+                // 兼容原先版本localStorage ==> decert.cache格式
                 totalScore += Number(questions[i].score);
                 if (e === null) {
                     if (answers[i].correct) {
@@ -51,12 +52,12 @@ export default function CustomCompleted(props) {
                         successNum+=1;
                     }
                 }else if (typeof e === 'object') {
-                    if (JSON.stringify(e) == JSON.stringify(answers[i]?.value)) {
+                    if (JSON.stringify(e) == JSON.stringify(answers[i]?.value) || JSON.stringify(e) == JSON.stringify(answers[i])) {
                         score+=questions[i].score;
                         successNum+=1;
                     }
                 }else{
-                    if (e == answers[i]?.value) {
+                    if (e == answers[i]?.value || e == answers[i]) {
                         score+=questions[i].score;
                         successNum+=1;
                     }
