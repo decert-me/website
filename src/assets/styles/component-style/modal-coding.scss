@@ -13,7 +13,9 @@
         padding-bottom: 2px;
         border: 1px solid #eaeefb;
     }
-
+    .CodeMirror-lines{
+        max-width: 100% !important;
+    }
     // form style
     
 }
