@@ -34,13 +34,13 @@ export default function ModalAddCodeQuestion(props) {
             code: "",
             correctAnswer: ""
         },
-        {
-            label: 'JavaScript',
-            checked: false,
-            value: 'JavaScript',
-            code: "",
-            correctAnswer: ""
-        }
+        // {
+        //     label: 'JavaScript',
+        //     checked: false,
+        //     value: 'JavaScript',
+        //     code: "",
+        //     correctAnswer: ""
+        // }
     ]);
     const [spjLanguage, setSpjLanguage] = useState(languages[0].value);
 
@@ -320,7 +320,7 @@ export default function ModalAddCodeQuestion(props) {
                     name="spj_code"
                     style={{display: selectType === "coding" ? "none" : "block"}}
                 >
-                    <Radio.Group options={languages} onChange={(e) => setSpjLanguage(e.target.value)} />
+                    {/* <Radio.Group options={languages} onChange={(e) => setSpjLanguage(e.target.value)} /> */}
                     <div className="code-snippets">
                         <MonacoEditor
                             value={selectQs?.spj_code}
