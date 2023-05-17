@@ -53,10 +53,16 @@ export default function Publish(params) {
     }
     
     const showEditModal = (index) => {
-        setSelectIndex(index);
-        selectQs = questions[index];
+        const obj = questions[index];
+        if (obj.type === "coding" || obj.type === "special_judge_coding") {
+            // 编程题
+            setShowAddCodeQs(true);
+        }else{
+            setShowEditQs(true);
+        }
+        selectQs = obj;
         setSelectQs({...selectQs});
-        setShowEditQs(true);
+        setSelectIndex(index);
     }
 
     const questionChange = ( val => {
@@ -231,14 +237,18 @@ export default function Publish(params) {
                 isModalOpen={showAddQs} 
                 handleCancel={() => {setShowAddQs(false)}}
                 questionChange={questionChange}
-                selectQs={selectQs}
             />
-            <ModalAddCodeQuestion 
-                isModalOpen={showAddCodeQs} 
-                handleCancel={() => {setShowAddCodeQs(false)}}
-                questionChange={questionChange}
-                selectQs={selectQs}
-            />
+            {
+                showAddCodeQs &&
+                <ModalAddCodeQuestion 
+                    isModalOpen={showAddCodeQs} 
+                    handleCancel={() => {setShowAddCodeQs(false)}}
+                    questionChange={questionChange}
+                    // 编辑部分
+                    selectQs={selectQs}
+                    questionEdit={questionEdit}
+                />
+            }
             <ModalEditQuestion
                 isModalOpen={showEditQs} 
                 handleCancel={() => {setShowEditQs(false)}}

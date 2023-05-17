@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
 import { Modal, Input, Space, Button, Form, Checkbox, Radio, InputNumber } from "antd";
 import { useTranslation } from "react-i18next";
@@ -20,7 +20,7 @@ const questType = [
 
 export default function ModalAddCodeQuestion(props) {
 
-    const { isModalOpen, handleCancel, questionChange } = props;
+    const { isModalOpen, handleCancel, questionChange, selectQs, questionEdit } = props;
     const { t } = useTranslation(['publish', 'translation']);
     const { encode } = Encryption();
     const [form] = Form.useForm();
@@ -90,6 +90,50 @@ export default function ModalAddCodeQuestion(props) {
     function onCancel(params) {
         handleCancel()
     }
+
+    function cacheInit(params) {
+        // form表单初始化
+        const { 
+            code_snippets: code_snippets, 
+            input: input, 
+            output: output,
+            ...common 
+        } = selectQs;
+        const cases = code_snippets.map((e,i) => {
+            return {
+                ...e,
+                input: input[i],
+                output: output[i]
+            }
+        })
+        const obj = {
+            ...common,
+            case: cases
+        }
+        const arr = [];
+        Object.keys(obj).map((e) => {
+            arr.push({
+                name: e,
+                value: obj[e]
+            })
+        })
+        form.setFields(arr);
+
+        // 代码片段、描述 初始化
+        languages.map(e => {
+            const index = code_snippets.findIndex(item => item.lang === e.value)
+            if (index !== -1) {
+                e.checked = true;
+                console.log(index);
+            }
+            
+        })
+    }
+
+    useEffect(() => {
+        // 修改模式
+        selectQs && cacheInit();
+    },[])
 
     return (
         <Modal

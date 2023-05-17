@@ -83,18 +83,20 @@ export default function ModalEditQuestion(props) {
                     break;
             }
             let arr = [];
-            selectQs.options.map((e,i) => {
-                arr.push({
-                    "key": i,
-                    "name": i,
-                    "isListField": true,
-                    "fieldKey": i,
-                    "title": e,
-                    "options": getAnswer(i)
+            if (selectQs.options) {                
+                selectQs.options.map((e,i) => {
+                    arr.push({
+                        "key": i,
+                        "name": i,
+                        "isListField": true,
+                        "fieldKey": i,
+                        "title": e,
+                        "options": getAnswer(i)
+                    })
                 })
-            })
-            fields = arr;
-            setFields([...fields]);
+                fields = arr;
+                setFields([...fields]);
+            }
         }
     },[selectQs])
 
