@@ -70,7 +70,7 @@ export default function ModalAddCodeQuestion(props) {
         const commonProps = {
             ...rest,
             languages: codeSnippetArr.map(c => c.lang),
-            code_snippet: codeSnippetArr
+            code_snippets: codeSnippetArr
         };
 
         // 区分<编程题>和<特殊编程题>
