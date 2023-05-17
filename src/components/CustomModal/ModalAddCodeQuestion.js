@@ -58,30 +58,23 @@ export default function ModalAddCodeQuestion(props) {
 
     const onFinish = (values) => {
         console.log('Success:', values);
-        let obj = values;
-        let inputArr = [];
-        let outputArr = [];
-        let languageArr = [];
-        let codeSnippetArr = [];
-        obj.case.map(e => {
-            inputArr.push(e.input);
-            outputArr.push(e.output);
-        })
-        languages.map(e => {
-            if (e.checked) {
-                languageArr.push(e.value)
-                codeSnippetArr.push({
-                    lang: e.value,
-                    code: e.code,
-                    correctAnswer: e.correctAnswer
-                })
-            }
-        })
-        obj.input = inputArr;
-        obj.output = outputArr;
-        obj.languages = languageArr;
-        obj.code_snippet = codeSnippetArr;
-        delete obj.case
+        const { case: cases, ...rest } = values;
+        const inputArr = cases.map(e => e.input);
+        const outputArr = cases.map(e => e.output);
+        const codeSnippetArr = languages
+        .filter(e => e.checked)
+        .map(e => ({
+            lang: e.value,
+            code: e.code,
+            correctAnswer: e.correctAnswer
+        }));
+        const obj = {
+            ...rest,
+            input: inputArr,
+            output: outputArr,
+            languages: codeSnippetArr.map(c => c.lang),
+            code_snippet: codeSnippetArr
+        };
         console.log(obj);
 
     };
