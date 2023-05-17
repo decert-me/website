@@ -3,6 +3,7 @@ import { useUpdateEffect } from 'ahooks';
 import MonacoEditor from '../MonacoEditor';
 import CustomConsole from '../CustomConsole';
 import { codeTest } from '@/request/api/quests';
+import CustomViewer from "../CustomViewer";
 
 
 
@@ -139,8 +140,7 @@ export default forwardRef (function CustomCode(props, ref) {
         <div className="CustomCode">
             <div className="code-desc custom-scroll">
                 <p className="code-title">{question.title}</p>
-                <div className="markdown-body" dangerouslySetInnerHTML={{__html: question.description}}>
-                </div>
+                <CustomViewer label={question.description} />
             </div>
             {
                 selectCode &&
