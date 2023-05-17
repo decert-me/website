@@ -106,11 +106,14 @@ export default function ModalAddCodeQuestion(props) {
             ...common 
         } = selectQs;
         const cases = input && code_snippets.map((e,i) => {
-            return {
-                ...e,
-                input: input[i],
-                output: output[i]
-            }
+            let arr = [];
+            input.map((ele,index) => {
+                arr.push({
+                    input: input[index],
+                    output: output[index]
+                })
+            })
+            return arr
         })
         const obj = {
             ...common,
@@ -120,11 +123,11 @@ export default function ModalAddCodeQuestion(props) {
         Object.keys(obj).map((e) => {
             arr.push({
                 name: e,
-                value: obj[e]
+                value: e === "case" ? obj[e][0] : obj[e]
             })
         })
         form.setFields(arr);
-
+        
         // 代码片段、描述 初始化
         languages.map(e => {
             const index = code_snippets.findIndex(item => item.lang === e.value)
