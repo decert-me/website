@@ -24,6 +24,7 @@ export default function ModalAddCodeQuestion(props) {
     const { t } = useTranslation(['publish', 'translation']);
     const { encode } = Encryption();
     const [form] = Form.useForm();
+    const key = process.env.REACT_APP_ANSWERS_KEY;
     const selectType = Form.useWatch('type', form);
     let [languages, setLanguages] = useState([
         {
@@ -42,7 +43,6 @@ export default function ModalAddCodeQuestion(props) {
         }
     ]);
     const [spjLanguage, setSpjLanguage] = useState(languages[0].value);
-    let [question, setQuestion] = useState();
 
     function changeChecked(index, checked) {
         //  切换代码片段状态
@@ -57,8 +57,7 @@ export default function ModalAddCodeQuestion(props) {
     }
 
     const onFinish = (values) => {
-        console.log('Success:', values);
-        const { case: cases, ...rest } = values;
+        const { case: cases, spj_code: spj_code, ...rest } = values;
         const inputArr = cases.map(e => e.input);
         const outputArr = cases.map(e => e.output);
         const codeSnippetArr = languages
@@ -66,17 +65,22 @@ export default function ModalAddCodeQuestion(props) {
         .map(e => ({
             lang: e.value,
             code: e.code,
-            correctAnswer: e.correctAnswer
+            correctAnswer: encode(key, JSON.stringify(e.correctAnswer))
         }));
-        const obj = {
+        const commonProps = {
             ...rest,
-            input: inputArr,
-            output: outputArr,
             languages: codeSnippetArr.map(c => c.lang),
             code_snippet: codeSnippetArr
         };
-        console.log(obj);
 
+        // 区分<编程题>和<特殊编程题>
+        const obj = rest.type === "coding"
+        ? {input: inputArr, output: outputArr, ...commonProps }
+        : {spj_code: spj_code, ...commonProps };
+
+        // 返回
+        questionChange(obj);
+        onCancel();
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -84,23 +88,8 @@ export default function ModalAddCodeQuestion(props) {
     };
 
     function onCancel(params) {
-        setQuestion(null)
         handleCancel()
     }
-
-    // function pushQuest(value) {
-    //     question = value;
-    //     setQuestion(question)
-    // }
-
-    // function onFinish(params) {
-    //     // 答案加密
-    //     let obj = JSON.parse(question);
-    //     obj.code_snippets.map(e => {
-    //         e.correctAnswer = encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(e.correctAnswer))
-    //     })
-    //     questionChange(obj);
-    // }
 
     return (
         <Modal
@@ -268,15 +257,14 @@ export default function ModalAddCodeQuestion(props) {
                 {/* 特殊题测试用例 */}
                 <Form.Item
                     label="特殊题测试用例"
+                    name="spj_code"
                     style={{display: selectType === "coding" ? "none" : "block"}}
                 >
                     <Radio.Group options={languages} onChange={(e) => setSpjLanguage(e.target.value)} />
                     <div className="code-snippets">
                         <MonacoEditor
                             value=""
-                            onChange={(newValue) => {
-                                changeCoding("code", newValue);
-                            }}
+                            onChange={(e) => form.setFieldValue("spj_code",e)}
                             language={spjLanguage}
                         />
                     </div>
