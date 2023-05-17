@@ -7,7 +7,6 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import MonacoEditor from "@/components/MonacoEditor";
 import "@/assets/styles/component-style/modal-coding.scss"
 
-const { TextArea } = Input;
 const questType = [
     {
         label: "编程题",
@@ -51,17 +50,40 @@ export default function ModalAddCodeQuestion(props) {
         setLanguages([...languages]);
     }
 
-    function changeCoding(key, value) {
+    function changeCoding(key, value, index) {
         // 修改代码片段
-    }
-
-    function onValuesChange({ type }) {
-        // form表单更改时拦截
-        // console.log(form);
+        languages[index][key] = value;
+        setLanguages([...languages]);
     }
 
     const onFinish = (values) => {
         console.log('Success:', values);
+        let obj = values;
+        let inputArr = [];
+        let outputArr = [];
+        let languageArr = [];
+        let codeSnippetArr = [];
+        obj.case.map(e => {
+            inputArr.push(e.input);
+            outputArr.push(e.output);
+        })
+        languages.map(e => {
+            if (e.checked) {
+                languageArr.push(e.value)
+                codeSnippetArr.push({
+                    lang: e.value,
+                    code: e.code,
+                    correctAnswer: e.correctAnswer
+                })
+            }
+        })
+        obj.input = inputArr;
+        obj.output = outputArr;
+        obj.languages = languageArr;
+        obj.code_snippet = codeSnippetArr;
+        delete obj.case
+        console.log(obj);
+
     };
 
     const onFinishFailed = (errorInfo) => {
@@ -108,7 +130,6 @@ export default function ModalAddCodeQuestion(props) {
                 }}
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
-                onValuesChange={onValuesChange}
                 autoComplete="off"
                 layout="vertical"
             >   
@@ -215,13 +236,13 @@ export default function ModalAddCodeQuestion(props) {
                                 </Checkbox>
                                 {
                                     e.checked &&
-                                    <div>
+                                    <div className="border-b">
                                         <div className="code-snippets">
                                             <p>题目模板</p>
                                             <MonacoEditor
                                                 value={e.code}
                                                 onChange={(newValue) => {
-                                                    changeCoding("code", newValue);
+                                                    changeCoding("code", newValue, i);
                                                 }}
                                                 language={e.label}
                                             />
@@ -231,7 +252,7 @@ export default function ModalAddCodeQuestion(props) {
                                             <MonacoEditor
                                                 value={e.correctAnswer}
                                                 onChange={(newValue) => {
-                                                    changeCoding("correctAnswer", newValue);
+                                                    changeCoding("correctAnswer", newValue, i);
                                                 }}
                                                 language={e.label}
                                             />
@@ -288,7 +309,7 @@ export default function ModalAddCodeQuestion(props) {
 
                 <Form.Item>
                     <Button type="primary" htmlType="submit">
-                        submit
+                        添加
                     </Button>
                 </Form.Item>
             </Form>

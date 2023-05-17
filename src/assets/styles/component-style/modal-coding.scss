@@ -3,10 +3,17 @@
     .code-snippets{
         height: 200px;
         padding: 20px;
-        border: 1px solid #eaeefb;
+        border-bottom: none;
         box-sizing: border-box;
         section{
             height: 100% !important; 
         }
     }
+    .border-b{
+        padding-bottom: 2px;
+        border: 1px solid #eaeefb;
+    }
+
+    // form style
+    
 }
