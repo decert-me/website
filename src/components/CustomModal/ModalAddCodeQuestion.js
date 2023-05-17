@@ -22,7 +22,7 @@ export default function ModalAddCodeQuestion(props) {
 
     const { isModalOpen, handleCancel, questionChange, selectQs, questionEdit } = props;
     const { t } = useTranslation(['publish', 'translation']);
-    const { encode } = Encryption();
+    const { encode, decode } = Encryption();
     const [form] = Form.useForm();
     const key = process.env.REACT_APP_ANSWERS_KEY;
     const selectType = Form.useWatch('type', form);
@@ -124,10 +124,14 @@ export default function ModalAddCodeQuestion(props) {
             const index = code_snippets.findIndex(item => item.lang === e.value)
             if (index !== -1) {
                 e.checked = true;
-                console.log(index);
+                Object.keys(code_snippets[index]).map(ele => {
+                    const value = code_snippets[index][ele];
+                    e[ele] = ele === "correctAnswer" ? eval(decode(key, value)) : value;
+                })
             }
             
         })
+        setLanguages([...languages]);
     }
 
     useEffect(() => {
@@ -184,7 +188,13 @@ export default function ModalAddCodeQuestion(props) {
                         },
                     ]}
                 >
-                    <CustomEditor mode="tab" onChange={(e) => form.setFieldValue("description",e)} />
+                    <CustomEditor 
+                        mode="tab" 
+                        onChange={
+                            (e) => form.setFieldValue("description",e)
+                        } 
+                        initialValues={selectQs.description}
+                    />
                 </Form.Item>
 
                 {/* 测试用例 */}
