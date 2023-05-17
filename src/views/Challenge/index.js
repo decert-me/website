@@ -62,11 +62,14 @@ export default function Challenge(params) {
         window.scrollTo(0, 0);
         page = type === 'add' ? page+1 : page-1;
         setPage(page);
-        const questType = detail.metadata.properties.questions[page-1].type;
-        if (questType === "special_judge_coding" || questType === "coding") {
-            await childRef.current.goTest()
+        // 不是预览模式才运行
+        if (detail) {
+            const questType = detail.metadata.properties.questions[page-1].type;
+            if (questType === "special_judge_coding" || questType === "coding") {
+                await childRef.current.goTest()
+            }
+            saveAnswer();
         }
-        saveAnswer();
     }
 
     const changePage = (index) => {
