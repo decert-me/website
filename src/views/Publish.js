@@ -193,6 +193,13 @@ export default function Publish(params) {
         }
     };
 
+    function handleCancel(params) {
+        setShowAddCodeQs(false)
+        // 关闭弹窗并清空selectQs
+        selectQs = null;
+        setSelectQs(selectQs);
+    }
+
     const init = async() => {
         let local = localStorage.getItem("decert.store");
         if (!local) {
@@ -242,7 +249,7 @@ export default function Publish(params) {
                 showAddCodeQs &&
                 <ModalAddCodeQuestion 
                     isModalOpen={showAddCodeQs} 
-                    handleCancel={() => {setShowAddCodeQs(false)}}
+                    handleCancel={() => handleCancel()}
                     questionChange={questionChange}
                     // 编辑部分
                     selectQs={selectQs}

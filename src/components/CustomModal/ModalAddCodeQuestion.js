@@ -58,8 +58,8 @@ export default function ModalAddCodeQuestion(props) {
 
     const onFinish = (values) => {
         const { case: cases, spj_code: spj_code, ...rest } = values;
-        const inputArr = cases.map(e => e.input);
-        const outputArr = cases.map(e => e.output);
+        const inputArr = cases && cases.map(e => e.input);
+        const outputArr = cases && cases.map(e => e.output);
         const codeSnippetArr = languages
         .filter(e => e.checked)
         .map(e => ({
@@ -79,7 +79,13 @@ export default function ModalAddCodeQuestion(props) {
         : {spj_code: spj_code, ...commonProps };
 
         // 返回
-        questionChange(obj);
+        if (selectQs) {
+            // 修改
+            questionEdit(obj)
+        }else{
+            // 添加
+            questionChange(obj);
+        }
         onCancel();
     };
 
@@ -99,7 +105,7 @@ export default function ModalAddCodeQuestion(props) {
             output: output,
             ...common 
         } = selectQs;
-        const cases = code_snippets.map((e,i) => {
+        const cases = input && code_snippets.map((e,i) => {
             return {
                 ...e,
                 input: input[i],
@@ -193,7 +199,7 @@ export default function ModalAddCodeQuestion(props) {
                         onChange={
                             (e) => form.setFieldValue("description",e)
                         } 
-                        initialValues={selectQs.description}
+                        initialValues={selectQs?.description}
                     />
                 </Form.Item>
 
@@ -317,7 +323,7 @@ export default function ModalAddCodeQuestion(props) {
                     <Radio.Group options={languages} onChange={(e) => setSpjLanguage(e.target.value)} />
                     <div className="code-snippets">
                         <MonacoEditor
-                            value=""
+                            value={selectQs?.spj_code}
                             onChange={(e) => form.setFieldValue("spj_code",e)}
                             language={spjLanguage}
                         />
