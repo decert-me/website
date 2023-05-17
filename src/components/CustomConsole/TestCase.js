@@ -4,7 +4,7 @@ const { TextArea } = Input;
 
 function TestCase(props, ref) {
     
-    const { input, changeCodeObj, className, hideCase } = props;
+    const { input, changeCodeObj, className } = props;
     const [value, setValue] = useState("");
 
     useImperativeHandle(ref, () => ({
@@ -21,7 +21,6 @@ function TestCase(props, ref) {
     },[])
 
     return (
-        !hideCase &&
         <div className={`case ${className}`}>
             <TextArea
                 className='custom-scroll'

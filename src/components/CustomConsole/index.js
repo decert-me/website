@@ -53,13 +53,15 @@ function CustomConsole(props, ref) {
                     setSelectTab={setSelectTab}
                     hideCase={hideCase}
                 />
-                <TestCase 
-                    className={selectTab === "case" ? "" : "none"}
-                    input={question?.input ? question?.input[0] : question.spj_code} 
-                    changeCodeObj={changeCodeObj} 
-                    ref={caseRef}
-                    hideCase={hideCase}
-                />
+                {
+                    !hideCase &&
+                    <TestCase 
+                        className={selectTab === "case" ? "" : "none"}
+                        input={question?.input ? question?.input[0] : question.spj_code} 
+                        changeCodeObj={changeCodeObj} 
+                        ref={caseRef}
+                    />
+                }
                 <Console 
                     className={`${selectTab === "cmd" ? "" : "none"}`}
                     logs={logs} 
