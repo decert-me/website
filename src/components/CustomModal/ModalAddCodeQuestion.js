@@ -207,60 +207,63 @@ export default function ModalAddCodeQuestion(props) {
                 </Form.Item>
 
                 {/* 测试用例 */}
-                <Form.Item 
-                    label="测试用例"
-                    style={{display: selectType === "coding" ? "block" : "none"}}
-                >
-                    <Form.List 
-                        name="case"
+                {
+                    selectType === "coding" && 
+                    <Form.Item 
+                        label="测试用例"
+                        style={{display: selectType === "coding" ? "block" : "none"}}
                     >
-                        {(fields, { add, remove }) => (
-                            <>
-                            {fields.map(({ key, name, ...restField }) => (
-                                <Space
-                                    key={key}
-                                    style={{
-                                        display: 'flex',
-                                        marginBottom: 8,
-                                    }}
-                                    align="baseline"
-                                >
-                                    <Form.Item
-                                        {...restField}
-                                        name={[name, 'input']}
-                                        rules={[
-                                        {
-                                            required: true,
-                                            message: '请输入`输入用例`',
-                                        },
-                                        ]}
+                        <Form.List 
+                            name="case"
+                        >
+                            {(fields, { add, remove }) => (
+                                <>
+                                {fields.map(({ key, name, ...restField }) => (
+                                    <Space
+                                        key={key}
+                                        style={{
+                                            display: 'flex',
+                                            marginBottom: 8,
+                                        }}
+                                        align="baseline"
                                     >
-                                        <Input placeholder="输入用例" />
-                                    </Form.Item>
-                                    <Form.Item
-                                        {...restField}
-                                        name={[name, 'output']}
-                                        rules={[
-                                        {
-                                            required: true,
-                                            message: '请输入`输出用例`',
-                                        },
-                                        ]}
-                                    >
-                                        <Input placeholder="输出用例" />
-                                    </Form.Item>
-                                    <MinusCircleOutlined onClick={() => remove(name)} />
-                                </Space>
-                            ))}
-                            <Form.Item>
-                                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                                    添加用例
-                                </Button>
-                            </Form.Item>
-                            </>
-                        )}
-                    </Form.List>
-                </Form.Item>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'input']}
+                                            rules={[
+                                            {
+                                                required: true,
+                                                message: '请输入`输入用例`',
+                                            },
+                                            ]}
+                                        >
+                                            <Input placeholder="输入用例" />
+                                        </Form.Item>
+                                        <Form.Item
+                                            {...restField}
+                                            name={[name, 'output']}
+                                            rules={[
+                                            {
+                                                required: true,
+                                                message: '请输入`输出用例`',
+                                            },
+                                            ]}
+                                        >
+                                            <Input placeholder="输出用例" />
+                                        </Form.Item>
+                                        <MinusCircleOutlined onClick={() => remove(name)} />
+                                    </Space>
+                                ))}
+                                <Form.Item>
+                                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                                        添加用例
+                                    </Button>
+                                </Form.Item>
+                                </>
+                            )}
+                        </Form.List>
+                    </Form.Item>
+                }
 
                 {/* 代码片段 */}
                 <Form.Item
@@ -318,20 +321,23 @@ export default function ModalAddCodeQuestion(props) {
                 </Form.Item>
 
                 {/* 特殊题测试用例 */}
-                <Form.Item
-                    label="特殊题测试用例"
-                    name="spj_code"
-                    style={{display: selectType === "coding" ? "none" : "block"}}
-                >
-                    {/* <Radio.Group options={languages} onChange={(e) => setSpjLanguage(e.target.value)} /> */}
-                    <div className="code-snippets">
-                        <MonacoEditor
-                            value={selectQs?.spj_code}
-                            onChange={(e) => form.setFieldValue("spj_code",e)}
-                            language={spjLanguage}
-                        />
-                    </div>
-                </Form.Item>
+                {
+                    selectType !== "coding" && 
+                    <Form.Item
+                        label="特殊题测试用例"
+                        name="spj_code"
+                        style={{display: selectType === "coding" ? "none" : "block"}}
+                    >
+                        {/* <Radio.Group options={languages} onChange={(e) => setSpjLanguage(e.target.value)} /> */}
+                        <div className="code-snippets">
+                            <MonacoEditor
+                                value={selectQs?.spj_code}
+                                onChange={(e) => form.setFieldValue("spj_code",e)}
+                                language={spjLanguage}
+                            />
+                        </div>
+                    </Form.Item>
+                }
 
                 {/* 分数 */}
                 <Form.Item
