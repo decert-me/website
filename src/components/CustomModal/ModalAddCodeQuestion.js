@@ -123,7 +123,7 @@ export default function ModalAddCodeQuestion(props) {
         Object.keys(obj).map((e) => {
             arr.push({
                 name: e,
-                value: e === "case" ? obj[e][0] : obj[e]
+                value: e === "case" && obj[e] ? obj[e][0] : obj[e]
             })
         })
         form.setFields(arr);
