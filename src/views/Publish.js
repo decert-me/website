@@ -98,24 +98,6 @@ export default function Publish(params) {
             answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
             image: "ipfs://"+values.fileList?.file.response.hash
         })
-        // let obj = {
-        //     title: values.title,
-        //     description: values.desc,
-        //     image: "ipfs://"+values.fileList?.file.response.hash,
-        //     properties: {
-        //         questions: qs,
-        //         answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-        //         passingScore: values.score,
-        //         startTime: new Date().toISOString(),
-        //         endTIme: null,
-        //         url: "",
-        //         requires: [],
-        //         difficulty: values.difficulty !== undefined ? values.difficulty : null,
-        //         estimateTime: values.time ? values.time : null
-        //     },
-        //     version: 1
-        // }
-        // const jsonHash = await ipfsJson({body: obj});
         return jsonHash
     }
 

@@ -54,7 +54,10 @@ export default function CustomForm(props) {
         }
         const cache = JSON.parse(local);
         if (cache?.hash) {
-            const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
+            const nftCache = await axios.get(`${ipfsPath}/${cache.hash}`)
+            const questCache = await axios.get(`${ipfsPath}/${nftCache.data.attributes.challenge_ipfs_url.split("ipfs://")[1]}`)
+            console.log(nftCache.data);
+            console.log(questCache.data);
             fields = [
                 {
                     name: ["title"],
@@ -66,15 +69,15 @@ export default function CustomForm(props) {
                 },
                 {
                     name: ["score"],
-                    value: questCache.data.properties?.passingScore
+                    value: questCache.data?.passingScore
                 },
                 {
                     name: ["difficulty"],
-                    value: questCache.data.properties?.difficulty
+                    value: nftCache.data.attributes?.difficulty
                 },
                 {
                     name: ["time"],
-                    value: questCache.data.properties?.estimateTime
+                    value: questCache.data?.estimateTime
                 }
             ]
             setFields([...fields])
