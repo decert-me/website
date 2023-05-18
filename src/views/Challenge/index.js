@@ -240,6 +240,7 @@ export default function Challenge(params) {
                     setAnswers={setAnswers}
                     saveAnswer={saveAnswer}
                     index={page-1}
+                    isPreview={cacheDetail ? true : false}
                 />
             case 2:
             case "fill_blank":

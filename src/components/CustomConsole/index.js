@@ -20,7 +20,7 @@ const tabs = [
 
 function CustomConsole(props, ref) {
     
-    const { question, changeCodeObj, goTest, logs, items } = props;
+    const { question, changeCodeObj, goTest, logs, items, loading } = props;
     const [selectTab, setSelectTab] = useState(tabs[0].key);
     const [hideCase, setHideCase] = useState(false);
     const caseRef = useRef(null);
@@ -85,7 +85,7 @@ function CustomConsole(props, ref) {
                         </a>
                     </Dropdown>
                 }
-                <Button onClick={() => runCode()}>执行代码</Button>
+                <Button loading={loading} onClick={() => runCode()}>执行代码</Button>
             </div>
         </>
     )

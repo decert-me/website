@@ -56,8 +56,6 @@ export default function CustomForm(props) {
         if (cache?.hash) {
             const nftCache = await axios.get(`${ipfsPath}/${cache.hash}`)
             const questCache = await axios.get(`${ipfsPath}/${nftCache.data.attributes.challenge_ipfs_url.split("ipfs://")[1]}`)
-            console.log(nftCache.data);
-            console.log(questCache.data);
             fields = [
                 {
                     name: ["title"],

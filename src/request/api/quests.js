@@ -14,9 +14,17 @@ export const getChallengers = (data) => {
 
 // 代码自测
 
-export const codeTest = (data) => {
+export const codeRun = (data) => {
     return codingAxios({
         url: `/run/tryRun`,
+        method: "post",
+        data
+    })
+}
+
+export const codeTest = (data) => {
+    return codingAxios({
+        url: `/run/tryTestRun`,
         method: "post",
         data
     })
