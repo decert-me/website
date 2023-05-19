@@ -15,7 +15,7 @@ const previewTabs = [
     },
     {
         label: "示例代码",
-        value: "correctAnswer"
+        value: "decodeAnswer"
     }
 ]
 
@@ -93,7 +93,7 @@ export default forwardRef (function CustomCode(props, ref) {
         const obj = cacheQuest.code_snippets[selectIndex];
         let testCode = {
             code: obj.code, //写入的代码
-            example_code: selectCode.correctAnswer, //代码示例
+            example_code: selectCode.decodeAnswer, //代码示例
             code_snippet: selectCode.code, //代码片段
             lang: obj.lang
         }
@@ -169,11 +169,14 @@ export default forwardRef (function CustomCode(props, ref) {
     function toggleCode() {
         selectCode = cacheQuest.code_snippets[0];
         // 解码示例代码
-        selectCode.correctAnswer = eval(decode(key, selectCode.correctAnswer));
+        if (!selectCode?.decodeAnswer) {
+            selectCode.decodeAnswer = eval(decode(key, selectCode.correctAnswer));
+        }
 
         setSelectCode({...selectCode});
         editorCode = selectCode.code;
         setEditorCode(editorCode);
+
     }
 
     async function init(params) {
