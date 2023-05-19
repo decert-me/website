@@ -29,7 +29,6 @@ export default function ModalEditQuestion(props) {
             message.warning(t("inner.rule.title"))
             return
         }
-
         let optionArr = [];
         const { type, ans } = filterType(values);
         if (ans.length === 0) {
@@ -56,11 +55,11 @@ export default function ModalEditQuestion(props) {
     const getAnswer = (i) => {
         let option = null;
         switch (selectQs.type) {
-            case 0:
+            case "multiple_choice":
                 // 单选
                 option = selectQs.answers === i ? 2 : 1;
                 break;
-            case 1: 
+            case "multiple_response": 
                 // 多选
                 option = selectQs.answers.includes(i) ? 2 : 1;
             default:
@@ -72,16 +71,6 @@ export default function ModalEditQuestion(props) {
 
     useEffect(() => {
         if (selectQs) {
-            switch (selectQs.type) {
-                case 2:
-                    // 填空
-                    break;
-                case 1:
-                    // 多选
-                default:
-                    // 单选
-                    break;
-            }
             let arr = [];
             if (selectQs.options) {                
                 selectQs.options.map((e,i) => {
