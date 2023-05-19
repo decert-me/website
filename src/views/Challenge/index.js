@@ -332,7 +332,7 @@ export default function Challenge(params) {
                         onChange={checkPage} 
                         openAnswers={openAnswers}
                         submit={submit}
-
+                        isPreview={cacheDetail ? true : false}
                     />
                 </>
             }
