@@ -63,7 +63,7 @@ export default function CertNfts(props) {
                                     onClick={() => change(e.id)}
                                 >
                                     <div className="img">
-                                        <img src={process.env.REACT_APP_NFT_BASE_URL+e.contract_logo} alt="" />
+                                        <img src={e.contract_logo ? process.env.REACT_APP_NFT_BASE_URL+e.contract_logo : require("@/assets/images/img/default-contract.png")} alt="" />
                                     </div>
                                     <p className="li-content">{e.contract_name}</p>
                                     <p>({e.count})</p>

@@ -12,7 +12,7 @@ export default function Lesson(params) {
             <p className="title">{t("header.lesson")}</p>
             {/* <p className="subtitle">{t("header.lesson-sub")}</p> */}
             <div className="content">
-                <a href="https://decert.me/tutorial/block_basic/start/" target="_blank" rel="noopener noreferrer">
+                <a href="https://decert.me/tutorial/blockchain-basic/start/" target="_blank" rel="noopener noreferrer">
                 <div className="box">
                     <div className="img">
                         <img src={require("@/assets/images/img/lesson-img1.png")} alt="" />

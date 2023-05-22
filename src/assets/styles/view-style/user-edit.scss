@@ -87,18 +87,26 @@
         font-weight: 500;
         line-height: 20px;
         border-radius: 21px;
+        border: none;
+        box-shadow: none;
         &:last-child{
             margin: 0;
         }
     }
     .cancel{
-        border: 1px solid #000000;
-        color: #000000;
+        border: 1px solid #333333;
+        color: #333333;
+        &:hover{
+            background-color: #f2f2f2;
+            border-color: #8F5A35 !important;            
+            color: #8F5A35 !important;
+        }
     }
     .save{
-        border: none;
-        box-shadow: none;
-        background: #E5E5E5;
-        color: #565662;
+        background-color: #8F5A35;
+        color: #fff;
+        &:hover{
+            background-color: #9F7253 !important;
+        }
     }
 }
