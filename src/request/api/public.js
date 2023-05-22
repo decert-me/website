@@ -1,5 +1,6 @@
 import serviceAxios from "../index";
 import ipfsAxios from "../ipfs";
+import nftAxios from "../nft";
 
 // 获取登录签名信息
 export const getLoginMsg = (data) => {
@@ -104,15 +105,6 @@ export const submitHash = (data) => {
 export const verifyDiscord = (data) => {
     return serviceAxios({
         url: `/users/discord`,
-        method: "get",
-        data
-    })
-}
-
-// 获取 Ens 
-export const getEns = (data) => {
-    return serviceAxios({
-        url: `/ens/${data.address}`,
         method: "get",
         data
     })

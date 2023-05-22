@@ -85,7 +85,6 @@ export default function CustomCompleted(props) {
             .then(result => {
                 res = result.data?.toString();
             })
-            console.log("res ===>", res);
             percent = res / 100;
             answerInfo = {
                 totalScore: totalScore,

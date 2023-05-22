@@ -33,8 +33,7 @@ export default function AddSbt(props) {
     let [list, setList] = useState([]);
     let [cache, setCache] = useState([]);
     let [gateway, setGateway] = useState(
-          "https://nftscan.mypinata.cloud/ipfs/"
-          // "https://dweb.link/ipfs/"
+          process.env.REACT_APP_IPFS_GATEWAY
           );
   
       let [addIds, setAddIds] = useState([]);

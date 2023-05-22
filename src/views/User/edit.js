@@ -180,7 +180,6 @@ export default function UserEdit(params) {
             </div>
             <div className="UserEdit-btns">
                 <Button 
-                    danger 
                     className="btn cancel"
                     onClick={goBack}
                 >
