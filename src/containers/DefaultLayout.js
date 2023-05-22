@@ -8,6 +8,7 @@ import { useAccount } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest } from "ahooks";
 import CustomSigner from "@/redux/CustomSigner";
+import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 const { Header, Footer, Content } = Layout;
@@ -151,7 +152,10 @@ export default function DefaultLayout(params) {
                 { outlet }
             </Content>
             {contextHolder}
+
             <CustomSigner store={store} />
+            <CustomConnect store={store} />
+
             <Footer style={footerStyle}>
                 <AppFooter isMobile={isMobile} />
             </Footer>

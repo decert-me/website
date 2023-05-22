@@ -2,6 +2,7 @@ import { createStore } from 'redux';
 
 const initialState = {
   isShow: false,
+  isConnect: false,
   isMobile: false
 };
 
@@ -17,6 +18,11 @@ function reducer(state = initialState, action) {
         ...state,
         isShow: false
       };
+    case 'SET_CONNECT':
+      return {
+        ...state,
+        isConnect: action.payload
+      };
     case 'SET_MOBILE':
       return {
         ...state, 
@@ -31,6 +37,10 @@ const store = createStore(reducer);
 
 export function showCustomSigner() {
     return { type: 'SHOW' };
+}
+
+export function setConnect(isConnect) { 
+  return { type: 'SET_CONNECT', payload: isConnect }; 
 }
 
 export function hideCustomSigner() {
