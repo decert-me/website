@@ -9,7 +9,7 @@ import {
 } from 'antd';
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { getQuests, submitChallenge } from "../../request/api/public";
+import { challengeJson, getQuests, nftJson, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
 import CustomPagination from '../../components/CustomPagination';
@@ -23,7 +23,6 @@ import { useTranslation } from 'react-i18next';
 import axios from "axios";
 import { constans } from '@/utils/constans';
 import { usePublish } from '@/hooks/usePublish';
-import ModalConnect from '@/components/CustomModal/ModalConnect';
 import { setMetadata } from '@/utils/getMetadata';
 import CustomCode from '@/components/CustomChallenge/CustomCode';
 
@@ -41,7 +40,7 @@ export default function Challenge(params) {
     let [answers, setAnswers] = useState([]);
     let [percent, setPercent] = useState();
     let [publishObj, setPublishObj] = useState({});
-    const { publish: write, signIn, isLoading, transactionLoading, cancelModalConnect } = usePublish({
+    const { publish: write, isLoading, transactionLoading } = usePublish({
         jsonHash: publishObj?.jsonHash, 
         recommend: publishObj?.recommend
     });
@@ -190,20 +189,21 @@ export default function Challenge(params) {
             return
         }
         const cache = JSON.parse(local);
-        publishObj = {
-            jsonHash: cache.hash,
-            recommend: cache.recommend
+        if (cache.isOver) {
+            const challengeHash = await challengeJson(cache.hash.attributes.challenge_ipfs_url);
+            const obj = JSON.parse(JSON.stringify(cache.hash));
+            obj.attributes.challenge_ipfs_url = challengeHash.data.hash;
+            const jsonHash = await nftJson(obj);
+            publishObj = {
+                jsonHash: jsonHash.data.hash,
+                recommend: cache.recommend
+            }
+            setPublishObj({...publishObj});
         }
-        setPublishObj({...publishObj});
-        await axios.get(`${ipfsPath}/${cache.hash}`)
-        .then(async(res) => {
-            const request = await setMetadata(res.data);
-            cacheDetail = request;
+            cacheDetail = cache.hash;
             setCacheDetail({...cacheDetail});
-    
             answers = new Array(Number(cache.questions.length))
             setAnswers([...answers])
-        })
     }
 
     useEffect(() => {
@@ -219,7 +219,7 @@ export default function Challenge(params) {
     useEffect(() => {
         // 修改进度条
         if (detail || cacheDetail) {
-            const total = detail?.metadata.properties.questions.length ? detail?.metadata.properties.questions.length : cacheDetail.properties.questions.length;
+            const total = detail?.metadata.properties.questions.length ? detail?.metadata.properties.questions.length : cacheDetail.attributes.challenge_ipfs_url.questions.length;
             percent = page === total ? 100 : (100/ total) * page;
             setPercent(percent);
         }
@@ -260,10 +260,6 @@ export default function Challenge(params) {
     return (
         
         <div className="Challenge">
-            <ModalConnect
-                isModalOpen={signIn} 
-                handleCancel={cancelModalConnect} 
-            />
             {
                 (detail || cacheDetail) &&
                 <>
@@ -312,7 +308,7 @@ export default function Challenge(params) {
                                 return i === index && switchType(e,i)
                             })
                             :
-                            cacheDetail.properties.questions.map((e,i) => {
+                            cacheDetail.attributes.challenge_ipfs_url.questions.map((e,i) => {
                                 return i === index && switchType(e,i)
                             })
                         }
@@ -327,7 +323,7 @@ export default function Challenge(params) {
                             detail ?
                             detail.metadata.properties.questions.length
                             :
-                            cacheDetail.properties.questions.length
+                            cacheDetail.attributes.challenge_ipfs_url.questions.length
                         } 
                         onChange={checkPage} 
                         openAnswers={openAnswers}
