@@ -88,7 +88,7 @@ export default function Publish(params) {
         setSumScore(sumScore);
     }
 
-    const getJson = async(values) => {
+    const getJson = async(values, preview) => {
         const { answers, questions: qs } = filterQuestions(questions);
         const jsonHash = await getMetadata({
             values: values,
@@ -96,7 +96,7 @@ export default function Publish(params) {
             questions: qs,
             answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
             image: "ipfs://"+values.fileList?.file.response.data.hash
-        })
+        }, preview)
         return jsonHash
     }
 
@@ -132,9 +132,9 @@ export default function Publish(params) {
     }
 
     const preview = async(values, isOver) => {
-        const jsonHash = await getJson(values);
+        const jsonHash = await getJson(values, "preview");
         let questCache = {
-            hash: jsonHash.hash,
+            hash: jsonHash,
             questions: questions,
             recommend: values.editor,
             isOver: isOver
@@ -158,8 +158,10 @@ export default function Publish(params) {
             recommend: values.editor
         }
         setPublishObj({...publishObj});
+
+        const cacheJSON = await getJson(values, "preview");
         let questCache = {
-            hash: jsonHash.hash,
+            hash: cacheJSON,
             questions: questions,
             recommend: values.editor
         }

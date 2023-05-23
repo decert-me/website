@@ -3,7 +3,7 @@ import { generateUUID } from "./getUuid";
 import { constans } from "./constans";
 import axios from "axios";
 
-export async function getMetadata({values, address, questions, answers, image}) {
+export async function getMetadata({values, address, questions, answers, image}, preview) {
     /**
      * let obj = {
             title: values.title,
@@ -38,14 +38,14 @@ export async function getMetadata({values, address, questions, answers, image}) 
         passingScore: values.score, 
         version: version 
     }
-    const questHash = await challengeJson({body: obj});
+    const questHash = preview ? obj : await challengeJson(obj);
     const uuid = generateUUID();
     const nft = {
         name: values.title,
         description: values.desc,
         image: image,
         attributes: {
-            challenge_ipfs_url: "ipfs://"+questHash.hash,
+            challenge_ipfs_url: "ipfs://" + preview ? questHash : questHash.data.hash,
             challenge_url: `https://decert.me/quests/${uuid}`,
             challenge_title: values.title,
             creator: address,
@@ -54,8 +54,9 @@ export async function getMetadata({values, address, questions, answers, image}) 
         external_url: "https://decert.me",
         version: version
     }
-    const nftHash = await nftJson({body: nft});
-    return nftHash
+    const nftHash = questHash ? nft : await nftJson(nft);
+
+    return questHash ? nft : nftHash.data
 }
 
 export async function setMetadata(props) {
