@@ -96,7 +96,7 @@ export default function Publish(params) {
             questions: qs,
             answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
             image: "ipfs://"+values.fileList?.file.response.data.hash
-        }, preview)
+        }, preview ? preview : null)
         return jsonHash
     }
 

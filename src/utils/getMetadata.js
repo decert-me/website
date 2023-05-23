@@ -45,7 +45,7 @@ export async function getMetadata({values, address, questions, answers, image}, 
         description: values.desc,
         image: image,
         attributes: {
-            challenge_ipfs_url: "ipfs://" + preview ? questHash : questHash.data.hash,
+            challenge_ipfs_url: preview ? questHash : "ipfs://" + questHash.data.hash,
             challenge_url: `https://decert.me/quests/${uuid}`,
             challenge_title: values.title,
             creator: address,
@@ -54,9 +54,9 @@ export async function getMetadata({values, address, questions, answers, image}, 
         external_url: "https://decert.me",
         version: version
     }
-    const nftHash = questHash ? nft : await nftJson(nft);
+    const nftHash = preview ? nft : await nftJson(nft);
 
-    return questHash ? nft : nftHash.data
+    return preview ? nftHash : nftHash.data
 }
 
 export async function setMetadata(props) {
