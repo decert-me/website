@@ -4,8 +4,10 @@ import {
 } from '@ant-design/icons';
 import MonacoEditor from "../MonacoEditor";
 
-export default function CodingSpecial(params) {
+export default function CodingSpecial(props) {
     
+    const { onChange } = props;
+
     return (
         <div className="coding-special">
             <div className="form">
@@ -13,7 +15,7 @@ export default function CodingSpecial(params) {
                 <MonacoEditor
                     value={""}
                     onChange={(newValue) => {
-                        console.log(newValue);
+                        onChange(newValue)
                     }}
                     language={"Solidity"}
                 />

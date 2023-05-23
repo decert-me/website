@@ -14,14 +14,20 @@ export default function CustomCase(params) {
     function addCase(isSpecial) {
         isSpecial ?
         caseArr.push({
-            spj_code: []
+            spj_code: ""
         })
         :
         caseArr.push({
-            input: [],
-            output: [],
+            input: "",
+            output: "",
         })
         setCaseArr([...caseArr]);
+    }
+
+    function changeValue(value, type, index) {
+        caseArr[index][type] = value;
+        setCaseArr([...caseArr]);
+        console.log(caseArr);
     }
     
     const items = [
@@ -50,12 +56,12 @@ export default function CustomCase(params) {
         <div className="customCase">
             {
                 caseArr.map((e,i) => 
-                    e.spj_code ?
+                    "spj_code" in e ?
                         // 特殊题
-                        <CodingSpecial key={i} />
+                        <CodingSpecial key={i} onChange={(e) => changeValue(e, "spj_code", i)} /> 
                         :
                         // 普通题
-                        <Coding key={i} />
+                        <Coding key={i}  onChange={(e, type) => changeValue(e, type, i)} />
                 )
             }
             <Dropdown
