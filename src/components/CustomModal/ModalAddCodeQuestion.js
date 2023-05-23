@@ -7,6 +7,7 @@ import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import MonacoEditor from "@/components/MonacoEditor";
 import "@/assets/styles/component-style/modal-coding.scss"
 import { codeTest } from "@/request/api/quests";
+import CustomCase from "../Publish/CustomCase";
 
 export default function ModalAddCodeQuestion(props) {
 
@@ -368,6 +369,11 @@ export default function ModalAddCodeQuestion(props) {
                             />
                         </div>
                 </Form.Item> */}
+                <Form.Item
+                    label="测试用例"
+                >
+                    <CustomCase />
+                </Form.Item>
 
                 {/* 分数 */}
                 <Form.Item
