@@ -58,9 +58,17 @@ export default function Cert(params) {
         await getAllNft({
             ...obj,
             ...pageConfig
-        }) 
+        })
         .then(res => {
             if (res.data) {
+                if (obj.contract_id) {
+                    nftlist.map(e => {
+                        if (e.id === obj.contract_id) {
+                            e.count = isMe ? res.data.total : res.data.total_public;
+                        }
+                    })
+                    setNftList([...nftlist]);
+                }
                 list = list.concat(res.data.list);
                 setList([...list]);
                 checkTotal = {
