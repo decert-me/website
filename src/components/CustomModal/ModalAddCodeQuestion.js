@@ -8,17 +8,6 @@ import MonacoEditor from "@/components/MonacoEditor";
 import "@/assets/styles/component-style/modal-coding.scss"
 import { codeTest } from "@/request/api/quests";
 
-const questType = [
-    {
-        label: "编程题",
-        value: "coding"
-    },
-    {
-        label: "特殊编程题",
-        value: "special_judge_coding"
-    }
-]
-
 export default function ModalAddCodeQuestion(props) {
 
     const { isModalOpen, handleCancel, questionChange, selectQs, questionEdit } = props;
@@ -26,17 +15,15 @@ export default function ModalAddCodeQuestion(props) {
     const { encode, decode } = Encryption();
     const [form] = Form.useForm();
     const key = process.env.REACT_APP_ANSWERS_KEY;
-    const selectType = Form.useWatch('type', form);
     let [languages, setLanguages] = useState([
         {
             label: 'Solidity',
-            checked: false,
+            checked: true,
             value: 'Solidity',
             code: "",
             correctAnswer: ""
         }
     ]);
-    const [spjLanguage, setSpjLanguage] = useState(languages[0].value);
     const [isLoading, setIsLoading] = useState();
 
     function changeChecked(index, checked) {
@@ -244,7 +231,7 @@ export default function ModalAddCodeQuestion(props) {
 
                 {/* 描述 */}
                 <Form.Item
-                    label="描述"
+                    label="题目描述"
                     name="description"
                     rules={[
                         {
@@ -262,12 +249,60 @@ export default function ModalAddCodeQuestion(props) {
                     />
                 </Form.Item>
 
+                {/* 代码片段 */}
+                <Form.Item
+                    label="代码"
+                >
+                    {
+                        languages.map((e, i) => 
+                            <div
+                                key={i}
+                            >
+                                <Checkbox 
+                                    checked={e.checked} 
+                                    disabled
+                                    onChange={
+                                        (e) => changeChecked(i, e.target.checked)
+                                    } 
+                                >
+                                    {e.label}
+                                </Checkbox>
+                                {
+                                    e.checked &&
+                                    <div className="border-b">
+                                        {/* <div style={{display: "flex", justifyContent: "flex-end"}}>
+                                            <Button loading={isLoading} onClick={() => checkCode(e)}>校验</Button>
+                                        </div> */}
+                                        <div className="code-snippets">
+                                            <div className="label">代码模板<span>由挑战者去补充完整</span></div>
+                                            <MonacoEditor
+                                                value={e.code}
+                                                onChange={(newValue) => {
+                                                    changeCoding("code", newValue, i);
+                                                }}
+                                                language={e.label}
+                                            />
+                                        </div>
+                                        <div className="code-snippets">
+                                            <div className="label">代码示例<span>正确的代码</span></div>
+                                            <MonacoEditor
+                                                value={e.correctAnswer}
+                                                onChange={(newValue) => {
+                                                    changeCoding("correctAnswer", newValue, i);
+                                                }}
+                                                language={e.label}
+                                            />
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        )
+                    }
+                </Form.Item>
+
                 {/* 测试用例 */}
-                {
-                    selectType === "coding" && 
-                    <Form.Item 
+                {/* <Form.Item 
                         label="测试用例"
-                        style={{display: selectType === "coding" ? "block" : "none"}}
                     >
                         <Form.List 
                             name="case"
@@ -318,85 +353,21 @@ export default function ModalAddCodeQuestion(props) {
                                 </>
                             )}
                         </Form.List>
-                    </Form.Item>
-                }
-
-                {/* 代码片段 */}
-                <Form.Item
-                    label="代码片段"
-                >
-                    {
-                        languages.map((e, i) => 
-                            <div
-                                key={i}
-                            >
-                                <Checkbox 
-                                    checked={e.checked} 
-                                    onChange={
-                                        (e) => changeChecked(i, e.target.checked)
-                                    } 
-                                >
-                                    {e.label}
-                                </Checkbox>
-                                {
-                                    e.checked &&
-                                    <div className="border-b">
-                                        <div style={{display: "flex", justifyContent: "flex-end"}}>
-                                            <Button loading={isLoading} onClick={() => checkCode(e)}>校验</Button>
-                                        </div>
-                                        <div className="code-snippets">
-                                            <p>题目模板</p>
-                                            <MonacoEditor
-                                                value={e.code}
-                                                onChange={(newValue) => {
-                                                    changeCoding("code", newValue, i);
-                                                }}
-                                                language={e.label}
-                                            />
-                                        </div>
-                                        <div className="code-snippets">
-                                            <p>正确答案</p>
-                                            <MonacoEditor
-                                                value={e.correctAnswer}
-                                                onChange={(newValue) => {
-                                                    changeCoding("correctAnswer", newValue, i);
-                                                }}
-                                                language={e.label}
-                                            />
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        )
-                    }
-                </Form.Item>
-
-                {/* 题目类型 */}
-                <Form.Item
-                    label="题目类型"
-                    name="type"
-                >
-                    <Radio.Group options={questType}/>
-                </Form.Item>
+                </Form.Item> */}
 
                 {/* 特殊题测试用例 */}
-                {
-                    selectType !== "coding" && 
-                    <Form.Item
+                {/* <Form.Item
                         label="特殊题测试用例"
                         name="spj_code"
-                        style={{display: selectType === "coding" ? "none" : "block"}}
                     >
-                        {/* <Radio.Group options={languages} onChange={(e) => setSpjLanguage(e.target.value)} /> */}
                         <div className="code-snippets">
                             <MonacoEditor
                                 value={selectQs?.spj_code}
                                 onChange={(e) => form.setFieldValue("spj_code",e)}
-                                language={spjLanguage}
+                                language={"Solidity"}
                             />
                         </div>
-                    </Form.Item>
-                }
+                </Form.Item> */}
 
                 {/* 分数 */}
                 <Form.Item
