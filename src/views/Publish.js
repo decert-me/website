@@ -3,12 +3,10 @@ import "@/assets/styles/view-style/publish.scss"
 import "@/assets/styles/component-style";
 import { useContext, useEffect, useState } from "react";
 import ModalAddQuestion from "@/components/CustomModal/ModalAddQuestion";
-import ModalConnect from '@/components/CustomModal/ModalConnect';
 import CustomForm from '@/components/Publish/CustomForm';
 
 import { Encryption } from "@/utils/Encryption";
 import { filterQuestions } from "@/utils/filter";
-import { ipfsJson } from "../request/api/public";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useUpdateEffect } from "ahooks";
@@ -18,13 +16,14 @@ import MyContext from "@/provider/context";
 import { getMetadata } from "@/utils/getMetadata";
 import { useAccount } from "wagmi";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
+import { changeConnect } from "@/utils/redux";
 
 export default function Publish(params) {
     
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
     const { isMobile } = useContext(MyContext);
-    const { address } = useAccount();
+    const { address, isConnected } = useAccount();
     
     let [showAddQs, setShowAddQs] = useState(false);
     let [showAddCodeQs, setShowAddCodeQs] = useState(false);
@@ -38,7 +37,7 @@ export default function Publish(params) {
     let [recommend, setRecommend] = useState();
     let [publishObj, setPublishObj] = useState({});
     let [isWrite, setIsWrite] = useState(false);
-    const { publish, signIn, isLoading, isOk, transactionLoading, cancelModalConnect } = usePublish({
+    const { publish, isLoading, isOk, transactionLoading } = usePublish({
         jsonHash: publishObj?.jsonHash, 
         recommend: publishObj?.recommend
     });
@@ -96,7 +95,7 @@ export default function Publish(params) {
             address: address,
             questions: qs,
             answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-            image: "ipfs://"+values.fileList?.file.response.hash
+            image: "ipfs://"+values.fileList?.file.response.data.hash
         })
         return jsonHash
     }
@@ -145,8 +144,12 @@ export default function Publish(params) {
     }
 
     const onFinish = async(values) => {
+        if (!isConnected) {
+            changeConnect()
+            return
+        }
         // 上传图片后删除
-        if (!values.fileList.file.response.hash) {
+        if (!values.fileList.file.response.data.hash) {
             return
         }
         const jsonHash = await getJson(values);
@@ -218,10 +221,6 @@ export default function Publish(params) {
 
     return (
         <div className="Publish">
-            <ModalConnect
-                isModalOpen={signIn} 
-                handleCancel={cancelModalConnect} 
-            />
             <ModalAddQuestion 
                 isModalOpen={showAddQs} 
                 handleCancel={() => {setShowAddQs(false)}}
@@ -261,6 +260,7 @@ export default function Publish(params) {
                 recommend={recommend}
                 preview={preview}
                 clearQuest={clearQuest}
+                changeConnect={changeConnect}
             />
 
         </div>

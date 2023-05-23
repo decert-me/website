@@ -15,6 +15,7 @@ import { NickName } from "@/utils/NickName";
 import { getUser, putUser } from "@/request/api/public";
 import { UploadAvatarProps } from "@/utils/UploadProps";
 import { useTranslation } from "react-i18next";
+import { changeConnect } from "@/utils/redux";
 const { TextArea } = Input;
 
 export default function UserEdit(params) {
@@ -26,7 +27,7 @@ export default function UserEdit(params) {
      * 3. 回显
      * 4. 提交
      */
-    const { address } = useAccount();
+    const { address, isConnected } = useAccount();
     const { t } = useTranslation(["translation","profile"]);
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -133,6 +134,13 @@ export default function UserEdit(params) {
                             className="avatar-uploader"
                             showUploadList={false}
                             {...UploadAvatarProps} 
+                            beforeUpload={(file) => {
+                                if (!isConnected) {
+                                    changeConnect()
+                                    return false || Upload.LIST_IGNORE
+                                }
+                                UploadAvatarProps.beforeUpload(file)
+                            }}
                             onChange={handleChange}
                         >
                             <Button className="btn">

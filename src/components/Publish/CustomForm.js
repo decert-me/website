@@ -7,6 +7,7 @@ import axios from "axios";
 import { constans } from "@/utils/constans";
 import { UploadProps } from "@/utils/UploadProps";
 import { InboxOutlined } from '@ant-design/icons';
+import { useAccount } from "wagmi";
 
 const { TextArea } = Input;
 const { Dragger } = Upload;
@@ -28,11 +29,13 @@ export default function CustomForm(props) {
         recommend,
         preview,
         clearQuest,
-        showEditModal
+        showEditModal,
+        changeConnect
     } = props;
     const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
     const { ipfsPath} = constans();
+    const { isConnected } = useAccount();
     let [fields, setFields] = useState([]);
     
     const checkPreview = async() => {
@@ -158,6 +161,13 @@ export default function CustomForm(props) {
             >
                 <Dragger
                     {...UploadProps} 
+                    beforeUpload={(file) => {
+                        if (!isConnected) {
+                            changeConnect()
+                            return false || Upload.LIST_IGNORE
+                        }
+                        UploadProps.beforeUpload(file)
+                    }}
                     listType="picture-card"
                 >
                     <p className="ant-upload-drag-icon" style={{ color: "#a0aec0" }}>

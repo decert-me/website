@@ -1,4 +1,4 @@
-import { ipfsJson } from "@/request/api/public";
+import { challengeJson, nftJson } from "@/request/api/public";
 import { generateUUID } from "./getUuid";
 import { constans } from "./constans";
 import axios from "axios";
@@ -38,7 +38,7 @@ export async function getMetadata({values, address, questions, answers, image}) 
         passingScore: values.score, 
         version: version 
     }
-    const questHash = await ipfsJson({body: obj});
+    const questHash = await challengeJson({body: obj});
     const uuid = generateUUID();
     const nft = {
         name: values.title,
@@ -54,7 +54,7 @@ export async function getMetadata({values, address, questions, answers, image}) 
         external_url: "https://decert.me",
         version: version
     }
-    const nftHash = await ipfsJson({body: nft});
+    const nftHash = await nftJson({body: nft});
     return nftHash
 }
 

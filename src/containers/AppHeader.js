@@ -9,7 +9,6 @@ import {
     CloseOutlined,
     GlobalOutlined
   } from '@ant-design/icons';
-import ModalConnect from '@/components/CustomModal/ModalConnect';
 import "@/assets/styles/container.scss"
 import "@/assets/styles/mobile/container.scss"
 import { hashAvatar } from '@/utils/HashAvatar';
@@ -17,6 +16,7 @@ import { NickName } from '@/utils/NickName';
 import { useWeb3Modal } from "@web3modal/react";
 import logo_white from "@/assets/images/svg/logo-white.png";
 import logo_normal from "@/assets/images/svg/logo-normal.png";
+import { changeConnect } from '@/utils/redux';
 
 export default function AppHeader({ isMobile }) {
     
@@ -25,7 +25,6 @@ export default function AppHeader({ isMobile }) {
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
     const location = useLocation();
-    let [isConnect, setIsConnect] = useState(false);
     let [isHome, setIsHome] = useState();
     let [isOpenM, setIsOpenM] = useState(false);
     const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
@@ -66,11 +65,7 @@ export default function AppHeader({ isMobile }) {
             open()
             return
         }
-        setIsConnect(true);
-    }
-
-    const hideModal = () => {
-        setIsConnect(false);
+        changeConnect();
     }
 
     const toggleI18n = () => {
@@ -167,7 +162,6 @@ export default function AppHeader({ isMobile }) {
                                     :
                                     <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
                                 }
-                                <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
                             </div>
                         
                     </div>
@@ -197,7 +191,6 @@ export default function AppHeader({ isMobile }) {
                             :
                             <div>
                                 <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
-                                <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
                             </div>
                         }
                     </div>

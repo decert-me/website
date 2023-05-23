@@ -133,15 +133,25 @@ export const submitClaimTweet = (data) => {
 
 export const ipfsImg = (data) => {
     return ipfsAxios({
-        url: `/image`,
+        url: `/uploadFile`,
         method: "post",
         data
     })
 }
 
-export const ipfsJson = (data) => {
+// 挑战json
+export const challengeJson = (data) => {
     return ipfsAxios({
-        url: `/json`,
+        url: `/uploadJson?type=challenge`,
+        method: "post",
+        data
+    })
+}
+
+// nftjson
+export const nftJson = (data) => {
+    return ipfsAxios({
+        url: `/uploadJson?type=nft`,
         method: "post",
         data
     })
