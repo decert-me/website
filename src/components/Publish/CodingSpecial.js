@@ -35,12 +35,8 @@ const frameLang = [
 
 export default function CodingSpecial(props) {
     
-    const { onChange, deleteCase, defaultValue } = props;
+    const { onChange, deleteCase, defaultValue, checkCode } = props;
     const editorRef = useRef(null);
-
-    useEffect(() => {
-        console.log(defaultValue);
-    },[])
 
     return (
         <div className="coding-special">
@@ -52,33 +48,40 @@ export default function CodingSpecial(props) {
                     代码编辑器
                 </div>
                 <Select
-                        style={{
-                            width: "200px",
-                            marginTop: "10px"
-                        }}
-                        placeholder="框架"
-                        onChange={(frame => {
-                            // 切换编辑器语种
-                            editorRef.current
-                            .changeLang(frameLang.find(e => e.frame === frame)?.language)
-                            // 返回值
-                            onChange(frame, "frame")
-                        })}
-                        options={frame}
-                        defaultValue={defaultValue.spj_code.frame}
+                    style={{
+                        width: "200px",
+                        marginTop: "10px"
+                    }}
+                    placeholder="框架"
+                    onChange={(frame => {
+                        // 切换编辑器语种
+                        console.log(frame);
+                        editorRef.current
+                        .changeLang(frameLang.find(e => e.frame === frame)?.language)
+                        // 返回值
+                        onChange(frame, "frame")
+                    })}
+                    options={frame}
+                    defaultValue={defaultValue.spj_code.frame}
                 />
                 <MonacoEditor
                     value={defaultValue.spj_code.code}
                     onChange={(newValue) => {
                         onChange(newValue, "code")
                     }}
-                    // language={lang}
-                    // language="javascript"
                     ref={editorRef}
+                    language={defaultValue ? frameLang.find(e => e.frame === defaultValue.spj_code.frame)?.language : ""}
                 />
             </div>
             <div>
-                <Button className="test-btn"><CaretRightOutlined />执行测试用例</Button>
+                <Button 
+                    className="test-btn"
+                    onClick={() => {
+                        checkCode()
+                    }}
+                >
+                    <CaretRightOutlined />执行测试用例
+                </Button>
                 
             </div>
         </div>
