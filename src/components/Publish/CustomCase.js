@@ -75,6 +75,7 @@ import CodingSpecial from "./CodingSpecial";
 
 function CustomCase(props, ref) {
 
+    const { checkCode } = props;
     let [caseArr, setCaseArr] = useState([]);
 
     useImperativeHandle(ref, () => ({
@@ -111,6 +112,7 @@ function CustomCase(props, ref) {
         }
         setCaseArr([...caseArr]);
         console.log(caseArr);
+        // TODO: 节流
     }
     
     const items = [
@@ -148,6 +150,11 @@ function CustomCase(props, ref) {
                             } 
                             defaultValue={e}
                             deleteCase={() => deleteCase(i)}
+                            checkCode={() => {
+                                checkCode({
+                                    spj_code: [e.spj_code]
+                                })
+                            }}
                         /> 
                         :
                         // 普通题
@@ -158,6 +165,13 @@ function CustomCase(props, ref) {
                             } 
                             defaultValue={e}
                             deleteCase={() => deleteCase(i)}
+                            checkCode={() => {
+                                checkCode({
+                                    input: [],
+                                    example_input: [e.input],
+                                    example_output: [e.output]
+                                })
+                            }}
                         />
                 )
             }

@@ -3,7 +3,6 @@ import { Encryption } from "@/utils/Encryption";
 import { Modal, Input, Space, Button, Form, Checkbox, Radio, InputNumber, message } from "antd";
 import { useTranslation } from "react-i18next";
 import { CustomEditor } from "@/components/CustomItem";
-import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import MonacoEditor from "@/components/MonacoEditor";
 import "@/assets/styles/component-style/modal-coding.scss"
 import { codeTest } from "@/request/api/quests";
@@ -45,7 +44,78 @@ export default function ModalAddCodeQuestion(props) {
           .filter(obj => obj.hasOwnProperty(key))
           .map(obj => obj[key]);
     }
-      
+
+
+    function checkCode(code) {
+        const obj = languages.filter(e => e.checked)[0];
+        let codeObj = {
+            code: "", //写入的代码
+            example_code: obj.correctAnswer, //代码示例
+            code_snippet: obj.code, //代码片段
+            lang: obj.value,
+            ...code
+        }
+        console.log(codeObj);
+        // console.log(formData, languages);
+        // new Promise((resolve, reject) => {
+            
+        // })
+        // 用例检测
+        // let flag = false;
+        // if (type === "coding") {
+        //     // 普通代码题
+        //     flag = !cases || cases.some(e => !e || Object.keys(e).length !== 2);
+        // }
+        // if (type === "special_judge_coding") {
+        //     // 特殊代码题
+        //     flag = !spj_code;
+        // }
+        // if (flag) {
+        //     console.log("请将用例补充完整!");
+        //     return
+        // }
+        // const inputArr = cases && cases.map(e => e.input);
+        // const outputArr = cases && cases.map(e => e.output);
+
+        // let obj = {
+        //     code: "", //写入的代码
+        //     example_code: e.correctAnswer, //代码示例
+        //     code_snippet: e.code, //代码片段
+        //     lang: e.value
+        // }
+        // if (type === "special_judge_coding") {
+        //     // 特殊编程题
+        //     obj.spj_code = spj_code
+        // }else{
+        //     // 普通编程题
+        //     obj = {
+        //         ...obj,
+        //         input: "",
+        //         example_input: inputArr,
+        //         example_output: outputArr
+        //     }
+        // }
+        codeTest(codeObj)
+        .then(res => {
+            if (res?.data?.correct) {
+                message.success("成功")
+            }else if (res?.data) {
+                switch (res.data.status) {
+                    case 1:
+                        message.error("编译失败")
+                        break;
+                    case 2:
+                        message.error("运行失败")
+                        break;
+                    case 3:
+                        message.error("测试用例未通过")
+                        break;
+                    default:
+                        break;
+                }
+            }
+        })
+    }
 
     const onFinish = (values) => {
         const rest = values;
@@ -253,77 +323,10 @@ export default function ModalAddCodeQuestion(props) {
                 </Form.Item>
 
                 {/* 测试用例 */}
-                {/* <Form.Item 
-                        label="测试用例"
-                    >
-                        <Form.List 
-                            name="case"
-                        >
-                            {(fields, { add, remove }) => (
-                                <>
-                                {fields.map(({ key, name, ...restField }) => (
-                                    <Space
-                                        key={key}
-                                        style={{
-                                            display: 'flex',
-                                            marginBottom: 8,
-                                        }}
-                                        align="baseline"
-                                    >
-                                        <Form.Item
-                                            {...restField}
-                                            name={[name, 'input']}
-                                            rules={[
-                                            {
-                                                required: true,
-                                                message: '请输入`输入用例`',
-                                            },
-                                            ]}
-                                        >
-                                            <Input placeholder="输入用例" />
-                                        </Form.Item>
-                                        <Form.Item
-                                            {...restField}
-                                            name={[name, 'output']}
-                                            rules={[
-                                            {
-                                                required: true,
-                                                message: '请输入`输出用例`',
-                                            },
-                                            ]}
-                                        >
-                                            <Input placeholder="输出用例" />
-                                        </Form.Item>
-                                        <MinusCircleOutlined onClick={() => remove(name)} />
-                                    </Space>
-                                ))}
-                                <Form.Item>
-                                    <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
-                                        添加用例
-                                    </Button>
-                                </Form.Item>
-                                </>
-                            )}
-                        </Form.List>
-                </Form.Item> */}
-
-                {/* 特殊题测试用例 */}
-                {/* <Form.Item
-                        label="特殊题测试用例"
-                        name="spj_code"
-                    >
-                        <div className="code-snippets">
-                            <MonacoEditor
-                                value={selectQs?.spj_code}
-                                onChange={(e) => form.setFieldValue("spj_code",e)}
-                                language={"Solidity"}
-                            />
-                        </div>
-                </Form.Item> */}
                 <Form.Item
                     label="测试用例"
                 >
-                    <CustomCase ref={caseRef} />
+                    <CustomCase ref={caseRef} checkCode={checkCode} />
                 </Form.Item>
 
                 {/* 分数 */}
