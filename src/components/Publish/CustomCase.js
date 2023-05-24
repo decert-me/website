@@ -26,7 +26,7 @@ export default function CustomCase(params) {
     
     function deleteCase(index) {
         caseArr.splice(index,1);
-        setCaseArr(caseArr)
+        setCaseArr([...caseArr])
     }
 
     function changeValue(value, type, index) {
