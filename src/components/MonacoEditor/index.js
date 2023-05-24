@@ -1,20 +1,25 @@
 import { loader } from "@monaco-editor/react";
-import { useEffect, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useState } from "react";
 import { LoadingOutlined } from '@ant-design/icons';
 import MonacoComponent from "./MonacoComponent";
 
 
 
-export default function MonacoEditor(props) {
+function MonacoEditor(props, ref) {
     
     const {value, onChange, language} = props;
     const { config, init } = loader;
     let [editorIsOk, setEditorIsOk] = useState();
     let [newLang, setNewLang] = useState();
 
+    useImperativeHandle(ref, () => ({
+        changeLang
+    }))
+
     function changeLang(params) {
         newLang = params;
         setNewLang(newLang);
+        console.log(newLang);
     }
 
     async function languaegInit(params) {
@@ -59,3 +64,4 @@ export default function MonacoEditor(props) {
         </div>
     )
 }
+export default forwardRef(MonacoEditor)
