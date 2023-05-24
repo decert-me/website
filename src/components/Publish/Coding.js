@@ -7,7 +7,7 @@ import CustomIcon from "../CustomIcon";
 
 export default function Coding(props) {
 
-    const { onChange, deleteCase } = props;
+    const { onChange, deleteCase, defaultValue } = props;
 
     return (
         <div className="coding">
@@ -17,11 +17,11 @@ export default function Coding(props) {
             <div className="form">
                 <div className="box">
                     <p className="box-label">输入</p>
-                    <Input onChange={(e) => onChange(e.target.value, "input")} />
+                    <Input onChange={(e) => onChange(e.target.value, "input")} defaultValue={defaultValue.input} />
                 </div>
                 <div className="box">
                     <p className="box-label">输入</p>
-                    <Input onChange={(e) => onChange(e.target.value, "output")} />
+                    <Input onChange={(e) => onChange(e.target.value, "output")} defaultValue={defaultValue.output} />
                 </div>
                 <Button className="test-btn"><CaretRightOutlined />执行测试用例</Button>
             </div>

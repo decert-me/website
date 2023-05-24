@@ -70,8 +70,6 @@ export default function ModalAddCodeQuestion(props) {
             output: outputArr, 
             spj_code: spj_code
         };
-        console.log(obj);
-        return
         // 返回
         if (selectQs) {
             // 修改
@@ -97,27 +95,33 @@ export default function ModalAddCodeQuestion(props) {
             code_snippets: code_snippets, 
             input: input, 
             output: output,
+            spj_code: spj_code,
             ...common 
         } = selectQs;
-        const cases = input && code_snippets.map((e,i) => {
-            let arr = [];
-            input.map((ele,index) => {
-                arr.push({
-                    input: input[index],
-                    output: output[index]
-                })
-            })
-            return arr
+
+        // 用例初始化
+        const coding = input.map((ele,index) => {
+            return {
+                input: input[index],
+                output: output[index]
+            }
         })
-        const obj = {
-            ...common,
-            case: cases
-        }
+        const spj = spj_code.map(e => {
+            return {
+                spj_code: {
+                    frame: e.frame,
+                    code: e.code
+                }
+            }
+        })
+        caseRef.current.setCaseArr([...coding, ...spj])
+
+        //  表单初始化
         const arr = [];
-        Object.keys(obj).map((e) => {
+        Object.keys(common).map((e) => {
             arr.push({
                 name: e,
-                value: e === "case" && obj[e] ? obj[e][0] : obj[e]
+                value: common[e]
             })
         })
         form.setFields(arr);

@@ -78,7 +78,8 @@ function CustomCase(props, ref) {
     let [caseArr, setCaseArr] = useState([]);
 
     useImperativeHandle(ref, () => ({
-        caseArr
+        caseArr,
+        setCaseArr
     }))
 
     function addCase(isSpecial) {
@@ -145,6 +146,7 @@ function CustomCase(props, ref) {
                             onChange={
                                 (e, key) => changeValue(e, "spj_code", i, key)
                             } 
+                            defaultValue={e}
                             deleteCase={() => deleteCase(i)}
                         /> 
                         :
@@ -154,6 +156,7 @@ function CustomCase(props, ref) {
                             onChange={
                                 (e, type) => changeValue(e, type, i)
                             } 
+                            defaultValue={e}
                             deleteCase={() => deleteCase(i)}
                         />
                 )

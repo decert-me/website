@@ -4,7 +4,7 @@ import {
 } from '@ant-design/icons';
 import MonacoEditor from "../MonacoEditor";
 import CustomIcon from "../CustomIcon";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 
 const frame = [
     {
@@ -16,8 +16,7 @@ const frame = [
         },
         {
           label: 'Hardhat',
-          value: 'Hardhat',
-          language: "javascript"
+          value: 'Hardhat'
         },
       ],
     }
@@ -36,8 +35,12 @@ const frameLang = [
 
 export default function CodingSpecial(props) {
     
-    const { onChange, deleteCase } = props;
+    const { onChange, deleteCase, defaultValue } = props;
     const editorRef = useRef(null);
+
+    useEffect(() => {
+        console.log(defaultValue);
+    },[])
 
     return (
         <div className="coding-special">
@@ -62,9 +65,10 @@ export default function CodingSpecial(props) {
                             onChange(frame, "frame")
                         })}
                         options={frame}
+                        defaultValue={defaultValue.spj_code.frame}
                 />
                 <MonacoEditor
-                    value={""}
+                    value={defaultValue.spj_code.code}
                     onChange={(newValue) => {
                         onChange(newValue, "code")
                     }}
