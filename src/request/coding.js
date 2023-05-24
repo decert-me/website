@@ -2,7 +2,7 @@ import axios from "axios";
 
 // Client-side-only code
 let codingAxios = axios.create({
-  baseURL: "http://192.168.1.15:8888/v1/",
+  baseURL: process.env.REACT_APP_CODE_BASE_URL,
   timeout: process.env.REACT_APP_IPFS_TIMEOUT // 请求超时设置
   //   withCredentials: false, // 跨域请求是否需要携带 cookie
 });
