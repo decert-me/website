@@ -2,14 +2,84 @@ import { Button, Dropdown } from "antd";
 import {
     PlusOutlined
 } from '@ant-design/icons';
-import { useState } from "react";
+import { forwardRef, useImperativeHandle, useState } from "react";
 import Coding from "./Coding";
 import CodingSpecial from "./CodingSpecial";
 
 
-export default function CustomCase(params) {
+/**
+ * 
+ *     function checkCode(e) {
+        setIsLoading(true);
+        const { case: cases, spj_code: spj_code, type: type, ...rest } = form.getFieldValue();
+        // 用例检测
+        let flag = false;
+        if (type === "coding") {
+            // 普通代码题
+            flag = !cases || cases.some(e => !e || Object.keys(e).length !== 2);
+        }
+        if (type === "special_judge_coding") {
+            // 特殊代码题
+            flag = !spj_code;
+        }
+        if (flag) {
+            console.log("请将用例补充完整!");
+            return
+        }
+        const inputArr = cases && cases.map(e => e.input);
+        const outputArr = cases && cases.map(e => e.output);
+
+        let obj = {
+            code: "", //写入的代码
+            example_code: e.correctAnswer, //代码示例
+            code_snippet: e.code, //代码片段
+            lang: e.value
+        }
+        if (type === "special_judge_coding") {
+            // 特殊编程题
+            obj.spj_code = spj_code
+        }else{
+            // 普通编程题
+            obj = {
+                ...obj,
+                input: "",
+                example_input: inputArr,
+                example_output: outputArr
+            }
+        }
+        codeTest(obj)
+        .then(res => {
+            if (res?.data?.correct) {
+                message.success("成功")
+            }else if (res?.data) {
+                switch (res.data.status) {
+                    case 1:
+                        message.error("编译失败")
+                        break;
+                    case 2:
+                        message.error("运行失败")
+                        break;
+                    case 3:
+                        message.error("测试用例未通过")
+                        break;
+                    default:
+                        break;
+                }
+            }
+            setIsLoading(false);
+        })
+    }
+ * 
+ * 
+ */
+
+function CustomCase(props, ref) {
 
     let [caseArr, setCaseArr] = useState([]);
+
+    useImperativeHandle(ref, () => ({
+        caseArr
+    }))
 
     function addCase(isSpecial) {
         isSpecial ?
@@ -111,3 +181,5 @@ export default function CustomCase(params) {
         </div>
     )
 }
+
+export default forwardRef(CustomCase)

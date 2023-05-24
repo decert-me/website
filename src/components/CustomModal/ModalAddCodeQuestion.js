@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
 import { Modal, Input, Space, Button, Form, Checkbox, Radio, InputNumber, message } from "antd";
 import { useTranslation } from "react-i18next";
@@ -16,6 +16,7 @@ export default function ModalAddCodeQuestion(props) {
     const { encode, decode } = Encryption();
     const [form] = Form.useForm();
     const key = process.env.REACT_APP_ANSWERS_KEY;
+    const caseRef = useRef(null);
     let [languages, setLanguages] = useState([
         {
             label: 'Solidity',
@@ -39,71 +40,20 @@ export default function ModalAddCodeQuestion(props) {
         setLanguages([...languages]);
     }
 
-    function checkCode(e) {
-        setIsLoading(true);
-        const { case: cases, spj_code: spj_code, type: type, ...rest } = form.getFieldValue();
-        // 用例检测
-        let flag = false;
-        if (type === "coding") {
-            // 普通代码题
-            flag = !cases || cases.some(e => !e || Object.keys(e).length !== 2);
-        }
-        if (type === "special_judge_coding") {
-            // 特殊代码题
-            flag = !spj_code;
-        }
-        if (flag) {
-            console.log("请将用例补充完整!");
-            return
-        }
-        const inputArr = cases && cases.map(e => e.input);
-        const outputArr = cases && cases.map(e => e.output);
-
-        let obj = {
-            code: "", //写入的代码
-            example_code: e.correctAnswer, //代码示例
-            code_snippet: e.code, //代码片段
-            lang: e.value
-        }
-        if (type === "special_judge_coding") {
-            // 特殊编程题
-            obj.spj_code = spj_code
-        }else{
-            // 普通编程题
-            obj = {
-                ...obj,
-                input: "",
-                example_input: inputArr,
-                example_output: outputArr
-            }
-        }
-        codeTest(obj)
-        .then(res => {
-            if (res?.data?.correct) {
-                message.success("成功")
-            }else if (res?.data) {
-                switch (res.data.status) {
-                    case 1:
-                        message.error("编译失败")
-                        break;
-                    case 2:
-                        message.error("运行失败")
-                        break;
-                    case 3:
-                        message.error("测试用例未通过")
-                        break;
-                    default:
-                        break;
-                }
-            }
-            setIsLoading(false);
-        })
+    function getValuesByKey(cases, key) {
+        return cases
+          .filter(obj => obj.hasOwnProperty(key))
+          .map(obj => obj[key]);
     }
+      
 
     const onFinish = (values) => {
-        const { case: cases, spj_code: spj_code, ...rest } = values;
-        const inputArr = cases && cases.map(e => e.input);
-        const outputArr = cases && cases.map(e => e.output);
+        const rest = values;
+        const cases = caseRef.current.caseArr;
+        const inputArr = getValuesByKey(cases, 'input');
+        const outputArr = getValuesByKey(cases, 'output');
+        const spj_code = getValuesByKey(cases, 'spj_code');
+
         const codeSnippetArr = languages
         .filter(e => e.checked)
         .map(e => ({
@@ -111,17 +61,17 @@ export default function ModalAddCodeQuestion(props) {
             code: e.code,
             correctAnswer: encode(key, JSON.stringify(e.correctAnswer))
         }));
-        const commonProps = {
+        const obj = {
             ...rest,
             languages: codeSnippetArr.map(c => c.lang),
-            code_snippets: codeSnippetArr
+            code_snippets: codeSnippetArr,
+            type: "coding",
+            input: inputArr, 
+            output: outputArr, 
+            spj_code: spj_code
         };
-
-        // 区分<编程题>和<特殊编程题>
-        const obj = rest.type === "coding"
-        ? {input: inputArr, output: outputArr, ...commonProps }
-        : {spj_code: spj_code, ...commonProps };
-
+        console.log(obj);
+        return
         // 返回
         if (selectQs) {
             // 修改
@@ -271,9 +221,6 @@ export default function ModalAddCodeQuestion(props) {
                                 {
                                     e.checked &&
                                     <div className="border-b">
-                                        {/* <div style={{display: "flex", justifyContent: "flex-end"}}>
-                                            <Button loading={isLoading} onClick={() => checkCode(e)}>校验</Button>
-                                        </div> */}
                                         <div className="code-snippets">
                                             <div className="label">代码模板<span>由挑战者去补充完整</span></div>
                                             <MonacoEditor
@@ -372,7 +319,7 @@ export default function ModalAddCodeQuestion(props) {
                 <Form.Item
                     label="测试用例"
                 >
-                    <CustomCase />
+                    <CustomCase ref={caseRef} />
                 </Form.Item>
 
                 {/* 分数 */}
