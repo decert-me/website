@@ -23,6 +23,11 @@ export default function CustomCase(params) {
         })
         setCaseArr([...caseArr]);
     }
+    
+    function deleteCase(index) {
+        caseArr.splice(index,1);
+        setCaseArr(caseArr)
+    }
 
     function changeValue(value, type, index) {
         caseArr[index][type] = value;
@@ -58,10 +63,22 @@ export default function CustomCase(params) {
                 caseArr.map((e,i) => 
                     "spj_code" in e ?
                         // 特殊题
-                        <CodingSpecial key={i} onChange={(e) => changeValue(e, "spj_code", i)} /> 
+                        <CodingSpecial
+                            key={i} 
+                            onChange={
+                                (e) => changeValue(e, "spj_code", i)
+                            } 
+                            deleteCase={() => deleteCase(i)}
+                        /> 
                         :
                         // 普通题
-                        <Coding key={i}  onChange={(e, type) => changeValue(e, type, i)} />
+                        <Coding 
+                            key={i}  
+                            onChange={
+                                (e, type) => changeValue(e, type, i)
+                            } 
+                            deleteCase={() => deleteCase(i)}
+                        />
                 )
             }
             <Dropdown
