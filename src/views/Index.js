@@ -1,4 +1,4 @@
-import { Button, message } from "antd";
+import { Button, message, Avatar } from "antd";
 import {
     TwitterOutlined
 } from '@ant-design/icons';
@@ -102,23 +102,27 @@ export default function Index(params) {
                         {/* 合作伙伴 */}
                         <div className="partner">
                             <p>合作伙伴</p>
-                            <div className="partner-item">
-                                
-                            </div>
-                            <div className="partner-item">
-                                
-                            </div>
-                            <div className="partner-item">
-                                
-                            </div>
-                            <div className="partner-item">
-                                
-                            </div>
+                            <ul>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                                <li></li>
+                            </ul>
                         </div>
 
                         {/* 贡献者 */}
                         <div className="contributor">
-
+                            <p>贡献者</p>
+                            <Avatar.Group>
+                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                            </Avatar.Group>
                         </div>
                 </div>
             </div>

@@ -181,7 +181,49 @@
       .partner{
         width: 100%;
         height: 750px;
+        padding-top: 165px;
         background-color: rgba($color: #C19E6D, $alpha: 0.1);
+        p{
+          margin-bottom: 92px;
+          font-size: 50px;
+          line-height: 59px;
+          text-align: center;
+        }
+        ul{
+          width: calc((200px * 4) + (48px * 4));
+          margin: 0 auto;
+          display: flex;
+          justify-content: space-between;
+        }
+        li{
+          width: 200px;
+          height: 200px;
+          border-radius: 14px;
+          background-color: #C19E6D;
+        }
+      }
+
+      // 贡献者
+      .contributor{
+        width: 100%;
+        height: 723px;
+        padding-top: 145px;
+        text-align: center;
+        font-size: 50px;
+        line-height: 59px;
+
+        .ant-avatar-group{
+          margin-top: 88px;
+        }
+        .ant-avatar{
+          width: 150px;
+          height: 150px;
+          border-width: 6px;
+          border-color: #8F5A35;
+        }
+        .css-dev-only-do-not-override-ixblex.ant-avatar-group >*:not(:first-child){
+          margin-left: -33px;
+        }
       }
     }
   }
