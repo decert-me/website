@@ -14,7 +14,10 @@ export default function CustomCase(params) {
     function addCase(isSpecial) {
         isSpecial ?
         caseArr.push({
-            spj_code: ""
+            spj_code: {
+                frame: "",
+                code: ""
+            }
         })
         :
         caseArr.push({
@@ -29,8 +32,12 @@ export default function CustomCase(params) {
         setCaseArr([...caseArr])
     }
 
-    function changeValue(value, type, index) {
-        caseArr[index][type] = value;
+    function changeValue(value, type, index, key) {
+        if (key) {
+            caseArr[index][type][key] = value;
+        }else{
+            caseArr[index][type] = value;
+        }
         setCaseArr([...caseArr]);
         console.log(caseArr);
     }
@@ -66,7 +73,7 @@ export default function CustomCase(params) {
                         <CodingSpecial
                             key={i} 
                             onChange={
-                                (e) => changeValue(e, "spj_code", i)
+                                (e, key) => changeValue(e, "spj_code", i, key)
                             } 
                             deleteCase={() => deleteCase(i)}
                         /> 
