@@ -1,52 +1,173 @@
 .Mobile{
-.main {
+  .main {
     .main-center {
-        padding-top: 16.25rem;
-        min-height: 100vh;
-        .weight-info {
+      min-height: 100ch;
+      padding-top: 12.8125rem;
+      // describe
+      .describe {
+        font-size: 3.875rem;
+        line-height: 4.5625rem;
+        letter-spacing: .0625rem;
+        -webkit-text-stroke: .125rem #8B522A;
+      }
+      h1{
+        margin-bottom: 1.25rem;
+      }
+
+      // text
+      .text {
+        font-size: .8125rem;
+        line-height: 1rem;
+        letter-spacing: normal;
+      }
+      
+      .social{
+        width: 9.0625rem;
+        height: 3.125rem;
+        margin: 3.625rem auto 0;
+        .social-item{
+          width: 3.125rem;
+          height: 3.125rem;
+          border-radius: .625rem;
+          font-size: 1.625rem;
+        }
+      }
+
+      .listImg{
+        width: 19.875rem;
+        height: 10.1875rem;
+        margin-top: 3.625rem;
+      }
+
+      .vision{
+        height: 13.625rem;
+        margin-top: -1.875rem;
+        padding-top: 4.25rem;
+        h3{
+          margin-bottom: 1.25rem;
+          font-size: 2.0625rem;
+          line-height: 2.4375rem;
+        }
+        p{
+          font-size: .8125rem;
+          line-height: 1.25rem;
+        }
+        span{
+          padding: 0 .125rem;
+          font-size: .9375rem;
+          border-radius: .3125rem;
+        }
+      }
+
+      .intro{
+        padding-bottom: 4.875rem;
+        .intro-content{
           width: 100%;
           height: auto;
-          h3 {
-            font-size: 3.75rem;
-            font-weight: 900;
+          padding: 0 1.5rem;
+          h2{
+            font-size: 1.875rem;
+            line-height: 2.1875rem;
           }
         }
-        // describe
-        .describe {
-          width: auto;
-          height: 1.5625rem;
-          margin-top: 0rem;
-          p {
-            font-size: 1.0625rem;
+        .ai{
+          min-height: calc(38.5rem + 3.0625rem);
+          margin-bottom: 0;
+          padding-top: 4.25rem;
+          flex-direction: column-reverse;          
+          .content-r{
+            width: 15.4375rem;
+            height: 12.8125rem;
+            margin-left: 5rem;
+            margin-top: 0;
           }
-        }
-        // text
-        .text {
-          width: auto;
-          height: 1.0625rem;
-          margin-bottom: 1.875rem;
-          p {
-            font-size: .75rem;
+          h2{
+            margin-bottom: 2.1875rem;
           }
-        }
-    
-        // challenge-btn
-        .mar {
-          width: auto;
-          height: 7.5rem;
-          flex-direction: column;
-          align-items: center;
-          button{
-            width: 10.875rem;
-            height: 3.125rem;
-            border-radius: 1.5625rem;
-            font-size: .875rem;
-            &:nth-child(1){
-              margin-right: 0rem;
-              margin-bottom: 1.25rem;
+          h3{
+            margin-bottom: .5625rem;
+            font-size: .8125rem;
+            line-height: .9375rem;
+          }
+          p{
+            max-width: 100%;
+            font-size: .6875rem;
+            line-height: .8125rem;
+          }
+          li{
+            margin-bottom: 1.8125rem;
+            &:last-child{
+              margin: 0;
             }
           }
         }
+        .sbt{
+          margin-top: 5.0625rem;
+          padding-top: 0;
+          flex-direction: column;
+          .content-l{
+            width: 14rem;
+            height: 14rem;
+            margin-left: 1.125rem;
+          }
+          .content-r{
+            padding-top: 3rem;
+          }
+          h2{
+            width: 100%;
+          }
+          ul{
+            margin-top: 2.1875rem;
+          }
+          li{
+            font-size: .8125rem;
+            line-height: 2.0625rem;
+          }
+        }
+        .linear-bg{
+          display: none;
+        }
       }
-}
+
+      // 合作伙伴
+      .partner{
+        height: 13.375rem;
+        padding-top: 2.375rem;
+        p{
+          margin-bottom: 2rem;
+          font-size: 1.25rem;
+          line-height: 1.4375rem;
+        }
+        ul{
+          width: calc((4.625rem * 4) + (1.125rem * 3));
+        }
+        li{
+          width: 4.625rem;
+          height: 4.625rem;
+          border-radius: .3125rem;
+        }
+      }
+
+      // 贡献者
+      .contributor{
+        height: 15.8125rem;
+        padding-top: 3.25rem;
+        font-size: 1rem;
+        line-height: 1.1875rem;
+
+        .ant-avatar-group{
+          margin-top: 1.625rem;
+        }
+        .ant-avatar{
+          width: 3rem;
+          height: 3rem;
+          border-width: .125rem;
+        }
+        .css-dev-only-do-not-override-ixblex.ant-avatar-group >*:not(:first-child){
+          margin-left: -0.625rem;
+        }
+      }
+    }
+  }
+  
 }
