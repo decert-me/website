@@ -1,4 +1,4 @@
-import { Button, message, Avatar, Tooltip } from "antd";
+import { message, Avatar } from "antd";
 import {
     TwitterOutlined
 } from '@ant-design/icons';
@@ -28,7 +28,6 @@ export default function Index(params) {
 
     async function getContributor(params) {
         const res = await axios.get("https://raw.githubusercontent.com/decert-me/website/main/contributor");
-        console.log(res);
         contributor = res.data
             .split("\n")
             .filter(e => e !== "")
@@ -140,9 +139,7 @@ export default function Index(params) {
                                     {
                                         contributor.map((e,i) => 
                                             <a href={e.link} target="_blank" key={i}>
-                                                <Tooltip title={e.name} placement="top">
-                                                    <Avatar src={e.avatar} />
-                                                </Tooltip>
+                                                <Avatar src={e.avatar} />
                                             </a>
                                         )
                                     }
@@ -152,11 +149,9 @@ export default function Index(params) {
                                     {
                                         contributor.map((e,i) => 
                                             <a href={e.link} target="_blank" key={i}>
-                                                <Tooltip title={e.name} placement="top">
-                                                    <div className="contributor-item img">
-                                                        <img src={e.avatar} alt="" />
-                                                    </div>
-                                                </Tooltip>
+                                                <div className="contributor-item img">
+                                                    <img src={e.avatar} alt="" />
+                                                </div>
                                             </a>
                                         )
                                     }
