@@ -42,8 +42,8 @@ export default function Index(params) {
                         </div>
 
                         {/* list */}
-                        <div className="listImg">
-
+                        <div className="listImg img">
+                            <img src={require("@/assets/images/img/home-img1.png")} alt="" />
                         </div>
 
                         {/* 愿景 */}
@@ -79,14 +79,16 @@ export default function Index(params) {
                                         </li>
                                     </ul>
                                 </div>
-                                <div className="content-r">
-                                    
+                                <div className="content-r img">
+                                    <img src={require("@/assets/images/img/home-img2.png")} alt="" />
                                 </div>
                             </div>
 
                             {/* sbt */}
                             <div className="sbt intro-content">
-                                <div className="content-l"></div>
+                                <div className="content-l img">
+                                    <img src={require("@/assets/images/img/home-img3.png")} alt="" />
+                                </div>
                                 <div className="content-r">
                                     <h2>SBT - 学习成果证明</h2>
                                     <h2>Proof of Learn</h2>
