@@ -221,17 +221,6 @@ export default forwardRef (function CustomCode(props, ref) {
                         <div className="menu-lang">
                             {/* 多语种下拉框 */}
                         </div>
-                        {
-                            isPreview &&
-                            <div className="menu-preview">
-                                {/* 预览模式下 ==> 代码片段 : 示例代码 */}
-                                <Segmented 
-                                    options={previewTabs.map(e => e.label)} 
-                                    defaultValue={"代码片段"}
-                                    onChange={(e) => togglePreviewCode(e)}
-                                />
-                            </div>
-                        }
                     </div>
                     <MonacoEditor
                         value={editorCode}
