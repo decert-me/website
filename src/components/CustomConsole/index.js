@@ -39,7 +39,7 @@ function CustomConsole(props, ref) {
     }
 
     useEffect(() => {
-        const flag = question.type === "special_judge_coding" ? true : false;
+        const flag = !question.input ? true : false;
         setHideCase(flag)
         flag && setSelectTab(tabs[1].key)
     },[])
