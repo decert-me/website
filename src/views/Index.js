@@ -7,26 +7,16 @@ import "@/assets/styles/view-style/index.scss"
 import "@/assets/styles/mobile/view-style/index.scss"
 import { useTranslation } from "react-i18next";
 import MyContext from "@/provider/context";
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
+import axios from "axios";
 import CustomIcon from "@/components/CustomIcon";
-
-
-const contributor = [
-    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
-    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
-    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
-    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
-    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
-    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
-    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
-    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
-]
 
 export default function Index(params) {
     
     const navigateTo = useNavigate();
     const { t } = useTranslation();
     const { isMobile } = useContext(MyContext);
+    let [contributor, setContributor] = useState([]);
 
     function goCreate(params) {
         if (isMobile) {
@@ -35,6 +25,23 @@ export default function Index(params) {
         }
         navigateTo("/publish");
     }
+
+    async function getContributor(params) {
+        const res = await axios.get("https://raw.githubusercontent.com/decert-me/website/main/contributor");
+        console.log(res);
+        contributor = res.data
+            .split("\n")
+            .filter(e => e !== "")
+            .map(line => {
+                const [name, avatar, twitter] = line.split(",");
+                return { name, avatar, twitter }
+            })
+        setContributor([...contributor])
+    }
+
+    useEffect(() => {
+        getContributor();
+    },[])
 
     return (
         <div className="Home ">
@@ -144,7 +151,7 @@ export default function Index(params) {
                                     {
                                         contributor.map((e,i) => 
                                             <div className="contributor-item img" key={i}>
-                                                <img src={e} alt="" />
+                                                <img src={e.avatar} alt="" />
                                             </div>
                                         )
                                     }
