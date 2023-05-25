@@ -36,7 +36,7 @@ export default function Coding(props) {
                         <Input onChange={(e) => onChange(e.target.value, "input")} defaultValue={defaultValue.input} />
                     </div>
                     <div className="box">
-                        <p className="box-label">输入</p>
+                        <p className="box-label">输出</p>
                         <Input onChange={(e) => onChange(e.target.value, "output")} defaultValue={defaultValue.output} />
                     </div>
                     <Button 
