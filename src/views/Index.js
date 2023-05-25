@@ -123,10 +123,18 @@ export default function Index(params) {
                         <div className="partner">
                             <p>合作伙伴</p>
                             <ul>
-                                <li></li>
-                                <li></li>
-                                <li></li>
-                                <li></li>
+                                <li className="img">
+                                    <img src={require("@/assets/images/img/home-partner1.png")} alt="" />
+                                </li>
+                                <li className="img">
+                                    <img src={require("@/assets/images/img/home-partner2.png")} alt="" />
+                                </li>
+                                <li className="img">
+                                    <img src={require("@/assets/images/img/home-partner3.png")} alt="" />
+                                </li>
+                                <li className="img">
+                                    <img src={require("@/assets/images/img/home-partner4.png")} alt="" />
+                                </li>
                             </ul>
                         </div>
 
