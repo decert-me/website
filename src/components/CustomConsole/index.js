@@ -39,7 +39,7 @@ function CustomConsole(props, ref) {
     }
 
     useEffect(() => {
-        const flag = !question.input ? true : false;
+        const flag = !question.input || question.input.length === 0 ? true : false;
         setHideCase(flag)
         flag && setSelectTab(tabs[1].key)
     },[])
