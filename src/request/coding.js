@@ -3,7 +3,7 @@ import axios from "axios";
 // Client-side-only code
 let codingAxios = axios.create({
   baseURL: process.env.REACT_APP_CODE_BASE_URL,
-  timeout: process.env.REACT_APP_IPFS_TIMEOUT // 请求超时设置
+  timeout: process.env.REACT_APP_IPFS_TIMEOUT + 60000 // 请求超时设置
   //   withCredentials: false, // 跨域请求是否需要携带 cookie
 });
 // 创建请求拦截
