@@ -1,4 +1,4 @@
-import { Button, message, Avatar } from "antd";
+import { Button, message, Avatar, Tooltip } from "antd";
 import {
     TwitterOutlined
 } from '@ant-design/icons';
@@ -33,8 +33,8 @@ export default function Index(params) {
             .split("\n")
             .filter(e => e !== "")
             .map(line => {
-                const [name, avatar, twitter] = line.split(",");
-                return { name, avatar, twitter }
+                const [name, avatar, link] = line.split(",");
+                return { name, avatar, link }
             })
         setContributor([...contributor])
     }
@@ -137,22 +137,27 @@ export default function Index(params) {
                             {
                                 isMobile ? 
                                 <Avatar.Group>
-                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                    {
+                                        contributor.map((e,i) => 
+                                            <a href={e.link} target="_blank" key={i}>
+                                                <Tooltip title={e.name} placement="top">
+                                                    <Avatar src={e.avatar} />
+                                                </Tooltip>
+                                            </a>
+                                        )
+                                    }
                                 </Avatar.Group>
                                 :
                                 <div className="contributor-content">
                                     {
                                         contributor.map((e,i) => 
-                                            <div className="contributor-item img" key={i}>
-                                                <img src={e.avatar} alt="" />
-                                            </div>
+                                            <a href={e.link} target="_blank" key={i}>
+                                                <Tooltip title={e.name} placement="top">
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                </Tooltip>
+                                            </a>
                                         )
                                     }
                                 </div>
