@@ -72,7 +72,6 @@ export default function CodingSpecial(props) {
                             placeholder="框架"
                             onChange={(frame => {
                                 // 切换编辑器语种
-                                console.log(frame);
                                 editorRef.current
                                 .changeLang(frameLang.find(e => e.frame === frame)?.language)
                                 // 返回值
@@ -93,6 +92,7 @@ export default function CodingSpecial(props) {
                 <Button 
                     className="test-btn"
                     onClick={Test}
+                    disabled={!defaultValue.spj_code.frame}
                     loading={loading}
                 >
                     <CaretRightOutlined />执行测试用例
