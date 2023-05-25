@@ -10,6 +10,18 @@ import MyContext from "@/provider/context";
 import { useContext } from "react";
 import CustomIcon from "@/components/CustomIcon";
 
+
+const contributor = [
+    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
+    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
+    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
+    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
+    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
+    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
+    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1",
+    "https://xsgames.co/randomusers/avatar.php?g=pixel&key=1"
+]
+
 export default function Index(params) {
     
     const navigateTo = useNavigate();
@@ -115,16 +127,29 @@ export default function Index(params) {
                         {/* 贡献者 */}
                         <div className="contributor">
                             <p>贡献者</p>
-                            <Avatar.Group>
-                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                                <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
-                            </Avatar.Group>
+                            {
+                                isMobile ? 
+                                <Avatar.Group>
+                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                    <Avatar src="https://xsgames.co/randomusers/avatar.php?g=pixel&key=1" />
+                                </Avatar.Group>
+                                :
+                                <div className="contributor-content">
+                                    {
+                                        contributor.map((e,i) => 
+                                            <div className="contributor-item img" key={i}>
+                                                <img src={e} alt="" />
+                                            </div>
+                                        )
+                                    }
+                                </div>
+                            }
                         </div>
                 </div>
             </div>

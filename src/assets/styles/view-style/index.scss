@@ -209,18 +209,19 @@
         text-align: center;
         font-size: 50px;
         line-height: 59px;
-
-        .ant-avatar-group{
-          margin-top: 88px;
-        }
-        .ant-avatar{
-          width: 150px;
-          height: 150px;
-          border-width: 6px;
-          border-color: #8F5A35;
-        }
-        .css-dev-only-do-not-override-ixblex.ant-avatar-group >*:not(:first-child){
-          margin-left: -33px;
+        .contributor-content{
+          max-width: 885px;
+          margin: 88px auto 0;
+          display: flex;
+          flex-wrap: wrap;
+          gap: 55px 95px;
+          .contributor-item{
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 6px solid #8F5A35;
+            overflow: hidden;
+          }
         }
       }
     }
