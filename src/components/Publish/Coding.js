@@ -42,6 +42,7 @@ export default function Coding(props) {
                     <Button 
                         className="test-btn"
                         onClick={Test}
+                        disabled={!defaultValue.input || !defaultValue.output}
                         loading={loading}
                     >
                         <CaretRightOutlined />执行测试用例
