@@ -150,8 +150,8 @@ function CustomCase(props, ref) {
                             } 
                             defaultValue={e}
                             deleteCase={() => deleteCase(i)}
-                            checkCode={() => {
-                                checkCode({
+                            checkCode={async() => {
+                                return await checkCode({
                                     spj_code: [e.spj_code]
                                 })
                             }}
@@ -165,8 +165,8 @@ function CustomCase(props, ref) {
                             } 
                             defaultValue={e}
                             deleteCase={() => deleteCase(i)}
-                            checkCode={() => {
-                                checkCode({
+                            checkCode={async() => {
+                                return await checkCode({
                                     input: [],
                                     example_input: [e.input],
                                     example_output: [e.output]

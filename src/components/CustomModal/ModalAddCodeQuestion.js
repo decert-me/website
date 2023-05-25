@@ -46,7 +46,7 @@ export default function ModalAddCodeQuestion(props) {
     }
 
 
-    function checkCode(code) {
+    async function checkCode(code) {
         const obj = languages.filter(e => e.checked)[0];
         let codeObj = {
             code: "", //写入的代码
@@ -55,66 +55,30 @@ export default function ModalAddCodeQuestion(props) {
             lang: obj.value,
             ...code
         }
-        console.log(codeObj);
-        // console.log(formData, languages);
-        // new Promise((resolve, reject) => {
-            
-        // })
-        // 用例检测
-        // let flag = false;
-        // if (type === "coding") {
-        //     // 普通代码题
-        //     flag = !cases || cases.some(e => !e || Object.keys(e).length !== 2);
-        // }
-        // if (type === "special_judge_coding") {
-        //     // 特殊代码题
-        //     flag = !spj_code;
-        // }
-        // if (flag) {
-        //     console.log("请将用例补充完整!");
-        //     return
-        // }
-        // const inputArr = cases && cases.map(e => e.input);
-        // const outputArr = cases && cases.map(e => e.output);
 
-        // let obj = {
-        //     code: "", //写入的代码
-        //     example_code: e.correctAnswer, //代码示例
-        //     code_snippet: e.code, //代码片段
-        //     lang: e.value
-        // }
-        // if (type === "special_judge_coding") {
-        //     // 特殊编程题
-        //     obj.spj_code = spj_code
-        // }else{
-        //     // 普通编程题
-        //     obj = {
-        //         ...obj,
-        //         input: "",
-        //         example_input: inputArr,
-        //         example_output: outputArr
-        //     }
-        // }
-        codeTest(codeObj)
+        const logs = ["开始编译..."];
+
+        // 用例检测
+        await codeTest(codeObj)
         .then(res => {
-            if (res?.data?.correct) {
-                message.success("成功")
-            }else if (res?.data) {
+            if (res?.data) {
                 switch (res.data.status) {
                     case 1:
-                        message.error("编译失败")
+                        logs.push("编译失败");
                         break;
                     case 2:
-                        message.error("运行失败")
+                        logs.push(...["编译成功","运行失败"]);
                         break;
                     case 3:
-                        message.error("测试用例未通过")
+                        logs.push(...["编译成功","运行成功",res.data.correct ? "测试用例通过" : "测试用例未通过"]);
                         break;
                     default:
                         break;
                 }
             }
         })
+        return logs
+        
     }
 
     const onFinish = (values) => {

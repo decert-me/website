@@ -19,7 +19,6 @@ function MonacoEditor(props, ref) {
     function changeLang(params) {
         newLang = params;
         setNewLang(newLang);
-        console.log("====>",newLang);
     }
 
     async function languaegInit(params) {

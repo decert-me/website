@@ -89,11 +89,8 @@
     // case coding-special
     .coding-special{
         padding: 15px;
-        display: flex;
-        justify-content: space-between;
-
         .form{
-            width: 85%;
+            width: 84%;
             height: 310px;
             // padding-bottom: 40px;        
             padding-bottom: 76px;
@@ -116,12 +113,45 @@
         }
     }
 
+    // 代码执行结果
+    .log{
+        margin-top: 20px;
+        padding-bottom: calc(40px - 15px);
+        .log-label{
+            margin-bottom: 5px;
+            color: #181A1F;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 17px;
+        }
+        .log-content{
+            width: 100%;
+            height: 120px;
+            padding: 8px 17px;
+            border: 1px solid #D9D9D9;
+            border-radius: 4px;
+        }
+    }
+
+    // 滚动条样式
+    .custom-scroll{
+        &::-webkit-scrollbar {
+            background-color: #F7F7F7;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #E1E4E8;
+        }
+    }
     .coding, .coding-special{
         width: 100%;
         margin-bottom: 30px;
         border: 1px solid #E1E4E8;
         border-radius: 4px;
         position: relative;
+        .flex{
+            display: flex;
+            justify-content: space-between;
+        }
     }
 
     // case btn
