@@ -29,26 +29,12 @@ export default function AppHeader({ isMobile }) {
     let [isOpenM, setIsOpenM] = useState(false);
     const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
 
-    const dropdown = [
-        {
-          label: (
-            <Link to={"/challenges"}>
-                {t("translation:header.explore")}
-            </Link>
-          ),
-          key: '1',
-        },
-        {
-          label: (
-            <Link to={"/publish"}>
-                {t("translation:home.btn-publish")}
-            </Link>
-          ),
-          key: '2',
-        }
-    ];
-
     const items = [
+        {
+            label: (<p onClick={() => navigateTo(`/publish`)}> {t("translation:home.btn-publish")} </p>),
+            key: '0',
+            icon: '',
+        },
         {
             label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("translation:header.profile")} </p>),
             key: '1',
@@ -120,40 +106,14 @@ export default function AppHeader({ isMobile }) {
                         }
                     </div>
                     {
-                        menus.map((e,i) => {
-                            if (e.to === "/challenges") {
-                                return (
-                                    <Dropdown
-                                        menu={{
-                                            items: dropdown
-                                        }}
-                                        placement="bottomLeft"
-                                        key={i}
-                                        overlayClassName="challenge-menu"
-                                    >
-                                        <Link 
-                                            to={e.to} 
-                                            key={i} 
-                                            className={location.pathname.indexOf(e.to) !== -1 ? "active" : ""}
-                                        >
-                                            {e.label}
-                                        </Link>
-                                    </Dropdown>
-                                )
-                            }else{
-                                return (
-                                    <Link 
+                        menus.map((e,i) => <Link 
                                         to={e.to} 
                                         key={i} 
                                         className={location.pathname.indexOf(e.to) !== -1 ? "active" : ""}
                                     >
                                         {e.label}
                                     </Link>
-                                )
-                            }
-                        }
-                        )
-                    }
+                    )}
                 </div>
                 {
                     isMobile ? 
