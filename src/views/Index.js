@@ -78,6 +78,7 @@ export default function Index(params) {
 
     return (
         <div className="Home ">
+            <div className="header-bg1">xx</div>
             <div className="main">
                 <div className="main-center">
                         <h1 className="describe">{t("home.slogan1")}</h1>

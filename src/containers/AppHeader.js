@@ -26,7 +26,6 @@ export default function AppHeader({ isMobile }) {
     const navigateTo = useNavigate();
     const location = useLocation();
     let [isConnect, setIsConnect] = useState(false);
-    let [isHome, setIsHome] = useState();
     let [isOpenM, setIsOpenM] = useState(false);
     const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
     const items = [
@@ -81,14 +80,12 @@ export default function AppHeader({ isMobile }) {
 
     useEffect(() => {
         if (location) {
-            isHome = (location.pathname === '/' || location.pathname === '/vitae') ? true : false;
-            setIsHome(isHome);
             setIsOpenM(false);
         }
     },[location])
 
     return (
-        <div id={`${isHome ? "Header-bg" : "Header"}`}>
+        <div id="Header">
             <div className={`header-content ${isOpenM ? "bg000" : ""}`}>
                 <div className='nav-left'>
                     <div 
@@ -96,7 +93,7 @@ export default function AppHeader({ isMobile }) {
                         onClick={() => navigateTo("/")} 
                     >
                         {
-                            isHome || isOpenM ? 
+                            isOpenM ? 
                             <img src={logo_white} alt="" />
                             :
                             <img src={logo_normal} alt="" />
@@ -141,7 +138,7 @@ export default function AppHeader({ isMobile }) {
                                     isOpenM ?
                                     <CloseOutlined />
                                     :
-                                    <MenuOutlined /> 
+                                    <MenuOutlined style={{color: "#8F5A35"}} /> 
                                 }
                             </div>
                             <div className={`mask-box ${isOpenM ? "mask-box-show" : ""}`}>
@@ -176,10 +173,17 @@ export default function AppHeader({ isMobile }) {
                         <Button 
                             type="ghost"
                             ghost
-                            className='lang'
+                            className='lang custom-btn'
                             onClick={() => toggleI18n()}
                         >
-                            {i18n.language === 'zh-CN' ? "中文" : "EN"}
+                            {i18n.language === 'zh-CN' ? "CN" : "EN"}
+                        </Button>
+                        <Button 
+                            type="ghost"
+                            ghost
+                            className='custom-btn'
+                        >
+                            日
                         </Button>
                         {
                             isConnected ?
@@ -196,7 +200,7 @@ export default function AppHeader({ isMobile }) {
                                 </Dropdown>
                             :
                             <div>
-                                <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
+                                <Button onClick={() => openModal()} className='connect'>{t("translation:header.connect")}</Button>
                                 <ModalConnect isModalOpen={isConnect} handleCancel={hideModal} />
                             </div>
                         }

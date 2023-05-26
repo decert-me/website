@@ -176,5 +176,15 @@
       }
     }
   }
-  
+  .header-bg1{
+    width: calc(87.5rem / 120rem * 100%);
+    height: 25rem;
+    background: #B27347;
+    border-radius: 50%;
+    opacity: 0.4;
+    filter: blur(4.375rem);
+    position: absolute;
+    top: -18.75rem;
+    left: calc((100% - (87.5rem / 120rem * 100%)) / 2);
+  }
 }

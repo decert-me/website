@@ -1,10 +1,21 @@
 .Mobile{
-    #Header,#Header-bg{
+    #Header{
+        background-color: rgba(255,255,255,0.5);
+        &,.nav-left a{
+            color: #000;
+        }
+        .user{
+            color: #fff;
+            background-color: #00000000;
+        }
         .header-content{
             width: 100%;
             height: 3.75rem;
             padding-left: .9375rem;
             padding-right: .9375rem;
+        }
+        .nav-right{
+            width: auto;
         }
         .bg000{
             background-color: #000;
@@ -13,8 +24,8 @@
             display: none;
         }
         .logo{
-            width: 9.375rem;
-            height: 1.875rem;
+            width: 6.4375rem;
+            height: 1.5rem;
         }
         .user{
             height: 2rem;
@@ -80,17 +91,6 @@
             .mask-box-show{
                 display: block;
             }
-        }
-    }
-    #Header{
-        background-color: #fff;
-        border-bottom: .0625rem solid #D8D8D8;
-        &,.nav-left a{
-            color: #000;
-        }
-        .user{
-            color: #fff;
-            background-color: #00000000;
         }
     }
     .ant-layout-footer{
