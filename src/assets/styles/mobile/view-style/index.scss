@@ -150,22 +150,47 @@
 
       // 贡献者
       .contributor{
-        height: 15.8125rem;
-        padding-top: 3.25rem;
+        min-height: 33.5625rem;
+        padding: 3.25rem 1.25rem 6.25rem;
         font-size: 1rem;
         line-height: 1.1875rem;
-
-        .ant-avatar-group{
-          margin-top: 1.625rem;
+        .ofh{
+          max-height: calc((4.25rem + 3.125rem + .875rem + 1.0625rem) * 2);
         }
-        .ant-avatar{
-          width: 3rem;
-          height: 3rem;
-          border-width: .125rem;
-          border-color: #8F5A35;
+        a{
+          margin-right: 1.6875rem;
+          &:nth-child(4n){
+            margin-right: 0;
+            margin-bottom: 2.5rem;
+          }
         }
-        .css-dev-only-do-not-override-ixblex.ant-avatar-group >*:not(:first-child){
-          margin-left: -0.625rem;
+        .contributor-content{
+          margin: 3.125rem auto 0;
+          gap: 0;
+          .contributor-item{
+            width: 4.1875rem;
+            height: 4.1875rem;
+            border: .1875rem solid #8F5A35;
+          }
+          .usernameM{
+            width: 4.1875rem;
+            height: auto;
+            margin: 1.0625rem auto 0;
+            color: #8F5A35;
+            font-size: .75rem;
+            line-height: .875rem;
+            text-align: center;
+            white-space: nowrap;  
+            text-overflow:ellipsis; 
+            overflow:hidden;
+          }
+        }
+        .btn-drop{
+          width: 2.5rem;
+          height: 2.5rem;
+          margin: 2.5rem auto 0;
+          border-radius: .5rem;
+          font-size: .875rem;
         }
       }
     }
