@@ -11,6 +11,7 @@ import MyContext from "@/provider/context";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CustomIcon from "@/components/CustomIcon";
+import { useRequest } from "ahooks";
 
 export default function Index(params) {
     
@@ -53,9 +54,27 @@ export default function Index(params) {
         }
     }
 
+    function scale(params) {
+        const dom = document.querySelector(".partner");
+        dom.style.zoom = window.innerWidth / 1920;
+    }
+
+    const { run } = useRequest(scale, {
+        debounceWait: 300,
+        manual: true,
+    });
+
     useEffect(() => {
         getContributor();
     },[])
+
+    useEffect(() => {
+        window.addEventListener("resize", run);
+    
+        return () => {
+          window.removeEventListener("resize", run);
+        };
+    }, []);
 
     return (
         <div className="Home ">
@@ -136,21 +155,23 @@ export default function Index(params) {
 
                         {/* 合作伙伴 */}
                         <div className="partner">
-                            <p>合作伙伴</p>
-                            <ul>
-                                <li className="img">
-                                    <img src={require("@/assets/images/img/home-partner1.png")} alt="" />
-                                </li>
-                                <li className="img">
-                                    <img src={require("@/assets/images/img/home-partner2.png")} alt="" />
-                                </li>
-                                <li className="img">
-                                    <img src={require("@/assets/images/img/home-partner3.png")} alt="" />
-                                </li>
-                                <li className="img">
-                                    <img src={require("@/assets/images/img/home-partner4.png")} alt="" />
-                                </li>
-                            </ul>
+                            <div className="partner-content">
+                                <p>合作伙伴</p>
+                                <ul>
+                                    <li className="img">
+                                        <img src={require("@/assets/images/img/home-partner1.png")} alt="" />
+                                    </li>
+                                    <li className="img">
+                                        <img src={require("@/assets/images/img/home-partner2.png")} alt="" />
+                                    </li>
+                                    <li className="img">
+                                        <img src={require("@/assets/images/img/home-partner3.png")} alt="" />
+                                    </li>
+                                    <li className="img">
+                                        <img src={require("@/assets/images/img/home-partner4.png")} alt="" />
+                                    </li>
+                                </ul>
+                            </div>
                         </div>
 
                         {/* 贡献者 */}
