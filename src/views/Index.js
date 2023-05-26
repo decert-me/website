@@ -64,10 +64,10 @@ export default function Index(params) {
 
                         {/* social */}
                         <div className="social">
-                            <div className="social-item">
+                            <div className="social-item" onClick={()=>{window.open('https://twitter.com/decertme','_blank')}}>
                                 <TwitterOutlined />
                             </div>
-                            <div className="social-item">
+                            <div className="social-item" onClick={()=>{window.open(`https://discord.gg/${process.env.REACT_APP_DISCORD_VERIFY_INVITE_LINK}`,'_blank')}}>
                                 <CustomIcon type="icon-discord" />
                             </div>
                         </div>
@@ -175,7 +175,7 @@ export default function Index(params) {
                                                         <img src={e.avatar} alt="" />
                                                     </div>
                                                     <div className="username">
-                                                        {e.name}
+                                                        {e.name}xxxxxxxxxzz
                                                     </div>
                                                 </a>
                                             )
