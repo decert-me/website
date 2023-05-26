@@ -1,6 +1,7 @@
-import { message, Avatar } from "antd";
+import { message, Avatar, Button } from "antd";
 import {
-    TwitterOutlined
+    TwitterOutlined,
+    DownOutlined
 } from '@ant-design/icons';
 import { useNavigate } from "react-router-dom";
 import "@/assets/styles/view-style/index.scss"
@@ -36,6 +37,18 @@ export default function Index(params) {
                 return { name, avatar, link }
             })
         setContributor([...contributor])
+    }
+
+    function dropdown(params) {
+
+        const ofh = document.querySelector(".ofh");
+        const content = document.querySelector(".contributor-content");
+
+        const maxHeight = Number(window.getComputedStyle(ofh).maxHeight.replace("px",""));
+        const height = Number(window.getComputedStyle(content).height.replace("px",""));
+        if (height > maxHeight) {
+            ofh.style.maxHeight = maxHeight + (150 + 55 + 58 + 35) * 5 + "px"
+        }
     }
 
     useEffect(() => {
@@ -153,18 +166,134 @@ export default function Index(params) {
                                     }
                                 </Avatar.Group>
                                 :
-                                <div className="contributor-content">
-                                    {
-                                        contributor.map((e,i) => 
-                                            <a href={e.link} target="_blank" key={i}>
-                                                <div className="contributor-item img">
-                                                    <img src={e.avatar} alt="" />
-                                                </div>
-                                            </a>
-                                        )
-                                    }
+                                <div className="ofh">
+                                    <div className="contributor-content">
+                                        {
+                                            contributor.map((e,i) => 
+                                                <a href={e.link} target="_blank" key={i}>
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                    <div className="username">
+                                                        {e.name}
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
+                                        {
+                                            contributor.map((e,i) => 
+                                                <a href={e.link} target="_blank" key={i}>
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                    <div className="username">
+                                                        {e.name}
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
+                                        {
+                                            contributor.map((e,i) => 
+                                                <a href={e.link} target="_blank" key={i}>
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                    <div className="username">
+                                                        {e.name}
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
+                                        {
+                                            contributor.map((e,i) => 
+                                                <a href={e.link} target="_blank" key={i}>
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                    <div className="username">
+                                                        {e.name}
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
+                                        {
+                                            contributor.map((e,i) => 
+                                                <a href={e.link} target="_blank" key={i}>
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                    <div className="username">
+                                                        {e.name}
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
+                                        {
+                                            contributor.map((e,i) => 
+                                                <a href={e.link} target="_blank" key={i}>
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                    <div className="username">
+                                                        {e.name}
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
+                                        {
+                                            contributor.map((e,i) => 
+                                                <a href={e.link} target="_blank" key={i}>
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                    <div className="username">
+                                                        {e.name}
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
+                                        {
+                                            contributor.map((e,i) => 
+                                                <a href={e.link} target="_blank" key={i}>
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                    <div className="username">
+                                                        {e.name}
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
+                                        {
+                                            contributor.map((e,i) => 
+                                                <a href={e.link} target="_blank" key={i}>
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                    <div className="username">
+                                                        {e.name}
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
+                                        {
+                                            contributor.map((e,i) => 
+                                                <a href={e.link} target="_blank" key={i}>
+                                                    <div className="contributor-item img">
+                                                        <img src={e.avatar} alt="" />
+                                                    </div>
+                                                    <div className="username">
+                                                        {e.name}
+                                                    </div>
+                                                </a>
+                                            )
+                                        }
+                                    </div>
                                 </div>
                             }
+                            <div className="btn-drop" onClick={dropdown}>
+                                <DownOutlined />
+                            </div>
                         </div>
                 </div>
             </div>
