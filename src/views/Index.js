@@ -19,6 +19,7 @@ export default function Index(params) {
     const { t } = useTranslation();
     const { isMobile } = useContext(MyContext);
     let [contributor, setContributor] = useState([]);
+    let [count, setCount] = useState(8);    // 贡献者下拉
 
     function goCreate(params) {
         if (isMobile) {
@@ -37,16 +38,20 @@ export default function Index(params) {
                 const [name, avatar, link] = line.split(",");
                 return { name, avatar, link }
             })
+
+        // test code
+        contributor = [...contributor, ...contributor, ...contributor, ...contributor]
         setContributor([...contributor])
     }
 
     function dropdown(params) {
-
         const ofh = document.querySelector(".ofh");
         const content = document.querySelector(".contributor-content");
         const maxHeight = Number(window.getComputedStyle(ofh).maxHeight.replace("px",""));
         const height = Number(window.getComputedStyle(content).height.replace("px",""));
         if (height > maxHeight) {
+            count += 8;
+            setCount(count)
             ofh.style.maxHeight = isMobile ?
             ofh.style.maxHeight = `calc(${maxHeight + "px" + " + " + 8.625 * 5 + "rem"})`
             :
@@ -56,10 +61,9 @@ export default function Index(params) {
 
     function scale(params) {
         const dom = document.querySelector(".Home");
-        if (window.innerWidth < 1920) {
+        if (window.innerWidth < 1920 && !isMobile) {
             // 只缩小
             // document.body.style.zoom = window.innerWidth / 1940;
-            console.log("xxx");
             dom.style.zoom = window.innerWidth / 1950;
         }
     }
@@ -197,95 +201,14 @@ export default function Index(params) {
                                             </a>
                                         )
                                     }
-                                    {
-                                        contributor.map((e,i) => 
-                                            <a href={e.link} target="_blank" key={i}>
-                                                <div className="contributor-item img">
-                                                    <img src={e.avatar} alt="" />
-                                                </div>
-                                                <div className={isMobile ? "usernameM" : "username"}>
-                                                    {e.name}xxxxxxxxxzz
-                                                </div>
-                                            </a>
-                                        )
-                                    }
-                                    {
-                                        contributor.map((e,i) => 
-                                            <a href={e.link} target="_blank" key={i}>
-                                                <div className="contributor-item img">
-                                                    <img src={e.avatar} alt="" />
-                                                </div>
-                                                <div className={isMobile ? "usernameM" : "username"}>
-                                                    {e.name}xxxxxxxxxzz
-                                                </div>
-                                            </a>
-                                        )
-                                    }
-                                    {
-                                        contributor.map((e,i) => 
-                                            <a href={e.link} target="_blank" key={i}>
-                                                <div className="contributor-item img">
-                                                    <img src={e.avatar} alt="" />
-                                                </div>
-                                                <div className={isMobile ? "usernameM" : "username"}>
-                                                    {e.name}xxxxxxxxxzz
-                                                </div>
-                                            </a>
-                                        )
-                                    }
-                                    {
-                                        contributor.map((e,i) => 
-                                            <a href={e.link} target="_blank" key={i}>
-                                                <div className="contributor-item img">
-                                                    <img src={e.avatar} alt="" />
-                                                </div>
-                                                <div className={isMobile ? "usernameM" : "username"}>
-                                                    {e.name}xxxxxxxxxzz
-                                                </div>
-                                            </a>
-                                        )
-                                    }
-                                    {
-                                        contributor.map((e,i) => 
-                                            <a href={e.link} target="_blank" key={i}>
-                                                <div className="contributor-item img">
-                                                    <img src={e.avatar} alt="" />
-                                                </div>
-                                                <div className={isMobile ? "usernameM" : "username"}>
-                                                    {e.name}xxxxxxxxxzz
-                                                </div>
-                                            </a>
-                                        )
-                                    }
-                                    {
-                                        contributor.map((e,i) => 
-                                            <a href={e.link} target="_blank" key={i}>
-                                                <div className="contributor-item img">
-                                                    <img src={e.avatar} alt="" />
-                                                </div>
-                                                <div className={isMobile ? "usernameM" : "username"}>
-                                                    {e.name}xxxxxxxxxzz
-                                                </div>
-                                            </a>
-                                        )
-                                    }
-                                    {
-                                        contributor.map((e,i) => 
-                                            <a href={e.link} target="_blank" key={i}>
-                                                <div className="contributor-item img">
-                                                    <img src={e.avatar} alt="" />
-                                                </div>
-                                                <div className={isMobile ? "usernameM" : "username"}>
-                                                    {e.name}xxxxxxxxxzz
-                                                </div>
-                                            </a>
-                                        )
-                                    }
                                 </div>
                             </div>
-                            <div className="btn-drop" onClick={dropdown}>
-                                <DownOutlined />
-                            </div>
+                            {
+                                contributor.length > count &&
+                                <div className="btn-drop" onClick={dropdown}>
+                                    <DownOutlined />
+                                </div>
+                            }
                         </div>
                 </div>
             </div>

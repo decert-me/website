@@ -178,13 +178,14 @@ export default function AppHeader({ isMobile }) {
                         >
                             {i18n.language === 'zh-CN' ? "CN" : "EN"}
                         </Button>
-                        <Button 
+                        {/* TODO: 日间模式:夜晚模式 */}
+                        {/* <Button 
                             type="ghost"
                             ghost
                             className='custom-btn'
                         >
                             日
-                        </Button>
+                        </Button> */}
                         {
                             isConnected ?
                                 <Dropdown
