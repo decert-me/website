@@ -55,10 +55,12 @@ export default function Index(params) {
     }
 
     function scale(params) {
-        const dom = document.querySelector(".partner");
+        const dom = document.querySelector(".Home");
         if (window.innerWidth < 1920) {
             // 只缩小
-            dom.style.zoom = window.innerWidth / 1920;
+            // document.body.style.zoom = window.innerWidth / 1940;
+            console.log("xxx");
+            dom.style.zoom = window.innerWidth / 1950;
         }
     }
 
