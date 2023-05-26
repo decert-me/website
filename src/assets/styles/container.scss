@@ -49,7 +49,7 @@
         }
     }
     .nav-right{
-        width: 267px;
+        width: calc(267px - 38px - 14px);
         display: flex;
         justify-content: space-between;
     }
