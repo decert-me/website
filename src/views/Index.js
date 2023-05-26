@@ -39,8 +39,6 @@ export default function Index(params) {
                 return { name, avatar, link }
             })
 
-        // test code
-        contributor = [...contributor, ...contributor, ...contributor, ...contributor, ...contributor, ...contributor, ...contributor, ...contributor]
         setContributor([...contributor])
     }
 
@@ -111,13 +109,13 @@ export default function Index(params) {
 
                         {/* 愿景 */}
                         <div className="vision">
-                            <h3>我们的愿景</h3>
+                            <h3>{t("home.page.vision.title")}</h3>
                             <p>
-                                让每个 Builder 在&nbsp;<span>Web3.0</span>
-                                &nbsp;时代都拥有可信的履历数据
+                            {t("home.page.vision.p1")}&nbsp;<span>Web3.0</span>
+                                &nbsp;{t("home.page.vision.p2")}
                             </p>
                             <p>
-                                形成一个更自由、更可信、更高效的 Builder 世界。
+                            {t("home.page.vision.p3")}
                             </p>
                         </div>
 
@@ -126,19 +124,15 @@ export default function Index(params) {
                             {/* ai */}
                             <div className="ai intro-content">
                                 <div className="content-l">
-                                    <h2>AI时代的教育方式</h2>
+                                    <h2>{t("home.page.ai.title")}</h2>
                                     <ul>
                                         <li>
-                                            <h3>全民1对1辅导</h3>                                            
-                                            <p>通过AI，可以为所有学员带来一对一的辅导，让学员有更深刻的理解、自信</p>
+                                            <h3>{t("home.page.ai.sub1")}</h3>                                            
+                                            <p>{t("home.page.ai.p1")}</p>
                                         </li>
                                         <li>
-                                            <h3>AI助教</h3>                                            
-                                            <p>AI帮助教育工作者制作更好的课程计划，跟踪学生反馈，提升教学水平</p>
-                                        </li>
-                                        <li>
-                                            <h3>专家训练</h3>                                            
-                                            <p>AI由不同领域专家训练，确保质量和准确性</p>
+                                            <h3>{t("home.page.ai.sub2")}</h3>                                            
+                                            <p>{t("home.page.ai.p2")}</p>
                                         </li>
                                     </ul>
                                 </div>
@@ -153,12 +147,11 @@ export default function Index(params) {
                                     <img src={require("@/assets/images/img/home-img3.png")} alt="" />
                                 </div>
                                 <div className="content-r">
-                                    <h2>SBT - 学习成果证明</h2>
-                                    <h2>Proof of Learn</h2>
+                                    <h2>{t("home.page.sbt.title")}</h2>
                                     <ul>
-                                        <li>履历认证</li>
-                                        <li>DID 社交图谱</li>
-                                        <li>多维度履历证明</li>
+                                        <li>{t("home.page.sbt.p1")}</li>
+                                        <li>{t("home.page.sbt.p2")}</li>
+                                        <li>{t("home.page.sbt.p3")}</li>
                                     </ul>
                                 </div>
                             </div>
@@ -167,7 +160,7 @@ export default function Index(params) {
                         {/* 合作伙伴 */}
                         <div className="partner">
                             <div className="partner-content">
-                                <p>合作伙伴</p>
+                                <p>{t("home.page.partner")}</p>
                                 <ul>
                                     <li className="img">
                                         <img src={require("@/assets/images/img/home-partner1.png")} alt="" />
@@ -187,7 +180,7 @@ export default function Index(params) {
 
                         {/* 贡献者 */}
                         <div className="contributor">
-                            <p className="contributor-label">贡献者</p>
+                            <p className="contributor-label">{t("home.page.contributor")}</p>
                             <div className="ofh">
                                 <div className="contributor-content">
                                     {
@@ -197,7 +190,7 @@ export default function Index(params) {
                                                     <img src={e.avatar} alt="" />
                                                 </div>
                                                 <div className={isMobile ? "usernameM" : "username"}>
-                                                    {e.name}xxxxxxxxxzz
+                                                    {e.name}
                                                 </div>
                                             </a>
                                         )
