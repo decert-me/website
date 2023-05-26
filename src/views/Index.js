@@ -40,7 +40,7 @@ export default function Index(params) {
             })
 
         // test code
-        contributor = [...contributor, ...contributor, ...contributor, ...contributor]
+        contributor = [...contributor, ...contributor, ...contributor, ...contributor, ...contributor, ...contributor, ...contributor, ...contributor]
         setContributor([...contributor])
     }
 
@@ -50,7 +50,7 @@ export default function Index(params) {
         const maxHeight = Number(window.getComputedStyle(ofh).maxHeight.replace("px",""));
         const height = Number(window.getComputedStyle(content).height.replace("px",""));
         if (height > maxHeight) {
-            count += 8;
+            count += 40;
             setCount(count)
             ofh.style.maxHeight = isMobile ?
             ofh.style.maxHeight = `calc(${maxHeight + "px" + " + " + 8.625 * 5 + "rem"})`
@@ -74,6 +74,7 @@ export default function Index(params) {
     });
 
     useEffect(() => {
+        scale();
         getContributor();
     },[])
 
