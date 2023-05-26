@@ -138,6 +138,12 @@
         .ofh{
           max-height: calc((4.25rem + 3.125rem + .875rem + 1.0625rem) * 2);
         }
+        .contributor-label{
+          margin: 0 auto;
+          font-size: 1rem;
+          text-align: center;
+          font-weight: bold;
+        }
         a{
           margin-right: 1.6875rem;
           &:nth-child(4n){

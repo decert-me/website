@@ -56,7 +56,10 @@ export default function Index(params) {
 
     function scale(params) {
         const dom = document.querySelector(".partner");
-        dom.style.zoom = window.innerWidth / 1920;
+        if (window.innerWidth < 1920) {
+            // 只缩小
+            dom.style.zoom = window.innerWidth / 1920;
+        }
     }
 
     const { run } = useRequest(scale, {
@@ -78,7 +81,7 @@ export default function Index(params) {
 
     return (
         <div className="Home ">
-            <div className="header-bg1">xx</div>
+            <div className="header-bg1"></div>
             <div className="main">
                 <div className="main-center">
                         <h1 className="describe">{t("home.slogan1")}</h1>
@@ -177,7 +180,7 @@ export default function Index(params) {
 
                         {/* 贡献者 */}
                         <div className="contributor">
-                            <p>贡献者</p>
+                            <p className="contributor-label">贡献者</p>
                             <div className="ofh">
                                 <div className="contributor-content">
                                     {

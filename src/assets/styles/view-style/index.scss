@@ -227,6 +227,13 @@
           overflow: hidden;
           transition: max-height 0.2s;
         }
+        .contributor-label{
+          max-width: 1440px;
+          margin: 0 auto;
+          text-align: left;
+          font-size: 50px;
+          font-weight: bold;
+        }
         .contributor-content{
           max-width: 1440px;
           margin: 88px auto 0;
