@@ -97,39 +97,34 @@
         padding: 0 !important;
     }
     #Footer{
-        height: 100%;
-        position: relative;
-        .left {
-          height: 5.4375rem;
-          margin-top: .6875rem;
-          margin-left: 1.0625rem;
-          text-align: left;
-          .title{
-            font-size: 1.8125rem;
-            font-weight: 900;
-            line-height: 2.625rem;
-          }
-          .describe {
-            font-size: .5625rem;
-            line-height: .8125rem;
-            margin-bottom: 1.375rem;
-          }
-          .versions {
-            font-size: .4375rem;
-            line-height: .625rem;
-          }
-        }
-        // icon
-        .right {
-            width: 2.8125rem;
-            margin: 0;
-            position: absolute;
-            right: 1.6875rem;
-            bottom: .6875rem;
-            img {
-                width: .4375rem;
-                height: .4375rem;
+        .footer-content{
+            padding: 1.5625rem 0 4.5625rem 1.25rem;
+            flex-direction: column;
+            align-items: flex-start;
+            .left{
+                .logo{
+                    width: 9rem;
+                    height: 2.125rem;
+                }
+                p{
+                    margin-top: .75rem;
+                    font-size: 1rem;
+                    line-height: 1.1875rem;
+                }
             }
+            .right{
+                margin-top: 3.3125rem;
+                img{
+                    width: 1.875rem;
+                    height: 1.875rem;
+                    margin-right: 1.875rem;
+                }
+            }
+        }
+        .footer-record{
+            margin: 1.375rem auto;
+            font-size: .75rem;
+            line-height: .875rem;
         }
     }
 }

@@ -84,47 +84,52 @@
 }
 
 #Footer{
-    display: flex;
-    justify-content: space-between;
     color: #ffffff;
     font-family: Source;
-    .left {
-      height: 242px;
-      margin-top: 6px;
-      margin-left: 248px;
-      text-align: left;
-      .logo {
-        width: 390px;
-        height: 116px;
-        display: flex;
-        align-items: center;
-        img{
-            width: auto;
-            height: auto;
-            max-width: 100%;
-            max-height: 100%;
-        }
-      }
-      .describe {
-        font-size: 24px;
-        margin-bottom: 62px;
-      }
-      .versions {
-        font-size: 20px;
-        line-height: 23px;
-      }
-    }
-    // icon
-    .right {
-        width: 140px;
-        margin-right: 356px;
-        margin-top: 225px;
+    .footer-content{
+        padding: 76px 127px 85px 140px;
         display: flex;
         justify-content: space-between;
-        img {
-            width: 20px;
-            height: 20px;
-            cursor: pointer;
+        align-items: flex-end;
+        .left{
+            text-align: left;
+            .logo{
+                width: 235px;
+                height: 55px;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            p{
+                margin-top: 12px;
+                font-size: 30px;
+                font-weight: 600;
+                line-height: 35px;
+            }
+        }
+        .right{
+            img{
+                width: 32px;
+                height: 32px;
+                margin-right: 32px;
+                &:last-child{
+                    margin-right: 0;
+                }
+            }
+        }
+    }
+    .ant-divider{
+        margin: 0;
+        border-color: #1D1D1D;
+    }
+    .footer-record{
+        margin: 38px auto 44px;
+        font-size: 24px;
+        font-weight: 600;
+        line-height: 28px;
+        a{
+            text-decoration: underline #fff ;
         }
     }
 }

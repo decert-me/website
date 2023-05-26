@@ -39,7 +39,8 @@ export default function DefaultLayout(params) {
     };
       
     const footerStyle = {
-        height: isMobile ? "108px" : "300px",
+        height: "auto",
+        padding: 0,
         textAlign: 'center',
         color: '#fff',
         backgroundColor: '#000',
