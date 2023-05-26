@@ -164,7 +164,15 @@
         text-align: center;
     }
 }
-
+.challenge-menu{
+    .ant-dropdown-menu{
+        min-width: 152px;
+        height: 85px;
+        .ant-dropdown-menu-item{
+            height: 36px;
+        }
+    }
+}
 
 .markdown-body{
     thead{
