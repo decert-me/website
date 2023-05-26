@@ -57,7 +57,7 @@ export default function CustomCompleted(props) {
                         successNum+=1;
                     }
                 }else{
-                    if (e == answers[i].value) {
+                    if (answers[i]?.value && e == answers[i].value) {
                         score+=questions[i].score;
                         successNum+=1;
                     }
