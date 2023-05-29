@@ -12,6 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CustomIcon from "@/components/CustomIcon";
 import { useRequest, useUpdateEffect } from "ahooks";
+import i18n from 'i18next';
 
 export default function Index(params) {
     
@@ -108,7 +109,12 @@ export default function Index(params) {
 
                         {/* list */}
                         <div className="listImg img">
-                            <img src={require("@/assets/images/img/home-img1.png")} alt="" />
+                            {
+                                i18n.language !== "zh-CN" ? 
+                                <img src={require("@/assets/images/img/home-img1-en.png")} alt="" />
+                                :
+                                <img src={require("@/assets/images/img/home-img1.png")} alt="" />
+                        }
                         </div>
 
                         {/* 愿景 */}
