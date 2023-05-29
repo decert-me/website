@@ -17,6 +17,7 @@ import { NickName } from '@/utils/NickName';
 import { useWeb3Modal } from "@web3modal/react";
 import logo_white from "@/assets/images/svg/logo-white.png";
 import logo_normal from "@/assets/images/svg/logo-normal.png";
+import { useUpdateEffect } from 'ahooks';
 
 export default function AppHeader({ isMobile }) {
     
@@ -29,7 +30,7 @@ export default function AppHeader({ isMobile }) {
     let [isOpenM, setIsOpenM] = useState(false);
     const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
 
-    const items = [
+    let [items, setItems] = useState([
         {
             label: (<p onClick={() => navigateTo(`/publish`)}> {t("translation:home.btn-publish")} </p>),
             key: '0',
@@ -57,7 +58,7 @@ export default function AppHeader({ isMobile }) {
             key: '3',
             icon: '',
         }
-    ]
+    ])
 
     const menus = [
         {to: "/tutorials", label: t("translation:header.lesson")},
@@ -89,6 +90,13 @@ export default function AppHeader({ isMobile }) {
             setIsOpenM(false);
         }
     },[location])
+
+    useUpdateEffect(() => {
+        if (isMobile) {
+            items.splice(0,1);
+            setItems([...items])
+        }
+    },[isMobile])
 
     return (
         <div id="Header">
