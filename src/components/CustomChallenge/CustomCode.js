@@ -193,7 +193,7 @@ export default forwardRef (function CustomCode(props, ref) {
         question.input.map((e, i) => {
             arr.push({
                 key: i,
-                label: <p onClick={() => consoleRef.current.changeInput(e)}>示例{i+1}<span>{e}</span></p>
+                label: <p onClick={() => consoleRef.current.changeInput(e)}>示例{i+1}&nbsp;&nbsp;<span>{e}</span></p>
             })
         })
         items = arr;
