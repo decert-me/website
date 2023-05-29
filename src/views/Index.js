@@ -11,7 +11,7 @@ import MyContext from "@/provider/context";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CustomIcon from "@/components/CustomIcon";
-import { useRequest } from "ahooks";
+import { useRequest, useUpdateEffect } from "ahooks";
 
 export default function Index(params) {
     
@@ -60,6 +60,7 @@ export default function Index(params) {
     function scale(params) {
         const dom = document.querySelector(".Home");
         if (window.innerWidth < 1920 && !isMobile) {
+            console.log(isMobile);
             // 只缩小
             // document.body.style.zoom = window.innerWidth / 1940;
             dom.style.zoom = window.innerWidth / 1950;
@@ -72,9 +73,12 @@ export default function Index(params) {
     });
 
     useEffect(() => {
-        scale();
         getContributor();
     },[])
+
+    useUpdateEffect(() => {
+        scale();
+    },[isMobile])
 
     useEffect(() => {
         window.addEventListener("resize", run);
