@@ -30,7 +30,7 @@ export default function Index(params) {
     }
 
     async function getContributor(params) {
-        const res = await axios.get("https://raw.githubusercontent.com/decert-me/website/main/contributor");
+        const res = await axios.get("https://api.decert.me/contributors/");
         contributor = res.data
             .split("\n")
             .filter(e => e !== "")
