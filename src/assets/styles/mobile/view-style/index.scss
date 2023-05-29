@@ -36,12 +36,12 @@
       .listImg{
         width: 19.875rem;
         height: 10.1875rem;
-        margin-top: 3.625rem;
+        margin-top: 3.25rem;
       }
 
       .vision{
         height: 13.625rem;
-        margin-top: -1.875rem;
+        margin-top: -2.5rem;
         padding-top: 4.25rem;
         h3{
           margin-bottom: 1.25rem;
@@ -71,15 +71,17 @@
           }
         }
         .ai{
-          min-height: calc(38.5rem + 3.0625rem);
           margin-bottom: 0;
-          padding-top: 4.25rem;
+          padding-top: 3.8125rem;
           flex-direction: column-reverse;          
           .content-r{
-            width: 15.4375rem;
-            height: 12.8125rem;
-            margin-left: 5rem;
+            width: 15.5rem;
+            height: 12.9375rem;
+            margin-left: 5.875rem;
             margin-top: 0;
+          }
+          .content-l{
+            margin-top: 3.8125rem;
           }
           h2{
             margin-bottom: 2.1875rem;
@@ -103,15 +105,15 @@
         }
         .sbt{
           margin-top: 5.0625rem;
+          margin-bottom: 0;
           padding-top: 0;
           flex-direction: column;
           .content-l{
             width: 14rem;
             height: 14rem;
-            margin-left: 1.125rem;
           }
           .content-r{
-            padding-top: 3rem;
+            padding-top: 2.4375rem;
           }
           h2{
             width: 100%;
