@@ -29,8 +29,8 @@ function CustomConsole(props, ref) {
         changeInput
     }))
 
-    function changeInput(params) {
-        caseRef.current.changeValue(params)
+    function changeInput(params, type) {
+        caseRef.current.changeValue(params, type)
     }
 
     function runCode() {
@@ -39,9 +39,9 @@ function CustomConsole(props, ref) {
     }
 
     useEffect(() => {
-        const flag = !question.input || question.input.length === 0 ? true : false;
-        setHideCase(flag)
-        flag && setSelectTab(tabs[1].key)
+        // const flag = !question.input || question.input.length === 0 ? true : false;
+        // setHideCase(flag)
+        // flag && setSelectTab(tabs[1].key)
     },[])
 
     return(

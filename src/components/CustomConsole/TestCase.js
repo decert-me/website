@@ -1,3 +1,4 @@
+import { useUpdateEffect } from 'ahooks';
 import { Input } from 'antd';
 import { forwardRef, useEffect, useImperativeHandle, useState } from 'react';
 const { TextArea } = Input;
@@ -6,21 +7,22 @@ function TestCase(props, ref) {
     
     const { input, changeCodeObj, className } = props;
     const [value, setValue] = useState("");
-    let [type, setType] = useState();
+    let [type, setType] = useState("object");
 
     useImperativeHandle(ref, () => ({
         changeValue
     }))
 
-    function changeValue(params) {
+    function changeValue(params, isCode) {
         changeCodeObj(params, "input")
-        setValue(type === "object" ? params[0].code : params)
+        setValue(params)
+        type = isCode ? "object" : "string";
+        setType(type);
     }
 
     useEffect(() => {
-        type = typeof input;
-        setType(type);
-        changeValue(input);
+        const type = typeof input === "object" ? true : false
+        changeValue(typeof input === "object" ? input[0].code : input, type);
     },[])
 
     return (

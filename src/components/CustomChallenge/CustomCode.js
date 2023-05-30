@@ -199,7 +199,7 @@ export default forwardRef (function CustomCode(props, ref) {
         question?.spj_code?.map(e => {
             arr.push({
                 key: arr.length,
-                label: <p onClick={() => consoleRef.current.changeInput(e.code)}>示例{arr.length + 1}</p>
+                label: <p onClick={() => consoleRef.current.changeInput(e.code, "type")}>示例{arr.length + 1}</p>
             })
         })
         items = arr;
