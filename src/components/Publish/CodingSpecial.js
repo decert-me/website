@@ -69,6 +69,8 @@ export default function CodingSpecial(props) {
                                 width: "200px",
                                 marginTop: "10px"
                             }}
+                            className="select-frame"
+                            getPopupContainer={() => document.querySelector(".select-frame")}
                             placeholder="框架"
                             onChange={(frame => {
                                 // 切换编辑器语种
