@@ -1,4 +1,4 @@
-import { Button, Dropdown } from "antd";
+import { Button, Dropdown, Modal } from "antd";
 import {
     PlusOutlined
 } from '@ant-design/icons';
@@ -9,12 +9,24 @@ import CodingSpecial from "./CodingSpecial";
 function CustomCase(props, ref) {
 
     const { checkCode } = props;
+    const [modal, contextHolder] = Modal.useModal();
     let [caseArr, setCaseArr] = useState([]);
 
     useImperativeHandle(ref, () => ({
         caseArr,
         setCaseArr
     }))
+
+    const config = {
+        title: '',
+        icon: <></>,
+        className: "custom-confirm",
+        cancelText: "取消",
+        okText: "确认",
+        content: (
+            <p>确认删除此测试用例？</p>
+        )
+    };
 
     function addCase(isSpecial) {
         isSpecial ?
@@ -33,8 +45,10 @@ function CustomCase(props, ref) {
     }
     
     function deleteCase(index) {
-        caseArr.splice(index,1);
-        setCaseArr([...caseArr])
+        modal.confirm({...config, onOk: () => {
+            caseArr.splice(index,1);
+            setCaseArr([...caseArr])
+        }});
     }
 
     function changeValue(value, type, index, key) {
@@ -72,6 +86,7 @@ function CustomCase(props, ref) {
 
     return (
         <div className="customCase">
+            {contextHolder}
             {
                 caseArr.map((e,i) => 
                     "spj_code" in e ?
