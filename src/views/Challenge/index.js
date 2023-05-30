@@ -20,7 +20,6 @@ import {
     CustomCheckbox 
 } from '../../components/CustomChallenge';
 import { useTranslation } from 'react-i18next';
-import axios from "axios";
 import { constans } from '@/utils/constans';
 import { usePublish } from '@/hooks/usePublish';
 import { setMetadata } from '@/utils/getMetadata';
@@ -59,16 +58,18 @@ export default function Challenge(params) {
 
     const checkPage = async(type) => {
         window.scrollTo(0, 0);
-        page = type === 'add' ? page+1 : page-1;
-        setPage(page);
-        // 不是预览模式才运行
+        // 不是预览模式才运行: 切换page前运行
         if (detail) {
             const questType = detail.metadata.properties.questions[page-1].type;
             if (questType === "special_judge_coding" || questType === "coding") {
-                await childRef.current.goTest()
+                childRef.current.goTest()
+                .then(() => {
+                    saveAnswer();
+                })
             }
-            saveAnswer();
         }
+        page = type === 'add' ? page+1 : page-1;
+        setPage(page);
     }
 
     const changePage = (index) => {

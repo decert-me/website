@@ -19,7 +19,7 @@ const previewTabs = [
     }
 ]
 
-export default forwardRef (function CustomCode(props, ref) {
+function CustomCode(props, ref) {
 
     const { question, token_id, answers, setAnswers, saveAnswer, index, isPreview } = props;
     const consoleRef = useRef(null);
@@ -132,12 +132,19 @@ export default forwardRef (function CustomCode(props, ref) {
             return
         }
         addLogs(["开始编译..."]);
-        codeObj.code = obj.code;
-        codeObj.lang = obj.lang;
-        codeObj.quest_index = index;
-        // codeObj.type = params;
-        setCodeObj({...codeObj})
-        await codeRun(codeObj)
+        let paramsObj = JSON.parse(JSON.stringify(codeObj))
+        // 编程题特殊处理
+        if (cacheQuest?.spj_code) {
+            cacheQuest.spj_code.map(e => {
+                if (e.code === paramsObj.input) {
+                    paramsObj.input = ""
+                }
+            })
+        }
+        paramsObj.code = obj.code;
+        paramsObj.lang = obj.lang;
+        paramsObj.quest_index = index;
+        await codeRun(paramsObj)
         .then(res => {
             if (res.data) {
                 // 写入答案
@@ -248,4 +255,5 @@ export default forwardRef (function CustomCode(props, ref) {
             }
         </div>
     )   
-})
+}
+export default forwardRef(CustomCode)

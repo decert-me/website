@@ -22,7 +22,6 @@ function CustomConsole(props, ref) {
     
     const { question, changeCodeObj, goTest, logs, items, loading } = props;
     const [selectTab, setSelectTab] = useState(tabs[0].key);
-    const [hideCase, setHideCase] = useState(false);
     const caseRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
@@ -38,12 +37,6 @@ function CustomConsole(props, ref) {
         goTest("tryRun");
     }
 
-    useEffect(() => {
-        // const flag = !question.input || question.input.length === 0 ? true : false;
-        // setHideCase(flag)
-        // flag && setSelectTab(tabs[1].key)
-    },[])
-
     return(
         <>
             <div className="CustomConsole">
@@ -51,7 +44,6 @@ function CustomConsole(props, ref) {
                     tabs={tabs}
                     selectTab={selectTab}
                     setSelectTab={setSelectTab}
-                    hideCase={hideCase}
                 />
                 <TestCase 
                     className={selectTab === "case" ? "" : "none"}

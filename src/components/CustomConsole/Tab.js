@@ -1,6 +1,6 @@
 export default function Tab(props) {
     
-    const { tabs, selectTab, setSelectTab, hideCase } = props;
+    const { tabs, selectTab, setSelectTab } = props;
 
     return (
         <div className="tab">
