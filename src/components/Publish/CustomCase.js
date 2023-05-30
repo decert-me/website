@@ -32,7 +32,7 @@ function CustomCase(props, ref) {
         isSpecial ?
         caseArr.push({
             spj_code: {
-                frame: "",
+                frame: "Hardhat",
                 code: ""
             }
         })
@@ -58,7 +58,6 @@ function CustomCase(props, ref) {
             caseArr[index][type] = value;
         }
         setCaseArr([...caseArr]);
-        console.log(caseArr);
         // TODO: 节流
     }
 
