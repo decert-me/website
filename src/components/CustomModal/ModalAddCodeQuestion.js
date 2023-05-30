@@ -7,6 +7,7 @@ import MonacoEditor from "@/components/MonacoEditor";
 import "@/assets/styles/component-style/modal-coding.scss"
 import { codeTest } from "@/request/api/quests";
 import CustomCase from "../Publish/CustomCase";
+import { ANSI } from "@/utils/convert";
 
 export default function ModalAddCodeQuestion(props) {
 
@@ -63,15 +64,16 @@ export default function ModalAddCodeQuestion(props) {
         await codeTest(codeObj)
         .then(res => {
             if (res?.data) {
+                const msg = res.data.msg && ANSI(res.data.msg);
                 switch (res.data.status) {
                     case 1:
-                        logs.push("编译失败");
+                        logs.push(...["❌编译失败", msg]);
                         break;
                     case 2:
-                        logs.push(...["编译成功","运行失败"]);
+                        logs.push(...["✅编译成功","❌运行失败", msg]);
                         break;
                     case 3:
-                        logs.push(...["编译成功","运行成功",res.data.correct ? "测试用例通过" : "测试用例未通过"]);
+                        logs.push(...["✅编译成功","✅运行成功",res.data.correct ? "✅测试用例通过" : "❌测试用例未通过", msg]);
                         break;
                     default:
                         break;

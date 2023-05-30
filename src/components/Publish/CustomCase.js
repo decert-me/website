@@ -68,8 +68,6 @@ function CustomCase(props, ref) {
         const { top } = document.querySelector(".hover1").getBoundingClientRect();
         img.style.bottom = document.documentElement.offsetHeight - top + 50 + "px";
         img.style.left = (document.documentElement.offsetWidth - img.offsetWidth) / 2 + "px";
-
-        console.log(document.documentElement.offsetWidth);
     }
     
     const items = [
@@ -84,7 +82,6 @@ function CustomCase(props, ref) {
                         onMouseLeave={() => exampleAction(".show1", "none")}
                     >
                         ❓
-
                     </span>
                 </p>
             ),
