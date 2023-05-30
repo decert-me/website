@@ -6,6 +6,7 @@ function TestCase(props, ref) {
     
     const { input, changeCodeObj, className } = props;
     const [value, setValue] = useState("");
+    let [type, setType] = useState();
 
     useImperativeHandle(ref, () => ({
         changeValue
@@ -13,10 +14,12 @@ function TestCase(props, ref) {
 
     function changeValue(params) {
         changeCodeObj(params, "input")
-        setValue(params)
+        setValue(type === "object" ? params[0].code : params)
     }
 
     useEffect(() => {
+        type = typeof input;
+        setType(type);
         changeValue(input);
     },[])
 
@@ -32,6 +35,7 @@ function TestCase(props, ref) {
                 style={{
                     maxHeight: "100%"
                 }}
+                disabled={type === "object"}
             />
         </div>
     )

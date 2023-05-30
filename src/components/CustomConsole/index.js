@@ -53,38 +53,30 @@ function CustomConsole(props, ref) {
                     setSelectTab={setSelectTab}
                     hideCase={hideCase}
                 />
-                {
-                    !hideCase &&
-                    <TestCase 
-                        className={selectTab === "case" ? "" : "none"}
-                        input={question?.input ? question?.input[0] : question.spj_code} 
-                        changeCodeObj={changeCodeObj} 
-                        ref={caseRef}
-                    />
-                }
+                <TestCase 
+                    className={selectTab === "case" ? "" : "none"}
+                    input={question?.input ? question?.input[0] : question.spj_code} 
+                    changeCodeObj={changeCodeObj} 
+                    ref={caseRef}
+                />
                 <Console 
                     className={`${selectTab === "cmd" ? "" : "none"}`}
                     logs={logs} 
                 />
             </div>
             <div className="btns">
-                {
-                    hideCase ?
-                    <div></div>
-                    :
-                    <Dropdown
-                        menu={items ? {items} : items}
-                        trigger={['click']}
-                        placement="top"
-                    >
-                        <a onClick={(e) => e.preventDefault()}>
-                        <Space>
-                            Click me
-                            <UpOutlined />
-                        </Space>
-                        </a>
-                    </Dropdown>
-                }
+                <Dropdown
+                    menu={items ? {items} : items}
+                    trigger={['click']}
+                    placement="top"
+                >
+                    <a onClick={(e) => e.preventDefault()}>
+                    <Space>
+                        Click me
+                        <UpOutlined />
+                    </Space>
+                    </a>
+                </Dropdown>
                 <Button loading={loading} onClick={() => runCode()}>执行代码</Button>
             </div>
         </>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
-import { Modal, Input, Space, Button, Form, Checkbox, Radio, InputNumber, message } from "antd";
+import { Modal, Input, Space, Button, Form, Checkbox, Radio, InputNumber, message, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import { CustomEditor } from "@/components/CustomItem";
 import MonacoEditor from "@/components/MonacoEditor";
@@ -17,6 +17,7 @@ export default function ModalAddCodeQuestion(props) {
     const key = process.env.REACT_APP_ANSWERS_KEY;
     const caseRef = useRef(null);
     const [modal, contextHolder] = Modal.useModal();
+    const [loading, setLoading] = useState(false);
     let [languages, setLanguages] = useState([
         {
             label: 'Solidity',
@@ -108,7 +109,7 @@ export default function ModalAddCodeQuestion(props) {
         let flag = true;
         const testObj = {
             code: "", //写入的代码
-            example_code: decode(key, obj.code_snippets[0].correctAnswer), //代码示例
+            example_code: JSON.parse(decode(key, obj.code_snippets[0].correctAnswer)), //代码示例
             code_snippet: obj.code_snippets[0].code, //代码片段
             lang: obj.languages[0],
             input: [],
@@ -116,6 +117,7 @@ export default function ModalAddCodeQuestion(props) {
             example_output: obj.output,
             spj_code: obj.spj_code
         }
+        setLoading(true);
         await codeTest(testObj)
         .then(res => {
             if (res.status === 7 || 
@@ -137,6 +139,7 @@ export default function ModalAddCodeQuestion(props) {
                 })
             }
         })
+        setLoading(false);
         if (!flag) {
             return
         }
@@ -228,132 +231,134 @@ export default function ModalAddCodeQuestion(props) {
             maskClosable={false}
             destroyOnClose={true}
         >
-            <Form
-                form={form}
-                name="basic"
-                initialValues={{
-                    remember: true,
-                    type: "coding"  //初始值
-                }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                autoComplete="off"
-                layout="vertical"
-            >   
-            {contextHolder}
-                {/* 题目 */}
-                <Form.Item
-                    label="题目"
-                    name="title"
-                    rules={[
-                        {
-                        required: true,
-                        message: '请填写题目!',
-                        },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
+            <Spin spinning={loading} size="large">
+                <Form
+                    form={form}
+                    name="basic"
+                    initialValues={{
+                        remember: true,
+                        type: "coding"  //初始值
+                    }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                    layout="vertical"
+                >   
+                {contextHolder}
+                    {/* 题目 */}
+                    <Form.Item
+                        label="题目"
+                        name="title"
+                        rules={[
+                            {
+                            required: true,
+                            message: '请填写题目!',
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-                {/* 描述 */}
-                <Form.Item
-                    label="题目描述"
-                    name="description"
-                    rules={[
-                        {
-                        required: true,
-                        message: '请填写描述!',
-                        },
-                    ]}
-                >
-                    <CustomEditor 
-                        mode="tab" 
-                        onChange={
-                            (e) => form.setFieldValue("description",e)
-                        } 
-                        initialValues={selectQs?.description}
-                    />
-                </Form.Item>
+                    {/* 描述 */}
+                    <Form.Item
+                        label="题目描述"
+                        name="description"
+                        rules={[
+                            {
+                            required: true,
+                            message: '请填写描述!',
+                            },
+                        ]}
+                    >
+                        <CustomEditor 
+                            mode="tab" 
+                            onChange={
+                                (e) => form.setFieldValue("description",e)
+                            } 
+                            initialValues={selectQs?.description}
+                        />
+                    </Form.Item>
 
-                {/* 代码片段 */}
-                <Form.Item
-                    label="代码"
-                >
-                    {
-                        languages.map((e, i) => 
-                            <div
-                                key={i}
-                            >
-                                <Checkbox 
-                                    checked={e.checked} 
-                                    disabled
-                                    onChange={
-                                        (e) => changeChecked(i, e.target.checked)
-                                    } 
+                    {/* 代码片段 */}
+                    <Form.Item
+                        label="代码"
+                    >
+                        {
+                            languages.map((e, i) => 
+                                <div
+                                    key={i}
                                 >
-                                    {e.label}
-                                </Checkbox>
-                                {
-                                    e.checked &&
-                                    <div className="border-b">
-                                        <div className="code-snippets">
-                                            <div className="label">代码模板<span>由挑战者去补充完整</span></div>
-                                            <MonacoEditor
-                                                value={e.code}
-                                                onChange={(newValue) => {
-                                                    changeCoding("code", newValue, i);
-                                                }}
-                                                language={e.label}
-                                            />
+                                    <Checkbox 
+                                        checked={e.checked} 
+                                        disabled
+                                        onChange={
+                                            (e) => changeChecked(i, e.target.checked)
+                                        } 
+                                    >
+                                        {e.label}
+                                    </Checkbox>
+                                    {
+                                        e.checked &&
+                                        <div className="border-b">
+                                            <div className="code-snippets">
+                                                <div className="label">代码模板<span>由挑战者去补充完整</span></div>
+                                                <MonacoEditor
+                                                    value={e.code}
+                                                    onChange={(newValue) => {
+                                                        changeCoding("code", newValue, i);
+                                                    }}
+                                                    language={e.label}
+                                                />
+                                            </div>
+                                            <div className="code-snippets">
+                                                <div className="label">代码示例<span>正确的代码</span></div>
+                                                <MonacoEditor
+                                                    value={e.correctAnswer}
+                                                    onChange={(newValue) => {
+                                                        changeCoding("correctAnswer", newValue, i);
+                                                    }}
+                                                    language={e.label}
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="code-snippets">
-                                            <div className="label">代码示例<span>正确的代码</span></div>
-                                            <MonacoEditor
-                                                value={e.correctAnswer}
-                                                onChange={(newValue) => {
-                                                    changeCoding("correctAnswer", newValue, i);
-                                                }}
-                                                language={e.label}
-                                            />
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        )
-                    }
-                </Form.Item>
+                                    }
+                                </div>
+                            )
+                        }
+                    </Form.Item>
 
-                {/* 测试用例 */}
-                <Form.Item
-                    label="测试用例"
-                >
-                    <CustomCase ref={caseRef} checkCode={checkCode} />
-                </Form.Item>
+                    {/* 测试用例 */}
+                    <Form.Item
+                        label="测试用例"
+                    >
+                        <CustomCase ref={caseRef} checkCode={checkCode} />
+                    </Form.Item>
 
-                {/* 分数 */}
-                <Form.Item
-                    label="分数"
-                    name="score"
-                    rules={[
-                        {
-                        required: true,
-                        message: '请输入当前题目分数!',
-                        },
-                    ]}
-                >
-                    <InputNumber
-                        style={{
-                            width: '100%',
-                        }}
-                    />
-                </Form.Item>
+                    {/* 分数 */}
+                    <Form.Item
+                        label="分数"
+                        name="score"
+                        rules={[
+                            {
+                            required: true,
+                            message: '请输入当前题目分数!',
+                            },
+                        ]}
+                    >
+                        <InputNumber
+                            style={{
+                                width: '100%',
+                            }}
+                        />
+                    </Form.Item>
 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        添加
-                    </Button>
-                </Form.Item>
-            </Form>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">
+                            添加
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Spin>
     </Modal>
     )
 }
