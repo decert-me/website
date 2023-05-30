@@ -25,11 +25,16 @@ function CustomConsole(props, ref) {
     const caseRef = useRef(null);
 
     useImperativeHandle(ref, () => ({
-        changeInput
+        changeInput,
+        initTab
     }))
 
     function changeInput(params, type) {
         caseRef.current.changeValue(params, type)
+    }
+
+    function initTab(params) {
+        setSelectTab(tabs[0].key);
     }
 
     function runCode() {

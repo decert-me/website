@@ -59,6 +59,7 @@ function CustomCode(props, ref) {
     function changeCodeObj(params, key) {
         codeObj[key] = params;
         setCodeObj({...codeObj});
+        consoleRef.current.initTab();
     }
 
     function printLog(res) {
