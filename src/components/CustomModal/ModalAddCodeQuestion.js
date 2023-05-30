@@ -16,6 +16,7 @@ export default function ModalAddCodeQuestion(props) {
     const [form] = Form.useForm();
     const key = process.env.REACT_APP_ANSWERS_KEY;
     const caseRef = useRef(null);
+    const [modal, contextHolder] = Modal.useModal();
     let [languages, setLanguages] = useState([
         {
             label: 'Solidity',
@@ -55,7 +56,6 @@ export default function ModalAddCodeQuestion(props) {
             lang: obj.value,
             ...code
         }
-
         const logs = ["开始编译..."];
 
         // 用例检测
@@ -81,7 +81,7 @@ export default function ModalAddCodeQuestion(props) {
         
     }
 
-    const onFinish = (values) => {
+    const onFinish = async(values) => {
         const rest = values;
         const cases = caseRef.current.caseArr;
         const inputArr = getValuesByKey(cases, 'input');
@@ -95,6 +95,7 @@ export default function ModalAddCodeQuestion(props) {
             code: e.code,
             correctAnswer: encode(key, JSON.stringify(e.correctAnswer))
         }));
+
         const obj = {
             ...rest,
             languages: codeSnippetArr.map(c => c.lang),
@@ -104,6 +105,41 @@ export default function ModalAddCodeQuestion(props) {
             output: outputArr, 
             spj_code: spj_code
         };
+        let flag = true;
+        const testObj = {
+            code: "", //写入的代码
+            example_code: decode(key, obj.code_snippets[0].correctAnswer), //代码示例
+            code_snippet: obj.code_snippets[0].code, //代码片段
+            lang: obj.languages[0],
+            input: [],
+            example_input: obj.input,
+            example_output: obj.output,
+            spj_code: obj.spj_code
+        }
+        await codeTest(testObj)
+        .then(res => {
+            if (res.status === 7 || 
+                res.data.status === 1 ||
+                res.data.status === 2 ||
+                res.data.correct === false
+                ) {
+                // 弹出用例有误
+                flag = false
+                modal.confirm({
+                    title: '',
+                    icon: <></>,
+                    className: "custom-confirm",
+                    cancelText: "取消",
+                    okText: "好的",
+                    content: (
+                        <p>测试用例有误，请修改后重新保存</p>
+                    )
+                })
+            }
+        })
+        if (!flag) {
+            return
+        }
         // 返回
         if (selectQs) {
             // 修改
@@ -204,6 +240,7 @@ export default function ModalAddCodeQuestion(props) {
                 autoComplete="off"
                 layout="vertical"
             >   
+            {contextHolder}
                 {/* 题目 */}
                 <Form.Item
                     label="题目"

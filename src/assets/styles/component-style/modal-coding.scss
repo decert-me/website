@@ -193,6 +193,44 @@
     // form style
     
 }
+
+// modal
+.custom-confirm{
+    width: 467px !important;
+    padding-bottom: 0 !important;
+    border-radius: 25px !important;
+    overflow: hidden;
+    .ant-modal-content{
+        padding: 20px 44px !important;
+    }
+    .ant-modal-confirm-body{
+        width: 100%;
+        margin-top: 48px;
+        margin-bottom: 57px;
+        text-align: center;
+        justify-content: center;
+        p{
+            font-size: 20px;
+            color: #3D3D3D;
+            line-height: 29px;
+        }
+    }
+    .ant-modal-confirm-btns{
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        button{
+            width: 171px;
+            height: 40px;
+            font-size: 16px;
+        }
+        .ant-btn-default{
+            border-color: #3360F4;
+            color: #3360F4;
+        }
+    }
+}
+
 // case dropdown
 .customCaseMenu{
     .ant-dropdown-menu{
