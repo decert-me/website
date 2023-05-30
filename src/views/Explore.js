@@ -34,7 +34,7 @@ export default function Explore(params) {
     store.subscribe(handleMobileChange);
     
     const goChallenge = (item) => {
-        if (address && item.claimed) {
+        if (item.claimed || item.claimable) {
             navigateTo(`/claim/${item.tokenId}`);
         }else{
             navigateTo(`/quests/${item.tokenId}`);
@@ -42,15 +42,27 @@ export default function Explore(params) {
     }
 
     const getChallenge = async() => {
-            page += 1;
-            setPage(page);
-            const res = await getQuests({pageSize: 10, page: page});
-            if (res.data.list.length !== 10) {
-                setIsOver(true);
+        const cache = localStorage.getItem("decert.cache");
+        page += 1;
+        setPage(page);
+        const res = await getQuests({pageSize: 10, page: page});
+        if (res.data.list.length !== 10) {
+            setIsOver(true);
+        }
+        challenges = challenges.concat(res.data.list);
+        if (cache) {
+            const claimable = JSON.parse(cache)?.claimable;
+            if (claimable) {
+                challenges.map(e => {
+                    claimable.map(ele => {
+                        if (e.tokenId == ele) {
+                            e.claimable = true;
+                        }
+                    })
+                })
             }
-            challenges = challenges.concat(res.data.list);
-            setChallenges([...challenges]);
-
+        }
+        setChallenges([...challenges]);
     }
 
     // const io = new IntersectionObserver(ioes => {
@@ -111,6 +123,12 @@ export default function Explore(params) {
                                             item.claimed &&
                                             <div className="item-claimed">
                                                 pass
+                                            </div>
+                                        }
+                                        {
+                                            item?.claimable && 
+                                            <div className="item-claimable">
+                                                claimable
                                             </div>
                                         }
                                     </div>
