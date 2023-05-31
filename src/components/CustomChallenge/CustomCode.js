@@ -224,9 +224,12 @@ function CustomCode(props, ref) {
 
     return (
         <div className="CustomCode">
-            <div className="code-desc custom-scroll">
+            <div className="code-desc">
                 <p className="code-title">{question.title}</p>
-                <CustomViewer label={question.description} />
+                <div className="line" />
+                <div className="code-content custom-scroll">
+                    <CustomViewer label={question.description} />
+                </div>
             </div>
             {
                 selectCode &&
@@ -236,11 +239,16 @@ function CustomCode(props, ref) {
                             {/* 多语种下拉框 */}
                         </div>
                     </div>
-                    <MonacoEditor
-                        value={editorCode}
-                        onChange={changeCache}
-                        language={selectCode.lang}
-                    />
+                    <div 
+                        className="out-inner"
+                    >
+                        <MonacoEditor
+                            value={editorCode}
+                            onChange={changeCache}
+                            language={selectCode.lang}
+                            height={"calc(100% - 14px)"}
+                        />
+                    </div>
                     <div className="out-content">
                         <CustomConsole 
                             question={question}
