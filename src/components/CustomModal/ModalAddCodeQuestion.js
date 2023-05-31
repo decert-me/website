@@ -1,4 +1,7 @@
 import { useEffect, useRef, useState } from "react";
+import {
+    ExclamationCircleOutlined
+} from '@ant-design/icons';
 import { Encryption } from "@/utils/Encryption";
 import { Modal, Input, Space, Button, Form, Checkbox, Radio, InputNumber, message, Spin } from "antd";
 import { useTranslation } from "react-i18next";
@@ -8,6 +11,7 @@ import "@/assets/styles/component-style/modal-coding.scss"
 import { codeTest } from "@/request/api/quests";
 import CustomCase from "../Publish/CustomCase";
 import { ANSI } from "@/utils/convert";
+import { exampleAction } from "@/utils/exampleAction";
 
 export default function ModalAddCodeQuestion(props) {
 
@@ -303,7 +307,14 @@ export default function ModalAddCodeQuestion(props) {
                                         e.checked &&
                                         <div className="border-b">
                                             <div className="code-snippets">
-                                                <div className="label">代码模板<span>由挑战者去补充完整</span></div>
+                                                <div className="label">代码模板
+                                                    <ExclamationCircleOutlined 
+                                                        className="icon-sigh s1" 
+                                                        onMouseEnter={() => exampleAction(".show3", "block", ".s1", "tr")}
+                                                        onMouseLeave={() => exampleAction(".show3", "none", ".s1", "tr")}
+                                                    />
+                                                    <span>由挑战者去补充完整</span>
+                                                </div>
                                                 <MonacoEditor
                                                     value={e.code}
                                                     onChange={(newValue) => {
@@ -313,7 +324,14 @@ export default function ModalAddCodeQuestion(props) {
                                                 />
                                             </div>
                                             <div className="code-snippets">
-                                                <div className="label">代码示例<span>正确的代码</span></div>
+                                                <div className="label">代码示例
+                                                    <ExclamationCircleOutlined 
+                                                        className="icon-sigh s2" 
+                                                        onMouseEnter={() => exampleAction(".show4", "block", ".s2", "tr")}
+                                                        onMouseLeave={() => exampleAction(".show4", "none", ".s2", "tr")}
+                                                    />
+                                                    <span>正确的代码</span>
+                                                </div>
                                                 <MonacoEditor
                                                     value={e.correctAnswer}
                                                     onChange={(newValue) => {
@@ -361,6 +379,12 @@ export default function ModalAddCodeQuestion(props) {
                     </Form.Item>
                 </Form>
             </Spin>
+            <div className="poa  show3">
+                <img src={require("@/assets/images/img/publish-example3.png")} alt="" />
+            </div>
+            <div className="poa  show4">
+                <img src={require("@/assets/images/img/publish-example4.png")} alt="" />
+            </div>
     </Modal>
     )
 }

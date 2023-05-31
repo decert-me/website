@@ -6,6 +6,7 @@ import {
 import { forwardRef, useImperativeHandle, useState } from "react";
 import Coding from "./Coding";
 import CodingSpecial from "./CodingSpecial";
+import { exampleAction } from "@/utils/exampleAction";
 
 function CustomCase(props, ref) {
 
@@ -62,14 +63,6 @@ function CustomCase(props, ref) {
         // TODO: 节流
     }
 
-    function exampleAction(dom, type) {
-        const img = document.querySelector(dom);
-        img.style.display = type;
-        const { top } = document.querySelector(".hover1").getBoundingClientRect();
-        img.style.bottom = document.documentElement.offsetHeight - top + 50 + "px";
-        img.style.left = (document.documentElement.offsetWidth - img.offsetWidth) / 2 + "px";
-    }
-    
     const items = [
         {
             key: '1',
@@ -78,8 +71,8 @@ function CustomCase(props, ref) {
                 <p onClick={() => addCase()}>
                     测试用例 
                     <span
-                        onMouseEnter={() => exampleAction(".show1", "block")}
-                        onMouseLeave={() => exampleAction(".show1", "none")}
+                        onMouseEnter={() => exampleAction(".show1", "block", ".hover1", "top")}
+                        onMouseLeave={() => exampleAction(".show1", "none", ".hover1", "top")}
                         style={{fontSize: "14px", marginLeft: "6px", display: "inline-block", paddingTop: "1px"}}
                     >
                         <QuestionCircleOutlined />
@@ -96,8 +89,8 @@ function CustomCase(props, ref) {
                 <p onClick={() => addCase("special")}>
                     代码测试用例
                     <span
-                        onMouseEnter={() => exampleAction(".show2", "block")}
-                        onMouseLeave={() => exampleAction(".show2", "none")}
+                        onMouseEnter={() => exampleAction(".show2", "block", ".hover1", "top")}
+                        onMouseLeave={() => exampleAction(".show2", "none", ".hover1", "top")}
                         style={{fontSize: "14px", marginLeft: "6px", display: "inline-block", paddingTop: "1px"}}
                     >
                         <QuestionCircleOutlined />
