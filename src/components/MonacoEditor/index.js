@@ -56,6 +56,7 @@ function MonacoEditor(props, ref) {
             value={value}
             onChange={onChange}
             language={newLang}
+            height={height}
         />
         :
         <div style={{height: height ? height : "calc(100% - 230px)"}}>
