@@ -82,6 +82,8 @@ export default function ModalAddCodeQuestion(props) {
                     default:
                         break;
                 }
+            }else{
+                logs.push(...["❌编译失败"]);
             }
         })
         return logs
