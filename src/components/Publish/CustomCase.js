@@ -1,6 +1,7 @@
 import { Button, Dropdown, Modal } from "antd";
 import {
-    PlusOutlined
+    PlusOutlined,
+    QuestionCircleOutlined
 } from '@ant-design/icons';
 import { forwardRef, useImperativeHandle, useState } from "react";
 import Coding from "./Coding";
@@ -79,8 +80,9 @@ function CustomCase(props, ref) {
                     <span
                         onMouseEnter={() => exampleAction(".show1", "block")}
                         onMouseLeave={() => exampleAction(".show1", "none")}
+                        style={{fontSize: "14px", marginLeft: "6px", display: "inline-block", paddingTop: "1px"}}
                     >
-                        ❓
+                        <QuestionCircleOutlined />
                     </span>
                 </p>
             ),
@@ -96,8 +98,9 @@ function CustomCase(props, ref) {
                     <span
                         onMouseEnter={() => exampleAction(".show2", "block")}
                         onMouseLeave={() => exampleAction(".show2", "none")}
+                        style={{fontSize: "14px", marginLeft: "6px", display: "inline-block", paddingTop: "1px"}}
                     >
-                        ❓
+                        <QuestionCircleOutlined />
                     </span>
                 </p>
             ),
