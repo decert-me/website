@@ -121,6 +121,7 @@ function CustomCase(props, ref) {
                                     (e, key) => changeValue(e, "spj_code", i, key)
                                 } 
                                 defaultValue={e}
+                                className={`coding-special${i}`}
                                 deleteCase={() => deleteCase(i)}
                                 checkCode={async() => {
                                     return await checkCode({

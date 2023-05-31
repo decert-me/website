@@ -36,7 +36,7 @@ const frameLang = [
 
 export default function CodingSpecial(props) {
     
-    const { onChange, deleteCase, defaultValue, checkCode } = props;
+    const { onChange, deleteCase, defaultValue, checkCode, className } = props;
     const editorRef = useRef(null);
     let [logs, setLogs] = useState([]);
     let [loading, setLoading] = useState();
@@ -55,7 +55,7 @@ export default function CodingSpecial(props) {
     },[logs])
 
     return (
-        <div className="coding-special">
+        <div className={`coding-special ${className}`}>
             <div className="flex">
                 <div className="case-close" onClick={deleteCase}>
                     <CustomIcon type="icon-close" />
@@ -70,7 +70,7 @@ export default function CodingSpecial(props) {
                                 marginTop: "10px"
                             }}
                             className="select-frame"
-                            getPopupContainer={() => document.querySelector(".select-frame")}
+                            getPopupContainer={() => document.querySelector(`.${className}`)}
                             placeholder="框架"
                             onChange={(frame => {
                                 // 切换编辑器语种
