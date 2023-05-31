@@ -69,7 +69,7 @@ function CustomConsole(props, ref) {
                 >
                     <a onClick={(e) => e.preventDefault()}>
                     <Space>
-                        Click me
+                    填入示例
                         <UpOutlined />
                     </Space>
                     </a>
