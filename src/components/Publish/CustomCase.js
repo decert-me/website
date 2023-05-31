@@ -151,6 +151,7 @@ function CustomCase(props, ref) {
                     overlayClassName="customCaseMenu"
                     placement="bottom"
                     trigger="click"
+                    getPopupContainer={() => document.querySelector(".addCase")}
                     arrow={{
                         pointAtCenter: true,
                     }}
