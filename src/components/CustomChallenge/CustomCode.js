@@ -90,7 +90,7 @@ function CustomCode(props, ref) {
         setLoading(false);
     }
 
-    function previewTest(params) {
+    function previewTest() {
         const obj = cacheQuest.code_snippets[selectIndex];
         let testCode = {
             code: obj.code, //写入的代码
@@ -110,7 +110,25 @@ function CustomCode(props, ref) {
                 example_output: cacheQuest.output
             }
         }
-        codeTest(testCode)
+
+        addLogs(["开始编译..."]);
+        let paramsObj = JSON.parse(JSON.stringify(testCode))
+        // 编程题特殊处理
+        console.log(cacheQuest);
+        console.log("11111");
+        if (cacheQuest?.spj_code) {
+            console.log("2222");
+            cacheQuest.spj_code.map(e => {
+                if (e.code === paramsObj.input) {
+                    paramsObj.input = ""
+                    console.log("33333");
+                }
+            })
+        }
+        paramsObj.code = obj.code;
+        paramsObj.lang = obj.lang;
+        paramsObj.quest_index = index;
+        codeTest(paramsObj)
         .then(res => {
             res.data ? printLog(res) : setLoading(false);
         })
@@ -122,17 +140,20 @@ function CustomCode(props, ref) {
             setLoading(false);
             return
         }
+
         if (isPreview) {
             previewTest()
             return
         }
+
         const obj = cacheQuest.code_snippets[selectIndex];
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
         if (!params && cache[token_id][index] && JSON.stringify(obj.code) === JSON.stringify(cache[token_id][index].code)) {
             // 切换页面时判断是否需要向后端发起判题
             return
         }
-        addLogs(["开始编译..."]);
+        
+        // 代码自测参数
         let paramsObj = JSON.parse(JSON.stringify(codeObj))
         // 编程题特殊处理
         if (cacheQuest?.spj_code) {
@@ -145,6 +166,8 @@ function CustomCode(props, ref) {
         paramsObj.code = obj.code;
         paramsObj.lang = obj.lang;
         paramsObj.quest_index = index;
+
+        addLogs(["开始编译..."]);
         await codeRun(paramsObj)
         .then(res => {
             if (res.data) {
