@@ -17,6 +17,7 @@ import { useWeb3Modal } from "@web3modal/react";
 import logo_white from "@/assets/images/svg/logo-white.png";
 import logo_normal from "@/assets/images/svg/logo-normal.png";
 import { changeConnect } from '@/utils/redux';
+import { useUpdateEffect } from 'ahooks';
 
 export default function AppHeader({ isMobile }) {
     
@@ -25,10 +26,15 @@ export default function AppHeader({ isMobile }) {
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
     const location = useLocation();
-    let [isHome, setIsHome] = useState();
     let [isOpenM, setIsOpenM] = useState(false);
     const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
-    const items = [
+
+    let [items, setItems] = useState([
+        {
+            label: (<p onClick={() => navigateTo(`/publish`)}> {t("translation:home.btn-publish")} </p>),
+            key: '0',
+            icon: '',
+        },
         {
             label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("translation:header.profile")} </p>),
             key: '1',
@@ -51,7 +57,7 @@ export default function AppHeader({ isMobile }) {
             key: '3',
             icon: '',
         }
-    ]
+    ])
 
     const menus = [
         {to: "/tutorials", label: t("translation:header.lesson")},
@@ -76,14 +82,19 @@ export default function AppHeader({ isMobile }) {
 
     useEffect(() => {
         if (location) {
-            isHome = (location.pathname === '/' || location.pathname === '/vitae') ? true : false;
-            setIsHome(isHome);
             setIsOpenM(false);
         }
     },[location])
 
+    useUpdateEffect(() => {
+        if (isMobile) {
+            items.splice(0,1);
+            setItems([...items])
+        }
+    },[isMobile])
+
     return (
-        <div id={`${isHome ? "Header-bg" : "Header"}`}>
+        <div id="Header">
             <div className={`header-content ${isOpenM ? "bg000" : ""}`}>
                 <div className='nav-left'>
                     <div 
@@ -91,22 +102,21 @@ export default function AppHeader({ isMobile }) {
                         onClick={() => navigateTo("/")} 
                     >
                         {
-                            isHome || isOpenM ? 
+                            isOpenM ? 
                             <img src={logo_white} alt="" />
                             :
                             <img src={logo_normal} alt="" />
                         }
                     </div>
                     {
-                        menus.map((e,i) =>
-                            <Link 
-                            to={e.to} 
-                            key={i} 
-                            className={location.pathname.indexOf(e.to) !== -1 ? "active" : ""}>
-                                {e.label}
-                            </Link>
-                        )
-                    }
+                        menus.map((e,i) => <Link 
+                                        to={e.to} 
+                                        key={i} 
+                                        className={location.pathname.indexOf(e.to) !== -1 ? "active" : ""}
+                                    >
+                                        {e.label}
+                                    </Link>
+                    )}
                 </div>
                 {
                     isMobile ? 
@@ -136,7 +146,7 @@ export default function AppHeader({ isMobile }) {
                                     isOpenM ?
                                     <CloseOutlined />
                                     :
-                                    <MenuOutlined /> 
+                                    <MenuOutlined style={{color: "#8F5A35"}} /> 
                                 }
                             </div>
                             <div className={`mask-box ${isOpenM ? "mask-box-show" : ""}`}>
@@ -170,11 +180,19 @@ export default function AppHeader({ isMobile }) {
                         <Button 
                             type="ghost"
                             ghost
-                            className='lang'
+                            className='lang custom-btn'
                             onClick={() => toggleI18n()}
                         >
-                            {i18n.language === 'zh-CN' ? "中文" : "EN"}
+                            {i18n.language === 'zh-CN' ? "CN" : "EN"}
                         </Button>
+                        {/* TODO: 日间模式:夜晚模式 */}
+                        {/* <Button 
+                            type="ghost"
+                            ghost
+                            className='custom-btn'
+                        >
+                            日
+                        </Button> */}
                         {
                             isConnected ?
                                 <Dropdown
@@ -190,7 +208,7 @@ export default function AppHeader({ isMobile }) {
                                 </Dropdown>
                             :
                             <div>
-                                <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
+                                <Button onClick={() => openModal()} className='connect'>{t("translation:header.connect")}</Button>
                             </div>
                         }
                     </div>
