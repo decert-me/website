@@ -7,21 +7,31 @@ import CustomIcon from "../CustomIcon";
 import { useEffect, useRef, useState } from "react";
 import { useUpdateEffect } from "ahooks";
 
+// const frame = [
+//     {
+//       label: 'Solidity',
+//       options: [
+//         {
+//           label: 'Foundry',
+//           value: 'Foundry'
+//         },
+//         {
+//           label: 'Hardhat',
+//           value: 'Hardhat'
+//         },
+//       ],
+//     }
+// ]
 const frame = [
     {
-      label: 'Solidity',
-      options: [
-        {
-          label: 'Foundry',
-          value: 'Foundry'
-        },
-        {
-          label: 'Hardhat',
-          value: 'Hardhat'
-        },
-      ],
-    }
-]
+      label: 'Foundry',
+      value: 'Foundry'
+    },
+    {
+      label: 'Hardhat',
+      value: 'Hardhat'
+    },
+  ]
 
 const frameLang = [
     {
