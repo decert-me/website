@@ -114,14 +114,13 @@ function CustomCode(props, ref) {
         addLogs(["开始编译..."]);
         let paramsObj = JSON.parse(JSON.stringify(testCode))
         // 编程题特殊处理
-        console.log(cacheQuest);
-        console.log("11111");
         if (cacheQuest?.spj_code) {
-            console.log("2222");
             cacheQuest.spj_code.map(e => {
                 if (e.code === paramsObj.input) {
-                    paramsObj.input = ""
-                    console.log("33333");
+                    paramsObj.input = "";
+                    paramsObj.spj_code = [e];
+                    delete paramsObj.example_input;
+                    delete paramsObj.example_output;
                 }
             })
         }
