@@ -201,6 +201,12 @@
         align-items: center;
         justify-content: center;
         font-size: 14px;
+        color: #000;
+        &:hover{
+            background-color: #FF0000;
+            color: #fff;
+            border: none;
+        }
     }
 
     // edit
