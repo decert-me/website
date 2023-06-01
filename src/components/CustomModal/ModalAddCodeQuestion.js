@@ -255,7 +255,7 @@ export default function ModalAddCodeQuestion(props) {
                 {contextHolder}
                     {/* 题目 */}
                     <Form.Item
-                        label={t("inner.ques")}
+                        label={t("inner.ques2")}
                         name="title"
                         rules={[
                             {
