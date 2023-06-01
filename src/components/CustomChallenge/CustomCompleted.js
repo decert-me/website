@@ -76,8 +76,13 @@ export default function CustomCompleted(props) {
                 setShowConfetti(true);
                 const cache = JSON.parse(localStorage.getItem("decert.cache"));
                 const claimable = cache?.claimable ? cache.claimable : [];
-                if (!claimable.includes(tokenId)) {
-                    claimable.push(tokenId)
+                console.log();
+                if (!claimable.some(item => item.token_id == tokenId)) {
+                    const add_ts = Math.floor(Date.now() / 1000);
+                    claimable.push({
+                        token_id: Number(tokenId),
+                        add_ts
+                    })
                 }
                 cache.claimable = claimable;
                 localStorage.setItem("decert.cache", JSON.stringify(cache))

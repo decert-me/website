@@ -50,11 +50,18 @@ export default function User(props) {
 
     const getList = () => {
         if (checkType === 0) {
+            const cache = JSON.parse(localStorage.getItem("decert.cache"));
+            let claimable;
+            if (cache?.claimable && cache.claimable.length > 0) {
+                // 如果有可领取的
+                claimable = JSON.stringify(cache.claimable);
+            }
             // 'complete'
             getChallengeComplete({
                 ...pageConfig,
                 type: checkStatus,
-                address: account
+                address: account,
+                claimable
             })
             .then(res => {
                 if (res?.data) {
@@ -64,6 +71,7 @@ export default function User(props) {
                     setPageConfig({...pageConfig});
                 }
             })
+            // 如果是“可领取”状态，择再获取本地缓存“可领取”，分页
         }else{
             // 'publish'
             getChallengeCreate({

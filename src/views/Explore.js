@@ -55,7 +55,7 @@ export default function Explore(params) {
             if (claimable) {
                 challenges.map(e => {
                     claimable.map(ele => {
-                        if (e.tokenId == ele) {
+                        if (e.tokenId == ele.token_id) {
                             e.claimable = true;
                         }
                     })
