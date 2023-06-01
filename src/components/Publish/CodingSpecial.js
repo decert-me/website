@@ -74,7 +74,7 @@ export default function CodingSpecial(props) {
                 </div>
                 <div className="form">
                         <div className="label">
-                            代码编辑器
+                            {t("inner.code-edit")}
                         </div>
                         <Select
                             style={{

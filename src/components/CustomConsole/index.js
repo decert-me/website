@@ -6,23 +6,27 @@ import { Button, Dropdown, Space } from "antd";
 import {
     UpOutlined
   } from '@ant-design/icons';
+import { useTranslation } from "react-i18next";
 
-const tabs = [
-    {
-        key: "case",
-        label: "测试用例"
-    },
-    {
-        key: "cmd",
-        label: "代码执行结果"
-    }
-]
 
 function CustomConsole(props, ref) {
-    
+
     const { question, changeCodeObj, goTest, logs, items, loading } = props;
+    const { t } = useTranslation(['publish']);
+    const tabs = [
+        {
+            key: "case",
+            label: t("inner.case")
+        },
+        {
+            key: "cmd",
+            label: t("inner.run-res")
+        }
+    ]
     const [selectTab, setSelectTab] = useState(tabs[0].key);
     const caseRef = useRef(null);
+
+
 
     useImperativeHandle(ref, () => ({
         changeInput,
@@ -73,12 +77,12 @@ function CustomConsole(props, ref) {
                 >
                     <a onClick={(e) => e.preventDefault()}>
                     <Space>
-                    填入示例
+                    {t("inner.fill-example")}
                         <UpOutlined />
                     </Space>
                     </a>
                 </Dropdown>
-                <Button loading={loading} onClick={() => runCode()}>执行代码</Button>
+                <Button loading={loading} onClick={() => runCode()}>{t("inner.run-code")}</Button>
             </div>
         </>
     )

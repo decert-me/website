@@ -61,7 +61,7 @@ export default function ModalAddCodeQuestion(props) {
             lang: obj.value,
             ...code
         }
-        const logs = ["开始编译..."];
+        const logs = [t("inner.run.start")];
 
         // 用例检测
         await codeTest(codeObj)
@@ -70,20 +70,20 @@ export default function ModalAddCodeQuestion(props) {
                 const msg = res.data.msg && ANSI(res.data.msg);
                 switch (res.data.status) {
                     case 1:
-                        logs.push(...["❌编译失败", msg]);
+                        logs.push(...[t("inner.run.fail.compile"), msg]);
                         break;
                     case 2:
-                        logs.push(...["✅编译成功","❌运行失败", msg]);
+                        logs.push(...[t("inner.run.success.compile"),t("inner.run.fail.test"), msg]);
                         break;
                     case 3:
-                        logs.push(...["✅编译成功","✅运行成功",res.data.correct ? "✅测试用例通过" : "❌测试用例未通过", msg]);
+                        logs.push(...[t("inner.run.success.compile"),t("inner.run.success.test"),res.data.correct ? t("inner.run.success.case") : t("inner.run.fail.case"), msg]);
                         break;
                     default:
                         break;
                 }
             }
             if (res.status !== 0) {
-                logs.push(...["❌编译失败"]);
+                logs.push(...[t("inner.run.fail.compile")]);
             }
         })
         return logs
@@ -260,7 +260,7 @@ export default function ModalAddCodeQuestion(props) {
                         rules={[
                             {
                             required: true,
-                            message: t("inner.rule.title"),
+                            message: t("inner.rule.ques2"),
                             },
                         ]}
                     >
@@ -274,7 +274,7 @@ export default function ModalAddCodeQuestion(props) {
                         rules={[
                             {
                             required: true,
-                            message: '请填写描述!',
+                            message: t("inner.rule.desc"),
                             },
                         ]}
                     >

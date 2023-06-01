@@ -19,6 +19,7 @@
         "recommend": "Recommend Tutorial",
         "nodata": "No data",
         "code": "Code",
+        "code-edit": "Code Editor",
         "code-tpl": "Code Template",
         "code-tpl-desc": "Let the challenger complete it",
         "code-spl": "Code Example",
@@ -31,9 +32,28 @@
         "out": "Output",
         "run-case": "Execute Test Case",
         "run-res": "Code Execution Results",
-
+        "run-code": "Execute code",
+        "example": "Example",
+        "fill-example": "Fill in example",
+        "run": {
+            "start": "Start compiling...",
+            "be": "Expected output",
+            "af": "Actual output",
+            "success": {
+                "compile": "✅Compilation succeeded",
+                "test": "✅Execution succeeded",
+                "case": "✅Test case passed"
+            },
+            "fail": {
+                "compile": "❌Compilation failed",
+                "test": "❌Execution failed",
+                "case": "❌Test case failed"
+            }
+        },
         "rule": {
             "title": "Please enter the title",
+            "ques2": "Please fill in the quiz tittle",
+            "desc": "Please fill in the description",
             "img": "Please upload image",
             "score": "Please set a passing score",
             "ques-score": "Please enter quiz score",

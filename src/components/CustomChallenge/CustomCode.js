@@ -6,6 +6,7 @@ import { codeRun, codeTest } from '@/request/api/quests';
 import CustomViewer from "../CustomViewer";
 import { Segmented } from "antd";
 import { Encryption } from "@/utils/Encryption";
+import { useTranslation } from "react-i18next";
 
 
 const previewTabs = [
@@ -22,6 +23,7 @@ const previewTabs = [
 function CustomCode(props, ref) {
 
     const { question, token_id, answers, setAnswers, saveAnswer, index, isPreview } = props;
+    const { t } = useTranslation(['publish']);
     const consoleRef = useRef(null);
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
@@ -65,13 +67,13 @@ function CustomCode(props, ref) {
     function printLog(res) {
         switch (res.data.status) {
             case 1:
-                addLogs(["❌编译失败", res.data.msg])
+                addLogs([t("inner.run.fail.compile"), res.data.msg])
                 break;
             case 2:
-                addLogs(["✅编译成功", "❌运行失败", res.data.msg])
+                addLogs([t("inner.run.success.compile"), t("inner.run.fail.test"), res.data.msg])
                 break;
             case 3:
-                addLogs(["✅编译成功", "✅运行成功"])
+                addLogs([t("inner.run.success.compile"), t("inner.run.success.test")])
                 break;
             default:
                 break;
@@ -79,13 +81,13 @@ function CustomCode(props, ref) {
         // 运行成功
         if (res.data.status === 3 && res.data.correct) {
             // 测试用例成功
-            addLogs(["✅测试用例通过"])
+            addLogs([t("inner.run.success.case")])
         }else if (res.data.status === 3) {
             // 测试用例失败
-            addLogs(["❌测试用例未通过"])
+            addLogs([t("inner.run.fail.case")])
         }
         if (res.data.except_output) {
-            addLogs([`预期输出结果:\n"${res.data.except_output}"`, `实际输出结果:\n"${res.data.output}"`])
+            addLogs([`${t("inner.run.be")}:\n"${res.data.except_output}"`, `${t("inner.run.af")}:\n"${res.data.output}"`])
         }
         setLoading(false);
     }
@@ -111,7 +113,7 @@ function CustomCode(props, ref) {
             }
         }
 
-        addLogs(["开始编译..."]);
+        addLogs([t("inner.run.start")]);
         let paramsObj = JSON.parse(JSON.stringify(testCode))
         // 编程题特殊处理
         if (cacheQuest?.spj_code) {
@@ -166,7 +168,7 @@ function CustomCode(props, ref) {
         paramsObj.lang = obj.lang;
         paramsObj.quest_index = index;
 
-        addLogs(["开始编译..."]);
+        addLogs([t("inner.run.start")]);
         await codeRun(paramsObj)
         .then(res => {
             if (res.data) {
@@ -225,7 +227,7 @@ function CustomCode(props, ref) {
                 key: i,
                 label: (
                     <p onClick={() => consoleRef.current.changeInput(e)}>
-                        <strong>示例{i+1}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span className="example">{e}</span>
+                        <strong>{t("inner.example")}{i+1}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span className="example">{e}</span>
                     </p>
                 )
             })
@@ -236,7 +238,7 @@ function CustomCode(props, ref) {
                 key: arr.length,
                 label: (
                     <p onClick={() => consoleRef.current.changeInput(e.code, "type")}>
-                        <strong>示例{arr.length + 1}</strong>
+                        <strong>{t("inner.example")}{arr.length + 1}</strong>
                     </p>
                 )
             })

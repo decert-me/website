@@ -19,6 +19,7 @@
         "recommend": "推荐教程",
         "nodata": "暂无数据",
         "code": "代码",
+        "code-edit": "代码编辑器",
         "code-tpl": "代码模版",
         "code-tpl-desc": "由挑战者去补充完整",
         "code-spl": "代码示例",
@@ -31,10 +32,28 @@
         "out": "输入",
         "run-case": "执行测试用例",
         "run-res": "代码执行结果",
-
-
+        "run-code": "执行代码",
+        "example": "示例",
+        "fill-example": "填入示例",
+        "run": {
+            "start": "开始编译...",
+            "be": "预期输出结果",
+            "af": "实际输出结果",
+            "success": {
+                "compile": "✅编译成功",
+                "test": "✅运行成功",
+                "case": "✅测试用例通过"
+            },
+            "fail": {
+                "compile": "❌编译失败",
+                "test": "❌运行失败",
+                "case": "❌测试用例未通过"
+            }
+        },
         "rule": {
             "title": "请输入标题",
+            "ques2": "请填写题目!",
+            "desc": "请填写描述!",
             "img": "请上传图片",
             "score": "请设置及格分",
             "ques-score": "请输入题目分数",
