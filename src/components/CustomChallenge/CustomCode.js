@@ -223,14 +223,22 @@ function CustomCode(props, ref) {
         question.input.map((e, i) => {
             arr.push({
                 key: i,
-                label: <p onClick={() => consoleRef.current.changeInput(e)}>示例{i+1}&nbsp;&nbsp;<span>{e}</span></p>
+                label: (
+                    <p onClick={() => consoleRef.current.changeInput(e)}>
+                        <strong>示例{i+1}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span className="example">{e}</span>
+                    </p>
+                )
             })
         })
         
         question?.spj_code?.map(e => {
             arr.push({
                 key: arr.length,
-                label: <p onClick={() => consoleRef.current.changeInput(e.code, "type")}>示例{arr.length + 1}</p>
+                label: (
+                    <p onClick={() => consoleRef.current.changeInput(e.code, "type")}>
+                        <strong>示例{arr.length + 1}</strong>
+                    </p>
+                )
             })
         })
         items = arr;

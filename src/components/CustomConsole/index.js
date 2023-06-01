@@ -65,7 +65,11 @@ function CustomConsole(props, ref) {
                 <Dropdown
                     menu={items ? {items} : items}
                     trigger={['click']}
-                    placement="top"
+                    placement="topLeft"
+                    overlayClassName="example-dropdown"
+                    overlayStyle={{
+                        width: "300px"
+                    }}
                 >
                     <a onClick={(e) => e.preventDefault()}>
                     <Space>
