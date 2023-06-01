@@ -52,7 +52,7 @@
         },
         "rule": {
             "title": "Please enter the title",
-            "ques2": "Please fill in the quiz tittle",
+            "ques2": "Please fill in the title",
             "desc": "Please fill in the description",
             "img": "Please upload image",
             "score": "Please set a passing score",
