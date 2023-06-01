@@ -5,7 +5,7 @@
         "desc": "Description",
         "img": "Image",
         "add": "Add choice question or blank filling question",
-        "add-code": "添加编程题",
+        "add-code": "Add programming quiz",
         "score": "Passing score",
         "total": "Total score",
         "ques": "Quiz",
@@ -17,6 +17,20 @@
         "false": "Wrong",
         "recommend": "Recommend Tutorial",
         "nodata": "No data",
+        "code": "Code",
+        "code-tpl": "Code Template",
+        "code-tpl-desc": "Let the challenger complete it",
+        "code-spl": "Code Example",
+        "code-spl-desc": "Correct code",
+        "case": "Test Cases",
+        "add-case": "Add Test Case",
+        "case-out": "Test Case",
+        "case-code": "Code Test Case",
+        "in": "Input",
+        "out": "Output",
+        "run-case": "Execute Test Case",
+        "run-res": "Code Execution Results",
+
         "rule": {
             "title": "Please enter the title",
             "img": "Please upload image",
@@ -37,11 +51,15 @@
         }
     },
     "message": {
+        "confirm": {
+            "delete": "Are you sure to delete this test case?"
+        },
         "success": {
             "create": "Create challenge success"
         },
         "error": {
-            "answer": "Choose at least one correct answer."
+            "answer": "Choose at least one correct answer.",
+            "case": "The test case is incorrect, please modify it and add it again."
         }
     }
 }

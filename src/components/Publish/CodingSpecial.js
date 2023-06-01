@@ -6,6 +6,7 @@ import MonacoEditor from "../MonacoEditor";
 import CustomIcon from "../CustomIcon";
 import { useEffect, useRef, useState } from "react";
 import { useUpdateEffect } from "ahooks";
+import { useTranslation } from "react-i18next";
 
 // const frame = [
 //     {
@@ -47,6 +48,7 @@ const frameLang = [
 export default function CodingSpecial(props) {
     
     const { onChange, deleteCase, defaultValue, checkCode, className } = props;
+    const { t } = useTranslation(["publish", "translation"]);
     const editorRef = useRef(null);
     let [logs, setLogs] = useState([]);
     let [loading, setLoading] = useState();
@@ -81,7 +83,6 @@ export default function CodingSpecial(props) {
                             }}
                             className="select-frame"
                             getPopupContainer={() => document.querySelector(`.${className}`)}
-                            placeholder="框架"
                             onChange={(frame => {
                                 // 切换编辑器语种
                                 editorRef.current
@@ -107,14 +108,14 @@ export default function CodingSpecial(props) {
                     disabled={!defaultValue.spj_code.frame}
                     loading={loading}
                 >
-                    <CaretRightOutlined />执行测试用例
+                    <CaretRightOutlined />{t("inner.run-res")}
                 </Button>
             </div>
             {
                 logs.length > 0 &&
                 <div className="log">
                     <p className="log-label">
-                        代码执行结果
+                        {t("inner.run-res")}
                     </p>
                     <ul className="log-content custom-scroll">
                         {

@@ -32,7 +32,6 @@ export default function ModalAddCodeQuestion(props) {
             correctAnswer: ""
         }
     ]);
-    const [isLoading, setIsLoading] = useState();
 
     function changeChecked(index, checked) {
         //  切换代码片段状态
@@ -140,10 +139,10 @@ export default function ModalAddCodeQuestion(props) {
                     title: '',
                     icon: <></>,
                     className: "custom-confirm",
-                    cancelText: "取消",
-                    okText: "好的",
+                    cancelText: t("translation:btn-cancel"),
+                    okText: t("translation:btn-confirm"),
                     content: (
-                        <p>测试用例有误，请修改后重新保存</p>
+                        <p>{t("message.error.case")}</p>
                     )
                 })
             }
@@ -230,7 +229,7 @@ export default function ModalAddCodeQuestion(props) {
 
     return (
         <Modal
-            title="添加编程题"
+            title={t("inner.add-code")}
             className="ModalAddQuestion" 
             open={isModalOpen}
             onCancel={onCancel}
@@ -256,12 +255,12 @@ export default function ModalAddCodeQuestion(props) {
                 {contextHolder}
                     {/* 题目 */}
                     <Form.Item
-                        label="题目"
+                        label={t("inner.ques")}
                         name="title"
                         rules={[
                             {
                             required: true,
-                            message: '请填写题目!',
+                            message: t("inner.rule.title"),
                             },
                         ]}
                     >
@@ -270,7 +269,7 @@ export default function ModalAddCodeQuestion(props) {
 
                     {/* 描述 */}
                     <Form.Item
-                        label="题目描述"
+                        label={t("inner.desc")}
                         name="description"
                         rules={[
                             {
@@ -290,7 +289,7 @@ export default function ModalAddCodeQuestion(props) {
 
                     {/* 代码片段 */}
                     <Form.Item
-                        label="代码"
+                        label={t("inner.code")}
                     >
                         {
                             languages.map((e, i) => 
@@ -310,13 +309,13 @@ export default function ModalAddCodeQuestion(props) {
                                         e.checked &&
                                         <div className="border-b">
                                             <div className="code-snippets">
-                                                <div className="label">代码模板
+                                                <div className="label">{t("inner.code-tpl")}
                                                     <ExclamationCircleOutlined 
                                                         className="icon-sigh s1" 
                                                         onMouseEnter={() => exampleAction(".show3", "block", ".s1", "tr")}
                                                         onMouseLeave={() => exampleAction(".show3", "none", ".s1", "tr")}
                                                     />
-                                                    <span>由挑战者去补充完整</span>
+                                                    <span>{t("inner.code-tpl-desc")}</span>
                                                 </div>
                                                 <MonacoEditor
                                                     value={e.code}
@@ -327,13 +326,13 @@ export default function ModalAddCodeQuestion(props) {
                                                 />
                                             </div>
                                             <div className="code-snippets">
-                                                <div className="label">代码示例
+                                                <div className="label">{t("inner.code-spl")}
                                                     <ExclamationCircleOutlined 
                                                         className="icon-sigh s2" 
                                                         onMouseEnter={() => exampleAction(".show4", "block", ".s2", "tr")}
                                                         onMouseLeave={() => exampleAction(".show4", "none", ".s2", "tr")}
                                                     />
-                                                    <span>正确的代码</span>
+                                                    <span>{t("inner.code-spl-desc")}</span>
                                                 </div>
                                                 <MonacoEditor
                                                     value={e.correctAnswer}
@@ -352,19 +351,19 @@ export default function ModalAddCodeQuestion(props) {
 
                     {/* 测试用例 */}
                     <Form.Item
-                        label="测试用例"
+                        label={t("inner.case")}
                     >
                         <CustomCase ref={caseRef} checkCode={checkCode} />
                     </Form.Item>
 
                     {/* 分数 */}
                     <Form.Item
-                        label="分数"
+                        label={t("inner.sc")}
                         name="score"
                         rules={[
                             {
                             required: true,
-                            message: '请输入当前题目分数!',
+                            message: t("inner.rule.ques-score"),
                             },
                         ]}
                     >
@@ -377,7 +376,12 @@ export default function ModalAddCodeQuestion(props) {
 
                     <Form.Item>
                         <Button type="primary" htmlType="submit">
-                            添加
+                            {
+                                selectQs ? 
+                                t("translation:btn-save")
+                                :
+                                t("translation:btn-add")
+                            }
                         </Button>
                     </Form.Item>
                 </Form>

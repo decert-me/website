@@ -7,10 +7,12 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import Coding from "./Coding";
 import CodingSpecial from "./CodingSpecial";
 import { exampleAction } from "@/utils/exampleAction";
+import { useTranslation } from "react-i18next";
 
 function CustomCase(props, ref) {
 
     const { checkCode } = props;
+    const { t } = useTranslation(["publish", "translation"]);
     const [modal, contextHolder] = Modal.useModal();
     let [caseArr, setCaseArr] = useState([]);
 
@@ -23,10 +25,10 @@ function CustomCase(props, ref) {
         title: '',
         icon: <></>,
         className: "custom-confirm",
-        cancelText: "取消",
-        okText: "确认",
+        cancelText: t("translation:btn-cancel"),
+        okText: t("translation:btn-confirm"),
         content: (
-            <p>确认删除此测试用例？</p>
+            <p>{t("message.confirm.delete")}</p>
         )
     };
 
@@ -69,7 +71,7 @@ function CustomCase(props, ref) {
             className: "hover1",
             label: (
                 <p onClick={() => addCase()}>
-                    测试用例 
+                    {t("inner.case-out")}
                     <span
                         onMouseEnter={() => exampleAction(".show1", "block", ".hover1", "top")}
                         onMouseLeave={() => exampleAction(".show1", "none", ".hover1", "top")}
@@ -87,7 +89,7 @@ function CustomCase(props, ref) {
             key: '2',
             label: (
                 <p onClick={() => addCase("special")}>
-                    代码测试用例
+                    {t("inner.case-code")}
                     <span
                         onMouseEnter={() => exampleAction(".show2", "block", ".hover1", "top")}
                         onMouseLeave={() => exampleAction(".show2", "none", ".hover1", "top")}
@@ -159,7 +161,7 @@ function CustomCase(props, ref) {
                         icon={<PlusOutlined />}
                         block
                     >
-                        添加测试用例
+                        {t("inner.add-case")}
                     </Button>
                 </Dropdown>
             </div>

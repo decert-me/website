@@ -17,6 +17,21 @@
         "false": "错误",
         "recommend": "推荐教程",
         "nodata": "暂无数据",
+        "code": "代码",
+        "code-tpl": "代码模版",
+        "code-tpl-desc": "由挑战者去补充完整",
+        "code-spl": "代码示例",
+        "code-spl-desc": "正确的代码",
+        "case": "测试用例",
+        "add-case": "添加测试用例",
+        "case-out": "测试用例",
+        "case-code": "代码测试用例",
+        "in": "输入",
+        "out": "输入",
+        "run-case": "执行测试用例",
+        "run-res": "代码执行结果",
+
+
         "rule": {
             "title": "请输入标题",
             "img": "请上传图片",
@@ -37,11 +52,15 @@
         }
     },
     "message": {
+        "confirm": {
+            "delete": "确认删除此测试用例吗？"
+        },
         "success": {
             "create": "创建挑战成功"
         },
         "error": {
-            "answer": "至少选择一个正确答案"
+            "answer": "至少选择一个正确答案",
+            "case": "测试用例有误，请修改后重新添加。"
         }
     }
 }
