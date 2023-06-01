@@ -14,8 +14,6 @@ export default function CertSearch(props) {
     let [account, setAccount] = useState();
     const { t } = useTranslation(["cert"]);
 
-
-
     const goCert = () => {
         if (!account) {
             return

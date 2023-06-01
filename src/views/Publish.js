@@ -37,6 +37,7 @@ export default function Publish(params) {
     let [recommend, setRecommend] = useState();
     let [publishObj, setPublishObj] = useState({});
     let [isWrite, setIsWrite] = useState(false);
+    const [loading, setLoading] = useState(false);
     const { publish, isLoading, isOk, transactionLoading } = usePublish({
         jsonHash: publishObj?.jsonHash, 
         recommend: publishObj?.recommend
@@ -152,6 +153,7 @@ export default function Publish(params) {
         if (!values.fileList.file.response.data.hash) {
             return
         }
+        setLoading(true);
         const jsonHash = await getJson(values);
         publishObj = {
             jsonHash: jsonHash.hash,
@@ -166,6 +168,7 @@ export default function Publish(params) {
             recommend: values.editor
         }
         saveCache(questCache);
+        setLoading(false);
         if (isWrite) {
             publish();
         }else{
@@ -251,7 +254,7 @@ export default function Publish(params) {
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
                 deleteQuestion={deleteQuestion}
-                writeLoading={isLoading}
+                writeLoading={isLoading || loading}
                 waitLoading={transactionLoading}
                 showAddModal={showAddModal}
                 showAddCodeModal={showAddCodeModal}

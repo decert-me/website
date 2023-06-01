@@ -1,12 +1,17 @@
 import { useEffect, useRef, useState } from "react";
+import {
+    ExclamationCircleOutlined
+} from '@ant-design/icons';
 import { Encryption } from "@/utils/Encryption";
-import { Modal, Input, Space, Button, Form, Checkbox, Radio, InputNumber, message } from "antd";
+import { Modal, Input, Space, Button, Form, Checkbox, Radio, InputNumber, message, Spin } from "antd";
 import { useTranslation } from "react-i18next";
 import { CustomEditor } from "@/components/CustomItem";
 import MonacoEditor from "@/components/MonacoEditor";
 import "@/assets/styles/component-style/modal-coding.scss"
 import { codeTest } from "@/request/api/quests";
 import CustomCase from "../Publish/CustomCase";
+import { ANSI } from "@/utils/convert";
+import { exampleAction } from "@/utils/exampleAction";
 
 export default function ModalAddCodeQuestion(props) {
 
@@ -16,6 +21,8 @@ export default function ModalAddCodeQuestion(props) {
     const [form] = Form.useForm();
     const key = process.env.REACT_APP_ANSWERS_KEY;
     const caseRef = useRef(null);
+    const [modal, contextHolder] = Modal.useModal();
+    const [loading, setLoading] = useState(false);
     let [languages, setLanguages] = useState([
         {
             label: 'Solidity',
@@ -25,7 +32,6 @@ export default function ModalAddCodeQuestion(props) {
             correctAnswer: ""
         }
     ]);
-    const [isLoading, setIsLoading] = useState();
 
     function changeChecked(index, checked) {
         //  切换代码片段状态
@@ -55,33 +61,36 @@ export default function ModalAddCodeQuestion(props) {
             lang: obj.value,
             ...code
         }
-
-        const logs = ["开始编译..."];
+        const logs = [t("inner.run.start")];
 
         // 用例检测
         await codeTest(codeObj)
         .then(res => {
             if (res?.data) {
+                const msg = res.data.msg && ANSI(res.data.msg);
                 switch (res.data.status) {
                     case 1:
-                        logs.push("编译失败");
+                        logs.push(...[t("inner.run.fail.compile"), msg]);
                         break;
                     case 2:
-                        logs.push(...["编译成功","运行失败"]);
+                        logs.push(...[t("inner.run.success.compile"),t("inner.run.fail.test"), msg]);
                         break;
                     case 3:
-                        logs.push(...["编译成功","运行成功",res.data.correct ? "测试用例通过" : "测试用例未通过"]);
+                        logs.push(...[t("inner.run.success.compile"),t("inner.run.success.test"),res.data.correct ? t("inner.run.success.case") : t("inner.run.fail.case"), msg]);
                         break;
                     default:
                         break;
                 }
+            }
+            if (res.status !== 0) {
+                logs.push(...[t("inner.run.fail.compile")]);
             }
         })
         return logs
         
     }
 
-    const onFinish = (values) => {
+    const onFinish = async(values) => {
         const rest = values;
         const cases = caseRef.current.caseArr;
         const inputArr = getValuesByKey(cases, 'input');
@@ -95,6 +104,7 @@ export default function ModalAddCodeQuestion(props) {
             code: e.code,
             correctAnswer: encode(key, JSON.stringify(e.correctAnswer))
         }));
+
         const obj = {
             ...rest,
             languages: codeSnippetArr.map(c => c.lang),
@@ -104,6 +114,43 @@ export default function ModalAddCodeQuestion(props) {
             output: outputArr, 
             spj_code: spj_code
         };
+        let flag = true;
+        const testObj = {
+            code: "", //写入的代码
+            example_code: JSON.parse(decode(key, obj.code_snippets[0].correctAnswer)), //代码示例
+            code_snippet: obj.code_snippets[0].code, //代码片段
+            lang: obj.languages[0],
+            input: [],
+            example_input: obj.input,
+            example_output: obj.output,
+            spj_code: obj.spj_code
+        }
+        setLoading(true);
+        await codeTest(testObj)
+        .then(res => {
+            if (res.status === 7 || 
+                res.data.status === 1 ||
+                res.data.status === 2 ||
+                res.data.correct === false
+                ) {
+                // 弹出用例有误
+                flag = false
+                modal.confirm({
+                    title: '',
+                    icon: <></>,
+                    className: "custom-confirm",
+                    cancelText: t("translation:btn-cancel"),
+                    okText: t("translation:btn-confirm"),
+                    content: (
+                        <p>{t("message.error.case")}</p>
+                    )
+                })
+            }
+        })
+        setLoading(false);
+        if (!flag) {
+            return
+        }
         // 返回
         if (selectQs) {
             // 修改
@@ -182,7 +229,7 @@ export default function ModalAddCodeQuestion(props) {
 
     return (
         <Modal
-            title="添加编程题"
+            title={t("inner.add-code")}
             className="ModalAddQuestion" 
             open={isModalOpen}
             onCancel={onCancel}
@@ -192,131 +239,159 @@ export default function ModalAddCodeQuestion(props) {
             maskClosable={false}
             destroyOnClose={true}
         >
-            <Form
-                form={form}
-                name="basic"
-                initialValues={{
-                    remember: true,
-                    type: "coding"  //初始值
-                }}
-                onFinish={onFinish}
-                onFinishFailed={onFinishFailed}
-                autoComplete="off"
-                layout="vertical"
-            >   
-                {/* 题目 */}
-                <Form.Item
-                    label="题目"
-                    name="title"
-                    rules={[
-                        {
-                        required: true,
-                        message: '请填写题目!',
-                        },
-                    ]}
-                >
-                    <Input />
-                </Form.Item>
+            <Spin spinning={loading} size="large">
+                <Form
+                    form={form}
+                    name="basic"
+                    initialValues={{
+                        remember: true,
+                        type: "coding"  //初始值
+                    }}
+                    onFinish={onFinish}
+                    onFinishFailed={onFinishFailed}
+                    autoComplete="off"
+                    layout="vertical"
+                >   
+                {contextHolder}
+                    {/* 题目 */}
+                    <Form.Item
+                        label={t("inner.ques2")}
+                        name="title"
+                        rules={[
+                            {
+                            required: true,
+                            message: t("inner.rule.ques2"),
+                            },
+                        ]}
+                    >
+                        <Input />
+                    </Form.Item>
 
-                {/* 描述 */}
-                <Form.Item
-                    label="题目描述"
-                    name="description"
-                    rules={[
-                        {
-                        required: true,
-                        message: '请填写描述!',
-                        },
-                    ]}
-                >
-                    <CustomEditor 
-                        mode="tab" 
-                        onChange={
-                            (e) => form.setFieldValue("description",e)
-                        } 
-                        initialValues={selectQs?.description}
-                    />
-                </Form.Item>
+                    {/* 描述 */}
+                    <Form.Item
+                        label={t("inner.desc")}
+                        name="description"
+                        rules={[
+                            {
+                            required: true,
+                            message: t("inner.rule.desc"),
+                            },
+                        ]}
+                    >
+                        <CustomEditor 
+                            mode="tab" 
+                            onChange={
+                                (e) => form.setFieldValue("description",e)
+                            } 
+                            initialValues={selectQs?.description}
+                        />
+                    </Form.Item>
 
-                {/* 代码片段 */}
-                <Form.Item
-                    label="代码"
-                >
-                    {
-                        languages.map((e, i) => 
-                            <div
-                                key={i}
-                            >
-                                <Checkbox 
-                                    checked={e.checked} 
-                                    disabled
-                                    onChange={
-                                        (e) => changeChecked(i, e.target.checked)
-                                    } 
+                    {/* 代码片段 */}
+                    <Form.Item
+                        label={t("inner.code")}
+                    >
+                        {
+                            languages.map((e, i) => 
+                                <div
+                                    key={i}
                                 >
-                                    {e.label}
-                                </Checkbox>
-                                {
-                                    e.checked &&
-                                    <div className="border-b">
-                                        <div className="code-snippets">
-                                            <div className="label">代码模板<span>由挑战者去补充完整</span></div>
-                                            <MonacoEditor
-                                                value={e.code}
-                                                onChange={(newValue) => {
-                                                    changeCoding("code", newValue, i);
-                                                }}
-                                                language={e.label}
-                                            />
+                                    <Checkbox 
+                                        checked={e.checked} 
+                                        disabled
+                                        onChange={
+                                            (e) => changeChecked(i, e.target.checked)
+                                        } 
+                                    >
+                                        {e.label}
+                                    </Checkbox>
+                                    {
+                                        e.checked &&
+                                        <div className="border-b">
+                                            <div className="code-snippets">
+                                                <div className="label">{t("inner.code-tpl")}
+                                                    <ExclamationCircleOutlined 
+                                                        className="icon-sigh s1" 
+                                                        onMouseEnter={() => exampleAction(".show3", "block", ".s1", "tr")}
+                                                        onMouseLeave={() => exampleAction(".show3", "none", ".s1", "tr")}
+                                                    />
+                                                    <span>{t("inner.code-tpl-desc")}</span>
+                                                </div>
+                                                <MonacoEditor
+                                                    value={e.code}
+                                                    onChange={(newValue) => {
+                                                        changeCoding("code", newValue, i);
+                                                    }}
+                                                    language={e.label}
+                                                />
+                                            </div>
+                                            <div className="code-snippets">
+                                                <div className="label">{t("inner.code-spl")}
+                                                    <ExclamationCircleOutlined 
+                                                        className="icon-sigh s2" 
+                                                        onMouseEnter={() => exampleAction(".show4", "block", ".s2", "tr")}
+                                                        onMouseLeave={() => exampleAction(".show4", "none", ".s2", "tr")}
+                                                    />
+                                                    <span>{t("inner.code-spl-desc")}</span>
+                                                </div>
+                                                <MonacoEditor
+                                                    value={e.correctAnswer}
+                                                    onChange={(newValue) => {
+                                                        changeCoding("correctAnswer", newValue, i);
+                                                    }}
+                                                    language={e.label}
+                                                />
+                                            </div>
                                         </div>
-                                        <div className="code-snippets">
-                                            <div className="label">代码示例<span>正确的代码</span></div>
-                                            <MonacoEditor
-                                                value={e.correctAnswer}
-                                                onChange={(newValue) => {
-                                                    changeCoding("correctAnswer", newValue, i);
-                                                }}
-                                                language={e.label}
-                                            />
-                                        </div>
-                                    </div>
-                                }
-                            </div>
-                        )
-                    }
-                </Form.Item>
+                                    }
+                                </div>
+                            )
+                        }
+                    </Form.Item>
 
-                {/* 测试用例 */}
-                <Form.Item
-                    label="测试用例"
-                >
-                    <CustomCase ref={caseRef} checkCode={checkCode} />
-                </Form.Item>
+                    {/* 测试用例 */}
+                    <Form.Item
+                        label={t("inner.case")}
+                    >
+                        <CustomCase ref={caseRef} checkCode={checkCode} />
+                    </Form.Item>
 
-                {/* 分数 */}
-                <Form.Item
-                    label="分数"
-                    name="score"
-                    rules={[
-                        {
-                        required: true,
-                        message: '请输入当前题目分数!',
-                        },
-                    ]}
-                >
-                    <InputNumber
-                        style={{
-                            width: '100%',
-                        }}
-                    />
-                </Form.Item>
+                    {/* 分数 */}
+                    <Form.Item
+                        label={t("inner.sc")}
+                        name="score"
+                        rules={[
+                            {
+                            required: true,
+                            message: t("inner.rule.ques-score"),
+                            },
+                        ]}
+                    >
+                        <InputNumber
+                            style={{
+                                width: '100%',
+                            }}
+                        />
+                    </Form.Item>
 
-                <Form.Item>
-                    <Button type="primary" htmlType="submit">
-                        添加
-                    </Button>
-                </Form.Item>
-            </Form>
+                    <Form.Item>
+                        <Button type="primary" htmlType="submit">
+                            {
+                                selectQs ? 
+                                t("translation:btn-save")
+                                :
+                                t("translation:btn-add")
+                            }
+                        </Button>
+                    </Form.Item>
+                </Form>
+            </Spin>
+            <div className="poa  show3">
+                <img src={require("@/assets/images/img/publish-example3.png")} alt="" />
+            </div>
+            <div className="poa  show4">
+                <img src={require("@/assets/images/img/publish-example4.png")} alt="" />
+            </div>
     </Modal>
     )
 }

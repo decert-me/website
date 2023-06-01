@@ -1,3 +1,4 @@
+import store, { showCustomSigner } from "@/redux/store";
 import axios from "axios";
 
 // Client-side-only code
@@ -21,6 +22,10 @@ ipfsAxios.interceptors.request.use(
 ipfsAxios.interceptors.response.use(
   res => {
     let data = res.data;
+    if (data.data?.reload) {
+      store.dispatch(showCustomSigner());
+      return
+    }
     // if (data.status !== '1') {
     //   message.error(data.message)
     //   return null

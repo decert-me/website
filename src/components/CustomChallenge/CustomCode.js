@@ -6,6 +6,7 @@ import { codeRun, codeTest } from '@/request/api/quests';
 import CustomViewer from "../CustomViewer";
 import { Segmented } from "antd";
 import { Encryption } from "@/utils/Encryption";
+import { useTranslation } from "react-i18next";
 
 
 const previewTabs = [
@@ -19,9 +20,10 @@ const previewTabs = [
     }
 ]
 
-export default forwardRef (function CustomCode(props, ref) {
+function CustomCode(props, ref) {
 
     const { question, token_id, answers, setAnswers, saveAnswer, index, isPreview } = props;
+    const { t } = useTranslation(['publish']);
     const consoleRef = useRef(null);
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
@@ -59,18 +61,19 @@ export default forwardRef (function CustomCode(props, ref) {
     function changeCodeObj(params, key) {
         codeObj[key] = params;
         setCodeObj({...codeObj});
+        consoleRef.current.initTab();
     }
 
     function printLog(res) {
         switch (res.data.status) {
             case 1:
-                addLogs(["❌编译失败", res.data.msg])
+                addLogs([t("inner.run.fail.compile"), res.data.msg])
                 break;
             case 2:
-                addLogs(["✅编译成功", "❌运行失败", res.data.msg])
+                addLogs([t("inner.run.success.compile"), t("inner.run.fail.test"), res.data.msg])
                 break;
             case 3:
-                addLogs(["✅编译成功", "✅运行成功"])
+                addLogs([t("inner.run.success.compile"), t("inner.run.success.test")])
                 break;
             default:
                 break;
@@ -78,18 +81,18 @@ export default forwardRef (function CustomCode(props, ref) {
         // 运行成功
         if (res.data.status === 3 && res.data.correct) {
             // 测试用例成功
-            addLogs(["✅测试用例通过"])
+            addLogs([t("inner.run.success.case")])
         }else if (res.data.status === 3) {
             // 测试用例失败
-            addLogs(["❌测试用例未通过"])
+            addLogs([t("inner.run.fail.case")])
         }
         if (res.data.except_output) {
-            addLogs([`预期输出结果:\n"${res.data.except_output}"`, `实际输出结果:\n"${res.data.output}"`])
+            addLogs([`${t("inner.run.be")}:\n"${res.data.except_output}"`, `${t("inner.run.af")}:\n"${res.data.output}"`])
         }
         setLoading(false);
     }
 
-    function previewTest(params) {
+    function previewTest() {
         const obj = cacheQuest.code_snippets[selectIndex];
         let testCode = {
             code: obj.code, //写入的代码
@@ -109,7 +112,24 @@ export default forwardRef (function CustomCode(props, ref) {
                 example_output: cacheQuest.output
             }
         }
-        codeTest(testCode)
+
+        addLogs([t("inner.run.start")]);
+        let paramsObj = JSON.parse(JSON.stringify(testCode))
+        // 编程题特殊处理
+        if (cacheQuest?.spj_code) {
+            cacheQuest.spj_code.map(e => {
+                if (e.code === paramsObj.input) {
+                    paramsObj.input = "";
+                    paramsObj.spj_code = [e];
+                    delete paramsObj.example_input;
+                    delete paramsObj.example_output;
+                }
+            })
+        }
+        paramsObj.code = obj.code;
+        paramsObj.lang = obj.lang;
+        paramsObj.quest_index = index;
+        codeTest(paramsObj)
         .then(res => {
             res.data ? printLog(res) : setLoading(false);
         })
@@ -121,23 +141,35 @@ export default forwardRef (function CustomCode(props, ref) {
             setLoading(false);
             return
         }
+
         if (isPreview) {
             previewTest()
             return
         }
+
         const obj = cacheQuest.code_snippets[selectIndex];
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
         if (!params && cache[token_id][index] && JSON.stringify(obj.code) === JSON.stringify(cache[token_id][index].code)) {
             // 切换页面时判断是否需要向后端发起判题
             return
         }
-        addLogs(["开始编译..."]);
-        codeObj.code = obj.code;
-        codeObj.lang = obj.lang;
-        codeObj.quest_index = index;
-        // codeObj.type = params;
-        setCodeObj({...codeObj})
-        await codeRun(codeObj)
+        
+        // 代码自测参数
+        let paramsObj = JSON.parse(JSON.stringify(codeObj))
+        // 编程题特殊处理
+        if (cacheQuest?.spj_code) {
+            cacheQuest.spj_code.map(e => {
+                if (e.code === paramsObj.input) {
+                    paramsObj.input = ""
+                }
+            })
+        }
+        paramsObj.code = obj.code;
+        paramsObj.lang = obj.lang;
+        paramsObj.quest_index = index;
+
+        addLogs([t("inner.run.start")]);
+        await codeRun(paramsObj)
         .then(res => {
             if (res.data) {
                 // 写入答案
@@ -193,7 +225,22 @@ export default forwardRef (function CustomCode(props, ref) {
         question.input.map((e, i) => {
             arr.push({
                 key: i,
-                label: <p onClick={() => consoleRef.current.changeInput(e)}>示例{i+1}&nbsp;&nbsp;<span>{e}</span></p>
+                label: (
+                    <p onClick={() => consoleRef.current.changeInput(e)}>
+                        <strong>{t("inner.example")}{i+1}</strong>&nbsp;&nbsp;&nbsp;&nbsp;<span className="example">{e}</span>
+                    </p>
+                )
+            })
+        })
+        
+        question?.spj_code?.map(e => {
+            arr.push({
+                key: arr.length,
+                label: (
+                    <p onClick={() => consoleRef.current.changeInput(e.code, "type")}>
+                        <strong>{t("inner.example")}{arr.length + 1}</strong>
+                    </p>
+                )
             })
         })
         items = arr;
@@ -210,9 +257,12 @@ export default forwardRef (function CustomCode(props, ref) {
 
     return (
         <div className="CustomCode">
-            <div className="code-desc custom-scroll">
+            <div className="code-desc">
                 <p className="code-title">{question.title}</p>
-                <CustomViewer label={question.description} />
+                <div className="line" />
+                <div className="code-content custom-scroll">
+                    <CustomViewer label={question.description} />
+                </div>
             </div>
             {
                 selectCode &&
@@ -222,11 +272,16 @@ export default forwardRef (function CustomCode(props, ref) {
                             {/* 多语种下拉框 */}
                         </div>
                     </div>
-                    <MonacoEditor
-                        value={editorCode}
-                        onChange={changeCache}
-                        language={selectCode.lang}
-                    />
+                    <div 
+                        className="out-inner"
+                    >
+                        <MonacoEditor
+                            value={editorCode}
+                            onChange={changeCache}
+                            language={selectCode.lang}
+                            height={"calc(100% - 14px)"}
+                        />
+                    </div>
                     <div className="out-content">
                         <CustomConsole 
                             question={question}
@@ -242,4 +297,5 @@ export default forwardRef (function CustomCode(props, ref) {
             }
         </div>
     )   
-})
+}
+export default forwardRef(CustomCode)

@@ -4,7 +4,7 @@ import { useMonacoInit } from "@/hooks/useMonacoInit";
 
 
 export default function MonacoComponent(props) {
-    const { value, onChange, language } = props;
+    const { value, onChange, language, height } = props;
     const { languageInit } = useMonacoInit({
         language: language
     })
@@ -16,7 +16,7 @@ export default function MonacoComponent(props) {
     return (
         <Editor
             // width="800"
-            height={"calc(100% - 230px)"}
+            height={height ? height : "calc(100% - 230px)"}
             theme="light"     // light || vs-dark
             language={language}
             value={value}

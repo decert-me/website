@@ -12,7 +12,30 @@
         "slogan1": "You are what you build.",
         "slogan2": "Decentralized skills learning and certification platform",
         "btn-explore": "Explore challenges",
-        "btn-publish": "Create a Challenge"
+        "btn-publish": "Create a Challenge",
+        "page": {
+            "vision": {
+                "title": "Our Vision",
+                "p1": "Let every Builder in the era of",
+                "p2": "have credible resume data,",
+                "p3": "forming a freer, more trustworthy, and more efficient world of Builders."
+            },
+            "ai": {
+                "title": "Education in the Age of AI",
+                "sub1": "Private Tutors",
+                "p1": "Each student is assigned a high-level personal tutor for one-to-one interaction",
+                "sub2": "Real-time Interaction",
+                "p2": "Real-time interaction with AI to assess learning outcomes"
+            },
+            "sbt": {
+                "title": "SBT -  Proof of Learn",
+                "p1": "Credential Verification",
+                "p2": "Integration with DID Social Graph",
+                "p3": "Multi-dimensional Resume Verification"
+            },
+            "partner": "Partners",
+            "contributor": "Contributors"
+        }
     },
     "btn-submit": "Submit",
     "btn-add": "Add",

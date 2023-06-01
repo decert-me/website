@@ -1,52 +1,222 @@
 .Mobile{
-.main {
+  .main {
     .main-center {
-        padding-top: 16.25rem;
-        min-height: 100vh;
-        .weight-info {
+      min-height: 100ch;
+      padding-top: 12.8125rem;
+      // describe
+      .describe {
+        font-size: 3.875rem;
+        line-height: 4.5625rem;
+        letter-spacing: .0625rem;
+        -webkit-text-stroke: .125rem #8B522A;
+      }
+      h1{
+        margin-bottom: 1.25rem;
+      }
+
+      // text
+      .text {
+        font-size: .8125rem;
+        line-height: 1rem;
+        letter-spacing: normal;
+      }
+      
+      .social{
+        width: 9.0625rem;
+        height: 3.125rem;
+        margin: 3.625rem auto 0;
+        .social-item{
+          width: 3.125rem;
+          height: 3.125rem;
+          border-radius: .625rem;
+          font-size: 1.625rem;
+        }
+      }
+
+      .listImg{
+        width: 20.8125rem;
+        height: 11.125rem;
+        margin-top: 3.25rem;
+      }
+
+      .vision{
+        height: 13.625rem;
+        margin-top: -2.5rem;
+        padding-top: 4.25rem;
+        h3{
+          margin-bottom: 1.25rem;
+          font-size: 2.0625rem;
+          line-height: 2.4375rem;
+        }
+        p{
+          font-size: .8125rem;
+          line-height: 1.25rem;
+        }
+        span{
+          padding: 0 .125rem;
+          font-size: .9375rem;
+          border-radius: .3125rem;
+        }
+      }
+
+      .intro{
+        padding-bottom: 4.875rem;
+        .intro-content{
           width: 100%;
           height: auto;
-          h3 {
-            font-size: 3.75rem;
-            font-weight: 900;
+          padding: 0 1.5rem;
+          h2{
+            font-size: 1.875rem;
+            line-height: 2.1875rem;
           }
         }
-        // describe
-        .describe {
-          width: auto;
-          height: 1.5625rem;
-          margin-top: 0rem;
-          p {
-            font-size: 1.0625rem;
+        .ai{
+          margin-bottom: 0;
+          padding-top: 3.8125rem;
+          flex-direction: column-reverse;          
+          .content-r{
+            width: 15.5rem;
+            height: 12.9375rem;
+            margin-left: 5.875rem;
+            margin-top: 0;
           }
-        }
-        // text
-        .text {
-          width: auto;
-          height: 1.0625rem;
-          margin-bottom: 1.875rem;
-          p {
-            font-size: .75rem;
+          .content-l{
+            margin-top: 3.8125rem;
           }
-        }
-    
-        // challenge-btn
-        .mar {
-          width: auto;
-          height: 7.5rem;
-          flex-direction: column;
-          align-items: center;
-          button{
-            width: 10.875rem;
-            height: 3.125rem;
-            border-radius: 1.5625rem;
-            font-size: .875rem;
-            &:nth-child(1){
-              margin-right: 0rem;
-              margin-bottom: 1.25rem;
+          h2{
+            margin-bottom: 2.1875rem;
+          }
+          h3{
+            margin-bottom: .5625rem;
+            font-size: .8125rem;
+            line-height: .9375rem;
+          }
+          p{
+            max-width: 100%;
+            font-size: .6875rem;
+            line-height: .8125rem;
+          }
+          li{
+            margin-bottom: 1.8125rem;
+            &:last-child{
+              margin: 0;
             }
           }
         }
+        .sbt{
+          margin-top: 5.0625rem;
+          margin-bottom: 0;
+          padding-top: 0;
+          flex-direction: column;
+          .content-l{
+            width: 14rem;
+            height: 14rem;
+          }
+          .content-r{
+            padding-top: 2.4375rem;
+          }
+          h2{
+            width: 100%;
+          }
+          ul{
+            margin-top: 2.1875rem;
+          }
+          li{
+            font-size: .8125rem;
+            line-height: 2.0625rem;
+          }
+        }
+        .linear-bg{
+          display: none;
+        }
       }
-}
+
+      // 合作伙伴
+      .partner{
+        height: 13.4375rem;
+        padding: 2.1875rem 1.25rem 2.5rem;
+        p{
+          margin-bottom: 1.375rem;
+          font-size: .75rem;
+          line-height: .9375rem;
+        }
+        li{
+          width: 5.4375rem;
+          height: 5.4375rem;
+          border: .0625rem solid #FFFFFF;
+          border-right: none;
+          img{
+            width: auto;
+            height: 1rem;
+          }
+          &:last-child{
+            border-right: .0625rem solid #fff;
+          }
+        }
+      }
+
+      // 贡献者
+      .contributor{
+        min-height: auto;
+        padding: 3.25rem 1.25rem 5rem;
+        font-size: 1rem;
+        line-height: 1.1875rem;
+        .ofh{
+          max-height: calc((4.25rem + 3.125rem + .875rem + 1.0625rem) * 2);
+        }
+        .contributor-label{
+          margin: 0 auto;
+          font-size: 1rem;
+          text-align: center;
+          font-weight: bold;
+        }
+        a{
+          margin-right: 1.6875rem;
+          &:nth-child(4n){
+            margin-right: 0;
+            margin-bottom: 2.5rem;
+          }
+        }
+        .contributor-content{
+          margin: 3.125rem auto 0;
+          gap: 0;
+          .contributor-item{
+            width: 4.1875rem;
+            height: 4.1875rem;
+            border: .1875rem solid #8F5A35;
+          }
+          .usernameM{
+            width: 4.1875rem;
+            height: auto;
+            margin: 1.0625rem auto 0;
+            color: #8F5A35;
+            font-size: .75rem;
+            line-height: .875rem;
+            text-align: center;
+            white-space: nowrap;  
+            text-overflow:ellipsis; 
+            overflow:hidden;
+          }
+        }
+        .btn-drop{
+          width: 2.5rem;
+          height: 2.5rem;
+          margin: 2.5rem auto 0;
+          border-radius: .5rem;
+          font-size: .875rem;
+        }
+      }
+    }
+  }
+  .header-bg1{
+    width: calc(87.5rem / 120rem * 100%);
+    height: 25rem;
+    background: #B27347;
+    border-radius: 50%;
+    opacity: 0.4;
+    filter: blur(4.375rem);
+    position: absolute;
+    top: -18.75rem;
+    left: calc((100% - (87.5rem / 120rem * 100%)) / 2);
+  }
 }

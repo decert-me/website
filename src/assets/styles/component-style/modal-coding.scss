@@ -38,12 +38,34 @@
                 color: #BBBBBB;
                 display: inline-block;
             }
+
+            .icon-sigh{
+                font-size: 14px;
+                padding-left: 6px;
+            }
         }
         section{
             height: 100% !important; 
             padding-top: 14px;
             padding-bottom: 18px;
         }
+    }
+    .poa{
+        width: 668px;
+        height: auto;
+        margin: 0 auto;
+        position: fixed;
+        // top: 50px;
+        left: 0;
+        box-shadow: 0 0 12px 1px rgb(221, 221, 221);
+        z-index: 999;
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .show1, .show2, .show3, .show4{
+        display: none;
     }
     // case
     .customCase{
@@ -184,6 +206,12 @@
         align-items: center;
         justify-content: center;
         font-size: 14px;
+        color: #000;
+        &:hover{
+            background-color: #FF0000;
+            color: #fff;
+            border: none;
+        }
     }
 
     // edit
@@ -193,6 +221,43 @@
     // form style
     
 }
+// modal
+.custom-confirm{
+    width: 467px !important;
+    padding-bottom: 0 !important;
+    border-radius: 25px !important;
+    overflow: hidden;
+    .ant-modal-content{
+        padding: 20px 44px !important;
+    }
+    .ant-modal-confirm-body{
+        width: 100%;
+        margin-top: 48px;
+        margin-bottom: 57px;
+        text-align: center;
+        justify-content: center;
+        p{
+            font-size: 20px;
+            color: #3D3D3D;
+            line-height: 29px;
+        }
+    }
+    .ant-modal-confirm-btns{
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        button{
+            width: 171px;
+            height: 40px;
+            font-size: 16px;
+        }
+        .ant-btn-default{
+            border-color: #3360F4;
+            color: #3360F4;
+        }
+    }
+}
+
 // case dropdown
 .customCaseMenu{
     .ant-dropdown-menu{

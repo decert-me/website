@@ -6,22 +6,33 @@ import MonacoEditor from "../MonacoEditor";
 import CustomIcon from "../CustomIcon";
 import { useEffect, useRef, useState } from "react";
 import { useUpdateEffect } from "ahooks";
+import { useTranslation } from "react-i18next";
 
+// const frame = [
+//     {
+//       label: 'Solidity',
+//       options: [
+//         {
+//           label: 'Foundry',
+//           value: 'Foundry'
+//         },
+//         {
+//           label: 'Hardhat',
+//           value: 'Hardhat'
+//         },
+//       ],
+//     }
+// ]
 const frame = [
     {
-      label: 'Solidity',
-      options: [
-        {
-          label: 'Foundry',
-          value: 'Foundry'
-        },
-        {
-          label: 'Hardhat',
-          value: 'Hardhat'
-        },
-      ],
-    }
-]
+      label: 'Foundry',
+      value: 'Foundry'
+    },
+    {
+      label: 'Hardhat',
+      value: 'Hardhat'
+    },
+  ]
 
 const frameLang = [
     {
@@ -36,7 +47,8 @@ const frameLang = [
 
 export default function CodingSpecial(props) {
     
-    const { onChange, deleteCase, defaultValue, checkCode } = props;
+    const { onChange, deleteCase, defaultValue, checkCode, className } = props;
+    const { t } = useTranslation(["publish", "translation"]);
     const editorRef = useRef(null);
     let [logs, setLogs] = useState([]);
     let [loading, setLoading] = useState();
@@ -55,21 +67,22 @@ export default function CodingSpecial(props) {
     },[logs])
 
     return (
-        <div className="coding-special">
+        <div className={`coding-special ${className}`}>
             <div className="flex">
                 <div className="case-close" onClick={deleteCase}>
                     <CustomIcon type="icon-close" />
                 </div>
                 <div className="form">
                         <div className="label">
-                            代码编辑器
+                            {t("inner.code-edit")}
                         </div>
                         <Select
                             style={{
                                 width: "200px",
                                 marginTop: "10px"
                             }}
-                            placeholder="框架"
+                            className="select-frame"
+                            getPopupContainer={() => document.querySelector(`.${className}`)}
                             onChange={(frame => {
                                 // 切换编辑器语种
                                 editorRef.current
@@ -95,21 +108,18 @@ export default function CodingSpecial(props) {
                     disabled={!defaultValue.spj_code.frame}
                     loading={loading}
                 >
-                    <CaretRightOutlined />执行测试用例
+                    <CaretRightOutlined />{t("inner.run-res")}
                 </Button>
             </div>
             {
                 logs.length > 0 &&
                 <div className="log">
                     <p className="log-label">
-                        代码执行结果
+                        {t("inner.run-res")}
                     </p>
                     <ul className="log-content custom-scroll">
                         {
-                            logs.map((e,i) => 
-                                <li key={i}>
-                                    {e}
-                                </li>
+                            logs.map((e,i) => <li key={i} dangerouslySetInnerHTML={{__html: e}} />
                             )
                         }
                     </ul>

@@ -25,8 +25,8 @@ export default function DefaultLayout(params) {
 
     const headerStyle = {
         width: "100%",
-        height: "55px",
-        lineHeight: '55px',
+        height: isMobile ? "60px" : "82px",
+        lineHeight: isMobile ? "60px" : '82px',
         padding: 0,
         backgroundColor: 'rgba(0,0,0,0)',
         position: "fixed",
@@ -40,7 +40,8 @@ export default function DefaultLayout(params) {
     };
       
     const footerStyle = {
-        height: isMobile ? "108px" : "300px",
+        height: "auto",
+        padding: 0,
         textAlign: 'center',
         color: '#fff',
         backgroundColor: '#000',

@@ -5,10 +5,12 @@ import {
 import { useState } from "react";
 import CustomIcon from "../CustomIcon";
 import { useUpdateEffect } from "ahooks";
+import { useTranslation } from "react-i18next";
 
 export default function Coding(props) {
 
     const { onChange, deleteCase, defaultValue, checkCode } = props;
+    const { t } = useTranslation(["publish", "translation"]);
     let [logs, setLogs] = useState([]);
     let [loading, setLoading] = useState();
 
@@ -32,11 +34,11 @@ export default function Coding(props) {
                 </div>
                 <div className="form">
                     <div className="box">
-                        <p className="box-label">输入</p>
+                        <p className="box-label">{t("inner.in")}</p>
                         <Input onChange={(e) => onChange(e.target.value, "input")} defaultValue={defaultValue.input} />
                     </div>
                     <div className="box">
-                        <p className="box-label">输出</p>
+                        <p className="box-label">{t("inner.out")}</p>
                         <Input onChange={(e) => onChange(e.target.value, "output")} defaultValue={defaultValue.output} />
                     </div>
                     <Button 
@@ -45,21 +47,18 @@ export default function Coding(props) {
                         disabled={!defaultValue.input || !defaultValue.output}
                         loading={loading}
                     >
-                        <CaretRightOutlined />执行测试用例
+                        <CaretRightOutlined />{t("inner.run-case")}
                     </Button>
                 </div>
             {
                 logs.length > 0 &&
                 <div className="log">
                     <p className="log-label">
-                        代码执行结果
+                    {t("inner.run-res")}
                     </p>
                     <ul className="log-content custom-scroll">
                         {
-                            logs.map((e,i) => 
-                                <li key={i}>
-                                    {e}
-                                </li>
+                            logs.map((e,i) => <li key={i} dangerouslySetInnerHTML={{__html: e}} />
                             )
                         }
                     </ul>

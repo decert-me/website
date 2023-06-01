@@ -7,7 +7,7 @@ import MonacoComponent from "./MonacoComponent";
 
 function MonacoEditor(props, ref) {
     
-    const {value, onChange, language} = props;
+    const {value, onChange, language, height} = props;
     const { config, init } = loader;
     let [editorIsOk, setEditorIsOk] = useState();
     let [newLang, setNewLang] = useState();
@@ -56,9 +56,10 @@ function MonacoEditor(props, ref) {
             value={value}
             onChange={onChange}
             language={newLang}
+            height={height}
         />
         :
-        <div style={{height: "calc(100% - 230px)"}}>
+        <div style={{height: height ? height : "calc(100% - 230px)"}}>
             <LoadingOutlined style={{ fontSize: "30px"}} />
         </div>
     )

@@ -54,3 +54,43 @@ export const convertTime = (value) => {
         time
     }
 }
+
+export const ANSI = (str) => {
+    var htmlStr = str.replace(/\u001b\[\d{1,2}m/g, function(match) {
+        var colorCode = match.match(/\d{1,2}/)[0];
+        var color = "";
+        switch(colorCode) {
+          case "30":
+            color = "black";
+            break;
+          case "31":
+            color = "red";
+            break;
+          case "32":
+            color = "green";
+            break;
+          case "33":
+            color = "#FFFF00";
+            break;
+          case "34":
+            color = "blue";
+            break;
+          case "35":
+            color = "purple";
+            break;
+          case "36":
+            color = "cyan";
+            break;
+          case "37":
+            color = "white";
+            break;
+          default:
+            color = "inherit";
+            break;
+        }
+        return "<span style='color: " + color + "'>";
+      });
+      htmlStr = htmlStr.replace(/\u001b\[0m/g, "</span>");
+      htmlStr = `<div style="background-color: #1c1c1c4d">${htmlStr}</div>`
+      return htmlStr
+}

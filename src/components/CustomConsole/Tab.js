@@ -1,6 +1,6 @@
 export default function Tab(props) {
     
-    const { tabs, selectTab, setSelectTab, hideCase } = props;
+    const { tabs, selectTab, setSelectTab } = props;
 
     return (
         <div className="tab">
@@ -11,9 +11,6 @@ export default function Tab(props) {
                         key={e.key} 
                         className={selectTab === e.key ? "active" : ""}
                         onClick={() => setSelectTab(e.key)}
-                        style={{
-                            display: hideCase && i === 0 ? "none" : "block"
-                        }}
                     >
                         {e.label}
                     </li>
