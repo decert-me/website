@@ -79,18 +79,21 @@ export default function CustomCompleted(props) {
             // TODO: 添加 react-confetti
             if (answerInfo.isPass) {
                 setShowConfetti(true);
-                const cache = JSON.parse(localStorage.getItem("decert.cache"));
-                const claimable = cache?.claimable ? cache.claimable : [];
-                if (!claimable.some(item => item.token_id == tokenId)) {
-                    const add_ts = Math.floor(Date.now() / 1000);
-                    claimable.push({
-                        token_id: Number(tokenId),
-                        add_ts
-                    })
-                }
-                cache.claimable = claimable;
-                localStorage.setItem("decert.cache", JSON.stringify(cache))
             }
+            const cache = JSON.parse(localStorage.getItem("decert.cache"));
+            const claimable = cache?.claimable ? cache.claimable : [];
+            if (!claimable.some(item => item.token_id == tokenId)) {
+                const add_ts = Math.floor(Date.now() / 1000);
+                claimable.push({
+                    token_id: Number(tokenId),
+                    add_ts
+                })
+            }else{
+                const index = claimable.findIndex(e => e.token_id == tokenId);
+                claimable.splice(index,1);
+            }
+            cache.claimable = claimable;
+            localStorage.setItem("decert.cache", JSON.stringify(cache))
         }else{
             // 已领取
             questions.map(e => {
