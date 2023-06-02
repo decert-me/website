@@ -1,4 +1,4 @@
-import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { useUpdateEffect } from 'ahooks';
 import MonacoEditor from '../MonacoEditor';
 import CustomConsole from '../CustomConsole';
@@ -7,6 +7,7 @@ import CustomViewer from "../CustomViewer";
 import { Segmented } from "antd";
 import { Encryption } from "@/utils/Encryption";
 import { useTranslation } from "react-i18next";
+import MyContext from "@/provider/context";
 
 
 const previewTabs = [
@@ -27,6 +28,7 @@ function CustomCode(props, ref) {
     const consoleRef = useRef(null);
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
+    const { isMobile } = useContext(MyContext);
 
     const [loading, setLoading] = useState();
     let [items, setItems] = useState();   //  测试用例列表
@@ -279,7 +281,7 @@ function CustomCode(props, ref) {
                             value={editorCode}
                             onChange={changeCache}
                             language={selectCode.lang}
-                            height={"calc(100% - 14px)"}
+                            height={ isMobile ? "100%" : "calc(100% - 14px)"}
                         />
                     </div>
                     <div className="out-content">

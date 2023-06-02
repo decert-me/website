@@ -24,7 +24,7 @@ export default function CustomRadio(props) {
     },[])
 
     return(
-        <div className="CustomRadio">
+        <div className="CustomRadio Radio">
             <div className="inner-title">
                 <CustomViewer label={label} />
             </div>

@@ -31,7 +31,7 @@ function TestCase(props, ref) {
                 value={value}
                 onChange={e => changeValue(e.target.value)}
                 autoSize={{
-                    minRows: 5,
+                    // minRows: 5,
                 }}
                 style={{
                     maxHeight: "100%"
