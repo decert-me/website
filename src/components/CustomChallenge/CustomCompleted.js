@@ -56,8 +56,13 @@ export default function CustomCompleted(props) {
                         score+=questions[i].score;
                         successNum+=1;
                     }
+                }else if (typeof e === "number") {
+                    if (e === answers[i].value) {
+                        score+=questions[i].score;
+                        successNum+=1;
+                    }
                 }else{
-                    if (answers[i]?.value && e == answers[i].value) {
+                    if (e == answers[i].value) {
                         score+=questions[i].score;
                         successNum+=1;
                     }
@@ -76,7 +81,6 @@ export default function CustomCompleted(props) {
                 setShowConfetti(true);
                 const cache = JSON.parse(localStorage.getItem("decert.cache"));
                 const claimable = cache?.claimable ? cache.claimable : [];
-                console.log();
                 if (!claimable.some(item => item.token_id == tokenId)) {
                     const add_ts = Math.floor(Date.now() / 1000);
                     claimable.push({
