@@ -24,7 +24,7 @@ export default function AppFooter({ isMobile }) {
 
   useEffect(() => {
     isMobile && init();
-  },[location])
+  },[location, isMobile])
 
     return (
         <div id="Footer" style={{display: hide}}>
