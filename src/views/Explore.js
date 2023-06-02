@@ -52,7 +52,7 @@ export default function Explore(params) {
         challenges = challenges.concat(res.data.list);
         if (cache) {
             const claimable = JSON.parse(cache)?.claimable;
-            if (claimable) {
+            if (claimable && claimable.length > 0) {
                 challenges.map(e => {
                     claimable.map((ele,index) => {
                         if (e.tokenId == ele.token_id && e.claimed) {
