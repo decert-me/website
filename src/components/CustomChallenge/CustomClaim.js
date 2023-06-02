@@ -40,6 +40,9 @@ export default function CustomClaim(props) {
             // 清除cache
             const cache = JSON.parse(localStorage.getItem('decert.cache'));
             delete cache[cliamObj.tokenId];
+            if (cache?.claimable) {
+                cache.claimable = cache.claimable.filter(obj => obj.token_id != cliamObj.tokenId);
+            }
             localStorage.setItem("decert.cache", JSON.stringify(cache));
             setCacheIsClaim(true);
             setStep(3)
