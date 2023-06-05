@@ -126,13 +126,13 @@ export default function Explore(params) {
                                         {
                                             item.claimed &&
                                             <div className="item-claimed">
-                                                pass
+                                                {t("pass")}
                                             </div>
                                         }
                                         {
                                             item?.claimable && 
                                             <div className="item-claimable">
-                                                claimable
+                                                {t("claimable")}
                                             </div>
                                         }
                                     </div>
