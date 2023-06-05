@@ -3,7 +3,7 @@ export const filterType = (values) => {
     let num = 0
     let ans 
     if (values.options.length === 1){
-        type = 2
+        type = "fill_blank"
         values.options.map((e)=>{
             ans = e.title
         })
@@ -15,14 +15,14 @@ export const filterType = (values) => {
         })
         num === 1 ? type = 0 : type = 1;
         if (num === 1){
-            type = 0
+            type = "multiple_choice"
             values.options.map((e,i)=>{
                 if (e.options === 2){
                     ans = i
                 }
             })
         }else{
-            type = 1
+            type = "multiple_response"
             ans = []
             values.options.map((e,i)=>{
                 if (e.options===2){
@@ -44,12 +44,18 @@ export const filterQuestions = (arr) => {
 
     arr.map(e => {
         answers.push(e.answers);
-        questions.push({
-            title: e.title,
-            options: e.options,
-            type: e.type,
-            score: e.score
-        })
+        if (e.type === "coding" || e.type === "special_judge_coding") {
+            // 编程题处理
+            questions.push(e)
+        }else{
+            // 普通题处理
+            questions.push({
+                title: e.title,
+                options: e.options,
+                type: e.type,
+                score: e.score
+            })
+        }
     })
 
     return {

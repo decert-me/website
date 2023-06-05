@@ -11,7 +11,7 @@ import { useContext } from 'react';
 
 export default function CustomPagination(props) {
 
-    const { page, total, onChange, submit, openAnswers, type } = props;
+    const { page, total, onChange, submit, openAnswers, type, isPreview } = props;
 
     const { t } = useTranslation(["translation", "explore"]);
     const { isMobile } = useContext(MyContext);
@@ -23,7 +23,7 @@ export default function CustomPagination(props) {
                     isMobile ?
                     <UnorderedListOutlined onClick={openAnswers} />
                     :
-                    <Button type='link' onClick={openAnswers}>
+                    <Button type='link' onClick={openAnswers} style={{display: !isPreview ? "block" : "none"}}>
                         {t("explore:modal.challenge.title")}
                     </Button>
                 }
@@ -64,7 +64,7 @@ export default function CustomPagination(props) {
             }
             </div>
             <div className="content-right">
-                <Button className='submit' onClick={submit}>
+                <Button className='submit' onClick={submit} style={{display: !isPreview ? "block" : "none"}}>
                     {t("btn-submit")}
                 </Button>
             </div>

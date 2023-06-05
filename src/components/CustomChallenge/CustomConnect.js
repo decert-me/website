@@ -1,11 +1,11 @@
 import { Button } from "antd";
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi"
-import ModalConnect from '@/components/CustomModal/ModalConnect';
 import { NickName } from "../../utils/NickName";
 import { useRequest } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { useWeb3Modal } from "@web3modal/react";
+import { changeConnect } from "@/utils/redux";
 
 
 export default function CustomConnect(props) {
@@ -13,19 +13,14 @@ export default function CustomConnect(props) {
     const { t } = useTranslation(["claim"]);
     const { step, setStep, isMobile } = props;
     const { address } = useAccount();
-    let [connectModal, setConnectModal] = useState();
     const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
-
-    const cancelModalConnect = () => {
-        setConnectModal(false);
-    }
 
     const openModalConnect = () => {
         if (isMobile) {
             open()
             return
         }
-        setConnectModal(true);
+        changeConnect()
     }
     
     const { run } = useRequest(() => {
@@ -59,10 +54,6 @@ export default function CustomConnect(props) {
 
     return (
         <div className={`CustomBox step-box ${step === 0 ? "checked-step" : ""}`}>
-            <ModalConnect
-                isModalOpen={connectModal} 
-                handleCancel={cancelModalConnect} 
-            />
             {
                 step >= 0 && localStorage.getItem('decert.token') ? 
                 <>

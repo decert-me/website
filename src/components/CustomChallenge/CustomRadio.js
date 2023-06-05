@@ -8,7 +8,7 @@ export default function CustomRadio(props) {
     let [items, setItems] = useState();
 
     const onChange = (e) => {
-        value(e.target.value)
+        value(e.target.value, "multiple_choice")
     };
 
     useEffect(() => {
@@ -24,13 +24,13 @@ export default function CustomRadio(props) {
     },[])
 
     return(
-        <div className="CustomRadio">
+        <div className="CustomRadio Radio">
             <div className="inner-title">
                 <CustomViewer label={label} />
             </div>
             {
                 items &&
-                <Radio.Group className='CustomRadio' options={items} onChange={onChange} defaultValue={defaultValue} />
+                <Radio.Group className='CustomRadio' options={items} onChange={onChange} defaultValue={defaultValue?.value} />
             }
         </div>
     )

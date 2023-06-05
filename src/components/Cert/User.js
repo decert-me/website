@@ -9,13 +9,8 @@ import { Button, Skeleton } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
-import { createFromIconfontCN } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
-const IconFont = createFromIconfontCN({
-  scriptUrl: [
-    "//at.alicdn.com/t/c/font_4015269_oaebbfmee5.js"
-  ],
-});
+import CustomIcon from "../CustomIcon";
 
 export default function CertUser(props) {
 
@@ -86,7 +81,7 @@ export default function CertUser(props) {
             </p>
             
             <Button className="share" onClick={share} disabled={!ensParse.address}>
-              <IconFont type="icon-share" />
+              <CustomIcon type="icon-share" />
             </Button>
 
           </div>

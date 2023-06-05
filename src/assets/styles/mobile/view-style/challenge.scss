@@ -1,10 +1,13 @@
-$container-width: 93vw;
+$container-width: 87vw;
 .Mobile{
     .Challenge{
-        width: $container-width;
+        width: 100vw;
         margin: 5rem auto 0;
         min-height: 100vh;
         padding-bottom: 6.25rem;
+        .quest-title{
+            padding-left: 1.5rem;
+        }
         .preview-head{
             margin-bottom: 3.125rem;
             text-align: center;
@@ -54,11 +57,12 @@ $container-width: 93vw;
         }
         .content{
             height: auto;
-            padding: .6875rem 1.125rem 4.375rem;
+            padding: 0;
             margin-top: .625rem;
             margin-bottom: .625rem;
             border: none;
             .challenge-title{
+                padding-left: 1.625rem;
                 margin-bottom: .5rem;
                 font-size: 1rem;
                 font-weight: 500;
@@ -70,10 +74,17 @@ $container-width: 93vw;
             }
         }
     }
+    .CustomInput, .Radio, .CustomCheckbox{
+        margin-left: 1.5rem;
+        margin-right: 1rem;
+    }
     .CustomInput .custom-input{
         font-size: 1.125rem;
     }
     .CustomRadio{
+        .ant-radio-group{
+            margin-top: 1.25rem;
+        }
         .ant-radio-wrapper{
             margin-bottom: 1.5625rem;
             font-size: .75rem;
@@ -88,6 +99,9 @@ $container-width: 93vw;
         }
     }
     .CustomCheckbox{
+        .custom-checkbox{
+            margin-top: 1.25rem;
+        }
         .ant-checkbox-wrapper{
             margin-bottom: 1.5625rem;
             font-size: .75rem;
@@ -101,6 +115,91 @@ $container-width: 93vw;
             height: 1.375rem;
         }
     }
+    .CustomCode{
+        height: auto;
+        flex-direction: column;
+        &::after{
+            display: none;
+        }
+        .code-title{
+            font-size: 1.125rem;
+            line-height: 1.625rem;
+        }
+        .line{
+            height: .0625rem;
+            margin-top: .625rem;
+        }
+        .code-content{
+            height: auto;
+            font-size: 1rem;
+            line-height: 1.4375rem;
+            margin-top: .9375rem;
+        }
+        .code-desc{
+            width: 100%;
+            padding-left: 1.5rem;
+            height: auto;
+            padding-bottom: 3.125rem;
+        }
+        .code-out{
+            width: 100%;
+            height: auto;
+            margin-top: 0;
+            padding-bottom: 0;
+            .code-menu{
+                width: 100%;
+                position: absolute;
+                top: -2rem;
+                left: 0;
+                display: flex;
+                justify-content: space-between;
+            }
+        }
+        .out-inner{
+            width: 100%;
+            height: 22.5rem;
+            border-top: .125rem solid #DCDCDC;
+        }
+        .out-content{
+            width: 100%;
+            height: 14.375rem;
+            border-top: .125rem solid #DCDCDC;
+        }
+        .CustomConsole{
+            .tab ul{
+                height: 2.25rem;
+                li{
+                    font-size: .75rem;
+                    padding: .6875rem;
+                }
+            }
+            .console, .case{
+                height: 7.5rem;
+                margin: 1.25rem;
+                textarea{
+                    height: 100%;
+                    min-height: 7.5rem;
+                }
+            }
+        }
+        .btns{
+            margin: 0 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            .ant-dropdown-trigger{
+                line-height: 2rem;
+            }
+            .ant-space-item{
+                font-size: .75rem;
+            }
+            button{
+                width: 7rem;
+                height: 1.875rem;
+                font-size: .75rem;
+            }
+        }
+    }
+
     .progress{
         width: 100vw;
         z-index: 100;

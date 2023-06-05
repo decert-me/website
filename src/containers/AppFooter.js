@@ -4,12 +4,30 @@ import Notion from '@/assets/images/icon/notion.png'
 import Github from '@/assets/images/icon/github.png'
 import logo_white from "@/assets/images/svg/logo-white.png";
 import { Divider } from 'antd';
+import { useEffect, useState } from 'react';
+import { useLocation } from 'react-router-dom';
 
 export default function AppFooter({ isMobile }) {
     
+  const location = useLocation();
+  let [hide, setHide] = useState("block");
+
+  function init(params) {
+    const page = location.pathname;
+    if(page.indexOf("challenge") !== -1){
+      hide = "none";
+    }else{
+      hide = "block";
+    }
+    setHide(hide);
+  }
+
+  useEffect(() => {
+    isMobile && init();
+  },[location, isMobile])
 
     return (
-        <div id="Footer">
+        <div id="Footer" style={{display: hide}}>
           <div className="footer-content">
               {/* logo info */}
             <div className="left">

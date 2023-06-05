@@ -17,7 +17,6 @@ export const usePublish = (props) => {
     const { jsonHash, recommend } = props;
     const { chain } = useNetwork();
     const { data: signer } = useSigner();
-    const { isConnected } = useAccount();
     const { verify } = useVerifyToken();
     const { ipfsPath, maxUint32, maxUint192 } = constans();
     const navigateTo = useNavigate();
@@ -32,7 +31,6 @@ export const usePublish = (props) => {
         }
     })
     let [isSwitch, setIsSwitch] = useState(false);
-    const [signIn, setSignIn] = useState(false);
     const [isLoading, setIsLoading] = useState(false);
     const [isOk, setIsOk] = useState(false);
     
@@ -48,10 +46,6 @@ export const usePublish = (props) => {
             }, 1000);
         }
     })
-    
-    const cancelModalConnect = () => {
-        setSignIn(false);
-    }
 
     const write = (sign, obj, params) => {
         createQuest(obj, sign, signer)
@@ -68,7 +62,6 @@ export const usePublish = (props) => {
     }
 
     const processingData = async() => {
-        console.log("detail ==>", detail);
         const signature = jsonHash && await addQuests({
             uri: "ipfs://"+jsonHash,
             title: detail.title,
@@ -91,11 +84,6 @@ export const usePublish = (props) => {
     }
 
     const publish = async() => {
-        // 未登录
-        if (!isConnected) {
-            setSignIn(true)
-            return
-        }
         // 已登录 未签名 || 签名过期
         let hasHash = true;
         await verify()
@@ -140,9 +128,7 @@ export const usePublish = (props) => {
     return {
         publish,                //  发布
         processingData,         //  合约交互
-        cancelModalConnect,     //  关闭链接钱包
         isOk,                   //  publish 准备就绪
-        signIn,                 //  弹出链接钱包
         isLoading,              //  发布中
         transactionLoading      //  交易上链中
     }

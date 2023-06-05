@@ -1,9 +1,9 @@
-import { ipfsJson } from "@/request/api/public";
+import { challengeJson, nftJson } from "@/request/api/public";
 import { generateUUID } from "./getUuid";
 import { constans } from "./constans";
 import axios from "axios";
 
-export async function getMetadata({values, address, questions, answers, image}) {
+export async function getMetadata({values, address, questions, answers, image}, preview) {
     /**
      * let obj = {
             title: values.title,
@@ -38,14 +38,14 @@ export async function getMetadata({values, address, questions, answers, image}) 
         passingScore: values.score, 
         version: version 
     }
-    const questHash = await ipfsJson({body: obj});
+    const questHash = preview ? obj : await challengeJson(obj);
     const uuid = generateUUID();
     const nft = {
         name: values.title,
         description: values.desc,
         image: image,
         attributes: {
-            challenge_ipfs_url: "ipfs://"+questHash.hash,
+            challenge_ipfs_url: preview ? questHash : "ipfs://" + questHash.data.hash,
             challenge_url: `https://decert.me/quests/${uuid}`,
             challenge_title: values.title,
             creator: address,
@@ -54,8 +54,9 @@ export async function getMetadata({values, address, questions, answers, image}) 
         external_url: "https://decert.me",
         version: version
     }
-    const nftHash = await ipfsJson({body: nft});
-    return nftHash
+    const nftHash = preview ? nft : await nftJson(nft);
+
+    return preview ? nftHash : nftHash.data
 }
 
 export async function setMetadata(props) {

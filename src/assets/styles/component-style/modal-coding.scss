@@ -1,0 +1,278 @@
+
+.ModalAddQuestion{
+    // bytemd style
+    .bytemd{
+        height: 218px;
+    }
+    .bytemd-toolbar-right, .bytemd-status{
+        display: none;
+    }
+    
+    // title
+    .ant-modal-title{
+        font-size: 24px !important;
+        font-weight: 400 !important;
+    }
+    .ant-form-item-label label{
+        font-size: 16px !important;
+        font-weight: 400;
+    }
+
+    .code-snippets{
+        height: 218px;
+        padding-bottom: 40px;        
+        margin-bottom: 17px;
+        box-sizing: border-box;
+        border: 1px solid #E1E4E8;
+
+        .label{
+            width: 100%;
+            height: 40px;
+            padding: 10px 13px;
+            background-color: #F6F8FA;
+            border-bottom: 1px solid #E1E4E8;
+
+            span{
+                padding-left: 12px;
+                font-size: 12px;
+                color: #BBBBBB;
+                display: inline-block;
+            }
+
+            .icon-sigh{
+                font-size: 14px;
+                padding-left: 6px;
+            }
+        }
+        section{
+            height: 100% !important; 
+            padding-top: 14px;
+            padding-bottom: 18px;
+        }
+    }
+    .poa{
+        width: 668px;
+        height: auto;
+        margin: 0 auto;
+        position: fixed;
+        // top: 50px;
+        left: 0;
+        box-shadow: 0 0 12px 1px rgb(221, 221, 221);
+        z-index: 999;
+        img{
+            width: 100%;
+            height: 100%;
+        }
+    }
+    .show1, .show2, .show3, .show4{
+        display: none;
+    }
+    // case
+    .customCase{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        .addCase{
+            width: 340px;
+            height: 30px;
+        }
+        .ant-form-item-row{
+            width: 100% !important;
+            display: flex;
+            flex-direction: row !important;
+        }
+    }
+    // case coding
+    .coding{
+        min-height: 104px;
+        padding: 26px 20px;
+        .form{
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .box{
+                display: flex;
+                align-items: center;
+                .box-label{
+                    margin-right: 15px;
+                    font-size: 12px;
+                    font-weight: 500;
+                }
+                input{
+                    width: 371px;
+                    height: 30px;
+                    background-color: #FAFBFC;
+                    border-color: #E1E4E8;
+                }
+            }
+        }
+    }
+
+    // case coding-special
+    .coding-special{
+        padding: 15px;
+        .form{
+            width: 84%;
+            height: 310px;
+            // padding-bottom: 40px;        
+            padding-bottom: 76px;
+            border-radius: 4px;
+            border: 1px solid #E1E4E8;
+            overflow: hidden;
+            .label{
+                height: 30px;
+                padding: 6px 15px;
+                border-bottom: 1px solid #E1E4E8;
+                background-color: #F6F8FA;
+                font-size: 12px;
+                font-weight: 500;
+            }
+            section{
+                height: 100% !important; 
+                padding-top: 14px;
+                padding-bottom: 18px;
+            }
+        }
+    }
+
+    // 代码执行结果
+    .log{
+        margin-top: 20px;
+        padding-bottom: calc(40px - 15px);
+        .log-label{
+            margin-bottom: 5px;
+            color: #181A1F;
+            font-size: 12px;
+            font-weight: 500;
+            line-height: 17px;
+        }
+        .log-content{
+            width: 100%;
+            height: 120px;
+            padding: 8px 17px;
+            border: 1px solid #D9D9D9;
+            border-radius: 4px;
+        }
+    }
+
+    // 滚动条样式
+    .custom-scroll{
+        &::-webkit-scrollbar {
+            background-color: #F7F7F7;
+        }
+        &::-webkit-scrollbar-thumb {
+            background-color: #E1E4E8;
+        }
+    }
+    .coding, .coding-special{
+        width: 100%;
+        margin-bottom: 30px;
+        border: 1px solid #E1E4E8;
+        border-radius: 4px;
+        position: relative;
+        .flex{
+            display: flex;
+            justify-content: space-between;
+        }
+    }
+
+    // case btn
+    .test-btn{
+        display: flex;
+        align-items: center;
+        color: #00C285;
+        border-color: #00C285;
+        border-radius: 4px;
+        .anticon{
+            font-size: 20px;
+        }
+        span{
+            margin: 0 !important;
+        }
+    }
+
+    // case close
+    .case-close{
+        width: 26px;
+        height: 26px;
+        border-radius: 50%;
+        border: 1px solid #E1E4E8;
+        background-color: #fff;
+        position: absolute;
+        right: -13px;
+        top: -13px;
+        cursor: pointer;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 14px;
+        color: #000;
+        &:hover{
+            background-color: #FF0000;
+            color: #fff;
+            border: none;
+        }
+    }
+
+    // edit
+    .CodeMirror-lines{
+        max-width: 100% !important;
+    }
+    // form style
+    
+}
+// modal
+.custom-confirm{
+    width: 467px !important;
+    padding-bottom: 0 !important;
+    border-radius: 25px !important;
+    overflow: hidden;
+    .ant-modal-content{
+        padding: 20px 44px !important;
+    }
+    .ant-modal-confirm-body{
+        width: 100%;
+        margin-top: 48px;
+        margin-bottom: 57px;
+        text-align: center;
+        justify-content: center;
+        p{
+            font-size: 20px;
+            color: #3D3D3D;
+            line-height: 29px;
+        }
+    }
+    .ant-modal-confirm-btns{
+        margin-bottom: 20px;
+        display: flex;
+        justify-content: space-between;
+        button{
+            width: 171px;
+            height: 40px;
+            font-size: 16px;
+        }
+        .ant-btn-default{
+            border-color: #3360F4;
+            color: #3360F4;
+        }
+    }
+}
+
+// case dropdown
+.customCaseMenu{
+    .ant-dropdown-menu{
+        padding: 0 !important;
+        border-radius: 0 !important;
+        .ant-dropdown-menu-item-divider{
+            margin: 0 !important;
+        }
+        li{
+            height: 40px;
+            p{
+                text-align: center;
+                font-size: 12px;
+                color: #666666;
+            }
+        }
+    }
+}

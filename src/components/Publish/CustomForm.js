@@ -7,6 +7,7 @@ import axios from "axios";
 import { constans } from "@/utils/constans";
 import { UploadProps } from "@/utils/UploadProps";
 import { InboxOutlined } from '@ant-design/icons';
+import { useAccount } from "wagmi";
 
 const { TextArea } = Input;
 const { Dragger } = Upload;
@@ -20,6 +21,7 @@ export default function CustomForm(props) {
         deleteQuestion, 
         writeLoading, 
         showAddModal,
+        showAddCodeModal,
         questions,
         isClick,
         sumScore,
@@ -27,11 +29,13 @@ export default function CustomForm(props) {
         recommend,
         preview,
         clearQuest,
-        showEditModal
+        showEditModal,
+        changeConnect
     } = props;
     const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
     const { ipfsPath} = constans();
+    const { isConnected } = useAccount();
     let [fields, setFields] = useState([]);
     
     const checkPreview = async() => {
@@ -53,27 +57,29 @@ export default function CustomForm(props) {
         }
         const cache = JSON.parse(local);
         if (cache?.hash) {
-            const questCache = await axios.get(`${ipfsPath}/${cache.hash}`)
+            const nftCache = cache.hash
+            const questCache = nftCache.attributes.challenge_ipfs_url
+            console.log(nftCache, questCache);
             fields = [
                 {
                     name: ["title"],
-                    value: questCache.data.title
+                    value: questCache.title
                 },
                 {
                     name: ["desc"],
-                    value: questCache.data.description
+                    value: questCache.description
                 },
                 {
                     name: ["score"],
-                    value: questCache.data.properties?.passingScore
+                    value: questCache?.passingScore
                 },
                 {
                     name: ["difficulty"],
-                    value: questCache.data.properties?.difficulty
+                    value: nftCache.attributes?.difficulty
                 },
                 {
                     name: ["time"],
-                    value: questCache.data.properties?.estimateTime
+                    value: questCache?.estimateTime
                 }
             ]
             setFields([...fields])
@@ -156,6 +162,13 @@ export default function CustomForm(props) {
             >
                 <Dragger
                     {...UploadProps} 
+                    beforeUpload={(file) => {
+                        if (!isConnected) {
+                            changeConnect()
+                            return false || Upload.LIST_IGNORE
+                        }
+                        UploadProps.beforeUpload(file)
+                    }}
                     listType="picture-card"
                 >
                     <p className="ant-upload-drag-icon" style={{ color: "#a0aec0" }}>
@@ -216,6 +229,14 @@ export default function CustomForm(props) {
                     danger={questions.length === 0 && isClick}
                 >
                     {t("inner.add")}
+                </Button>
+
+                <Button
+                    type="link" 
+                    onClick={() => showAddCodeModal()}
+                    danger={questions.length === 0 && isClick}
+                >
+                    {t("inner.add-code")}
                 </Button>
             </div>
             <Divider />

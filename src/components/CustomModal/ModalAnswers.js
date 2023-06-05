@@ -33,23 +33,29 @@ export default function ModalAnswers(props) {
     function getResult(params) {
         // 答题记录 ===> 
         answers.map((e,i) => {  
-            if (e === null || e === undefined || e === "") {
+            if (e === null || e === undefined || e?.value === "") {
                 statusAnswer[i] = "none"
             }else{
-                if (typeof realAnswer[i] === "object") {
-                    if (e.length !== realAnswer[i].length) {
+                if (realAnswer[i] === null) {
+                    // 编程题, [id, 正确与否]
+                    statusAnswer[i] = e.correct ? "success" : "error";
+                    return
+                }else if (typeof realAnswer[i] === "object") {
+                    // 多选
+                    if (e.value.length !== realAnswer[i].length) {
                         statusAnswer[i] = "error";
                         return
                     }
                     let flag = true;
                     realAnswer[i].map((ele,index) => {
-                        if (ele !== e[index]) {
+                        if (ele !== e.value[index]) {
                             flag = false;
                         }
                     })
                     statusAnswer[i] = flag ? "success" : "error";
                 }else{
-                    statusAnswer[i] = e === realAnswer[i] ? "success" : "error"
+                    // 单选
+                    statusAnswer[i] = e.value === realAnswer[i] ? "success" : "error"
                 }
             }
         })

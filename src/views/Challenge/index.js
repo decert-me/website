@@ -7,9 +7,9 @@ import {
     message, 
     Progress 
 } from 'antd';
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { getQuests, submitChallenge } from "../../request/api/public";
+import { challengeJson, getQuests, nftJson, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
 import CustomPagination from '../../components/CustomPagination';
@@ -20,11 +20,10 @@ import {
     CustomCheckbox 
 } from '../../components/CustomChallenge';
 import { useTranslation } from 'react-i18next';
-import axios from "axios";
 import { constans } from '@/utils/constans';
 import { usePublish } from '@/hooks/usePublish';
-import ModalConnect from '@/components/CustomModal/ModalConnect';
 import { setMetadata } from '@/utils/getMetadata';
+import CustomCode from '@/components/CustomChallenge/CustomCode';
 
 export default function Challenge(params) {
 
@@ -34,38 +33,43 @@ export default function Challenge(params) {
     const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
+    const childRef = useRef(null);
     let [detail, setDetail] = useState();
     let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
     let [percent, setPercent] = useState();
     let [publishObj, setPublishObj] = useState({});
-    const { publish: write, signIn, isLoading, transactionLoading, cancelModalConnect } = usePublish({
+    const { publish: write, isLoading, transactionLoading } = usePublish({
         jsonHash: publishObj?.jsonHash, 
         recommend: publishObj?.recommend
     });
 
     let [page, setPage] = useState(1);
-    const index = page-1;
-
-
-
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const index = page-1;
 
     const openAnswers = () => {
         setIsModalOpen(true);
     };
 
-    
-
     const handleCancel = () => {
         setIsModalOpen(false);
     };
 
-    const checkPage = (type) => {
+    const checkPage = async(type) => {
         window.scrollTo(0, 0);
+        // 不是预览模式才运行: 切换page前运行
+        if (detail) {
+            const questType = detail.metadata.properties.questions[page-1].type;
+            if (questType === "special_judge_coding" || questType === "coding") {
+                childRef.current.goTest()
+                .then(() => {
+                    saveAnswer();
+                })
+            }
+        }
         page = type === 'add' ? page+1 : page-1;
         setPage(page);
-        saveAnswer()
     }
 
     const changePage = (index) => {
@@ -86,6 +90,37 @@ export default function Challenge(params) {
             if (cacheAnswers[id]) {
                 // 存在该题cache
                 answers = cacheAnswers[id];
+                // 旧版本cache升级
+                try {
+                    answers.forEach(e => {
+                        // 锁定旧版本普通题
+                        if (
+                            typeof e === "string" || 
+                            typeof e === "number" || 
+                            Array.isArray(e)
+                        ) {
+                            throw ""
+                        }
+                    })
+                } catch (err) {
+                    answers.map((e, i) => {
+                        let type;
+                        if (typeof e === "string") {
+                            type = "fill_blank"
+                        }else if (typeof e === "number") {
+                            type = "multiple_choice"
+                        }else{
+                            type = "multiple_response"
+                        }
+                        answers[i] = {
+                            value: e,
+                            type: type
+                        }
+                    })
+                    setAnswers([...answers])
+                    cacheAnswers[id] = answers;
+                    localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
+                }
                 try {
                     answers.forEach((e,i) => {
                         if (e === null) {
@@ -110,8 +145,12 @@ export default function Challenge(params) {
         })
     }
 
-    const changeAnswer = (e) => {
-        answers[index] = e;
+    const changeAnswer = (value, type) => {
+        // 新版普通题cache添加 ===> TODO:
+        answers[index] = {
+            value: value,
+            type: type
+        }
         setAnswers([...answers]);
     }
 
@@ -122,6 +161,8 @@ export default function Challenge(params) {
     }
 
     const submit = async() => {
+        childRef.current &&
+        await childRef.current.goTest()
         // 本地 ==> 存储答案 ==> 跳转领取页
         saveAnswer()
         // 提交答题次数给后端
@@ -149,20 +190,21 @@ export default function Challenge(params) {
             return
         }
         const cache = JSON.parse(local);
-        publishObj = {
-            jsonHash: cache.hash,
-            recommend: cache.recommend
+        if (cache.isOver) {
+            const challengeHash = await challengeJson(cache.hash.attributes.challenge_ipfs_url);
+            const obj = JSON.parse(JSON.stringify(cache.hash));
+            obj.attributes.challenge_ipfs_url = challengeHash.data.hash;
+            const jsonHash = await nftJson(obj);
+            publishObj = {
+                jsonHash: jsonHash.data.hash,
+                recommend: cache.recommend
+            }
+            setPublishObj({...publishObj});
         }
-        setPublishObj({...publishObj});
-        await axios.get(`${ipfsPath}/${cache.hash}`)
-        .then(async(res) => {
-            const request = await setMetadata(res.data);
-            cacheDetail = request;
+            cacheDetail = cache.hash;
             setCacheDetail({...cacheDetail});
-    
             answers = new Array(Number(cache.questions.length))
             setAnswers([...answers])
-        })
     }
 
     useEffect(() => {
@@ -178,20 +220,37 @@ export default function Challenge(params) {
     useEffect(() => {
         // 修改进度条
         if (detail || cacheDetail) {
-            const total = detail?.metadata.properties.questions.length ? detail?.metadata.properties.questions.length : cacheDetail.properties.questions.length;
+            const total = detail?.metadata.properties.questions.length ? detail?.metadata.properties.questions.length : cacheDetail.attributes.challenge_ipfs_url.questions.length;
             percent = page === total ? 100 : (100/ total) * page;
             setPercent(percent);
         }
     },[page, detail, cacheDetail])
 
     const switchType = (question,i) => {
-    // 2: 填空 0: 单选 1: 多选
+        // 2: 填空 0: 单选 1: 多选
         switch (question.type) {
+            case "coding":
+            case "special_judge_coding":
+                // 编码
+                return <CustomCode 
+                    key={i} 
+                    question={question} 
+                    token_id={questId} 
+                    ref={childRef} 
+                    answers={answers}
+                    setAnswers={setAnswers}
+                    saveAnswer={saveAnswer}
+                    index={page-1}
+                    isPreview={cacheDetail ? true : false}
+                />
             case 2:
+            case "fill_blank":
                 return <CustomInput key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
             case 1:
+            case "multiple_response":
                 return <CustomCheckbox key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             case 0:
+            case "multiple_choice":
                 return <CustomRadio key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
             default:
                 break;
@@ -202,10 +261,6 @@ export default function Challenge(params) {
     return (
         
         <div className="Challenge">
-            <ModalConnect
-                isModalOpen={signIn} 
-                handleCancel={cancelModalConnect} 
-            />
             {
                 (detail || cacheDetail) &&
                 <>
@@ -220,7 +275,7 @@ export default function Challenge(params) {
                                 changePage={changePage}
                                 detail={detail}
                             />
-                            <div style={{display: "flex"}}>
+                            <div className='quest-title' style={{display: "flex"}}>
                                 <Link to={`/quests/${detail.tokenId}`} className="title">
                                     <div className="title">
                                         <ArrowLeftOutlined />
@@ -249,13 +304,12 @@ export default function Challenge(params) {
                     <div className="content custom-scroll">
                         <h4 className='challenge-title'>{t("challenge.title")} #{page}</h4>
                         {
-                            // switchType(detail.metadata.properties.questions[index])
                             detail ? 
                             detail.metadata.properties.questions.map((e,i) => {
                                 return i === index && switchType(e,i)
                             })
                             :
-                            cacheDetail.properties.questions.map((e,i) => {
+                            cacheDetail.attributes.challenge_ipfs_url.questions.map((e,i) => {
                                 return i === index && switchType(e,i)
                             })
                         }
@@ -270,11 +324,12 @@ export default function Challenge(params) {
                             detail ?
                             detail.metadata.properties.questions.length
                             :
-                            cacheDetail.properties.questions.length
+                            cacheDetail.attributes.challenge_ipfs_url.questions.length
                         } 
                         onChange={checkPage} 
                         openAnswers={openAnswers}
                         submit={submit}
+                        isPreview={cacheDetail ? true : false}
                     />
                 </>
             }
