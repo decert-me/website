@@ -50,11 +50,20 @@ export default function User(props) {
 
     const getList = () => {
         if (checkType === 0) {
+            let claimable;
+            if (isMe) {
+                const cache = JSON.parse(localStorage.getItem("decert.cache"));
+                if (cache?.claimable && cache.claimable.length > 0) {
+                    // 如果有可领取的
+                    claimable = JSON.stringify(cache.claimable);
+                }
+            }
             // 'complete'
             getChallengeComplete({
                 ...pageConfig,
                 type: checkStatus,
-                address: account
+                address: account,
+                claimable
             })
             .then(res => {
                 if (res?.data) {
@@ -64,6 +73,23 @@ export default function User(props) {
                     setPageConfig({...pageConfig});
                 }
             })
+            let claimableArr = []
+            if (claimable) {
+                claimableArr = JSON.parse(claimable);
+            }
+            if (claimableArr && claimableArr.length > 0) {
+                console.log(claimableArr);
+                list.map(e => {
+                    claimableArr.map((ele,index) => {
+                        if (e.tokenId == ele.token_id && e.claimed) {
+                            const newCache = JSON.parse(localStorage.getItem("decert.cache"));
+                            newCache.claimable.splice(index,1);
+                            localStorage.setItem("decert.cache", JSON.stringify(newCache));
+                        }
+                    })
+                })
+            }
+            // 如果是“可领取”状态，择再获取本地缓存“可领取”，分页
         }else{
             // 'publish'
             getChallengeCreate({
@@ -124,7 +150,8 @@ export default function User(props) {
     const init = () => {
         account = paramsAddr;
         setAccount(account);
-        setIsMe(address === account);
+        isMe = address === account;
+        setIsMe(isMe);
         getInfo();
     }
 

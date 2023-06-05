@@ -50,7 +50,7 @@ export const uploadAvatar = (data) => {
 // 获取完成的挑战
 export const getChallengeComplete = (data) => {
     return serviceAxios({
-        url: `/users/challenge/${data.address}?type=${data.type}&page=${data.page}&pageSize=${data.pageSize}`,
+        url: `/users/challenge/${data.address}?type=${data.type}&page=${data.page}&pageSize=${data.pageSize}${data.claimable ? "&claimable="+data.claimable : ""}`,
         method: "get",
         data
     })

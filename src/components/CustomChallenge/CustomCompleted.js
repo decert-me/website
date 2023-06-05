@@ -56,6 +56,11 @@ export default function CustomCompleted(props) {
                         score+=questions[i].score;
                         successNum+=1;
                     }
+                }else if (typeof e === "number") {
+                    if (e === answers[i]?.value) {
+                        score+=questions[i].score;
+                        successNum+=1;
+                    }
                 }else{
                     if (answers[i]?.value && e == answers[i].value) {
                         score+=questions[i].score;
@@ -71,10 +76,25 @@ export default function CustomCompleted(props) {
                 passingPercent: GetPercent(totalScore, detail.metadata.properties.passingScore),
                 isPass: score >= detail.metadata.properties.passingScore
             }
+
+            const cache = JSON.parse(localStorage.getItem("decert.cache"));
+            const claimable = cache?.claimable ? cache.claimable : [];
             // TODO: 添加 react-confetti
             if (answerInfo.isPass) {
                 setShowConfetti(true);
+                if (!claimable.some(item => item.token_id == tokenId)) {
+                    const add_ts = Math.floor(Date.now() / 1000);
+                    claimable.push({
+                        token_id: Number(tokenId),
+                        add_ts
+                    })
+                }
+            }else{
+                const index = claimable.findIndex(e => e.token_id == tokenId);
+                claimable.splice(index,1);
             }
+            cache.claimable = claimable;
+            localStorage.setItem("decert.cache", JSON.stringify(cache))
         }else{
             // 已领取
             questions.map(e => {

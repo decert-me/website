@@ -96,18 +96,23 @@
         width: 219px;
         height: 219px;
       }
-      .item-claimed{
-        width: 85px;
+      .item-claimed, .item-claimable{
+        width: 120px;
         height: 27px;
-        background-color: #6BF34C;
         color: #fff;
         position: absolute;
-        right: -23px;
-        top: 3px;
+        right: -24px;
+        top: 14px;
         rotate: 40deg;
         text-align: center;
         line-height: 27px;
         font-size: 16px;
+      }
+      .item-claimable{
+        background-color: #f39d4c;
+      }
+      .item-claimed{
+        background-color: #6BF34C;
       }
     }
   }
