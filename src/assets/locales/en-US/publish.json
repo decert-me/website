@@ -34,6 +34,10 @@
         "run-res": "Code Execution Results",
         "run-code": "Execute code",
         "example": "Example",
+        "ex-case-nrm": "publish-ex-case-normal.png",
+        "ex-case-code": "publish-ex-case-code.png",
+        "ex-code-tmpl": "publish-ex-code-tmpl.png",
+        "ex-code-ans": "publish-ex-code-ans.png",
         "fill-example": "Fill in example",
         "run": {
             "start": "Start compiling...",

@@ -34,6 +34,10 @@
         "run-res": "代码执行结果",
         "run-code": "执行代码",
         "example": "示例",
+        "ex-case-nrm": "publish-ex-case-normal-zh.png",
+        "ex-case-code": "publish-ex-case-code-zh.png",
+        "ex-code-tmpl": "publish-ex-code-tmpl-zh.png",
+        "ex-code-ans": "publish-ex-code-ans-zh.png",
         "fill-example": "填入示例",
         "run": {
             "start": "开始编译...",
