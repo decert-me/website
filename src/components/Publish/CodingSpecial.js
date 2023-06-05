@@ -108,7 +108,7 @@ export default function CodingSpecial(props) {
                     disabled={!defaultValue.spj_code.frame}
                     loading={loading}
                 >
-                    <CaretRightOutlined />{t("inner.run-res")}
+                    <CaretRightOutlined />{t("inner.run-case")}
                 </Button>
             </div>
             {
