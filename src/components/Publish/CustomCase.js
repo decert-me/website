@@ -166,10 +166,10 @@ function CustomCase(props, ref) {
                 </Dropdown>
             </div>
             <div className="poa  show1">
-                <img src={require(`@/assets/images/img/${t("inner.example1")}`)} alt="" />
+                <img src={require(`@/assets/images/img/${t("inner.ex-case-nrm")}`)} alt="" />
             </div>
             <div className="poa  show2">
-                <img src={require(`@/assets/images/img/${t("inner.example2")}`)} alt="" />
+                <img src={require(`@/assets/images/img/${t("inner.ex-case-code")}`)} alt="" />
             </div>
         </>
     )

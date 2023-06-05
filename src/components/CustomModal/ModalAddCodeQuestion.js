@@ -387,10 +387,10 @@ export default function ModalAddCodeQuestion(props) {
                 </Form>
             </Spin>
             <div className="poa  show3">
-                <img src={require(`@/assets/images/img/${t("inner.example3")}`)} alt="" />
+                <img src={require(`@/assets/images/img/${t("inner.ex-code-tmpl")}`)} alt="" />
             </div>
             <div className="poa  show4">
-                <img src={require(`@/assets/images/img/${t("inner.example4")}`)} alt="" />
+                <img src={require(`@/assets/images/img/${t("inner.ex-code-ans")}`)} alt="" />
             </div>
     </Modal>
     )
