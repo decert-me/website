@@ -29,14 +29,14 @@ export default function AppHeader({ isMobile }) {
     let [isOpenM, setIsOpenM] = useState(false);
     const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
 
-    let [items, setItems] = useState([
+    const items = [
         {
-            label: (<p onClick={() => navigateTo(`/publish`)}> {t("translation:home.btn-publish")} </p>),
+            label: (<p onClick={() => navigateTo(`/publish`)}> {t("home.btn-publish")} </p>),
             key: '0',
             icon: '',
         },
         {
-            label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("translation:header.profile")} </p>),
+            label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("header.profile")} </p>),
             key: '1',
             icon: '',
         },
@@ -46,23 +46,23 @@ export default function AppHeader({ isMobile }) {
                     navigateTo(`/${address}`)
                     navigateTo(0)
                 }}> 
-                    {t("translation:header.cert")} 
+                    {t("header.cert")} 
                 </p>
             ),
             key: '2',
             icon: '',
         },
         {
-            label: (<p onClick={() => disconnect()}> {t("translation:header.disconnect")} </p>),
+            label: (<p onClick={() => disconnect()}> {t("header.disconnect")} </p>),
             key: '3',
             icon: '',
         }
-    ])
+    ]
 
     const menus = [
-        {to: "/tutorials", label: t("translation:header.lesson")},
-        {to: "/challenges", label: t("translation:header.explore")},
-        {to: "/vitae", label: t("translation:header.cert")}
+        {to: "/tutorials", label: t("header.lesson")},
+        {to: "/challenges", label: t("header.explore")},
+        {to: "/vitae", label: t("header.cert")}
     ]
 
     const openModal = () => {
@@ -86,12 +86,12 @@ export default function AppHeader({ isMobile }) {
         }
     },[location])
 
-    useUpdateEffect(() => {
-        if (isMobile) {
-            items.splice(0,1);
-            setItems([...items])
-        }
-    },[isMobile])
+    // useUpdateEffect(() => {
+    //     if (isMobile) {
+    //         items.splice(0,1);
+    //         setItems([...items])
+    //     }
+    // },[isMobile])
 
     return (
         <div id="Header">
@@ -125,7 +125,7 @@ export default function AppHeader({ isMobile }) {
                             isConnected && !isOpenM &&
                                 <Dropdown
                                     placement="bottomRight" 
-                                    menu={{items}}
+                                    menu={{items: items.slice(1,items.length)}}
                                     overlayStyle={{
                                         width: "160px",
                                         fontWeight: 500
@@ -168,9 +168,9 @@ export default function AppHeader({ isMobile }) {
 
                                 {
                                     isConnected ?
-                                    <Button danger type="primary" onClick={() => disconnect()}>{t("translation:header.disconnect")}</Button>
+                                    <Button danger type="primary" onClick={() => disconnect()}>{t("header.disconnect")}</Button>
                                     :
-                                    <Button onClick={() => openModal()}>{t("translation:header.connect")}</Button>
+                                    <Button onClick={() => openModal()}>{t("header.connect")}</Button>
                                 }
                             </div>
                         
@@ -208,7 +208,7 @@ export default function AppHeader({ isMobile }) {
                                 </Dropdown>
                             :
                             <div>
-                                <Button onClick={() => openModal()} className='connect'>{t("translation:header.connect")}</Button>
+                                <Button onClick={() => openModal()} className='connect'>{t("header.connect")}</Button>
                             </div>
                         }
                     </div>
