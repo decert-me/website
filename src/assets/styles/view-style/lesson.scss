@@ -17,6 +17,7 @@
     .content{
         display: flex;
         justify-content: space-between;
+        flex-wrap: wrap;
         .box{
             width: 520px;
             min-height: 366px;

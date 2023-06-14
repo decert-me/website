@@ -1,18 +1,59 @@
 import "@/assets/styles/view-style/lesson.scss"
 import "@/assets/styles/mobile/view-style/lesson.scss"
 import { useTranslation } from "react-i18next";
+import { useEffect, useState } from "react";
+import axios from "axios";
 
 export default function Lesson(params) {
     
     const { t } = useTranslation();
+    let [tutorials, setTutorials] = useState([]);
 
+    function init(params) {
+        axios.get("https://api.decert.me/tutorial-list/")
+        .then(res => {
+            tutorials = res.data;
+            setTutorials([...tutorials]);
+        })
+        .catch(err => {
+            console.log(err);
+        })
+    }
+
+    useEffect(() => {
+        init();
+    },[])
 
     return (
         <div className="Lesson">
             <p className="title">{t("header.lesson")}</p>
             {/* <p className="subtitle">{t("header.lesson-sub")}</p> */}
             <div className="content">
-                <a href="https://decert.me/tutorial/blockchain-basic/start/" target="_blank" rel="noopener noreferrer">
+                {
+                    tutorials.map(e => 
+                        <a 
+                            href={`https://decert.me/tutorial/${e.catalogueName}/${e.startPage}`} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            key={e.catalogueName}
+                        >
+                            <div className="box">
+                                <div className="img">
+                                    <img src={e?.img?.indexOf("http") === -1 ? require(`@/${e.img}`) : e.img} alt="" />
+                                </div>
+                                <div className="box-content">
+                                    <p className="box-title">
+                                        {e.label}
+                                    </p>
+                                    <p className="box-desc">
+                                        {e?.desc}
+                                    </p>
+                                </div>
+                            </div>
+                        </a>
+                    )
+                }
+                {/* <a href="https://decert.me/tutorial/blockchain-basic/start/" target="_blank" rel="noopener noreferrer">
                 <div className="box">
                     <div className="img">
                         <img src={require("@/assets/images/img/lesson-img1.png")} alt="" />
@@ -42,7 +83,7 @@ export default function Lesson(params) {
                         </p>
                     </div>
                 </div>
-                </a>
+                </a> */}
             </div>
         </div>
     )
