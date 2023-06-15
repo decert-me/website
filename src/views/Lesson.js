@@ -26,8 +26,8 @@ export default function Lesson(params) {
 
     return (
         <div className="Lesson">
+            <div className="round" />
             <p className="title">{t("header.lesson")}</p>
-            {/* <p className="subtitle">{t("header.lesson-sub")}</p> */}
             <div className="content">
                 {
                     tutorials.map(e => 
