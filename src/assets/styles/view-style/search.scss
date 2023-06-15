@@ -6,10 +6,10 @@
     .round1{
         width: 412px;
         height: 412px;
-        top: -12px;
-        left: calc((100% - 412px) / 2 - 420px);
+        top: -30px;
+        left: calc((100% - 412px) / 2 - 415px);
         position: absolute;
-        background: rgba(178,115,71);
+        background-color: rgba($color: #B27347, $alpha: 0.5);
         opacity: 0.4;
         filter: blur(132px);
         border-radius: 50%;
@@ -17,7 +17,7 @@
     .round2{
         width: 632px;
         height: 632px;
-        top: 400px;
+        top: 385px;
         right: calc((100% - 632px) / 2 - 420px);
         position: absolute;
         background-color: rgba($color: #B27347, $alpha: 0.5);
@@ -26,7 +26,6 @@
         border-radius: 50%;
     }
     .Search-content{
-        width: auto;
         text-align: center;
         z-index: 1;
         position: relative;
@@ -55,7 +54,7 @@
             margin: 62px auto 0;
             display: flex;
             align-items: center;
-            border-radius: 36px;
+            border-radius: 60px;
             background-color: #fff;
             .icon{
                 margin-right: 20px;
