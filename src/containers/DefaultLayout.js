@@ -36,7 +36,7 @@ export default function DefaultLayout(params) {
       
     const contentStyle = {
         minHeight: isMobile ? "calc(100vh - 108px)" : "calc(100vh - 300px)",
-        backgroundColor: location.pathname === "/tutorials" ? "#F6F7F9" : '#fff',
+        backgroundColor: '#fff',
     };
       
     const footerStyle = {
