@@ -38,6 +38,7 @@
             font-weight: 900;
         }
         .color-primary{
+            margin-top: -31px;
             background: linear-gradient(160deg, #CDAF7A 0%, #884E26 100%);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
@@ -46,7 +47,6 @@
             color: #777777;
             font-size: 30px;
             line-height: 35px;
-            letter-spacing: 1.3px;
         }
         .inner{
             width: 724px;
@@ -93,6 +93,7 @@
                 line-height: 16px;
                 border-radius: 20px;
                 background-color: #fff;
+                cursor: pointer;
                 &:first-child{
                     color: #A9814D;
                 }
