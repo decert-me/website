@@ -11,7 +11,7 @@ import { getEns } from "@/request/api/nft";
 
 export default function Search(params) {
 
-    let [account, setAccount] = useState("tinyxiong.eth");
+    let [account, setAccount] = useState("");
     let [isLoading, setIsLoading] = useState(false);
     
     const { t } = useTranslation("cert");
@@ -40,8 +40,11 @@ export default function Search(params) {
 
     return (
         <div className="Search">
+            <div className="round1" />
+            <div className="round2" />
             <div className="Search-content">
                 <p className="title">{t("vitae.title")}</p>
+                <p className="title color-primary">{t("vitae.title2")}</p>
                 <p className="subtitle">{t("vitae.subtitle")}</p>
                 <div className="inner">
                     <div className="icon">
@@ -50,6 +53,11 @@ export default function Search(params) {
                     <Input placeholder={t("vitae.inner")} bordered={null} value={account} onChange={(e) => changeAccount(e.target.value.trim())} />
                     <Button onClick={() => start()} loading={isLoading} >{t("vitae.btn")}</Button>
                 </div>
+                <ul className="example">
+                    <li>me</li>
+                    <li>vitalik.eth</li>
+                    <li>tinyxiong.eth</li>
+                </ul>
             </div>
         </div>
     )
