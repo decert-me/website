@@ -65,7 +65,8 @@
         "m": "{{time}} min",
         "h": "{{time}} h",
         "d": "{{time}} day",
-        "w": "{{time}} week"
+        "w": "{{time}} week",
+        "mm": "{{time}} month"
     },
     "confirm": {
         "clear": "Clear all quiz？"

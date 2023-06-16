@@ -1,20 +1,20 @@
 import { useEffect, useRef, useState } from "react"
-import { Col, Row, Button, Spin } from "antd";
+import { ClockCircleFilled } from '@ant-design/icons';
+import { Rate } from "antd";
 import { useNavigate } from "react-router-dom";
 import { getQuests } from "../request/api/public"
 import { LazyLoadImage } from 'react-lazy-load-image-component';
 import "@/assets/styles/view-style/explore.scss"
 import "@/assets/styles/mobile/view-style/explore.scss"
-import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
 import { constans } from "@/utils/constans";
 import store from "@/redux/store";
 import InfiniteScroll from "@/components/InfiniteScroll";
+import { convertTime } from "@/utils/convert";
 
 export default function Explore(params) {
     
-    const { t } = useTranslation(["explore"]);
-    const { address } = useAccount();
+    const { t } = useTranslation(["explore", "translation"]);
     const navigateTo = useNavigate();
     const { ipfsPath, defaultImg } = constans();
     const scrollRef = useRef(null);
@@ -69,24 +69,18 @@ export default function Explore(params) {
         setChallenges([...challenges]);
     }
 
-    // const io = new IntersectionObserver(ioes => {
-    //     ioes.forEach(async(ioe) => {
-    //         const el = ioe.target
-    //         const intersectionRatio = ioe.intersectionRatio
-    //         if (intersectionRatio > 0 && intersectionRatio <= 1) {
-    //             await getChallenge()
-    //             io.unobserve(el)
-    //         }
-    //         if (!isOver) {
-    //             isInViewPortOfThree()
-    //         }
-    //     })
-    // })
+    function getTimeDiff(time) {
+        var now = new Date();
+        var dbTime = new Date(time);
+        var timeDiff = Math.round(now - dbTime) / 1000;
+        const { type, time: num } = convertTime(timeDiff, "all")
 
-    // 执行交叉观察器
-    // function isInViewPortOfThree () {
-    //     io.observe(document.querySelector(".loading"))
-    // }
+        return (
+            <>
+                {t(`translation:${type}`, {time: Math.round(num)})}
+            </>
+        )
+    }
 
     useEffect(() => {
         // isInViewPortOfThree()
@@ -95,25 +89,30 @@ export default function Explore(params) {
 
     return (
         <div className="Explore">
+            <div className="round"></div>
             {/* title */}
             <h3>{t("title")}</h3>
             {/* Challenge */}
             <div className="challenges" ref={scrollRef}>
-                <Row gutter={18} style={{margin: 0}}>
                     {
                         challenges.map(item => (
-                        <Col span={isMobile ? 24 : 12} key={item.id}>
-                            <div className="challenge-item">
-                                <div className="left-info">
-                                <div className="title">{item.title}</div>
-                                <p className="desc">{item.description}</p>
-                                <Button
-                                    onClick={() => goChallenge(item)}
-                                    className="btn"
-                                >
-                                    {t("btn-challenge")}
-                                </Button>
-                                </div>
+                            <div 
+                                key={item.id}
+                                className="challenge-item"
+                                onClick={() => goChallenge(item)}
+                            >
+                                {
+                                    item.claimed &&
+                                    <div className="item-claimed">
+                                        {t("pass")}
+                                    </div>
+                                }
+                                {
+                                    item?.claimable && 
+                                    <div className="item-claimable">
+                                        {t("claimable")}
+                                    </div>
+                                }
                                 <div className="right-sbt">
                                     <div className="img">
                                         <LazyLoadImage
@@ -123,25 +122,31 @@ export default function Explore(params) {
                                                     : defaultImg
                                             }
                                         />
-                                        {
-                                            item.claimed &&
-                                            <div className="item-claimed">
-                                                {t("pass")}
-                                            </div>
-                                        }
-                                        {
-                                            item?.claimable && 
-                                            <div className="item-claimable">
-                                                {t("claimable")}
-                                            </div>
-                                        }
+                                    </div>
+                                </div>
+                                <div className="left-info">
+                                    <div>
+                                        <p className="title newline-omitted">
+                                            {item.title}
+                                        </p>
+                                        <p className="desc newline-omitted">
+                                            {item.metadata.description}
+                                        </p>
+                                    </div>
+                                    <div className="sbt-detail">
+                                        <div>
+                                            <span className="mr12">{t("translation:diff")}</span>
+                                            <Rate disabled defaultValue={item.metadata?.attributes?.difficulty + 1} count={3} />
+                                        </div>
+                                        <div className="time">
+                                            <ClockCircleFilled />
+                                            {getTimeDiff(item?.quest_data?.startTime)}
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                        </Col>
                         ))
                     }
-                </Row>
 
                 {
                         !isOver &&

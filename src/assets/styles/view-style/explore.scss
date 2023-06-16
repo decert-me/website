@@ -1,18 +1,26 @@
 .Explore {
-    width: 1388px;
+    width: 1440px;
     min-height: calc(100vh - 300px);
-    padding-top: calc(43px + 55px);
+    padding-top: 170px;
     margin: 0 auto;
     font-family: Source;
+    .round{
+      width: calc(1400px / 1920px * 100%);
+      height: 400px;
+      background: #B27347;
+      border-radius: 50%;
+      opacity: 0.4;
+      filter: blur(70px);
+      position: absolute;
+      top: -300px;
+      left: calc((100% - (1400px / 1920px * 100%)) / 2);
+    }
     // title
     h3 {
-      text-align: center;
-      height: 43px;
-      display: block;
-      font-size: 30px;
-      font-weight: bold;
-      color: #585858;
-      margin: 0 auto;
+      margin-bottom: 80px;
+      font-size: 32px;
+      font-weight: 600;
+      line-height: 38px;
     }
     // depass
     .depass {
@@ -26,7 +34,10 @@
     // challenges
     .challenges {
       padding: 0;
-      padding-block: 60px 150px;
+      padding-bottom: 150px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 36px 40px;
       h4 {
         font-size: 20px;
         font-weight: 800;
@@ -37,82 +48,88 @@
   
   // challenge-item jsx
   .challenge-item {
-    margin-top: 27px;
-    width: 684px;
-    height: 242px;
+    width: 700px;
+    height: 250px;
+    padding: 26px;
     background: #ffffff;
-    border: 1px solid #cecece;
-    padding: 12px;
+    border-radius: 10px;
+    border: 2px solid #F0F0F0;
     display: flex;
     justify-content: space-between;
     transition: transform 0.3s ease-in-out, box-shadow 0.3s cubic-bezier(0.47, 0, 0.745, 0.715), border 0.3s linear 0.1s;
+    position: relative;
+    cursor: pointer;
     &:hover {
       box-shadow: 0 10px 50px rgba(51, 51, 51, 0.25);
       -webkit-transform: translateY(-10px);
       -moz-transform: translateY(-10px);
       transform: translateY(-10px);
     }
+    .item-claimed, .item-claimable{
+      width: 90px;
+      height: 36px;
+      color: #fff;
+      position: absolute;
+      left: -2px;
+      top: -2px;
+      text-align: center;
+      line-height: 36px;
+      font-size: 16px;
+      border-radius: 10px;
+      border-bottom-left-radius: 0;
+      z-index: 1;
+    }
+    .item-claimable{
+      background-color: #43B472;
+    }
+    .item-claimed{
+      background-color: #fff;
+      color: #43B472;
+      border: 1px solid #43B472;
+    }
     .left-info {
-      width: 416px;
-      height: 207px;
+      width: 420px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
       .title {
-        font-size: 18px;
-        font-weight: 800;
-        color: #17151c;
-        overflow: hidden;
-        white-space: nowrap;
-        text-overflow: ellipsis;
-      }
-      .desc{
-        margin-top: 11px;
-        color: #666666;
-        font-size: 12px;
-        line-height: 18px;
-        overflow: hidden;
-        text-overflow: ellipsis;
-        /* 作为弹性伸缩盒子模型显示 */
-        display: -webkit-box;
-        /* 设置伸缩盒子的子元素排列方式--从上到下垂直排列 */
-        -webkit-box-orient: vertical;
-        /* 显示的行 */
+        margin-bottom: 18px;
+        font-size: 24px;
+        line-height: 28px;
         -webkit-line-clamp: 2;
       }
-      .btn {
-        width: 100%;
-        margin-top: 100px;
-        height: 42px;
-        border: 1px solid #000000;
-        font-size: 18px;
-        font-weight: bold;
-        color: #171717;
+      .desc{
+        color: #999999;
+        font-size: 16px;
+        line-height: 20px;
+        -webkit-line-clamp: 3;
+      }
+      .sbt-detail{
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        .mr12{
+          margin-right: 12px;
+        }
+        .time{
+          color: rgba(0,0,0,0.5);
+          line-height: 24px;
+          display: flex;
+          align-items: center;
+          .anticon{
+            margin-right: 12px;
+            font-size: 18px;
+          }
+        }
       }
     }
     .right-sbt {
-      width: 219px;
-      height: 219px;
-      position: relative;
+      width: 195px;
+      height: 195px;
       overflow: hidden;
       .img {
-        width: 219px;
-        height: 219px;
-      }
-      .item-claimed, .item-claimable{
-        width: 120px;
-        height: 27px;
-        color: #fff;
-        position: absolute;
-        right: -24px;
-        top: 14px;
-        rotate: 40deg;
-        text-align: center;
-        line-height: 27px;
-        font-size: 16px;
-      }
-      .item-claimable{
-        background-color: #f39d4c;
-      }
-      .item-claimed{
-        background-color: #6BF34C;
+        width: 100%;
+        height: 100%;
       }
     }
   }

@@ -28,25 +28,24 @@ export const convertDifficulty = (value) => {
     }
 }
 
-export const convertTime = (value) => {
+export const convertTime = (value, resType) => {
     const h = value / 60 / 60;
     const d = value / 60 / 60 / 24;
     const w = value / 60 / 60 / 24 / 7;
 
     let time = value / 60;
-    let type = 'm';
-
+    let type = resType ? 'time-info.mm' : 'm';
     if (h >= 1) {
         time = h;
-        type = 'h'
+        type = resType ? 'time-info.h' : 'h';
     }
     if (d >= 1) {
         time = d;
-        type = 'd';
+        type = resType ? 'time-info.d' : 'd';
     }
     if (w >= 1) {
         time = w;
-        type = 'w';
+        type = resType ? 'time-info.w' : 'w';
     }
 
     return {
