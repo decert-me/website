@@ -31,6 +31,7 @@ export default function Quests(params) {
     return (
         detail &&
         <div className="Question">
+            <div className="custom-bg-round"></div>
             <h1>{detail.title}</h1>
             <div className="content">
                 <div className="content-left">
