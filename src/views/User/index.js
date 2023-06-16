@@ -147,6 +147,19 @@ export default function User(props) {
         }, 1000);
     }
 
+    function scrollFixed(params) {
+        const dom = document.querySelector('.User .navbar');
+        const box = document.querySelector('.User .User-list');
+        const domOffsetTop = dom.offsetTop;
+        const scrollPosition = document.documentElement.scrollTop;
+        const multiple = document.documentElement.clientWidth / 390;
+        if (scrollPosition > domOffsetTop - (multiple * 60)) {
+            box.classList.add('fixed');
+        } else {
+            box.classList.remove('fixed');
+        }
+    }
+
     const init = () => {
         account = paramsAddr;
         setAccount(account);
@@ -170,8 +183,16 @@ export default function User(props) {
         getList();
     },[checkStatus, checkType])
 
+    useEffect(() => {
+        window.addEventListener("scroll", scrollFixed);
+        return () => {
+            window.removeEventListener("scroll", scrollFixed);
+        }
+    },[])
+
     return (
         <div className="User">
+            <div className="custom-bg-round"></div>
             <div className="User-info">
                 {
                     info ? 
@@ -217,41 +238,43 @@ export default function User(props) {
                 }
                 
             </div>
-            <div className="User-list">
-                <ul className="challenge">
-                    {
-                        type.map((e,i) => 
-                            <li 
-                                key={e.key} 
-                                className={checkType === i ? "active" : ""}
-                                onClick={() => toggleType(i)}
-                            >
-                                {e.label}
-                            </li>
-                        )
-                    }
-                </ul>
-                <ul className="status">
-                    {
-                        type[checkType].children.map((e,i) => 
-                            {
-                                if (account !== address && checkType === 0 && i > 0) {
-                                    return
-                                }else{
-                                    return (
-                                        <li 
-                                            key={e.key} 
-                                            className={checkStatus === i ? "active" : ""}
-                                            onClick={() => toggleStatus(e.key)}
-                                        >
-                                            {e.label}
-                                        </li>
-                                    )
+            <div className="navbar">
+                <div className="User-list">
+                    <ul className="challenge">
+                        {
+                            type.map((e,i) => 
+                                <li 
+                                    key={e.key} 
+                                    className={checkType === i ? "active" : ""}
+                                    onClick={() => toggleType(i)}
+                                >
+                                    {e.label}
+                                </li>
+                            )
+                        }
+                    </ul>
+                    <ul className="status">
+                        {
+                            type[checkType].children.map((e,i) => 
+                                {
+                                    if (account !== address && checkType === 0 && i > 0) {
+                                        return
+                                    }else{
+                                        return (
+                                            <li 
+                                                key={e.key} 
+                                                className={checkStatus === i ? "active" : ""}
+                                                onClick={() => toggleStatus(e.key)}
+                                            >
+                                                {e.label}
+                                            </li>
+                                        )
+                                    }
                                 }
-                            }
-                        )
-                    }
-                </ul>
+                            )
+                        }
+                    </ul>
+                </div>
             </div>
             <div className="User-content">
                 {

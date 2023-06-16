@@ -66,8 +66,21 @@ $container-width: 21.875rem;
             }
         }
     }
-    .User-list{
+    .navbar{
+        min-height: 3.9375rem;
         margin-top: 3.125rem;
+        .fixed{
+            width: 100%;
+            padding-top: 3.75rem;
+            padding-bottom: .625rem;
+            position: fixed;
+            top: 0;
+            z-index: 888;
+            background-color: #fff;
+        }
+    }
+    .User-list{
+        margin-top: 0;
         .challenge{
             margin-bottom: .9375rem;
             li{
