@@ -191,7 +191,7 @@ export default function User(props) {
                                 {/* <div className="icon"></div> */}
                                 <CustomSocial socials={socials} />
                             </div>
-                            <div className="desc">
+                            <div className="desc newline-omitted">
                                 {info.description ? info.description : t("profile:desc-none")}
                             </div>
                         </div>
@@ -199,7 +199,7 @@ export default function User(props) {
                             isMe &&
                             <Link to={`/user/edit/${address}`}>
                                 <Button className="btn">
-                                    <EditOutlined style={{fontSize: "18px"}} />
+                                    <EditOutlined style={{fontSize: "16px"}} />
                                     {t("translation:btn-edit-profile")}
                                 </Button>
                             </Link>
@@ -259,8 +259,10 @@ export default function User(props) {
                         <ChallengeItem 
                             key={e.id} 
                             info={e}
-                            isMe={isMe}
-                            checkType={checkType}
+                            profile={{
+                                isMe,
+                                checkType
+                            }}
                         />
                     )
                 }
