@@ -86,6 +86,13 @@
         border-bottom: 1px solid #F5F5F5;
         display: flex;
         align-items: center;
+        .ant-rate-star-full{
+            color: #DD8C53;
+        }
+        .ant-rate-star-zero .ant-rate-star-second{
+            color: #fff;
+            filter: drop-shadow(0px 0px 1px #DD8C53)
+        }
     }
     .img{
         width: 50px;
