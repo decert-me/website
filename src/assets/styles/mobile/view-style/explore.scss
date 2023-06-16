@@ -1,20 +1,20 @@
 .Mobile{
     .Explore {
-        width: 350px;
+        width: 21.875rem;
         min-height: 100vh;
-        padding-top: 90px;
+        padding-top: 5.625rem;
         // title
         h3 {
-          margin-bottom: 20px;
-          font-size: 18px;
+          margin-bottom: 1.25rem;
+          font-size: 1.125rem;
           font-weight: 600;
-          line-height: 25px;
+          line-height: 1.5625rem;
         }
         // depass
         .depass {
-          margin-top: 63px;
+          margin-top: 3.9375rem;
           h4 {
-            font-size: 20px;
+            font-size: 1.25rem;
             font-weight: 800;
             color: #3d3d3d;
           }
@@ -22,68 +22,8 @@
         // challenges
         .challenges {
           padding: 0;
-          padding-bottom: 150px;
-          h4 {
-            font-size: 20px;
-            font-weight: 800;
-            color: #3d3d3d;
-          }
+          padding-bottom: 9.375rem;
+          gap: .625rem;
         }
       }
-      // challenge-item jsx
-      .challenge-item {
-        width: 100%;
-        height: 125px;
-        padding: 13px;
-        border-width: 1px;
-        border-radius: 5px;
-        .item-claimed, .item-claimable{
-          width: 45px;
-          height: 18px;
-          left: -1px;
-          top: -1px;
-          line-height: 18px;
-          font-size: 8px;
-          border-radius: 5px;
-          border-bottom-left-radius: 0;
-        }
-        .left-info {
-          width: calc(100% - 98px - 10px);
-          .title {
-            margin-bottom: 7px;
-            font-size: 12px;
-            line-height: 14px;
-          }
-          .desc{
-            font-size: 8px;
-            line-height: 9px;
-          }
-          .sbt-detail{
-            font-size: 9px;
-            .ant-rate{
-              font-size: 10px;
-            }
-            .ant-rate-star:not(:last-child){
-              margin-right: 3px;
-            }
-            .anticon-star{
-              font-size: 10px;
-            }
-            .mr12{
-              margin-right: 5px;
-            }
-            .time{
-              line-height: 10px;
-              .anticon{
-                margin-right: 8px;
-                font-size: 9px;
-              }
-            }
-          }
-        }
-        .right-sbt {
-          width: 98px;
-          height: 98px;
-        }
-    }
 }

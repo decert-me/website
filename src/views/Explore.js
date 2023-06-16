@@ -1,22 +1,17 @@
 import { useEffect, useRef, useState } from "react"
-import { ClockCircleFilled } from '@ant-design/icons';
-import { Rate } from "antd";
 import { useNavigate } from "react-router-dom";
 import { getQuests } from "../request/api/public"
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import "@/assets/styles/view-style/explore.scss"
 import "@/assets/styles/mobile/view-style/explore.scss"
 import { useTranslation } from "react-i18next";
-import { constans } from "@/utils/constans";
 import store from "@/redux/store";
 import InfiniteScroll from "@/components/InfiniteScroll";
-import { convertTime } from "@/utils/convert";
+import ChallengeItem from "@/components/User/ChallengeItem";
 
 export default function Explore(params) {
     
     const { t } = useTranslation(["explore", "translation"]);
     const navigateTo = useNavigate();
-    const { ipfsPath, defaultImg } = constans();
     const scrollRef = useRef(null);
     
     let [page, setPage] = useState(0);
@@ -69,23 +64,9 @@ export default function Explore(params) {
         setChallenges([...challenges]);
     }
 
-    function getTimeDiff(time) {
-        var now = new Date();
-        var dbTime = new Date(time);
-        var timeDiff = Math.round(now - dbTime) / 1000;
-        const { type, time: num } = convertTime(timeDiff, "all")
-
-        return (
-            <>
-                {t(`translation:${type}`, {time: Math.round(num)})}
-            </>
-        )
-    }
-
     useEffect(() => {
-        // isInViewPortOfThree()
         getChallenge()
-    }, []);
+    },[])
 
     return (
         <div className="Explore">
@@ -96,60 +77,15 @@ export default function Explore(params) {
             <div className="challenges" ref={scrollRef}>
                     {
                         challenges.map(item => (
-                            <div 
-                                key={item.id}
-                                className="challenge-item"
-                                onClick={() => goChallenge(item)}
-                            >
-                                {
-                                    item.claimed &&
-                                    <div className="item-claimed">
-                                        {t("pass")}
-                                    </div>
-                                }
-                                {
-                                    item?.claimable && 
-                                    <div className="item-claimable">
-                                        {t("claimable")}
-                                    </div>
-                                }
-                                <div className="right-sbt">
-                                    <div className="img">
-                                        <LazyLoadImage
-                                            src={
-                                                item.metadata.image?.split("//")[1]
-                                                    ? `${ipfsPath}/${item.metadata.image.split("//")[1]}`
-                                                    : defaultImg
-                                            }
-                                        />
-                                    </div>
-                                </div>
-                                <div className="left-info">
-                                    <div>
-                                        <p className="title newline-omitted">
-                                            {item.title}
-                                        </p>
-                                        <p className="desc newline-omitted">
-                                            {item.metadata.description}
-                                        </p>
-                                    </div>
-                                    <div className="sbt-detail">
-                                        <div>
-                                            <span className="mr12">{t("translation:diff")}</span>
-                                            <Rate disabled defaultValue={item.metadata?.attributes?.difficulty + 1} count={3} />
-                                        </div>
-                                        <div className="time">
-                                            <ClockCircleFilled />
-                                            {getTimeDiff(item?.quest_data?.startTime)}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <ChallengeItem
+                                key={item.id} 
+                                info={item}
+                            />
                         ))
                     }
 
                 {
-                        !isOver &&
+                        challenges.length !== 0 && !isOver &&
                         <div ref={loader}>
                             {/* <Spin size="large" className="loading" /> */}
                             <InfiniteScroll
