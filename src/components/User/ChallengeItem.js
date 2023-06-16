@@ -7,14 +7,17 @@ import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
 import { Rate } from "antd";
 import { convertTime } from "@/utils/convert";
+import MyContext from '@/provider/context';
+import { useContext } from 'react';
 
 export default function ChallengeItem(props) {
     
     const { info, profile } = props;
+    const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
     // const { ipfsPath, defaultImg, openseaLink } = constans(checkType === 1 ? true : false);
-    const { ipfsPath, defaultImg } = constans();
+    const { ipfsPath, defaultImg, openseaLink } = constans(profile?.checkType);
 
 
     const toQuest = () => {
@@ -26,10 +29,17 @@ export default function ChallengeItem(props) {
         }
     }
 
-    // const toOpensea = (event) => {
-    //     event.stopPropagation();
-    //     window.open(`${openseaLink}/${info.tokenId}`,'_blank')
-    // }
+    const toOpensea = (event) => {
+        event.stopPropagation();
+        window.open(`${openseaLink}/${info.tokenId}`,'_blank')
+    }
+
+    function clickSbt(event) {
+        if (isMobile) {
+            event.stopPropagation();
+            window.open(`${openseaLink}/${info.tokenId}`,'_blank')
+        }
+    }
 
     function getTimeDiff(time) {
         var timeDiff;
@@ -65,7 +75,7 @@ export default function ChallengeItem(props) {
                     {t("explore:pass")}
                 </div>
             }
-            <div className="right-sbt">
+            <div className="right-sbt" onClick={clickSbt}>
                 <div className="img">
                         <LazyLoadImage
                             src={
@@ -74,8 +84,14 @@ export default function ChallengeItem(props) {
                                 : defaultImg
                             }
                         />
-                    </div>
                 </div>
+                {
+                    profile && 
+                    <div className="opensea img" onClick={toOpensea}>
+                        <img src={require("@/assets/images/icon/opensea.png")} alt="" />
+                    </div>
+                }
+            </div>
             <div className="left-info">
                 <div>
                     <p className="title newline-omitted">
@@ -94,9 +110,7 @@ export default function ChallengeItem(props) {
                         <ClockCircleFilled />
                         {getTimeDiff(info.complete_ts ? info.complete_ts : info.addTs)}
                     </div>
-                    {/* <div className="icon img" onClick={toOpensea}>
-                        <img src={require("@/assets/images/icon/opensea.png")} alt="" />
-                    </div>
+                    {/* 
                     <div className="date">
                         <div className="icon img">
                             <img src={require("@/assets/images/icon/yes.png")} alt="" />

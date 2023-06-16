@@ -1,78 +1,78 @@
-$container-width: 350px;
+$container-width: 21.875rem;
 
 .Mobile{
     .User{
         width: $container-width;
-        padding-top: 100px;
+        padding-top: 6.25rem;
     }
     .User-info{
         height: auto;
-        padding-bottom: 55px;
+        padding-bottom: 3.4375rem;
         align-items: center;
         justify-content: flex-start;
         flex-direction: column;
         .btn{
             width: 100%;
-            height: 32px;
-            border-radius: 8px;
-            font-size: 12px;
+            height: 2rem;
+            border-radius: .5rem;
+            font-size: .75rem;
             position: absolute;
             left: 0;
             bottom: 0;
             background-color: #fff;
             color: #8F5A35;
-            border: 1px solid #8F5A35;
+            border: .0625rem solid #8F5A35;
             .anticon-edit{
-                font-size: 12px;
+                font-size: .75rem;
             }
         }
         .img{
-            width: 96px;
-            height: 96px;
+            width: 6rem;
+            height: 6rem;
             margin: 0;
-            margin-bottom: 10px;
+            margin-bottom: .625rem;
         }
         .info{
             text-align: center;
             .name{
-                font-size: 26px;
-                line-height: 26px;
+                font-size: 1.625rem;
+                line-height: 1.625rem;
             }
             .address{
-                margin-top: 5px;
-                font-size: 15px;
-                line-height: 17px;
+                margin-top: .3125rem;
+                font-size: .9375rem;
+                line-height: 1.0625rem;
             }
             .social{
-                margin-top: 5px;
+                margin-top: .3125rem;
                 justify-content: center;
                 .social-item{
-                    height: 26px;
-                    padding: 7px 16px 7px 10px;
-                    font-size: 12px;
+                    height: 1.625rem;
+                    padding: .4375rem 1rem .4375rem .625rem;
+                    font-size: .75rem;
                 }
                 .icon{
-                    width: 16px;
-                    height: 12px;
-                    margin-right: 10px;
+                    width: 1rem;
+                    height: .75rem;
+                    margin-right: .625rem;
                     margin-bottom: 0;
                     background-color: #00000000;
                 }
             }
             .desc{
-                max-width: 270px;
-                font-size: 12px;
-                line-height: 18px;
+                max-width: 16.875rem;
+                font-size: .75rem;
+                line-height: 1.125rem;
             }
         }
     }
     .User-list{
-        margin-top: 50px;
+        margin-top: 3.125rem;
         .challenge{
-            margin-bottom: 15px;
+            margin-bottom: .9375rem;
             li{
-                margin-right: 40px;
-                font-size: 18px;
+                margin-right: 2.5rem;
+                font-size: 1.125rem;
                 &:last-child{
                     margin-right: 0;
                 }
@@ -84,29 +84,29 @@ $container-width: 350px;
         }
         .status{
             li{
-                margin-right: 35px;
-                font-size: 14px;
-                line-height: 20px;
+                margin-right: 2.1875rem;
+                font-size: .875rem;
+                line-height: 1.25rem;
             }
         }
     }
     .User-content{
-        padding-top: 27px;
-        padding-bottom: 50px;
-        gap: 10px;
+        padding-top: 1.6875rem;
+        padding-bottom: 3.125rem;
+        gap: .625rem;
         .nodata{
             width: 100%;
-            height: 250px;
+            height: 15.625rem;
             p{
-                margin-bottom: 14px;
-                font-size: 12px;
-                line-height: 17px;
+                margin-bottom: .875rem;
+                font-size: .75rem;
+                line-height: 1.0625rem;
             }
             .nodata-btn{
-                height: 44px;
-                padding: 13px 64px;
-                font-size: 12px;
-                line-height: 18px;
+                height: 2.75rem;
+                padding: .8125rem 4rem;
+                font-size: .75rem;
+                line-height: 1.125rem;
             }
         }
     }
