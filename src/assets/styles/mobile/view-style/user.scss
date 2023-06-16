@@ -1,56 +1,78 @@
-$container-width: 93vw;
+$container-width: 350px;
 
 .Mobile{
     .User{
         width: $container-width;
-        padding-top: 6.25rem;
+        padding-top: 100px;
     }
     .User-info{
-        height: 11.25rem;
-        align-items: flex-start;
+        height: auto;
+        padding-bottom: 55px;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
         .btn{
-            width: 7.5rem;
-            height: 2.1875rem;
-            margin: 0 auto;
-            border-radius: 1.125rem;
-            font-size: .75rem;
+            width: 100%;
+            height: 32px;
+            border-radius: 8px;
+            font-size: 12px;
             position: absolute;
             left: 0;
             bottom: 0;
+            background-color: #fff;
+            color: #8F5A35;
+            border: 1px solid #8F5A35;
+            .anticon-edit{
+                font-size: 12px;
+            }
         }
         .img{
-            width: 3.75rem;
-            height: 3.75rem;
-            margin-right: .625rem;
+            width: 96px;
+            height: 96px;
+            margin: 0;
+            margin-bottom: 10px;
         }
         .info{
+            text-align: center;
             .name{
-                font-size: 1.125rem;
+                font-size: 26px;
+                line-height: 26px;
             }
             .address{
-                margin-top: 0rem;
-                font-size: .875rem;
+                margin-top: 5px;
+                font-size: 15px;
+                line-height: 17px;
             }
             .social{
-                margin-top: 0;
+                margin-top: 5px;
+                justify-content: center;
+                .social-item{
+                    height: 26px;
+                    padding: 7px 16px 7px 10px;
+                    font-size: 12px;
+                }
                 .icon{
-                    width: 1rem;
-                    height: 1rem;
+                    width: 16px;
+                    height: 12px;
+                    margin-right: 10px;
+                    margin-bottom: 0;
+                    background-color: #00000000;
                 }
             }
             .desc{
-                max-width: 16.875rem;
-                line-height: 1.125rem;
+                max-width: 270px;
+                font-size: 12px;
+                line-height: 18px;
             }
         }
     }
     .User-list{
-        margin-top: 3.125rem;
+        margin-top: 50px;
         .challenge{
-            margin-bottom: .9375rem;
+            margin-bottom: 15px;
             li{
-                margin-right: 1.5625rem;
-                font-size: 1.25rem;
+                margin-right: 40px;
+                font-size: 18px;
                 &:last-child{
                     margin-right: 0;
                 }
@@ -62,29 +84,29 @@ $container-width: 93vw;
         }
         .status{
             li{
-                margin-right: 1.0625rem;
-                font-size: .875rem;
-                line-height: 1.25rem;
+                margin-right: 35px;
+                font-size: 14px;
+                line-height: 20px;
             }
         }
     }
     .User-content{
-        padding-top: 1.6875rem;
-        padding-bottom: 3.125rem;
-        gap: .625rem;
+        padding-top: 27px;
+        padding-bottom: 50px;
+        gap: 10px;
         .nodata{
             width: 100%;
-            height: 15.625rem;
+            height: 250px;
             p{
-                margin-bottom: .875rem;
-                font-size: .75rem;
-                line-height: 1.0625rem;
+                margin-bottom: 14px;
+                font-size: 12px;
+                line-height: 17px;
             }
             .nodata-btn{
-                height: 2.75rem;
-                padding: .8125rem 4rem;
-                font-size: .75rem;
-                line-height: 1.125rem;
+                height: 44px;
+                padding: 13px 64px;
+                font-size: 12px;
+                line-height: 18px;
             }
         }
     }
