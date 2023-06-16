@@ -26,7 +26,7 @@ export default function Lesson(params) {
 
     return (
         <div className="Lesson">
-            <div className="round" />
+            <div className="custom-bg-round" />
             <p className="title">{t("header.lesson")}</p>
             <div className="content">
                 {

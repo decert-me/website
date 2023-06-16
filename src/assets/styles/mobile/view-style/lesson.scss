@@ -4,10 +4,7 @@ $container-width: 90vw;
         width: $container-width;
         margin: 5.625rem auto 0;
         padding-bottom: 6.25rem;
-        .round{
-            width: 18.75rem;
-            height: 8.4375rem;
-            left: calc((100% - 18.75rem) / 2);
+        .custom-bg-round{
             top: -9.6875rem;
         }
         .title{

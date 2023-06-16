@@ -127,4 +127,14 @@
             line-height: .875rem;
         }
     }
+
+    // 页面顶部背景
+    .custom-bg-round{
+        width: calc(87.5rem / 120rem * 100%);
+        height: 25rem;
+        background: #B27347;
+        filter: blur(4.375rem);
+        top: -18.75rem;
+        left: calc((100% - (87.5rem / 120rem * 100%)) / 2);
+    }
 }

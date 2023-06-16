@@ -89,7 +89,7 @@ export default function Explore(params) {
 
     return (
         <div className="Explore">
-            <div className="round"></div>
+            <div className="custom-bg-round"></div>
             {/* title */}
             <h3>{t("title")}</h3>
             {/* Challenge */}
