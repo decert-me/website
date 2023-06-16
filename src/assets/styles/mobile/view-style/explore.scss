@@ -1,20 +1,20 @@
 .Mobile{
     .Explore {
-        width: auto;
-        min-height: calc(100vh - 18.75rem);
-        padding-top: 5.1875rem;
+        width: 350px;
+        min-height: 100vh;
+        padding-top: 90px;
         // title
         h3 {
-          height: 1.625rem;
-          font-size: 1.125rem;
-          font-weight: 700;
-          color: #000000;
+          margin-bottom: 20px;
+          font-size: 18px;
+          font-weight: 600;
+          line-height: 25px;
         }
         // depass
         .depass {
-          margin-top: 3.9375rem;
+          margin-top: 63px;
           h4 {
-            font-size: 1.25rem;
+            font-size: 20px;
             font-weight: 800;
             color: #3d3d3d;
           }
@@ -22,81 +22,68 @@
         // challenges
         .challenges {
           padding: 0;
-          padding-top: 2rem;
-          padding-bottom: 9.375rem;
+          padding-bottom: 150px;
           h4 {
-            font-size: 1.25rem;
+            font-size: 20px;
             font-weight: 800;
             color: #3d3d3d;
           }
         }
       }
-      
       // challenge-item jsx
       .challenge-item {
-        margin-top: 0;
-        margin-bottom: .625rem;
-        padding: .5rem;
         width: 100%;
-        height: 6.625rem;
+        height: 125px;
+        padding: 13px;
+        border-width: 1px;
+        border-radius: 5px;
+        .item-claimed, .item-claimable{
+          width: 45px;
+          height: 18px;
+          left: -1px;
+          top: -1px;
+          line-height: 18px;
+          font-size: 8px;
+          border-radius: 5px;
+          border-bottom-left-radius: 0;
+        }
         .left-info {
-          width: 12.8125rem;
-          height: 5.5rem;
+          width: calc(100% - 98px - 10px);
           .title {
-            font-size: 1.0625rem;
-            font-weight: 500;
+            margin-bottom: 7px;
+            font-size: 12px;
+            line-height: 14px;
           }
           .desc{
-            margin-top: 0;
-            height: 1.0625rem;
-            font-size: .75rem;
-            -webkit-line-clamp: 1;
+            font-size: 8px;
+            line-height: 9px;
           }
-          .btn {
-            margin-top: 1.25rem;
-            height: 1.4375rem;
-            font-size: .75rem;
-            font-weight: 700;
-            color: #171717;
-            border-radius: 0;
-            display: flex;
-            justify-content: center;
-            align-items: center;
+          .sbt-detail{
+            font-size: 9px;
+            .ant-rate{
+              font-size: 10px;
+            }
+            .ant-rate-star:not(:last-child){
+              margin-right: 3px;
+            }
+            .anticon-star{
+              font-size: 10px;
+            }
+            .mr12{
+              margin-right: 5px;
+            }
+            .time{
+              line-height: 10px;
+              .anticon{
+                margin-right: 8px;
+                font-size: 9px;
+              }
+            }
           }
         }
         .right-sbt {
-          width: 5.5rem;
-          height: 5.5rem;
-          .img {
-            width: 100%;
-            height: 100%;
-          }
-          .item-claimed, .item-claimable{
-            width: 6.5625rem;
-            height: 1.125rem;
-            right: 6.5625rem;
-            top: .625rem;
-            line-height: .9375rem;
-            font-size: .75rem;
-          }
-          // .item-claimed, .item-claimable{
-          //   width: 120px;
-          //   height: 27px;
-          //   color: #fff;
-          //   position: absolute;
-          //   right: -24px;
-          //   top: 14px;
-          //   rotate: 40deg;
-          //   text-align: center;
-          //   line-height: 27px;
-          //   font-size: 16px;
-          // }
-          // .item-claimable{
-          //   background-color: #f39d4c;
-          // }
-          // .item-claimed{
-          //   background-color: #6BF34C;
-          // }
+          width: 98px;
+          height: 98px;
         }
     }
 }
