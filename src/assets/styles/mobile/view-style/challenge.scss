@@ -1,20 +1,15 @@
-$container-width: 87vw;
+$container-width: 360px;
 .Mobile{
     .Challenge{
-        width: 100vw;
-        margin: 5rem auto 0;
-        min-height: 100vh;
-        padding-bottom: 6.25rem;
-        .quest-title{
-            padding-left: 1.5rem;
-        }
+        padding-top: 125px;
+        // TODO
         .preview-head{
-            margin-bottom: 3.125rem;
+            margin-bottom: 50px;
             text-align: center;
             position: relative;
-            font-size: 1.25rem;
+            font-size: 20px;
             font-weight: 500;
-            line-height: 1.8125rem;
+            line-height: 29px;
             .btns{
                 position: absolute;
                 top: 0;
@@ -22,236 +17,256 @@ $container-width: 87vw;
                 display: flex;
             }
             button{
-                min-width: 6.25rem;
-                height: 2.5rem;
-                margin-left: 1.25rem;
+                min-width: 100px;
+                height: 40px;
+                margin-left: 20px;
                 border-radius: 0;
                 border-color: #000;
-                font-size: 1rem;
-                line-height: 1.4375rem;
+                font-size: 16px;
+                line-height: 23px;
                 
             }
             .btn-exit{
                 border: none;
                 box-shadow: none;
-                font-size: 1.25rem;
+                font-size: 20px;
                 display: flex;
                 align-items: center;
                 .icon{
-                    font-size: 1.5rem;
+                    font-size: 24px;
                 }
             }
         }
-        .title{
-            font-size: 1rem;
-            span{
-                font-size: 1.25rem;
-            }
-            p{
-                width: 16.5rem;
-                margin-left: 1.25rem;
-                white-space: nowrap;  
-                text-overflow:ellipsis; 
-                overflow:hidden;
+        .quest-title{
+            padding-top: 60px;
+            .title{
+                width: 100%;
+                height: 50px;
+                padding: 0 15px;
+                font-size: 18px;
+                span{
+                    font-size: 17px;
+                }
+                p{
+                    margin-left: 20px;
+                    line-height: 21px;
+                    font-size: 18px;
+                    -webkit-line-clamp: 1;
+                }
             }
         }
         .content{
-            height: auto;
-            padding: 0;
-            margin-top: .625rem;
-            margin-bottom: .625rem;
-            border: none;
+            width: $container-width;
+            height: calc(100vh - 80px - 125px);
             .challenge-title{
-                padding-left: 1.625rem;
-                margin-bottom: .5rem;
-                font-size: 1rem;
-                font-weight: 500;
-                line-height: 1.4375rem;
+                padding: 20px 18px 5px;
+                margin-bottom: 15px;
+                font-size: 16px;
+                line-height: 19px;
+                border-width: 1px;
+                white-space: nowrap;  
+                text-overflow:ellipsis; 
+                overflow:hidden;
+                strong{
+                    margin-left: 13px;
+                    line-height: 21px;
+                    font-size: 18px;
+                    
+                }
             }
             .inner-title{
-                line-height: 1.8125rem;
-                font-size: 1rem;
+                font-size: 14px;
+                line-height: 16px;
+            }
+        }
+        .progress{
+            bottom: 60px;
+            .ant-progress-bg{
+                height: 5px !important;
             }
         }
     }
-    .CustomInput, .Radio, .CustomCheckbox{
-        margin-left: 1.5rem;
-        margin-right: 1rem;
+
+    .CustomInput{
+        padding: 0 18px;
+        .custom-input{
+            margin-top: 55px;
+            padding: 8px;
+            font-size: 14px;
+            border-width: 1px;
+            border-radius: 10px;
+        }
     }
-    .CustomInput .custom-input{
-        font-size: 1.125rem;
-    }
+    
     .CustomRadio{
+        padding: 0 18px;
         .ant-radio-group{
-            margin-top: 1.25rem;
+            margin-top: 55px;
+        }
+        .CustomRadio{
+            padding: 0;
         }
         .ant-radio-wrapper{
-            margin-bottom: 1.5625rem;
-            font-size: .75rem;
-            line-height: 1.0625rem;
-        }
-        .ant-radio-inner{
-            width: 1.375rem;
-            height: 1.375rem;
-        }
-        .ant-radio{
-            margin-right: .6875rem;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: 16px;
+            .ant-radio{
+                margin-right: 10px;
+            }
+            .ant-radio-inner{
+                width: 24px;
+                height: 24px;
+            }
         }
     }
+    
     .CustomCheckbox{
+        padding: 0 18px;
         .custom-checkbox{
-            margin-top: 1.25rem;
+            margin-top: 55px;
         }
         .ant-checkbox-wrapper{
-            margin-bottom: 1.5625rem;
-            font-size: .75rem;
-            line-height: 1.0625rem;
-        }
-        .ant-checkbox-wrapper .ant-checkbox{
-            margin-right: .625rem;
-        }
-        .ant-checkbox, .ant-checkbox-inner{
-            width: 1.375rem;
-            height: 1.375rem;
+            margin-bottom: 30px;
+            font-size: 14px;
+            line-height: normal;
+            .ant-checkbox{
+                margin-right: 10px;
+            }
+            .ant-checkbox, .ant-checkbox-inner{
+                width: 24px;
+                height: 24px;
+                margin-top: -2px;
+            }
         }
     }
+    
     .CustomCode{
-        height: auto;
+        gap: 10px;
+        background-color: #F9F9F9;
         flex-direction: column;
-        &::after{
-            display: none;
+        .code-left, .code-out{
+            width: 100%;
         }
-        .code-title{
-            font-size: 1.125rem;
-            line-height: 1.625rem;
-        }
-        .line{
-            height: .0625rem;
-            margin-top: .625rem;
-        }
-        .code-content{
-            height: auto;
-            font-size: 1rem;
-            line-height: 1.4375rem;
-            margin-top: .9375rem;
+        .code-left{
+            background-color: #fff;
+            border-radius: 10px;
         }
         .code-desc{
+            padding-left: 50px;
+            .markdown-body{
+                font-size: 16px;
+                padding-bottom: 50px;
+            }
+        }
+        .code-desc, .code-content{
+            height: calc(100% - 78px);
+        }
+        .code-title{
+            font-size: 28px;
+            font-weight: 500;
+            color: #343434;
+            line-height: 52px;
+        }
+        .line{
             width: 100%;
-            padding-left: 1.5rem;
-            height: auto;
-            padding-bottom: 3.125rem;
+            height: 2px;
+            margin-top: 20px;
+            background-color: #DCDCDC;
         }
         .code-out{
-            width: 100%;
-            height: auto;
-            margin-top: 0;
-            padding-bottom: 0;
+            // height: calc(100% + 61px + 70px);
+            height: 100%;
+            padding: 0;
+            padding-bottom: 10px;
+            position: relative;
             .code-menu{
                 width: 100%;
                 position: absolute;
-                top: -2rem;
+                top: -32px;
                 left: 0;
                 display: flex;
                 justify-content: space-between;
             }
         }
         .out-inner{
-            width: 100%;
-            height: 22.5rem;
-            border-top: .125rem solid #DCDCDC;
+            height: calc(100% - 290px);
+            margin-bottom: 10px;
+            padding-top: 32px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
         }
         .out-content{
-            width: 100%;
-            height: 14.375rem;
-            border-top: .125rem solid #DCDCDC;
+            height: 290px;
+            background-color: #fff;
+            border-radius: 10px;
+            overflow: hidden;
         }
         .CustomConsole{
             .tab ul{
-                height: 2.25rem;
+                height: 40px;
+                padding: 14px 18px 0;
+                display: flex;
+                background-color: #fff;
+                border-bottom: 1px solid #F7F7F7;
                 li{
-                    font-size: .75rem;
-                    padding: .6875rem;
+                    margin-right: 25px;
+                    padding-bottom: 5px;
+                    color: #5D5D5D;
+                    cursor: pointer;
+                }
+                .active{
+                    border-bottom: 2px solid #262626;
+                    color: #262626;
                 }
             }
             .console, .case{
-                height: 7.5rem;
-                margin: 1.25rem;
+                height: 185px;
+                margin: 10px 18px;
                 textarea{
                     height: 100%;
-                    min-height: 7.5rem;
+                    min-height: 100%;
+                    border-radius: 10px;
+                    border-color: #DCDCDC;
                 }
+            }
+            .none{
+                display: none;
             }
         }
         .btns{
-            margin: 0 1.25rem;
+            padding: 0 18px 0 30px;
             display: flex;
             justify-content: space-between;
             .ant-dropdown-trigger{
-                line-height: 2rem;
-            }
-            .ant-space-item{
-                font-size: .75rem;
+                line-height: 32px;
+                color: #43B472;
             }
             button{
-                width: 7rem;
-                height: 1.875rem;
-                font-size: .75rem;
+                padding: 0 20px;
+                color: #8F5A35;
+                border: 1px solid #8F5A35;
+                border-radius: 3px;
+                display: flex;
+                align-items: center;
+                .anticon-caret-right{
+                    font-size: 18px;
+                }
             }
         }
     }
-
-    .progress{
-        width: 100vw;
-        z-index: 100;
-        position: fixed;
-        left: 0;
-        bottom: 5.25rem;
-        .ant-progress{
-            margin: 0;
-        }
-    }
-    .CustomPagination{
-        width: 100vw;
-        height: 5.25rem;
-        padding: 1.0625rem 1.25rem 2.3125rem 1.5rem;
-        margin: 0;
-        z-index: 100;
-        position: fixed;
-        left: 0;
-        bottom: 0;
-        background-color: #fff;
-        .content-left{
+    
+    .example-dropdown{
+        strong{
+            font-size: 12px;
+            font-weight: 500;
             color: #3D3D3D;
+            line-height: 17px;
         }
-        .content-left, .content-right{
-            width: calc((100vw - 2.75rem) / 4);
-            display: flex;
-        }
-        .content-right{
-            justify-content: flex-end;
-        }
-        .content-center{
-            width: 7.5938rem;
-            font-size: 1.125rem;
-            justify-content: space-between;
-            align-items: center;
-            p span:first-child{
-                color: #000000;
-            }
-        }
-        .btn{
-            min-width: 1.75rem;
-            width: 1.75rem;
-            height: 1.75rem;
-            margin: 0;
-            font-size: 1.1875rem;
-        }
-        .submit{
-            width: 4rem;
-            height: 1.875rem;
-            padding: 0;
-            margin-left: 0;
-            font-size: .75rem;
+        .example{
+            font-size: 12px;
+            color: #666666;
+            line-height: 17px;
         }
     }
 }

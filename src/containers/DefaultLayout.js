@@ -37,6 +37,7 @@ export default function DefaultLayout(params) {
     const contentStyle = {
         minHeight: isMobile ? "calc(100vh - 108px)" : "calc(100vh - 300px)",
         backgroundColor: '#fff',
+        overflow: "hidden"
     };
       
     const footerStyle = {
