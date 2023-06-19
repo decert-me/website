@@ -231,7 +231,7 @@ export default function Challenge(params) {
         return (
             params.map((e,i) => {
                 return i === index && (
-                    <div className="content">
+                    <div className={`content ${e.type === "coding" ? "h-a" : ""}`}>
                         {
                             e.type !== "coding" &&
                             <h4 className='challenge-title'>{t("challenge.title")}
