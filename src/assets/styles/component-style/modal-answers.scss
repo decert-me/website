@@ -1,9 +1,9 @@
 .ModalAnswers{
     .ant-modal-content{
-        min-height: 560px;
-        padding-inline: 60px !important;
-        border-radius: 0 !important;
-        text-align: center;
+        min-height: 725px;
+        padding-inline: 26px !important;
+        border-radius: 20px !important;
+        // text-align: center;
         position: relative !important;
     }
     .ant-modal-close{
@@ -11,26 +11,28 @@
         height: 33px;
     }
     h5{
-        margin-top: 30px;
-        font-size: 36px;
+        margin: 24px 20px 30px;
+        font-size: 20px;
         font-weight: 500;
-        color: #343434;
+        line-height: 23px;
     }
     ul{
         display: flex;
         flex-wrap: wrap;
     }
     .success{
-        background-color: #67DF46;
+        background-color: rgba(67,180,114,0.2);
+        color: #43B472;
     }
     .normal{
-        background-color: #D8D8D8;
+        background-color: rgba(0,0,0,0.1);
     }
     .error{
-        background-color: #FF0000;
+        background-color: rgba(197,79,79,0.2);
+        color: #C54F4F;
     }
     .fc-success{
-        color: #67DF46;
+        color: #43B472;
     }
     .fc-normal{
         color: #9E9E9E;
@@ -40,8 +42,8 @@
     }
     .tips{
         .point{
-            width: 24px;
-            height: 24px;
+            width: 50px;
+            height: 50px;
             margin-right: 15px;
             border-radius: 50%;
         }
@@ -54,38 +56,39 @@
             line-height: 21px;
         }
     }
-    .answers{
+    .box{
+        height: 517px;
         margin-top: 45px;
-        height: 210px;
+        background-color: #F9F9F9;
+        border-radius: 20px;
+        overflow-x: hidden;
+    }
+    .answers{
+        width: 935px;
+        padding: 50px 70px;
+        gap: 35px 32px;
         .point{
-            width: 40px;
-            height: 40px;
-            margin-bottom: 15px;
-            margin-right: 55px;
+            width: 50px;
+            height: 50px;
             border-radius: 50%;
-            color: #fff;
             font-size: 24px;
             font-weight: 500;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+            text-align: center;
+            line-height: 50px;
             cursor: pointer;
-            &:nth-child(8n){
-                margin-right: 0;
-            }
         }
     }
     .submit{
-        width: 240px;
-        height: 40px;
+        width: 330px;
+        height: 60px;
         position: absolute;
-        left: calc((100% - 240px) / 2);
-        bottom: 40px;
+        left: calc((100% - 330px) / 2);
+        bottom: 23px;
         color: white;
-        font-size: 24px;
-        font-weight: 500;
+        font-size: 16px;
+        font-weight: 600;
         border: none;
-        background-color: #000000;
+        background-color: #8F5A35;
     }
 }
 .ModalAnswers-mobile{

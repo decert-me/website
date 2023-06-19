@@ -1,5 +1,5 @@
 import {
-    CloseSquareOutlined
+    CloseOutlined
 } from '@ant-design/icons';
 import { Button, Modal } from "antd";
 import "@/assets/styles/component-style"
@@ -87,30 +87,31 @@ export default function ModalAnswers(props) {
             open={isModalOpen}
             onCancel={handleCancel}
             footer={null}
-            width={842}
+            width={987}
             centered
             maskClosable={false}
             destroyOnClose={true}
-            closeIcon={<CloseSquareOutlined style={{fontSize: "33px", color: "#000"}} />}
+            closeIcon={<CloseOutlined style={{fontSize: "18px", color: "#000"}} />}
         >
             <h5>{t("modal.challenge.title")}</h5>
-            <ul className="tips">
+            {/* <ul className="tips">
                 <li className='fc-success'><div className="point success" />{t("publish:inner.true")}</li>
                 <li className='fc-normal'><div className="point normal" />{t("modal.challenge.uncomplete")}</li>
                 <li className='fc-error'><div className="point error" />{t("publish:inner.false")}</li>
-            </ul>
-            
-            <ul className="answers custom-scroll">
-                {
-                    answers.map((e,i) => 
-                        <li 
-                            key={i} 
-                            className={`point ${statusAnswer[i] === "success" ? "success" : statusAnswer[i] === "none" ? "normal" : "error" }`}
-                            onClick={() => checkPage(i)}
-                        >{i+1}</li>
-                    )
-                }
-            </ul>
+            </ul> */}
+            <div className="box custom-scroll">
+                <ul className="answers">
+                    {
+                        answers.map((e,i) => 
+                            <li 
+                                key={i} 
+                                className={`point ${statusAnswer[i] === "success" ? "success" : statusAnswer[i] === "none" ? "normal" : "error" }`}
+                                onClick={() => checkPage(i)}
+                            >{i+1}</li>
+                        )
+                    }
+                </ul>
+            </div>
 
             <Button className='submit' onClick={checkSubmit}>{t("translation:btn-sumbit-confirm")}</Button>
         </Modal>
