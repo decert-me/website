@@ -1,6 +1,6 @@
 import { Input } from "antd";
 import CustomViewer from "../CustomViewer";
-
+const { TextArea } = Input;
 export default function CustomInput(props) {
     
     const { label, value, defaultValue } = props;
@@ -10,11 +10,14 @@ export default function CustomInput(props) {
             <div className="inner-title">
                 <CustomViewer label={label} />
             </div>
-            <Input 
+            <TextArea 
                 className="custom-input" 
                 bordered={false} 
                 onChange={e => value(e.target.value, "fill_blank")}  
                 defaultValue={defaultValue?.value}
+                autoSize={{
+                    minRows: 7,
+                }}
             />
         </div>
     )
