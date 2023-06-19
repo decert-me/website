@@ -1,11 +1,28 @@
 .CustomPagination{
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 21px;
+    width: 100%;
+    font-size: 18px;
     color: #9E9E9E;
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    .pagination-content{
+        max-width: 1920px;
+        height: 82px;
+        margin: 0 auto;
+        padding: 0 150px;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
     .content-left{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        .anticon{
+            margin-right: 13px;
+            font-size: 17px;
+        }
         button{
             color: #3D3D3D;
             padding: 0;
@@ -15,25 +32,31 @@
         display: flex;
         align-items: center;
         .btn{
-            min-width: 50px;
-            height: 50px;
-            margin-inline: 20px;
-            font-size: 33px;
+            min-width: 30px;
+            height: 30px;
+            margin-inline: 30px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+        .ant-btn-default{
+            border-color: #000;
+        }
+        .ant-btn-default:disabled{
+            border-color: #d9d9d9;
+            background-color: #fff;
+        }
     }
     .content-right{
         .submit{
-            width: 120px;
-            height: 42px;
+            width: 90px;
+            height: 40px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             box-shadow: none;
-            font-size: 17px;
-            color: #EFEFEF;;
-            background-color: #000;
+            color: #fff;
+            background-color: #8F5A35;
         }
     }
 }

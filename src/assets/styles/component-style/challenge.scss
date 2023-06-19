@@ -1,13 +1,13 @@
 .CustomInput{
+    padding: 0 50px;
     color: #343434;
-    border-bottom: 1px solid #000;
-
     .custom-input{
-        max-width: 940px;
         margin-top: 100px;
-        padding: 0;
+        padding: 10px;
         border-radius: 0;
-        font-size: 30px;
+        font-size: 16px;
+        border: 1px solid #DCDCDC !important;
+        border-radius: 10px;
     }
 }
 

@@ -1,9 +1,11 @@
 .Challenge{
-    width: 1380px;
-    margin: 105px auto 0;
+    width: 100%;
     min-height: 100vh;
+    margin: 0 auto;
+    padding-top: 140px;
     padding-bottom: 100px;
     position: relative;
+    background-color: #F9F9F9;
     .preview-head{
         width: 100%;
         margin-bottom: 50px;
@@ -39,53 +41,77 @@
             }
         }
     }
-    .title{
-        display: flex;
-        align-items: center;
-        color: #767676;
-        font-size: 24px;
-        font-weight: 900;
-        span{
-            font-size: 27px;
-        }
-        p{
-            margin-left: 30px;
-            line-height: 35px;
+    .quest-title{
+        width: 100%;
+        padding-top: 82px;
+        background-color: #fff;
+        position: fixed;
+        top: 0;
+        left: 0;
+        z-index: 1;
+        .title{
+            width: 1380px;
+            height: 50px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            color: #111111;
+            font-size: 18px;
+            span{
+                font-size: 17px;
+            }
+            a{
+                color: #111111;
+            }
+            p{
+                margin-left: 20px;
+                line-height: 21px;
+            }
         }
     }
     .content{
+        width: 1380px;
         height: calc(100vh - 390px);
-        padding: 25px 65px 70px;
+        margin: 0 auto;
+        // padding: 30px 50px 70px;
+        // padding: 0 50px;
         box-sizing: content-box;
         overflow-y: scroll;
-        margin-top: 15px;
-        border: 2px solid #DCDCDC;
+        background-color: #fff;
+        border-radius: 10px;
         position: relative;
         .challenge-title{
-            margin-bottom: 20px;
-            color: #BFBFBF;
-            font-size: 28px;
-            font-weight: 900;
-            line-height: 41px;
+            padding: 30px 50px 10px;
+            margin-bottom: 15px;
+            color: #666666;
+            font-size: 18px;
+            font-weight: 500;
+            line-height: 21px;
+            border-bottom: 1px solid #F4F4F4;
         }
         .inner-title{
-            font-size: 30px;
-            font-weight: 500;
-            line-height: 52px;
+            font-size: 16px;
+            color: #262626;
+            line-height: 19px;
         }
     }
     .progress{
         width: 100%;
         margin: 0 auto;
         line-height: 0;
+        position: fixed;
+        bottom: 82px;
+        left: 0;
         .ant-progress{
+            margin: 0;
             line-height: 0;
         }
         .ant-progress-bg{
-            height: 11px !important;
+            height: 5px !important;
+            background-color: #8F5A35;
         }
         .ant-progress-inner{
-            background-color: #969696;
+            background-color: #F9F9F9;
         }
     }
 }

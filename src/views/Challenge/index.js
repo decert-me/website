@@ -276,12 +276,12 @@ export default function Challenge(params) {
                                 detail={detail}
                             />
                             <div className='quest-title' style={{display: "flex"}}>
-                                <Link to={`/quests/${detail.tokenId}`} className="title">
                                     <div className="title">
                                         <ArrowLeftOutlined />
-                                        <p>{detail?.title}</p>
+                                        <Link to={`/quests/${detail.tokenId}`}>
+                                            <p>{detail?.title}</p>
+                                        </Link>
                                     </div>
-                                </Link>
                             </div>
                         </>
                         :
@@ -298,7 +298,6 @@ export default function Challenge(params) {
                                 </Button>
                             </div>
                         </div>
-                        
                         </>
                     }
                     <div className="content custom-scroll">
