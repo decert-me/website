@@ -90,10 +90,11 @@
     gap: 10px;
     background-color: #F9F9F9;
     .code-left, .code-out{
-        width: 50%;
+        width: calc(50% - 5px);
     }
     .code-left{
         background-color: #fff;
+        border-radius: 10px;
     }
     .code-desc{
         padding-left: 50px;
@@ -137,10 +138,14 @@
         margin-bottom: 10px;
         padding-top: 32px;
         background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
     }
     .out-content{
-        height: 300px;
+        height: 290px;
         background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
     }
     .CustomConsole{
         .tab ul{
