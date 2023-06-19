@@ -226,6 +226,25 @@ export default function Challenge(params) {
         }
     },[page, detail, cacheDetail])
 
+    function topic(params) {
+        // <h4 className='challenge-title'>{t("challenge.title")} #{page}</h4>
+        return (
+            params.map((e,i) => {
+                return i === index && (
+                    <div className="content custom-scroll">
+                        {
+                            e.type !== "coding" &&
+                            <h4 className='challenge-title'>{t("challenge.title")}
+                                #{page}
+                            </h4>
+                        }
+                        {switchType(e,i)}
+                    </div>
+                )
+            })
+        )
+    }
+
     const switchType = (question,i) => {
         // 2: 填空 0: 单选 1: 多选
         switch (question.type) {
@@ -300,19 +319,10 @@ export default function Challenge(params) {
                         </div>
                         </>
                     }
-                    <div className="content custom-scroll">
-                        <h4 className='challenge-title'>{t("challenge.title")} #{page}</h4>
-                        {
-                            detail ? 
-                            detail.metadata.properties.questions.map((e,i) => {
-                                return i === index && switchType(e,i)
-                            })
-                            :
-                            cacheDetail.attributes.challenge_ipfs_url.questions.map((e,i) => {
-                                return i === index && switchType(e,i)
-                            })
-                        }
-                    </div>
+                    {
+                        detail ? topic(detail.metadata.properties.questions)
+                        : topic(cacheDetail.attributes.challenge_ipfs_url.questions)
+                    }
                     <div className="progress">
                         <Progress strokeLinecap="butt" percent={percent} showInfo={false} />
                     </div>

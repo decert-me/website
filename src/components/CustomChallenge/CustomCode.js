@@ -24,7 +24,7 @@ const previewTabs = [
 function CustomCode(props, ref) {
 
     const { question, token_id, answers, setAnswers, saveAnswer, index, isPreview } = props;
-    const { t } = useTranslation(['publish']);
+    const { t } = useTranslation(['publish','explore']);
     const consoleRef = useRef(null);
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
@@ -258,46 +258,53 @@ function CustomCode(props, ref) {
     },[])
 
     return (
-        <div className="CustomCode">
-            <div className="code-desc">
-                <p className="code-title">{question.title}</p>
-                <div className="line" />
-                <div className="code-content custom-scroll">
-                    <CustomViewer label={question.description} />
-                </div>
-            </div>
-            {
-                selectCode &&
-                <div className="code-out">
-                    <div className="code-menu">
-                        <div className="menu-lang">
-                            {/* 多语种下拉框 */}
+        <>
+
+            <div className="CustomCode">
+                <div className="code-left">
+                    <h4 className='challenge-title'>{t("explore:challenge.title")}
+                        #{index + 1}
+                        <strong>{question.title}</strong>
+                    </h4>
+                    <div className="code-desc custom-scroll">
+                        <div className="code-content">
+                            <CustomViewer label={question.description} />
                         </div>
                     </div>
-                    <div 
-                        className="out-inner"
-                    >
-                        <MonacoEditor
-                            value={editorCode}
-                            onChange={changeCache}
-                            language={selectCode.lang}
-                            height={ isMobile ? "100%" : "calc(100% - 14px)"}
-                        />
-                    </div>
-                    <div className="out-content">
-                        <CustomConsole 
-                            question={question}
-                            changeCodeObj={changeCodeObj}
-                            goTest={goTest}
-                            logs={logs}
-                            items={items}
-                            ref={consoleRef}
-                            loading={loading}
-                        />
-                    </div>
                 </div>
-            }
-        </div>
+                {
+                    selectCode &&
+                    <div className="code-out">
+                        <div className="code-menu">
+                            <div className="menu-lang">
+                                {/* 多语种下拉框 */}
+                            </div>
+                        </div>
+                        <div 
+                            className="out-inner"
+                        >
+                            <MonacoEditor
+                                value={editorCode}
+                                onChange={changeCache}
+                                language={selectCode.lang}
+                                height={"100%"}
+                            />
+                        </div>
+                        <div className="out-content">
+                            <CustomConsole 
+                                question={question}
+                                changeCodeObj={changeCodeObj}
+                                goTest={goTest}
+                                logs={logs}
+                                items={items}
+                                ref={consoleRef}
+                                loading={loading}
+                            />
+                        </div>
+                    </div>
+                }
+            </div>
+        </>
     )   
 }
 export default forwardRef(CustomCode)

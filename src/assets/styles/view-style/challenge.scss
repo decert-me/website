@@ -71,16 +71,15 @@
     }
     .content{
         width: 1380px;
-        height: calc(100vh - 390px);
+        height: calc(100vh - 250px);
         margin: 0 auto;
-        // padding: 30px 50px 70px;
-        // padding: 0 50px;
         box-sizing: content-box;
         overflow-y: scroll;
         background-color: #fff;
         border-radius: 10px;
         position: relative;
         .challenge-title{
+            // width: 50%;
             padding: 30px 50px 10px;
             margin-bottom: 15px;
             color: #666666;
@@ -88,6 +87,12 @@
             font-weight: 500;
             line-height: 21px;
             border-bottom: 1px solid #F4F4F4;
+            strong{
+                margin-left: 17px;
+                font-size: 20px;
+                font-weight: 500;
+                color: #262626;
+            }
         }
         .inner-title{
             font-size: 16px;
