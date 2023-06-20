@@ -17,8 +17,6 @@
         line-height: 23px;
     }
     .search{
-        display: flex;
-        justify-content: space-between;
         .inner{
             width: 100%;
             height: 50px;
@@ -171,125 +169,104 @@
 
 .ModalAddSbt-mobile{
     .ant-modal-close{
-        width: 33px;
-        height: 33px;
         .ant-modal-close-x{
-            font-size: 33px;   
-            color: #272536;
+            font-size: 16px;   
         }
     }
     .ant-modal-content{
-        padding: 50px 40px;
-    }
-    .ant-modal-body{
+        padding: 30px 15px 20px !important;
     }
     .title{
-        margin-bottom: 33px;
-        font-size: 18px;
-        font-weight: 700;
-        line-height: 26px;
+        margin-bottom: 10px;
+        font-size: 14px;
+        font-weight: 500;
+        line-height: 16px;
     }
     .search{
-        display: flex;
-        justify-content: space-between;
         .inner{
-            width: 873px;
-            height: 35px;
-            display: flex;
-            border-radius: 17.5px;
-            border: 2px solid #BABABA;
-            .ant-select-selector{
-                padding: 0;
-                padding-inline: 20px 0px;
-            }
-            .ant-select-arrow{
-                margin-right: 20px;
+            width: auto;
+            height: auto;
+            display: block;
+            .ant-select{
+                width: 50%;
+                margin-bottom: 8px;
+                padding-left: 13px;
+                border-radius: 7px;
+                border-width: 1px;
+                .img{
+                    width: 18px;
+                    height: 18px;
+                }
+                .ant-select-selector{
+                    border-width: 1px;
+                }
+                .label{
+                    padding-right: 10px;
+                    font-size: 12px;
+                }
+                .ant-select-selection-item{
+                    padding-right: 35px;
+                }
+                .ant-select-arrow{
+                    right: 20px;
+                }
             }
             .input{
-                width: calc(100% - 180px);
-                border-left: 2px solid #BABABA;
-                position: relative;
+                width: 100%;
+                height: 35px;
+                border-width: 1px;
+                border-radius: 7px;
                 input{
-                    padding-left: 57px;
+                    padding-left: 34px;
+                    font-size: 12px;
                 }
                 .icon{
-                    position: absolute;
-                    left: 18px;
-                    top: 0px;
-                    color: #BABABA;
-                    font-size: 25px;
-                    line-height: 31px;
+                    left: 14px;
+                    font-size: 10px;
+                    line-height: 33px;
                 }
             }
-        }
-        .confirm{
-            height: 35px;
-            padding: 0;
-            padding-inline: 25px;
-            border: 2px solid #BABABA;
-            border-radius: 17.5px;
-
-            color: #9E9E9E;
-            font-size: 18px;
-            line-height: 31px;
         }
     }
     .content{
-        height: 776px;
-        overflow-y: scroll;
+        height: 350px;
+        margin-top: 15px;
         .list-content{
-            flex-wrap: wrap;
-            display: flex;
-            gap: 45px;
-        }
-        .box-active, .box:hover{
-            .checkbox{
-                display: block !important;
-            }
+            gap: 10px;
         }
         .box{
-            width: 210px;
-            height: 210px;
-            position: relative;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            text-align: center;
-            border: 1px solid #CECECE;
-            &:nth-child(4n){
-                margin-right: 0;
-            }
-            .checkbox{
-                width: 32px;
-                height: 29px;
-                border: 1px solid #CECECE;
-                border-bottom: none;
-                border-right: none;
-                position: absolute;
-                right: 0;
-                bottom: 0;
-                display: none;
-                text-align: center;
-                line-height: 29px;
-                color: #07A35A;
-            }
+            width: 100px;
+            height: 130px;
+            border-radius: 5px;
+            border-width: 1px;
             .img{
-                width: 107px;
-                height: 107px;
-                margin-top: 20px;
-                overflow: hidden;
+                height: 100px;
             }
             p{
                 width: 100%;
-                padding-inline: 10px;
-                color: #17151C;
-                font-size: 16px;
-                font-weight: 900;
-                line-height: 29px;
-                white-space: nowrap;  
-                text-overflow:ellipsis; 
-                overflow:hidden;
+                padding: 5px;
+                font-size: 7px;
+                line-height: 8px;
+            }
+            .badge{
+                width: 22px;
+                height: 22px;
+                border-radius: 50%;
+                right: 3px;
+                top: 3px;
+                font-size: 12px;
             }
         }
+    }
+    .confirm{
+        width: 105px;
+        height: 35px;
+        padding: 0;
+        margin-top: 28px;
+        border-radius: 7px;
+        border-width: 1px;
+        font-size: 10px;
+        line-height: 35px;
+        left: calc((100% - 105px) / 2);
     }
 }
