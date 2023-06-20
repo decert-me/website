@@ -253,16 +253,19 @@ export default function Cert(params) {
                             :
                             <>
                             {
-                                list && 
-                                list.map(e => 
-                                    <NftBox 
-                                        info={e}
-                                        changeNftStatus={changeNftStatus}
-                                        key={e.id}
-                                        isMe={isMe}
-                                        options={options}
-                                    />                            
-                                )
+                                list && <>
+                                    {
+                                        list.map(e => 
+                                            <NftBox 
+                                                info={e}
+                                                changeNftStatus={changeNftStatus}
+                                                key={e.id}
+                                                isMe={isMe}
+                                                options={options}
+                                            />                            
+                                        )
+                                    }
+                                </>
                             }
                             {
                                 list.length === 0 &&

@@ -35,7 +35,12 @@ export const constans = (contractType) => {
             name: "Arbitrum One", 
             icon: require("@/assets/images/img/net-Arbitrum.png"),
             link: "https://arbiscan.io/address/"
-        }
+        },
+        // "100": {
+        //     name: "Gnosis", 
+        //     icon: require("@/assets/images/img/net-Gnosis.png"),
+        //     link: "https://gnosisscan.io/address/"
+        // }
     }
     const chainId = process.env.REACT_APP_CHAIN_ID;
 
