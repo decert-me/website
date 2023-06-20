@@ -5,7 +5,7 @@ import {
     MoreOutlined
   } from '@ant-design/icons';
 import { Dropdown } from 'antd';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 
@@ -40,16 +40,11 @@ export default function NftBox(props) {
         }
     ]
 
-    useEffect(() => {
-        console.log(info);
-    },[info])
-
     return (
         <div className="nft-detail">
             {
                 options.map(item => {
                     if (item.label.toLocaleLowerCase() === info.chain) {
-                        console.log(item, info);
                         return (
                             <>
                                 <div className="badge badge-chain">

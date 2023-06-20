@@ -148,10 +148,10 @@ export default function Cert(params) {
     }
    
     const goAddSbt = () => {
-        if (isMobile) {
-            setAddSbtPanel(true)
-            return
-        }
+        // if (isMobile) {
+        //     setAddSbtPanel(true)
+        //     return
+        // }
         setIsModalOpen(true);
     }
 
@@ -211,6 +211,7 @@ export default function Cert(params) {
                 <ModalAddSbt
                     isModalOpen={isModalOpen} 
                     handleCancel={handleCancel}
+                    isMobile={isMobile}
                 />
             }
             <div className={`Cert-sidbar ${!isList || addSbtPanel ? "none" : ""}`}>

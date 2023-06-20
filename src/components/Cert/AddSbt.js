@@ -2,7 +2,9 @@ import { Button, Divider, Input, Select, Space, Spin } from "antd";
 import {
     CheckOutlined,
     SearchOutlined,
-    LoadingOutlined
+    LoadingOutlined,
+    EyeOutlined,
+    EyeInvisibleOutlined
 } from '@ant-design/icons';
 import "@/assets/styles/component-style/cert/modal-addsbt.scss"
 import { useEffect, useRef, useState } from "react";
@@ -46,7 +48,7 @@ export default function AddSbt(props) {
       const renderoption = (option) => {
         return (
           <Space>
-            <div className="img" style={{width: "20px", height: "20px"}}>
+            <div className="img">
                 <img src={option.icon} alt="" />
             </div>
             <div className="label">
@@ -224,7 +226,6 @@ export default function AddSbt(props) {
                     {
                         options &&
                         <Select
-                            style={{ width: isMobile ? 110 : 180 }}
                             value={config.chainId}
                             onChange={(e) => changeConfig(e, 'chainId')}
                             bordered={false}
@@ -249,16 +250,8 @@ export default function AddSbt(props) {
                         </div>
                     </div>
                 </div>
-
-                <Button 
-                    loading={loading}
-                    className="confirm" 
-                    onClick={() => confirm()} 
-                    disabled={addIds.length === 0 && deleteIds.length === 0} 
-                >{t("btn-confirm")}</Button>
             </div>
-            <Divider style={{marginBlock: "30px"}} />
-            <div className="content" ref={scrollRef} >
+            <div className="content custom-scroll" ref={scrollRef} >
                 <div className="list-content">
                     {
                         list.length === 0 && isLoading ?
@@ -291,6 +284,14 @@ export default function AddSbt(props) {
                                             <CheckOutlined />
                                         }
                                     </div>
+                                    <div className={`badge ${e.status === 1 ? "show" : ""}`}>
+                                        {
+                                            e.status === 1 ? 
+                                            <EyeInvisibleOutlined />
+                                            :
+                                            <EyeOutlined />
+                                        }
+                                    </div>
                                 </div>    
                             )
                             }
@@ -311,6 +312,12 @@ export default function AddSbt(props) {
                     }
                 </div>
             </div>
+            <Button 
+                loading={loading}
+                className="confirm" 
+                onClick={() => confirm()} 
+                // disabled={addIds.length === 0 && deleteIds.length === 0} 
+            >{t("btn-confirm")}</Button>
         </>
     )
 }
