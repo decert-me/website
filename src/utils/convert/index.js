@@ -1,3 +1,5 @@
+import { constans } from "../constans";
+
 export const convertToken = (token) => {
     if (!token) {
         return false
@@ -92,4 +94,16 @@ export const ANSI = (str) => {
       htmlStr = htmlStr.replace(/\u001b\[0m/g, "</span>");
       htmlStr = `<div style="background-color: #1c1c1c4d">${htmlStr}</div>`
       return htmlStr
+}
+
+export const covertChain = () => {
+  const { chains } = constans();
+
+  let arr = [];
+  for (const i in chains) {
+      arr.push({
+          value: Number(i), label: chains[i].name, icon: chains[i].icon 
+      })
+  }
+  return arr
 }

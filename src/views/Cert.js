@@ -16,6 +16,7 @@ import AddSbt from "@/components/Cert/AddSbt";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import CustomLoading from "@/components/CustomLoading";
 import InfiniteScroll from "@/components/InfiniteScroll";
+import { covertChain } from "@/utils/convert";
 
 export default function Cert(params) {
     
@@ -23,15 +24,16 @@ export default function Cert(params) {
     const location = useLocation();
     const { address: urlAddr } = useParams();
     const { address } = useAccount();
-
-    let [isList, setIsList] = useState(true);
     const { isMobile } = useContext(MyContext);
+
+    const [isModalOpen, setIsModalOpen] = useState(false);
+    let [isList, setIsList] = useState(true);
     let [isMe, setIsMe] = useState();
     let [list, setList] = useState([]);
     let [nftlist, setNftList] = useState();
     let [total, setTotal] = useState();
     let [addSbtPanel, setAddSbtPanel] = useState();
-    const [isModalOpen, setIsModalOpen] = useState(false);
+    let [options, setOptions] = useState();     //  chains
 
     
     let [checkTotal, setCheckTotal] = useState({
@@ -188,6 +190,9 @@ export default function Cert(params) {
     };
 
     useEffect(() => {
+        options = covertChain();
+        setOptions([...options]);
+        console.log(options);
         init();
     },[location])
 
@@ -201,6 +206,7 @@ export default function Cert(params) {
    
     return (
         <div className="Cert">
+            <div className="header-line" />
             {
                 ensParse.address &&
                 <ModalAddSbt
@@ -210,9 +216,8 @@ export default function Cert(params) {
             }
             <div className={`Cert-sidbar ${!isList || addSbtPanel ? "none" : ""}`}>
                 <CertSearch />
-                <Divider className="divider"  />
                 <CertUser ensParse={ensParse} urlAddr={urlAddr} />
-                <div className="mt50"></div>
+                <Divider className="line" />
                 <CertNfts 
                     changeContractId={changeContractId} 
                     total={total} 
@@ -220,6 +225,7 @@ export default function Cert(params) {
                     nftlist={nftlist}
                     isMobile={isMobile}
                     goAddSbt={goAddSbt}
+                    options={options}
                 />
             </div>
             <div className={`Cert-content ${isList || addSbtPanel ? "none" : ""}`}>

@@ -14,6 +14,7 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "../InfiniteScroll";
 import CustomLoading from "../CustomLoading";
+import { covertChain } from "@/utils/convert";
 const { Option } = Select;
 
 export default function AddSbt(props) {
@@ -166,17 +167,6 @@ export default function AddSbt(props) {
           })
       }
   
-    const init = () => {
-        let arr = [];
-        for (const i in chains) {
-            arr.push({
-                value: Number(i), label: chains[i].name, icon: chains[i].icon 
-            })
-        }
-        options = arr;
-        setOptions([...options]);
-    }
-  
     //   修改链或修改合约地址
     const getList = async() => {
         setisLoading(true);
@@ -221,7 +211,9 @@ export default function AddSbt(props) {
     },[config])
   
     useEffect(() => {
-        init();
+        // options初始化
+        options = covertChain();
+        setOptions([...options]);
     },[])
 
     return (
