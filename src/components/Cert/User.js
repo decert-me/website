@@ -88,7 +88,7 @@ export default function CertUser(props) {
           <div className="social">
             <div className="items">
               {
-                Object.keys(socials).map((key) => 
+                socials && Object.keys(socials).map((key) => 
                   <Tooltip key={key} title={`@${socials[key].username}`}>
                     <div className="item">
                       <img src={imgs[key]} alt="" />

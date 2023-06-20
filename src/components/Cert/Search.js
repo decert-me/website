@@ -1,5 +1,6 @@
 import {
-    SearchOutlined
+    SearchOutlined,
+    CloseOutlined
 } from "@ant-design/icons"
 import { useRequest } from "ahooks";
 import { Input } from "antd";
@@ -46,7 +47,15 @@ export default function CertSearch(props) {
             </p>
             <div className="search-inner">
                 <SearchOutlined className="icon" />
-                <Input placeholder={t("sidbar.rule")} bordered={false} value={account} onChange={(e) => changeAccount(e.target.value.trim())} />
+                <Input 
+                    allowClear={{
+                        clearIcon: <CloseOutlined style={{color: "#00000080"}} />
+                    }}
+                    placeholder={t("sidbar.rule")} 
+                    bordered={false} 
+                    value={account} 
+                    onChange={(e) => changeAccount(e.target.value.trim())} 
+                />
             </div>
         </div>
     )
