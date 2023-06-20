@@ -5,13 +5,13 @@ import {
     MoreOutlined
   } from '@ant-design/icons';
 import { Dropdown } from 'antd';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 
 export default function NftBox(props) {
     
-    const { info, changeNftStatus, isMe } = props;
+    const { info, changeNftStatus, isMe, options } = props;
     const { t } = useTranslation(["cert"]);
     let [gateway, setGateway] = useState(
         process.env.REACT_APP_IPFS_GATEWAY
@@ -40,11 +40,38 @@ export default function NftBox(props) {
         }
     ]
 
+    useEffect(() => {
+        console.log(info);
+    },[info])
+
     return (
         <div className="nft-detail">
+            {
+                options.map(item => {
+                    if (item.label.toLocaleLowerCase() === info.chain) {
+                        console.log(item, info);
+                        return (
+                            <>
+                                <div className="badge badge-chain">
+                                    <a href={`${item.link}${info.contract_address}`} target="_blank">
+                                        <img src={item.icon} alt="" key={item.value} />
+                                    </a>
+                                </div>
+                                <div className="badge badge-opensea">
+                                    <a href={`https://opensea.io/assets/${item?.alias ? item?.alias : item?.label}/${info.contract_address}/${info.token_id}`} target="_blank">
+                                        <img src={require("@/assets/images/icon/opensea.png")} alt="" />
+                                    </a>
+                                </div>
+                            </>
+                        )
+                    }
+                })
+            }
+            
+            
             {ipfsToImg(info)}
             <div className="nft-info">
-                <p className="nft-title">
+                <p className="nft-title newline-omitted">
                     {
                         info.name ? 
                         info.name

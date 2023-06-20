@@ -192,7 +192,6 @@ export default function Cert(params) {
     useEffect(() => {
         options = covertChain();
         setOptions([...options]);
-        console.log(options);
         init();
     },[location])
 
@@ -261,6 +260,7 @@ export default function Cert(params) {
                                         changeNftStatus={changeNftStatus}
                                         key={e.id}
                                         isMe={isMe}
+                                        options={options}
                                     />                            
                                 )
                             }

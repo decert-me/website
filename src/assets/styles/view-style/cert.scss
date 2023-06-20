@@ -230,7 +230,7 @@
 }
 
 .Cert-content{
-    width: calc(100% - 500px);
+    width: calc(100% - 410px);
     padding-block: 40px;
     border-left: 1px solid #D8D8D8;
     ul{
@@ -281,8 +281,6 @@
         }
         .scroll{
             width: 1243px;
-            padding-inline: 20px;
-            // margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
             gap: 25px;
@@ -300,17 +298,37 @@
         .nft-detail{
             width: 282px;
             border-radius: 20px;
-            
             overflow: hidden;
-            box-shadow: 0 4px 10px 1px #999;
+            border: 1px solid #F0F0F0;
+            position: relative;
             &:hover{
                 .nft-info .bottom{
                     bottom: 0;
                 }
             }
+            .badge{
+                width: 32px;
+                height: 32px;
+                position: absolute;
+                z-index: 1;
+                cursor: pointer;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .badge-chain{
+                left: 9px;
+                top: 12px;
+            }
+            .badge-opensea{
+                left: 60px;
+                top: 12px;
+            }
             .img{
                 width: 100%;
-                height: 270px;
+                height: 280px;
+                background-color: rgba(0,0,0,0.01);
                 img{
                     width: 100%;
                     height: auto;
@@ -318,20 +336,18 @@
             }
             .nft-info{
                 width: 100%;
-                height: 100px;
+                height: 80px;
                 background-color: #fff;
                 position: relative;
                 .nft-title{
                     width: 100%;
-                    height: 60px;
-                    padding: 14px 21px 0 12px;
+                    padding: 16px 21px 0 12px;
                     color: #17151C;
-                    font-size: 16px;
-                    font-weight: 500;
-                    line-height: 22px;
-                    white-space: nowrap;  
-                    text-overflow:ellipsis; 
-                    overflow:hidden;
+                    font-size: 14px;
+                    line-height: 18px;
+                    letter-spacing: 0.4px;
+                    overflow: hidden;
+                    -webkit-line-clamp: 2;
                 }
                 .bottom{
                     width: 100%;
@@ -339,7 +355,7 @@
                     position: absolute;
                     bottom: -36px;
                     color: #fff;
-                    background-color: #495FEA;
+                    background-color: #B47243FF;
 
                     transition: bottom 0.2s;
                     display: flex;

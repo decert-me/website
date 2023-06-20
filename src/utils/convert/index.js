@@ -102,7 +102,11 @@ export const covertChain = () => {
   let arr = [];
   for (const i in chains) {
       arr.push({
-          value: Number(i), label: chains[i].name, icon: chains[i].icon 
+          value: Number(i), 
+          label: chains[i].name, 
+          icon: chains[i].icon, 
+          alias: chains[i]?.alias, 
+          link: chains[i].link
       })
   }
   return arr
