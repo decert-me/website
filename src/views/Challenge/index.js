@@ -227,7 +227,6 @@ export default function Challenge(params) {
     },[page, detail, cacheDetail])
 
     function topic(params) {
-        // <h4 className='challenge-title'>{t("challenge.title")} #{page}</h4>
         return (
             params.map((e,i) => {
                 return i === index && (

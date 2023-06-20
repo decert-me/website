@@ -94,11 +94,7 @@ export default function ModalAnswers(props) {
             closeIcon={<CloseOutlined style={{fontSize: "18px", color: "#000"}} />}
         >
             <h5>{t("modal.challenge.title")}</h5>
-            {/* <ul className="tips">
-                <li className='fc-success'><div className="point success" />{t("publish:inner.true")}</li>
-                <li className='fc-normal'><div className="point normal" />{t("modal.challenge.uncomplete")}</li>
-                <li className='fc-error'><div className="point error" />{t("publish:inner.false")}</li>
-            </ul> */}
+            
             <div className="box custom-scroll">
                 <ul className="answers">
                     {

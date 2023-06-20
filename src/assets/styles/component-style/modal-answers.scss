@@ -93,60 +93,40 @@
 }
 .ModalAnswers-mobile{
     .ant-modal-content{
-        min-height: 25rem;
-        padding-left: 1.0625rem !important;
-        padding-right: 1.0625rem !important;
+        min-height: 480px;
+        padding: 30px 15px 0 15px !important;
+        border-radius: 13px !important;
     }
     .ant-modal-close{
-        width: 1.25rem !important;
-        height: 1.25rem !important;
-        right: 17px;
-        .anticon-close-square{
-            font-size: 1.25rem !important;
-        }
+        width: 12px;
+        height: 12px;
     }
     h5{
-        margin-top: .625rem;
-        font-size: 1.25rem;
+        margin: 0 10px 0;
+        font-size: 14px;
+        line-height: 16px;
     }
-    .tips{
-        .point{
-            width: 1rem;
-            height: 1rem;
-            margin-right: .625rem;
-        }
-        li{
-            margin-right: 1.25rem;
-            font-size: .75rem;
-            line-height: 1.0625rem;
-        }
+    .box{
+        height: 340px;
+        margin-top: 18px;
+        border-radius: 13px;
     }
     .answers{
-        margin-top: 1.875rem;
-        height: 10rem;
-        overflow-y: scroll;
-        list-style: none;
+        width: 100%;
+        padding: 30px 34px;
+        gap: 24px 22px;
         .point{
-            width: 1.875rem;
-            height: 1.875rem;
-            margin-bottom: 1.125rem;
-            margin-right: 2.375rem;
-            font-size: .875rem;
-            &:nth-child(8n){
-                margin-right: 2.375rem;
-            }
-            &:nth-child(5n){
-                margin-right: 0rem;
-            }
+            width: 33px;
+            height: 33px;
+            font-size: 12px;
+            line-height: 33px;
         }
     }
     .submit{
-        width: 8.75rem;
-        height: 1.875rem;
-        left: calc((100% - 8.75rem) / 2);
-        bottom: 1.875rem;
-        font-size: .75rem;
-        font-weight: 400;
-        border-radius: .1875rem;
+        width: 217px;
+        height: 40px;
+        left: calc((100% - 217px) / 2);
+        bottom: 15px;
+        font-size: 12px;
     }
 }
