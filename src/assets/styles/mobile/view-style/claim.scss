@@ -13,7 +13,7 @@ $container-width: 93vw;
             .title{
                 font-size: 1.25rem;
                 line-height: 1.8125rem;
-                text-align: center;
+                text-align: left;
             }
         }
         .score{
@@ -31,6 +31,7 @@ $container-width: 93vw;
                     margin-bottom: 1.25rem;
                     font-size: 1.125rem;
                     line-height: 1.625rem;
+                    -webkit-line-clamp: 2;
                 }
                 .pass{
                     font-size: .625rem;

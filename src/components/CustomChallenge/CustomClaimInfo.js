@@ -33,14 +33,14 @@ export default function CustomClaimInfo(props) {
                             <Progress
                                 type="circle"
                                 className={(answerInfo.isPass || isClaim) ? "pass" : "unpass"}
-                                percent={percent}
+                                percent={11}
                                 width={isMobile ? 140 : 208}
                                 format={(percent) => percent}
                                 strokeWidth={10}
                             />
                         </div>
                         <div className="info">
-                            <p className="network">{detail.title}</p>
+                            <p className="network newline-omitted">{detail.title}</p>
                             <p className="pass">{t("score.passScore",{score: answerInfo.passingPercent})}</p>
                             {
                                 !isMobile && 

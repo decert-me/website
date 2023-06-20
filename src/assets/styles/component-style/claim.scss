@@ -34,7 +34,8 @@
                 transform: rotate(90deg) !important;
             }
             .unpass .ant-progress-circle-path{
-                stroke: #FF0000 !important;
+                stroke: #B64444 !important;
+                transform: rotate(90deg) !important;
             }
             .ant-progress-text{
                 font-size: 60px;
@@ -50,9 +51,7 @@
                 font-size: 30px;
                 font-weight: 500;
                 line-height: 43px;
-                white-space: nowrap;  
-                text-overflow:ellipsis; 
-                overflow:hidden;
+                -webkit-line-clamp: 1;
             }
             .pass{
                 font-size: 18px;
