@@ -71,7 +71,7 @@ export default function BeforeRouterEnter() {
             }
         }
         else if (window.screen.width <= 1770 && window.screen.width >= 1024) {
-          document.body.style.zoom = Math.round(window.screen.width / 1770 * 10) / 10;
+          document.body.style.zoom = Math.round(window.screen.width / 1770 * 100) / 100;
         }if (clientWidth < 490) {
             const scale = document.documentElement.clientWidth / 390;
             document.documentElement.style.fontSize = baseSize * Math.min(scale, 2) + 'px'
