@@ -91,7 +91,14 @@ export default function CustomDiscord(props) {
     }, [])
 
     return (
-        <div className={`CustomBox step-box ${step === 1 ? "checked-step" : ""}`}>
+        <div className={`pl70 CustomBox step-box ${step === 1 ? "checked-step" : ""}`}>
+            <div className="icon">
+                <img 
+                    src={require("@/assets/images/img/discord-none.png")} 
+                    alt="" 
+                    style={step >= 1 ? {filter: "brightness(200%)"} : {}}
+                />
+            </div>
             {
                 isBind ? 
                 <>

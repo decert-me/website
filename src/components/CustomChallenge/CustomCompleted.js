@@ -5,7 +5,6 @@ import {
 import { useEffect, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
 import { useAccount, useSigner } from "wagmi";
-// import { chainScores } from "@/controller";
 import { GetPercent } from "@/utils/GetPercent";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import CustomClaimInfo from "./CustomClaimInfo";

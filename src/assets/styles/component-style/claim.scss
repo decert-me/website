@@ -16,7 +16,7 @@
     .desc{
         .title{
             color: #000;
-            font-size: 40px;
+            font-size: 36px;
             font-weight: 500;
             line-height: 58px;
         }
@@ -38,7 +38,7 @@
                 transform: rotate(90deg) !important;
             }
             .ant-progress-text{
-                font-size: 60px;
+                font-size: 64px;
                 font-weight: 500;
                 line-height: 116px;
             }
@@ -54,7 +54,7 @@
                 -webkit-line-clamp: 1;
             }
             .pass{
-                font-size: 18px;
+                font-size: 16px;
                 color: #9E9E9E;
                 line-height: 26px;
                 font-weight: 500;
@@ -69,7 +69,7 @@
         border-radius: 8px;
         border: 1px solid #8F5A35;
         box-shadow: none;
-        font-size: 18px;
+        font-size: 16px;
         color: #8F5A35;
         line-height: 26px;
     }
@@ -97,7 +97,7 @@
         justify-content: space-between;
         h5{
             margin: 0;
-            font-size: 24px;
+            font-size: 23px;
             font-weight: 500;
             color: #212429;
             line-height: 35px;
@@ -138,7 +138,6 @@
                     height: 22px;
                     margin-right: 19px;
                 }
-
                 .ant-steps-item-tail{
                     height: 70px;
                     padding: 0 !important;
@@ -210,14 +209,14 @@
 
 .step-box{
     width: 550px;
-    height: 64px;
+    height: 54px;
     display: flex;
     align-items: center;
     justify-content: center;
     color: #B17042;
     border-radius: 10px;
 
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 29px;
 }
@@ -275,14 +274,13 @@
         line-height: 23px;
     }
 }
-
 .CustomBox{
-    padding-inline: 40px 10px;
+    padding-inline: 20px 10px;
     justify-content: space-between;
     button{
-        height: 48px;
-        padding-inline: 26px;
-        border-radius: 10px;
+        height: 42px;
+        padding-inline: 25px;
+        border-radius: 8px;
         border: none;
         box-shadow: none;
         color: #B17042;
@@ -292,6 +290,22 @@
     }
     .discord-box{
         margin-right: 18px;
+    }
+    p:last-child{
+        font-size: 16px;
+        padding-inline: 25px;
+    }
+}
+.pl70{
+    padding-left: 70px;
+    position: relative;
+    .icon{
+        width: 35px;
+        position: absolute;
+        left: 20px;
+        img{
+            width: 100%;
+        }
     }
 }
 
@@ -304,6 +318,9 @@
     padding: 0;
     background-color: #ffffff00 !important;
     border: none;
+    .ant-ribbon-text{
+        font-size: 10px;
+    }
     .box{
         width: 227px;
         height: 64px;
@@ -325,7 +342,7 @@
             width: 100%;
             height: 48px;
             border-radius: 10px;
-            font-size: 16px;
+            font-size: 18px;
             .anticon-twitter{
                 font-size: 16px;
             }
