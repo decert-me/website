@@ -27,7 +27,8 @@ export default function InfiniteScroll(props) {
         const scrollTop = window.pageYOffset || document.documentElement.scrollTop;
         const windowHeight = window.innerHeight;
         const documentHeight = document.querySelector("main").scrollHeight;
-        if (scrollTop + windowHeight + (height ? height : 500) >= documentHeight) {
+        const zoom = document.body.style.zoom ? document.body.style.zoom : 1;
+        if ((scrollTop + windowHeight + (height ? height : 500)) / zoom >= documentHeight) {
             runAsync();
         }
     }
