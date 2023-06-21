@@ -37,7 +37,9 @@ export default function BeforeRouterEnter() {
 
     function setRemUnit() {
         const clientWidth = document.documentElement.clientWidth;
-        if (clientWidth < 490) {
+        if (clientWidth < 1770 && clientWidth >= 1024) {
+            document.body.style.zoom = clientWidth / 1770; 
+        }else if (clientWidth < 490) {
             const scale = document.documentElement.clientWidth / 390;
             document.documentElement.style.fontSize = baseSize * Math.min(scale, 2) + 'px'
         }
