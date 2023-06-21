@@ -8,6 +8,7 @@ import "@/assets/styles/mobile/view-style/search.scss"
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { getEns } from "@/request/api/nft";
+import { useAccount } from "wagmi";
 
 export default function Search(params) {
 
@@ -15,7 +16,13 @@ export default function Search(params) {
     let [isLoading, setIsLoading] = useState(false);
     
     const { t } = useTranslation("cert");
+    const { address } = useAccount();
     const navigateTo = useNavigate();
+    const links = [
+        {lable: "me", value: address},
+        {lable: "vitalik.eth", value: "vitalik.eth"},
+        {lable: "tinyxiong.eth", value: "tinyxiong.eth"}
+    ]
 
 
     const changeAccount = (v) => {
@@ -54,9 +61,15 @@ export default function Search(params) {
                     <Button onClick={() => start()} loading={isLoading} >{t("vitae.btn")}</Button>
                 </div>
                 <ul className="example">
-                    <li>me</li>
-                    <li>vitalik.eth</li>
-                    <li>tinyxiong.eth</li>
+                    {
+                        links.filter(e => e.value).map(e => 
+                            <li key={e.lable}>
+                                <a href={e.value}>
+                                    {e.lable}
+                                </a>
+                            </li>
+                        )
+                    }
                 </ul>
             </div>
         </div>

@@ -87,7 +87,6 @@
             li{
                 padding: 2px 13px;
                 margin-right: 20px;
-                color: #777777;
                 font-weight: 500;
                 line-height: 16px;
                 border-radius: 20px;
@@ -95,6 +94,9 @@
                 cursor: pointer;
                 &:first-child{
                     color: #A9814D;
+                }
+                a{
+                    color: #777777;
                 }
             }
         }
