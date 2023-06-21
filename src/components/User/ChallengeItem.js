@@ -87,7 +87,7 @@ export default function ChallengeItem(props) {
                 </div>
                 {
                     profile && 
-                    <div className="opensea img" onClick={toOpensea}>
+                    <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
                         <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                     </div>
                 }

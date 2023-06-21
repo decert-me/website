@@ -179,7 +179,7 @@ export default function User(props) {
         getList();
     },[paramsAddr])
 
-    useUpdateEffect(() => {
+    useEffect(() => {
         info = user;
         setInfo({...info})
     },[user])
