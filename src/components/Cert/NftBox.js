@@ -46,7 +46,7 @@ export default function NftBox(props) {
                 options.map(item => {
                     if (item.label.toLocaleLowerCase() === info.chain) {
                         return (
-                            <>
+                            <div className={info.status === 1 ? "show" : ""}>
                                 <div className="badge badge-chain">
                                     <a href={`${item.link}${info.contract_address}`} target="_blank">
                                         <img src={item.icon} alt="" key={item.value} />
@@ -57,7 +57,14 @@ export default function NftBox(props) {
                                         <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                                     </a>
                                 </div>
-                            </>
+                                <div className={`badge badge-eye ${info.status === 1 ? "eye-hide" : "eye-show"}`}>
+                                    {
+                                        info.status === 1 ?
+                                        <EyeInvisibleOutlined />:
+                                        <EyeOutlined />
+                                    }
+                                </div>
+                            </div>
                         )
                     }
                 })

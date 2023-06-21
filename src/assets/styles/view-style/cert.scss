@@ -305,6 +305,9 @@
                 .nft-info .bottom{
                     bottom: 0;
                 }
+                .badge{
+                    opacity: 1;
+                }
             }
             .badge{
                 width: 32px;
@@ -312,6 +315,9 @@
                 position: absolute;
                 z-index: 1;
                 cursor: pointer;
+                opacity: 0;
+                transition: opacity 0.2s;
+                font-size: 16px;
                 img{
                     width: 100%;
                     height: 100%;
@@ -324,6 +330,26 @@
             .badge-opensea{
                 left: 60px;
                 top: 12px;
+            }
+            .badge-eye{
+                top: 5px;
+                right: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+            .eye-show{
+                color: #808080;
+                background-color: rgba($color: #fff, $alpha: 0.3);
+            }
+            .eye-hide{
+                color: #fff;
+                background-color: rgba($color: #000, $alpha: 0.3);
+            }
+            .show .badge{
+                opacity: 1;
             }
             .img{
                 width: 100%;
