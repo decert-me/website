@@ -107,22 +107,14 @@
         height: calc(100% - 90px);
     }
     .code-out{
-        // height: calc(100% + 61px + 70px);
-        height: 100%;
+        height: calc(100%);
         padding: 0;
-        padding-bottom: 10px;
-        position: relative;
-        .code-menu{
-            width: 100%;
-            position: absolute;
-            top: -32px;
-            left: 0;
-            display: flex;
-            justify-content: space-between;
-        }
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
     }
     .out-inner{
-        height: calc(100% - 290px);
+        flex: 1;
         margin-bottom: 10px;
         padding-top: 32px;
         background-color: #fff;

@@ -1,6 +1,6 @@
 .Challenge{
     width: 100%;
-    min-height: 100vh;
+    height: 100%;
     margin: 0 auto;
     padding-top: 140px;
     position: relative;
@@ -75,7 +75,7 @@
     }
     .content{
         width: 1380px;
-        height: calc(100vh - 250px);
+        height: calc(100% - 82px - 5px - 7px);
         margin: 0 auto;
         box-sizing: content-box;
         background-color: #fff;

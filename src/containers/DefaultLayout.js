@@ -22,6 +22,7 @@ export default function DefaultLayout(params) {
     const { isMobile } = useContext(MyContext);
     const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
+    let [vh, setVh] = useState(100);
 
     const headerStyle = {
         width: "100%",
@@ -35,9 +36,10 @@ export default function DefaultLayout(params) {
     };
       
     const contentStyle = {
-        minHeight: isMobile ? "calc(100vh - 108px)" : "calc(100vh - 300px)",
         backgroundColor: '#fff',
-        overflow: "hidden"
+        overflow: "hidden",
+        display: "grid",
+        gridTemplateRows: `minmax(${vh}vh, auto)`,
     };
       
     const footerStyle = {
@@ -133,6 +135,16 @@ export default function DefaultLayout(params) {
         return false
     }
 
+    function zoomVh(params) {
+        if (window.screen.width <= 1770 && window.screen.width >= 1024) {
+            const zoom = Math.round(window.screen.width / 1770 * 10) / 10;
+            vh = 1 / zoom * 100;
+            setVh(vh);
+        }else{
+            setVh(100)
+        }
+    }
+
     useEffect(() => {
         const path = location.pathname;
         const addr = localStorage.getItem('decert.address');
@@ -140,10 +152,18 @@ export default function DefaultLayout(params) {
     },[address])
 
     useEffect(() => {
+        zoomVh()
         window.scrollTo(0, 0);
         footerHide = footerChange() ? true : false;
         setFooterHide(footerHide);
     },[location])
+
+    useEffect(() => {
+        window.addEventListener("resize", zoomVh);
+        return () => {
+          window.removeEventListener("resize", zoomVh);
+        };
+    }, []);
 
     return (
         <Layout className={isMobile ? "Mobile" : ""}>
