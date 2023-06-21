@@ -8,8 +8,9 @@
         color: #000;
     }
     .user{
-        color: #fff;
-        background-color: #000;
+        color: #8F5A35;
+        background-color: #fff;
+        border: 1px solid #8F5A35;
     }
     .header-content{
         width: 100%;
@@ -49,7 +50,7 @@
         }
     }
     .nav-right{
-        width: calc(267px - 38px - 14px);
+        width: calc(214px);
         display: flex;
         justify-content: space-between;
     }
@@ -77,16 +78,17 @@
         box-shadow: none;
     }
     .user{
-        height: 32px;
-        padding-right: 10px;
-        border-radius: 20px;
+        height: 40px;
+        padding-right: 16px;
+        border-radius: 10px;
+        font-size: 17px;
         display: flex;
         align-items: center;
         cursor: pointer;
         img{
-            width: 28px;
-            height: 28px;
-            margin-left: 2px;
+            width: 32px;
+            height: 32px;
+            margin-left: 4px;
             overflow: hidden;
             border-radius: 50%;
         }
