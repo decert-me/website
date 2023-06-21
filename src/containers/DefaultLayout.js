@@ -19,7 +19,7 @@ export default function DefaultLayout(params) {
     const { address } = useAccount();
     const navigateTo = useNavigate();
     const location = useLocation();
-    const { isMobile } = useContext(MyContext);
+    const { isMobile, user } = useContext(MyContext);
     const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
     let [vh, setVh] = useState(100);
@@ -168,7 +168,7 @@ export default function DefaultLayout(params) {
     return (
         <Layout className={isMobile ? "Mobile" : ""}>
             <Header style={headerStyle}>
-                <AppHeader isMobile={isMobile} />
+                <AppHeader isMobile={isMobile} user={user} />
             </Header>
             <Content style={contentStyle}>
                 { outlet }

@@ -18,8 +18,10 @@ import logo_white from "@/assets/images/svg/logo-white.png";
 import logo_normal from "@/assets/images/svg/logo-normal.png";
 import { changeConnect } from '@/utils/redux';
 import { useUpdateEffect } from 'ahooks';
+import { getUser } from '@/request/api/public';
+import store, { setUser } from '@/redux/store';
 
-export default function AppHeader({ isMobile }) {
+export default function AppHeader({ isMobile, user }) {
     
     const { address, isConnected } = useAccount()
     const { t } = useTranslation();
@@ -80,18 +82,30 @@ export default function AppHeader({ isMobile }) {
         localStorage.setItem("decert.lang", lang)
     }
 
+    async function init(params) {
+        const user = await getUser({address: address})
+        if (!user.data) {
+            return
+        }
+        const info = {
+            nickname: user.data.nickname ? user.data.nickname : NickName(address),
+            address: address,
+            description: user.data.description,
+            avatar: user.data.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(address),
+            socials: user.data.socials
+        }
+        store.dispatch(setUser(info));
+    }
+
     useEffect(() => {
         if (location) {
             setIsOpenM(false);
         }
     },[location])
 
-    // useUpdateEffect(() => {
-    //     if (isMobile) {
-    //         items.splice(0,1);
-    //         setItems([...items])
-    //     }
-    // },[isMobile])
+    useEffect(() => {
+        init();
+    },[])
 
     return (
         <div id="Header">
@@ -132,7 +146,7 @@ export default function AppHeader({ isMobile }) {
                                     }}
                                 >
                                     <div className="user">
-                                        <img src={hashAvatar(address)} alt="" />
+                                        <img src={user?.avatar} alt="" />
                                     </div>
                                 </Dropdown>
                         }
@@ -202,7 +216,7 @@ export default function AppHeader({ isMobile }) {
                                     
                                 >
                                     <div className="user">
-                                        <img src={hashAvatar(address)} alt="" />
+                                        <img src={user?.avatar} alt="" />
                                         <p>{NickName(address)}</p>
                                     </div>
                                 </Dropdown>

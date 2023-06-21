@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
 import {
@@ -17,11 +17,13 @@ import { Copy } from "@/utils/Copy";
 import { useTranslation } from "react-i18next";
 import { useUpdateEffect } from "ahooks";
 import Paginations from "@/components/User/Pagination";
+import MyContext from "@/provider/context";
 
 
 export default function User(props) {
     
     const { t } = useTranslation(["translation","profile", "explore"]);
+    const { user } = useContext(MyContext);
     const { address } = useAccount();
     const location = useLocation();
     const { address: paramsAddr } = useParams();
@@ -35,7 +37,6 @@ export default function User(props) {
     });
     let [checkType, setCheckType] = useState(0);
     let [checkStatus, setCheckStatus] = useState(0);
-    let [socials, setSocials] = useState();
     
     const type = [
         { key: 'complete', label: t("profile:challenge-completed"), children: [
@@ -129,18 +130,17 @@ export default function User(props) {
 
     const getInfo = async() => {
         const user = await getUser({address: account})
-        if (!user.data) {
+        if (!user.data || isMe) {
             // setSocials("null")
             // TODO: 空状态显示
             return
         }
-        socials = user.data.socials;
-        setSocials({...socials});
         info = {
             nickname: user.data.nickname ? user.data.nickname : NickName(account),
             address: account,
             description: user.data.description,
-            avatar: user.data.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(account)
+            avatar: user.data.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(account),
+            socials: user.data.socials
         }
         setTimeout(() => {
             setInfo({...info})
@@ -179,6 +179,11 @@ export default function User(props) {
         getList();
     },[paramsAddr])
 
+    useUpdateEffect(() => {
+        info = user;
+        setInfo({...info})
+    },[user])
+
     useEffect(() => {
         getList();
     },[checkStatus, checkType])
@@ -210,7 +215,7 @@ export default function User(props) {
                             </p>
                             <div className="social">
                                 {/* <div className="icon"></div> */}
-                                <CustomSocial socials={socials} />
+                                <CustomSocial socials={info.socials} />
                             </div>
                             <div className="desc newline-omitted">
                                 {info.description ? info.description : t("profile:desc-none")}
