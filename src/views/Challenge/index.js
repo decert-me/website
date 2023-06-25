@@ -295,7 +295,9 @@ export default function Challenge(params) {
                             />
                             <div className='quest-title' style={{display: "flex"}}>
                                     <div className="title">
-                                        <ArrowLeftOutlined />
+                                        <Link to={`/quests/${detail.tokenId}`}>
+                                            <ArrowLeftOutlined />
+                                        </Link>
                                         <Link to={`/quests/${detail.tokenId}`}>
                                             <p>{detail?.title}</p>
                                         </Link>
