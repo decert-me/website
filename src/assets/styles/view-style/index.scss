@@ -9,25 +9,37 @@
       padding-top: 220px;
       // describe
       .describe {
+        width: 1038px;
+        margin: 0 auto;
         text-align: center;
         font-size: 130px;
-        line-height: 152px;
+        line-height: 160px;
         letter-spacing: 4px;
         color: #8B522A;
         font-weight: 600;
-        -webkit-text-stroke: 4px #8B522A;
+        letter-spacing: -3px;
       }
       h1{
         margin-bottom: 34px;
+        font-family: Arial Black-Regular, Arial Black;
       }
-
+      .mt-10{
+        margin-top: -35px;
+      }
+      .color-primary{
+        background: linear-gradient(175deg, #CDAF7A 0%, #884E26 100%);
+        -webkit-background-clip: text;
+        background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
       // text
       .text {
+        margin-top: 15px;
         text-align: center;
         font-size: 28px;
-        line-height: 33px;
         letter-spacing: 1px;
         color: #777777;
+        line-height: 33px;
       }
       
       .social{

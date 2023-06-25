@@ -9,7 +9,8 @@
         "profile": "Profile"
     },
     "home": {
-        "slogan1": "You are what you build.",
+        "slogan1": "You are",
+        "slogan11": "what you build.",
         "slogan2": "Decentralized skills learning and certification platform",
         "btn-explore": "Explore challenges",
         "btn-publish": "Create a Challenge",

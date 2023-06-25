@@ -1,4 +1,4 @@
-import { message, Avatar, Button } from "antd";
+import { message } from "antd";
 import {
     TwitterOutlined,
     DownOutlined
@@ -94,7 +94,11 @@ export default function Index(params) {
             <div className="custom-bg-round"></div>
             <div className="main">
                 <div className="main-center">
-                        <h1 className="describe">{t("home.slogan1")}</h1>
+                        <h1 className="describe color-primary">{t("home.slogan1")}</h1>
+                        {
+                            i18n.language !== "zh-CN" && 
+                            <h1 className="describe color-primary mt-10">{t("home.slogan11")}</h1>
+                        }
                         <h2 className="text">{t("home.slogan2")}</h2>
 
                         {/* social */}

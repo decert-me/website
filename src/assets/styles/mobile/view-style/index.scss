@@ -5,15 +5,17 @@
       padding-top: 12.8125rem;
       // describe
       .describe {
-        font-size: 3.875rem;
+        width: 20.9375rem;
+        font-size: 2.6875rem;
         line-height: 4.5625rem;
-        letter-spacing: .0625rem;
-        -webkit-text-stroke: .125rem #8B522A;
+        // letter-spacing: .0625rem;
       }
       h1{
         margin-bottom: 1.25rem;
       }
-
+      .mt-10{
+        margin-top: -3.125rem;
+      }
       // text
       .text {
         font-size: .8125rem;
