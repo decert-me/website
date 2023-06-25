@@ -49,7 +49,7 @@ export default function CustomClaimInfo(props) {
                             <p className="pass">{t("score.passScore",{score: answerInfo.passingPercent})}</p>
                             {
                                 !isMobile && 
-                                <Button className="btn" onClick={reChallenge}>
+                                <Button className="btn" id="hover-btn-line" onClick={reChallenge}>
                                     {t("translation:btn-go-challenge")}
                                 </Button>
                             }
@@ -58,7 +58,7 @@ export default function CustomClaimInfo(props) {
                     {
                         isMobile && 
                         <div className="mr">
-                            <Button className="btn" onClick={reChallenge}>
+                            <Button className="btn" id="hover-btn-line" onClick={reChallenge}>
                                 {t("translation:btn-go-challenge")}
                             </Button>
                         </div>

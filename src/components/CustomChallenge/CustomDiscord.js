@@ -2,7 +2,6 @@ import { Button, message } from "antd";
 import { useEffect, useState } from "react"
 import { useAccount } from "wagmi"
 import { verifyDiscord } from "@/request/api/public"
-import { Link } from "react-router-dom";
 import { useRequest } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
@@ -110,11 +109,11 @@ export default function CustomDiscord(props) {
                     <p>{t("discord.unbind")}</p>
                     {
                         <div>
-                            <Button className="discord-box" loading={isLoading} disabled={!step >= 1} onClick={() => onclick()}>
+                            <Button className="discord-box" id={step >= 1 ? "hover-btn-ghost" : ""} loading={isLoading} disabled={!step >= 1} onClick={() => onclick()}>
                                 {t("verify")}
                             </Button>
                             {/* <Link to={`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`} target="_blank"> */}
-                                <Button disabled={!step >= 1} onClick={() => window.open(`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`, "_blank")}>{t("discord.bind")}</Button>
+                                <Button disabled={!step >= 1} id={step >= 1 ? "hover-btn-ghost" : ""} onClick={() => window.open(`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`, "_blank")}>{t("discord.bind")}</Button>
                             {/* </Link> */}
                         </div>
                     }

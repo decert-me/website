@@ -288,11 +288,23 @@
         border-color: #B47243;
     }
 }
+#hover-btn-line-arrow{
+    border-color: #000;
+    span{
+        color: #000;
+    }
+    &:hover{
+        span{
+            color: #B47243;
+        }
+        border-color: #B47243;
+    }
+}
 #hover-btn-ghost{
     color: #B17042;
     background-color: #fff;
     &:hover{
-        background-color: rgba(180,114,67,0.05);;
+        background-color: #fbf8f6;
     }
 }
 #hover-btn-tofull{
@@ -306,11 +318,15 @@
     }
 }
 #hover-text{ 
-    color: #4E4E4E;
     span{
         color: #BABABA;
     }
-    &:hover, span{
-        color: #B47243;
+    button span{
+        color: #4E4E4E;
+    }
+    &:hover{
+        &, span{
+            color: #B47243;
+        }
     }
 }

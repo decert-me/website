@@ -136,14 +136,14 @@ export default function CustomClaim(props) {
                 <>
                     <Badge.Ribbon text={t("claim.share.badge")} className="custom-badge" color={step !== 2 ? "#CBCBCB" : "blue"}>
                         <div className="box">
-                            <Button disabled={step !== 2} className="share claim" onClick={() => share()}>
+                            <Button id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} className="share claim" onClick={() => share()}>
                                 <TwitterOutlined />
                                 {t("claim.share.btn")}
                             </Button>
                         </div>
                     </Badge.Ribbon>
                     <div className="box">
-                        <Button className="claim" disabled={step !== 2} loading={writeLoading} onClick={() => cliam()}>
+                        <Button className="claim" id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} loading={writeLoading} onClick={() => cliam()}>
                             {t("claim.btn")}
                         </Button>
                     </div>
