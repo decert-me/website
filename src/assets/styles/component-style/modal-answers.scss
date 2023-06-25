@@ -93,40 +93,40 @@
 }
 .ModalAnswers-mobile{
     .ant-modal-content{
-        min-height: 480px;
-        padding: 30px 15px 0 15px !important;
-        border-radius: 13px !important;
+        min-height: 30rem;
+        padding: 1.875rem .9375rem 0 .9375rem !important;
+        border-radius: .8125rem !important;
     }
     .ant-modal-close{
-        width: 12px;
-        height: 12px;
+        width: .75rem;
+        height: .75rem;
     }
     h5{
-        margin: 0 10px 0;
-        font-size: 14px;
-        line-height: 16px;
+        margin: 0 .625rem 0;
+        font-size: .875rem;
+        line-height: 1rem;
     }
     .box{
-        height: 340px;
-        margin-top: 18px;
-        border-radius: 13px;
+        height: 21.25rem;
+        margin-top: 1.125rem;
+        border-radius: .8125rem;
     }
     .answers{
         width: 100%;
-        padding: 30px 34px;
-        gap: 24px 22px;
+        padding: 1.875rem 2.125rem;
+        gap: 1.5rem 1.375rem;
         .point{
-            width: 33px;
-            height: 33px;
-            font-size: 12px;
-            line-height: 33px;
+            width: 2.0625rem;
+            height: 2.0625rem;
+            font-size: .75rem;
+            line-height: 2.0625rem;
         }
     }
     .submit{
-        width: 217px;
-        height: 40px;
-        left: calc((100% - 217px) / 2);
-        bottom: 15px;
-        font-size: 12px;
+        width: 13.5625rem;
+        height: 2.5rem;
+        left: calc((100% - 13.5625rem) / 2);
+        bottom: .9375rem;
+        font-size: .75rem;
     }
 }

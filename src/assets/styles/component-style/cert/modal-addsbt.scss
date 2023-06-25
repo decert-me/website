@@ -170,17 +170,17 @@
 .ModalAddSbt-mobile{
     .ant-modal-close{
         .ant-modal-close-x{
-            font-size: 16px;   
+            font-size: 1rem;   
         }
     }
     .ant-modal-content{
-        padding: 30px 15px 20px !important;
+        padding: 1.875rem .9375rem 1.25rem !important;
     }
     .title{
-        margin-bottom: 10px;
-        font-size: 14px;
+        margin-bottom: .625rem;
+        font-size: .875rem;
         font-weight: 500;
-        line-height: 16px;
+        line-height: 1rem;
     }
     .search{
         .inner{
@@ -189,84 +189,84 @@
             display: block;
             .ant-select{
                 width: 50%;
-                margin-bottom: 8px;
-                padding-left: 13px;
-                border-radius: 7px;
-                border-width: 1px;
+                margin-bottom: .5rem;
+                padding-left: .8125rem;
+                border-radius: .4375rem;
+                border-width: .0625rem;
                 .img{
-                    width: 18px;
-                    height: 18px;
+                    width: 1.125rem;
+                    height: 1.125rem;
                 }
                 .ant-select-selector{
-                    border-width: 1px;
+                    border-width: .0625rem;
                 }
                 .label{
-                    padding-right: 10px;
-                    font-size: 12px;
+                    padding-right: .625rem;
+                    font-size: .75rem;
                 }
                 .ant-select-selection-item{
-                    padding-right: 35px;
+                    padding-right: 2.1875rem;
                 }
                 .ant-select-arrow{
-                    right: 20px;
+                    right: 1.25rem;
                 }
             }
             .input{
                 width: 100%;
-                height: 35px;
-                border-width: 1px;
-                border-radius: 7px;
+                height: 2.1875rem;
+                border-width: .0625rem;
+                border-radius: .4375rem;
                 input{
-                    padding-left: 34px;
-                    font-size: 12px;
+                    padding-left: 2.125rem;
+                    font-size: .75rem;
                 }
                 .icon{
-                    left: 14px;
-                    font-size: 10px;
-                    line-height: 33px;
+                    left: .875rem;
+                    font-size: .625rem;
+                    line-height: 2.0625rem;
                 }
             }
         }
     }
     .content{
-        height: 350px;
-        margin-top: 15px;
+        height: 21.875rem;
+        margin-top: .9375rem;
         .list-content{
-            gap: 10px;
+            gap: .625rem;
         }
         .box{
-            width: 100px;
-            height: 130px;
-            border-radius: 5px;
-            border-width: 1px;
+            width: 6.25rem;
+            height: 8.125rem;
+            border-radius: .3125rem;
+            border-width: .0625rem;
             .img{
-                height: 100px;
+                height: 6.25rem;
             }
             p{
                 width: 100%;
-                padding: 5px;
-                font-size: 7px;
-                line-height: 8px;
+                padding: .3125rem;
+                font-size: .4375rem;
+                line-height: .5rem;
             }
             .badge{
-                width: 22px;
-                height: 22px;
+                width: 1.375rem;
+                height: 1.375rem;
                 border-radius: 50%;
-                right: 3px;
-                top: 3px;
-                font-size: 12px;
+                right: .1875rem;
+                top: .1875rem;
+                font-size: .75rem;
             }
         }
     }
     .confirm{
-        width: 105px;
-        height: 35px;
+        width: 6.5625rem;
+        height: 2.1875rem;
         padding: 0;
-        margin-top: 28px;
-        border-radius: 7px;
-        border-width: 1px;
-        font-size: 10px;
-        line-height: 35px;
-        left: calc((100% - 105px) / 2);
+        margin-top: 1.75rem;
+        border-radius: .4375rem;
+        border-width: .0625rem;
+        font-size: .625rem;
+        line-height: 2.1875rem;
+        left: calc((100% - 6.5625rem) / 2);
     }
 }
