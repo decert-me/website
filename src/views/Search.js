@@ -6,6 +6,7 @@ import { useState } from "react";
 import "@/assets/styles/view-style/search.scss"
 import "@/assets/styles/mobile/view-style/search.scss"
 import { useNavigate } from "react-router-dom";
+import i18n from 'i18next';
 import { useTranslation } from "react-i18next";
 import { getEns } from "@/request/api/nft";
 import { useAccount } from "wagmi";
@@ -51,7 +52,10 @@ export default function Search(params) {
             <div className="round2" />
             <div className="Search-content">
                 <p className="title">{t("vitae.title")}</p>
-                <p className="title color-primary">{t("vitae.title2")}</p>
+                {
+                    i18n.language !== "zh-CN" && 
+                    <p className="title color-primary">{t("vitae.title2")}</p>
+                }
                 <p className="subtitle">{t("vitae.subtitle")}</p>
                 <div className="inner">
                     <div className="icon">
