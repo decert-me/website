@@ -21,7 +21,8 @@ export default function ChallengeItem(props) {
 
 
     const toQuest = () => {
-        if (profile?.isMe && info.complete_ts) {
+        // if (profile?.isMe && info.complete_ts) {
+        if (info?.claimable || info?.claimed) {
             // 个人查看完成的挑战
             navigateTo(`/claim/${info.tokenId}`)
         }else{

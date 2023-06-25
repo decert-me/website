@@ -102,7 +102,28 @@
             width: 100px;
         }
 }
-
+.mobile-custom-drop-menu{
+    .ant-dropdown-menu-item-divider:first-child{
+        display: none;
+    }
+}
+.custom-dropmenu{
+    .ant-dropdown-menu{
+        padding: 8px 6px !important;
+        // box-shadow: none !important;
+    }
+    .ant-dropdown-menu-item{
+        height: 50px;
+        padding-left: 23px !important;
+    }
+    .ant-dropdown-menu-title-content{
+        font-weight: 500;
+    }
+    .ant-dropdown-menu-item-divider{
+        margin: 5px 0 !important;
+        background-color: #E9E9E9 !important;
+    }
+}
 #Footer{
     color: #ffffff;
     font-family: Source;

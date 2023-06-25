@@ -38,9 +38,15 @@ export default function AppHeader({ isMobile, user }) {
             icon: '',
         },
         {
+            type: 'divider',
+        },
+        {
             label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("header.profile")} </p>),
             key: '1',
             icon: '',
+        },
+        {
+            type: 'divider',
         },
         {
             label: (
@@ -53,6 +59,9 @@ export default function AppHeader({ isMobile, user }) {
             ),
             key: '2',
             icon: '',
+        },
+        {
+            type: 'divider',
         },
         {
             label: (<p onClick={() => disconnect()}> {t("header.disconnect")} </p>),
@@ -140,6 +149,7 @@ export default function AppHeader({ isMobile, user }) {
                                 <Dropdown
                                     placement="bottomRight" 
                                     menu={{items: items.slice(1,items.length)}}
+                                    overlayClassName="mobile-custom-drop-menu"
                                     overlayStyle={{
                                         width: "160px",
                                         fontWeight: 500
@@ -211,9 +221,13 @@ export default function AppHeader({ isMobile, user }) {
                             isConnected ?
                                 <Dropdown
                                     placement="bottom" 
-                                    arrow
+                                    // trigger="click"
+                                    // arrow
                                     menu={{items}}
-                                    
+                                    overlayClassName="custom-dropmenu"
+                                    overlayStyle={{
+                                        width: "210px"
+                                    }}
                                 >
                                     <div className="user">
                                         <img src={user?.avatar} alt="" />
