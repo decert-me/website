@@ -1,4 +1,4 @@
-$container-width: 93vw;
+$container-width: 21.875rem;
 .Mobile{
     .CustomCompleted{
         .completed-content{
@@ -19,9 +19,16 @@ $container-width: 93vw;
         .score{
             margin-top: 3.75rem;
             .circle {
+                position: relative;
                 .ant-progress-text{
-                    font-size: 3.125rem;
-                    line-height: 4.5rem;
+                    font-size: 2.3125rem;
+                    line-height: 3.25rem;
+                    font-weight: 500;
+                }
+                .text{
+                    font-size: .75rem;
+                    line-height: 1.0625rem;
+                    bottom: -1rem;
                 }
             }
             .info{
@@ -36,6 +43,7 @@ $container-width: 93vw;
                 .pass{
                     font-size: .625rem;
                     line-height: 1.25rem;
+                    color: #000;
                 }
             }
             
@@ -190,6 +198,17 @@ $container-width: 93vw;
         .discord-box{
             margin-right: .8125rem;
         }
+        p:last-child{
+            font-size: .75rem;
+        }
+    }
+    .pl70{
+        padding-left: 2.5rem;
+        .icon{
+            width: 1.25rem;
+            margin-top: .125rem;
+            left: .75rem;
+        }
     }
     
     .CustomDiscord{
@@ -202,6 +221,9 @@ $container-width: 93vw;
         padding: 0;
         background-color: #ffffff00;
         border: none;
+        .ant-ribbon-text{
+            font-size: .375rem;
+        }
         .box{
             width: 8.9375rem;
             height: 2.5rem;
@@ -241,10 +263,7 @@ $container-width: 93vw;
         }
     }
     .isClaim{
-        // background-color: #8C52DF;
         justify-content: center;
-        color: #8C52DF;
-        border: .0625rem solid #8C52DF;
     }
 }
 .tooltip-m{

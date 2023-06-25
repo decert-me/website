@@ -34,8 +34,13 @@ export default function CustomClaimInfo(props) {
                                 type="circle"
                                 className={(answerInfo.isPass || isClaim) ? "pass" : "unpass"}
                                 percent={percent}
-                                width={isMobile ? 140 : 208}
-                                format={(percent) => percent}
+                                width={isMobile ? 126 : 208}
+                                format={(percent) => (
+                                    <>
+                                        {percent}
+                                        <p className="text">{t("score.now")}</p>
+                                    </>
+                                )}
                                 strokeWidth={10}
                             />
                         </div>

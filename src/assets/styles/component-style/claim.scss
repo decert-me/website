@@ -40,7 +40,17 @@
             .ant-progress-text{
                 font-size: 64px;
                 font-weight: 500;
-                line-height: 116px;
+                line-height: 90px;
+            }
+            .text{
+                width: 100%;
+                text-align: center;
+                color: #666666;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 25px;
+                position: absolute;
+                bottom: -25px;
             }
         }
         .info{
@@ -195,6 +205,9 @@
                         background-color: #F0F0F0;;
                         color: #A3A3A3;
                         button{
+                            background-color: #fff;
+                        }
+                        .box button{
                             background-color: #F0F0F0;
                         }
                     }

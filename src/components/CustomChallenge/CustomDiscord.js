@@ -109,14 +109,13 @@ export default function CustomDiscord(props) {
                 <>
                     <p>{t("discord.unbind")}</p>
                     {
-                        step >= 1 &&
                         <div>
-                            <Button className="discord-box" loading={isLoading} onClick={() => onclick()}>
+                            <Button className="discord-box" loading={isLoading} disabled={!step >= 1} onClick={() => onclick()}>
                                 {t("verify")}
                             </Button>
-                            <Link to={`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`} target="_blank">
-                                <Button>{t("discord.bind")}</Button>
-                            </Link>
+                            {/* <Link to={`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`} target="_blank"> */}
+                                <Button disabled={!step >= 1} onClick={() => window.open(`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`, "_blank")}>{t("discord.bind")}</Button>
+                            {/* </Link> */}
                         </div>
                     }
                 </>
