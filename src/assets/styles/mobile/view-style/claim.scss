@@ -66,17 +66,28 @@ $container-width: 21.875rem;
         .viewer{
             margin-top: 3.75rem;
             .viewer-head{
-                font-size: 1.125rem;
+                font-size: 1.25rem;
                 line-height: 1.625rem;
             }
             .ant-divider{
-                display: none;
+                // display: none;
+                border-width: .0625rem;
+                position: relative;
+                &::after{
+                    content: "";
+                    width: 3.5rem;
+                    height: .125rem;
+                    background-color: #262626;
+                    position: absolute;
+                    left: 0;
+                    top: -0.1875rem;
+                }
             }
             .viewer-content{
                 margin-top: .5rem;
                 min-height: 18.75rem;
                 padding: 1.25rem;
-                border: .0625rem solid #DCDCDC;
+                border: none;
                 background-color: #FAFAFA;
             }
         }
