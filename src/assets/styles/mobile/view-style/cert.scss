@@ -185,10 +185,10 @@ $container-width: 90vw;
             overflow: scroll;
             .nodata{
                 p{
-                    font-size: 12px;
+                    font-size: .75rem;
                     font-weight: 900;
                     color: #C1C1C1;
-                    line-height: 18px;
+                    line-height: 1.125rem;
                     display: block;
                 }
             }
@@ -230,7 +230,7 @@ $container-width: 90vw;
                     .nft-title{
                         height: 1.375rem;
                         padding: .5625rem .8125rem 0 .4375rem;
-                        font-size: .5625rem;
+                        font-size: .75rem;
                         line-height: .8125rem;
                     }
                     .bottom{

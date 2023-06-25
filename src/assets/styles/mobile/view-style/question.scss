@@ -76,7 +76,11 @@ $container-width: 21.875rem;
         }
         .name{
             width: 15rem;
-            font-size: .9375rem;
+            font-size: 1.25rem;
+            font-weight: 600;
+        }
+        .markdown-body p{
+            font-size: .75rem;
         }
         .time{
             font-size: .875rem;
