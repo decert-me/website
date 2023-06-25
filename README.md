@@ -1,3 +1,11 @@
+# DeCert.me
+<p align="center">
+  <img src="./public/favicon.ico" width="200" alt="DeCert.me logo">
+</p>
+
+## 🚀 DeCert.me frontend
+
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

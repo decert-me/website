@@ -114,7 +114,8 @@ export default function CustomCompleted(props) {
             }
         }
         setAnswerInfo({...answerInfo});
-        setPercent(percent);
+
+        setPercent(!Number.isInteger(percent) ? percent.toFixed(1) : percent);
         getStep();
     }
 
