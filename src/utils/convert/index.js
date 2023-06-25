@@ -31,12 +31,17 @@ export const convertDifficulty = (value) => {
 }
 
 export const convertTime = (value, resType) => {
+    const m = value / 60;
     const h = value / 60 / 60;
     const d = value / 60 / 60 / 24;
     const w = value / 60 / 60 / 24 / 7;
 
     let time = value / 60;
     let type = resType ? 'time-info.mm' : 'm';
+    if (m >= 1) {
+      time = m;
+      type = resType ? 'time-info.m' : 'm';
+    }
     if (h >= 1) {
         time = h;
         type = resType ? 'time-info.h' : 'h';

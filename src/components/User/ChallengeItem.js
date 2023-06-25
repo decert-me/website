@@ -44,15 +44,15 @@ export default function ChallengeItem(props) {
 
     function getTimeDiff(time) {
         var timeDiff;
-        if (typeof time === "number") {
-            var now = Math.round(new Date().getTime() / 1000);
-            timeDiff = now - time;
-        }else{
-            var now = new Date();
-            var dbTime = new Date(time);
-            timeDiff = Math.round(now - dbTime) / 1000;
-        }
-        const { type, time: num } = convertTime(timeDiff, "all")
+        // if (typeof time === "number") {
+        //     var now = Math.round(new Date().getTime() / 1000);
+        //     timeDiff = now - time;
+        // }else{
+        //     var now = new Date();
+        //     var dbTime = new Date(time);
+        //     timeDiff = Math.round(now - dbTime) / 1000;
+        // }
+        const { type, time: num } = convertTime(time, "all")
 
         return (
             <>
@@ -104,12 +104,22 @@ export default function ChallengeItem(props) {
                 </div>
                 <div className="sbt-detail">
                     <div>
-                        <span className="mr12">{t("translation:diff")}</span>
-                        <Rate disabled defaultValue={info.metadata?.attributes?.difficulty + 1} count={3} />
+                        {
+                            info.metadata?.attributes?.difficulty !== null && 
+                            <>
+                            <span className="mr12">{t("translation:diff")}</span>
+                            <Rate disabled defaultValue={info.metadata?.attributes?.difficulty + 1} count={3} />
+                            </>
+                        }
                     </div>
                     <div className="time">
-                        <ClockCircleFilled />
-                        {getTimeDiff(info.complete_ts ? info.complete_ts : info.addTs)}
+                        {
+                            info.quest_data?.estimateTime !== null && 
+                            <>
+                                <ClockCircleFilled />
+                                {getTimeDiff(info.quest_data?.estimateTime)}
+                            </>
+                        }
                     </div>
                     {/* 
                     <div className="date">

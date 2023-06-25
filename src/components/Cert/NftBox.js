@@ -43,10 +43,10 @@ export default function NftBox(props) {
     return (
         <div className="nft-detail">
             {
-                options.map(item => {
+                options.map((item, index) => {
                     if (item.label.toLocaleLowerCase() === info.chain) {
                         return (
-                            <div className={info.status === 1 ? "show" : ""}>
+                            <div key={index} className={info.status === 1 ? "show" : ""}>
                                 <div className="badge badge-chain">
                                     <a href={`${item.link}${info.contract_address}`} target="_blank">
                                         <img src={item.icon} alt="" key={item.value} />

@@ -296,9 +296,9 @@ export default function CustomForm(props) {
                             {value: 3600,label: t("translation:time-info.h", {time: "1"})},
                             {value: 7200,label: t("translation:time-info.h", {time: "2"})},
                             {value: 14400,label: t("translation:time-info.h", {time: "4"})},
-                            {value: 86400,label: t("translation:time-info.d", {time: "1"})},
-                            {value: 259200,label: t("translation:time-info.d", {time: "3"})},
-                            {value: 604800,label: t("translation:time-info.w", {time: "1"})}
+                            // {value: 86400,label: t("translation:time-info.d", {time: "1"})},
+                            // {value: 259200,label: t("translation:time-info.d", {time: "3"})},
+                            // {value: 604800,label: t("translation:time-info.w", {time: "1"})}
                         ]}
                     />
                 </Form.Item>
