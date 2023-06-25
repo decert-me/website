@@ -17,7 +17,6 @@ import { useWeb3Modal } from "@web3modal/react";
 import logo_white from "@/assets/images/svg/logo-white.png";
 import logo_normal from "@/assets/images/svg/logo-normal.png";
 import { changeConnect } from '@/utils/redux';
-import { useUpdateEffect } from 'ahooks';
 import { getUser } from '@/request/api/public';
 import store, { setUser } from '@/redux/store';
 
@@ -205,6 +204,7 @@ export default function AppHeader({ isMobile, user }) {
                             type="ghost"
                             ghost
                             className='lang custom-btn'
+                            id='hover-btn-line'
                             onClick={() => toggleI18n()}
                         >
                             {i18n.language === 'zh-CN' ? "CN" : "EN"}
@@ -229,14 +229,18 @@ export default function AppHeader({ isMobile, user }) {
                                         width: "210px"
                                     }}
                                 >
-                                    <div className="user">
+                                    <div className="user" id="hover-btn-line">
                                         <img src={user?.avatar} alt="" />
                                         <p>{NickName(address)}</p>
                                     </div>
                                 </Dropdown>
                             :
                             <div>
-                                <Button onClick={() => openModal()} className='connect'>{t("header.connect")}</Button>
+                                <Button 
+                                    onClick={() => openModal()} 
+                                    id='hover-btn-full'
+                                    className='connect'
+                                >{t("header.connect")}</Button>
                             </div>
                         }
                     </div>

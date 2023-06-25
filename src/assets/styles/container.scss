@@ -57,8 +57,8 @@
         width: 40px;
         height: 40px;
         border-radius: 10px;
-        border: 1px solid #8F5A35;
-        color: #8F5A35;
+        border-width: 1px;
+        border-style: solid;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -102,28 +102,7 @@
             width: 100px;
         }
 }
-.mobile-custom-drop-menu{
-    .ant-dropdown-menu-item-divider:first-child{
-        display: none;
-    }
-}
-.custom-dropmenu{
-    .ant-dropdown-menu{
-        padding: 8px 6px !important;
-        // box-shadow: none !important;
-    }
-    .ant-dropdown-menu-item{
-        height: 50px;
-        padding-left: 23px !important;
-    }
-    .ant-dropdown-menu-title-content{
-        font-weight: 500;
-    }
-    .ant-dropdown-menu-item-divider{
-        margin: 5px 0 !important;
-        background-color: #E9E9E9 !important;
-    }
-}
+
 #Footer{
     color: #ffffff;
     font-family: Source;
@@ -264,4 +243,74 @@
     position: absolute;
     top: -300px;
     left: calc((100% - (1400px / 1920px * 100%)) / 2);
+}
+
+// header下拉菜单
+.mobile-custom-drop-menu{
+    .ant-dropdown-menu-item-divider:first-child{
+        display: none;
+    }
+}
+.custom-dropmenu{
+    .ant-dropdown-menu{
+        padding: 8px 6px !important;
+        // box-shadow: none !important;
+    }
+    .ant-dropdown-menu-item{
+        height: 50px;
+        padding-left: 23px !important;
+    }
+    .ant-dropdown-menu-title-content{
+        font-weight: 500;
+    }
+    .ant-dropdown-menu-item-divider{
+        margin: 5px 0 !important;
+        background-color: #E9E9E9 !important;
+    }
+}
+
+// hover效果
+#hover-btn-full{
+    background-color: #8F5A35;
+    color: #fff;
+    &:hover{
+        background-color: #B47243;
+    }
+}
+#hover-btn-line{
+    border-color: #8F5A35;
+    color: #8F5A35;
+    span{
+        color: #8F5A35;
+    }
+    &:hover, span:hover{
+        color: #B47243;
+        border-color: #B47243;
+    }
+}
+#hover-btn-ghost{
+    color: #B17042;
+    background-color: #fff;
+    &:hover{
+        background-color: rgba(180,114,67,0.05);;
+    }
+}
+#hover-btn-tofull{
+    border-color: #8F5A35;
+    color: #8F5A35;
+    background-color: #fff;
+    &:hover{
+        border: none;
+        background-color: #B47243;
+        color: #fff;
+    }
+}
+#hover-text{ 
+    color: #4E4E4E;
+    span{
+        color: #BABABA;
+    }
+    &:hover, span{
+        color: #B47243;
+    }
 }
