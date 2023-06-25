@@ -52,11 +52,14 @@ export default function NftBox(props) {
                                         <img src={item.icon} alt="" key={item.value} />
                                     </a>
                                 </div>
-                                <div className="badge badge-opensea">
-                                    <a href={`https://opensea.io/assets/${item?.alias ? item?.alias : item?.label}/${info.contract_address}/${info.token_id}`} target="_blank">
-                                        <img src={require("@/assets/images/icon/opensea.png")} alt="" />
-                                    </a>
-                                </div>
+                                {
+                                    item.label !== "Gnosis" && 
+                                    <div className="badge badge-opensea">
+                                        <a href={`https://opensea.io/assets/${item?.alias ? item?.alias : item?.label}/${info.contract_address}/${info.token_id}`} target="_blank">
+                                            <img src={require("@/assets/images/icon/opensea.png")} alt="" />
+                                        </a>
+                                    </div>
+                                }
                                 <div className={`badge badge-eye ${info.status === 1 ? "eye-hide" : "eye-show"}`}>
                                     {
                                         info.status === 1 ?
