@@ -81,7 +81,7 @@
             "share": "Share on twitter"
         },
         "add-sbt": {
-            "title": "Add the NFT you want to display",
+            "title": "Add NFT",
             "rule": "Please enter the contract address",
             "select": "Select a Network"
         }
