@@ -5,7 +5,6 @@ import "@/assets/styles/mobile/component-style/user/challengeItem.scss"
 import { useNavigate } from "react-router-dom";
 import { constans } from "@/utils/constans";
 import { useTranslation } from "react-i18next";
-import { Rate } from "antd";
 import { convertTime } from "@/utils/convert";
 import MyContext from '@/provider/context';
 import { useContext } from 'react';
@@ -18,6 +17,7 @@ export default function ChallengeItem(props) {
     const navigateTo = useNavigate();
     // const { ipfsPath, defaultImg, openseaLink } = constans(checkType === 1 ? true : false);
     const { ipfsPath, defaultImg, openseaLink } = constans(profile?.checkType);
+    const arr = [0, 1, 2];
 
 
     const toQuest = () => {
@@ -59,6 +59,17 @@ export default function ChallengeItem(props) {
                 {t(`translation:${type}`, {time: Math.round(num)})}
             </>
         )
+    }
+
+    function Rate(num) {
+        const arr = [0, 1, 2];
+        arr.map((e,i) => {
+            if (i >= num) {
+                return <img src={require("@/assets/images/icon/star-full.png")} alt="" />
+            }else{
+                return <img src={require("@/assets/images/icon/star-line.png")} alt="" />
+            }
+        })
     }
 
     return (
@@ -103,12 +114,22 @@ export default function ChallengeItem(props) {
                     </p>
                 </div>
                 <div className="sbt-detail">
-                    <div>
+                    <div className='flex'>
                         {
                             info.metadata?.attributes?.difficulty !== null && 
                             <>
-                            <span className="mr12">{t("translation:diff")}</span>
-                            <Rate disabled defaultValue={info.metadata?.attributes?.difficulty + 1} count={3} />
+                            <span>{t("translation:diff")}</span>
+                            <div className="imgs">
+                                {
+                                    arr.map((e,i) => {
+                                        if (i >= info.metadata?.attributes?.difficulty+1) {
+                                            return <img src={require("@/assets/images/icon/star-line.png")} alt="" />
+                                        }else{
+                                            return <img src={require("@/assets/images/icon/star-full.png")} alt="" />
+                                        }
+                                    })
+                                }
+                            </div>
                             </>
                         }
                     </div>

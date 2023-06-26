@@ -62,18 +62,15 @@
         display: flex;
         justify-content: space-between;
         align-items: center;
-        .ant-rate-star-full{
-          color: #DD8C53;
+        .flex{
+          display: flex;
+          align-items: center;
+          gap: 12px;
         }
-        .ant-rate-star-zero .ant-rate-star-second{
-          color: #fff;
-          filter: drop-shadow(0px 0px 1px #DD8C53)
-        }
-        .anticon-star{
-          font-size: 21px;
-        }
-        .mr12{
-          margin-right: 12px;
+        img{
+          width: 21px;
+          height: 21px;
+          margin-right: 5px;
         }
         .time{
           color: rgba(0,0,0,0.5);
@@ -90,6 +87,7 @@
     .right-sbt {
       width: 195px;
       height: 195px;
+      border-radius: 7px;
       overflow: hidden;
       position: relative;
       .img {

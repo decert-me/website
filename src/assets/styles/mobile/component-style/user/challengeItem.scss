@@ -29,17 +29,13 @@
           }
           .sbt-detail{
             font-size: .75rem;
-            .ant-rate{
-              font-size: .625rem;
+            .flex{
+              gap: .3125rem;
             }
-            .ant-rate-star:not(:last-child){
-              margin-right: .1875rem;
-            }
-            .anticon-star{
-              font-size: .75rem;
-            }
-            .mr12{
-              margin-right: .3125rem;
+            img{
+              width: .875rem;
+              height: .875rem;
+              margin-right: .25rem;
             }
             .time{
               line-height: .625rem;
@@ -53,6 +49,7 @@
         .right-sbt {
           width: 6.125rem;
           height: 6.125rem;
+          border-radius: .1875rem;
           .opensea{
             width: 1rem;
             height: 1rem;
