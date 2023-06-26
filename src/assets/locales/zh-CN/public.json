@@ -81,7 +81,7 @@
             "share": "分享到Twitter"
         },
         "add-sbt": {
-            "title": "添加想要展示的 NFT",
+            "title": "添加NFT",
             "rule": "请输入合约地址",
             "select": "选择网络"
         }
