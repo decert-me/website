@@ -8,7 +8,6 @@ import {
 } from '@ant-design/icons';
 import "@/assets/styles/component-style/cert/modal-addsbt.scss"
 import { useEffect, useRef, useState } from "react";
-import { constans } from "@/utils/constans";
 import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { ipfsToImg } from "@/utils/IpfsToImg";
@@ -76,78 +75,46 @@ export default function AddSbt(props) {
       const checked = (id, type) => {
           changeList(id);
           let flag = true;
-          let arr = type === 1 ? addIds : deleteIds;
+          let arr = type === 2 ? deleteIds : addIds;
           arr.map((e,i) => {
               if (e === id) {
-                  arr.splice(i,1);
-                  if (type === 1) {
-                      setAddIds([...arr]);
-                  }else{
+                  arr.splice(i,2);
+                  if (type === 2) {
                       setDeleteIds([...arr]);
+                    }else{
+                      setAddIds([...arr]);
                   }
                   flag = false;
               }
           })
+
           if (!flag) {
               return
           }
           arr.push(id);
-          if (type === 1) {
-              setAddIds([...arr]);
-          }else{
+          if (type === 2) {
               setDeleteIds([...arr]);
+            }else{
+              setAddIds([...arr]);
           }
       }
-  
-      const addNft = () => {
-          new Promise((resolve, reject) => {
-              if (addIds.length > 0) {
-                  flagNft({
-                      ids: addIds,
-                      flag: 2
-                  })
-                  .then(res => {
-                      resolve();
-                  })
-              }else{
-                  resolve();
-              }
-          });
-      }
         
-      const reduceNft = () => {
-        new Promise((resolve, reject) => {
-            if (deleteIds.length > 0) {
-                flagNft({
-                    ids: deleteIds,
-                    flag: 1
-                })
-                .then(res => {
-                    resolve();
-                })
-            }else{
-                resolve();
-            }
-        });
-      }
-  
       const confirm = () => {
           setLoading(true);
-          const promise1 = addNft();
-          const promise2 = reduceNft();
-          Promise.all([promise1, promise2])
-          .then(results => {
-              // 处理结果
-              setLoading(false);
-              handleCancel && handleCancel()
-              setTimeout(() => {
-                navigateTo(0);
-              }, 500);
+          flagNft({
+            chain: config.chainId,
+            contract_address: config.address,
+            hide_ids: deleteIds,
+            show_ids: addIds
+          }).then(res => {
+            setLoading(false);
+            handleCancel && handleCancel()
+            setTimeout(() => {
+            navigateTo(0);
+            }, 500);
+          }).catch(err => {
+            setLoading(false);
           })
-          .catch(error => {
-                setLoading(false);
-              // 处理错误
-          });
       }
   
       const changeConfig = (v, key) => {
@@ -195,6 +162,19 @@ export default function AddSbt(props) {
             console.log(err);
             setisLoading(false);
         })
+    }
+
+    function EyeStatus({cacheStatus, id}) {
+        // 判断当前id是否存在操作cache
+        const isAdd = addIds.some(e => e === id);
+        const isDel = deleteIds.some(e => e === id);
+        let isHide = cacheStatus === 1; //  true 隐藏 : false 显示
+        if (isAdd) {
+            isHide = false;
+        }else if (isDel) {
+            isHide = true;
+        }
+        return isHide
     }
 
     useEffect(() => {
@@ -283,14 +263,17 @@ export default function AddSbt(props) {
                                         }
                                     </div> */}
                                     <div 
-                                        className={`badge ${cache[i].flag === 2 ? "show" : ""}`}
-                                        onClick={() => checked(e.id,e.flag)}
+                                        className={`badge ${EyeStatus({
+                                            cacheStatus: cache[i].status, 
+                                            id: e.id
+                                        }) ? "show" : ""}`}
+                                        onClick={() => checked(e.id, e.status, e)}
                                     >
                                         {
-                                            cache[i].flag === 2 ? 
-                                            <EyeInvisibleOutlined />
-                                            :
-                                            <EyeOutlined />
+                                            EyeStatus({
+                                                cacheStatus: cache[i].status, 
+                                                id: e.id
+                                            }) ? <EyeInvisibleOutlined /> : <EyeOutlined />
                                         }
                                     </div>
                                 </div>    
