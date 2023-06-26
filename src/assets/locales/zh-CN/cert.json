@@ -1,6 +1,7 @@
 {
     "vitae": {
-        "title": "查查你“码”过什么？",
+        "title": "查查你",
+        "title2": "过什么?",
         "subtitle": "你的Web3 履历与信誉门户",
         "inner": "通过钱包地址/ENS检索",
         "btn": "开始检索"
