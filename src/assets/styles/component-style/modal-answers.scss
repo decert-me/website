@@ -21,15 +21,28 @@
         flex-wrap: wrap;
     }
     .success{
-        background-color: rgba(67,180,114,0.2);
         color: #43B472;
+        background-color: #43B4721A;
+        transition: background-color 0.2s;
+        &:hover{
+            background-color: #43B47233;
+        }
     }
     .normal{
-        background-color: rgba(0,0,0,0.1);
+        color: #777777;
+        background-color: #0000000D;
+        transition: background-color 0.2s;
+        &:hover{
+            background-color: #00000026;
+        }
     }
     .error{
-        background-color: rgba(197,79,79,0.2);
-        color: #C54F4F;
+        color: #DE4040;
+        background-color: #DE40401A;
+        transition: background-color 0.2s;
+        &:hover{
+            background-color: #DE404033;
+        }
     }
     .fc-success{
         color: #43B472;
