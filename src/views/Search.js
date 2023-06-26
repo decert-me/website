@@ -51,17 +51,14 @@ export default function Search(params) {
             <div className="round1" />
             <div className="round2" />
             <div className="Search-content">
-                {
-                    i18n.language === "zh-CN" ?
-                    <>
-                        <p className="title fs-zh">{t("vitae.title")}<span>“码”</span>{t("vitae.title2")}</p>
-                    </>
-                    :
-                    <>
-                        <p className="title">{t("vitae.title")}</p>
-                        <p className="title color-primary">{t("vitae.title2")}</p>
-                    </>
-                }
+                <div className="title">
+                    {
+                        i18n.language === "zh-CN" ?
+                        <img src={require("@/assets/images/img/search-title-zh.png")} alt="" />
+                        :
+                        <img src={require("@/assets/images/img/search-title-en.png")} alt="" />
+                    }
+                </div>
                 <p className="subtitle">{t("vitae.subtitle")}</p>
                 <div className="inner">
                     <div className="icon">

@@ -95,29 +95,14 @@ export default function Index(params) {
             <div className="main">
                 <div className="main-center">
                     <div className="main-header">
-                        <h1 className={`describe color-primary ${i18n.language === "zh-CN" ? "fs-big" : ""}`}>
-                            {t("home.slogan1")}
-                        </h1>
-                        {
-                            i18n.language !== "zh-CN" &&
-                                <h1 className="describe color-primary mt-10 textline">
-                                    {t("home.slogan11")}
-                                </h1>
-                        }
-                        {
-                            i18n.language !== "zh-CN" ?
-                                <>
-                                    {/* 英文下划线 */}
-                                    <div className="line en-textline1"></div>
-                                    <div className="line en-textline2"></div>
-                                </>
+                        <div className={`describe ${i18n.language === "zh-CN" ? "fs-big" : ""}`}>
+                            {
+                                i18n.language === "zh-CN" ? 
+                                <img src={require("@/assets/images/img/home-title-zh.png")} alt="" />
                                 :
-                                <>
-                                    {/* 中文下划线 */}
-                                    <div className="line zh-textline1"></div>
-                                    <div className="line zh-textline2"></div>
-                                </>
-                        }
+                                <img src={require("@/assets/images/img/home-title-en.png")} alt="" />
+                            }
+                        </div>
                     </div>
                         <h2 className="text">{t("home.slogan2")}</h2>
 

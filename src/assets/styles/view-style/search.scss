@@ -29,18 +29,10 @@
         z-index: 1;
         position: relative;
         .title{
-            font-size: 142px;
-            font-family: Arial Black-Regular, Arial Black;
-            line-height: 167px;
-            color: #342C26;
-            font-weight: 900;
-        }
-        .fs-zh{
-            margin-top: 120px;
-            font-family: PingFang;
-            font-size: 121px;
-            span{
-                color: #966137;
+            max-width: 1026px;
+            margin: 0 auto;
+            img{
+                width: 100%;
             }
         }
         .color-primary{

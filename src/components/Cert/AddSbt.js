@@ -102,7 +102,7 @@ export default function AddSbt(props) {
       const confirm = () => {
           setLoading(true);
           flagNft({
-            chain: config.chainId,
+            chain_id: config.chainId,
             contract_address: config.address,
             hide_ids: deleteIds,
             show_ids: addIds

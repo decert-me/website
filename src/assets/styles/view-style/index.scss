@@ -41,28 +41,9 @@
       .describe {
         max-width: 964px;
         margin: 0 auto;
-        text-align: center;
-        font-size: 124px;
-        line-height: 160px;
-        color: #8B522A;
-        font-weight: 600;
-        letter-spacing: -5px;
-        font-weight: 900;
-        position: relative;
-        z-index: 2;
-      }
-      h1{
-        margin-bottom: 34px;
-        font-family: Arial Black-Regular, Arial Black;
-      }
-      .mt-10{
-        margin-top: -35px;
-      }
-      .color-primary{
-        background: linear-gradient(175deg, #CDAF7A 0%, #884E26 100%);
-        -webkit-background-clip: text;
-        background-clip: text;
-        -webkit-text-fill-color: transparent;
+        img{
+          width: 100%;
+        }
       }
       // text
       .text {
