@@ -54,7 +54,10 @@ export default function CertNfts(props) {
                             className={`${selectItem === 0 ? "active" : ""}`}
                             onClick={() => change(0)}
                         >
-                            <div></div>
+                            {/* <div></div> */}
+                            <div className="img">
+                                <img src={require("@/assets/images/icon/all-sbt.png")} alt="" />
+                            </div>
                             <p className="li-content">{t("cert:sidbar.list.all")}</p>
                             <p>({total ? total : 0})</p>
                             {

@@ -26,13 +26,25 @@ export default function CustomIcon(props) {
         <path d="M512 625.664L131.584 245.248c-28.16-28.16-73.216-28.16-101.376 0s-28.16 73.216 0 101.376l420.864 420.864c2.56 4.096 5.632 7.68 9.216 11.264 14.336 14.336 32.768 21.504 51.712 20.992 18.432 0 37.376-6.656 51.712-20.992 3.584-3.584 6.656-7.168 9.216-11.264l420.864-420.864c13.824-13.824 20.992-32.256 20.992-50.688 0-18.432-7.168-36.864-20.992-50.688-28.16-28.16-73.216-28.16-101.376 0L512 625.664z" p-id="1918"></path>
       </svg>
     )
+    const search = (
+      <svg width="1em" height="1em" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <g id="&#231;&#180;&#160;&#230;&#157;&#144;">
+        <rect width="1348" height="1391" transform="translate(-68 -914)" fill="white"/>
+        <g id="Group 319">
+        <circle id="Ellipse 2" cx="7" cy="7" r="6" stroke="black" stroke-opacity="0.5" stroke-width="1.5"/>
+        <path id="Vector 3" d="M11.5 11.5L15 15" stroke="black" stroke-opacity="0.5" stroke-width="1.5"/>
+        </g>
+        </g>
+      </svg>
+    )
     
 
     const icons = {
       "icon-discord": discord,
       "icon-close": close,
       "icon-share": share,
-      "icon-arrow": arrow
+      "icon-arrow": arrow,
+      "icon-search": search
     }
 
     return(

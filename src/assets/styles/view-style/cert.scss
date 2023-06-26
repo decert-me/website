@@ -238,7 +238,7 @@
         display: flex;
         color: #666666;
         font-size: 24px;
-        font-weight: 500;
+        font-weight: 400;
         line-height: 34px;
         li{
             margin-right: 50px;
@@ -246,6 +246,7 @@
         }
         .active{
             color: #000;
+            font-weight: 500;
         }
     }
     .nfts{

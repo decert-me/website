@@ -17,28 +17,28 @@ export default function NftBox(props) {
         process.env.REACT_APP_IPFS_GATEWAY
         );
 
-    const items = [
-        {
-          key: '1',
-          label: (
-                // <div onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}><EyeOutlined />取消隐藏</div>
-                // :
-                // <div><EyeInvisibleOutlined />隐藏</div>
-                <div onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}>
-                    {
-                        info.status === 1 ?
-                        <>
-                        <EyeOutlined />&nbsp;{t("sidbar.list.unhide")}
-                        </>
-                        :
-                        <>
-                        <EyeInvisibleOutlined />&nbsp;{t("sidbar.list.hide")}
-                        </>
-                    }
-                </div>
-          ),
-        }
-    ]
+    // const items = [
+    //     {
+    //       key: '1',
+    //       label: (
+    //             // <div onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}><EyeOutlined />取消隐藏</div>
+    //             // :
+    //             // <div><EyeInvisibleOutlined />隐藏</div>
+    //             <div onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}>
+    //                 {
+    //                     info.status === 1 ?
+    //                     <>
+    //                     <EyeOutlined />&nbsp;{t("sidbar.list.unhide")}
+    //                     </>
+    //                     :
+    //                     <>
+    //                     <EyeInvisibleOutlined />&nbsp;{t("sidbar.list.hide")}
+    //                     </>
+    //                 }
+    //             </div>
+    //       ),
+    //     }
+    // ]
 
     return (
         <div className="nft-detail">
@@ -60,13 +60,19 @@ export default function NftBox(props) {
                                         </a>
                                     </div>
                                 }
-                                <div className={`badge badge-eye ${info.status === 1 ? "eye-hide" : "eye-show"}`}>
-                                    {
-                                        info.status === 1 ?
-                                        <EyeInvisibleOutlined />:
-                                        <EyeOutlined />
-                                    }
-                                </div>
+                                {
+                                    isMe &&
+                                    <div 
+                                        className={`badge badge-eye ${info.status === 1 ? "eye-hide" : "eye-show"}`}
+                                        onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}
+                                    >
+                                        {
+                                            info.status === 1 ?
+                                            <EyeInvisibleOutlined />:
+                                            <EyeOutlined />
+                                        }
+                                    </div>
+                                }
                             </div>
                         )
                     }
@@ -84,29 +90,6 @@ export default function NftBox(props) {
                         '#'+info.token_id
                     }
                 </p>
-                {
-                    isMe &&
-                    <div className="bottom">
-                        {
-                            info.status === 1 ?
-                            <p>{t("sidbar.list.hide")}</p>
-                            :
-                            <p>{t("sidbar.list.public")}</p>
-                        }
-                        <Dropdown
-                            className='dropdown'
-                            menu={{
-                            items
-                            }}
-                            placement="topLeft"
-                            trigger={['click']}
-                        >
-                            <div className="more">
-                                <MoreOutlined className="icon" />
-                            </div>
-                        </Dropdown>
-                    </div>
-                }
             </div>
         </div>
     )

@@ -7,6 +7,7 @@ import { Input } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useNavigate, useParams } from "react-router-dom";
+import CustomIcon from "../CustomIcon";
 
 export default function CertSearch(props) {
 
@@ -46,7 +47,7 @@ export default function CertSearch(props) {
                 {t("sidbar.search")}
             </p>
             <div className="search-inner">
-                <SearchOutlined className="icon" />
+                <CustomIcon type="icon-search" className="icon" />
                 <Input 
                     allowClear={{
                         clearIcon: <CloseOutlined style={{color: "#00000080"}} />

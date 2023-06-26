@@ -272,9 +272,12 @@ export default function Cert(params) {
                                 list.length === 0 &&
                                 <div className="nodata">
                                     <p>{t("cert:sidbar.nodata")}</p>
-                                    <Button onClick={goAddSbt} id="hover-btn-line">
-                                        {t("cert:sidbar.list.add")}
-                                    </Button>
+                                    {
+                                        isMe && 
+                                        <Button onClick={goAddSbt} id="hover-btn-line">
+                                            {t("cert:sidbar.list.add")}
+                                        </Button>
+                                    }
                                 </div>
                             }
                             {
