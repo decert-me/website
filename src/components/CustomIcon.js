@@ -31,8 +31,8 @@ export default function CustomIcon(props) {
         <g id="&#231;&#180;&#160;&#230;&#157;&#144;">
         <rect width="1348" height="1391" transform="translate(-68 -914)" fill="white"/>
         <g id="Group 319">
-        <circle id="Ellipse 2" cx="7" cy="7" r="6" stroke="black" stroke-opacity="0.5" stroke-width="1.5"/>
-        <path id="Vector 3" d="M11.5 11.5L15 15" stroke="black" stroke-opacity="0.5" stroke-width="1.5"/>
+        <circle id="Ellipse 2" cx="7" cy="7" r="6" stroke="black" strokeOpacity="0.5" strokeWidth="1.5"/>
+        <path id="Vector 3" d="M11.5 11.5L15 15" stroke="black" strokeOpacity="0.5" strokeWidth="1.5"/>
         </g>
         </g>
       </svg>
