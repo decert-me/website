@@ -23,7 +23,6 @@ export default function AddSbt(props) {
     
     const { handleCancel, isMobile } = props;
     const scrollRef = useRef(null);
-    const { chains } = constans();
     const navigateTo = useNavigate();
     const { t } = useTranslation(["translation", "cert"]);
     let [options, setOptions] = useState();
@@ -274,19 +273,21 @@ export default function AddSbt(props) {
                                 <div 
                                     className={`box ${cache[i].flag === 2 ? "box-active" : ""}`}
                                     key={e.id}
-                                    onClick={() => checked(e.id,e.flag)}
                                 >
                                     {ipfsToImg(e)}
                                     <p>{e.name}</p>
-                                    <div className="checkbox">
+                                    {/* <div className="checkbox">
                                         {
                                             cache[i].flag === 2 &&
                                             <CheckOutlined />
                                         }
-                                    </div>
-                                    <div className={`badge ${e.status === 1 ? "show" : ""}`}>
+                                    </div> */}
+                                    <div 
+                                        className={`badge ${cache[i].flag === 2 ? "show" : ""}`}
+                                        onClick={() => checked(e.id,e.flag)}
+                                    >
                                         {
-                                            e.status === 1 ? 
+                                            cache[i].flag === 2 ? 
                                             <EyeInvisibleOutlined />
                                             :
                                             <EyeOutlined />
