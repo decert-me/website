@@ -266,8 +266,8 @@ function CustomCode(props, ref) {
                         #{index + 1}
                         <strong>{question.title}</strong>
                     </h4>
-                    <div className="code-desc custom-scroll">
-                        <div className="code-content">
+                    <div className="code-desc">
+                        <div className="code-content custom-scroll">
                             <CustomViewer label={question.description} />
                         </div>
                     </div>

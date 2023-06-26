@@ -59,6 +59,7 @@ $container-width: 22.5rem;
         .content{
             width: $container-width;
             height: calc(100vh - 5rem - 7.8125rem);
+            margin: 0 auto;
             .challenge-title{
                 padding: 1.25rem 1.125rem .3125rem;
                 margin-bottom: .9375rem;
@@ -121,6 +122,11 @@ $container-width: 22.5rem;
                 width: 1.5rem;
                 height: 1.5rem;
             }
+            .ant-radio-inner::after{
+                width: .375rem;
+                height: .625rem;
+                border-width: .125rem;
+            }
         }
     }
     
@@ -141,10 +147,17 @@ $container-width: 22.5rem;
                 height: 1.5rem;
                 margin-top: -0.125rem;
             }
+            .ant-checkbox-inner::after{
+                width: .375rem;
+                height: .625rem;
+                left: 30%;
+                border-width: .125rem;
+            }
         }
     }
     
     .CustomCode{
+        width: 100%;
         gap: .625rem;
         flex-direction: column;
         padding-bottom: 5rem;
