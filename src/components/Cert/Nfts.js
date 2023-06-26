@@ -43,7 +43,7 @@ export default function CertNfts(props) {
                 isMe &&
                 <div className="add">
                     <p>{t("cert:sidbar.list.add")}</p>
-                    <Button onClick={() => goAddSbt()}>+</Button>
+                    <Button id="hover-btn-full" onClick={() => goAddSbt()}>+</Button>
                 </div>
             }
             {

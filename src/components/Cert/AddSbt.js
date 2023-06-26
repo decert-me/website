@@ -314,6 +314,7 @@ export default function AddSbt(props) {
             </div>
             <Button 
                 loading={loading}
+                id="hover-btn-line"
                 className="confirm" 
                 onClick={() => confirm()} 
                 // disabled={addIds.length === 0 && deleteIds.length === 0} 

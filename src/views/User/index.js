@@ -224,7 +224,7 @@ export default function User(props) {
                         {
                             isMe &&
                             <Link to={`/user/edit/${address}`}>
-                                <Button className="btn">
+                                <Button className="btn" id="hover-btn-full">
                                     <EditOutlined />
                                     {t("translation:btn-edit-profile")}
                                 </Button>

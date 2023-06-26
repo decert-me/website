@@ -62,7 +62,7 @@ export default function Search(params) {
                         <SearchOutlined />
                     </div>
                     <Input placeholder={t("vitae.inner")} bordered={null} value={account} onChange={(e) => changeAccount(e.target.value.trim())} />
-                    <Button onClick={() => start()} loading={isLoading} >{t("vitae.btn")}</Button>
+                    <Button id="hover-btn-full" onClick={() => start()} loading={isLoading} >{t("vitae.btn")}</Button>
                 </div>
                 <ul className="example">
                     {
