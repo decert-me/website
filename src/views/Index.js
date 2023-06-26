@@ -95,7 +95,7 @@ export default function Index(params) {
             <div className="main">
                 <div className="main-center">
                     <div className="main-header">
-                        <h1 className="describe color-primary">
+                        <h1 className={`describe color-primary ${i18n.language === "zh-CN" ? "fs-big" : ""}`}>
                             {t("home.slogan1")}
                         </h1>
                         {
