@@ -35,6 +35,18 @@ export default function CustomClaimInfo(props) {
                                 className={(answerInfo.isPass || isClaim) ? "pass" : "unpass"}
                                 percent={percent}
                                 width={isMobile ? 126 : 208}
+                                strokeColor={
+                                    answerInfo.isPass ? 
+                                    {
+                                        '0%': '#5AD68D',
+                                        '100%': '#43B472',
+                                    }
+                                    :
+                                    {
+                                        '0%': '#F46565',
+                                        '100%': '#B64444',
+                                    }
+                                }
                                 format={(percent) => (
                                     <>
                                         {percent}
