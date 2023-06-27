@@ -10,7 +10,8 @@ export default function Lesson(params) {
     let [tutorials, setTutorials] = useState([]);
 
     function init(params) {
-        axios.get("https://api.decert.me/tutorial-list/")
+        const host = window.location.host;
+        axios.get(`${host}/tutorial/tutorials.json`)
         .then(res => {
             tutorials = res.data;
             setTutorials([...tutorials]);
