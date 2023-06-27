@@ -13,6 +13,7 @@ export default function Info(props) {
     const { t } = useTranslation(["explore","translation","publish"]);
     const navigateTo = useNavigate();
     let [user, setuser] = useState();
+    const arr = [0, 1, 2];
 
     function goChallenge() {
         navigateTo(`/challenge/${detail.tokenId}`)
@@ -67,7 +68,13 @@ export default function Info(props) {
                     <div className="info-content">
                         {
                             detail.metadata.properties?.difficulty !== null &&
-                            <Rate disabled defaultValue={detail.metadata.properties.difficulty + 1} count={3} />
+                            arr.map((e,i) => {
+                                if (i >= detail.metadata.properties.difficulty + 1) {
+                                    return <img key={i} src={require("@/assets/images/icon/star-line.png")} alt="" />
+                                }else{
+                                    return <img key={i} src={require("@/assets/images/icon/star-full.png")} alt="" />
+                                }
+                            })
                         }
                     </div>
                 </li>

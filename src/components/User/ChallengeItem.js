@@ -61,17 +61,6 @@ export default function ChallengeItem(props) {
         )
     }
 
-    function Rate(num) {
-        const arr = [0, 1, 2];
-        arr.map((e,i) => {
-            if (i >= num) {
-                return <img src={require("@/assets/images/icon/star-full.png")} alt="" />
-            }else{
-                return <img src={require("@/assets/images/icon/star-line.png")} alt="" />
-            }
-        })
-    }
-
     return (
         <div className="ChallengeItem" onClick={toQuest}>
             {
@@ -123,9 +112,9 @@ export default function ChallengeItem(props) {
                                 {
                                     arr.map((e,i) => {
                                         if (i >= info.metadata?.attributes?.difficulty+1) {
-                                            return <img src={require("@/assets/images/icon/star-line.png")} alt="" />
+                                            return <img key={i} src={require("@/assets/images/icon/star-line.png")} alt="" />
                                         }else{
-                                            return <img src={require("@/assets/images/icon/star-full.png")} alt="" />
+                                            return <img key={i} src={require("@/assets/images/icon/star-full.png")} alt="" />
                                         }
                                     })
                                 }
@@ -135,7 +124,7 @@ export default function ChallengeItem(props) {
                     </div>
                     <div className="time">
                         {
-                            info.quest_data?.estimateTime !== null && 
+                            info.quest_data?.estimateTime && info.quest_data?.estimateTime !== null && 
                             <>
                                 <ClockCircleFilled />
                                 {getTimeDiff(info.quest_data?.estimateTime)}
