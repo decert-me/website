@@ -10,7 +10,7 @@ export default function Lesson(params) {
     let [tutorials, setTutorials] = useState([]);
 
     function init(params) {
-        const host = window.location.host;
+        const host = window.location.origin;
         axios.get(`${host}/tutorial/tutorials.json`)
         .then(res => {
             tutorials = res.data;
