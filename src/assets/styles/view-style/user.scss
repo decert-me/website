@@ -147,4 +147,29 @@
             line-height: 24px;
         }
     }
+    .ant-pagination{
+        margin-top: 45px;
+        .ant-pagination-item{
+            background-color: #F2F3F4;
+            border-radius: 5px;
+            &:hover{
+                background-color: #F2F3F4;
+                a{
+                    color: #000;
+                }
+            }
+        }
+        // 选中
+        .ant-pagination-item-active{
+            border: none;
+            background-color: #fff;
+            a{
+                color: #000;
+                font-weight: normal;
+            }
+        }
+    }
+}
+main{
+    background-color: #F9F9F9 !important;
 }
