@@ -79,7 +79,6 @@ export default function User(props) {
                 claimableArr = JSON.parse(claimable);
             }
             if (claimableArr && claimableArr.length > 0) {
-                console.log(claimableArr);
                 list.map(e => {
                     claimableArr.map((ele,index) => {
                         if (e.tokenId == ele.token_id && e.claimed) {
