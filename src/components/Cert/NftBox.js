@@ -4,7 +4,7 @@ import {
     EyeInvisibleOutlined,
     MoreOutlined
   } from '@ant-design/icons';
-import { Dropdown } from 'antd';
+import { Dropdown, Tooltip } from 'antd';
 import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
@@ -16,29 +16,6 @@ export default function NftBox(props) {
     let [gateway, setGateway] = useState(
         process.env.REACT_APP_IPFS_GATEWAY
         );
-
-    // const items = [
-    //     {
-    //       key: '1',
-    //       label: (
-    //             // <div onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}><EyeOutlined />取消隐藏</div>
-    //             // :
-    //             // <div><EyeInvisibleOutlined />隐藏</div>
-    //             <div onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}>
-    //                 {
-    //                     info.status === 1 ?
-    //                     <>
-    //                     <EyeOutlined />&nbsp;{t("sidbar.list.unhide")}
-    //                     </>
-    //                     :
-    //                     <>
-    //                     <EyeInvisibleOutlined />&nbsp;{t("sidbar.list.hide")}
-    //                     </>
-    //                 }
-    //             </div>
-    //       ),
-    //     }
-    // ]
 
     return (
         <div className="nft-detail">
@@ -62,6 +39,11 @@ export default function NftBox(props) {
                                 }
                                 {
                                     isMe &&
+                                    <Tooltip
+                                            title={
+                                                info.status === 1 ? t("cert:sidbar.list.hide") : t("cert:sidbar.list.public")
+                                            }
+                                        >
                                     <div 
                                         className={`badge badge-eye ${info.status === 1 ? "eye-hide" : "eye-show"}`}
                                         onClick={() => changeNftStatus(info.id, info.status === 1 ? 2 : 1)}
@@ -72,6 +54,7 @@ export default function NftBox(props) {
                                             <EyeOutlined />
                                         }
                                     </div>
+                                    </Tooltip>
                                 }
                             </div>
                         )

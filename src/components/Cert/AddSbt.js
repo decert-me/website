@@ -1,4 +1,4 @@
-import { Button, Divider, Input, Select, Space, Spin } from "antd";
+import { Button, Divider, Input, Select, Space, Spin, Tooltip } from "antd";
 import {
     CheckOutlined,
     SearchOutlined,
@@ -256,12 +256,14 @@ export default function AddSbt(props) {
                                 >
                                     {ipfsToImg(e)}
                                     <p>{e.name}</p>
-                                    {/* <div className="checkbox">
-                                        {
-                                            cache[i].flag === 2 &&
-                                            <CheckOutlined />
-                                        }
-                                    </div> */}
+                                        <Tooltip 
+                                            title={
+                                                EyeStatus({
+                                                    cacheStatus: cache[i].status, 
+                                                    id: e.id
+                                                }) ? t("cert:sidbar.list.hide") : t("cert:sidbar.list.public")
+                                            }
+                                        >
                                     <div 
                                         className={`badge ${EyeStatus({
                                             cacheStatus: cache[i].status, 
@@ -269,13 +271,16 @@ export default function AddSbt(props) {
                                         }) ? "show" : ""}`}
                                         onClick={() => checked(e.id, e.status, e)}
                                     >
-                                        {
-                                            EyeStatus({
-                                                cacheStatus: cache[i].status, 
-                                                id: e.id
-                                            }) ? <EyeInvisibleOutlined /> : <EyeOutlined />
-                                        }
+                                        {/* 0xc8e9cd4921e54c4163870092ca8d9660e967b53d */}
+                                        
+                                            {
+                                                EyeStatus({
+                                                    cacheStatus: cache[i].status, 
+                                                    id: e.id
+                                                }) ? <EyeInvisibleOutlined /> : <EyeOutlined />
+                                            }
                                     </div>
+                                        </Tooltip>
                                 </div>    
                             )
                             }
