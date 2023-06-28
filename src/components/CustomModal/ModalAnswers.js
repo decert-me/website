@@ -42,6 +42,7 @@ export default function ModalAnswers(props) {
                     return
                 }else if (typeof realAnswer[i] === "object") {
                     // 多选
+                    // if (e.value?.length !== realAnswer[i]?.length) {
                     if (e.value.length !== realAnswer[i].length) {
                         statusAnswer[i] = "error";
                         return
