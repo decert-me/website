@@ -5,8 +5,8 @@ import { NickName } from "@/utils/NickName";
 import {
     CopyOutlined
 } from '@ant-design/icons';
-import { Button, Skeleton } from "antd";
-import { useEffect, useState } from "react";
+import { Button, Divider, Skeleton, Tooltip } from "antd";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { useUpdateEffect } from "ahooks";
@@ -19,6 +19,9 @@ export default function CertUser(props) {
     const { t } = useTranslation(["translation","profile", "explore"]);
     let [socials, setSocials] = useState();
     let [info, setInfo] = useState();
+    const imgs = {
+      discord: require("@/assets/images/img/discord-block.png")
+    }
 
 
     const share = () => {
@@ -61,29 +64,43 @@ export default function CertUser(props) {
     <div className="user">
       {info ? (
         <>
-         <div className="avatar">
-            <div className="img">
-              <img src={info.avatar} alt="" />
+         <div className="user-content">
+            <div className="avatar">
+              <div className="img">
+                <img src={info.avatar} alt="" />
+              </div>
+            </div>
+            <div className="user-info">
+              <p className="name">
+                {info.nickname ? info.nickname : NickName(info.address)}
+              </p>
+              <p
+                className="address"
+                onClick={() =>
+                  Copy(ensParse.address, t("message.success.copy-addr"))
+                }
+              >
+                {NickName(ensParse.address)}
+                <CopyOutlined />
+              </p>
             </div>
           </div>
-          <div className="user-info">
-            <p className="name">
-              {info.nickname ? info.nickname : NickName(info.address)}
-            </p>
-            <p
-              className="address"
-              onClick={() =>
-                Copy(ensParse.address, t("message.success.copy-addr"))
+          <div className="social">
+            <div className="items">
+              {
+                socials && Object.keys(socials).map((key) => 
+                  <Tooltip key={key} title={`@${socials[key].username}`}>
+                    <div className="item">
+                      <img src={imgs[key]} alt="" />
+                    </div>
+                  </Tooltip>
+                )
               }
-            >
-              {NickName(ensParse.address)}
-              <CopyOutlined style={{ color: "#3C6EB9", marginLeft: "12px" }} />
-            </p>
-            
+            </div>
+            <Divider type="vertical" />
             <Button className="share" onClick={share} disabled={!ensParse.address}>
               <CustomIcon type="icon-share" />
             </Button>
-
           </div>
         </>
       ) : (

@@ -1,4 +1,4 @@
-import { message, Avatar, Button } from "antd";
+import { message } from "antd";
 import {
     TwitterOutlined,
     DownOutlined
@@ -91,10 +91,19 @@ export default function Index(params) {
 
     return (
         <div className="Home ">
-            <div className="header-bg1"></div>
+            <div className="custom-bg-round"></div>
             <div className="main">
                 <div className="main-center">
-                        <h1 className="describe">{t("home.slogan1")}</h1>
+                    <div className="main-header">
+                        <div className={`describe ${i18n.language === "zh-CN" ? "fs-big" : ""}`}>
+                            {
+                                i18n.language === "zh-CN" ? 
+                                <img src={require("@/assets/images/img/home-title-zh.png")} alt="" />
+                                :
+                                <img src={require("@/assets/images/img/home-title-en.png")} alt="" />
+                            }
+                        </div>
+                    </div>
                         <h2 className="text">{t("home.slogan2")}</h2>
 
                         {/* social */}

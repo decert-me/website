@@ -4,7 +4,8 @@ import TestCase from "./TestCase";
 import Console from "./Console";
 import { Button, Dropdown, Space } from "antd";
 import {
-    UpOutlined
+    UpOutlined,
+    CaretRightOutlined
   } from '@ant-design/icons';
 import { useTranslation } from "react-i18next";
 
@@ -82,7 +83,9 @@ function CustomConsole(props, ref) {
                     </Space>
                     </a>
                 </Dropdown>
-                <Button loading={loading} onClick={() => runCode()}>{t("inner.run-code")}</Button>
+                <Button loading={loading} onClick={() => runCode()}>
+                    <CaretRightOutlined />{t("inner.run-code")}
+                </Button>
             </div>
         </>
     )

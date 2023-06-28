@@ -3,7 +3,14 @@ import { createStore } from 'redux';
 const initialState = {
   isShow: false,
   isConnect: false,
-  isMobile: false
+  isMobile: false,
+  user: {
+    nickname: "",
+    address: "",
+    description: "",
+    avatar: "",
+    socials: null
+  }
 };
 
 function reducer(state = initialState, action) {
@@ -28,6 +35,11 @@ function reducer(state = initialState, action) {
         ...state, 
         isMobile: action.payload
       }
+    case 'SET_USER':
+      return {
+        ...state,
+        user: action.payload
+      }
     default:
       return state;
   }
@@ -49,6 +61,10 @@ export function hideCustomSigner() {
 
 export function setMobile(isMobile) { 
   return { type: 'SET_MOBILE', payload: isMobile }; 
+}
+
+export function setUser(user) { 
+  return { type: 'SET_USER', payload: user }; 
 }
 
 export default store;

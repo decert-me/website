@@ -19,9 +19,10 @@ export default function DefaultLayout(params) {
     const { address } = useAccount();
     const navigateTo = useNavigate();
     const location = useLocation();
-    const { isMobile } = useContext(MyContext);
+    const { isMobile, user } = useContext(MyContext);
     const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
+    let [vh, setVh] = useState(100);
 
     const headerStyle = {
         width: "100%",
@@ -35,8 +36,10 @@ export default function DefaultLayout(params) {
     };
       
     const contentStyle = {
-        minHeight: isMobile ? "calc(100vh - 108px)" : "calc(100vh - 300px)",
-        backgroundColor: location.pathname === "/tutorials" ? "#F6F7F9" : '#fff',
+        backgroundColor: location.pathname.indexOf("user") === -1 ? '#fff' : "#F9F9F9",
+        overflow: "hidden",
+        display: "grid",
+        gridTemplateRows: `minmax(${vh}vh, auto)`,
     };
       
     const footerStyle = {
@@ -126,10 +129,20 @@ export default function DefaultLayout(params) {
     });
 
     const footerChange = () => {
-        if (location.pathname === "/publish" || location.pathname.indexOf("/quests") !== -1 || (isMobile && location.pathname.indexOf("/challenge") !== -1)) {
+        if (location.pathname === "/publish" || location.pathname.indexOf("/quests") !== -1 || (location.pathname.indexOf("/challenge") !== -1)) {
             return true
         }
         return false
+    }
+
+    function zoomVh(params) {
+        if (window.screen.width <= 1770 && window.screen.width >= 1024) {
+            const zoom = Math.round(window.screen.width / 1770 * 10) / 10;
+            vh = 1 / zoom * 100;
+            setVh(vh);
+        }else{
+            setVh(100)
+        }
     }
 
     useEffect(() => {
@@ -139,15 +152,23 @@ export default function DefaultLayout(params) {
     },[address])
 
     useEffect(() => {
+        zoomVh()
         window.scrollTo(0, 0);
         footerHide = footerChange() ? true : false;
         setFooterHide(footerHide);
     },[location])
 
+    useEffect(() => {
+        window.addEventListener("resize", zoomVh);
+        return () => {
+          window.removeEventListener("resize", zoomVh);
+        };
+    }, []);
+
     return (
         <Layout className={isMobile ? "Mobile" : ""}>
             <Header style={headerStyle}>
-                <AppHeader isMobile={isMobile} />
+                <AppHeader isMobile={isMobile} user={user} />
             </Header>
             <Content style={contentStyle}>
                 { outlet }

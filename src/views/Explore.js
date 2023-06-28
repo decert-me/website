@@ -1,22 +1,17 @@
 import { useEffect, useRef, useState } from "react"
-import { Col, Row, Button, Spin } from "antd";
 import { useNavigate } from "react-router-dom";
 import { getQuests } from "../request/api/public"
-import { LazyLoadImage } from 'react-lazy-load-image-component';
 import "@/assets/styles/view-style/explore.scss"
 import "@/assets/styles/mobile/view-style/explore.scss"
-import { useAccount } from "wagmi";
 import { useTranslation } from "react-i18next";
-import { constans } from "@/utils/constans";
 import store from "@/redux/store";
 import InfiniteScroll from "@/components/InfiniteScroll";
+import ChallengeItem from "@/components/User/ChallengeItem";
 
 export default function Explore(params) {
     
-    const { t } = useTranslation(["explore"]);
-    const { address } = useAccount();
+    const { t } = useTranslation(["explore", "translation"]);
     const navigateTo = useNavigate();
-    const { ipfsPath, defaultImg } = constans();
     const scrollRef = useRef(null);
     
     let [page, setPage] = useState(0);
@@ -69,82 +64,28 @@ export default function Explore(params) {
         setChallenges([...challenges]);
     }
 
-    // const io = new IntersectionObserver(ioes => {
-    //     ioes.forEach(async(ioe) => {
-    //         const el = ioe.target
-    //         const intersectionRatio = ioe.intersectionRatio
-    //         if (intersectionRatio > 0 && intersectionRatio <= 1) {
-    //             await getChallenge()
-    //             io.unobserve(el)
-    //         }
-    //         if (!isOver) {
-    //             isInViewPortOfThree()
-    //         }
-    //     })
-    // })
-
-    // 执行交叉观察器
-    // function isInViewPortOfThree () {
-    //     io.observe(document.querySelector(".loading"))
-    // }
-
     useEffect(() => {
-        // isInViewPortOfThree()
         getChallenge()
-    }, []);
+    },[])
 
     return (
         <div className="Explore">
+            <div className="custom-bg-round"></div>
             {/* title */}
             <h3>{t("title")}</h3>
             {/* Challenge */}
             <div className="challenges" ref={scrollRef}>
-                <Row gutter={18} style={{margin: 0}}>
                     {
                         challenges.map(item => (
-                        <Col span={isMobile ? 24 : 12} key={item.id}>
-                            <div className="challenge-item">
-                                <div className="left-info">
-                                <div className="title">{item.title}</div>
-                                <p className="desc">{item.description}</p>
-                                <Button
-                                    onClick={() => goChallenge(item)}
-                                    className="btn"
-                                >
-                                    {t("btn-challenge")}
-                                </Button>
-                                </div>
-                                <div className="right-sbt">
-                                    <div className="img">
-                                        <LazyLoadImage
-                                            src={
-                                                item.metadata.image?.split("//")[1]
-                                                    ? `${ipfsPath}/${item.metadata.image.split("//")[1]}`
-                                                    : defaultImg
-                                            }
-                                        />
-                                        {
-                                            item.claimed &&
-                                            <div className="item-claimed">
-                                                {t("pass")}
-                                            </div>
-                                        }
-                                        {
-                                            item?.claimable && 
-                                            <div className="item-claimable">
-                                                {t("claimable")}
-                                            </div>
-                                        }
-                                    </div>
-                                </div>
-                            </div>
-                        </Col>
+                            <ChallengeItem
+                                key={item.id} 
+                                info={item}
+                            />
                         ))
                     }
-                </Row>
 
                 {
-                        !isOver &&
+                        challenges.length !== 0 && !isOver &&
                         <div ref={loader}>
                             {/* <Spin size="large" className="loading" /> */}
                             <InfiniteScroll

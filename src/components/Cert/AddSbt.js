@@ -1,12 +1,13 @@
-import { Button, Divider, Input, Select, Space, Spin } from "antd";
+import { Button, Divider, Input, Select, Space, Spin, Tooltip } from "antd";
 import {
     CheckOutlined,
     SearchOutlined,
-    LoadingOutlined
+    LoadingOutlined,
+    EyeOutlined,
+    EyeInvisibleOutlined
 } from '@ant-design/icons';
 import "@/assets/styles/component-style/cert/modal-addsbt.scss"
 import { useEffect, useRef, useState } from "react";
-import { constans } from "@/utils/constans";
 import { flagNft, getContractNfts } from "@/request/api/nft";
 import { findFastestGateway } from "@/utils/LoadImg";
 import { ipfsToImg } from "@/utils/IpfsToImg";
@@ -14,13 +15,13 @@ import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "../InfiniteScroll";
 import CustomLoading from "../CustomLoading";
+import { covertChain } from "@/utils/convert";
 const { Option } = Select;
 
 export default function AddSbt(props) {
     
     const { handleCancel, isMobile } = props;
     const scrollRef = useRef(null);
-    const { chains } = constans();
     const navigateTo = useNavigate();
     const { t } = useTranslation(["translation", "cert"]);
     let [options, setOptions] = useState();
@@ -45,7 +46,7 @@ export default function AddSbt(props) {
       const renderoption = (option) => {
         return (
           <Space>
-            <div className="img" style={{width: "20px", height: "20px"}}>
+            <div className="img">
                 <img src={option.icon} alt="" />
             </div>
             <div className="label">
@@ -74,78 +75,46 @@ export default function AddSbt(props) {
       const checked = (id, type) => {
           changeList(id);
           let flag = true;
-          let arr = type === 1 ? addIds : deleteIds;
+          let arr = type === 2 ? deleteIds : addIds;
           arr.map((e,i) => {
               if (e === id) {
-                  arr.splice(i,1);
-                  if (type === 1) {
-                      setAddIds([...arr]);
-                  }else{
+                  arr.splice(i,2);
+                  if (type === 2) {
                       setDeleteIds([...arr]);
+                    }else{
+                      setAddIds([...arr]);
                   }
                   flag = false;
               }
           })
+
           if (!flag) {
               return
           }
           arr.push(id);
-          if (type === 1) {
-              setAddIds([...arr]);
-          }else{
+          if (type === 2) {
               setDeleteIds([...arr]);
+            }else{
+              setAddIds([...arr]);
           }
       }
-  
-      const addNft = () => {
-          new Promise((resolve, reject) => {
-              if (addIds.length > 0) {
-                  flagNft({
-                      ids: addIds,
-                      flag: 2
-                  })
-                  .then(res => {
-                      resolve();
-                  })
-              }else{
-                  resolve();
-              }
-          });
-      }
         
-      const reduceNft = () => {
-        new Promise((resolve, reject) => {
-            if (deleteIds.length > 0) {
-                flagNft({
-                    ids: deleteIds,
-                    flag: 1
-                })
-                .then(res => {
-                    resolve();
-                })
-            }else{
-                resolve();
-            }
-        });
-      }
-  
       const confirm = () => {
           setLoading(true);
-          const promise1 = addNft();
-          const promise2 = reduceNft();
-          Promise.all([promise1, promise2])
-          .then(results => {
-              // 处理结果
-              setLoading(false);
-              handleCancel && handleCancel()
-              setTimeout(() => {
-                navigateTo(0);
-              }, 500);
+          flagNft({
+            chain_id: config.chainId,
+            contract_address: config.address,
+            hide_ids: deleteIds,
+            show_ids: addIds
+          }).then(res => {
+            setLoading(false);
+            handleCancel && handleCancel()
+            setTimeout(() => {
+            navigateTo(0);
+            }, 500);
+          }).catch(err => {
+            setLoading(false);
           })
-          .catch(error => {
-                setLoading(false);
-              // 处理错误
-          });
       }
   
       const changeConfig = (v, key) => {
@@ -165,17 +134,6 @@ export default function AddSbt(props) {
               console.log('err ==>',err);
           })
       }
-  
-    const init = () => {
-        let arr = [];
-        for (const i in chains) {
-            arr.push({
-                value: Number(i), label: chains[i].name, icon: chains[i].icon 
-            })
-        }
-        options = arr;
-        setOptions([...options]);
-    }
   
     //   修改链或修改合约地址
     const getList = async() => {
@@ -206,6 +164,19 @@ export default function AddSbt(props) {
         })
     }
 
+    function EyeStatus({cacheStatus, id}) {
+        // 判断当前id是否存在操作cache
+        const isAdd = addIds.some(e => e === id);
+        const isDel = deleteIds.some(e => e === id);
+        let isHide = cacheStatus === 1; //  true 隐藏 : false 显示
+        if (isAdd) {
+            isHide = false;
+        }else if (isDel) {
+            isHide = true;
+        }
+        return isHide
+    }
+
     useEffect(() => {
         list = [];
         cache = [];
@@ -221,7 +192,9 @@ export default function AddSbt(props) {
     },[config])
   
     useEffect(() => {
-        init();
+        // options初始化
+        options = covertChain();
+        setOptions([...options]);
     },[])
 
     return (
@@ -232,7 +205,6 @@ export default function AddSbt(props) {
                     {
                         options &&
                         <Select
-                            style={{ width: isMobile ? 110 : 180 }}
                             value={config.chainId}
                             onChange={(e) => changeConfig(e, 'chainId')}
                             bordered={false}
@@ -257,16 +229,8 @@ export default function AddSbt(props) {
                         </div>
                     </div>
                 </div>
-
-                <Button 
-                    loading={loading}
-                    className="confirm" 
-                    onClick={() => confirm()} 
-                    disabled={addIds.length === 0 && deleteIds.length === 0} 
-                >{t("btn-confirm")}</Button>
             </div>
-            <Divider style={{marginBlock: "30px"}} />
-            <div className="content" ref={scrollRef} >
+            <div className="content custom-scroll" ref={scrollRef} >
                 <div className="list-content">
                     {
                         list.length === 0 && isLoading ?
@@ -289,16 +253,34 @@ export default function AddSbt(props) {
                                 <div 
                                     className={`box ${cache[i].flag === 2 ? "box-active" : ""}`}
                                     key={e.id}
-                                    onClick={() => checked(e.id,e.flag)}
                                 >
                                     {ipfsToImg(e)}
                                     <p>{e.name}</p>
-                                    <div className="checkbox">
-                                        {
-                                            cache[i].flag === 2 &&
-                                            <CheckOutlined />
-                                        }
+                                        <Tooltip 
+                                            title={
+                                                EyeStatus({
+                                                    cacheStatus: cache[i].status, 
+                                                    id: e.id
+                                                }) ? t("cert:sidbar.list.hide") : t("cert:sidbar.list.public")
+                                            }
+                                        >
+                                    <div 
+                                        className={`badge ${EyeStatus({
+                                            cacheStatus: cache[i].status, 
+                                            id: e.id
+                                        }) ? "show" : ""}`}
+                                        onClick={() => checked(e.id, e.status, e)}
+                                    >
+                                        {/* 0xc8e9cd4921e54c4163870092ca8d9660e967b53d */}
+                                        
+                                            {
+                                                EyeStatus({
+                                                    cacheStatus: cache[i].status, 
+                                                    id: e.id
+                                                }) ? <EyeInvisibleOutlined /> : <EyeOutlined />
+                                            }
                                     </div>
+                                        </Tooltip>
                                 </div>    
                             )
                             }
@@ -319,6 +301,13 @@ export default function AddSbt(props) {
                     }
                 </div>
             </div>
+            <Button 
+                loading={loading}
+                id="hover-btn-line"
+                className="confirm" 
+                onClick={() => confirm()} 
+                // disabled={addIds.length === 0 && deleteIds.length === 0} 
+            >{t("btn-confirm")}</Button>
         </>
     )
 }

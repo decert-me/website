@@ -1,11 +1,29 @@
 .CustomPagination{
-    margin-top: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    font-size: 21px;
+    width: 100%;
+    font-size: 18px;
     color: #9E9E9E;
+    background-color: #fff;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    .pagination-content{
+        width: 100%;
+        padding-left: 150px;
+        padding-right: 130px;
+        height: 82px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
     .content-left{
+        display: flex;
+        align-items: center;
+        cursor: pointer;
+        .anticon{
+            margin-right: 13px;
+            font-size: 17px;
+        }
         button{
             color: #3D3D3D;
             padding: 0;
@@ -15,25 +33,70 @@
         display: flex;
         align-items: center;
         .btn{
-            min-width: 50px;
-            height: 50px;
-            margin-inline: 20px;
-            font-size: 33px;
+            min-width: 30px;
+            height: 30px;
+            margin-inline: 30px;
+            font-size: 12px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
+        .ant-btn-default{
+            border-color: #000;
+        }
+        .ant-btn-default:disabled{
+            border-color: #d9d9d9;
+            background-color: #fff;
+        }
     }
     .content-right{
         .submit{
-            width: 120px;
-            height: 42px;
+            height: 40px;
+            padding: 0 30px;
             border: none;
-            border-radius: 4px;
+            border-radius: 5px;
             box-shadow: none;
-            font-size: 17px;
-            color: #EFEFEF;;
-            background-color: #000;
+            color: #fff;
+            background-color: #8F5A35;
+        }
+    }
+}
+
+
+
+.Mobile{
+    .CustomPagination{
+        font-size: .8125rem;
+        .pagination-content{
+            max-width: 100%;
+            height: 3.75rem;
+            padding: 0 .625rem;
+        }
+        .content-left{
+            button{
+                font-size: .75rem;
+            }
+            .anticon{
+                margin-right: .5rem;
+                font-size: 1.0625rem;
+            }
+        }
+        .content-center{
+            .btn{
+                min-width: auto;
+                width: 1.25rem;
+                height: 1.25rem;
+                margin: 0 .9375rem;
+                font-size: .5rem;
+            }
+        }
+        .content-right{
+            .submit{
+                height: 1.75rem;
+                padding: 0 1.25rem;
+                font-size: .75rem;
+                border-radius: .1875rem;
+            }
         }
     }
 }

@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
 import {
@@ -17,11 +17,13 @@ import { Copy } from "@/utils/Copy";
 import { useTranslation } from "react-i18next";
 import { useUpdateEffect } from "ahooks";
 import Paginations from "@/components/User/Pagination";
+import MyContext from "@/provider/context";
 
 
 export default function User(props) {
     
     const { t } = useTranslation(["translation","profile", "explore"]);
+    const { user } = useContext(MyContext);
     const { address } = useAccount();
     const location = useLocation();
     const { address: paramsAddr } = useParams();
@@ -35,7 +37,6 @@ export default function User(props) {
     });
     let [checkType, setCheckType] = useState(0);
     let [checkStatus, setCheckStatus] = useState(0);
-    let [socials, setSocials] = useState();
     
     const type = [
         { key: 'complete', label: t("profile:challenge-completed"), children: [
@@ -78,7 +79,6 @@ export default function User(props) {
                 claimableArr = JSON.parse(claimable);
             }
             if (claimableArr && claimableArr.length > 0) {
-                console.log(claimableArr);
                 list.map(e => {
                     claimableArr.map((ele,index) => {
                         if (e.tokenId == ele.token_id && e.claimed) {
@@ -129,22 +129,34 @@ export default function User(props) {
 
     const getInfo = async() => {
         const user = await getUser({address: account})
-        if (!user.data) {
+        if (!user.data || isMe) {
             // setSocials("null")
             // TODO: 空状态显示
             return
         }
-        socials = user.data.socials;
-        setSocials({...socials});
         info = {
             nickname: user.data.nickname ? user.data.nickname : NickName(account),
             address: account,
             description: user.data.description,
-            avatar: user.data.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(account)
+            avatar: user.data.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(account),
+            socials: user.data.socials
         }
         setTimeout(() => {
             setInfo({...info})
         }, 1000);
+    }
+
+    function scrollFixed(params) {
+        const dom = document.querySelector('.User .navbar');
+        const box = document.querySelector('.User .User-list');
+        const domOffsetTop = dom.offsetTop;
+        const scrollPosition = document.documentElement.scrollTop;
+        const multiple = document.documentElement.clientWidth / 390;
+        if (scrollPosition > domOffsetTop - (multiple * 60)) {
+            box.classList.add('fixed');
+        } else {
+            box.classList.remove('fixed');
+        }
     }
 
     const init = () => {
@@ -167,11 +179,24 @@ export default function User(props) {
     },[paramsAddr])
 
     useEffect(() => {
+        info = user;
+        setInfo({...info})
+    },[user])
+
+    useEffect(() => {
         getList();
     },[checkStatus, checkType])
 
+    useEffect(() => {
+        window.addEventListener("scroll", scrollFixed);
+        return () => {
+            window.removeEventListener("scroll", scrollFixed);
+        }
+    },[])
+
     return (
         <div className="User">
+            <div className="custom-bg-round"></div>
             <div className="User-info">
                 {
                     info ? 
@@ -189,17 +214,17 @@ export default function User(props) {
                             </p>
                             <div className="social">
                                 {/* <div className="icon"></div> */}
-                                <CustomSocial socials={socials} />
+                                <CustomSocial socials={info.socials} />
                             </div>
-                            <div className="desc">
+                            <div className="desc newline-omitted">
                                 {info.description ? info.description : t("profile:desc-none")}
                             </div>
                         </div>
                         {
                             isMe &&
                             <Link to={`/user/edit/${address}`}>
-                                <Button className="btn">
-                                    <EditOutlined style={{fontSize: "18px"}} />
+                                <Button className="btn" id="hover-btn-line">
+                                    <EditOutlined />
                                     {t("translation:btn-edit-profile")}
                                 </Button>
                             </Link>
@@ -217,41 +242,43 @@ export default function User(props) {
                 }
                 
             </div>
-            <div className="User-list">
-                <ul className="challenge">
-                    {
-                        type.map((e,i) => 
-                            <li 
-                                key={e.key} 
-                                className={checkType === i ? "active" : ""}
-                                onClick={() => toggleType(i)}
-                            >
-                                {e.label}
-                            </li>
-                        )
-                    }
-                </ul>
-                <ul className="status">
-                    {
-                        type[checkType].children.map((e,i) => 
-                            {
-                                if (account !== address && checkType === 0 && i > 0) {
-                                    return
-                                }else{
-                                    return (
-                                        <li 
-                                            key={e.key} 
-                                            className={checkStatus === i ? "active" : ""}
-                                            onClick={() => toggleStatus(e.key)}
-                                        >
-                                            {e.label}
-                                        </li>
-                                    )
+            <div className="navbar">
+                <div className="User-list">
+                    <ul className="challenge">
+                        {
+                            type.map((e,i) => 
+                                <li 
+                                    key={e.key} 
+                                    className={checkType === i ? "active" : ""}
+                                    onClick={() => toggleType(i)}
+                                >
+                                    {e.label}
+                                </li>
+                            )
+                        }
+                    </ul>
+                    <ul className="status">
+                        {
+                            type[checkType].children.map((e,i) => 
+                                {
+                                    if (account !== address && checkType === 0 && i > 0) {
+                                        return
+                                    }else{
+                                        return (
+                                            <li 
+                                                key={e.key} 
+                                                className={checkStatus === i ? "active" : ""}
+                                                onClick={() => toggleStatus(e.key)}
+                                            >
+                                                {e.label}
+                                            </li>
+                                        )
+                                    }
                                 }
-                            }
-                        )
-                    }
-                </ul>
+                            )
+                        }
+                    </ul>
+                </div>
             </div>
             <div className="User-content">
                 {
@@ -259,8 +286,10 @@ export default function User(props) {
                         <ChallengeItem 
                             key={e.id} 
                             info={e}
-                            isMe={isMe}
-                            checkType={checkType}
+                            profile={{
+                                isMe,
+                                checkType
+                            }}
                         />
                     )
                 }

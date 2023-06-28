@@ -1,4 +1,4 @@
-$container-width: 93vw;
+$container-width: 21.875rem;
 
 .Mobile{
     .User{
@@ -6,51 +6,86 @@ $container-width: 93vw;
         padding-top: 6.25rem;
     }
     .User-info{
-        height: 11.25rem;
-        align-items: flex-start;
+        height: auto;
+        padding-bottom: 3.4375rem;
+        align-items: center;
+        justify-content: flex-start;
+        flex-direction: column;
         .btn{
-            width: 7.5rem;
-            height: 2.1875rem;
-            margin: 0 auto;
-            border-radius: 1.125rem;
+            width: 100%;
+            height: 2rem;
+            border-radius: .5rem;
             font-size: .75rem;
             position: absolute;
             left: 0;
             bottom: 0;
+            background-color: #fff;
+            color: #8F5A35;
+            border: .0625rem solid #8F5A35;
+            .anticon-edit{
+                font-size: .75rem;
+            }
         }
         .img{
-            width: 3.75rem;
-            height: 3.75rem;
-            margin-right: .625rem;
+            width: 6rem;
+            height: 6rem;
+            margin: 0;
+            margin-bottom: .625rem;
         }
         .info{
+            text-align: center;
             .name{
-                font-size: 1.125rem;
+                font-size: 1.625rem;
+                line-height: 1.625rem;
             }
             .address{
-                margin-top: 0rem;
-                font-size: .875rem;
+                margin-top: .3125rem;
+                font-size: .9375rem;
+                line-height: 1.0625rem;
             }
             .social{
-                margin-top: 0;
+                margin-top: .3125rem;
+                justify-content: center;
+                .social-item{
+                    height: 1.625rem;
+                    padding: .4375rem 1rem .4375rem .625rem;
+                    font-size: .75rem;
+                }
                 .icon{
                     width: 1rem;
-                    height: 1rem;
+                    height: .75rem;
+                    margin-right: .625rem;
+                    margin-bottom: 0;
+                    background-color: #00000000;
                 }
             }
             .desc{
                 max-width: 16.875rem;
+                font-size: .75rem;
                 line-height: 1.125rem;
             }
         }
     }
-    .User-list{
+    .navbar{
+        min-height: 3.9375rem;
         margin-top: 3.125rem;
+        .fixed{
+            width: 100%;
+            padding-top: 3.75rem;
+            padding-bottom: .625rem;
+            position: fixed;
+            top: 0;
+            z-index: 888;
+            background-color: #fff;
+        }
+    }
+    .User-list{
+        margin-top: 0;
         .challenge{
             margin-bottom: .9375rem;
             li{
-                margin-right: 1.5625rem;
-                font-size: 1.25rem;
+                margin-right: 2.5rem;
+                font-size: 1.125rem;
                 &:last-child{
                     margin-right: 0;
                 }
@@ -62,7 +97,7 @@ $container-width: 93vw;
         }
         .status{
             li{
-                margin-right: 1.0625rem;
+                margin-right: 2.1875rem;
                 font-size: .875rem;
                 line-height: 1.25rem;
             }

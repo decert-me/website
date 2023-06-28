@@ -17,9 +17,10 @@ import { useWeb3Modal } from "@web3modal/react";
 import logo_white from "@/assets/images/svg/logo-white.png";
 import logo_normal from "@/assets/images/svg/logo-normal.png";
 import { changeConnect } from '@/utils/redux';
-import { useUpdateEffect } from 'ahooks';
+import { getUser } from '@/request/api/public';
+import store, { setUser } from '@/redux/store';
 
-export default function AppHeader({ isMobile }) {
+export default function AppHeader({ isMobile, user }) {
     
     const { address, isConnected } = useAccount()
     const { t } = useTranslation();
@@ -36,9 +37,15 @@ export default function AppHeader({ isMobile }) {
             icon: '',
         },
         {
+            type: 'divider',
+        },
+        {
             label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("header.profile")} </p>),
             key: '1',
             icon: '',
+        },
+        {
+            type: 'divider',
         },
         {
             label: (
@@ -51,6 +58,9 @@ export default function AppHeader({ isMobile }) {
             ),
             key: '2',
             icon: '',
+        },
+        {
+            type: 'divider',
         },
         {
             label: (<p onClick={() => disconnect()}> {t("header.disconnect")} </p>),
@@ -80,18 +90,30 @@ export default function AppHeader({ isMobile }) {
         localStorage.setItem("decert.lang", lang)
     }
 
+    async function init(params) {
+        const user = await getUser({address: address})
+        if (!user.data) {
+            return
+        }
+        const info = {
+            nickname: user.data.nickname ? user.data.nickname : NickName(address),
+            address: address,
+            description: user.data.description,
+            avatar: user.data.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(address),
+            socials: user.data.socials
+        }
+        store.dispatch(setUser(info));
+    }
+
     useEffect(() => {
         if (location) {
             setIsOpenM(false);
         }
     },[location])
 
-    // useUpdateEffect(() => {
-    //     if (isMobile) {
-    //         items.splice(0,1);
-    //         setItems([...items])
-    //     }
-    // },[isMobile])
+    useEffect(() => {
+        init();
+    },[])
 
     return (
         <div id="Header">
@@ -126,13 +148,14 @@ export default function AppHeader({ isMobile }) {
                                 <Dropdown
                                     placement="bottomRight" 
                                     menu={{items: items.slice(1,items.length)}}
+                                    overlayClassName="mobile-custom-drop-menu"
                                     overlayStyle={{
                                         width: "160px",
                                         fontWeight: 500
                                     }}
                                 >
                                     <div className="user">
-                                        <img src={hashAvatar(address)} alt="" />
+                                        <img src={user?.avatar} alt="" />
                                     </div>
                                 </Dropdown>
                         }
@@ -181,6 +204,7 @@ export default function AppHeader({ isMobile }) {
                             type="ghost"
                             ghost
                             className='lang custom-btn'
+                            id='hover-btn-line'
                             onClick={() => toggleI18n()}
                         >
                             {i18n.language === 'zh-CN' ? "CN" : "EN"}
@@ -197,18 +221,26 @@ export default function AppHeader({ isMobile }) {
                             isConnected ?
                                 <Dropdown
                                     placement="bottom" 
-                                    arrow
+                                    // trigger="click"
+                                    // arrow
                                     menu={{items}}
-                                    
+                                    overlayClassName="custom-dropmenu"
+                                    overlayStyle={{
+                                        width: "210px"
+                                    }}
                                 >
-                                    <div className="user">
-                                        <img src={hashAvatar(address)} alt="" />
+                                    <div className="user" id="hover-btn-line">
+                                        <img src={user?.avatar} alt="" />
                                         <p>{NickName(address)}</p>
                                     </div>
                                 </Dropdown>
                             :
                             <div>
-                                <Button onClick={() => openModal()} className='connect'>{t("header.connect")}</Button>
+                                <Button 
+                                    onClick={() => openModal()} 
+                                    id='hover-btn-full'
+                                    className='connect'
+                                >{t("header.connect")}</Button>
                             </div>
                         }
                     </div>

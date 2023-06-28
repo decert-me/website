@@ -1,23 +1,26 @@
-$container-width: 93vw;
+$container-width: 90vw;
 .Mobile{
     .Lesson{
         width: $container-width;
-        margin: 5.1875rem auto 0;
-        padding-bottom: 12.5rem;
+        margin: 5.625rem auto 0;
+        padding-bottom: 6.25rem;
+        .custom-bg-round{
+            top: -9.6875rem;
+        }
         .title{
-            margin-bottom: 2rem;
+            margin-bottom: 1.1875rem;
             font-size: 1.125rem;
             line-height: 1.625rem;
-            text-align: center;
         }
         .content{
             flex-direction: column;
+            gap: 0;
             a{
-                margin-bottom: 1.25rem;
+                margin-bottom: .625rem;
             }
             .box{
                 width: 100%;
-                min-height: 15.625rem;
+                min-height: 14.375rem;
                 border-radius: .4375rem;
                 .img{
                     height: 9.8125rem;
@@ -25,12 +28,13 @@ $container-width: 93vw;
                 .box-content{
                     padding: .8125rem 1.5rem 1.25rem .875rem;
                     .box-title{
-                        font-size: .8125rem;
+                        font-size: .875rem;
                         line-height: 1.1875rem;
                     }
                     .box-desc{
-                        font-size: .5rem;
+                        font-size: .75rem;
                         line-height: .75rem;
+                        -webkit-line-clamp: 1;
                     }
                 }
             }

@@ -66,7 +66,8 @@
         "m": "{{time}} 分钟",
         "h": "{{time}} 小时",
         "d": "{{time}} 天",
-        "w": "{{time}} 周"
+        "w": "{{time}} 周",
+        "mm": "{{time}} 月"
     },
     "confirm": {
         "clear": "确认清空？"
@@ -80,7 +81,7 @@
             "share": "分享到Twitter"
         },
         "add-sbt": {
-            "title": "添加想要展示的 NFT",
+            "title": "添加NFT",
             "rule": "请输入合约地址",
             "select": "选择网络"
         }

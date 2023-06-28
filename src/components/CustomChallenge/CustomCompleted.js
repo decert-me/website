@@ -1,11 +1,10 @@
-import { message, Spin } from "antd";
+import { Spin } from "antd";
 import {
     LoadingOutlined
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
 import { useAccount, useSigner } from "wagmi";
-// import { chainScores } from "@/controller";
 import { GetPercent } from "@/utils/GetPercent";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import CustomClaimInfo from "./CustomClaimInfo";
@@ -115,7 +114,8 @@ export default function CustomCompleted(props) {
             }
         }
         setAnswerInfo({...answerInfo});
-        setPercent(percent);
+
+        setPercent(!Number.isInteger(percent) ? percent.toFixed(1) : percent);
         getStep();
     }
 

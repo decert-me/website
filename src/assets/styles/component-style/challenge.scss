@@ -1,17 +1,18 @@
 .CustomInput{
+    padding: 0 50px;
     color: #343434;
-    border-bottom: 1px solid #000;
-
     .custom-input{
-        max-width: 940px;
         margin-top: 100px;
-        padding: 0;
+        padding: 10px;
         border-radius: 0;
-        font-size: 30px;
+        font-size: 16px;
+        border: 1px solid #DCDCDC !important;
+        border-radius: 10px;
     }
 }
 
 .CustomRadio{
+    padding: 0 50px;
     .ant-radio-group{
         margin-top: 50px;
         display: flex;
@@ -19,142 +20,147 @@
     }
     
     .ant-radio-wrapper{
-        margin-bottom: 30px;
+        margin-bottom: 40px;
         align-items: center;
         font-size: 20px;
         color: #373737;
         line-height: 43px;
         .ant-radio{
-            margin-right: 35px;
+            margin-right: 15px;
+        }
+        .ant-radio-checked .ant-radio-inner{
+            background-color: #8F5A35;
+            border: none;
         }
         .ant-radio-inner{
             width: 35px;
             height: 35px;
             &::after{
-                content: none;
+                width: 10px;
+                height: 16px;
+                margin: 0;
+                background-color: #ffffff00;
+                top: 23%;
+                left: 32%;
+                transform: rotate(45deg) scale(1) !important;
+                border: 2px solid #fff;
+                border-top: 0;
+                border-left: 0;
+                border-radius: 0;
             }
         }
     }
 }
 
 .CustomCheckbox{
+    padding: 0 50px;
     .custom-checkbox{
         margin-top: 50px;
         display: flex;
         flex-direction: column;
     }
-    
-    .ant-checkbox-inner::after{
-        content: none;
+    .ant-checkbox-wrapper-checked:hover .ant-checkbox-checked .ant-checkbox-inner {
+        background-color: rgba($color: #8F5A35, $alpha: 0.8) !important;
+    }
+    .css-dev-only-do-not-override-ixblex.ant-checkbox-checked .ant-checkbox-inner{
+        border-color: #8F5A35 !important;
     }
     .ant-checkbox-wrapper{
         margin: 0;
         margin-inline-start: 0 !important;
-        margin-bottom: 30px;
+        margin-bottom: 40px;
         align-items: center;
         font-size: 20px;
         color: #373737;
         line-height: 43px;
         .ant-checkbox{
-            margin-right: 35px;
+            margin-right: 15px;
         }
         .ant-checkbox, .ant-checkbox-inner{
-            width: 35px;
-            height: 35px;
+            width: 30px;
+            height: 30px;
         }  
-        .ant-checkbox-checked .ant-checkbox-inner{
-            background-color: #000;   
-            border: none;
+        .ant-checkbox-checked .ant-checkbox-inner {
+            background-color: #8F5A35;
         }
         .ant-checkbox-inner::after{
-            content: none;
+            width: 10px;
+            height: 16px;
         }
     }
-    // .ant-checkbox-checked .ant-checkbox-inner{
-    //     background-color: #000;
-    // }
 }
 
 .CustomCode{
-    height: calc(100% - 61px);
+    width: 100%;
+    height: 100%;
     display: flex;
     justify-content: space-between;
-    &::after{
-        content: "";
-        width: 2px;
-        height: 100%;
-        border-left: 2px solid #DCDCDC;
-        position: absolute;
-        top: 0;
-        left: calc((100% - 2px) / 2);
+    gap: 10px;
+    background-color: #F9F9F9;
+    .code-left, .code-out{
+        width: calc(50% - 5px);
     }
-    .code-desc, .code-out{
-        width: 50%;
-    }
-    .code-title{
-        // margin-bottom: 34px;
-        font-size: 28px;
-        font-weight: 500;
-        color: #343434;
-        line-height: 52px;
-        // border-bottom: 2px solid ;
-    }
-    .line{
-        width: 100%;
-        height: 2px;
-        margin-top: 20px;
-        background-color: #DCDCDC;
-    }
-    .code-content{
-        height: calc(100% - 54px - 34px - 20px);
-        margin-top: 34px;
+    .code-left{
+        background-color: #fff;
+        border-radius: 10px;
     }
     .code-desc{
-        height: calc(100% + 70px);
-        padding-bottom: 10px;
-    }
-    .code-out{
-        height: calc(100% + 61px + 70px);
-        margin-top: -61px;
-        padding: 0;
-        padding-bottom: 10px;
-        position: relative;
-        .code-menu{
-            width: 100%;
-            position: absolute;
-            top: -32px;
-            left: 0;
-            display: flex;
-            justify-content: space-between;
+        padding-left: 50px;
+        .markdown-body{
+            font-size: 16px;
+            padding-bottom: 50px;
         }
     }
+    .code-desc, .code-content{
+        height: calc(100% - 90px);
+    }
+    .code-out{
+        height: 100%;
+        padding: 0;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+    }
     .out-inner{
-        width: calc(100% + 65px);
-        height: calc(100% - 230px);
+        flex: 1;
+        margin-bottom: 10px;
+        padding-top: 32px;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
     }
     .out-content{
-        width: calc(100% + 65px);
-        border-top: 2px solid #DCDCDC;
+        height: 290px;
+        background-color: #fff;
+        border-radius: 10px;
+        overflow: hidden;
     }
     .CustomConsole{
         .tab ul{
-            height: 36px;
+            height: 40px;
+            padding: 14px 18px 0;
             display: flex;
-            background-color: #f7f7f7;
+            background-color: #fff;
+            border-bottom: 1px solid #F7F7F7;
             li{
-                padding: 11px;
+                margin-right: 25px;
+                padding-bottom: 5px;
+                color: #5D5D5D;
                 cursor: pointer;
             }
             .active{
-                background-color: #fff;
+                border-bottom: 2px solid #262626;
+                color: #262626;
             }
         }
         .console, .case{
-            height: 120px;
-            margin: 20px;
+            height: 185px;
+            margin: 10px 18px;
             textarea{
                 height: 100%;
-                min-height: 120px;
+                min-height: 100%;
+                border-radius: 10px;
+                border-color: #DCDCDC;
             }
         }
         .none{
@@ -162,11 +168,23 @@
         }
     }
     .btns{
-        margin: 0 20px;
+        padding: 0 18px 0 30px;
         display: flex;
         justify-content: space-between;
         .ant-dropdown-trigger{
             line-height: 32px;
+            color: #43B472;
+        }
+        button{
+            padding: 0 20px;
+            color: #8F5A35;
+            border: 1px solid #8F5A35;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            .anticon-caret-right{
+                font-size: 18px;
+            }
         }
     }
 }

@@ -3,18 +3,16 @@ $container-width: 90vw;
     .Cert{
         width: 100vw;
         margin: 0;
-        margin-top: 5rem;
+        margin-top: 5.1875rem;
         padding: 0 5vw;
         display: flex;
         flex-direction: column;
         overflow: hidden;
         min-height: 40rem;
     }
-    .divider{
-        width: 100%;
-    }
-    .mt50{
-        margin-top: 3.125rem;
+    .header-line{
+        height: .0625rem;
+        top: 3.75rem;
     }
     .none{
         display: none;
@@ -24,65 +22,127 @@ $container-width: 90vw;
         padding-right: 0rem;
         padding-top: 0rem;
         .search{
+            .search-title{
+                margin-bottom: .9375rem;
+                font-size: 1.375rem;
+                line-height: 1.625rem;
+            }
             .search-inner{
+                height: 2.9375rem;
+                margin-bottom: 1.875rem;
+                padding: .8125rem 1.125rem .8125rem 1rem;
                 border-width: .0625rem;
-                padding: .8125rem 1.125rem .8125rem .625rem;
+                border-radius: .5625rem;
+                .ant-input-affix-wrapper{
+                    padding-left: 0;
+                    padding-right: 0;
+                }
             }
             .icon{
                 margin-right: .625rem;
                 font-size: 1.125rem;
             }
             input{
-                font-size: .75rem;
+                font-size: 1.125rem;
+            }
+            .anticon-close{
+                font-size: 1rem;
             }
         }
         .user{
-            width: 100%;
-            .share{
-                width: 1.875rem;
-                height: 1.875rem;
-                padding: 0;
-                position: absolute;
-                right: 0;
-                top: 0;
-                border: none;
-                box-shadow: none;
-                border-radius: .25rem;
-                background-color: #E4E4E4;
-                color: #E4E4E4;
-                font-size: 1.125rem;
-                stroke: #999999;
-                stroke-width: 3.125rem;
-                &:hover{
-                    background-color: #9999999a;
-                    color: #9999999a !important;
+            .avatar > .img{
+                width: 5.625rem;
+                height: 5.625rem;
+            }
+            .user-info{
+                margin-left: 1.125rem;
+                .name{
+                    max-width: 12.5rem;
+                    margin-bottom: .625rem;
+                    font-size: 1.125rem;
+                    line-height: 1.375rem;
+                }
+                .address{
+                    max-width: 12.5rem;
+                    font-size: .8125rem;
+                    line-height: .9375rem;
+                    .anticon-copy{
+                        margin-left: 1.875rem;
+                    }
                 }
             }
+            .social{
+                margin-top: 1.25rem;
+                .items{
+                    width: 17.5rem;
+                    .item{
+                        width: 2.75rem;
+                        height: 2.75rem;
+                        &:hover{
+                            box-shadow: 0 .125rem .1875rem .0625rem rgba($color: #000000, $alpha: 0.1);
+                        }
+                        img{
+                            width: 1.875rem;
+                        }
+                    }
+                }
+                .ant-divider-vertical{
+                    height: 1.375rem;
+                }
+                .share{
+                    width: 1.4375rem;
+                    height: 1.4375rem;
+                    margin-left: 1.875rem;
+                    font-size: 1rem;
+                }
+            }
+        }
+        .line{
+            margin: 1.5625rem auto 1.5625rem;
         }
         .nfts{
             width: 100%;
             min-height: 25rem;
             .add{
-                margin-bottom: 1.25rem;
+                margin-bottom: .875rem;
                 font-size: 1.125rem;
                 font-weight: 700;
                 p{
-                    font-size: 1.125rem;
+                    font-size: 1rem;
                     line-height: 1.625rem;
                 }
                 button{
-                    width: 2rem;
-                    height: 2rem;
-                    font-size: 1.1875rem;
+                    width: 1.625rem;
+                    height: 1.625rem;
+                    font-size: 1rem;
                 }
             }
             ul{
-                .active,li:hover{
-                    background-color: rgba($color: #4e7592, $alpha: 0);
-                }
                 li{
-                    padding: .3125rem .625rem;
-
+                    height: 2.875rem;
+                    padding: .3125rem;
+                    margin-bottom: .3125rem;
+                    border-radius: .3125rem;
+                    .poa{
+                        right: 1.5625rem;
+                    }
+                    p{
+                        font-size: .8125rem;
+                    }
+                    .li-content{
+                        max-width: calc(100% - 8.125rem);
+                    }
+                    .img{
+                        width: 2.3125rem;
+                        height: 2.3125rem;
+                        margin-right: .875rem; 
+                        .badge{
+                            width: .9375rem;
+                            height: .9375rem;
+                            right: -0.5rem;
+                            top: -0.5rem;
+                        }
+                    }
                 }
             }
         }
@@ -93,17 +153,31 @@ $container-width: 90vw;
         padding-bottom: 2.8125rem;
         border: none;
         position: relative;
+        .content-header-mobile{
+            width: 100%;
+            position: absolute;
+            top: 0;
+        }
         .back{
             width: 1.875rem;
             height: 1.875rem;
             border-radius: .125rem;
             background-color: #EDF1F4;
-            position: absolute;
-            top: 0;
+
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.25rem;
+        }
+        .reload{
+            height: 2.5rem;
+            padding: 0 1rem 0 .9375rem;
+            font-size: .75rem;
+            img{
+                width: .8125rem;
+                height: .8125rem;
+                margin-right: .375rem;
+            }
         }
         ul{
             padding-left: 0;
@@ -125,10 +199,10 @@ $container-width: 90vw;
             overflow: scroll;
             .nodata{
                 p{
-                    font-size: 12px;
+                    font-size: .75rem;
                     font-weight: 900;
                     color: #C1C1C1;
-                    line-height: 18px;
+                    line-height: 1.125rem;
                     display: block;
                 }
             }
@@ -144,12 +218,22 @@ $container-width: 90vw;
             .nft-detail{
                 width: 10.4375rem;
                 border-radius: .375rem;
-                
-                box-shadow: 0 0 .3125rem .0625rem #999;
                 &:hover{
                     .nft-info .bottom{
                         bottom: 0;
                     }
+                }
+                .badge{
+                    width: 1.4375rem;
+                    height: 1.4375rem;
+                }
+                .badge-chain{
+                    left: .5625rem;
+                    top: .5625rem;
+                }
+                .badge-opensea{
+                    left: 2.8125rem;
+                    top: .5625rem;
                 }
                 .img{
                     height: 10rem;
@@ -160,7 +244,7 @@ $container-width: 90vw;
                     .nft-title{
                         height: 1.375rem;
                         padding: .5625rem .8125rem 0 .4375rem;
-                        font-size: .5625rem;
+                        font-size: .75rem;
                         line-height: .8125rem;
                     }
                     .bottom{

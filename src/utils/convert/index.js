@@ -1,3 +1,5 @@
+import { constans } from "../constans";
+
 export const convertToken = (token) => {
     if (!token) {
         return false
@@ -28,25 +30,29 @@ export const convertDifficulty = (value) => {
     }
 }
 
-export const convertTime = (value) => {
+export const convertTime = (value, resType) => {
+    const m = value / 60;
     const h = value / 60 / 60;
     const d = value / 60 / 60 / 24;
     const w = value / 60 / 60 / 24 / 7;
 
     let time = value / 60;
-    let type = 'm';
-
+    let type = resType ? 'time-info.mm' : 'm';
+    if (m >= 1) {
+      time = m;
+      type = resType ? 'time-info.m' : 'm';
+    }
     if (h >= 1) {
         time = h;
-        type = 'h'
+        type = resType ? 'time-info.h' : 'h';
     }
     if (d >= 1) {
         time = d;
-        type = 'd';
+        type = resType ? 'time-info.d' : 'd';
     }
     if (w >= 1) {
         time = w;
-        type = 'w';
+        type = resType ? 'time-info.w' : 'w';
     }
 
     return {
@@ -93,4 +99,21 @@ export const ANSI = (str) => {
       htmlStr = htmlStr.replace(/\u001b\[0m/g, "</span>");
       htmlStr = `<div style="background-color: #1c1c1c4d">${htmlStr}</div>`
       return htmlStr
+}
+
+export const covertChain = () => {
+  const { chains } = constans();
+
+  let arr = [];
+  for (const i in chains) {
+      arr.push({
+          value: Number(i), 
+          label: chains[i].name, 
+          icon: chains[i].icon, 
+          opensea: chains[i]?.opensea, 
+          nftscan:chains[i]?.nftscan, 
+          link: chains[i].link
+      })
+  }
+  return arr
 }

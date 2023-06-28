@@ -9,7 +9,8 @@
         "profile": "Profile"
     },
     "home": {
-        "slogan1": "You are what you build.",
+        "slogan1": "You are",
+        "slogan11": "what you build.",
         "slogan2": "Decentralized skills learning and certification platform",
         "btn-explore": "Explore challenges",
         "btn-publish": "Create a Challenge",
@@ -65,7 +66,8 @@
         "m": "{{time}} min",
         "h": "{{time}} h",
         "d": "{{time}} day",
-        "w": "{{time}} week"
+        "w": "{{time}} week",
+        "mm": "{{time}} month"
     },
     "confirm": {
         "clear": "Clear all quiz？"
@@ -79,7 +81,7 @@
             "share": "Share on twitter"
         },
         "add-sbt": {
-            "title": "Add the NFT you want to display",
+            "title": "Add NFT",
             "rule": "Please enter the contract address",
             "select": "Select a Network"
         }

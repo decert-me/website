@@ -1,7 +1,8 @@
 {
     "vitae": {
-        "title": "What have you build.",
-        "subtitle": "your web3 Vitae & reputation portal",
+        "title": "What have ",
+        "title2": "You build.",
+        "subtitle": "web3 Vitae & reputation portal",
         "inner": "Search by address or ENS",
         "btn": "Get Started"
     },
@@ -16,5 +17,6 @@
             "unhide": "Unhide",
             "add": "Add NFT"
         }
-    }
+    },
+    "reload": "Reload"
 }

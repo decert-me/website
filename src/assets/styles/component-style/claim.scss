@@ -16,7 +16,7 @@
     .desc{
         .title{
             color: #000;
-            font-size: 40px;
+            font-size: 36px;
             font-weight: 500;
             line-height: 58px;
         }
@@ -26,16 +26,29 @@
         display: flex;
         .circle {
             user-select: none;
+            .ant-progress-inner, .ant-progress-circle{
+                overflow: visible !important;
+            }
             .pass .ant-progress-circle-path{
-                stroke: #18BB63 !important;
+                transform: rotate(90deg) !important;
             }
             .unpass .ant-progress-circle-path{
-                stroke: #FF0000 !important;
+                transform: rotate(90deg) !important;
             }
             .ant-progress-text{
-                font-size: 80px;
+                font-size: 64px;
                 font-weight: 500;
-                line-height: 116px;
+                line-height: 90px;
+            }
+            .text{
+                width: 100%;
+                text-align: center;
+                color: #666666;
+                font-size: 18px;
+                font-weight: 400;
+                line-height: 25px;
+                position: absolute;
+                bottom: -25px;
             }
         }
         .info{
@@ -46,12 +59,10 @@
                 font-size: 30px;
                 font-weight: 500;
                 line-height: 43px;
-                white-space: nowrap;  
-                text-overflow:ellipsis; 
-                overflow:hidden;
+                -webkit-line-clamp: 1;
             }
             .pass{
-                font-size: 18px;
+                font-size: 16px;
                 color: #9E9E9E;
                 line-height: 26px;
                 font-weight: 500;
@@ -63,13 +74,11 @@
         height: 40px;
         margin-top: 80px;
         padding-inline: 32px;
-        background: #8C51DF;
-        border-radius: 6px;
-        border: none;
+        border-radius: 8px;
+        border: 1px solid #8F5A35;
         box-shadow: none;
-        font-size: 18px;
-        color: #fff;
-        font-weight: 500;
+        font-size: 16px;
+        color: #8F5A35;
         line-height: 26px;
     }
     .viewer{
@@ -96,7 +105,7 @@
         justify-content: space-between;
         h5{
             margin: 0;
-            font-size: 24px;
+            font-size: 23px;
             font-weight: 500;
             color: #212429;
             line-height: 35px;
@@ -137,7 +146,6 @@
                     height: 22px;
                     margin-right: 19px;
                 }
-
                 .ant-steps-item-tail{
                     height: 70px;
                     padding: 0 !important;
@@ -166,10 +174,10 @@
                         background-size: cover;
                     }
                     .ant-steps-item-tail .custom-dot{
-                        background-color: #18BB63;
+                        background-color: #B17042;
                     }
                     .step-box{
-                        background-color: #8C51DF;
+                        background-color: rgba(177,112,66,0.5);
                         color: #fff;
                         opacity: 0.5;
                     }
@@ -181,7 +189,7 @@
                         background-size: cover;
                     }
                     .step-box{
-                        background-color: #8C51DF;
+                        background-color: #B17042;
                         color: #fff;
                     }
                 } 
@@ -192,10 +200,13 @@
                         background-size: cover;
                     }
                     .step-box{
-                        background-color: #EEEEEE;
-                        color: #999999;
+                        background-color: #F0F0F0;;
+                        color: #A3A3A3;
                         button{
-                            background-color: #EEEEEE;
+                            background-color: #fff;
+                        }
+                        .box button{
+                            background-color: #F0F0F0;
                         }
                     }
                 }
@@ -209,27 +220,27 @@
 
 .step-box{
     width: 550px;
-    height: 64px;
+    height: 54px;
     display: flex;
     align-items: center;
     justify-content: center;
-    color: #8C52DF;
+    color: #B17042;
     border-radius: 10px;
 
-    font-size: 20px;
+    font-size: 18px;
     font-weight: 500;
     line-height: 29px;
 }
 
 .checked-step{
-    background-color: #8C52DF;
+    background-color: #B17042;
     color: #fff;
     .box{
-        background-color: #8C52DF;
+        background-color: #B17042;
         border: none;
     }
     .box .claim{
-        background-color: #8C52DF;
+        background-color: #B17042;
         color: #fff;
         .anticon-twitter{
             color: #fff !important;
@@ -255,42 +266,57 @@
     padding-inline: 12px 10px;
     justify-content: space-between;
     font-weight: 500;
-    border: 1px solid #8C52DF;
+    border: 1px solid #B17042;
 
     input{
         width: 384px;
         height: 50px;
         border-radius: 10px;
-        border: 1px solid #8C52DF;
-        color: #8C52DF;
+        border: 1px solid #B17042;
+        color: #B17042;
         font-size: 20px;
         line-height: 29px;
     }
     button{
         width: 112px;
         height: 50px;
-        color: #8C52DF;
+        color: #B17042;
         font-size: 16px;
         line-height: 23px;
     }
 }
-
 .CustomBox{
-    padding-inline: 40px 10px;
+    padding-inline: 20px 10px;
     justify-content: space-between;
     button{
-        height: 48px;
-        padding-inline: 26px;
-        border-radius: 10px;
+        height: 42px;
+        padding-inline: 25px;
+        border-radius: 8px;
         border: none;
         box-shadow: none;
-        color: #8C52DF;
+        color: #B17042;
         font-size: 16px;
         font-weight: 500;
         line-height: 23px;
     }
     .discord-box{
         margin-right: 18px;
+    }
+    p:last-child{
+        font-size: 16px;
+        padding-inline: 25px;
+    }
+}
+.pl70{
+    padding-left: 70px;
+    position: relative;
+    .icon{
+        width: 35px;
+        position: absolute;
+        left: 20px;
+        img{
+            width: 100%;
+        }
     }
 }
 
@@ -303,6 +329,9 @@
     padding: 0;
     background-color: #ffffff00 !important;
     border: none;
+    .ant-ribbon-text{
+        font-size: 10px;
+    }
     .box{
         width: 227px;
         height: 64px;
@@ -324,7 +353,7 @@
             width: 100%;
             height: 48px;
             border-radius: 10px;
-            font-size: 12px;
+            font-size: 18px;
             .anticon-twitter{
                 font-size: 16px;
             }
@@ -346,10 +375,10 @@
         
 }
 .isClaim{
-    // background-color: #8C52DF;
+    // background-color: #B17042;
     justify-content: center;
-    color: #8C52DF;
-    border: 1px solid #8C52DF;
+    color: #B17042;
+    border: 1px solid #B17042;
 }
 }
 .tooltip{

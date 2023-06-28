@@ -34,17 +34,34 @@ export default function CustomClaimInfo(props) {
                                 type="circle"
                                 className={(answerInfo.isPass || isClaim) ? "pass" : "unpass"}
                                 percent={percent}
-                                width={isMobile ? 140 : 230}
-                                format={(percent) => percent}
-                                strokeWidth={3}
+                                width={isMobile ? 126 : 208}
+                                strokeColor={
+                                    answerInfo.isPass ? 
+                                    {
+                                        '0%': '#5AD68D',
+                                        '100%': '#43B472',
+                                    }
+                                    :
+                                    {
+                                        '0%': '#F46565',
+                                        '100%': '#B64444',
+                                    }
+                                }
+                                format={(percent) => (
+                                    <>
+                                        {percent}
+                                        <p className="text">{t("score.now")}</p>
+                                    </>
+                                )}
+                                strokeWidth={10}
                             />
                         </div>
                         <div className="info">
-                            <p className="network">{detail.title}</p>
+                            <p className="network newline-omitted">{detail.title}</p>
                             <p className="pass">{t("score.passScore",{score: answerInfo.passingPercent})}</p>
                             {
                                 !isMobile && 
-                                <Button className="btn" onClick={reChallenge}>
+                                <Button className="btn" id="hover-btn-line" onClick={reChallenge}>
                                     {t("translation:btn-go-challenge")}
                                 </Button>
                             }
@@ -53,7 +70,7 @@ export default function CustomClaimInfo(props) {
                     {
                         isMobile && 
                         <div className="mr">
-                            <Button className="btn" onClick={reChallenge}>
+                            <Button className="btn" id="hover-btn-line" onClick={reChallenge}>
                                 {t("translation:btn-go-challenge")}
                             </Button>
                         </div>

@@ -5,12 +5,52 @@ import BadgeAddress from "@/contracts/Badge.address";
 export const constans = (contractType) => {
 
     const chains = {
-        "80001": {name: "mumbai", icon: require("@/assets/images/img/net-Polygon.png")},
-        "56": {name: "BNB", icon: require("@/assets/images/img/net-BNB.png")},
-        "137": {name: "Polygon", alias: "matic", icon: require("@/assets/images/img/net-Polygon.png")},
-        "10": {name: "Optimism", icon: require("@/assets/images/img/net-Optimism.png")},
-        "1": {name: "Ethereum", icon: require("@/assets/images/img/net-ETH.png")},
-        "42161": {name: "Arbitrum One", icon: require("@/assets/images/img/net-Arbitrum.png")}
+        "80001": {
+            name: "mumbai", 
+            icon: require("@/assets/images/img/net-Polygon.png"),
+            link: "https://mumbai.polygonscan.com/address/"
+        },
+        "56": {
+            name: "BNB", 
+            opensea: "bsc",
+            nftscan: "bnb",
+            icon: require("@/assets/images/img/net-BNB.png"),
+            link: "https://bscscan.com/address/"
+        },
+        "137": {
+            name: "Polygon", 
+            opensea: "matic", 
+            nftscan: "polygon",
+            icon: require("@/assets/images/img/net-Polygon.png"), 
+            link: "https://polygonscan.com/address/"
+        },
+        "10": {
+            name: "Optimism", 
+            opensea: "optimism",
+            nftscan: "optimism",
+            icon: require("@/assets/images/img/net-Optimism.png"),
+            link: "https://optimistic.etherscan.io/address/"
+        },
+        "1": {
+            name: "Ethereum", 
+            opensea: "ethereum",
+            nftscan: "eth",
+            icon: require("@/assets/images/img/net-ETH.png"),
+            link: "https://etherscan.io/address/"
+        },
+        "42161": {
+            name: "Arbitrum One", 
+            opensea: "arbitrum",
+            nftscan: "arbitrum",
+            icon: require("@/assets/images/img/net-Arbitrum.png"),
+            link: "https://arbiscan.io/address/"
+        },
+        "100": {
+            name: "Gnosis", 
+            nftscan: "gnosis",
+            icon: require("@/assets/images/img/net-Gnosis.png"),
+            link: "https://gnosisscan.io/address/"
+        }
     }
     const chainId = process.env.REACT_APP_CHAIN_ID;
 

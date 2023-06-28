@@ -1,48 +1,49 @@
 .Lesson{
-    width: 1064px;
-    margin: 115px auto 0;
+    width: 1440px;
+    margin: 170px auto 0;
     padding-bottom: 200px;
-    .title{
-        margin-bottom: 44px;
-        font-size: 40px;
-        font-weight: 700;
-        line-height: 58px;
+    position: relative;
+    .custom-bg-round{
+        top: -460px;
     }
-    .subtitle{
-        margin-bottom: 32px;
-        font-size: 30px;
-        font-weight: 500;
-        line-height: 43px;
+    .title{
+        margin-bottom: 80px;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 38px;
     }
     .content{
         display: flex;
-        justify-content: space-between;
         flex-wrap: wrap;
+        gap: 40px;
         .box{
-            width: 520px;
-            min-height: 366px;
+            width: 700px;
+            min-height: 450px;
             border-radius: 10px;
             overflow: hidden;
             background-color: #fff;
+            border: 1px solid #F0F0F0;
             cursor: pointer;
             .img{
-                height: 234px;
+                height: 316px;
             }
             .box-content{
-                padding: 20px 35px 32px 20px;
-
+                padding: 25px;
                 .box-title{
-                    font-size: 20px;
-                    font-weight: 500;
-                    color: #222222;
+                    margin-bottom: 5px;
+                    font-size: 24px;
+                    color: #000;
                     line-height: 28px;
-
                 }
                 .box-desc{
-                    font-size: 12px;
+                    font-size: 16px;
                     color: #999999;
-                    line-height: 17px;
-
+                    line-height: 22px;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    display: -webkit-box;
+                    -webkit-box-orient: vertical;
+                    -webkit-line-clamp: 2;
                 }
             }
         }

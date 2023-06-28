@@ -65,7 +65,7 @@ export default function CustomConnect(props) {
                     <p>{t("wallet.unconnect")}</p>
                     {
                         step >= 0 &&
-                        <Button onClick={openModalConnect}>{t("wallet.connect")}</Button>
+                        <Button id="hover-btn-ghost" onClick={openModalConnect}>{t("wallet.connect")}</Button>
                     }
                 </>
             }

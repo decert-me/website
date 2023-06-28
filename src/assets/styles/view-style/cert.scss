@@ -1,8 +1,16 @@
 .Cert{
     width: 1660px;
     min-height: 1080px;
-    margin: 55px auto 0;
+    margin: 82px auto 0;
     display: flex;
+}
+.header-line{
+    width: 100%;
+    height: 1px;
+    background-color: #D8D8D8;
+    position: fixed;
+    top: 82px;
+    left: 0;
 }
 .divider{
     width: 370px;
@@ -13,43 +21,46 @@
     margin-top: 50px;
 }
 .Cert-sidbar{
-    width: 410px;
-    padding-right: 10px;
-    padding-top: 20px;
+    width: 380px;
+    margin-right: 30px;
+    padding-top: 40px;
     box-sizing: content-box;
     .search{
         .search-title{
-            margin-bottom: 18px;
-            font-size: 26px;
-            font-weight: 600;
-            line-height: 25px;
+            margin-bottom: 15px;
+            color: #03111D;
+            font-size: 24px;
+            font-weight: 500;
+            line-height: 28px;
         }
         .search-inner{
             height: 50px;
-            padding-block: 13px;
-            padding-inline: 10px 18px;
+            padding: 11px 18px;
+            padding-right: 0;
+            margin-bottom: 40px;
             display: flex;
             align-items: center;
-            border-radius: 5px;
-            border: 2px solid #000;
+            border-radius: 10px;
+            border: 1px solid #D8D8D8;
         }
         .icon{
-            margin-right: 8px;
-            font-size: 20px;
+            margin-right: 18px;
+            color: rgba(0,0,0,0.5);
+            font-size: 14px;
         }
         input{
             padding: 0;
-            font-weight: 500;
+            font-size: 20px;
         }
     }
     .user{
-        width: 370px;
-        display: flex;
-        align-items: center;
-        position: relative;
+        .user-content{
+            display: flex;
+            align-items: center;
+        }
         .avatar > .img{
-            width: 80px;
-            height: 80px;
+            width: 98px;
+            height: 98px;
             border-radius: 50%;
             overflow: hidden;
             img{
@@ -58,13 +69,13 @@
             }
         }
         .user-info{
-            margin-left: 15px;
+            margin-left: 20px;
             .name{
                 max-width: 200px;
                 margin-bottom: 14px;
-                font-size: 24px;
-                font-weight: 500;
-                line-height: 25px;
+                font-size: 20px;
+                font-weight: 600;
+                line-height: 23px;
                 white-space: nowrap;  
                 text-overflow:ellipsis; 
                 overflow:hidden;
@@ -72,69 +83,116 @@
             }
             .address{
                 max-width: 200px;
-                font-size: 18px;
-                line-height: 25px;
+                color: #999999;
+                font-size: 14px;
+                line-height: 20px;
                 cursor: pointer;
+                .anticon-copy{
+                    margin-left: 15px;
+                    color: #000;
+                }
             }
         }
-        .share{
-            width: 35px;
-            height: 35px;
-            padding: 0;
-            position: absolute;
-            right: 0;
-            top: 0;
-            border: none;
-            box-shadow: none;
-            border-radius: 4px;
-            background-color: #E4E4E4;
-            color: #E4E4E4;
-            font-size: 23px;
-            stroke: #999999;
-            stroke-width: 23px;
-            &:hover{
-                background-color: #9999999a;
-                color: #9999999a !important;
+        .social{
+            margin-top: 35px;
+            display: flex;
+            align-items: center;
+            .items{
+                width: 310px;
+                display: flex;
+                .item{
+                    width: 48px;
+                    height: 48px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    border-radius: 50%;
+                    transition: box-shadow 0.3s;
+                    &:hover{
+                        box-shadow: 0 2px 3px 1px rgba($color: #000000, $alpha: 0.1);
+                    }
+                    img{
+                        width: 35px;
+                    }
+                }
+            }
+            .ant-divider-vertical{
+                height: 24px;
+                margin: 0;
+                background-color: #E4E4E4;
+            }
+            .share{
+                width: 23px;
+                height: 23px;
+                margin-left: 30px;
+                padding: 0;
+                border: none;
+                box-shadow: none;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                font-size: 16px;
+                &:hover{
+                    background-color: #9999999a;
+                    color: #9999999a !important;
+                }
             }
         }
     }
+    .line{
+        margin: 40px auto 35px;
+        background-color: #D8D8D8;
+    }
     .nfts{
-        width: 370px;
         .add{
-            margin-bottom: 27px;
+            margin-bottom: 35px;
             display: flex;
             align-items: center;
             justify-content: space-between;
             p{
                 font-size: 18px;
-                font-weight: 700;
-                line-height: 26px;
+                font-weight: 600;
+                line-height: 21px;
             }
             button{
-                width: 40px;
-                height: 40px;
+                width: 28px;
+                height: 28px;
                 padding: 0;
                 color: #fff;
-                font-size: 20px;
-                background-color: #4E7592;
+                font-size: 19px;
+                font-weight: 600;
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                background-color: #8F5A35;
+                border-radius: 50%;
                 border: none;
             }
         }
         ul{
             .active,li:hover{
-                background-color: rgba($color: #4e7592, $alpha: 0.1);
+                background-color: rgba($color: #F8F6F5, $alpha: 1);
+                p{
+                    color: #000;
+                }
             }
             li{
                 height: 50px;
                 padding: 5px 10px;
-                margin-bottom: 10px;
+                margin-bottom: 5px;
                 border-radius: 5px;
                 display: flex;
                 align-items: center;
                 cursor: pointer;
+                position: relative;
                 transition: background-color 0.2s;
+                .poa{
+                    position: absolute;
+                    right: 25px;
+                }
                 p{
-                    font-size: 18px;
+                    color: #666666;
+                    font-size: 14px;
                     font-weight: 500;
                 }
                 .li-content{
@@ -142,14 +200,24 @@
                     white-space: nowrap;  
                     text-overflow:ellipsis; 
                     overflow:hidden;
-
                 }
                 .img{
                     width: 43px;
                     height: 43px;
                     margin-right: 12px; 
                     border-radius: 5px;
-                    overflow: hidden;
+                    position: relative;
+                    .badge{
+                        width: 16px;
+                        height: 16px;
+                        position: absolute;
+                        right: -8px;
+                        top: -8px;
+                        img{
+                            width: 100%;
+                            height: 100%;
+                        }
+                    }
                 }
             }
         }
@@ -162,15 +230,20 @@
 }
 
 .Cert-content{
-    width: calc(100% - 400px);
+    width: calc(100% - 410px);
     padding-block: 40px;
     border-left: 1px solid #D8D8D8;
+    position: relative;
+    .content-header, .content-header-mobile{
+        display: flex;
+        justify-content: space-between;
+    }
     ul{
         padding-inline: 40px;
         display: flex;
         color: #666666;
         font-size: 24px;
-        font-weight: 500;
+        font-weight: 400;
         line-height: 34px;
         li{
             margin-right: 50px;
@@ -178,6 +251,20 @@
         }
         .active{
             color: #000;
+            font-weight: 500;
+        }
+    }
+    .reload{
+        height: 44px;
+        padding: 0 18px 0 12px;
+        font-size: 15px;
+        color: #353840 !important;
+        background-color: #F6F6F6;
+        border: none;
+        img{
+            width: 14px;
+            height: 14px;
+            margin-right: 6px;
         }
     }
     .nfts{
@@ -213,11 +300,9 @@
         }
         .scroll{
             width: 1243px;
-            padding-inline: 20px;
-            // margin: 0 auto;
             display: flex;
             flex-wrap: wrap;
-            gap: 25px;
+            gap: 33px;
         }
         .loading{
             width: 100%;
@@ -232,17 +317,63 @@
         .nft-detail{
             width: 282px;
             border-radius: 20px;
-            
             overflow: hidden;
-            box-shadow: 0 4px 10px 1px #999;
+            border: 1px solid #F0F0F0;
+            position: relative;
             &:hover{
                 .nft-info .bottom{
                     bottom: 0;
                 }
+                .badge{
+                    opacity: 1;
+                }
+            }
+            .badge{
+                width: 32px;
+                height: 32px;
+                position: absolute;
+                z-index: 1;
+                cursor: pointer;
+                opacity: 0;
+                transition: opacity 0.2s;
+                font-size: 16px;
+                img{
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .badge-chain{
+                left: 9px;
+                top: 12px;
+            }
+            .badge-opensea{
+                left: 60px;
+                top: 12px;
+            }
+            .badge-eye{
+                top: 5px;
+                right: 5px;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                border-radius: 50%;
+                overflow: hidden;
+            }
+            .eye-show{
+                color: #808080;
+                background-color: rgba($color: #fff, $alpha: 0.3);
+            }
+            .eye-hide{
+                color: #fff;
+                background-color: rgba($color: #000, $alpha: 0.3);
+            }
+            .show .badge{
+                opacity: 1;
             }
             .img{
                 width: 100%;
-                height: 270px;
+                height: 280px;
+                background-color: rgba(0,0,0,0.01);
                 img{
                     width: 100%;
                     height: auto;
@@ -250,20 +381,18 @@
             }
             .nft-info{
                 width: 100%;
-                height: 100px;
+                height: 80px;
                 background-color: #fff;
                 position: relative;
                 .nft-title{
                     width: 100%;
-                    height: 60px;
-                    padding: 14px 21px 0 12px;
+                    padding: 16px 21px 0 12px;
                     color: #17151C;
-                    font-size: 16px;
-                    font-weight: 500;
-                    line-height: 22px;
-                    white-space: nowrap;  
-                    text-overflow:ellipsis; 
-                    overflow:hidden;
+                    font-size: 14px;
+                    line-height: 18px;
+                    letter-spacing: 0.4px;
+                    overflow: hidden;
+                    -webkit-line-clamp: 2;
                 }
                 .bottom{
                     width: 100%;
@@ -271,7 +400,7 @@
                     position: absolute;
                     bottom: -36px;
                     color: #fff;
-                    background-color: #495FEA;
+                    background-color: #B47243FF;
 
                     transition: bottom 0.2s;
                     display: flex;
