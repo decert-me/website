@@ -12,6 +12,7 @@ export const constans = (contractType) => {
         },
         "56": {
             name: "BNB", 
+            alias: "bsc",
             icon: require("@/assets/images/img/net-BNB.png"),
             link: "https://bscscan.com/address/"
         },
@@ -23,16 +24,19 @@ export const constans = (contractType) => {
         },
         "10": {
             name: "Optimism", 
+            alias: "optimism",
             icon: require("@/assets/images/img/net-Optimism.png"),
             link: "https://optimistic.etherscan.io/address/"
         },
         "1": {
             name: "Ethereum", 
+            alias: "ethereum",
             icon: require("@/assets/images/img/net-ETH.png"),
             link: "https://etherscan.io/address/"
         },
         "42161": {
             name: "Arbitrum One", 
+            alias: "arbitrum",
             icon: require("@/assets/images/img/net-Arbitrum.png"),
             link: "https://arbiscan.io/address/"
         },
