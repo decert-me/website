@@ -36,7 +36,7 @@ export default function DefaultLayout(params) {
     };
       
     const contentStyle = {
-        backgroundColor: '#fff',
+        backgroundColor: location.pathname.indexOf("user") === -1 ? '#fff' : "#F9F9F9",
         overflow: "hidden",
         display: "grid",
         gridTemplateRows: `minmax(${vh}vh, auto)`,
