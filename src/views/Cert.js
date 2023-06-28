@@ -8,7 +8,7 @@ import "@/assets/styles/mobile/view-style/cert.scss"
 import { useTranslation } from "react-i18next";
 import { useLocation, useParams } from "react-router-dom";
 import { CertSearch, CertUser, CertNfts, NftBox, ModalAddSbt } from "@/components/Cert";
-import { getAllNft, getContracts, getEns, modifyNftStatus } from "@/request/api/nft";
+import { getAllNft, getContracts, getEns, modifyNftStatus, reloadSbt } from "@/request/api/nft";
 import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
 import MyContext from "@/provider/context";
@@ -44,6 +44,8 @@ export default function Cert(params) {
     })
     const scrollRef = useRef(null);
     let [loading, setLoading] = useState(true);
+    let [reloading, setReloading] = useState(false);
+    
     let [selectStatus, setSelectStatus] = useState();
     let [selectContract, setSelectContract] = useState();
     let [ensParse, setEnsParse] = useState({
@@ -189,6 +191,30 @@ export default function Cert(params) {
         setIsModalOpen(false);
     };
 
+    async function goReload(params) {
+        setReloading(true);
+        await reloadSbt({address: urlAddr})
+        setReloading(false);
+        // 刷新当前页面
+        window.location.reload();
+    }
+
+    const Reload = (
+        <Button 
+            className="reload" 
+            onClick={() => goReload()}
+            loading={reloading}
+            icon={
+                <img 
+                    src={require("@/assets/images/icon/reload.png")} 
+                    alt="" 
+                />
+            }
+        >
+            {t("reload")}
+        </Button>
+    )
+
     useEffect(() => {
         options = covertChain();
         setOptions([...options]);
@@ -231,18 +257,28 @@ export default function Cert(params) {
             <div className={`Cert-content ${isList || addSbtPanel ? "none" : ""}`}>
                 {
                     isMobile && 
-                    <div className="back" onClick={() => goback()}>
-                        <LeftOutlined />
+                    <div className="content-header-mobile">
+                        <div className="back" onClick={() => goback()}>
+                            <LeftOutlined />
+                        </div>
+                        {Reload}
                     </div>
                 }
-                {
-                    isMe &&
-                    <ul>
-                        <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>{t("cert:sidbar.list.all")}&nbsp;({checkTotal.all})</li>
-                        <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>{t("cert:sidbar.list.public")}&nbsp;({checkTotal.open})</li>
-                        <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>{t("cert:sidbar.list.hide")}&nbsp;({checkTotal.hide})</li>
-                    </ul>
-                }
+                <div className="content-header">
+                    {
+                        isMe ?
+                        <ul>
+                            <li className={!selectStatus ? "active" :"" } onClick={() => {setSelectStatus(null)}}>{t("cert:sidbar.list.all")}&nbsp;({checkTotal.all})</li>
+                            <li className={selectStatus === 2 ? "active" :"" } onClick={() => {setSelectStatus(2)}}>{t("cert:sidbar.list.public")}&nbsp;({checkTotal.open})</li>
+                            <li className={selectStatus === 1 ? "active" :"" } onClick={() => {setSelectStatus(1)}}>{t("cert:sidbar.list.hide")}&nbsp;({checkTotal.hide})</li>
+                        </ul>
+                        :
+                        <div></div>
+                    }
+                    {
+                        !isMobile && Reload
+                    }
+                </div>
                 <div className="nfts" ref={scrollRef}>
                     <div className="scroll">
                         {

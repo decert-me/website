@@ -233,6 +233,11 @@
     width: calc(100% - 410px);
     padding-block: 40px;
     border-left: 1px solid #D8D8D8;
+    position: relative;
+    .content-header, .content-header-mobile{
+        display: flex;
+        justify-content: space-between;
+    }
     ul{
         padding-inline: 40px;
         display: flex;
@@ -247,6 +252,19 @@
         .active{
             color: #000;
             font-weight: 500;
+        }
+    }
+    .reload{
+        height: 44px;
+        padding: 0 18px 0 12px;
+        font-size: 15px;
+        color: #353840 !important;
+        background-color: #F6F6F6;
+        border: none;
+        img{
+            width: 14px;
+            height: 14px;
+            margin-right: 6px;
         }
     }
     .nfts{
@@ -284,7 +302,7 @@
             width: 1243px;
             display: flex;
             flex-wrap: wrap;
-            gap: 25px;
+            gap: 33px;
         }
         .loading{
             width: 100%;

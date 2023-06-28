@@ -153,17 +153,31 @@ $container-width: 90vw;
         padding-bottom: 2.8125rem;
         border: none;
         position: relative;
+        .content-header-mobile{
+            width: 100%;
+            position: absolute;
+            top: 0;
+        }
         .back{
             width: 1.875rem;
             height: 1.875rem;
             border-radius: .125rem;
             background-color: #EDF1F4;
-            position: absolute;
-            top: 0;
+
             display: flex;
             align-items: center;
             justify-content: center;
             font-size: 1.25rem;
+        }
+        .reload{
+            height: 2.5rem;
+            padding: 0 1rem 0 .9375rem;
+            font-size: .75rem;
+            img{
+                width: .8125rem;
+                height: .8125rem;
+                margin-right: .375rem;
+            }
         }
         ul{
             padding-left: 0;

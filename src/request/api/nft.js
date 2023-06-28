@@ -49,3 +49,11 @@ export const getEns = (data) => {
         data
     })
 }
+
+export const reloadSbt = (data) => {
+    return nftAxios({
+        url: `/account/own/refreshUserData`,
+        method: "post",
+        data
+    })
+}
