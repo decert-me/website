@@ -21,7 +21,7 @@ export default function NftBox(props) {
         <div className="nft-detail">
             {
                 options.map((item, index) => {
-                    if (item.label.toLocaleLowerCase() === info.chain) {
+                    if (item.nftscan === info.chain) {
                         return (
                             <div key={index} className={info.status === 1 ? "show" : ""}>
                                 <div className="badge badge-chain">
@@ -30,9 +30,9 @@ export default function NftBox(props) {
                                     </a>
                                 </div>
                                 {
-                                    item.label !== "Gnosis" && 
+                                    item.opensea && 
                                     <div className="badge badge-opensea">
-                                        <a href={`https://opensea.io/assets/${item?.alias ? item?.alias : item?.label}/${info.contract_address}/${info.token_id}`} target="_blank">
+                                        <a href={`https://opensea.io/assets/${item.opensea}/${info.contract_address}/${info.token_id}`} target="_blank">
                                             <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                                         </a>
                                     </div>

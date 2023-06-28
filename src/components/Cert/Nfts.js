@@ -77,7 +77,7 @@ export default function CertNfts(props) {
                                         <div className="badge">
                                             {
                                                 options.map(item => {
-                                                    if (item.label.toLocaleLowerCase() === e.chain) {
+                                                    if (item.nftscan === e.chain) {
                                                         return <img src={item.icon} alt="" key={e.id} />
                                                     }
                                                 })

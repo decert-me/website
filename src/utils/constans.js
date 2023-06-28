@@ -12,36 +12,42 @@ export const constans = (contractType) => {
         },
         "56": {
             name: "BNB", 
-            alias: "bsc",
+            opensea: "bsc",
+            nftscan: "bnb",
             icon: require("@/assets/images/img/net-BNB.png"),
             link: "https://bscscan.com/address/"
         },
         "137": {
             name: "Polygon", 
-            alias: "matic", 
+            opensea: "matic", 
+            nftscan: "polygon",
             icon: require("@/assets/images/img/net-Polygon.png"), 
             link: "https://polygonscan.com/address/"
         },
         "10": {
             name: "Optimism", 
-            alias: "optimism",
+            opensea: "optimism",
+            nftscan: "optimism",
             icon: require("@/assets/images/img/net-Optimism.png"),
             link: "https://optimistic.etherscan.io/address/"
         },
         "1": {
             name: "Ethereum", 
-            alias: "ethereum",
+            opensea: "ethereum",
+            nftscan: "eth",
             icon: require("@/assets/images/img/net-ETH.png"),
             link: "https://etherscan.io/address/"
         },
         "42161": {
             name: "Arbitrum One", 
-            alias: "arbitrum",
+            opensea: "arbitrum",
+            nftscan: "arbitrum",
             icon: require("@/assets/images/img/net-Arbitrum.png"),
             link: "https://arbiscan.io/address/"
         },
         "100": {
             name: "Gnosis", 
+            nftscan: "gnosis",
             icon: require("@/assets/images/img/net-Gnosis.png"),
             link: "https://gnosisscan.io/address/"
         }

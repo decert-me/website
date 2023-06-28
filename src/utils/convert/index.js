@@ -110,7 +110,8 @@ export const covertChain = () => {
           value: Number(i), 
           label: chains[i].name, 
           icon: chains[i].icon, 
-          alias: chains[i]?.alias, 
+          opensea: chains[i]?.opensea, 
+          nftscan:chains[i]?.nftscan, 
           link: chains[i].link
       })
   }
