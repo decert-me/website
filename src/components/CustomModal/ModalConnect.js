@@ -2,10 +2,12 @@ import { Divider, Modal } from "antd";
 import { useAccount, useConnect } from "wagmi";
 import { useIsMounted } from '@/hooks/useIsMounted'
 import "@/assets/styles/component-style"
+import { useWeb3Modal } from "@web3modal/react";
 
 export default function ModalConnect(props) {
 
     const { isModalOpen, handleCancel } = props;
+    const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
     const isMounted = useIsMounted();
     const { connect, connectors } = useConnect({
         chainId: Number(process.env.REACT_APP_CHAIN_ID)
@@ -17,8 +19,12 @@ export default function ModalConnect(props) {
     })
 
     function goConnect(x) {
+        if (x.name === "WalletConnect") {
+            setDefaultChain({id: process.env.REACT_APP_CHAIN_ID})
+            handleCancel()
+        }
+        
         connect({ connector: x })
-        x.name === "WalletConnect" && handleCancel()
     }
 
     return (
