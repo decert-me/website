@@ -9,7 +9,6 @@ import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 // import { SafeConnector } from 'wagmi/connectors/safe'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-import { WalletConnectLegacyConnector } from 'wagmi/connectors/walletConnectLegacy';
 // import { alchemyProvider } from 'wagmi/providers/alchemy'
 // import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
@@ -34,7 +33,7 @@ const { chains, provider, webSocketProvider } = configureChains(
 const web3modalClient = createClient({
   autoConnect: true,
   connectors: [
-    ...w3mConnectors({ projectId, version: 1, chains })
+    ...w3mConnectors({ projectId, version: 2, chains })
   ],
   provider,
   webSocketProvider,
@@ -43,18 +42,13 @@ const web3modalClient = createClient({
 const wagmiClient = createClient({
   autoConnect: true,
   connectors: [
-    new MetaMaskConnector({
+    new MetaMaskConnector({ chains }),
+    new WalletConnectConnector({
       chains,
       options: {
-        UNSTABLE_shimOnConnectSelectAccount: true,
+        projectId: projectId,
       },
     }),
-    new WalletConnectLegacyConnector({
-      chains,
-      options: {
-        qrcode: true,
-      },
-    })
   ],
   provider,
   webSocketProvider,

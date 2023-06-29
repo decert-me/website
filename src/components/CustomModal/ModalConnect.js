@@ -16,7 +16,13 @@ export default function ModalConnect(props) {
         }
     })
 
+    function goConnect(x) {
+        connect({ connector: x })
+        x.name === "WalletConnect" && handleCancel()
+    }
+
     return (
+        <>
         <Modal
             className="ModalConnect" 
             open={isModalOpen}
@@ -32,7 +38,7 @@ export default function ModalConnect(props) {
                     <div
                         className="wallet-item"
                         disabled={!x.ready || isReconnecting || connector?.id === x.id}
-                        onClick={() => connect({ connector: x })}
+                        onClick={() => goConnect(x)}
                     >
                         <div className="item">
                             <div className="img">
@@ -62,5 +68,6 @@ export default function ModalConnect(props) {
                 ))
                 }
         </Modal>
+        </>
     )
 }
