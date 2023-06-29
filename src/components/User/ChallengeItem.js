@@ -65,9 +65,8 @@ export default function ChallengeItem(props) {
             });
             return
         }
-        // TODO: 跳转至编辑challenge
-        console.log(info);
-        // navigateTo("/publish")
+        // 跳转至编辑challenge
+        navigateTo(`/publish?${info.tokenId}`)
     }
 
     function getTimeDiff(time) {

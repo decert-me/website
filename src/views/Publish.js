@@ -7,7 +7,7 @@ import CustomForm from '@/components/Publish/CustomForm';
 
 import { Encryption } from "@/utils/Encryption";
 import { filterQuestions } from "@/utils/filter";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useUpdateEffect } from "ahooks";
 import { usePublish } from "@/hooks/usePublish";
@@ -24,6 +24,7 @@ export default function Publish(params) {
     const { t } = useTranslation(["publish", "translation"]);
     const { isMobile } = useContext(MyContext);
     const { address, isConnected } = useAccount();
+    const location = useLocation();
     
     let [showAddQs, setShowAddQs] = useState(false);
     let [showAddCodeQs, setShowAddCodeQs] = useState(false);
@@ -190,7 +191,19 @@ export default function Publish(params) {
         setSelectQs(selectQs);
     }
 
+    function getChallenge(tokenId) {
+        // TODO: 获取tokenId对应challenge信息
+    }
+
     const init = async() => {
+        // 判断地址栏是否有传参
+        const tokenId = location.search.replace("?");
+        if (tokenId) {
+            // 获取tokenId对应challenge信息
+            getChallenge(tokenId);
+            return
+        }
+
         let local = localStorage.getItem("decert.store");
         if (!local) {
             return
