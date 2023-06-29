@@ -8,13 +8,18 @@ import { useTranslation } from "react-i18next";
 import { convertTime } from "@/utils/convert";
 import MyContext from '@/provider/context';
 import { useContext } from 'react';
+import { tokenSupply } from '@/controller';
+import { useSigner } from 'wagmi';
+import { message } from 'antd';
 
 export default function ChallengeItem(props) {
     
+    const { data: signer } = useSigner();
     const { info, profile } = props;
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
+    const [messageApi, contextHolder] = message.useMessage();
     // const { ipfsPath, defaultImg, openseaLink } = constans(checkType === 1 ? true : false);
     const { ipfsPath, defaultImg, openseaLink } = constans(profile?.checkType);
     const arr = [0, 1, 2];
@@ -32,23 +37,40 @@ export default function ChallengeItem(props) {
 
     const toOpensea = (event) => {
         event.stopPropagation();
-        window.open(`${openseaLink}/${info.tokenId}`,'_blank')
+        window.open(`${openseaLink}/${info.tokenId}`,'_blank');
     }
 
     function clickSbt(event) {
         if (isMobile) {
             event.stopPropagation();
-            window.open(`${openseaLink}/${info.tokenId}`,'_blank')
+            window.open(`${openseaLink}/${info.tokenId}`,'_blank');
         }
     }
 
-    function goEdit(event) {
+    async function goEdit(event) {
         event.stopPropagation();
+        // 是否有人claim? cliam则不可修改
+        const supply = await tokenSupply(info.tokenId, signer)
+            .then(res => {
+                return res
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        // 已有人claim，终止
+        if (supply > 0) {
+            messageApi.open({
+                type: 'warning',
+                content: 'This is a warning message',
+            });
+            return
+        }
         // TODO: 跳转至编辑challenge
+        console.log(info);
+        // navigateTo("/publish")
     }
 
     function getTimeDiff(time) {
-        // }
         const { type, time: num } = convertTime(time, "all")
 
         return (
@@ -60,6 +82,7 @@ export default function ChallengeItem(props) {
 
     return (
         <div className="ChallengeItem" onClick={toQuest}>
+            {contextHolder}
             {
                 (!profile && info.claimable) || (profile && profile.isMe && info.complete_ts && !info.claimed) ?
                 <div className="item-claimable">
@@ -67,9 +90,12 @@ export default function ChallengeItem(props) {
                 </div>
                 :<></>
             }
-            <div className="edit" onClick={goEdit}>
-                <EditOutlined />
-            </div>
+            {
+                profile && info?.creator === profile?.address &&
+                <div className="edit" onClick={goEdit}>
+                    <EditOutlined />
+                </div>
+            }
             {
                 info.claimed && 
                 <div className="item-claimed">

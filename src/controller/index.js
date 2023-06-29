@@ -47,6 +47,19 @@ export async function claim(tokenId, score, signature, provider) {
   
   
 // badge ===>
+export async function tokenSupply(tokenId, provider) {
+  const Contract = new ethers.Contract(badgeAddr, badge, provider);
+
+  let txHash = '';
+  try {
+    const resp = await Contract.tokenSupply(tokenId);
+    txHash = resp.toNumber();
+  } catch (err) {
+    console.dir(err);
+  }
+  return txHash;
+}
+
 export async function balanceOf(owner, tokenId, provider) {
   
   const Contract = new ethers.Contract(badgeAddr, badge, provider);

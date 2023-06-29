@@ -288,7 +288,8 @@ export default function User(props) {
                             info={e}
                             profile={{
                                 isMe,
-                                checkType
+                                checkType,
+                                address
                             }}
                         />
                     )
