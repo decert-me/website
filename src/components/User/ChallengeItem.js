@@ -1,4 +1,4 @@
-import { ClockCircleFilled } from '@ant-design/icons';
+import { ClockCircleFilled, EditOutlined } from '@ant-design/icons';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "@/assets/styles/component-style/index"
 import "@/assets/styles/mobile/component-style/user/challengeItem.scss"
@@ -42,15 +42,12 @@ export default function ChallengeItem(props) {
         }
     }
 
+    function goEdit(event) {
+        event.stopPropagation();
+        // TODO: 跳转至编辑challenge
+    }
+
     function getTimeDiff(time) {
-        var timeDiff;
-        // if (typeof time === "number") {
-        //     var now = Math.round(new Date().getTime() / 1000);
-        //     timeDiff = now - time;
-        // }else{
-        //     var now = new Date();
-        //     var dbTime = new Date(time);
-        //     timeDiff = Math.round(now - dbTime) / 1000;
         // }
         const { type, time: num } = convertTime(time, "all")
 
@@ -70,6 +67,9 @@ export default function ChallengeItem(props) {
                 </div>
                 :<></>
             }
+            <div className="edit" onClick={goEdit}>
+                <EditOutlined />
+            </div>
             {
                 info.claimed && 
                 <div className="item-claimed">
