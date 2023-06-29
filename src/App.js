@@ -47,6 +47,7 @@ const wagmiClient = createClient({
       chains,
       options: {
         projectId: projectId,
+        showQrModal: true
       },
     }),
   ],
