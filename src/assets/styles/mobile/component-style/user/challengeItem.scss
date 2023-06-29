@@ -4,7 +4,7 @@
         height: 7.8125rem;
         padding: .8125rem;
         border-width: .0625rem;
-        border-radius: .3125rem;
+        border-radius: .625rem;
         transition: none;
         .item-claimed, .item-claimable{
           width: 2.8125rem;
@@ -19,9 +19,9 @@
         .left-info {
           width: calc(100% - 6.125rem - .625rem);
           .title {
-            margin-bottom: .4375rem;
-            font-size: .75rem;
-            line-height: .875rem;
+            margin-bottom: .125rem;
+            font-size: 1rem;
+            line-height: 1.1875rem;
           }
           .desc{
             font-size: .75rem;
