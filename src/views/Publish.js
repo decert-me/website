@@ -18,6 +18,7 @@ import { useAccount } from "wagmi";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 import { changeConnect } from "@/utils/redux";
 import { getQuests } from "@/request/api/public";
+import store, { setChallenge } from "@/redux/store";
 
 export default function Publish(params) {
     
@@ -151,7 +152,13 @@ export default function Publish(params) {
             recommend: values.editor,
             isOver: isOver
         }
+        
+        // 修改挑战 or 发布挑战
+        changeId ? 
+        await store.dispatch(setChallenge(questCache))
+        :
         localStorage.setItem("decert.store", JSON.stringify(questCache))
+
         goPreview();
     }
 
@@ -203,12 +210,21 @@ export default function Publish(params) {
         setSelectQs(selectQs);
     }
 
+    function isSerializedString(str) {
+        try {
+          JSON.parse(str);
+          return JSON.parse(str); // 字符串成功解析为对象，可以认为是序列化过的
+        } catch (error) {
+          return str; // 字符串无法解析为对象，不是序列化过的
+        }
+    }
+
     function getChallenge(tokenId) {
         // 获取对应challenge信息
         getQuests({id: tokenId})
         .then(res => {
             const data = res?.data
-            recommend = data.recommend;
+            recommend = isSerializedString(data.recommend);
             setRecommend(recommend);
             const answers = JSON.parse(decode(process.env.REACT_APP_ANSWERS_KEY, data.quest_data.answers))
             questions = data.quest_data.questions.map((e,i) => {

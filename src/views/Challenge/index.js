@@ -7,7 +7,7 @@ import {
     message, 
     Progress 
 } from 'antd';
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { challengeJson, getQuests, nftJson, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
@@ -20,16 +20,17 @@ import {
     CustomCheckbox 
 } from '../../components/CustomChallenge';
 import { useTranslation } from 'react-i18next';
-import { constans } from '@/utils/constans';
 import { usePublish } from '@/hooks/usePublish';
 import { setMetadata } from '@/utils/getMetadata';
 import CustomCode from '@/components/CustomChallenge/CustomCode';
+import store from "@/redux/store";
+import MyContext from '@/provider/context';
 
 export default function Challenge(params) {
 
     const { t } = useTranslation(["explore"]);
 
-    const { ipfsPath } = constans();
+    // const reduxCache = useContext(MyContext);
     const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -184,12 +185,14 @@ export default function Challenge(params) {
     }
 
     const cacheInit = async() => {
+        const { challenge } = store.getState();
         const local = localStorage.getItem("decert.store");
-        if (!local || (local && JSON.parse(local).questions.length === 0)) {
+        if (!challenge && (!local || (local && JSON.parse(local).questions.length === 0))) {
             navigateTo("/challenges");
             return
         }
-        const cache = JSON.parse(local);
+        const cache = challenge || JSON.parse(local);
+
         if (cache.isOver) {
             const challengeHash = await challengeJson(cache.hash.attributes.challenge_ipfs_url);
             const obj = JSON.parse(JSON.stringify(cache.hash));
