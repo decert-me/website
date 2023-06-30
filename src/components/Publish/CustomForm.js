@@ -53,13 +53,14 @@ export default function CustomForm(props) {
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
     function challengeInit() {
-        fileList.push({
-            uid: '-1',
-            name: 'image.png',
-            status: 'done',
-            url: changeItem.metadata.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY)
-        })
-        setFileList([...fileList])
+        // fileList.push({
+        //     uid: '-1',
+        //     name: 'image.png',
+        //     status: 'done',
+        //     url: changeItem.metadata.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY)
+        // })
+        // setFileList([...fileList])
+        initImage(changeItem.metadata.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY));
         fields = [
             {
                 name: ["title"],
@@ -89,12 +90,23 @@ export default function CustomForm(props) {
         setFields([...fields])
     }
 
+    function initImage(img) {
+        fileList.push({
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: img
+        })
+        setFileList([...fileList])
+    }
+
     const init = async() => {
         const local = localStorage.getItem("decert.store");
         if (!local && !changeItem) {
             return
         }
         const cache = JSON.parse(local);
+        initImage(cache.hash.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY));
         if (cache?.hash) {
             const nftCache = cache.hash
             const questCache = nftCache.attributes.challenge_ipfs_url

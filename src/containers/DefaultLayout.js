@@ -22,7 +22,7 @@ export default function DefaultLayout(params) {
     const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
     let [vh, setVh] = useState(100);
-    const { address } = useAccount({
+    const { address, status } = useAccount({
         onDisconnect(){
             // 已登陆  ====>  未登录
             console.log("断开链接");
@@ -117,7 +117,6 @@ export default function DefaultLayout(params) {
             // isCert(path, 'reload');
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
-            console.log("已登陆  ====>  切换账号");
             ClearStorage();
             localStorage.setItem("decert.address", address);
             isClaim(path);
@@ -169,6 +168,13 @@ export default function DefaultLayout(params) {
           window.removeEventListener("resize", zoomVh);
         };
     }, []);
+
+    // useEffect(() => {
+    //     // !address && localStorage.getItem("wagmi.connected") && navigateTo(0)
+    //     console.log(status);
+    // },[address])
+
+    
 
     return (
         <Layout className={isMobile ? "Mobile" : ""}>

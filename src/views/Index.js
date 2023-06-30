@@ -61,7 +61,6 @@ export default function Index(params) {
     function scale(params) {
         const dom = document.querySelector(".Home");
         if (window.innerWidth < 1920 && !isMobile) {
-            console.log(isMobile);
             // 只缩小
             // document.body.style.zoom = window.innerWidth / 1940;
             dom.style.zoom = window.innerWidth / 1950;
