@@ -6,6 +6,7 @@ import { useEffect, useState } from "react";
 import { UploadProps } from "@/utils/UploadProps";
 import { InboxOutlined } from '@ant-design/icons';
 import { useAccount } from "wagmi";
+import { useUpdateEffect } from "ahooks";
 
 const { TextArea } = Input;
 const { Dragger } = Upload;
@@ -35,6 +36,7 @@ export default function CustomForm(props) {
     const [form] = Form.useForm();
     const { isConnected } = useAccount();
     let [fields, setFields] = useState([]);
+    const [fileList, setFileList] = useState([]);
     
     const checkPreview = async() => {
         let flag;
@@ -48,7 +50,18 @@ export default function CustomForm(props) {
         preview(form.getFieldsValue(), flag)
     }
 
+    const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+
     function challengeInit() {
+        console.log("start =====>");
+        fileList.push({
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: changeItem.metadata.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY)
+        })
+        setFileList([...fileList])
+        console.log(fileList);
         fields = [
             {
                 name: ["title"],
@@ -75,12 +88,6 @@ export default function CustomForm(props) {
     }
 
     const init = async() => {
-
-        // 修改挑战数据初始化
-        if (changeItem) {
-            challengeInit()
-            return 
-        }
         const local = localStorage.getItem("decert.store");
         if (!local && !changeItem) {
             return
@@ -118,6 +125,11 @@ export default function CustomForm(props) {
     useEffect(() => {
         init();
     },[])
+
+    useUpdateEffect(() => {
+        // 修改挑战数据初始化
+        changeItem && challengeInit()
+    },[changeItem])
 
     return (
         <Form
@@ -199,6 +211,8 @@ export default function CustomForm(props) {
                         UploadProps.beforeUpload(file)
                     }}
                     listType="picture-card"
+                    fileList={fileList}
+                    onChange={handleChange}
                 >
                     <p className="ant-upload-drag-icon" style={{ color: "#a0aec0" }}>
                         <InboxOutlined />
