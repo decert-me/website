@@ -45,9 +45,10 @@ export default function Publish(params) {
     const [loading, setLoading] = useState(false);
     const { publish, isLoading, isOk, transactionLoading } = usePublish({
         jsonHash: publishObj?.jsonHash, 
-        recommend: publishObj?.recommend
+        recommend: publishObj?.recommend,
+        changeId: changeId
     });
-    const { encode } = Encryption();
+    const { encode, decode } = Encryption();
 
     function showAddModal(params) {
         setShowAddQs(true);
@@ -96,12 +97,13 @@ export default function Publish(params) {
 
     const getJson = async(values, preview) => {
         const { answers, questions: qs } = filterQuestions(questions);
+        const image = values.fileList?.file?.response.data.hash
         const jsonHash = await getMetadata({
             values: values,
             address: address,
             questions: qs,
             answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-            image: "ipfs://"+values.fileList?.file.response.data.hash
+            image: changeId && !image ? changeItem.metadata.image : "ipfs://"+image
         }, preview ? preview : null)
         return jsonHash
     }
@@ -158,9 +160,10 @@ export default function Publish(params) {
             changeConnect()
             return
         }
-        // 上传图片后删除
-        if (!values.fileList.file.response.data.hash) {
+        // 上传图片后删除: 若是`修改挑战`则跳过该判断
+        if (!changeId && !values.fileList.file.response.data.hash) {
             return
+            
         }
         setLoading(true);
         const jsonHash = await getJson(values);
@@ -176,7 +179,8 @@ export default function Publish(params) {
             questions: questions,
             recommend: values.editor
         }
-        saveCache(questCache);
+        // 非`修改挑战`缓存
+        !changeId && saveCache(questCache); 
         setLoading(false);
         if (isWrite) {
             publish();
@@ -206,7 +210,13 @@ export default function Publish(params) {
             const data = res?.data
             recommend = data.recommend;
             setRecommend(recommend);
-            questions = data.quest_data.questions;
+            const answers = JSON.parse(decode(process.env.REACT_APP_ANSWERS_KEY, data.quest_data.answers))
+            questions = data.quest_data.questions.map((e,i) => {
+                return ({
+                    ...e,
+                    answers: answers[i]
+                }) 
+            });
             setQuestions([...questions]);
             changeItem = data;
             setChangeItem({...changeItem});
@@ -282,7 +292,7 @@ export default function Publish(params) {
                 selectIndex={selectIndex}
                 selectQs={selectQs}
             />
-            <h3>{t("title")}</h3>
+            <h3>{changeId ? "修改挑战" : t("title")}</h3>
             <CustomForm 
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}

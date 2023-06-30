@@ -92,6 +92,15 @@ export const addQuests = (data) => {
     })
 }
 
+// 修改 challenge
+export const modifyQuests = (data) => {
+    return serviceAxios({
+        url: `/quests`,
+        method: "put",
+        data
+    })
+}
+
 // 提交交易哈希
 export const submitHash = (data) => {
     return serviceAxios({

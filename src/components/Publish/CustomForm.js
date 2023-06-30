@@ -53,7 +53,6 @@ export default function CustomForm(props) {
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
     function challengeInit() {
-        console.log("start =====>");
         fileList.push({
             uid: '-1',
             name: 'image.png',
@@ -61,7 +60,6 @@ export default function CustomForm(props) {
             url: changeItem.metadata.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY)
         })
         setFileList([...fileList])
-        console.log(fileList);
         fields = [
             {
                 name: ["title"],
@@ -82,6 +80,10 @@ export default function CustomForm(props) {
             {
                 name: ["time"],
                 value: changeItem?.quest_data?.estimateTime
+            },
+            {
+                name: ["fileList"],
+                value: fileList
             }
         ]
         setFields([...fields])

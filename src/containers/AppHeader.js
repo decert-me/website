@@ -112,8 +112,8 @@ export default function AppHeader({ isMobile, user }) {
     },[location])
 
     useEffect(() => {
-        init();
-    },[])
+        address && init();
+    },[address])
 
     return (
         <div id="Header">

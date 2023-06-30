@@ -31,6 +31,28 @@ export async function createQuest(questData, signature, provider ) {
   return txHash;
 }
 
+export async function modifyQuest(tokenId, questData, signature, provider ) {
+  
+  const Contract = new ethers.Contract(questMinterAddr, questMinter, provider);
+
+  // endTs， supply
+
+  let { startTs, endTs, supply, title, uri } = questData;
+  endTs = constans().maxUint32;
+  supply = constans().maxUint192;
+  // supply = constans().maxUint32;
+  const params = [startTs, endTs, supply, title, uri];
+  let txHash = '';
+  try {
+    const resp = await Contract.modifyQuest(tokenId, params, signature);
+    txHash = resp.hash;
+
+  } catch (err) {
+    console.dir(err);
+  }
+  return txHash;
+}
+
 export async function claim(tokenId, score, signature, provider) {
   
   const Contract = new ethers.Contract(questMinterAddr, questMinter, provider);

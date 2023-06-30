@@ -16,13 +16,24 @@ const { Header, Footer, Content } = Layout;
 export default function DefaultLayout(params) {
 
     const outlet = useRoutes(routes);
-    const { address } = useAccount();
     const navigateTo = useNavigate();
     const location = useLocation();
     const { isMobile, user } = useContext(MyContext);
     const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
     let [vh, setVh] = useState(100);
+    const { address } = useAccount({
+        onDisconnect(){
+            // 已登陆  ====>  未登录
+            console.log("断开链接");
+            const path = location.pathname;
+            ClearStorage();
+            isClaim(path);
+            isExplore(path);
+            isCert(path, 'signout');
+            isUser(path);
+        }
+    });
 
     const headerStyle = {
         width: "100%",
@@ -106,6 +117,7 @@ export default function DefaultLayout(params) {
             // isCert(path, 'reload');
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
+            console.log("已登陆  ====>  切换账号");
             ClearStorage();
             localStorage.setItem("decert.address", address);
             isClaim(path);
@@ -113,13 +125,6 @@ export default function DefaultLayout(params) {
             isExplore(path);
             isUser(path);
             sign()
-        }else if (addr && !address) {
-            // 已登陆  ====>  未登录
-            ClearStorage();
-            isClaim(path);
-            isExplore(path);
-            isCert(path, 'signout');
-            isUser(path);
         }
     }
 
