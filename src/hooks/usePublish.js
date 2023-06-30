@@ -84,6 +84,7 @@ export const usePublish = (props) => {
     }
 
     const publish = async() => {
+        console.log(props);
         // 已登录 未签名 || 签名过期
         let hasHash = true;
         await verify()

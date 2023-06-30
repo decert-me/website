@@ -17,6 +17,7 @@ import { getMetadata } from "@/utils/getMetadata";
 import { useAccount } from "wagmi";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 import { changeConnect } from "@/utils/redux";
+import { getQuests } from "@/request/api/public";
 
 export default function Publish(params) {
     
@@ -26,6 +27,9 @@ export default function Publish(params) {
     const { address, isConnected } = useAccount();
     const location = useLocation();
     
+    let [changeId, setChangeId] = useState();   //  正在编辑的tokenId
+    let [changeItem, setChangeItem] = useState();   //  正在编辑的挑战详情
+
     let [showAddQs, setShowAddQs] = useState(false);
     let [showAddCodeQs, setShowAddCodeQs] = useState(false);
     let [showEditQs, setShowEditQs] = useState(false);
@@ -108,6 +112,10 @@ export default function Publish(params) {
 
     const changeQuestCache = () => {
         const cache = localStorage.getItem("decert.store");
+        // TODO: 若是编辑模式，则缓存至全局，且在刷新时提示
+        if (changeId) {
+            return
+        }
         if (!cache) {
             let questCache = {
                 hash: "",
@@ -192,14 +200,26 @@ export default function Publish(params) {
     }
 
     function getChallenge(tokenId) {
-        // TODO: 获取tokenId对应challenge信息
+        // 获取对应challenge信息
+        getQuests({id: tokenId})
+        .then(res => {
+            const data = res?.data
+            recommend = data.recommend;
+            setRecommend(recommend);
+            questions = data.quest_data.questions;
+            setQuestions([...questions]);
+            changeItem = data;
+            setChangeItem({...changeItem});
+        })
     }
 
     const init = async() => {
         // 判断地址栏是否有传参
-        const tokenId = location.search.replace("?");
+        const tokenId = location.search.replace("?","");
         if (tokenId) {
             // 获取tokenId对应challenge信息
+            changeId = tokenId;
+            setChangeId(changeId);
             getChallenge(tokenId);
             return
         }
@@ -279,6 +299,7 @@ export default function Publish(params) {
                 preview={preview}
                 clearQuest={clearQuest}
                 changeConnect={changeConnect}
+                changeItem={changeItem}
             />
 
         </div>

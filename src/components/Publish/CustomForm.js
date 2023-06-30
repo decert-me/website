@@ -3,8 +3,6 @@ import { useTranslation } from "react-i18next";
 import { ConfirmClearQuest } from "../CustomConfirm/ConfirmClearQuest";
 import { CustomQuestion, CustomEditor } from "@/components/CustomItem";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { constans } from "@/utils/constans";
 import { UploadProps } from "@/utils/UploadProps";
 import { InboxOutlined } from '@ant-design/icons';
 import { useAccount } from "wagmi";
@@ -30,11 +28,11 @@ export default function CustomForm(props) {
         preview,
         clearQuest,
         showEditModal,
-        changeConnect
+        changeConnect,
+        changeItem
     } = props;
     const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
-    const { ipfsPath} = constans();
     const { isConnected } = useAccount();
     let [fields, setFields] = useState([]);
     
@@ -50,16 +48,47 @@ export default function CustomForm(props) {
         preview(form.getFieldsValue(), flag)
     }
 
+    function challengeInit() {
+        fields = [
+            {
+                name: ["title"],
+                value: changeItem.title
+            },
+            {
+                name: ["desc"],
+                value: changeItem.metadata.description
+            },
+            {
+                name: ["score"],
+                value: changeItem?.quest_data.passingScore
+            },
+            {
+                name: ["difficulty"],
+                value: changeItem.metadata?.attributes?.difficulty
+            },
+            {
+                name: ["time"],
+                value: changeItem?.quest_data?.estimateTime
+            }
+        ]
+        setFields([...fields])
+    }
+
     const init = async() => {
+
+        // 修改挑战数据初始化
+        if (changeItem) {
+            challengeInit()
+            return 
+        }
         const local = localStorage.getItem("decert.store");
-        if (!local) {
+        if (!local && !changeItem) {
             return
         }
         const cache = JSON.parse(local);
         if (cache?.hash) {
             const nftCache = cache.hash
             const questCache = nftCache.attributes.challenge_ipfs_url
-            console.log(nftCache, questCache);
             fields = [
                 {
                     name: ["title"],
