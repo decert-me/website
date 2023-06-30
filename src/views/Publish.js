@@ -168,7 +168,7 @@ export default function Publish(params) {
             return
         }
         // 上传图片后删除: 若是`修改挑战`则跳过该判断
-        if (!changeId && !values.fileList.file.response.data.hash) {
+        if (!changeId && !Array.isArray(values.fileList) && values.fileList.file.status !== "done") {
             return
             
         }

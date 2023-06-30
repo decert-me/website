@@ -130,6 +130,10 @@ export default function CustomForm(props) {
                 {
                     name: ["time"],
                     value: questCache?.estimateTime
+                },
+                {
+                    name: ["fileList"],
+                    value: fileList
                 }
             ]
             setFields([...fields])
