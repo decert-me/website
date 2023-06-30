@@ -40,35 +40,35 @@ export default function BeforeRouterEnter() {
     function setRemUnit() {
         const clientWidth = document.documentElement.clientWidth;
         if (window.screen.width * window.devicePixelRatio >=(1920 * 2)) {
-            switch (m) {
-              // 4k ==> 100%
-              case 100:
-                document.body.style.zoom = 100 / (0.625 * 2560);
-                break;
-                // 4k ==> 125%
-              case 125:
-                document.body.style.zoom = 100 / (0.625 * 2560);
-                break;
-                // 4k ==> 150%
-              case 150:
-                document.body.style.zoom = 100 / (0.75 * 2560);
-                break;
-                // 4k ==> 175%
-              case 175:
-                document.body.style.zoom = 100 / (0.874715 * 2560);
-                break;
-                // 4k ==> 200%
-              case 200:
-                document.body.style.zoom = 1920 / 2560;
-                break;
-                // 4k ==> 225%
-              case 225:
-                document.body.style.zoom = 100 / (1.12485 * 2560);
-                break;
+            // switch (m) {
+            //   // 4k ==> 100%
+            //   case 100:
+            //     document.body.style.zoom = 100 / (0.625 * 2560);
+            //     break;
+            //     // 4k ==> 125%
+            //   case 125:
+            //     document.body.style.zoom = 100 / (0.625 * 2560);
+            //     break;
+            //     // 4k ==> 150%
+            //   case 150:
+            //     document.body.style.zoom = 100 / (0.75 * 2560);
+            //     break;
+            //     // 4k ==> 175%
+            //   case 175:
+            //     document.body.style.zoom = 100 / (0.874715 * 2560);
+            //     break;
+            //     // 4k ==> 200%
+            //   case 200:
+            //     document.body.style.zoom = 1920 / 2560;
+            //     break;
+            //     // 4k ==> 225%
+            //   case 225:
+            //     document.body.style.zoom = 100 / (1.12485 * 2560);
+            //     break;
             
-              default:
-                break;
-            }
+            //   default:
+            //     break;
+            // }
         }
         else if (window.screen.width <= 1770 && window.screen.width >= 1024) {
           document.body.style.zoom = Math.round(window.screen.width / 1770 * 100) / 100;
