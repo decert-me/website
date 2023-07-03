@@ -1,5 +1,5 @@
 import { constans } from "@/utils/constans";
-import { Button, Input, message, Steps, Tooltip } from "antd";
+import { Button, Input, message, Modal, Steps, Tooltip } from "antd";
 import {
     UploadOutlined,
     QuestionCircleOutlined
@@ -13,6 +13,7 @@ import { GetScorePercent } from "@/utils/GetPercent";
 import { submitClaimTweet } from "@/request/api/public";
 import { ClaimShareSuccess } from "../CustomMessage";
 import MyContext from "@/provider/context";
+import { useNavigate } from "react-router-dom";
 
 
 
@@ -22,7 +23,8 @@ export default function CustomClaimStep(props) {
         detail, 
         step, 
         changeStep, 
-        tokenId, answers, 
+        tokenId, 
+        answers, 
         showInner, 
         isClaim, 
         isShow,
@@ -32,9 +34,11 @@ export default function CustomClaimStep(props) {
     const { openseaLink, defaultImg, ipfsPath } = constans(); 
     const { t } = useTranslation(["claim", "translation"]);
     const { isMobile } = useContext(MyContext);
+    const navigateTo = useNavigate();
 
     let [hrefUrl, setHrefUrl] = useState();
     let [isLoading, setIsLoading] = useState();
+    let [cacheAnswers, setCacheAnswers] = useState();
 
     function changeHrefUrl(e) {
         hrefUrl = e;
@@ -59,6 +63,7 @@ export default function CustomClaimStep(props) {
         setIsLoading(true);
         let score = GetScorePercent(answerInfo.totalScore, answerInfo.score);
         submitClaimTweet({
+            standard_answer: cacheAnswers.realAnswer[tokenId],
             tokenId: Number(tokenId),
             tweetUrl: hrefUrl,
             score: score,
@@ -68,6 +73,20 @@ export default function CustomClaimStep(props) {
             setTimeout(() => {
                 setIsLoading(false);
             }, 500);
+            if (res.message.indexOf("Question Updated") !== -1 || res.message.indexOf("题目已更新") !== -1 ) {
+                Modal.warning({
+                    className: "modal-tip",
+                    icon: <></>,
+                    title: '',
+                    content: t("translation:message.error.challenge-modify"),
+                    onOk: () => {
+                        navigateTo(0)
+                    },
+                    okText: t("translation:btn-confirm"),
+                    width: 520
+                });
+                return
+            }
             if (res) {
                 ClaimShareSuccess({isMobile: isMobile});
             }
@@ -90,6 +109,9 @@ export default function CustomClaimStep(props) {
     )
 
     useEffect(() => {
+        const cache = localStorage.getItem("decert.cache");
+        cacheAnswers = JSON.parse(cache);
+        setCacheAnswers({...cacheAnswers});
         const steps = document.querySelectorAll(".ant-steps-item-tail");
         for (let i = 0; i < steps.length-1; i++) {
             const dots = [
@@ -155,6 +177,7 @@ export default function CustomClaimStep(props) {
                                     step={step}
                                     setStep={changeStep}
                                     cliamObj={{
+                                        standard_answer: cacheAnswers?.realAnswer[tokenId],
                                         tokenId: Number(tokenId),
                                         score: answerInfo.score,
                                         answer: JSON.stringify(answers),
