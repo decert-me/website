@@ -28,9 +28,10 @@ import MyContext from '@/provider/context';
 
 export default function Challenge(params) {
 
-    const { t } = useTranslation(["explore"]);
+    const { t } = useTranslation(["explore", "translation"]);
 
     // const reduxCache = useContext(MyContext);
+    const [messageApi, contextHolder] = message.useMessage();
     const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -40,6 +41,7 @@ export default function Challenge(params) {
     let [answers, setAnswers] = useState([]);
     let [percent, setPercent] = useState();
     let [publishObj, setPublishObj] = useState({});
+    let [isEdit, setIsEdit] = useState();   //  修改challenge预览
     const { publish: write, isLoading, transactionLoading } = usePublish({
         jsonHash: publishObj?.jsonHash, 
         recommend: publishObj?.recommend
@@ -86,9 +88,42 @@ export default function Challenge(params) {
             setDetail({...detail});
             // 获取本地存储 ===> 
             const local = JSON.parse(localStorage.getItem("decert.cache"));
-            const cacheAnswers = local ? local : null;
+            let cacheAnswers = local ? local : null;
             let flag = false;
-            // TODO: 修改本地存储 ===>
+            // 初始化realAnswer, 有缓存则和后台对比, 无缓存则添加缓存 ===>
+            if (cacheAnswers?.realAnswer) {
+                if (cacheAnswers.realAnswer[id]) {
+                    // 有缓存: 对比答案
+                    if (cacheAnswers.realAnswer[id] !== detail.quest_data.answers) {
+                        // 不相等: 清除当前缓存，刷新
+                        cacheAnswers.realAnswer[id] = detail.quest_data.answers;
+                        cacheAnswers[id] = null;
+                        // 弹出框提示
+                        // messageApi.open({
+                        //     type: 'warning',
+                        //     content: 'This is a warning message'
+                        // });
+                        localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
+                        navigateTo(0);
+                    }else{
+                        messageApi.open({
+                            type: 'warning',
+                            content: 'This is a warning message'
+                        });
+                    }
+                }else{
+                    // 有缓存，无该题缓存
+                    cacheAnswers.realAnswer[id] = detail.quest_data.answers
+                    localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
+                }
+            }else{
+                // 无缓存
+                cacheAnswers.realAnswer = {
+                    [id]: detail.quest_data.answers
+                }
+                localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
+            }
+
             if (cacheAnswers[id]) {
                 // 存在该题cache
                 answers = cacheAnswers[id];
@@ -194,7 +229,8 @@ export default function Challenge(params) {
             return
         }
         const cache = challenge || JSON.parse(local);
-
+        isEdit = challenge;
+        setIsEdit(isEdit);
         if (cache.isOver) {
             const challengeHash = await challengeJson(cache.hash.attributes.challenge_ipfs_url);
             const obj = JSON.parse(JSON.stringify(cache.hash));
@@ -284,6 +320,7 @@ export default function Challenge(params) {
     return (
         
         <div className="Challenge">
+            {contextHolder}
             {
                 (detail || cacheDetail) &&
                 <>
@@ -315,9 +352,14 @@ export default function Challenge(params) {
                             {t("mode-preview")}
                             <div className="btns">
                                 <Button loading={isLoading || transactionLoading} onClick={() => publish()}>
-                                    {t("btn-publish")}
+                                    {
+                                        isEdit ? 
+                                        t("translation:btn-save")
+                                        :
+                                        t("btn-publish")
+                                    }
                                 </Button>
-                                <Button className="btn-exit" onClick={() => {navigateTo("/publish")}}>
+                                <Button className="btn-exit" onClick={() => {isEdit ? navigateTo(`/publish?${isEdit.changeId}`) : navigateTo("/publish")}}>
                                     <ExportOutlined className='icon' />
                                     {t("btn-exit")}
                                 </Button>

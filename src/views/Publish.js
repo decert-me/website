@@ -156,7 +156,7 @@ export default function Publish(params) {
         
         // 修改挑战 or 发布挑战
         changeId ? 
-        await store.dispatch(setChallenge(questCache))
+        await store.dispatch(setChallenge({...questCache, changeId}))
         :
         localStorage.setItem("decert.store", JSON.stringify(questCache))
 

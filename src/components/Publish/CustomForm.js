@@ -36,7 +36,7 @@ export default function CustomForm(props) {
     const [form] = Form.useForm();
     const { isConnected } = useAccount();
     let [fields, setFields] = useState([]);
-    const [fileList, setFileList] = useState([]);
+    let [fileList, setFileList] = useState([]);
     
     const checkPreview = async() => {
         let flag;
@@ -53,13 +53,6 @@ export default function CustomForm(props) {
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
     function challengeInit() {
-        // fileList.push({
-        //     uid: '-1',
-        //     name: 'image.png',
-        //     status: 'done',
-        //     url: changeItem.metadata.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY)
-        // })
-        // setFileList([...fileList])
         initImage(changeItem.metadata.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY));
         fields = [
             {
@@ -91,12 +84,12 @@ export default function CustomForm(props) {
     }
 
     function initImage(img) {
-        fileList.push({
+        fileList = [{
             uid: '-1',
             name: 'image.png',
             status: 'done',
-            url: img
-        })
+            url: img 
+        }]
         setFileList([...fileList])
     }
 
