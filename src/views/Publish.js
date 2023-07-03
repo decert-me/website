@@ -27,7 +27,8 @@ export default function Publish(params) {
     const { isMobile } = useContext(MyContext);
     const { address, isConnected } = useAccount();
     const location = useLocation();
-    
+
+    let [cache, setCache] = useState();   //  缓存
     let [changeId, setChangeId] = useState();   //  正在编辑的tokenId
     let [changeItem, setChangeItem] = useState();   //  正在编辑的挑战详情
 
@@ -104,7 +105,7 @@ export default function Publish(params) {
             address: address,
             questions: qs,
             answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-            image: changeId && !image ? changeItem.metadata.image : "ipfs://"+image
+            image: changeId && !image ? changeItem.metadata.image : cache.hash.image !== "ipfs://undefined" ? cache.hash.image : "ipfs://"+image
         }, preview ? preview : null)
         return jsonHash
     }
@@ -254,7 +255,8 @@ export default function Publish(params) {
         if (!local) {
             return
         }
-        const cache = JSON.parse(local);
+        cache = JSON.parse(local);
+        setCache(cache);
         questions = cache.questions;
         setQuestions([...questions]);
         recommend = cache.recommend;
