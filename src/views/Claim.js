@@ -10,6 +10,7 @@ import { Modal, Spin } from 'antd';
 import { setMetadata } from "@/utils/getMetadata";
 import { localRealAnswerInit } from "@/utils/localRealAnswerInit";
 import { useTranslation } from "react-i18next";
+import { modalNotice } from "@/utils/modalNotice";
 export default function Claim(props) {
     
     const { t } = useTranslation(["translation"]);
@@ -35,18 +36,11 @@ export default function Claim(props) {
             detail, 
             reload: () => {
                 // TODO: 弹窗提示 ===> 跳转
-                // console.log("TODO: 弹窗提示 ===> 跳转");
                 Modal.warning({
-                    className: "modal-tip",
-                    icon: <></>,
-                    title: '',
-                    content: t("message.error.challenge-modify"),
-                    onOk: () => {
-                        navigateTo(0)
-                    },
-                    okText: t("btn-confirm"),
-                    width: 520
-                });
+                    ...modalNotice({
+                        t, onOk: () => {navigateTo(0)}
+                    }
+                )});
             }
         })
         isChange = !flag;

@@ -298,6 +298,19 @@
             line-height: 23px !important;
         }
     }
+    .modal-close{
+        width: 18px;
+        height: 18px;
+        border: none;
+        font-size: 18px;
+        padding: 0;
+        position: absolute;
+        right: 26px;
+        top: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
 }
 
 

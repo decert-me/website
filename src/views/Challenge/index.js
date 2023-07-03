@@ -26,6 +26,7 @@ import { setMetadata } from '@/utils/getMetadata';
 import CustomCode from '@/components/CustomChallenge/CustomCode';
 import store from "@/redux/store";
 import { localRealAnswerInit } from '@/utils/localRealAnswerInit';
+import { modalNotice } from '@/utils/modalNotice';
 
 export default function Challenge(params) {
 
@@ -97,16 +98,10 @@ export default function Challenge(params) {
                 reload: () => {
                     // TODO: 弹窗提示 ===> 跳转
                     Modal.warning({
-                        className: "modal-tip",
-                        icon: <></>,
-                        title: '',
-                        content: t("translation:message.error.challenge-modify"),
-                        onOk: () => {
-                            navigateTo(0)
-                        },
-                        okText: t("translation:btn-confirm"),
-                        width: 520
-                    });
+                        ...modalNotice({
+                            t, onOk: () => {navigateTo(0)}
+                        }
+                    )});
                 }
             })
             cacheAnswers = newAnswers

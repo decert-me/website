@@ -14,6 +14,7 @@ import { submitClaimTweet } from "@/request/api/public";
 import { ClaimShareSuccess } from "../CustomMessage";
 import MyContext from "@/provider/context";
 import { useNavigate } from "react-router-dom";
+import { modalNotice } from "@/utils/modalNotice";
 
 
 
@@ -75,16 +76,10 @@ export default function CustomClaimStep(props) {
             }, 500);
             if (res.message.indexOf("Question Updated") !== -1 || res.message.indexOf("题目已更新") !== -1 ) {
                 Modal.warning({
-                    className: "modal-tip",
-                    icon: <></>,
-                    title: '',
-                    content: t("translation:message.error.challenge-modify"),
-                    onOk: () => {
-                        navigateTo(0)
-                    },
-                    okText: t("translation:btn-confirm"),
-                    width: 520
-                });
+                    ...modalNotice({
+                        t, onOk: () => {navigateTo(0)}
+                    }
+                )});
                 return
             }
             if (res) {

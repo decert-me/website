@@ -12,6 +12,7 @@ import { useTranslation } from "react-i18next";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { Copy } from "@/utils/Copy"
 import { useNavigate } from "react-router-dom";
+import { modalNotice } from "@/utils/modalNotice";
 
 export default function CustomClaim(props) {
     
@@ -73,16 +74,10 @@ export default function CustomClaim(props) {
         const signature = await getClaimHash(obj);
         if (signature.message.indexOf("Question Updated") !== -1 || signature.message.indexOf("题目已更新") !== -1 ) {
             Modal.warning({
-                className: "modal-tip",
-                icon: <></>,
-                title: '',
-                content: t("translation:message.error.challenge-modify"),
-                onOk: () => {
-                    navigateTo(0)
-                },
-                okText: t("translation:btn-confirm"),
-                width: 520
-            });
+                ...modalNotice({
+                    t, onOk: () => {navigateTo(0)}
+                }
+            )});
             return
         }
         if (signature) {
