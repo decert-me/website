@@ -102,7 +102,8 @@
             "submit": {
                 "title": "Format error",
                 "desc": "Please do not delete or modify the content of the tweet."
-            }
+            },
+            "challenge-modify": "The content of the challenge has changed, please challenge again."
         },
         "info": {
             "mobile-publish": "Please open on your computer."

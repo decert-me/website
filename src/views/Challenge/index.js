@@ -5,9 +5,10 @@ import {
 import { 
     Button, 
     message, 
+    Modal, 
     Progress 
 } from 'antd';
-import { useContext, useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { challengeJson, getQuests, nftJson, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
@@ -24,14 +25,12 @@ import { usePublish } from '@/hooks/usePublish';
 import { setMetadata } from '@/utils/getMetadata';
 import CustomCode from '@/components/CustomChallenge/CustomCode';
 import store from "@/redux/store";
-import MyContext from '@/provider/context';
+import { localRealAnswerInit } from '@/utils/localRealAnswerInit';
 
 export default function Challenge(params) {
 
     const { t } = useTranslation(["explore", "translation"]);
 
-    // const reduxCache = useContext(MyContext);
-    const [messageApi, contextHolder] = message.useMessage();
     const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -90,39 +89,27 @@ export default function Challenge(params) {
             const local = JSON.parse(localStorage.getItem("decert.cache"));
             let cacheAnswers = local ? local : null;
             let flag = false;
-            // 初始化realAnswer, 有缓存则和后台对比, 无缓存则添加缓存 ===>
-            if (cacheAnswers?.realAnswer) {
-                if (cacheAnswers.realAnswer[id]) {
-                    // 有缓存: 对比答案
-                    if (cacheAnswers.realAnswer[id] !== detail.quest_data.answers) {
-                        // 不相等: 清除当前缓存，刷新
-                        cacheAnswers.realAnswer[id] = detail.quest_data.answers;
-                        cacheAnswers[id] = null;
-                        // 弹出框提示
-                        // messageApi.open({
-                        //     type: 'warning',
-                        //     content: 'This is a warning message'
-                        // });
-                        localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
-                        navigateTo(0);
-                    }else{
-                        messageApi.open({
-                            type: 'warning',
-                            content: 'This is a warning message'
-                        });
-                    }
-                }else{
-                    // 有缓存，无该题缓存
-                    cacheAnswers.realAnswer[id] = detail.quest_data.answers
-                    localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
+            
+            const { cacheAnswers: newAnswers } = localRealAnswerInit({
+                cacheAnswers, 
+                id,
+                detail,
+                reload: () => {
+                    // TODO: 弹窗提示 ===> 跳转
+                    Modal.warning({
+                        className: "modal-tip",
+                        icon: <></>,
+                        title: '',
+                        content: t("translation:message.error.challenge-modify"),
+                        onOk: () => {
+                            navigateTo(0)
+                        },
+                        okText: t("translation:btn-confirm"),
+                        width: 520
+                    });
                 }
-            }else{
-                // 无缓存
-                cacheAnswers.realAnswer = {
-                    [id]: detail.quest_data.answers
-                }
-                localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
-            }
+            })
+            cacheAnswers = newAnswers
 
             if (cacheAnswers[id]) {
                 // 存在该题cache
@@ -320,7 +307,6 @@ export default function Challenge(params) {
     return (
         
         <div className="Challenge">
-            {contextHolder}
             {
                 (detail || cacheDetail) &&
                 <>

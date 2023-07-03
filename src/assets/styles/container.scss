@@ -267,6 +267,40 @@
     }
 }
 
+.modal-tip{
+    padding-bottom: 0 !important;  
+    text-align: center; 
+    .ant-modal-confirm-btns{
+        margin-top: 70px !important;
+        display: flex;
+        justify-content: center;
+        button{
+            height: 50px;
+            padding: 0 46px;
+            background-color: #8F5A35;
+            border-radius: 10px;
+            font-weight: 600;
+            border: none !important;
+            &:hover{
+                background-color: #B47243 !important;
+            }
+        }
+    }
+    .ant-modal-content{
+        padding: 125px 0 44px !important;
+        border-radius: 20px !important;
+    }
+    .ant-modal-confirm-body{
+        width: 100%;
+        justify-content: center !important;
+        .ant-modal-confirm-content{
+            font-size: 20px !important;
+            line-height: 23px !important;
+        }
+    }
+}
+
+
 // hover效果
 #hover-btn-full{
     background-color: #8F5A35;
