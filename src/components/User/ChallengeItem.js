@@ -61,7 +61,7 @@ export default function ChallengeItem(props) {
         if (supply > 0) {
             messageApi.open({
                 type: 'warning',
-                content: 'This is a warning message',
+                content: t("edit.error"),
             });
             return
         }
