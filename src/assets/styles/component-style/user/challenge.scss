@@ -83,6 +83,7 @@
         justify-content: space-between;
         align-items: center;
         .flex{
+          color: #404040;
           display: flex;
           align-items: center;
           gap: 12px;
@@ -93,13 +94,14 @@
           margin-right: 5px;
         }
         .time{
-          color: rgba(0,0,0,0.5);
+          color: #404040;
           line-height: 24px;
           display: flex;
           align-items: center;
           .anticon{
             margin-right: 12px;
             font-size: 18px;
+            color: rgba(0,0,0,0.5);
           }
         }
       }
