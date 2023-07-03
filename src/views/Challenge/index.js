@@ -88,9 +88,11 @@ export default function Challenge(params) {
             const local = JSON.parse(localStorage.getItem("decert.cache"));
             const cacheAnswers = local ? local : null;
             let flag = false;
+            // TODO: 修改本地存储 ===>
             if (cacheAnswers[id]) {
                 // 存在该题cache
                 answers = cacheAnswers[id];
+                console.log("answers =====>", answers);
                 // 旧版本cache升级
                 try {
                     answers.forEach(e => {
@@ -147,7 +149,7 @@ export default function Challenge(params) {
     }
 
     const changeAnswer = (value, type) => {
-        // 新版普通题cache添加 ===> TODO:
+        // 新版普通题cache添加
         answers[index] = {
             value: value,
             type: type

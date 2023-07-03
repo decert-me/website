@@ -131,7 +131,6 @@ export default function User(props) {
         const user = await getUser({address: account})
         if (!user.data || isMe) {
             // setSocials("null")
-            // TODO: 空状态显示
             return
         }
         info = {

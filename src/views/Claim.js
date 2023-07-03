@@ -40,7 +40,6 @@ export default function Claim(props) {
             })
             // getQuests({id: id})
             // .then(res => {
-            //     // TODO: ==> num
             //     detail = res ? res.data : {};
             //     setDetail({...detail});
             //     if (res.data.claimed) {
