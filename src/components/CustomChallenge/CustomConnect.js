@@ -55,7 +55,7 @@ export default function CustomConnect(props) {
     return (
         <div className={`CustomBox step-box ${step === 0 ? "checked-step" : ""}`}>
             {
-                step >= 0 && localStorage.getItem('decert.token') ? 
+                step >= 0 && localStorage.getItem('decert.token') && address ? 
                 <>
                     <p>{NickName(address)}</p>
                     <p>{t("wallet.connected")}</p>

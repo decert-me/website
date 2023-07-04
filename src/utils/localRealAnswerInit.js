@@ -9,10 +9,10 @@ export function localRealAnswerInit(props) {
 
     if (cacheAnswers?.realAnswer) {
         if (cacheAnswers.realAnswer[id]) {
-            // 有缓存: 对比答案
-            if (cacheAnswers.realAnswer[id] !== detail.quest_data.answers) {
+            // 有缓存: 对比JSON
+            if (cacheAnswers.realAnswer[id] !== detail.uri) {
                 // 不相等: 清除当前缓存，刷新
-                cacheAnswers.realAnswer[id] = detail.quest_data.answers;
+                cacheAnswers.realAnswer[id] = detail.uri;
                 cacheAnswers[id] = null;
                 localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
                 // 弹出框提示
@@ -23,13 +23,13 @@ export function localRealAnswerInit(props) {
             }
         }else{
             // 有缓存，无该题缓存
-            cacheAnswers.realAnswer[id] = detail.quest_data.answers
+            cacheAnswers.realAnswer[id] = detail.uri
             localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
         }
     }else{
         // 无缓存
         cacheAnswers.realAnswer = {
-            [id]: detail.quest_data.answers
+            [id]: detail.uri
         }
         localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
     }
