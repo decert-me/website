@@ -64,7 +64,7 @@ export default function CustomClaimStep(props) {
         setIsLoading(true);
         let score = GetScorePercent(answerInfo.totalScore, answerInfo.score);
         submitClaimTweet({
-            standard_answer: cacheAnswers.realAnswer[tokenId],
+            uri: cacheAnswers.realAnswer[tokenId],
             tokenId: Number(tokenId),
             tweetUrl: hrefUrl,
             score: score,
@@ -172,7 +172,7 @@ export default function CustomClaimStep(props) {
                                     step={step}
                                     setStep={changeStep}
                                     cliamObj={{
-                                        standard_answer: cacheAnswers?.realAnswer[tokenId],
+                                        uri: cacheAnswers?.realAnswer[tokenId],
                                         tokenId: Number(tokenId),
                                         score: answerInfo.score,
                                         answer: JSON.stringify(answers),
