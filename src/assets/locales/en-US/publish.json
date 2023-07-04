@@ -1,5 +1,6 @@
 {
     "title": "Create a Challenge",
+    "title-modify": "Edit Challenge",
     "inner": {
         "title": "Title",
         "desc": "Description",

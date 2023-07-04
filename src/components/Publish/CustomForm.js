@@ -385,7 +385,11 @@ export default function CustomForm(props) {
                                 htmlType="submit" 
                                 loading={ writeLoading || waitLoading }
                             >
-                                {t("translation:btn-publish")}
+                                {
+                                    changeItem ? 
+                                    t("translation:btn-save"):
+                                    t("translation:btn-publish")
+                                }
                             </Button>
                         </Form.Item>
                     </div>

@@ -310,7 +310,7 @@ export default function Publish(params) {
                 selectIndex={selectIndex}
                 selectQs={selectQs}
             />
-            <h3>{changeId ? "修改挑战" : t("title")}</h3>
+            <h3>{changeId ? t("title-modify") : t("title")}</h3>
             <CustomForm 
                 onFinish={onFinish}
                 onFinishFailed={onFinishFailed}
