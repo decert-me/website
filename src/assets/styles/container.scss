@@ -3,9 +3,11 @@
     backdrop-filter: blur(42px);
     &,.nav-left a{
         color: #000;
+        transition: color 0.2s, font-weight 0.2s;
     }
-    .nav-left .active{
-        color: #000;
+    .nav-left a:hover, .nav-left .active{
+        font-weight: bold;
+        color: #8F5A35;
     }
     .user{
         color: #8F5A35;
