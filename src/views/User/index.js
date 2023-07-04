@@ -161,8 +161,6 @@ export default function User(props) {
     const init = () => {
         account = paramsAddr;
         setAccount(account);
-        isMe = address === account;
-        setIsMe(isMe);
         getInfo();
     }
 
@@ -192,6 +190,11 @@ export default function User(props) {
             window.removeEventListener("scroll", scrollFixed);
         }
     },[])
+
+    useEffect(() => {
+        isMe = address === account;
+        setIsMe(isMe);
+    },[address])
 
     return (
         <div className="User">
