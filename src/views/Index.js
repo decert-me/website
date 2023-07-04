@@ -13,6 +13,7 @@ import axios from "axios";
 import CustomIcon from "@/components/CustomIcon";
 import { useRequest, useUpdateEffect } from "ahooks";
 import i18n from 'i18next';
+import { TwitterIcon, TwitterShareButton } from "react-share";
 
 export default function Index(params) {
     
@@ -106,9 +107,17 @@ export default function Index(params) {
 
     return (
         <div className="Home ">
+            
             <div className="custom-bg-round"></div>
             <div className="main">
                 <div className="main-center">
+                <TwitterShareButton
+            url={"https://decert.me/"}
+            title={"GitHub"}
+            className="Demo__some-network__share-button"
+          >
+            <TwitterIcon size={32} round />
+          </TwitterShareButton>
                     <div className="main-header">
                         <div className={`describe ${i18n.language === "zh-CN" ? "fs-big" : ""}`}>
                             {
