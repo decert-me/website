@@ -126,7 +126,6 @@ export default function Cert(params) {
             ensParse = res;
             setEnsParse({...ensParse});
             initContracts();
-            setIsMe(ensParse.address === address);
         }).catch(err => {
             setLoading(false);
             nftlist = [];
@@ -220,9 +219,9 @@ export default function Cert(params) {
         getInitList()
     },[selectStatus, selectContract])
    
-    // useUpdateEffect(() => {
-    //     setIsMe(ensParse.address === address);
-    // },[ensParse, address])
+    useUpdateEffect(() => {
+        setIsMe(ensParse.address === address);
+    },[ensParse, address])
 
     return (
         <div className="Cert">
