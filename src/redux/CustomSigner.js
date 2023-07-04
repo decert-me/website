@@ -32,7 +32,6 @@ function CustomSigner(props) {
         return
       }
         openModal()
-        console.log({address: address, signer: signer, disconnect: disconnect});
         await GetSign({address: address, signer: signer, disconnect: disconnect})
         .then(() => {
             if (localStorage.getItem('decert.token')) {
