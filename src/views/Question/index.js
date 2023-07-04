@@ -14,12 +14,7 @@ export default function Quests(params) {
     const { ipfsPath, defaultImg } = constans();
     let [detail, setDetail] = useState();
     const { questId } = useParams();
-    let [meta, setMeta] = useState({
-        url: "",
-        title: "",
-        description: "",
-        image: ""
-    });
+    let [meta, setMeta] = useState();
 
     const getData = async (id) => {
         const res = await getQuests({id: id});
@@ -46,12 +41,15 @@ export default function Quests(params) {
     return (
         detail &&
         <div className="Question">
-            <Helmet>
-                <meta property="og:url" content={meta.url} />
-                <meta property="og:title" content={meta.title} />
-                <meta property="og:description" content={meta.description} />
-                <meta property="og:image" content={meta.image} />
-            </Helmet>
+            {
+                meta && 
+                <Helmet>
+                    <meta property="og:url" content={meta.url} />
+                    <meta property="og:title" content={meta.title} />
+                    <meta property="og:description" content={meta.description} />
+                    <meta property="og:image" content={meta.image} />
+                </Helmet>
+            }
             <div className="custom-bg-round"></div>
             <h1>{detail.title}</h1>
             <div className="content">

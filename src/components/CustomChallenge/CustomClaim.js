@@ -111,7 +111,9 @@ export default function CustomClaim(props) {
 
     const shareTwitter = () => {
         let title = t("claim.share.title", {what: "@decertme"});
-        let url = t("claim.share.url", {what: `https://decert.me/quests/${cliamObj.tokenId}`});
+        // let url = t("claim.share.url", {what: `https://decert.me/quests/${cliamObj.tokenId}`});
+        // let url = `https://decert3.dwong.xyz/quests/10004`
+        let url = `https://docusaurus.io/`
         if (isMobile) {
             // 移动端点击分享推特处理
             const text = `${title}\r\n${url}\r\n#DeCert`
