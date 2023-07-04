@@ -43,6 +43,7 @@ export default function Claim(props) {
                 )});
             }
         })
+        console.log("====>", flag);
         isChange = !flag;
         setIsChange(isChange);
     }
@@ -73,6 +74,7 @@ export default function Claim(props) {
             //     setAnswers([...answers]);
             // }
             // 获取 分数
+            setIsChange(true);
             setIsClaim(true);
         }).catch(err => {
             // 未领取
@@ -93,12 +95,12 @@ export default function Claim(props) {
 
     useEffect(() => {
         init()
-    },[signer, address])
+    },[signer])
 
     return (
         <div className="Claim">
             {
-                detail && isChange ?
+                detail && isChange && address ?
                 <CustomCompleted 
                     answers={answers} 
                     detail={detail} 
