@@ -1,6 +1,7 @@
 {
     "title": "Create a Challenge",
     "title-modify": "Edit Challenge",
+    "preview": "Only creator is visible",
     "inner": {
         "title": "Title",
         "desc": "Description",

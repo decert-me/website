@@ -128,6 +128,34 @@
         background-color: #fff;
         border-radius: 10px;
         overflow: hidden;
+        position: relative;
+    }
+    .preview-menu{
+        height: 30px;
+        .menu{
+            position: absolute;
+            left: 24px;
+            top: 9px;
+            display: flex;
+            color: #5D5D5D;
+            font-size: 14px;
+            line-height: 16px;
+            li{
+                height: 25px;
+                padding-bottom: 5px;
+                margin-right: 20px;
+                cursor: pointer;
+            }
+            .active{
+                border-bottom: 2px solid #5D5D5D;
+            }
+            .green{
+                color: #43B472;
+            }
+            span{
+                color: #999999;
+            }
+        }
     }
     .out-content{
         height: 290px;

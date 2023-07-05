@@ -87,7 +87,7 @@
             display: flex;
             align-items: center;
             strong{
-                width: 80%;
+                max-width: 80%;
                 margin-left: 17px;
                 font-size: 20px;
                 font-weight: 500;
@@ -96,6 +96,12 @@
                 text-overflow:ellipsis; 
                 overflow:hidden;
                 display: inline-block;
+            }
+            .score{
+                color: #43B472;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 19px;
             }
         }
         .inner-title{

@@ -229,7 +229,7 @@ export default function Challenge(params) {
                         {
                             e.type !== "coding" &&
                             <h4 className='challenge-title'>{t("challenge.title")}
-                                #{page}
+                                #{page} &nbsp;&nbsp; <span className="score">({e.score}分)</span>
                             </h4>
                         }
                         {switchType(e,i)}
