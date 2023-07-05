@@ -317,9 +317,10 @@ export default function Challenge(params) {
                         answers={answers}
                         changePage={changePage}
                         detail={detail}
+                        isPreview={cacheDetail ? true : false}
                     />
                     <div className='quest-title' style={{display: "flex"}}>
-                            <div className="title">
+                            <div className={`title ${cacheDetail ? "line" : ""}`}>
                                 {
                                     detail?.tokenId ? 
                                     <>
@@ -339,13 +340,16 @@ export default function Challenge(params) {
                                 }
                             </div>
                     </div>
-                    <div className="preview-head">
-                        <p>{t("mode-preview")}</p>
-                        <Button className="btn-exit" onClick={() => {isEdit ? navigateTo(`/publish?${isEdit.changeId}`) : navigateTo("/publish")}}>
-                            <ExportOutlined className='icon' />
-                            {t("btn-exit")}
-                        </Button>
-                    </div>
+                    {
+                        cacheDetail &&
+                        <div className="preview-head">
+                            <p>{t("mode-preview")}</p>
+                            <Button className="btn-exit" onClick={() => {isEdit ? navigateTo(`/publish?${isEdit.changeId}`) : navigateTo("/publish")}}>
+                                <ExportOutlined className='icon' />
+                                {t("btn-exit")}
+                            </Button>
+                        </div>
+                    }
                     {
                         detail ? topic(detail.metadata.properties.questions)
                         : topic(cacheDetail.attributes.challenge_ipfs_url.questions)
