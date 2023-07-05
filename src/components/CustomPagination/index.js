@@ -35,8 +35,7 @@ export default function CustomPagination(props) {
                     &nbsp;/&nbsp;
                     <span>{total}</span>
                 </p>
-                {
-                    type === "write" &&
+                
                     <Button 
                         className='btn'
                         id='hover-btn-line-arrow'
@@ -44,21 +43,6 @@ export default function CustomPagination(props) {
                         icon={<ArrowRightOutlined />} 
                         onClick={() => onChange('add')}
                     />
-                }
-                {
-                    type === "preview" && 
-                    (
-                        page === total ?
-                        ""
-                        :
-                        <Button 
-                            className='btn'
-                            id='hover-btn-line-arrow'
-                            icon={<ArrowRightOutlined />} 
-                            onClick={() => onChange('add')}
-                        />
-                    )
-                }
                 </div>
                 <div className="content-right">
                     <Button className='submit' id="hover-btn-full" onClick={submit} style={{display: !isPreview ? "block" : "none"}}>

@@ -40,12 +40,7 @@ export default function Challenge(params) {
     let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
     let [percent, setPercent] = useState();
-    let [publishObj, setPublishObj] = useState({});
     let [isEdit, setIsEdit] = useState();   //  修改challenge预览
-    const { publish: write, isLoading, transactionLoading } = usePublish({
-        jsonHash: publishObj?.jsonHash, 
-        recommend: publishObj?.recommend
-    });
 
     let [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -92,10 +87,7 @@ export default function Challenge(params) {
             let flag = false;
             
             const { cacheAnswers: newAnswers } = localRealAnswerInit({
-                cacheAnswers, 
-                id,
-                detail,
-                reload: () => {
+                cacheAnswers, id, detail, reload: () => {
                     // TODO: 弹窗提示 ===> 跳转
                     Modal.warning({
                         ...modalNotice({
@@ -193,16 +185,6 @@ export default function Challenge(params) {
         navigateTo(`/claim/${detail.tokenId}`)
     }
 
-    const publish = () => {
-        const local = JSON.parse(localStorage.getItem("decert.store"))
-        if (!local.isOver) {
-            message.error(t("message.error.publish"));
-            return
-        }else{
-            write();
-        }
-    }
-
     const cacheInit = async() => {
         const { challenge } = store.getState();
         const local = localStorage.getItem("decert.store");
@@ -210,24 +192,14 @@ export default function Challenge(params) {
             navigateTo("/challenges");
             return
         }
+
         const cache = challenge || JSON.parse(local);
         isEdit = challenge;
         setIsEdit(isEdit);
-        if (cache.isOver) {
-            const challengeHash = await challengeJson(cache.hash.attributes.challenge_ipfs_url);
-            const obj = JSON.parse(JSON.stringify(cache.hash));
-            obj.attributes.challenge_ipfs_url = challengeHash.data.hash;
-            const jsonHash = await nftJson(obj);
-            publishObj = {
-                jsonHash: jsonHash.data.hash,
-                recommend: cache.recommend
-            }
-            setPublishObj({...publishObj});
-        }
-            cacheDetail = cache.hash;
-            setCacheDetail({...cacheDetail});
-            answers = new Array(Number(cache.questions.length))
-            setAnswers([...answers])
+        cacheDetail = cache.hash;
+        setCacheDetail({...cacheDetail});
+        answers = new Array(Number(cache.questions.length))
+        setAnswers([...answers])
     }
 
     useEffect(() => {
@@ -305,49 +277,42 @@ export default function Challenge(params) {
             {
                 (detail || cacheDetail) &&
                 <>
-                    {
-                        detail ?
-                        <>
-                            <ModalAnswers
-                                isModalOpen={isModalOpen}
-                                handleCancel={handleCancel}
-                                submit={submit}
-                                answers={answers}
-                                changePage={changePage}
-                                detail={detail}
-                            />
-                            <div className='quest-title' style={{display: "flex"}}>
-                                    <div className="title">
+                    <ModalAnswers
+                        isModalOpen={isModalOpen}
+                        handleCancel={handleCancel}
+                        submit={submit}
+                        answers={answers}
+                        changePage={changePage}
+                        detail={detail}
+                    />
+                    <div className='quest-title' style={{display: "flex"}}>
+                            <div className="title">
+                                {
+                                    detail?.tokenId ? 
+                                    <>
                                         <Link to={`/quests/${detail.tokenId}`}>
                                             <ArrowLeftOutlined />
                                         </Link>
                                         <Link to={`/quests/${detail.tokenId}`}>
                                             <p>{detail?.title}</p>
                                         </Link>
-                                    </div>
+                                    </>
+                                    :
+                                    <>
+                                        {/* 预览模式 */}
+                                        <ArrowLeftOutlined />
+                                        <p>{cacheDetail?.name}</p>
+                                    </>
+                                }
                             </div>
-                        </>
-                        :
-                        <>
-                        <div className="preview-head">
-                            {t("mode-preview")}
-                            <div className="btns">
-                                <Button loading={isLoading || transactionLoading} onClick={() => publish()}>
-                                    {
-                                        isEdit ? 
-                                        t("translation:btn-save")
-                                        :
-                                        t("btn-publish")
-                                    }
-                                </Button>
-                                <Button className="btn-exit" onClick={() => {isEdit ? navigateTo(`/publish?${isEdit.changeId}`) : navigateTo("/publish")}}>
-                                    <ExportOutlined className='icon' />
-                                    {t("btn-exit")}
-                                </Button>
-                            </div>
-                        </div>
-                        </>
-                    }
+                    </div>
+                    <div className="preview-head">
+                        <p>{t("mode-preview")}</p>
+                        <Button className="btn-exit" onClick={() => {isEdit ? navigateTo(`/publish?${isEdit.changeId}`) : navigateTo("/publish")}}>
+                            <ExportOutlined className='icon' />
+                            {t("btn-exit")}
+                        </Button>
+                    </div>
                     {
                         detail ? topic(detail.metadata.properties.questions)
                         : topic(cacheDetail.attributes.challenge_ipfs_url.questions)
