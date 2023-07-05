@@ -1,3 +1,10 @@
+.preivew-correct{
+    color: #43B472;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+}
+
 .CustomInput{
     padding: 0 50px;
     color: #343434;
@@ -14,14 +21,10 @@
     .CustomInput-content{
         margin-top: 100px;
         position: relative;
-        .correct{
+        .preivew-correct{
             position: absolute;
             left: 20px;
             top: 20px;
-            color: #43B472;
-            font-size: 16px;
-            font-weight: 500;
-            line-height: 19px;
         }
     }
 }
@@ -64,6 +67,9 @@
                 border-radius: 0;
             }
         }
+    }
+    .preivew-correct{
+        margin-left: 10px;
     }
 }
 

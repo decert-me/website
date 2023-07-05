@@ -90,7 +90,10 @@ $container-width: 22.5rem;
             }
         }
     }
-
+.preivew-correct{
+    font-size: 1rem;
+    line-height: 1.1875rem;
+}
     .CustomInput{
         padding: 0 1.125rem;
         .custom-input{
@@ -104,11 +107,9 @@ $container-width: 22.5rem;
         }
         .CustomInput-content{
             margin-top: 3.4375rem;
-            .correct{
+            .preivew-correct{
                 left: .625rem;
                 top: 1.25rem;
-                font-size: 1rem;
-                line-height: 1.1875rem;
             }
         }
     }
@@ -137,6 +138,9 @@ $container-width: 22.5rem;
                 height: .625rem;
                 border-width: .125rem;
             }
+        }
+        .preivew-correct{
+            margin-left: .625rem;
         }
     }
     

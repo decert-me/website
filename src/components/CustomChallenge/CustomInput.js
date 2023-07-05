@@ -23,7 +23,7 @@ export default function CustomInput(props) {
                     }}
                 />
                 {
-                    isPreview && <p className="correct">{t("correct")}:</p>
+                    isPreview && <p className="preivew-correct">{t("correct")}:</p>
                 }
             </div>
         </div>

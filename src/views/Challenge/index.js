@@ -4,13 +4,12 @@ import {
 } from '@ant-design/icons';
 import { 
     Button, 
-    message, 
     Modal, 
     Progress 
 } from 'antd';
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { challengeJson, getQuests, nftJson, submitChallenge } from "../../request/api/public";
+import { getQuests, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
 import CustomPagination from '../../components/CustomPagination';
@@ -21,12 +20,12 @@ import {
     CustomCheckbox 
 } from '../../components/CustomChallenge';
 import { useTranslation } from 'react-i18next';
-import { usePublish } from '@/hooks/usePublish';
 import { setMetadata } from '@/utils/getMetadata';
 import CustomCode from '@/components/CustomChallenge/CustomCode';
 import store from "@/redux/store";
 import { localRealAnswerInit } from '@/utils/localRealAnswerInit';
 import { modalNotice } from '@/utils/modalNotice';
+import { Encryption } from '@/utils/Encryption';
 
 export default function Challenge(params) {
 
@@ -41,6 +40,9 @@ export default function Challenge(params) {
     let [answers, setAnswers] = useState([]);
     let [percent, setPercent] = useState();
     let [isEdit, setIsEdit] = useState();   //  修改challenge预览
+    const { decode } = Encryption();
+    const key = process.env.REACT_APP_ANSWERS_KEY;
+    let [realAnswer, setRealAnswer] = useState([]);
 
     let [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -192,7 +194,6 @@ export default function Challenge(params) {
             navigateTo("/challenges");
             return
         }
-
         const cache = challenge || JSON.parse(local);
         isEdit = challenge;
         setIsEdit(isEdit);
@@ -200,6 +201,8 @@ export default function Challenge(params) {
         setCacheDetail({...cacheDetail});
         answers = new Array(Number(cache.questions.length))
         setAnswers([...answers])
+        realAnswer = eval(decode(key, cacheDetail.attributes.challenge_ipfs_url.answers));
+        setRealAnswer([...realAnswer]);
     }
 
     useEffect(() => {
@@ -258,7 +261,6 @@ export default function Challenge(params) {
                 />
             case 2:
             case "fill_blank":
-                console.log(question);
                 return (
                     <CustomInput 
                         key={i} 
@@ -266,7 +268,7 @@ export default function Challenge(params) {
                         value={changeAnswer} 
                         defaultValue={answers[i]} 
                         isPreview={cacheDetail ? true : false}
-                        answer={question.options[0]}
+                        answer={realAnswer[i]}
                     />
                 )
             case 1:
@@ -279,12 +281,23 @@ export default function Challenge(params) {
                         value={changeAnswer}
                         defaultValue={answers[i]} 
                         isPreview={cacheDetail ? true : false}
-                        // answer={question.options[0]}
+                        answer={realAnswer[i]}
                     />
                 )
             case 0:
             case "multiple_choice":
-                return <CustomRadio key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
+                console.log();
+                return (
+                    <CustomRadio 
+                        key={i} 
+                        label={question.title} 
+                        options={question.options} 
+                        value={changeAnswer} 
+                        defaultValue={answers[i]} 
+                        isPreview={cacheDetail ? true : false}
+                        answer={realAnswer[i]}
+                    />
+                ) 
             default:
                 break;
         }
