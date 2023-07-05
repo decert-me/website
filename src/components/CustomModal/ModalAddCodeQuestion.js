@@ -181,12 +181,12 @@ export default function ModalAddCodeQuestion(props) {
         } = selectQs;
 
         // 用例初始化
-        const coding = input.map((ele,index) => {
+        const coding = input ? input.map((ele,index) => {
             return {
                 input: input[index],
                 output: output[index]
             }
-        })
+        }): []
         const spj = spj_code ? spj_code.map(e => {
             return {
                 spj_code: {
