@@ -21,6 +21,7 @@ export default function DefaultLayout(params) {
     const { isMobile, user } = useContext(MyContext);
     const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
+    let [headerHide, setHeaderHide] = useState(false);
     let [vh, setVh] = useState(100);
     const { address, status } = useAccount({
         onDisconnect(){
@@ -43,7 +44,8 @@ export default function DefaultLayout(params) {
         backgroundColor: 'rgba(0,0,0,0)',
         position: "fixed",
         color: "#fff",
-        zIndex: 999
+        zIndex: 999,
+        display: headerHide ? "none" : "block"
     };
       
     const contentStyle = {
@@ -133,7 +135,14 @@ export default function DefaultLayout(params) {
     });
 
     const footerChange = () => {
-        if (location.pathname === "/publish" || location.pathname.indexOf("/quests") !== -1 || (location.pathname.indexOf("/challenge") !== -1)) {
+        if (location.pathname === "/publish" || location.pathname.indexOf("/quests") !== -1 || (location.pathname.indexOf("/challenge") !== -1) || (location.pathname.indexOf("/preview") !== -1)) {
+            return true
+        }
+        return false
+    }
+
+    const headerChange = () => {
+        if ((location.pathname.indexOf("/preview") !== -1)) {
             return true
         }
         return false
@@ -158,8 +167,11 @@ export default function DefaultLayout(params) {
     useEffect(() => {
         zoomVh()
         window.scrollTo(0, 0);
-        footerHide = footerChange() ? true : false;
+        footerHide = footerChange();
         setFooterHide(footerHide);
+
+        headerHide = headerChange();
+        setHeaderHide(headerHide);
     },[location])
 
     useEffect(() => {
