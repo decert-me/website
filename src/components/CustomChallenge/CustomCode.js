@@ -6,6 +6,8 @@ import { codeRun, codeTest } from '@/request/api/quests';
 import CustomViewer from "../CustomViewer";
 import { Encryption } from "@/utils/Encryption";
 import { useTranslation } from "react-i18next";
+import { Modal } from "antd";
+import { modalNotice } from "@/utils/modalNotice";
 
 
 function CustomCode(props, ref) {
@@ -130,6 +132,11 @@ function CustomCode(props, ref) {
 
     async function goTest(params) {
         if (isPreview) {
+            Modal.warning({
+                ...modalNotice({
+                    text: t("translation:message.error.preview-test"), t, onOk: () => {}
+                }
+            )});
             return
         }
         setLoading(true);

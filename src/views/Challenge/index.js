@@ -93,7 +93,7 @@ export default function Challenge(params) {
                     // TODO: 弹窗提示 ===> 跳转
                     Modal.warning({
                         ...modalNotice({
-                            t, onOk: () => {navigateTo(0)}
+                            text: t("translation:message.error.challenge-modify"), t, onOk: () => {navigateTo(0)}
                         }
                     )});
                 }

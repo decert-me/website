@@ -3,9 +3,10 @@ import {
     ArrowRightOutlined,
     UnorderedListOutlined
   } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import "@/assets/styles/component-style/index"
 import { useTranslation } from 'react-i18next';
+import { modalNotice } from '@/utils/modalNotice';
 
 export default function CustomPagination(props) {
 
@@ -13,6 +14,18 @@ export default function CustomPagination(props) {
 
     const { t } = useTranslation(["translation", "explore"]);
     
+    function goSubmit() {
+        if (isPreview) {
+            Modal.warning({
+                ...modalNotice({
+                    text: t("message.error.preview-submit"), t, onOk: () => {}
+                }
+            )});
+            return
+        }
+        submit();
+    }
+
     return (
         <div className="CustomPagination">
             <div className="pagination-content">
@@ -45,7 +58,7 @@ export default function CustomPagination(props) {
                     />
                 </div>
                 <div className="content-right">
-                    <Button className='submit' id="hover-btn-full" onClick={submit} style={{display: !isPreview ? "block" : "none"}}>
+                    <Button className='submit' id="hover-btn-full" onClick={() => goSubmit()}>
                         {t("btn-submit")}
                     </Button>
                 </div>
