@@ -2,12 +2,27 @@
     padding: 0 50px;
     color: #343434;
     .custom-input{
-        margin-top: 100px;
-        padding: 10px;
+        padding: 20px;
         border-radius: 0;
         font-size: 16px;
         border: 1px solid #DCDCDC !important;
         border-radius: 10px;
+    }
+    .custom-input-preview{
+        padding-top: 50px;
+    }
+    .CustomInput-content{
+        margin-top: 100px;
+        position: relative;
+        .correct{
+            position: absolute;
+            left: 20px;
+            top: 20px;
+            color: #43B472;
+            font-size: 16px;
+            font-weight: 500;
+            line-height: 19px;
+        }
     }
 }
 

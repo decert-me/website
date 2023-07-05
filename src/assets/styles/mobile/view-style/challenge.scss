@@ -94,11 +94,22 @@ $container-width: 22.5rem;
     .CustomInput{
         padding: 0 1.125rem;
         .custom-input{
-            margin-top: 3.4375rem;
             padding: .5rem;
             font-size: .875rem;
             border-width: .0625rem;
             border-radius: .4375rem;
+        }
+        .custom-input-preview{
+            padding-top: 50px;
+        }
+        .CustomInput-content{
+            margin-top: 3.4375rem;
+            .correct{
+                left: .625rem;
+                top: 1.25rem;
+                font-size: 1rem;
+                line-height: 1.1875rem;
+            }
         }
     }
     

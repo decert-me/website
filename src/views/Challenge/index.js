@@ -258,10 +258,30 @@ export default function Challenge(params) {
                 />
             case 2:
             case "fill_blank":
-                return <CustomInput key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
+                console.log(question);
+                return (
+                    <CustomInput 
+                        key={i} 
+                        label={question.title} 
+                        value={changeAnswer} 
+                        defaultValue={answers[i]} 
+                        isPreview={cacheDetail ? true : false}
+                        answer={question.options[0]}
+                    />
+                )
             case 1:
             case "multiple_response":
-                return <CustomCheckbox key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
+                return (
+                    <CustomCheckbox 
+                        key={i} 
+                        label={question.title} 
+                        options={question.options} 
+                        value={changeAnswer}
+                        defaultValue={answers[i]} 
+                        isPreview={cacheDetail ? true : false}
+                        // answer={question.options[0]}
+                    />
+                )
             case 0:
             case "multiple_choice":
                 return <CustomRadio key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
