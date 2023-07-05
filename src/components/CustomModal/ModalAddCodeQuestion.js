@@ -187,14 +187,14 @@ export default function ModalAddCodeQuestion(props) {
                 output: output[index]
             }
         })
-        const spj = spj_code.map(e => {
+        const spj = spj_code ? spj_code.map(e => {
             return {
                 spj_code: {
                     frame: e.frame,
                     code: e.code
                 }
             }
-        })
+        }) : []
         caseRef.current.setCaseArr([...coding, ...spj])
 
         //  表单初始化
