@@ -20,10 +20,14 @@ import { changeConnect } from "@/utils/redux";
 import { getQuests } from "@/request/api/public";
 import store, { setChallenge } from "@/redux/store";
 import { tokenSupply } from "@/controller";
+import axios from "axios";
+import { constans } from "@/utils/constans";
 
 export default function Publish(params) {
     
     const navigateTo = useNavigate();
+    const { ipfsPath } = constans();
+
     const { t } = useTranslation(["publish", "translation", "profile"]);
     const { isMobile } = useContext(MyContext);
     const { address, isConnected } = useAccount();
@@ -108,7 +112,9 @@ export default function Publish(params) {
             address: address,
             questions: qs,
             answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-            image: changeId && !image && !cache ? changeItem.metadata.image : cache && cache.hash.image !== "ipfs://undefined" ? cache?.hash.image : "ipfs://"+image
+            image: changeId && !image && !cache ? changeItem.metadata.image : cache && cache.hash.image !== "ipfs://undefined" ? cache?.hash.image : "ipfs://"+image,
+            startTime: changeId && !cache ? changeItem.quest_data.startTime : changeId && cache ? cache.hash.attributes.challenge_ipfs_url.startTime : null,
+            olduuid: changeId && !cache ? changeItem.uuid : changeId && cache ? cache.hash.attributes.challenge_url.split("/").reverse()[0] : null
         }, preview ? preview : null)
         return jsonHash
     }
@@ -166,13 +172,24 @@ export default function Publish(params) {
         goPreview();
     }
 
-    function isHashChange() {
+    async function isHashChange() {
+        // 创建挑战直接返回
         if (!changeItem) {
             return true
         }
-        console.log(publishObj);
-        console.log(changeItem);
-        return false
+        // 判断是否修改了内容
+        if (changeItem.uri.indexOf(publishObj.jsonHash) !== -1) {
+            // 没修改内容
+
+            // 判断是否修改了recommend
+            if (JSON.stringify(recommend) !== changeItem.recommend) {
+                // TODO: 修改了recommend ==> 发起修改recommend请求
+                
+            }
+            return false
+        }else{
+            return true
+        }
     }
 
     const onFinish = async(values) => {
@@ -193,9 +210,9 @@ export default function Publish(params) {
         setPublishObj({...publishObj});
 
         // 如果是修改挑战，则对比hash判断是否需要发起交易。  修改了: 发起交易   未修改: 终止
-        // if (!isHashChange()) {
-        //     return
-        // }
+        if (!await isHashChange()) {
+            return
+        }
 
         const cacheJSON = await getJson(values, "preview");
         let questCache = {

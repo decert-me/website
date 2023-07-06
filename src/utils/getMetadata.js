@@ -3,7 +3,7 @@ import { generateUUID } from "./getUuid";
 import { constans } from "./constans";
 import axios from "axios";
 
-export async function getMetadata({values, address, questions, answers, image}, preview) {
+export async function getMetadata({values, address, questions, answers, image, startTime, olduuid}, preview) {
     /**
      * let obj = {
             title: values.title,
@@ -32,7 +32,7 @@ export async function getMetadata({values, address, questions, answers, image}, 
         content: "",
         questions: questions, 
         answers: answers, 
-        startTime: new Date().toISOString(), 
+        startTime: startTime || new Date().toISOString(), 
         endTIme: null, 
         estimateTime: values.time ? values.time : null,
         passingScore: values.score, 
@@ -46,7 +46,7 @@ export async function getMetadata({values, address, questions, answers, image}, 
         image: image,
         attributes: {
             challenge_ipfs_url: preview ? questHash : "ipfs://" + questHash.data.hash,
-            challenge_url: `https://decert.me/quests/${uuid}`,
+            challenge_url: `https://decert.me/quests/${olduuid || uuid}`,
             challenge_title: values.title,
             creator: address,
             difficulty: values.difficulty !== undefined ? values.difficulty : null,
@@ -81,7 +81,6 @@ export async function setMetadata(props) {
         }else{
             const res = await axios.get(`${ipfsPath}/${params.attributes.challenge_ipfs_url.replace("ipfs://", '')}`);
             challenge = res.data;
-            console.log(challenge);
         }
         let obj = {
             title: challenge.title,
