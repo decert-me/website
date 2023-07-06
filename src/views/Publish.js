@@ -14,19 +14,22 @@ import { usePublish } from "@/hooks/usePublish";
 import ModalEditQuestion from "@/components/CustomModal/ModalEditQuestion";
 import MyContext from "@/provider/context";
 import { getMetadata } from "@/utils/getMetadata";
-import { useAccount } from "wagmi";
+import { useAccount, useSigner } from "wagmi";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 import { changeConnect } from "@/utils/redux";
 import { getQuests } from "@/request/api/public";
 import store, { setChallenge } from "@/redux/store";
+import { tokenSupply } from "@/controller";
 
 export default function Publish(params) {
     
     const navigateTo = useNavigate();
-    const { t } = useTranslation(["publish", "translation"]);
+    const { t } = useTranslation(["publish", "translation", "profile"]);
     const { isMobile } = useContext(MyContext);
     const { address, isConnected } = useAccount();
+    const { data: signer } = useSigner();
     const location = useLocation();
+    const [messageApi, contextHolder] = message.useMessage();
 
     let [cache, setCache] = useState();   //  缓存
     let [changeId, setChangeId] = useState();   //  正在编辑的tokenId
@@ -220,10 +223,32 @@ export default function Publish(params) {
         }
     }
 
-    function getChallenge(tokenId) {
+    async function getChallenge(tokenId) {
+        const supply = await tokenSupply(tokenId, signer)
+            .then(res => {
+                console.log(res);
+                return res
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        // 已有人claim，终止
+        if (supply > 0) {
+            console.log("====>", supply);
+            messageApi.open({
+                type: 'warning',
+                content: t("profile:edit.error"),
+            });
+            setTimeout(() => {
+                navigateTo(-1)
+            }, 1000);
+            return
+        }
+
         // 获取对应challenge信息
         getQuests({id: tokenId})
         .then(res => {
+            console.log(res);
             const data = res?.data
             recommend = isSerializedString(data.recommend);
             setRecommend(recommend);
@@ -244,10 +269,6 @@ export default function Publish(params) {
         // 判断地址栏是否有传参
         const tokenId = location.search.replace("?","");
         if (tokenId) {
-            // 获取tokenId对应challenge信息
-            changeId = tokenId;
-            setChangeId(changeId);
-            getChallenge(tokenId);
             return
         }
 
@@ -285,8 +306,19 @@ export default function Publish(params) {
         }
     },[isMobile])
 
+    useEffect(() => {
+        const tokenId = location.search.replace("?","");
+        if (tokenId && signer ) {            
+            // 获取tokenId对应challenge信息
+            changeId = tokenId;
+            setChangeId(changeId);
+            getChallenge(tokenId);
+        }
+    },[signer])
+
     return (
         <div className="Publish">
+            {contextHolder}
             <ModalAddQuestion 
                 isModalOpen={showAddQs} 
                 handleCancel={() => {setShowAddQs(false)}}
