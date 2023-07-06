@@ -108,7 +108,7 @@ export default function Publish(params) {
             address: address,
             questions: qs,
             answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-            image: changeId && !image ? changeItem.metadata.image : cache && cache.hash.image !== "ipfs://undefined" ? cache?.hash.image : "ipfs://"+image
+            image: changeId && !image && !cache ? changeItem.metadata.image : cache && cache.hash.image !== "ipfs://undefined" ? cache?.hash.image : "ipfs://"+image
         }, preview ? preview : null)
         return jsonHash
     }
@@ -264,6 +264,7 @@ export default function Publish(params) {
             setQuestions([...questions]);
             recommend = cache.recommend;
             setRecommend(recommend);
+            console.log(challenge);
             return
         }
         // 获取对应challenge信息
