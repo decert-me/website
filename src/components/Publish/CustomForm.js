@@ -8,6 +8,7 @@ import { InboxOutlined } from '@ant-design/icons';
 import { useAccount } from "wagmi";
 import { useUpdateEffect } from "ahooks";
 import { constans } from "@/utils/constans";
+import store from "@/redux/store";
 
 const { TextArea } = Input;
 const { Dragger } = Upload;
@@ -54,28 +55,30 @@ export default function CustomForm(props) {
 
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
-    function challengeInit() {
-        initImage(changeItem.metadata.image.replace("ipfs://", ipfsPath+"/"));
+    function challengeInit(challenge) {
+        const chanllengeInfo = challenge?.attributes?.challenge_ipfs_url;
+        const img = challenge ? challenge.image : changeItem.metadata.image;
+        initImage(img.replace("ipfs://", ipfsPath+"/"));
         fields = [
             {
                 name: ["title"],
-                value: changeItem.title
+                value: challenge ? challenge.name : changeItem.title
             },
             {
                 name: ["desc"],
-                value: changeItem.metadata.description
+                value: challenge ? challenge.description : changeItem.metadata.description
             },
             {
                 name: ["score"],
-                value: changeItem?.quest_data.passingScore
+                value: challenge ? chanllengeInfo.passingScore : changeItem?.quest_data.passingScore
             },
             {
                 name: ["difficulty"],
-                value: changeItem.metadata?.attributes?.difficulty
+                value: challenge ? challenge?.attributes?.difficulty : changeItem.metadata?.attributes?.difficulty
             },
             {
                 name: ["time"],
-                value: changeItem?.quest_data?.estimateTime
+                value: challenge ? chanllengeInfo?.estimateTime : changeItem?.quest_data?.estimateTime
             },
             {
                 name: ["fileList"],
@@ -98,6 +101,8 @@ export default function CustomForm(props) {
     const init = async() => {
         const local = localStorage.getItem("decert.store");
         if (!local && !changeItem) {
+            const { challenge } = await store.getState();
+            challenge && challengeInit(challenge.hash)
             return
         }
         const cache = JSON.parse(local);

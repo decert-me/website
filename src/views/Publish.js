@@ -184,7 +184,7 @@ export default function Publish(params) {
             // 判断是否修改了recommend
             if (JSON.stringify(recommend) !== changeItem.recommend) {
                 // TODO: 修改了recommend ==> 发起修改recommend请求
-                
+
             }
             return false
         }else{
@@ -281,7 +281,6 @@ export default function Publish(params) {
             setQuestions([...questions]);
             recommend = cache.recommend;
             setRecommend(recommend);
-            console.log(challenge);
             return
         }
         // 获取对应challenge信息
