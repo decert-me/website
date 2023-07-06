@@ -186,6 +186,7 @@ export default function Publish(params) {
                 // TODO: 修改了recommend ==> 发起修改recommend请求
 
             }
+            navigateTo(`/quests/${changeId}`)
             return false
         }else{
             return true

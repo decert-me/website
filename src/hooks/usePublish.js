@@ -42,7 +42,7 @@ export const usePublish = (props) => {
             setTimeout(() => {
                 message.success(t("message.success.create"));
                 localStorage.removeItem("decert.store");
-                navigateTo("/challenges")
+                changeId ? navigateTo(`/quests/${changeId}`) : navigateTo("/challenges")
             }, 1000);
         }
     })
