@@ -336,10 +336,10 @@ export default function Publish(params) {
         }
     },[signer])
 
-    // useUpdateEffect(() => {
-    //     // 修改挑战 to 创建挑战 刷新
-    //     navigateTo(0)
-    // },[location])
+    useUpdateEffect(() => {
+        // 修改挑战 to 创建挑战 刷新
+        navigateTo(0)
+    },[location])
 
     return (
         <div className="Publish">
