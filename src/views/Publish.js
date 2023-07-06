@@ -20,7 +20,6 @@ import { changeConnect } from "@/utils/redux";
 import { getQuests, modifyRecommend } from "@/request/api/public";
 import store, { setChallenge } from "@/redux/store";
 import { tokenSupply } from "@/controller";
-import axios from "axios";
 import { constans } from "@/utils/constans";
 
 export default function Publish(params) {
@@ -112,7 +111,7 @@ export default function Publish(params) {
             address: address,
             questions: qs,
             answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-            image: changeId && !image && !cache ? changeItem.metadata.image : cache && cache.hash.image !== "ipfs://undefined" ? cache?.hash.image : "ipfs://"+image,
+            image: (changeId && cache && image) ? "ipfs://"+image : (changeId && cache) ? cache?.hash.image : (changeId && !image) ? changeItem.metadata.image : "ipfs://"+image,
             startTime: changeId && !cache ? changeItem.quest_data.startTime : changeId && cache ? cache.hash.attributes.challenge_ipfs_url.startTime : null,
             olduuid: changeId && !cache ? changeItem.uuid : changeId && cache ? cache.hash.attributes.challenge_url.split("/").reverse()[0] : null
         }, preview ? preview : null)
