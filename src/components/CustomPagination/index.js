@@ -18,7 +18,7 @@ export default function CustomPagination(props) {
         if (isPreview) {
             Modal.warning({
                 ...modalNotice({
-                    text: t("message.error.preview-submit"), t, onOk: () => {}
+                    text: t("message.error.preview-submit"), t, onOk: () => {Modal.destroyAll()}
                 }
             )});
             return
