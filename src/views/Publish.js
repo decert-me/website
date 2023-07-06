@@ -17,7 +17,7 @@ import { getMetadata } from "@/utils/getMetadata";
 import { useAccount, useSigner } from "wagmi";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 import { changeConnect } from "@/utils/redux";
-import { getQuests } from "@/request/api/public";
+import { getQuests, modifyRecommend } from "@/request/api/public";
 import store, { setChallenge } from "@/redux/store";
 import { tokenSupply } from "@/controller";
 import axios from "axios";
@@ -181,12 +181,27 @@ export default function Publish(params) {
         if (changeItem.uri.indexOf(publishObj.jsonHash) !== -1) {
             // 没修改内容
 
+            let result;
             // 判断是否修改了recommend
-            if (JSON.stringify(recommend) !== changeItem.recommend) {
-                // TODO: 修改了recommend ==> 发起修改recommend请求
-
+            if (JSON.stringify(publishObj.recommend) !== changeItem.recommend) {
+                // 修改了recommend ==> 发起修改recommend请求
+                result = await modifyRecommend({
+                    token_id: Number(changeId),
+                    recommend: publishObj.recommend
+                }).then(res => {
+                    res?.message && messageApi.open({
+                        type: 'success',
+                        content: res?.message,
+                    });
+                    !res && setLoading(false);
+                    return res
+                })
             }
-            navigateTo(`/quests/${changeId}`)
+            result &&
+            setTimeout(() => {
+                navigateTo(`/quests/${changeId}`)
+            }, 1000);
+
             return false
         }else{
             return true
