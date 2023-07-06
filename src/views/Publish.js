@@ -1,4 +1,4 @@
-import { message } from "antd";
+import { Spin, message } from "antd";
 import "@/assets/styles/view-style/publish.scss"
 import "@/assets/styles/component-style";
 import { useContext, useEffect, useState } from "react";
@@ -35,7 +35,7 @@ export default function Publish(params) {
     let [cache, setCache] = useState();   //  缓存
     let [changeId, setChangeId] = useState();   //  正在编辑的tokenId
     let [changeItem, setChangeItem] = useState();   //  正在编辑的挑战详情
-    let [reduxCache, setReduxCache] = useState();   //  redux缓存
+    let [tradeLoading, setTradeLoading] = useState(false);
 
     let [showAddQs, setShowAddQs] = useState(false);
     let [showAddCodeQs, setShowAddCodeQs] = useState(false);
@@ -295,10 +295,11 @@ export default function Publish(params) {
             setQuestions([...questions]);
             recommend = cache.recommend;
             setRecommend(recommend);
+            setTradeLoading(false);
             return
         }
         // 获取对应challenge信息
-        getQuests({id: tokenId})
+        await getQuests({id: tokenId})
         .then(res => {
             const data = res?.data
             recommend = isSerializedString(data.recommend);
@@ -314,6 +315,7 @@ export default function Publish(params) {
             changeItem = data;
             setChangeItem({...changeItem});
         })
+        setTradeLoading(false);
     }
 
     const init = async() => {
@@ -360,6 +362,7 @@ export default function Publish(params) {
     useEffect(() => {
         const tokenId = location.search.replace("?","");
         if (tokenId && signer ) {            
+            setTradeLoading(true);
             // 获取tokenId对应challenge信息
             changeId = tokenId;
             setChangeId(changeId);
@@ -373,6 +376,7 @@ export default function Publish(params) {
     },[location])
 
     return (
+        <Spin spinning={tradeLoading}>
         <div className="Publish">
             {contextHolder}
             <ModalAddQuestion 
@@ -421,5 +425,6 @@ export default function Publish(params) {
             />
 
         </div>
+        </Spin>
     )
 }
