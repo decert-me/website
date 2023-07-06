@@ -166,6 +166,15 @@ export default function Publish(params) {
         goPreview();
     }
 
+    function isHashChange() {
+        if (!changeItem) {
+            return true
+        }
+        console.log(publishObj);
+        console.log(changeItem);
+        return false
+    }
+
     const onFinish = async(values) => {
         if (!isConnected) {
             changeConnect()
@@ -174,7 +183,6 @@ export default function Publish(params) {
         // 上传图片后删除: 若是`修改挑战`则跳过该判断
         if (!changeId && !Array.isArray(values.fileList) && values.fileList.file.status !== "done") {
             return
-            
         }
         setLoading(true);
         const jsonHash = await getJson(values);
@@ -183,6 +191,11 @@ export default function Publish(params) {
             recommend: values.editor
         }
         setPublishObj({...publishObj});
+
+        // 如果是修改挑战，则对比hash判断是否需要发起交易。  修改了: 发起交易   未修改: 终止
+        // if (!isHashChange()) {
+        //     return
+        // }
 
         const cacheJSON = await getJson(values, "preview");
         let questCache = {
@@ -193,6 +206,7 @@ export default function Publish(params) {
         // 非`修改挑战`缓存
         !changeId && saveCache(questCache); 
         setLoading(false);
+
         if (isWrite) {
             publish();
         }else{
@@ -226,7 +240,6 @@ export default function Publish(params) {
     async function getChallenge(tokenId) {
         const supply = await tokenSupply(tokenId, signer)
             .then(res => {
-                console.log(res);
                 return res
             })
             .catch(err => {
@@ -234,7 +247,6 @@ export default function Publish(params) {
             })
         // 已有人claim，终止
         if (supply > 0) {
-            console.log("====>", supply);
             messageApi.open({
                 type: 'warning',
                 content: t("profile:edit.error"),
@@ -244,11 +256,19 @@ export default function Publish(params) {
             }, 1000);
             return
         }
-
+        const { challenge } = await store.getState();
+        if (challenge) {
+            cache = challenge;
+            setCache(cache);
+            questions = cache.questions;
+            setQuestions([...questions]);
+            recommend = cache.recommend;
+            setRecommend(recommend);
+            return
+        }
         // 获取对应challenge信息
         getQuests({id: tokenId})
         .then(res => {
-            console.log(res);
             const data = res?.data
             recommend = isSerializedString(data.recommend);
             setRecommend(recommend);
@@ -290,7 +310,7 @@ export default function Publish(params) {
     },[questions])
 
     useUpdateEffect(() => {
-        if (isWrite, isOk) {
+        if (isWrite && isOk) {
             publish();
         }
     },[isOk])
@@ -315,6 +335,11 @@ export default function Publish(params) {
             getChallenge(tokenId);
         }
     },[signer])
+
+    // useUpdateEffect(() => {
+    //     // 修改挑战 to 创建挑战 刷新
+    //     navigateTo(0)
+    // },[location])
 
     return (
         <div className="Publish">
