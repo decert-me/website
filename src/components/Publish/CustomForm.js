@@ -55,7 +55,7 @@ export default function CustomForm(props) {
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
     function challengeInit() {
-        initImage(changeItem.metadata.image.replace("ipfs://", ipfsPath));
+        initImage(changeItem.metadata.image.replace("ipfs://", ipfsPath+"/"));
         fields = [
             {
                 name: ["title"],
@@ -101,7 +101,7 @@ export default function CustomForm(props) {
             return
         }
         const cache = JSON.parse(local);
-        initImage(cache.hash.image.replace("ipfs://", ipfsPath));
+        initImage(cache.hash.image.replace("ipfs://", ipfsPath+"/"));
         if (cache?.hash) {
             const nftCache = cache.hash
             const questCache = nftCache.attributes.challenge_ipfs_url
