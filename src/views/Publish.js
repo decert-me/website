@@ -35,6 +35,7 @@ export default function Publish(params) {
     let [cache, setCache] = useState();   //  缓存
     let [changeId, setChangeId] = useState();   //  正在编辑的tokenId
     let [changeItem, setChangeItem] = useState();   //  正在编辑的挑战详情
+    let [reduxCache, setReduxCache] = useState();   //  redux缓存
 
     let [showAddQs, setShowAddQs] = useState(false);
     let [showAddCodeQs, setShowAddCodeQs] = useState(false);
@@ -415,6 +416,8 @@ export default function Publish(params) {
                 clearQuest={clearQuest}
                 changeConnect={changeConnect}
                 changeItem={changeItem}
+                changeId={changeId}
+                challenge={cache}
             />
 
         </div>

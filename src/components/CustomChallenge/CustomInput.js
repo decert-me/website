@@ -14,16 +14,21 @@ export default function CustomInput(props) {
             </div>
             <div className="CustomInput-content">
                 <TextArea 
-                    className={`custom-input ${isPreview ? "custom-input-preview" : ""}`} 
+                    className={`custom-input`} 
                     bordered={false} 
                     onChange={e => value(e.target.value, "fill_blank")}  
-                    defaultValue={isPreview ? answer : defaultValue?.value}
+                    defaultValue={defaultValue?.value}
                     autoSize={{
                         minRows: 7,
                     }}
                 />
                 {
-                    isPreview && <p className="preivew-correct">{t("correct")}:</p>
+                    isPreview && (
+                        <p className="correct-content">
+                            <span className="preivew-correct">{t("correct")}:</span> 
+                            {answer}
+                        </p>
+                    )
                 }
             </div>
         </div>

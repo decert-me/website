@@ -32,7 +32,9 @@ export default function CustomForm(props) {
         clearQuest,
         showEditModal,
         changeConnect,
-        changeItem
+        changeItem,
+        changeId,
+        challenge
     } = props;
     const { ipfsPath } = constans();
     const { t } = useTranslation(["publish", "translation"]);
@@ -40,6 +42,7 @@ export default function CustomForm(props) {
     const { isConnected } = useAccount();
     let [fields, setFields] = useState([]);
     let [fileList, setFileList] = useState([]);
+
     
     const checkPreview = async() => {
         let flag;
@@ -98,11 +101,13 @@ export default function CustomForm(props) {
         setFileList([...fileList])
     }
 
+    async function previewInit(params) {
+        changeItem ? challengeInit() : challengeInit(challenge.hash);
+    }
+
     const init = async() => {
         const local = localStorage.getItem("decert.store");
-        if (!local && !changeItem) {
-            const { challenge } = await store.getState();
-            challenge && challengeInit(challenge.hash)
+        if (!local) {
             return
         }
         const cache = JSON.parse(local);
@@ -146,8 +151,12 @@ export default function CustomForm(props) {
 
     useUpdateEffect(() => {
         // 修改挑战数据初始化
-        changeItem && challengeInit()
+        changeId && previewInit();
     },[changeItem])
+
+    useUpdateEffect(() => {
+        challenge && previewInit();
+    },[challenge])
 
     return (
         <Form

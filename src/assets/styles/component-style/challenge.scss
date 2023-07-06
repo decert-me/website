@@ -15,16 +15,18 @@
         border: 1px solid #DCDCDC !important;
         border-radius: 10px;
     }
-    .custom-input-preview{
-        padding-top: 50px;
-    }
     .CustomInput-content{
         margin-top: 100px;
-        position: relative;
+        .correct-content{
+            margin-top: 15px;
+            margin-left: 10px;
+            color: #262626;
+            font-size: 16px;
+            line-height: 22px;
+        }
         .preivew-correct{
-            position: absolute;
-            left: 20px;
-            top: 20px;
+            margin-right: 10px;
+            display: inline-block;
         }
     }
 }
