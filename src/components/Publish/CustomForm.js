@@ -7,6 +7,7 @@ import { UploadProps } from "@/utils/UploadProps";
 import { InboxOutlined } from '@ant-design/icons';
 import { useAccount } from "wagmi";
 import { useUpdateEffect } from "ahooks";
+import { constans } from "@/utils/constans";
 
 const { TextArea } = Input;
 const { Dragger } = Upload;
@@ -32,6 +33,7 @@ export default function CustomForm(props) {
         changeConnect,
         changeItem
     } = props;
+    const { ipfsPath } = constans();
     const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
     const { isConnected } = useAccount();
@@ -53,7 +55,7 @@ export default function CustomForm(props) {
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
     function challengeInit() {
-        initImage(changeItem.metadata.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY));
+        initImage(changeItem.metadata.image.replace("ipfs://", ipfsPath));
         fields = [
             {
                 name: ["title"],
@@ -99,7 +101,7 @@ export default function CustomForm(props) {
             return
         }
         const cache = JSON.parse(local);
-        initImage(cache.hash.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY));
+        initImage(cache.hash.image.replace("ipfs://", ipfsPath));
         if (cache?.hash) {
             const nftCache = cache.hash
             const questCache = nftCache.attributes.challenge_ipfs_url
