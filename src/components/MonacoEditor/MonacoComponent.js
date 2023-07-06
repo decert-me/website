@@ -6,7 +6,7 @@ import MyContext from "@/provider/context";
 
 
 export default function MonacoComponent(props) {
-    const { value, onChange, language, height } = props;
+    const { value, onChange, language, height, readOnly } = props;
     const { isMobile } = useContext(MyContext);
     const { languageInit } = useMonacoInit({
         language: language
@@ -14,7 +14,8 @@ export default function MonacoComponent(props) {
     
     const options = {
         minimap: { enabled: false },  // 隐藏侧边栏
-        wordWrap: isMobile ? "on" : "off"
+        wordWrap: isMobile ? "on" : "off",
+        readOnly: readOnly
     };
 
     return (

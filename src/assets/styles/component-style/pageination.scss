@@ -15,6 +15,9 @@
         display: flex;
         align-items: center;
         justify-content: space-between;
+        .content-left, .content-right{
+            width: 20%;
+        }
     }
     .content-left{
         display: flex;
@@ -50,6 +53,8 @@
         }
     }
     .content-right{
+        display: flex;
+        justify-content: flex-end;
         .submit{
             height: 40px;
             padding: 0 30px;

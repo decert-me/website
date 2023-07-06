@@ -14,6 +14,7 @@ function CustomCode(props, ref) {
 
     const { question, token_id, answers, setAnswers, saveAnswer, index, isPreview } = props;
     const { t } = useTranslation(['publish','explore']);
+    const editorRef = useRef(null);
     const consoleRef = useRef(null);
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
@@ -48,6 +49,9 @@ function CustomCode(props, ref) {
     }
 
     function changeCache(value) {
+        if (isPreview) {
+            return
+        }
         // 存储至cache中，切换language时不丢失
         cacheQuest.code_snippets[selectIndex].code = value;
         setCacheQuest({...cacheQuest});
@@ -217,6 +221,8 @@ function CustomCode(props, ref) {
         // 修改代码
         editorCode = code === "tpl" ? selectCode?.code : selectCode?.decodeAnswer;
         setEditorCode(editorCode);
+        // 切换编辑器语种
+        editorRef.current.changeReadOnly(code !== "tpl" );
     }
 
     async function init(params) {
@@ -312,6 +318,7 @@ function CustomCode(props, ref) {
                                 onChange={changeCache}
                                 language={selectCode.lang}
                                 height={"100%"}
+                                ref={editorRef}
                             />
                         </div>
                         <div className="out-content">
