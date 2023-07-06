@@ -20,12 +20,10 @@ import { changeConnect } from "@/utils/redux";
 import { getQuests, modifyRecommend } from "@/request/api/public";
 import store, { setChallenge } from "@/redux/store";
 import { tokenSupply } from "@/controller";
-import { constans } from "@/utils/constans";
 
 export default function Publish(params) {
     
     const navigateTo = useNavigate();
-    const { ipfsPath } = constans();
 
     const { t } = useTranslation(["publish", "translation", "profile"]);
     const { isMobile } = useContext(MyContext);

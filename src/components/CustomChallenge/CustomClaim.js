@@ -75,7 +75,10 @@ export default function CustomClaim(props) {
         if (signature.message.indexOf("Question Updated") !== -1 || signature.message.indexOf("题目已更新") !== -1 ) {
             Modal.warning({
                 ...modalNotice({
-                    text: t("translation:message.error.challenge-modify"), t, onOk: () => {navigateTo(0)}
+                    t, 
+                    text: t("translation:message.error.challenge-modify"), 
+                    onOk: () => {navigateTo(0)},
+                    icon: "😵"
                 }
             )});
             return

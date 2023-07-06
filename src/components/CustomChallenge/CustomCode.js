@@ -134,7 +134,10 @@ function CustomCode(props, ref) {
         if (isPreview) {
             Modal.warning({
                 ...modalNotice({
-                    text: t("translation:message.error.preview-test"), t, onOk: () => {Modal.destroyAll()}
+                    t, 
+                    text: t("translation:message.error.preview-test"), 
+                    onOk: () => {Modal.destroyAll()},
+                    icon: "😵"
                 }
             )});
             return
