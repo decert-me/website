@@ -178,11 +178,10 @@ export default function Publish(params) {
         if (changeItem.uri.indexOf(publishObj.jsonHash) !== -1) {
             // 没修改内容
 
-            let result;
             // 判断是否修改了recommend
-            if (JSON.stringify(publishObj.recommend) !== changeItem.recommend) {
+            if (JSON.stringify(publishObj.recommend) !== JSON.stringify(changeItem.recommend)) {
                 // 修改了recommend ==> 发起修改recommend请求
-                result = await modifyRecommend({
+                let result = await modifyRecommend({
                     token_id: Number(changeId),
                     recommend: publishObj.recommend
                 }).then(res => {
@@ -193,12 +192,13 @@ export default function Publish(params) {
                     !res && setLoading(false);
                     return res
                 })
-            }
-            result &&
-            setTimeout(() => {
+                result &&
+                setTimeout(() => {
+                    navigateTo(`/quests/${changeId}`)
+                }, 1000);
+            }else{
                 navigateTo(`/quests/${changeId}`)
-            }, 1000);
-
+            }
             return false
         }else{
             return true

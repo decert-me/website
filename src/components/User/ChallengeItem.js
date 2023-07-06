@@ -66,7 +66,7 @@ export default function ChallengeItem(props) {
             return
         }
         // 跳转至编辑challenge
-        navigateTo(`/publish?${info.tokenId}`)
+        window.open(`/publish?${info.tokenId}`, '_blank');
     }
 
     function getTimeDiff(time) {
