@@ -105,12 +105,18 @@ export default function Publish(params) {
     const getJson = async(values, preview) => {
         const { answers, questions: qs } = filterQuestions(questions);
         const image = values.fileList?.file?.response.data.hash
+
+        console.log({
+            image: (changeId && cache && image) ? "ipfs://"+image : (changeId && cache) ? cache?.hash.image : (changeId && !image) ? changeItem.metadata.image : cache ? cache?.hash.image : "ipfs://"+image,
+
+        });
+        console.log("ipfs://"+image, cache?.hash.image, changeItem?.metadata.image);
         const jsonHash = await getMetadata({
             values: values,
             address: address,
             questions: qs,
             answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
-            image: (changeId && cache && image) ? "ipfs://"+image : (changeId && cache) ? cache?.hash.image : (changeId && !image) ? changeItem.metadata.image : "ipfs://"+image,
+            image: (changeId && cache && image) ? "ipfs://"+image : (changeId && cache) ? cache?.hash.image : (changeId && !image) ? changeItem.metadata.image : (cache && !image) ? cache?.hash.image : "ipfs://"+image,
             startTime: changeId && !cache ? changeItem.quest_data.startTime : changeId && cache ? cache.hash.attributes.challenge_ipfs_url.startTime : null,
             olduuid: changeId && !cache ? changeItem.uuid : changeId && cache ? cache.hash.attributes.challenge_url.split("/").reverse()[0] : null
         }, preview ? preview : null)

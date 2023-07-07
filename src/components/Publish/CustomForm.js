@@ -9,6 +9,7 @@ import { useAccount } from "wagmi";
 import { useUpdateEffect } from "ahooks";
 import { constans } from "@/utils/constans";
 import store from "@/redux/store";
+import { useLocation } from "react-router-dom";
 
 const { TextArea } = Input;
 const { Dragger } = Upload;
@@ -40,6 +41,7 @@ export default function CustomForm(props) {
     const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
     const { isConnected } = useAccount();
+    const location = useLocation();
     let [fields, setFields] = useState([]);
     let [fileList, setFileList] = useState([]);
 
@@ -111,6 +113,7 @@ export default function CustomForm(props) {
             return
         }
         const cache = JSON.parse(local);
+        console.log(cache);
         initImage(cache.hash.image.replace("ipfs://", ipfsPath+"/"));
         if (cache?.hash) {
             const nftCache = cache.hash
@@ -147,7 +150,7 @@ export default function CustomForm(props) {
 
     useEffect(() => {
         init();
-    },[])
+    },[location])
 
     useUpdateEffect(() => {
         // 修改挑战数据初始化
