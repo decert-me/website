@@ -31,8 +31,6 @@ export default function ModalAnswers(props) {
     }
 
     function getResult(params) {
-        console.log("isPreview");
-        console.log(isPreview);
         // 答题记录 ===> 
         answers.map((e,i) => {
             if (e === null || e === undefined || e?.value === "" || isPreview) {
