@@ -269,6 +269,14 @@ export default function Publish(params) {
     }
 
     async function getChallenge(tokenId) {
+        const fetch = await getQuests({id: tokenId})
+        const data = fetch?.data
+        // 没有该挑战、该挑战不是你的
+        if (!fetch || (address !== data.creator)) {
+            navigateTo("/404")
+            return
+        }
+
         const supply = await tokenSupply(tokenId, signer)
             .then(res => {
                 return res
@@ -299,9 +307,6 @@ export default function Publish(params) {
             return
         }
         // 获取对应challenge信息
-        await getQuests({id: tokenId})
-        .then(res => {
-            const data = res?.data
             recommend = isSerializedString(data.recommend);
             setRecommend(recommend);
             const answers = JSON.parse(decode(process.env.REACT_APP_ANSWERS_KEY, data.quest_data.answers))
@@ -314,7 +319,7 @@ export default function Publish(params) {
             setQuestions([...questions]);
             changeItem = data;
             setChangeItem({...changeItem});
-        })
+
         setTradeLoading(false);
     }
 

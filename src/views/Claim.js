@@ -56,17 +56,21 @@ export default function Claim(props) {
         const cache = JSON.parse(localStorage.getItem('decert.cache'));
         
         new Promise(async(resolve, reject) => {
-            const res = await getQuests({id: id});
-            setMetadata(res.data)
-            .then(res => {
-                detail = res ? res : {};
-                setDetail({...detail});
-                if (res.claimed) {
-                    resolve()
-                }else{
-                    reject()
-                }
-            })
+            try {                
+                const res = await getQuests({id: id});
+                setMetadata(res.data)
+                .then(res => {
+                    detail = res ? res : {};
+                    setDetail({...detail});
+                    if (res.claimed) {
+                        resolve()
+                    }else{
+                        reject()
+                    }
+                })
+            } catch (error) {
+                navigateTo("/404")
+            }
         }).then(res => {
             //  已领取
             // console.log(detail);

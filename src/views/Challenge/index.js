@@ -78,88 +78,92 @@ export default function Challenge(params) {
     }
 
     const getData = async (id) => {
-        const res = await getQuests({id: id});
-        setMetadata(res.data)
-        .then(res => {
-            detail = res ? res : {};
-            setDetail({...detail});
-            // 获取本地存储 ===> 
-            const local = JSON.parse(localStorage.getItem("decert.cache"));
-            let cacheAnswers = local ? local : null;
-            let flag = false;
-            
-            const { cacheAnswers: newAnswers } = localRealAnswerInit({
-                cacheAnswers, id, detail, reload: () => {
-                    // TODO: 弹窗提示 ===> 跳转
-                    Modal.warning({
-                        ...modalNotice({
-                            t, 
-                            text: t("translation:message.error.challenge-modify"), 
-                            onOk: () => {navigateTo(0)},
-                            icon: "🤖"
-                        }
-                    )});
-                }
-            })
-            cacheAnswers = newAnswers
-
-            if (cacheAnswers[id]) {
-                // 存在该题cache
-                answers = cacheAnswers[id];
-                console.log("answers =====>", answers);
-                // 旧版本cache升级
-                try {
-                    answers.forEach(e => {
-                        // 锁定旧版本普通题
-                        if (
-                            typeof e === "string" || 
-                            typeof e === "number" || 
-                            Array.isArray(e)
-                        ) {
-                            throw ""
-                        }
-                    })
-                } catch (err) {
-                    answers.map((e, i) => {
-                        let type;
-                        if (typeof e === "string") {
-                            type = "fill_blank"
-                        }else if (typeof e === "number") {
-                            type = "multiple_choice"
-                        }else{
-                            type = "multiple_response"
-                        }
-                        answers[i] = {
-                            value: e,
-                            type: type
-                        }
-                    })
-                    setAnswers([...answers])
+        try {
+            const res = await getQuests({id: id});
+            setMetadata(res.data)
+            .then(res => {
+                detail = res ? res : {};
+                setDetail({...detail});
+                // 获取本地存储 ===> 
+                const local = JSON.parse(localStorage.getItem("decert.cache"));
+                let cacheAnswers = local ? local : null;
+                let flag = false;
+                
+                const { cacheAnswers: newAnswers } = localRealAnswerInit({
+                    cacheAnswers, id, detail, reload: () => {
+                        // TODO: 弹窗提示 ===> 跳转
+                        Modal.warning({
+                            ...modalNotice({
+                                t, 
+                                text: t("translation:message.error.challenge-modify"), 
+                                onOk: () => {navigateTo(0)},
+                                icon: "🤖"
+                            }
+                        )});
+                    }
+                })
+                cacheAnswers = newAnswers
+    
+                if (cacheAnswers[id]) {
+                    // 存在该题cache
+                    answers = cacheAnswers[id];
+                    console.log("answers =====>", answers);
+                    // 旧版本cache升级
+                    try {
+                        answers.forEach(e => {
+                            // 锁定旧版本普通题
+                            if (
+                                typeof e === "string" || 
+                                typeof e === "number" || 
+                                Array.isArray(e)
+                            ) {
+                                throw ""
+                            }
+                        })
+                    } catch (err) {
+                        answers.map((e, i) => {
+                            let type;
+                            if (typeof e === "string") {
+                                type = "fill_blank"
+                            }else if (typeof e === "number") {
+                                type = "multiple_choice"
+                            }else{
+                                type = "multiple_response"
+                            }
+                            answers[i] = {
+                                value: e,
+                                type: type
+                            }
+                        })
+                        setAnswers([...answers])
+                        cacheAnswers[id] = answers;
+                        localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
+                    }
+                    try {
+                        answers.forEach((e,i) => {
+                            if (e === null) {
+                                page = i+1;
+                                setPage(page)
+                                throw ""
+                            }
+                        })
+                    } catch (err) {
+                        flag = true;
+                    }
+                    if (page === 1 && !flag) {
+                        page = answers.length;
+                        setPage(page)
+                    }
+                }else{
+                    answers = new Array(Number(detail.metadata.properties.questions.length)).fill(undefined);
                     cacheAnswers[id] = answers;
-                    localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
+                    saveAnswer()
                 }
-                try {
-                    answers.forEach((e,i) => {
-                        if (e === null) {
-                            page = i+1;
-                            setPage(page)
-                            throw ""
-                        }
-                    })
-                } catch (err) {
-                    flag = true;
-                }
-                if (page === 1 && !flag) {
-                    page = answers.length;
-                    setPage(page)
-                }
-            }else{
-                answers = new Array(Number(detail.metadata.properties.questions.length)).fill(undefined);
-                cacheAnswers[id] = answers;
-                saveAnswer()
-            }
-            setAnswers([...answers])
-        })
+                setAnswers([...answers])
+            })
+        } catch (error) {
+            navigateTo("/404")
+        }
     }
 
     const changeAnswer = (value, type) => {
