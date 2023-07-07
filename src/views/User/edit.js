@@ -4,8 +4,6 @@ import { Button, Input, message, Upload } from "antd"
 import {
     PlusOutlined,
     LoadingOutlined,
-    // PlusOutlined
-
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { useAccount } from "wagmi";
@@ -21,7 +19,6 @@ const { TextArea } = Input;
 export default function UserEdit(params) {
     
     /**
-     * TODO: ===>
      * 1. 校验是否是本人 ==> 否 ===> 跳转至该地址详情页
      * 2. 获取个人资料
      * 3. 回显
@@ -62,7 +59,7 @@ export default function UserEdit(params) {
     };
 
     const goBack = () => {
-        navigateTo(`/user/${account}`);
+        navigateTo(`/404`);
     }
 
     const changeUser = (value, key) => {

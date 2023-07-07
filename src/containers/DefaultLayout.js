@@ -16,13 +16,25 @@ const { Header, Footer, Content } = Layout;
 export default function DefaultLayout(params) {
 
     const outlet = useRoutes(routes);
-    const { address } = useAccount();
     const navigateTo = useNavigate();
     const location = useLocation();
     const { isMobile, user } = useContext(MyContext);
     const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
+    let [headerHide, setHeaderHide] = useState(false);
     let [vh, setVh] = useState(100);
+    const { address, status } = useAccount({
+        onDisconnect(){
+            // 已登陆  ====>  未登录
+            console.log("断开链接");
+            const path = location.pathname;
+            ClearStorage();
+            isClaim(path);
+            isExplore(path);
+            isCert(path, 'signout');
+            isUser(path);
+        }
+    });
 
     const headerStyle = {
         width: "100%",
@@ -32,7 +44,8 @@ export default function DefaultLayout(params) {
         backgroundColor: 'rgba(0,0,0,0)',
         position: "fixed",
         color: "#fff",
-        zIndex: 999
+        zIndex: 999,
+        display: headerHide ? "none" : "block"
     };
       
     const contentStyle = {
@@ -113,13 +126,6 @@ export default function DefaultLayout(params) {
             isExplore(path);
             isUser(path);
             sign()
-        }else if (addr && !address) {
-            // 已登陆  ====>  未登录
-            ClearStorage();
-            isClaim(path);
-            isExplore(path);
-            isCert(path, 'signout');
-            isUser(path);
         }
     }
 
@@ -129,7 +135,14 @@ export default function DefaultLayout(params) {
     });
 
     const footerChange = () => {
-        if (location.pathname === "/publish" || location.pathname.indexOf("/quests") !== -1 || (location.pathname.indexOf("/challenge") !== -1)) {
+        if (location.pathname === "/publish" || location.pathname.indexOf("/quests") !== -1 || (location.pathname.indexOf("/challenge") !== -1) || (location.pathname.indexOf("/preview") !== -1)) {
+            return true
+        }
+        return false
+    }
+
+    const headerChange = () => {
+        if ((location.pathname.indexOf("/preview") !== -1)) {
             return true
         }
         return false
@@ -154,8 +167,11 @@ export default function DefaultLayout(params) {
     useEffect(() => {
         zoomVh()
         window.scrollTo(0, 0);
-        footerHide = footerChange() ? true : false;
+        footerHide = footerChange();
         setFooterHide(footerHide);
+
+        headerHide = headerChange();
+        setHeaderHide(headerHide);
     },[location])
 
     useEffect(() => {
@@ -164,6 +180,13 @@ export default function DefaultLayout(params) {
           window.removeEventListener("resize", zoomVh);
         };
     }, []);
+
+    // useEffect(() => {
+    //     // !address && localStorage.getItem("wagmi.connected") && navigateTo(0)
+    //     console.log(status);
+    // },[address])
+
+    
 
     return (
         <Layout className={isMobile ? "Mobile" : ""}>

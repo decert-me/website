@@ -3,11 +3,13 @@ import { useTranslation } from "react-i18next";
 import { ConfirmClearQuest } from "../CustomConfirm/ConfirmClearQuest";
 import { CustomQuestion, CustomEditor } from "@/components/CustomItem";
 import { useEffect, useState } from "react";
-import axios from "axios";
-import { constans } from "@/utils/constans";
 import { UploadProps } from "@/utils/UploadProps";
 import { InboxOutlined } from '@ant-design/icons';
 import { useAccount } from "wagmi";
+import { useUpdateEffect } from "ahooks";
+import { constans } from "@/utils/constans";
+import store from "@/redux/store";
+import { useLocation } from "react-router-dom";
 
 const { TextArea } = Input;
 const { Dragger } = Upload;
@@ -30,13 +32,19 @@ export default function CustomForm(props) {
         preview,
         clearQuest,
         showEditModal,
-        changeConnect
+        changeConnect,
+        changeItem,
+        changeId,
+        challenge
     } = props;
+    const { ipfsPath } = constans();
     const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
-    const { ipfsPath} = constans();
     const { isConnected } = useAccount();
+    const location = useLocation();
     let [fields, setFields] = useState([]);
+    let [fileList, setFileList] = useState([]);
+
     
     const checkPreview = async() => {
         let flag;
@@ -50,16 +58,65 @@ export default function CustomForm(props) {
         preview(form.getFieldsValue(), flag)
     }
 
+    const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
+
+    function challengeInit(challenge) {
+        const chanllengeInfo = challenge?.attributes?.challenge_ipfs_url;
+        const img = challenge ? challenge.image : changeItem.metadata.image;
+        initImage(img.replace("ipfs://", ipfsPath+"/"));
+        fields = [
+            {
+                name: ["title"],
+                value: challenge ? challenge.name : changeItem.title
+            },
+            {
+                name: ["desc"],
+                value: challenge ? challenge.description : changeItem.metadata.description
+            },
+            {
+                name: ["score"],
+                value: challenge ? chanllengeInfo.passingScore : changeItem?.quest_data.passingScore
+            },
+            {
+                name: ["difficulty"],
+                value: challenge ? challenge?.attributes?.difficulty : changeItem.metadata?.attributes?.difficulty
+            },
+            {
+                name: ["time"],
+                value: challenge ? chanllengeInfo?.estimateTime : changeItem?.quest_data?.estimateTime
+            },
+            {
+                name: ["fileList"],
+                value: fileList
+            }
+        ]
+        setFields([...fields])
+    }
+
+    function initImage(img) {
+        fileList = [{
+            uid: '-1',
+            name: 'image.png',
+            status: 'done',
+            url: img 
+        }]
+        setFileList([...fileList])
+    }
+
+    async function previewInit(params) {
+        changeItem ? challengeInit() : challengeInit(challenge.hash);
+    }
+
     const init = async() => {
         const local = localStorage.getItem("decert.store");
         if (!local) {
             return
         }
         const cache = JSON.parse(local);
+        initImage(cache.hash.image.replace("ipfs://", ipfsPath+"/"));
         if (cache?.hash) {
             const nftCache = cache.hash
             const questCache = nftCache.attributes.challenge_ipfs_url
-            console.log(nftCache, questCache);
             fields = [
                 {
                     name: ["title"],
@@ -80,6 +137,10 @@ export default function CustomForm(props) {
                 {
                     name: ["time"],
                     value: questCache?.estimateTime
+                },
+                {
+                    name: ["fileList"],
+                    value: fileList
                 }
             ]
             setFields([...fields])
@@ -88,7 +149,16 @@ export default function CustomForm(props) {
 
     useEffect(() => {
         init();
-    },[])
+    },[location])
+
+    useUpdateEffect(() => {
+        // 修改挑战数据初始化
+        changeId && previewInit();
+    },[changeItem])
+
+    useUpdateEffect(() => {
+        challenge && previewInit();
+    },[challenge])
 
     return (
         <Form
@@ -170,6 +240,8 @@ export default function CustomForm(props) {
                         UploadProps.beforeUpload(file)
                     }}
                     listType="picture-card"
+                    fileList={fileList}
+                    onChange={handleChange}
                 >
                     <p className="ant-upload-drag-icon" style={{ color: "#a0aec0" }}>
                         <InboxOutlined />
@@ -331,7 +403,11 @@ export default function CustomForm(props) {
                                 htmlType="submit" 
                                 loading={ writeLoading || waitLoading }
                             >
-                                {t("translation:btn-publish")}
+                                {
+                                    changeItem ? 
+                                    t("translation:btn-save"):
+                                    t("translation:btn-publish")
+                                }
                             </Button>
                         </Form.Item>
                     </div>

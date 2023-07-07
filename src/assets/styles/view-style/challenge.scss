@@ -7,36 +7,28 @@
     background-color: #F9F9F9;
     .preview-head{
         width: 100%;
-        margin-bottom: 50px;
+        padding-left: 150px;
+        padding-right: 130px;
         text-align: center;
-        position: relative;
-        font-size: 20px;
+        position: absolute;
+        top: 32px;
+        color: #111111;
+        font-size: 18px;
         font-weight: 500;
-        line-height: 29px;
-        .btns{
-            position: absolute;
-            top: 0;
-            right: 0;
-            display: flex;
-        }
-        button{
-            min-width: 100px;
-            height: 40px;
-            margin-left: 20px;
-            border-radius: 0;
-            border-color: #000;
-            font-size: 16px;
-            line-height: 23px;
-            
-        }
+        line-height: 21px;
+        z-index: 1;
         .btn-exit{
             border: none;
             box-shadow: none;
-            font-size: 20px;
+            color: #111111;
+            font-size: 18px;
             display: flex;
             align-items: center;
+            position: absolute;
+            top: 0;
+            right: 130px;
             .icon{
-                font-size: 24px;
+                font-size: 16px;
             }
         }
     }
@@ -48,6 +40,9 @@
         top: 0;
         left: 0;
         z-index: 1;
+        .line{
+            border-top: 1px solid #F9F9F9;
+        }
         .title{
             width: 100%;
             height: 50px;
@@ -95,7 +90,7 @@
             display: flex;
             align-items: center;
             strong{
-                width: 80%;
+                max-width: 80%;
                 margin-left: 17px;
                 font-size: 20px;
                 font-weight: 500;
@@ -104,6 +99,12 @@
                 text-overflow:ellipsis; 
                 overflow:hidden;
                 display: inline-block;
+            }
+            .score{
+                color: #43B472;
+                font-size: 16px;
+                font-weight: 500;
+                line-height: 19px;
             }
         }
         .inner-title{

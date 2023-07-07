@@ -13,7 +13,6 @@ import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
 import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
-import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import CustomLoading from "@/components/CustomLoading";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import { covertChain } from "@/utils/convert";

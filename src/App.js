@@ -3,14 +3,8 @@ import { useEffect } from "react";
 import BeforeRouterEnter from "@/components/BeforeRouterEnter";
 import { WagmiConfig, configureChains, createClient } from 'wagmi'
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
-// import { CoinbaseWalletConnector } from 'wagmi/connectors/coinbaseWallet'
-// import { InjectedConnector } from 'wagmi/connectors/injected'
-// import { LedgerConnector } from 'wagmi/connectors/ledger'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-// import { SafeConnector } from 'wagmi/connectors/safe'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
-// import { alchemyProvider } from 'wagmi/providers/alchemy'
-// import { infuraProvider } from 'wagmi/providers/infura'
 import { publicProvider } from 'wagmi/providers/public'
 import MyProvider from './provider';
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs';

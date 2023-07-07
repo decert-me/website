@@ -1,6 +1,6 @@
 export function findFastestGateway() {
 
-    const gateways = JSON.parse(process.env.REACT_APP_IPFS_GATEWAYS);
+    const gateways = JSON.parse(process.env.REACT_APP_IPFS_GATEWAY);
     const imgUrl = process.env.REACT_APP_IPFS_TEPL;
     const timeout = 1000; // 设置超时时间为1秒
 

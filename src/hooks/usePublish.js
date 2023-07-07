@@ -1,9 +1,9 @@
 import { useEffect, useState } from "react";
 import { useAccount, useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
-import { addQuests, submitHash } from "@/request/api/public";
+import { addQuests, modifyQuests, submitHash } from "@/request/api/public";
 import { constans } from "@/utils/constans";
-import { createQuest } from "@/controller";
+import { createQuest, modifyQuest } from "@/controller";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -14,7 +14,7 @@ import { useUpdateEffect } from "ahooks";
 
 export const usePublish = (props) => {
 
-    const { jsonHash, recommend } = props;
+    const { jsonHash, recommend, changeId } = props;
     const { chain } = useNetwork();
     const { data: signer } = useSigner();
     const { verify } = useVerifyToken();
@@ -40,14 +40,27 @@ export const usePublish = (props) => {
         hash: createQuestHash,
         onSuccess() {
             setTimeout(() => {
-                message.success(t("message.success.create"));
+                message.success(t(changeId ? "translation:message.success.save" : "message.success.create"));
                 localStorage.removeItem("decert.store");
-                navigateTo("/challenges")
+                changeId ? navigateTo(`/quests/${changeId}`) : navigateTo("/challenges")
             }, 1000);
         }
     })
 
     const write = (sign, obj, params) => {
+        changeId ?
+        modifyQuest(changeId, obj, sign, signer)
+        .then(res => {
+            setIsLoading(false);
+            if (res) {
+                submitHash({
+                    hash: res, 
+                    params: params
+                })
+                setCreateQuestHash(res)
+            }
+        })
+        :
         createQuest(obj, sign, signer)
         .then(res => {
             setIsLoading(false);
@@ -62,7 +75,18 @@ export const usePublish = (props) => {
     }
 
     const processingData = async() => {
-        const signature = jsonHash && await addQuests({
+        const signature = jsonHash && changeId ? 
+        await modifyQuests({
+            token_id: Number(changeId),
+            uri: "ipfs://"+jsonHash,
+            title: detail.title,
+            description: detail.description,
+            'start_ts': '0', 
+            'end_ts': maxUint32.toString(), 
+            'supply': maxUint192.toString(),       
+        })
+        :
+        await addQuests({
             uri: "ipfs://"+jsonHash,
             title: detail.title,
             description: detail.description,

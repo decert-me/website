@@ -78,7 +78,6 @@ export default function CustomCompleted(props) {
 
             const cache = JSON.parse(localStorage.getItem("decert.cache"));
             const claimable = cache?.claimable ? cache.claimable : [];
-            // TODO: 添加 react-confetti
             if (answerInfo.isPass) {
                 setShowConfetti(true);
                 if (!claimable.some(item => item.token_id == tokenId)) {

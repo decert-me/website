@@ -4,12 +4,12 @@ import {
 } from '@ant-design/icons';
 import { 
     Button, 
-    message, 
+    Modal, 
     Progress 
 } from 'antd';
 import { useEffect, useRef, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { challengeJson, getQuests, nftJson, submitChallenge } from "../../request/api/public";
+import { getQuests, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
 import CustomPagination from '../../components/CustomPagination';
@@ -20,16 +20,17 @@ import {
     CustomCheckbox 
 } from '../../components/CustomChallenge';
 import { useTranslation } from 'react-i18next';
-import { constans } from '@/utils/constans';
-import { usePublish } from '@/hooks/usePublish';
 import { setMetadata } from '@/utils/getMetadata';
 import CustomCode from '@/components/CustomChallenge/CustomCode';
+import store from "@/redux/store";
+import { localRealAnswerInit } from '@/utils/localRealAnswerInit';
+import { modalNotice } from '@/utils/modalNotice';
+import { Encryption } from '@/utils/Encryption';
 
 export default function Challenge(params) {
 
-    const { t } = useTranslation(["explore"]);
+    const { t } = useTranslation(["explore", "translation"]);
 
-    const { ipfsPath } = constans();
     const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -38,11 +39,10 @@ export default function Challenge(params) {
     let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
     let [percent, setPercent] = useState();
-    let [publishObj, setPublishObj] = useState({});
-    const { publish: write, isLoading, transactionLoading } = usePublish({
-        jsonHash: publishObj?.jsonHash, 
-        recommend: publishObj?.recommend
-    });
+    let [isEdit, setIsEdit] = useState();   //  修改challenge预览
+    const { decode } = Encryption();
+    const key = process.env.REACT_APP_ANSWERS_KEY;
+    let [realAnswer, setRealAnswer] = useState([]);
 
     let [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -78,75 +78,96 @@ export default function Challenge(params) {
     }
 
     const getData = async (id) => {
-        const res = await getQuests({id: id});
-        setMetadata(res.data)
-        .then(res => {
-            detail = res ? res : {};
-            setDetail({...detail});
-            // 获取本地存储 ===> 
-            const local = JSON.parse(localStorage.getItem("decert.cache"));
-            const cacheAnswers = local ? local : null;
-            let flag = false;
-            if (cacheAnswers[id]) {
-                // 存在该题cache
-                answers = cacheAnswers[id];
-                // 旧版本cache升级
-                try {
-                    answers.forEach(e => {
-                        // 锁定旧版本普通题
-                        if (
-                            typeof e === "string" || 
-                            typeof e === "number" || 
-                            Array.isArray(e)
-                        ) {
-                            throw ""
-                        }
-                    })
-                } catch (err) {
-                    answers.map((e, i) => {
-                        let type;
-                        if (typeof e === "string") {
-                            type = "fill_blank"
-                        }else if (typeof e === "number") {
-                            type = "multiple_choice"
-                        }else{
-                            type = "multiple_response"
-                        }
-                        answers[i] = {
-                            value: e,
-                            type: type
-                        }
-                    })
-                    setAnswers([...answers])
+        try {
+            const res = await getQuests({id: id});
+            setMetadata(res.data)
+            .then(res => {
+                detail = res ? res : {};
+                setDetail({...detail});
+                // 获取本地存储 ===> 
+                const local = JSON.parse(localStorage.getItem("decert.cache"));
+                let cacheAnswers = local ? local : null;
+                let flag = false;
+                
+                const { cacheAnswers: newAnswers } = localRealAnswerInit({
+                    cacheAnswers, id, detail, reload: () => {
+                        // TODO: 弹窗提示 ===> 跳转
+                        Modal.warning({
+                            ...modalNotice({
+                                t, 
+                                text: t("translation:message.error.challenge-modify"), 
+                                onOk: () => {navigateTo(0)},
+                                icon: "🤖"
+                            }
+                        )});
+                    }
+                })
+                cacheAnswers = newAnswers
+    
+                if (cacheAnswers[id]) {
+                    // 存在该题cache
+                    answers = cacheAnswers[id];
+                    console.log("answers =====>", answers);
+                    // 旧版本cache升级
+                    try {
+                        answers.forEach(e => {
+                            // 锁定旧版本普通题
+                            if (
+                                typeof e === "string" || 
+                                typeof e === "number" || 
+                                Array.isArray(e)
+                            ) {
+                                throw ""
+                            }
+                        })
+                    } catch (err) {
+                        answers.map((e, i) => {
+                            let type;
+                            if (typeof e === "string") {
+                                type = "fill_blank"
+                            }else if (typeof e === "number") {
+                                type = "multiple_choice"
+                            }else{
+                                type = "multiple_response"
+                            }
+                            answers[i] = {
+                                value: e,
+                                type: type
+                            }
+                        })
+                        setAnswers([...answers])
+                        cacheAnswers[id] = answers;
+                        localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
+                    }
+                    try {
+                        answers.forEach((e,i) => {
+                            if (e === null) {
+                                page = i+1;
+                                setPage(page)
+                                throw ""
+                            }
+                        })
+                    } catch (err) {
+                        flag = true;
+                    }
+                    if (page === 1 && !flag) {
+                        page = answers.length;
+                        setPage(page)
+                    }
+                }else{
+                    answers = new Array(Number(detail.metadata.properties.questions.length)).fill(undefined);
                     cacheAnswers[id] = answers;
-                    localStorage.setItem("decert.cache", JSON.stringify(cacheAnswers));
+                    saveAnswer()
                 }
-                try {
-                    answers.forEach((e,i) => {
-                        if (e === null) {
-                            page = i+1;
-                            setPage(page)
-                            throw ""
-                        }
-                    })
-                } catch (err) {
-                    flag = true;
-                }
-                if (page === 1 && !flag) {
-                    page = answers.length;
-                    setPage(page)
-                }
-            }else{
-                answers = new Array(Number(detail.metadata.properties.questions.length)).fill(undefined);
-                cacheAnswers[id] = answers;
-                saveAnswer()
-            }
-            setAnswers([...answers])
-        })
+                setAnswers([...answers])
+            })
+        } catch (error) {
+            navigateTo("/404")
+        }
     }
 
     const changeAnswer = (value, type) => {
-        // 新版普通题cache添加 ===> TODO:
+        // 新版普通题cache添加
         answers[index] = {
             value: value,
             type: type
@@ -173,38 +194,22 @@ export default function Challenge(params) {
         navigateTo(`/claim/${detail.tokenId}`)
     }
 
-    const publish = () => {
-        const local = JSON.parse(localStorage.getItem("decert.store"))
-        if (!local.isOver) {
-            message.error(t("message.error.publish"));
-            return
-        }else{
-            write();
-        }
-    }
-
     const cacheInit = async() => {
+        const { challenge } = store.getState();
         const local = localStorage.getItem("decert.store");
-        if (!local || (local && JSON.parse(local).questions.length === 0)) {
+        if (!challenge && (!local || (local && JSON.parse(local).questions.length === 0))) {
             navigateTo("/challenges");
             return
         }
-        const cache = JSON.parse(local);
-        if (cache.isOver) {
-            const challengeHash = await challengeJson(cache.hash.attributes.challenge_ipfs_url);
-            const obj = JSON.parse(JSON.stringify(cache.hash));
-            obj.attributes.challenge_ipfs_url = challengeHash.data.hash;
-            const jsonHash = await nftJson(obj);
-            publishObj = {
-                jsonHash: jsonHash.data.hash,
-                recommend: cache.recommend
-            }
-            setPublishObj({...publishObj});
-        }
-            cacheDetail = cache.hash;
-            setCacheDetail({...cacheDetail});
-            answers = new Array(Number(cache.questions.length))
-            setAnswers([...answers])
+        const cache = challenge || JSON.parse(local);
+        isEdit = challenge;
+        setIsEdit(isEdit);
+        cacheDetail = cache.hash;
+        setCacheDetail({...cacheDetail});
+        answers = new Array(Number(cache.questions.length))
+        setAnswers([...answers])
+        realAnswer = eval(decode(key, cacheDetail.attributes.challenge_ipfs_url.answers));
+        setRealAnswer([...realAnswer]);
     }
 
     useEffect(() => {
@@ -234,7 +239,7 @@ export default function Challenge(params) {
                         {
                             e.type !== "coding" &&
                             <h4 className='challenge-title'>{t("challenge.title")}
-                                #{page}
+                                #{page} &nbsp;&nbsp; <span className="score">({e.score}分)</span>
                             </h4>
                         }
                         {switchType(e,i)}
@@ -263,13 +268,43 @@ export default function Challenge(params) {
                 />
             case 2:
             case "fill_blank":
-                return <CustomInput key={i} label={question.title} value={changeAnswer} defaultValue={answers[i]} />
+                return (
+                    <CustomInput 
+                        key={i} 
+                        label={question.title} 
+                        value={changeAnswer} 
+                        defaultValue={answers[i]} 
+                        isPreview={cacheDetail ? true : false}
+                        answer={realAnswer[i]}
+                    />
+                )
             case 1:
             case "multiple_response":
-                return <CustomCheckbox key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
+                return (
+                    <CustomCheckbox 
+                        key={i} 
+                        label={question.title} 
+                        options={question.options} 
+                        value={changeAnswer}
+                        defaultValue={answers[i]} 
+                        isPreview={cacheDetail ? true : false}
+                        answer={realAnswer[i]}
+                    />
+                )
             case 0:
             case "multiple_choice":
-                return <CustomRadio key={i} label={question.title} options={question.options} value={changeAnswer} defaultValue={answers[i]} />
+                console.log();
+                return (
+                    <CustomRadio 
+                        key={i} 
+                        label={question.title} 
+                        options={question.options} 
+                        value={changeAnswer} 
+                        defaultValue={answers[i]} 
+                        isPreview={cacheDetail ? true : false}
+                        answer={realAnswer[i]}
+                    />
+                ) 
             default:
                 break;
         }
@@ -282,43 +317,45 @@ export default function Challenge(params) {
             {
                 (detail || cacheDetail) &&
                 <>
-                    {
-                        detail ?
-                        <>
-                            <ModalAnswers
-                                isModalOpen={isModalOpen}
-                                handleCancel={handleCancel}
-                                submit={submit}
-                                answers={answers}
-                                changePage={changePage}
-                                detail={detail}
-                            />
-                            <div className='quest-title' style={{display: "flex"}}>
-                                    <div className="title">
+                    <ModalAnswers
+                        isModalOpen={isModalOpen}
+                        handleCancel={handleCancel}
+                        submit={submit}
+                        answers={answers}
+                        changePage={changePage}
+                        detail={detail}
+                        isPreview={cacheDetail ? true : false}
+                    />
+                    <div className='quest-title' style={{display: "flex"}}>
+                            <div className={`title ${cacheDetail ? "line" : ""}`}>
+                                {
+                                    detail?.tokenId ? 
+                                    <>
                                         <Link to={`/quests/${detail.tokenId}`}>
                                             <ArrowLeftOutlined />
                                         </Link>
                                         <Link to={`/quests/${detail.tokenId}`}>
                                             <p>{detail?.title}</p>
                                         </Link>
-                                    </div>
+                                    </>
+                                    :
+                                    <>
+                                        {/* 预览模式 */}
+                                        <ArrowLeftOutlined />
+                                        <p>{cacheDetail?.name}</p>
+                                    </>
+                                }
                             </div>
-                        </>
-                        :
-                        <>
+                    </div>
+                    {
+                        cacheDetail &&
                         <div className="preview-head">
-                            {t("mode-preview")}
-                            <div className="btns">
-                                <Button loading={isLoading || transactionLoading} onClick={() => publish()}>
-                                    {t("btn-publish")}
-                                </Button>
-                                <Button className="btn-exit" onClick={() => {navigateTo("/publish")}}>
-                                    <ExportOutlined className='icon' />
-                                    {t("btn-exit")}
-                                </Button>
-                            </div>
+                            <p>{t("mode-preview")}</p>
+                            <Button className="btn-exit" onClick={() => {isEdit ? navigateTo(`/publish?${isEdit.changeId}`) : navigateTo("/publish")}}>
+                                <ExportOutlined className='icon' />
+                                {t("btn-exit")}
+                            </Button>
                         </div>
-                        </>
                     }
                     {
                         detail ? topic(detail.metadata.properties.questions)

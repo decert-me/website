@@ -4,13 +4,8 @@ const initialState = {
   isShow: false,
   isConnect: false,
   isMobile: false,
-  user: {
-    nickname: "",
-    address: "",
-    description: "",
-    avatar: "",
-    socials: null
-  }
+  challenge: null,
+  user: {},
 };
 
 function reducer(state = initialState, action) {
@@ -40,6 +35,11 @@ function reducer(state = initialState, action) {
         ...state,
         user: action.payload
       }
+    case 'SET_CHALLENGE':
+      return {
+        ...state,
+        challenge: action.payload
+      }
     default:
       return state;
   }
@@ -65,6 +65,10 @@ export function setMobile(isMobile) {
 
 export function setUser(user) { 
   return { type: 'SET_USER', payload: user }; 
+}
+
+export function setChallenge(challenge) { 
+  return { type: 'SET_CHALLENGE', payload: challenge }; 
 }
 
 export default store;

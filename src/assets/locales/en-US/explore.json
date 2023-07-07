@@ -10,6 +10,7 @@
     "challenger": "challengers",
     "pass": "Claimed",
     "claimable": "Claimable",
+    "correct": "right answer",
     "ques": {
         "title": "Technology Certification",
         "desc": "Upon completion of the challenge, you will earn SBT (Soulbound Token) as proof of your technical ability. Share it on your social platforms and let the world know what you can do."

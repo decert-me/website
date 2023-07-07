@@ -2,38 +2,18 @@ $container-width: 22.5rem;
 .Mobile{
     .Challenge{
         padding-top: 7.8125rem;
-        // TODO
         .preview-head{
-            margin-bottom: 3.125rem;
-            text-align: center;
-            position: relative;
-            font-size: 1.25rem;
-            font-weight: 500;
-            line-height: 1.8125rem;
-            .btns{
-                position: absolute;
-                top: 0;
-                right: 0;
-                display: flex;
-            }
-            button{
-                min-width: 6.25rem;
-                height: 2.5rem;
-                margin-left: 1.25rem;
-                border-radius: 0;
-                border-color: #000;
-                font-size: 1rem;
-                line-height: 1.4375rem;
-                
-            }
+            top: 1.25rem;
+            padding: 0 0.9375rem;;
+            font-size: 1rem;
+            line-height: 1.1875rem;
             .btn-exit{
-                border: none;
-                box-shadow: none;
-                font-size: 1.25rem;
-                display: flex;
-                align-items: center;
+                height: 1.1875rem;
+                padding: 0;
+                font-size: 1rem;
+                right: 0.9375rem;
                 .icon{
-                    font-size: 1.5rem;
+                    font-size: .8125rem;
                 }
             }
         }
@@ -91,15 +71,29 @@ $container-width: 22.5rem;
             }
         }
     }
-
+.preivew-correct{
+    font-size: 0.875rem;
+    line-height: 1.1875rem;
+}
     .CustomInput{
         padding: 0 1.125rem;
         .custom-input{
-            margin-top: 3.4375rem;
             padding: .5rem;
             font-size: .875rem;
             border-width: .0625rem;
             border-radius: .4375rem;
+        }
+        .CustomInput-content{
+            margin-top: 3.4375rem;
+            .correct-content{
+                margin-top: .625rem;
+                margin-left: .625rem;
+                font-size: 0.875rem;
+                line-height: 1.25rem;
+            }
+            .preivew-correct{
+                margin-right: .5rem;
+            }
         }
     }
     
@@ -128,6 +122,9 @@ $container-width: 22.5rem;
                 border-width: .125rem;
             }
         }
+        .preivew-correct{
+            margin-left: .625rem;
+        }
     }
     
     .CustomCheckbox{
@@ -153,6 +150,9 @@ $container-width: 22.5rem;
                 left: 30%;
                 border-width: .125rem;
             }
+        }
+        .preivew-correct{
+            margin-left: .625rem;
         }
     }
     

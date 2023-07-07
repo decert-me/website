@@ -1,13 +1,33 @@
+.preivew-correct{
+    color: #43B472;
+    font-size: 16px;
+    font-weight: 500;
+    line-height: 19px;
+}
+
 .CustomInput{
     padding: 0 50px;
     color: #343434;
     .custom-input{
-        margin-top: 100px;
-        padding: 10px;
+        padding: 20px;
         border-radius: 0;
         font-size: 16px;
         border: 1px solid #DCDCDC !important;
         border-radius: 10px;
+    }
+    .CustomInput-content{
+        margin-top: 100px;
+        .correct-content{
+            margin-top: 15px;
+            margin-left: 10px;
+            color: #262626;
+            font-size: 16px;
+            line-height: 22px;
+        }
+        .preivew-correct{
+            margin-right: 10px;
+            display: inline-block;
+        }
     }
 }
 
@@ -50,6 +70,9 @@
             }
         }
     }
+    .preivew-correct{
+        margin-left: 10px;
+    }
 }
 
 .CustomCheckbox{
@@ -87,6 +110,9 @@
             width: 10px;
             height: 16px;
         }
+    }
+    .preivew-correct{
+        margin-left: 20px;
     }
 }
 
@@ -128,6 +154,34 @@
         background-color: #fff;
         border-radius: 10px;
         overflow: hidden;
+        position: relative;
+    }
+    .preview-menu{
+        height: 30px;
+        .menu{
+            position: absolute;
+            left: 24px;
+            top: 9px;
+            display: flex;
+            color: #5D5D5D;
+            font-size: 14px;
+            line-height: 16px;
+            li{
+                height: 25px;
+                padding-bottom: 5px;
+                margin-right: 20px;
+                cursor: pointer;
+            }
+            .active{
+                border-bottom: 2px solid #5D5D5D;
+            }
+            .green{
+                color: #43B472;
+            }
+            span{
+                color: #999999;
+            }
+        }
     }
     .out-content{
         height: 290px;

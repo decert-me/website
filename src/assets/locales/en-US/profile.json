@@ -12,6 +12,7 @@
         "title": "Edit profile",
         "upload": "Upload picture",
         "uploading": "Uploading",
+        "error": "Sorry, Challenger claimed SBT，cannot modify content.",
         "inner": {
             "name": "Name",
             "desc": "Personal profile",

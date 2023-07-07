@@ -12,6 +12,7 @@
         "title": "编辑资料",
         "upload": "上传头像",
         "uploading": "上传中...",
+        "error": "抱歉，已有挑战者领取SBT，内容不可更改。",
         "inner": {
             "name": "用户名",
             "desc": "个人介绍",

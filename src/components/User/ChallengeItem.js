@@ -1,4 +1,4 @@
-import { ClockCircleFilled } from '@ant-design/icons';
+import { ClockCircleFilled, EditOutlined } from '@ant-design/icons';
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import "@/assets/styles/component-style/index"
 import "@/assets/styles/mobile/component-style/user/challengeItem.scss"
@@ -8,13 +8,18 @@ import { useTranslation } from "react-i18next";
 import { convertTime } from "@/utils/convert";
 import MyContext from '@/provider/context';
 import { useContext } from 'react';
+import { tokenSupply } from '@/controller';
+import { useSigner } from 'wagmi';
+import { message } from 'antd';
 
 export default function ChallengeItem(props) {
     
+    const { data: signer } = useSigner();
     const { info, profile } = props;
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
+    const [messageApi, contextHolder] = message.useMessage();
     // const { ipfsPath, defaultImg, openseaLink } = constans(checkType === 1 ? true : false);
     const { ipfsPath, defaultImg, openseaLink } = constans(profile?.checkType);
     const arr = [0, 1, 2];
@@ -32,26 +37,31 @@ export default function ChallengeItem(props) {
 
     const toOpensea = (event) => {
         event.stopPropagation();
-        window.open(`${openseaLink}/${info.tokenId}`,'_blank')
+        window.open(`${openseaLink}/${info.tokenId}`,'_blank');
     }
 
     function clickSbt(event) {
         if (isMobile) {
             event.stopPropagation();
-            window.open(`${openseaLink}/${info.tokenId}`,'_blank')
+            window.open(`${openseaLink}/${info.tokenId}`,'_blank');
         }
     }
 
+    async function goEdit(event) {
+        event.stopPropagation();
+        // 已有人claim，终止
+        if (info?.has_claim) {
+            messageApi.open({
+                type: 'warning',
+                content: t("edit.error"),
+            });
+            return
+        }
+        // 跳转至编辑challenge
+       !info?.has_claim && window.open(`/publish?${info.tokenId}`, '_blank');
+    }
+
     function getTimeDiff(time) {
-        var timeDiff;
-        // if (typeof time === "number") {
-        //     var now = Math.round(new Date().getTime() / 1000);
-        //     timeDiff = now - time;
-        // }else{
-        //     var now = new Date();
-        //     var dbTime = new Date(time);
-        //     timeDiff = Math.round(now - dbTime) / 1000;
-        // }
         const { type, time: num } = convertTime(time, "all")
 
         return (
@@ -63,12 +73,19 @@ export default function ChallengeItem(props) {
 
     return (
         <div className="ChallengeItem" onClick={toQuest}>
+            {contextHolder}
             {
                 (!profile && info.claimable) || (profile && profile.isMe && info.complete_ts && !info.claimed) ?
                 <div className="item-claimable">
                     {t("claimble")}
                 </div>
                 :<></>
+            }
+            {
+                profile && info?.creator === profile?.address && info?.has_claim !== undefined &&
+                <div className="edit" onClick={goEdit}>
+                    <EditOutlined />
+                </div>
             }
             {
                 info.claimed && 

@@ -61,7 +61,6 @@ export default function Index(params) {
     function scale(params) {
         const dom = document.querySelector(".Home");
         if (window.innerWidth < 1920 && !isMobile) {
-            console.log(isMobile);
             // 只缩小
             // document.body.style.zoom = window.innerWidth / 1940;
             dom.style.zoom = window.innerWidth / 1950;
@@ -88,6 +87,22 @@ export default function Index(params) {
           window.removeEventListener("resize", run);
         };
     }, []);
+
+    // function test(event) {
+    //         // Cancel the event as stated by the standard.
+    //         // 添加上 会出现弹窗，不添加则会静默执行回调函数内的任务，下面同这条类似作用，只是处理兼容问题
+    //         event.preventDefault();
+    //         // Chrome requires returnValue to be set.
+    //         event.returnValue = '';
+    // }
+
+
+    // useEffect(() => {
+    //     window.addEventListener('beforeunload', test);
+    //     return () => {
+    //         window.removeEventListener("beforeunload", test);
+    //     }
+    // },[])
 
     return (
         <div className="Home ">

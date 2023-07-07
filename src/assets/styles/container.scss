@@ -3,9 +3,11 @@
     backdrop-filter: blur(42px);
     &,.nav-left a{
         color: #000;
+        transition: color 0.2s, font-weight 0.2s;
     }
-    .nav-left .active{
-        color: #000;
+    .nav-left a:hover, .nav-left .active{
+        font-weight: bold;
+        color: #8F5A35;
     }
     .user{
         color: #8F5A35;
@@ -264,6 +266,85 @@
     .ant-dropdown-menu-item-divider{
         margin: 5px 0 !important;
         background-color: #E9E9E9 !important;
+    }
+}
+
+.modal-tip{
+    padding-bottom: 0 !important;  
+    text-align: center; 
+    .ant-modal-confirm-btns{
+        margin-top: 50px !important;
+        display: flex;
+        justify-content: center;
+        button{
+            height: 34px;
+            padding: 0 46px;
+            background-color: #8F5A35;
+            border-radius: 20px;
+            font-weight: 600;
+            border: none !important;
+            &:hover{
+                background-color: #B47243 !important;
+            }
+        }
+    }
+    .ant-modal-content{
+        padding: 47px 0 39px !important;
+        border-radius: 20px !important;
+    }
+    .ant-modal-confirm-body{
+        width: 100%;
+        justify-content: center !important;
+    }
+    .tip-content{
+        padding: 0;
+        color: #8A8E8E;
+        font-size: 15px;
+        line-height: 18px;
+    }
+    .custom-icon{
+        margin-bottom: 48px;
+        font-size: 50px;
+        line-height: 59px;
+    }
+    .modal-close{
+        width: 18px;
+        height: 18px;
+        border: none;
+        font-size: 18px;
+        padding: 0;
+        position: absolute;
+        right: 26px;
+        top: 26px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+}
+
+.notfound{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    img{
+        width: 360px;
+        height: 158px;
+        margin-bottom: 65px;
+    }
+    .notfound-content{
+        margin-bottom: 35px;
+        color: #0A0A0A;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 21px;
+    }
+    .btn{
+        height: 50px;
+        padding: 0 35px;
+        border-radius: 8px;
+        box-shadow: none;
+        font-size: 16px;
     }
 }
 

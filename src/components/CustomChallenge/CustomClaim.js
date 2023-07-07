@@ -1,4 +1,4 @@
-import { Badge, Button } from "antd";
+import { Badge, Button, Modal } from "antd";
 import {
     TwitterOutlined,
 } from '@ant-design/icons';
@@ -11,11 +11,14 @@ import { GetScorePercent } from "@/utils/GetPercent";
 import { useTranslation } from "react-i18next";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { Copy } from "@/utils/Copy"
+import { useNavigate } from "react-router-dom";
+import { modalNotice } from "@/utils/modalNotice";
 
 export default function CustomClaim(props) {
     
     const { step, setStep, cliamObj, img, showInner, isClaim, isMobile } = props;
     const { t } = useTranslation(["claim", "translation"]);
+    const navigateTo = useNavigate();
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const { data: signer } = useSigner();
@@ -69,6 +72,17 @@ export default function CustomClaim(props) {
         obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
         setWriteLoading(true);
         const signature = await getClaimHash(obj);
+        if (signature.message.indexOf("Question Updated") !== -1 || signature.message.indexOf("题目已更新") !== -1 ) {
+            Modal.warning({
+                ...modalNotice({
+                    t, 
+                    text: t("translation:message.error.challenge-modify"), 
+                    onOk: () => {navigateTo(0)},
+                    icon: "😵"
+                }
+            )});
+            return
+        }
         if (signature) {
             claimHash = await claim(
                 obj.tokenId, 

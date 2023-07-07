@@ -15,8 +15,28 @@
       -webkit-transform: translateY(-10px);
       -moz-transform: translateY(-10px);
       transform: translateY(-10px);
-      .right-sbt .opensea{
+      .right-sbt .opensea, .edit{
         opacity: 1;
+      }
+    }
+    .edit{
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      right: 15px;
+      top: 15px;
+      position: absolute;
+      box-shadow: 0px 2px 4px 0px rgba(0,0,0,0.1);
+      color: #121929;
+      font-size: 14px;
+      opacity: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      transition: opacity 0.2s, background-color 0.2s, color 0.2s;
+      &:hover{
+        color: #777777FF;
+        background-color: #0000000D;
       }
     }
     .item-claimed, .item-claimable{
@@ -64,6 +84,7 @@
         justify-content: space-between;
         align-items: center;
         .flex{
+          color: #404040;
           display: flex;
           align-items: center;
           gap: 12px;
@@ -74,13 +95,14 @@
           margin-right: 5px;
         }
         .time{
-          color: rgba(0,0,0,0.5);
+          color: #404040;
           line-height: 24px;
           display: flex;
           align-items: center;
           .anticon{
             margin-right: 12px;
             font-size: 18px;
+            color: rgba(0,0,0,0.5);
           }
         }
       }
