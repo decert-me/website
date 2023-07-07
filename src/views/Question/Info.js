@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { Button, Rate } from "antd";
+import { Button } from "antd";
 import { getUser } from "@/request/api/public";
 import { avatar, nickname } from "@/utils/user";
 import CustomViewer from "@/components/CustomViewer";

@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAccount, useSigner } from "wagmi";
 import CustomCompleted from "../components/CustomChallenge/CustomCompleted";
 import "@/assets/styles/component-style"
@@ -18,7 +18,7 @@ export default function Claim(props) {
     const { data: signer } = useSigner({
         chainId: Number(process.env.REACT_APP_CHAIN_ID)
     });
-    const { address, isDisconnected } = useAccount();
+    const { address } = useAccount();
     const { questId } = useParams();
 
     let [detail, setDetail] = useState();
@@ -46,7 +46,6 @@ export default function Claim(props) {
                 )});
             }
         })
-        console.log("====>", flag);
         isChange = !flag;
         setIsChange(isChange);
     }
