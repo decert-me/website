@@ -82,7 +82,7 @@ export default function ChallengeItem(props) {
                 :<></>
             }
             {
-                profile && info?.creator === profile?.address && info?.has_claim !== null &&
+                profile && info?.creator === profile?.address && info?.has_claim !== undefined &&
                 <div className="edit" onClick={goEdit}>
                     <EditOutlined />
                 </div>
