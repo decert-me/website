@@ -49,16 +49,8 @@ export default function ChallengeItem(props) {
 
     async function goEdit(event) {
         event.stopPropagation();
-        // 是否有人claim? cliam则不可修改
-        const supply = await tokenSupply(info.tokenId, signer)
-            .then(res => {
-                return res
-            })
-            .catch(err => {
-                console.log(err);
-            })
         // 已有人claim，终止
-        if (supply > 0) {
+        if (info?.has_claim) {
             messageApi.open({
                 type: 'warning',
                 content: t("edit.error"),
@@ -66,7 +58,7 @@ export default function ChallengeItem(props) {
             return
         }
         // 跳转至编辑challenge
-        navigateTo(`/publish?${info.tokenId}`)
+       !info?.has_claim && window.open(`/publish?${info.tokenId}`, '_blank');
     }
 
     function getTimeDiff(time) {
@@ -90,7 +82,7 @@ export default function ChallengeItem(props) {
                 :<></>
             }
             {
-                profile && info?.creator === profile?.address &&
+                profile && info?.creator === profile?.address && info?.has_claim !== undefined &&
                 <div className="edit" onClick={goEdit}>
                     <EditOutlined />
                 </div>

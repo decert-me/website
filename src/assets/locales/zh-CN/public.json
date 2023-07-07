@@ -57,6 +57,8 @@
        "diff": "困难"
     },
 
+    "notfound": "找不到此页面。",
+    "toHome": "前往主页",
     "status": {
         "load": "加载中",
         "none": "暂无更多"
@@ -103,7 +105,9 @@
                 "title": "格式错误",
                 "desc": "请勿删除或修改推文内容。"
             },
-            "challenge-modify": "挑战内容有变动，请重新挑战。"
+            "challenge-modify": "挑战内容有变动，请重新挑战。",
+            "preview-test": "当前为预览模式，不可执行测试用例。",
+            "preview-submit": "当前为预览模式，不可提交。"
         },
         "info": {
             "mobile-publish": "请在电脑端打开"

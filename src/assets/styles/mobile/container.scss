@@ -135,4 +135,23 @@
         top: -18.75rem;
         left: calc((100% - (87.5rem / 120rem * 100%)) / 2);
     }
+
+    .notfound{
+        img{
+            width: 22.5rem;
+            height: 9.875rem;
+            margin-bottom: 4.0625rem;
+        }
+        .notfound-content{
+            margin-bottom: 2.1875rem;
+            font-size: 1.125rem;
+            line-height: 1.3125rem;
+        }
+        .btn{
+            height: 3.125rem;
+            padding: 0 2.1875rem;
+            border-radius: .5rem;
+            font-size: 1rem;
+        }
+    }
 }

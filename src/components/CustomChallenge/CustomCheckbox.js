@@ -1,11 +1,16 @@
 import { Checkbox } from 'antd';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import CustomViewer from '../CustomViewer';
+import { useTranslation } from 'react-i18next';
 
 export default function CustomCheckbox(props) {
 
-    const { label, value, options, defaultValue, plugins } = props;
+    const { label, value, options, defaultValue, plugins, isPreview, answer } = props;
     let [items, setItems] = useState();
+    const { t } = useTranslation(["explore"]);
+    const domRef = useRef(null);
+
+
     const onChange = (checkedValues) => {
         value(checkedValues,"multiple_response")
     };
@@ -22,8 +27,21 @@ export default function CustomCheckbox(props) {
         setItems([...items]);
     },[])
 
+    useEffect(() => {
+        const dom = document.querySelectorAll(".ant-checkbox-wrapper-checked");
+        if (domRef.current && dom.length > 0) {
+          // DOM渲染完成后执行的操作
+          dom.forEach(e => {
+              const p = document.createElement("p");
+              p.classList.add("preivew-correct");
+              p.innerText = `(${t("correct")})`;
+              e.appendChild(p);
+          })
+        }
+    }, [domRef.current]);
+
     return (
-        <div className="CustomCheckbox">
+        <div className="CustomCheckbox" ref={domRef}>
             <div className="inner-title">
                 {/* <Viewer value={label} plugins={plugins} /> */}
                 <CustomViewer label={label} />
@@ -34,7 +52,7 @@ export default function CustomCheckbox(props) {
                     className='custom-checkbox' 
                     options={items} 
                     onChange={onChange} 
-                    defaultValue={defaultValue?.value}
+                    defaultValue={isPreview ? answer : defaultValue?.value}
                 />
             }
         </div>

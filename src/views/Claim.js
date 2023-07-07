@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { useAccount, useSigner } from "wagmi";
 import CustomCompleted from "../components/CustomChallenge/CustomCompleted";
 import "@/assets/styles/component-style"
@@ -18,7 +18,7 @@ export default function Claim(props) {
     const { data: signer } = useSigner({
         chainId: Number(process.env.REACT_APP_CHAIN_ID)
     });
-    const { address, isDisconnected } = useAccount();
+    const { address } = useAccount();
     const { questId } = useParams();
 
     let [detail, setDetail] = useState();
@@ -38,7 +38,10 @@ export default function Claim(props) {
                 // TODO: 弹窗提示 ===> 跳转
                 Modal.warning({
                     ...modalNotice({
-                        t, onOk: () => {navigateTo(0)}
+                        t, 
+                        text: t("translation:message.error.challenge-modify"), 
+                        onOk: () => {navigateTo(0)},
+                        icon: "🤖"
                     }
                 )});
             }
@@ -52,17 +55,21 @@ export default function Claim(props) {
         const cache = JSON.parse(localStorage.getItem('decert.cache'));
         
         new Promise(async(resolve, reject) => {
-            const res = await getQuests({id: id});
-            setMetadata(res.data)
-            .then(res => {
-                detail = res ? res : {};
-                setDetail({...detail});
-                if (res.claimed) {
-                    resolve()
-                }else{
-                    reject()
-                }
-            })
+            try {                
+                const res = await getQuests({id: id});
+                setMetadata(res.data)
+                .then(res => {
+                    detail = res ? res : {};
+                    setDetail({...detail});
+                    if (res.claimed) {
+                        resolve()
+                    }else{
+                        reject()
+                    }
+                })
+            } catch (error) {
+                navigateTo("/404")
+            }
         }).then(res => {
             //  已领取
             // console.log(detail);
@@ -73,6 +80,7 @@ export default function Claim(props) {
             //     setAnswers([...answers]);
             // }
             // 获取 分数
+            setIsChange(true);
             setIsClaim(true);
         }).catch(err => {
             // 未领取
@@ -93,12 +101,12 @@ export default function Claim(props) {
 
     useEffect(() => {
         init()
-    },[signer, address])
+    },[signer])
 
     return (
         <div className="Claim">
             {
-                detail && isChange ?
+                detail && isChange && address ?
                 <CustomCompleted 
                     answers={answers} 
                     detail={detail} 

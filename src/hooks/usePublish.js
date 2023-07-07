@@ -40,9 +40,9 @@ export const usePublish = (props) => {
         hash: createQuestHash,
         onSuccess() {
             setTimeout(() => {
-                message.success(t("message.success.create"));
+                message.success(t(changeId ? "translation:message.success.save" : "message.success.create"));
                 localStorage.removeItem("decert.store");
-                navigateTo("/challenges")
+                changeId ? navigateTo(`/quests/${changeId}`) : navigateTo("/challenges")
             }, 1000);
         }
     })

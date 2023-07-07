@@ -101,6 +101,15 @@ export const modifyQuests = (data) => {
     })
 }
 
+// 修改 recommend
+export const modifyRecommend = (data) => {
+    return serviceAxios({
+        url: `/quests/recommend`,
+        method: "put",
+        data
+    })
+}
+
 // 提交交易哈希
 export const submitHash = (data) => {
     return serviceAxios({

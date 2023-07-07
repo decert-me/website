@@ -12,7 +12,7 @@ import { useRequest, useUpdateEffect } from 'ahooks';
 
 export default function ModalAnswers(props) {
     
-    const { isModalOpen, handleCancel, submit, answers, changePage, detail } = props;
+    const { isModalOpen, handleCancel, submit, answers, changePage, detail, isPreview } = props;
     const { t } = useTranslation(["explore", "translation", "publish"]);
     const { isMobile } = useContext(MyContext);
     const { decode } = Encryption();
@@ -32,8 +32,8 @@ export default function ModalAnswers(props) {
 
     function getResult(params) {
         // 答题记录 ===> 
-        answers.map((e,i) => {  
-            if (e === null || e === undefined || e?.value === "") {
+        answers.map((e,i) => {
+            if (e === null || e === undefined || e?.value === "" || isPreview) {
                 statusAnswer[i] = "none"
             }else{
                 if (realAnswer[i] === null) {
@@ -71,6 +71,7 @@ export default function ModalAnswers(props) {
         realAnswer = eval(decode(key, detail.metadata.properties.answers));
         setRealAnswer([...realAnswer]);
         // 初次进入计算
+        console.log("x");
         getResult();
     }
     
@@ -101,7 +102,7 @@ export default function ModalAnswers(props) {
                         answers.map((e,i) => 
                             <li 
                                 key={i} 
-                                className={`point ${statusAnswer[i] === "success" ? "success" : statusAnswer[i] === "none" ? "normal" : "error" }`}
+                                className={`point ${statusAnswer[i] === "success" ? "success" : statusAnswer[i] === "none" ? "normal" : statusAnswer[i] === "error" ? "error" : "normal" }`}
                                 onClick={() => checkPage(i)}
                             >{i+1}</li>
                         )

@@ -13,7 +13,6 @@ import { useUpdateEffect } from "ahooks";
 import { useAccount } from "wagmi";
 import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
-import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import CustomLoading from "@/components/CustomLoading";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import { covertChain } from "@/utils/convert";
@@ -125,7 +124,6 @@ export default function Cert(params) {
         }).then(res => {
             ensParse = res;
             setEnsParse({...ensParse});
-            setIsMe(res.address === address);
             initContracts();
         }).catch(err => {
             setLoading(false);
@@ -182,11 +180,6 @@ export default function Cert(params) {
         })
     }
 
-    const sign = async() => {
-        store.dispatch(hideCustomSigner());
-        store.dispatch(showCustomSigner());
-    }
-
     const handleCancel = () => {
         setIsModalOpen(false);
     };
@@ -224,11 +217,11 @@ export default function Cert(params) {
     useUpdateEffect(() => {
         getInitList()
     },[selectStatus, selectContract])
-
-    useUpdateEffect(() => {
-        isMe && !localStorage.getItem("decert.token") && sign()
-    },[isMe])
    
+    useUpdateEffect(() => {
+        setIsMe(ensParse.address === address);
+    },[ensParse, address])
+
     return (
         <div className="Cert">
             <div className="header-line" />

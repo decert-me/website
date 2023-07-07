@@ -9,6 +9,7 @@ import UserEdit from "@/views/User/edit";
 import Cert from "@/views/Cert";
 import Lesson from "@/views/Lesson";
 import Search from "@/views/Search";
+import NotFound from "@/views/NotFound";
 
 const routes = [
     { 
@@ -64,6 +65,14 @@ const routes = [
     { 
       path: "/vitae",
       element: <Search />,
+    },
+    {
+      path: '*',
+      element: <NotFound />,
+    },
+    {
+      path: '/404',
+      element: <NotFound />,
     }
     
     

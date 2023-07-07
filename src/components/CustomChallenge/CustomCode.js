@@ -1,36 +1,30 @@
-import { forwardRef, useContext, useEffect, useImperativeHandle, useRef, useState } from "react";
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react";
 import { useUpdateEffect } from 'ahooks';
 import MonacoEditor from '../MonacoEditor';
 import CustomConsole from '../CustomConsole';
 import { codeRun, codeTest } from '@/request/api/quests';
 import CustomViewer from "../CustomViewer";
-import { Segmented } from "antd";
 import { Encryption } from "@/utils/Encryption";
 import { useTranslation } from "react-i18next";
-import MyContext from "@/provider/context";
+import { Modal } from "antd";
+import { modalNotice } from "@/utils/modalNotice";
 
-
-const previewTabs = [
-    {
-        label: "代码片段", 
-        value: "code"
-    },
-    {
-        label: "示例代码",
-        value: "decodeAnswer"
-    }
-]
 
 function CustomCode(props, ref) {
 
     const { question, token_id, answers, setAnswers, saveAnswer, index, isPreview } = props;
     const { t } = useTranslation(['publish','explore']);
+    const editorRef = useRef(null);
     const consoleRef = useRef(null);
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
-    const { isMobile } = useContext(MyContext);
 
     const [loading, setLoading] = useState();
+    let [previewCode, setPreviewCode] = useState([
+        { label: t("inner.code-tpl"), value: "tpl", select: true },
+        { label: <>{t("inner.code-spl")}&nbsp;&nbsp;&nbsp;<span>({t("preview")})</span></>, value: "spl", select: false }
+    ]);     //  预览状态所选代码
+
     let [items, setItems] = useState();   //  测试用例列表
     let [cacheQuest, setCacheQuest] = useState();
     let [selectCode, setSelectCode] = useState();
@@ -55,6 +49,9 @@ function CustomCode(props, ref) {
     }
 
     function changeCache(value) {
+        if (isPreview) {
+            return
+        }
         // 存储至cache中，切换language时不丢失
         cacheQuest.code_snippets[selectIndex].code = value;
         setCacheQuest({...cacheQuest});
@@ -138,6 +135,17 @@ function CustomCode(props, ref) {
     }
 
     async function goTest(params) {
+        if (isPreview) {
+            Modal.warning({
+                ...modalNotice({
+                    t, 
+                    text: t("translation:message.error.preview-test"), 
+                    onOk: () => {Modal.destroyAll()},
+                    icon: "😵"
+                }
+            )});
+            return
+        }
         setLoading(true);
         if (cacheQuest.type !== "special_judge_coding" && cacheQuest.type !== "coding") {
             setLoading(false);
@@ -191,15 +199,6 @@ function CustomCode(props, ref) {
 
     }
 
-    function togglePreviewCode(e) {
-        const key = previewTabs.filter(ele => e === ele.label)[0].value;
-        editorCode = selectCode[key];
-        setEditorCode(editorCode);
-
-        cacheQuest.code_snippets[selectIndex].code = editorCode;
-        setCacheQuest({...cacheQuest})
-    }
-
     function toggleCode() {
         selectCode = cacheQuest.code_snippets[0];
         // 解码示例代码
@@ -210,7 +209,20 @@ function CustomCode(props, ref) {
         setSelectCode({...selectCode});
         editorCode = selectCode.code;
         setEditorCode(editorCode);
+    }
 
+    // 预览模式下切换代码
+    function changeCode(code) {
+        // 修改选中menu
+        previewCode.forEach(e => {
+            e.select = !e.select
+        })
+        setPreviewCode([...previewCode])
+        // 修改代码
+        editorCode = code === "tpl" ? selectCode?.code : selectCode?.decodeAnswer;
+        setEditorCode(editorCode);
+        // 切换编辑器语种
+        editorRef.current.changeReadOnly(code !== "tpl" );
     }
 
     async function init(params) {
@@ -265,6 +277,8 @@ function CustomCode(props, ref) {
                     <h4 className='challenge-title'>{t("explore:challenge.title")}
                         #{index + 1}
                         <strong>{question.title}</strong>
+                        &nbsp;&nbsp; 
+                        <span className="score">({question.score}分)</span>
                     </h4>
                     <div className="code-desc">
                         <div className="code-content custom-scroll">
@@ -283,11 +297,28 @@ function CustomCode(props, ref) {
                         <div 
                             className="out-inner"
                         >
+                            {
+                                isPreview && 
+                                <div className="preview-menu">
+                                    <ul className="menu">
+                                        {
+                                            previewCode.map((e, i) => 
+                                                <li 
+                                                    key={i}
+                                                    className={`${e.select ? "active" : ""} ${e.value === "spl" ? "green" : ""}`}
+                                                    onClick={() => changeCode(e.value)}
+                                                >{e.label}</li>
+                                            )
+                                        }
+                                    </ul>
+                                </div>
+                            }
                             <MonacoEditor
                                 value={editorCode}
                                 onChange={changeCache}
                                 language={selectCode.lang}
                                 height={"100%"}
+                                ref={editorRef}
                             />
                         </div>
                         <div className="out-content">

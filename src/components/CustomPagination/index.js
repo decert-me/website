@@ -3,9 +3,10 @@ import {
     ArrowRightOutlined,
     UnorderedListOutlined
   } from '@ant-design/icons';
-import { Button } from 'antd';
+import { Button, Modal } from 'antd';
 import "@/assets/styles/component-style/index"
 import { useTranslation } from 'react-i18next';
+import { modalNotice } from '@/utils/modalNotice';
 
 export default function CustomPagination(props) {
 
@@ -13,6 +14,21 @@ export default function CustomPagination(props) {
 
     const { t } = useTranslation(["translation", "explore"]);
     
+    function goSubmit() {
+        if (isPreview) {
+            Modal.warning({
+                ...modalNotice({
+                    t, 
+                    text: t("message.error.preview-submit"), 
+                    onOk: () => {Modal.destroyAll()},
+                    icon: "😵"
+                }
+            )});
+            return
+        }
+        submit();
+    }
+
     return (
         <div className="CustomPagination">
             <div className="pagination-content">
@@ -35,8 +51,7 @@ export default function CustomPagination(props) {
                     &nbsp;/&nbsp;
                     <span>{total}</span>
                 </p>
-                {
-                    type === "write" &&
+                
                     <Button 
                         className='btn'
                         id='hover-btn-line-arrow'
@@ -44,24 +59,9 @@ export default function CustomPagination(props) {
                         icon={<ArrowRightOutlined />} 
                         onClick={() => onChange('add')}
                     />
-                }
-                {
-                    type === "preview" && 
-                    (
-                        page === total ?
-                        ""
-                        :
-                        <Button 
-                            className='btn'
-                            id='hover-btn-line-arrow'
-                            icon={<ArrowRightOutlined />} 
-                            onClick={() => onChange('add')}
-                        />
-                    )
-                }
                 </div>
                 <div className="content-right">
-                    <Button className='submit' id="hover-btn-full" onClick={submit} style={{display: !isPreview ? "block" : "none"}}>
+                    <Button className='submit' id="hover-btn-full" onClick={() => goSubmit()}>
                         {t("btn-submit")}
                     </Button>
                 </div>

@@ -11,14 +11,20 @@ function MonacoEditor(props, ref) {
     const { config, init } = loader;
     let [editorIsOk, setEditorIsOk] = useState();
     let [newLang, setNewLang] = useState();
+    let [readOnly, setReadOnly] = useState(false);
 
     useImperativeHandle(ref, () => ({
-        changeLang
+        changeLang,changeReadOnly
     }))
 
     function changeLang(params) {
         newLang = params;
         setNewLang(newLang);
+    }
+
+    function changeReadOnly(params) {
+        readOnly = params;
+        setReadOnly(readOnly);
     }
 
     async function languaegInit(params) {
@@ -57,6 +63,7 @@ function MonacoEditor(props, ref) {
             onChange={onChange}
             language={newLang}
             height={height}
+            readOnly={readOnly}
         />
         :
         <div style={{height: height ? height : "calc(100% - 230px)"}}>

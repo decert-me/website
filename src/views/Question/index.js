@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getQuests } from "../../request/api/public";
 import "@/assets/styles/view-style/question.scss"
 import "@/assets/styles/mobile/view-style/question.scss"
@@ -11,16 +11,21 @@ import { setMetadata } from "@/utils/getMetadata";
 export default function Quests(params) {
     
     const { ipfsPath, defaultImg } = constans();
+    const navigateTo = useNavigate();
     let [detail, setDetail] = useState();
     const { questId } = useParams();
 
     const getData = async (id) => {
-        const res = await getQuests({id: id});
-        setMetadata(res.data)
-        .then(res => {
-            detail = res ? res : {};
-            setDetail({...detail});
-        })
+        try {
+            const res = await getQuests({id: id});
+            setMetadata(res.data)
+            .then(res => {
+                detail = res ? res : {};
+                setDetail({...detail});
+            })
+        } catch (error) {
+            navigateTo("/404")
+        }
     }
 
     useEffect(() => {

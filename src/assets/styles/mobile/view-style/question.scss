@@ -64,28 +64,32 @@ $container-width: 21.875rem;
         .info-content{
             width: 100%;
             min-height: 1.25rem;
-            margin-top: 1.0625rem;
-            padding-bottom: 1.125rem;
-            img{
-                width: 1.3125rem;
-                height: 1.3125rem;
-                margin-right: .3125rem;
+            margin-top: .875rem;
+            padding-bottom: 1.5625rem;
+            .img{
+                width: 3.125rem;
+                height: 3.125rem;                
+                img{
+                    margin-right: 0;
+                }
             }
-        }
-        .img{
-            width: 2.75rem;
-            height: 2.75rem;
         }
         .mt13{
             margin-top: .3125rem;
         }
         .name{
             width: 15rem;
+            margin-left: .3125rem;
             font-size: 1.25rem;
             font-weight: 600;
         }
-        .markdown-body p{
+        .reward{
             font-size: .75rem;
+            line-height: .875rem;
+        }
+        .markdown-body p{
+            font-size: .875rem;
+            line-height: 1rem;
         }
         .time{
             font-size: .875rem;

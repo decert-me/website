@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { useAccount } from "wagmi";
 import {
     EditOutlined,
@@ -23,6 +23,7 @@ import MyContext from "@/provider/context";
 export default function User(props) {
     
     const { t } = useTranslation(["translation","profile", "explore"]);
+    const navigateTo = useNavigate();
     const { user } = useContext(MyContext);
     const { address } = useAccount();
     const location = useLocation();
@@ -161,8 +162,6 @@ export default function User(props) {
     const init = () => {
         account = paramsAddr;
         setAccount(account);
-        isMe = address === account;
-        setIsMe(isMe);
         getInfo();
     }
 
@@ -178,6 +177,9 @@ export default function User(props) {
     },[paramsAddr])
 
     useEffect(() => {
+        if (account !== address) {
+            return
+        }
         info = user;
         setInfo({...info})
     },[user])
@@ -192,6 +194,15 @@ export default function User(props) {
             window.removeEventListener("scroll", scrollFixed);
         }
     },[])
+
+    useEffect(() => {
+        isMe = address === account;
+        setIsMe(isMe);
+    },[address])
+
+    useUpdateEffect(() => {
+        navigateTo(0)
+    },[location])
 
     return (
         <div className="User">

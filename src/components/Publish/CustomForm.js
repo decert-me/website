@@ -7,6 +7,9 @@ import { UploadProps } from "@/utils/UploadProps";
 import { InboxOutlined } from '@ant-design/icons';
 import { useAccount } from "wagmi";
 import { useUpdateEffect } from "ahooks";
+import { constans } from "@/utils/constans";
+import store from "@/redux/store";
+import { useLocation } from "react-router-dom";
 
 const { TextArea } = Input;
 const { Dragger } = Upload;
@@ -30,13 +33,18 @@ export default function CustomForm(props) {
         clearQuest,
         showEditModal,
         changeConnect,
-        changeItem
+        changeItem,
+        changeId,
+        challenge
     } = props;
+    const { ipfsPath } = constans();
     const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
     const { isConnected } = useAccount();
+    const location = useLocation();
     let [fields, setFields] = useState([]);
     let [fileList, setFileList] = useState([]);
+
     
     const checkPreview = async() => {
         let flag;
@@ -52,28 +60,30 @@ export default function CustomForm(props) {
 
     const handleChange = ({ fileList: newFileList }) => setFileList(newFileList);
 
-    function challengeInit() {
-        initImage(changeItem.metadata.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY));
+    function challengeInit(challenge) {
+        const chanllengeInfo = challenge?.attributes?.challenge_ipfs_url;
+        const img = challenge ? challenge.image : changeItem.metadata.image;
+        initImage(img.replace("ipfs://", ipfsPath+"/"));
         fields = [
             {
                 name: ["title"],
-                value: changeItem.title
+                value: challenge ? challenge.name : changeItem.title
             },
             {
                 name: ["desc"],
-                value: changeItem.metadata.description
+                value: challenge ? challenge.description : changeItem.metadata.description
             },
             {
                 name: ["score"],
-                value: changeItem?.quest_data.passingScore
+                value: challenge ? chanllengeInfo.passingScore : changeItem?.quest_data.passingScore
             },
             {
                 name: ["difficulty"],
-                value: changeItem.metadata?.attributes?.difficulty
+                value: challenge ? challenge?.attributes?.difficulty : changeItem.metadata?.attributes?.difficulty
             },
             {
                 name: ["time"],
-                value: changeItem?.quest_data?.estimateTime
+                value: challenge ? chanllengeInfo?.estimateTime : changeItem?.quest_data?.estimateTime
             },
             {
                 name: ["fileList"],
@@ -93,13 +103,17 @@ export default function CustomForm(props) {
         setFileList([...fileList])
     }
 
+    async function previewInit(params) {
+        changeItem ? challengeInit() : challengeInit(challenge.hash);
+    }
+
     const init = async() => {
         const local = localStorage.getItem("decert.store");
-        if (!local && !changeItem) {
+        if (!local) {
             return
         }
         const cache = JSON.parse(local);
-        initImage(cache.hash.image.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY));
+        initImage(cache.hash.image.replace("ipfs://", ipfsPath+"/"));
         if (cache?.hash) {
             const nftCache = cache.hash
             const questCache = nftCache.attributes.challenge_ipfs_url
@@ -135,12 +149,16 @@ export default function CustomForm(props) {
 
     useEffect(() => {
         init();
-    },[])
+    },[location])
 
     useUpdateEffect(() => {
         // 修改挑战数据初始化
-        changeItem && challengeInit()
+        changeId && previewInit();
     },[changeItem])
+
+    useUpdateEffect(() => {
+        challenge && previewInit();
+    },[challenge])
 
     return (
         <Form
@@ -385,7 +403,11 @@ export default function CustomForm(props) {
                                 htmlType="submit" 
                                 loading={ writeLoading || waitLoading }
                             >
-                                {t("translation:btn-publish")}
+                                {
+                                    changeItem ? 
+                                    t("translation:btn-save"):
+                                    t("translation:btn-publish")
+                                }
                             </Button>
                         </Form.Item>
                     </div>
