@@ -113,7 +113,6 @@ export default function CustomForm(props) {
             return
         }
         const cache = JSON.parse(local);
-        console.log(cache);
         initImage(cache.hash.image.replace("ipfs://", ipfsPath+"/"));
         if (cache?.hash) {
             const nftCache = cache.hash

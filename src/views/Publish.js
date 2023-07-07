@@ -105,12 +105,6 @@ export default function Publish(params) {
     const getJson = async(values, preview) => {
         const { answers, questions: qs } = filterQuestions(questions);
         const image = values.fileList?.file?.response.data.hash
-
-        console.log({
-            image: (changeId && cache && image) ? "ipfs://"+image : (changeId && cache) ? cache?.hash.image : (changeId && !image) ? changeItem.metadata.image : cache ? cache?.hash.image : "ipfs://"+image,
-
-        });
-        console.log("ipfs://"+image, cache?.hash.image, changeItem?.metadata.image);
         const jsonHash = await getMetadata({
             values: values,
             address: address,
