@@ -57,6 +57,9 @@
        "normal": "Normal",
        "diff": "Difficult"
     },
+
+    "notfound": "This page could not be found.",
+    "toHome": "Go to Homepage",
     "status": {
         "load": "loading",
         "none": "no more"

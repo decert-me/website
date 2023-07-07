@@ -322,6 +322,31 @@
     }
 }
 
+.notfound{
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    img{
+        width: 360px;
+        height: 158px;
+        margin-bottom: 65px;
+    }
+    .notfound-content{
+        margin-bottom: 35px;
+        color: #0A0A0A;
+        font-size: 18px;
+        font-weight: 500;
+        line-height: 21px;
+    }
+    .btn{
+        height: 50px;
+        padding: 0 35px;
+        border-radius: 8px;
+        box-shadow: none;
+        font-size: 16px;
+    }
+}
 
 // hover效果
 #hover-btn-full{
