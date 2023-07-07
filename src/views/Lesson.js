@@ -33,7 +33,7 @@ export default function Lesson(params) {
                 {
                     tutorials.map(e => 
                         <a 
-                            href={`https://decert.me/tutorial/${e.catalogueName}/${e.startPage}`} 
+                            href={`https://decert.me/tutorial/${e.catalogueName}${/^README$/i.test(e.startPage) ? "/" : "/"+e.startPage}`} 
                             target="_blank" 
                             rel="noopener noreferrer"
                             key={e.catalogueName}
