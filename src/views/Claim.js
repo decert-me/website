@@ -11,6 +11,7 @@ import { setMetadata } from "@/utils/getMetadata";
 import { localRealAnswerInit } from "@/utils/localRealAnswerInit";
 import { useTranslation } from "react-i18next";
 import { modalNotice } from "@/utils/modalNotice";
+import { useUpdateEffect } from "ahooks";
 export default function Claim(props) {
     
     const { t } = useTranslation(["translation"]);
@@ -79,6 +80,8 @@ export default function Claim(props) {
             //     answers = cache[id];
             //     setAnswers([...answers]);
             // }
+            console.log("xxxx");
+            console.log(address);
             // 获取 分数
             setIsChange(true);
             setIsClaim(true);
@@ -106,7 +109,7 @@ export default function Claim(props) {
     return (
         <div className="Claim">
             {
-                detail && isChange ?
+                detail && isChange && ( !isClaim || isClaim && address ) ?
                 <CustomCompleted 
                     answers={answers} 
                     detail={detail} 
