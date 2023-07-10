@@ -80,8 +80,6 @@ export default function Claim(props) {
             //     answers = cache[id];
             //     setAnswers([...answers]);
             // }
-            console.log("xxxx");
-            console.log(address);
             // 获取 分数
             setIsChange(true);
             setIsClaim(true);
