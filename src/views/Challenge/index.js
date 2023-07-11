@@ -239,7 +239,11 @@ export default function Challenge(params) {
                         {
                             e.type !== "coding" &&
                             <h4 className='challenge-title'>{t("challenge.title")}
-                                #{page} &nbsp;&nbsp; <span className="score">({e.score}分)</span>
+                                #{page} &nbsp;&nbsp; 
+                                {
+                                    isEdit && 
+                                    <span className="score">({e.score}分)</span>
+                                }
                             </h4>
                         }
                         {switchType(e,i)}
@@ -264,7 +268,7 @@ export default function Challenge(params) {
                     setAnswers={setAnswers}
                     saveAnswer={saveAnswer}
                     index={page-1}
-                    isPreview={cacheDetail ? true : false}
+                    isPreview={isEdit}
                 />
             case 2:
             case "fill_blank":
@@ -274,7 +278,7 @@ export default function Challenge(params) {
                         label={question.title} 
                         value={changeAnswer} 
                         defaultValue={answers[i]} 
-                        isPreview={cacheDetail ? true : false}
+                        isPreview={isEdit}
                         answer={realAnswer[i]}
                     />
                 )
@@ -287,7 +291,7 @@ export default function Challenge(params) {
                         options={question.options} 
                         value={changeAnswer}
                         defaultValue={answers[i]} 
-                        isPreview={cacheDetail ? true : false}
+                        isPreview={isEdit}
                         answer={realAnswer[i]}
                     />
                 )
@@ -301,7 +305,7 @@ export default function Challenge(params) {
                         options={question.options} 
                         value={changeAnswer} 
                         defaultValue={answers[i]} 
-                        isPreview={cacheDetail ? true : false}
+                        isPreview={isEdit}
                         answer={realAnswer[i]}
                     />
                 ) 

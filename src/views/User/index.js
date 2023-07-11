@@ -171,11 +171,6 @@ export default function User(props) {
         init();
     }, []);
 
-    useUpdateEffect(() => {
-        init();
-        getList();
-    },[paramsAddr])
-
     useEffect(() => {
         if (account !== address) {
             return
@@ -189,20 +184,30 @@ export default function User(props) {
     },[checkStatus, checkType])
 
     useEffect(() => {
-        window.addEventListener("scroll", scrollFixed);
-        return () => {
-            window.removeEventListener("scroll", scrollFixed);
-        }
-    },[])
-
-    useEffect(() => {
         isMe = address === account;
         setIsMe(isMe);
+        getList();
+    },[paramsAddr])
+
+    useEffect(() => {
+        if (address) {
+            isMe = address === account;
+            setIsMe(isMe);
+            init();
+            getList();
+        }
     },[address])
 
     useUpdateEffect(() => {
         navigateTo(0)
     },[location])
+
+    useEffect(() => {
+        window.addEventListener("scroll", scrollFixed);
+        return () => {
+            window.removeEventListener("scroll", scrollFixed);
+        }
+    },[])
 
     return (
         <div className="User">

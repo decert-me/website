@@ -14,6 +14,19 @@ export default function CustomRadio(props) {
         value(e.target.value, "multiple_choice")
     };
 
+    function changeDom(params) {
+        const dom = document.querySelectorAll(".ant-radio-wrapper-checked");
+        if (domRef.current && dom.length > 0) {
+          // DOM渲染完成后执行的操作
+          const p = document.createElement("p");
+          p.classList.add("preivew-correct");
+          p.innerText = `(${t("correct")})`;
+          dom.forEach(e => {
+            e.appendChild(p);
+          })
+        }
+    }
+
     useEffect(() => {
         let arr = [];
         options.map((e,i) => {
@@ -27,16 +40,7 @@ export default function CustomRadio(props) {
     },[])
 
     useEffect(() => {
-        const dom = document.querySelectorAll(".ant-radio-wrapper-checked");
-        if (domRef.current && dom.length > 0) {
-          // DOM渲染完成后执行的操作
-          const p = document.createElement("p");
-          p.classList.add("preivew-correct");
-          p.innerText = `(${t("correct")})`;
-          dom.forEach(e => {
-            e.appendChild(p);
-          })
-        }
+        isPreview && changeDom()
     }, [domRef.current]);
     
 
