@@ -278,7 +278,10 @@ function CustomCode(props, ref) {
                         #{index + 1}
                         <strong>{question.title}</strong>
                         &nbsp;&nbsp; 
-                        <span className="score">({question.score}分)</span>
+                        {
+                            isPreview &&
+                            <span className="score">({question.score}分)</span>
+                        }
                     </h4>
                     <div className="code-desc">
                         <div className="code-content custom-scroll">
