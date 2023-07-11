@@ -171,11 +171,6 @@ export default function User(props) {
         init();
     }, []);
 
-    useUpdateEffect(() => {
-        init();
-        getList();
-    },[paramsAddr])
-
     useEffect(() => {
         if (account !== address) {
             return
@@ -195,9 +190,11 @@ export default function User(props) {
         }
     },[])
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         isMe = address === account;
         setIsMe(isMe);
+        init();
+        getList();
     },[address])
 
     useUpdateEffect(() => {
