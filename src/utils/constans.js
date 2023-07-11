@@ -58,7 +58,7 @@ export const constans = (contractType) => {
 
     const maxUint32 = Math.pow(2,32) - 1;
     const maxUint192 = BigNumber.from('2').pow(192).sub(1);
-    const openseaLink = `${process.env.REACT_APP_OPENSEA_LINK}/assets/${chains[chainId].alias ? chains[chainId].alias : chains[process.env.REACT_APP_CHAIN_ID].name}/${contractType ? questAddr : BadgeAddress}`;
+    const openseaLink = `${process.env.REACT_APP_OPENSEA_LINK}/assets/${chains[chainId].opensea ? chains[chainId].opensea : chains[process.env.REACT_APP_CHAIN_ID].name}/${contractType ? questAddr : BadgeAddress}`;
     const defaultImg = require('@/assets/images/img/default.png');
     const ipfsPath = 'https://ipfs.decert.me';
     const screenSize = {
