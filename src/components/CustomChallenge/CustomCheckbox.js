@@ -15,6 +15,19 @@ export default function CustomCheckbox(props) {
         value(checkedValues,"multiple_response")
     };
 
+    function changeDom(params) {
+        const dom = document.querySelectorAll(".ant-checkbox-wrapper-checked");
+        if (domRef.current && dom.length > 0) {
+          // DOM渲染完成后执行的操作
+          dom.forEach(e => {
+              const p = document.createElement("p");
+              p.classList.add("preivew-correct");
+              p.innerText = `(${t("correct")})`;
+              e.appendChild(p);
+          })
+        }
+    }
+
     useEffect(() => {
         let arr = [];
         options.map((e,i) => {
@@ -28,16 +41,7 @@ export default function CustomCheckbox(props) {
     },[])
 
     useEffect(() => {
-        const dom = document.querySelectorAll(".ant-checkbox-wrapper-checked");
-        if (domRef.current && dom.length > 0) {
-          // DOM渲染完成后执行的操作
-          dom.forEach(e => {
-              const p = document.createElement("p");
-              p.classList.add("preivew-correct");
-              p.innerText = `(${t("correct")})`;
-              e.appendChild(p);
-          })
-        }
+        isPreview && changeDom()
     }, [domRef.current]);
 
     return (
