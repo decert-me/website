@@ -225,7 +225,7 @@ export default function Cert(params) {
     return (
         <div className="Cert">
             {
-                !isMobile || !isList &&
+                (!isMobile || !isList) &&
                 <div className="provide">
                     <strong>·</strong>Provide by NFTScan API
                 </div>

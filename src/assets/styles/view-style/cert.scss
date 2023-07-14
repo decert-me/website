@@ -186,7 +186,7 @@
             }
         }
         ul{
-            max-height: 45vh;
+            max-height: 30vh;
             .active,li:hover{
                 background-color: rgba($color: #F8F6F5, $alpha: 1);
                 p{
@@ -248,7 +248,7 @@
 
 .Cert-content{
     width: calc(100% - 410px);
-    padding-block: 40px;
+    padding-block: 40px 50px;
     border-left: 1px solid #D8D8D8;
     position: relative;
     .content-header, .content-header-mobile{
