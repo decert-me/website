@@ -224,6 +224,12 @@ export default function Cert(params) {
 
     return (
         <div className="Cert">
+            {
+                !isMobile || !isList &&
+                <div className="provide">
+                    <strong>·</strong>Provide by NFTScan API
+                </div>
+            }
             <div className="header-line" />
             {
                 ensParse.address &&

@@ -1,8 +1,24 @@
 .Cert{
     width: 1660px;
-    min-height: 1080px;
+    // min-height: 1080px;
     margin: 82px auto 0;
     display: flex;
+    position: relative;
+    .provide{
+        position: absolute;
+        right: 0;
+        bottom: 17px;
+        color: #B4B5C5;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        strong{
+            padding: 0 10px 6px;
+            font-weight: bolder;
+            font-size: 30px;
+            line-height: 15px;
+        }
+    }
 }
 .header-line{
     width: 100%;
@@ -170,6 +186,7 @@
             }
         }
         ul{
+            max-height: 45vh;
             .active,li:hover{
                 background-color: rgba($color: #F8F6F5, $alpha: 1);
                 p{
@@ -269,7 +286,8 @@
     }
     .nfts{
         padding: 43px 20px 50px;
-        height: 920px;
+        // height: 920px;
+        height: calc(100vh - 43px - 44px - 40px - 82px);
         overflow: scroll;
         &::-webkit-scrollbar {
             display: none; /* Chrome, Safari 和 Opera */
