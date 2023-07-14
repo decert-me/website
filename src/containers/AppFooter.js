@@ -1,7 +1,3 @@
-import Twitter from '@/assets/images/icon/twitter.png'
-import Discord from '@/assets/images/icon/discord.png'
-import Notion from '@/assets/images/icon/notion.png'
-import Github from '@/assets/images/icon/github.png'
 import logo_white from "@/assets/images/svg/logo-white.png";
 import { Divider } from 'antd';
 import { useEffect, useState } from 'react';
@@ -11,6 +7,13 @@ export default function AppFooter({ isMobile }) {
     
   const location = useLocation();
   let [hide, setHide] = useState("block");
+  const urls = [
+    {label: "Dune", value: "https://dune.com/decertme/decert"},
+    {label: "Notion", value: "https://decert.notion.site/Decert-me-8b479c6e443740f192a56f2e090829ab"},
+    {label: "Twitter", value: "https://twitter.com/decertme"},
+    {label: "Discord", value: `https://discord.gg/${process.env.REACT_APP_DISCORD_VERIFY_INVITE_LINK}`},
+    {label: "Github", value: "https://github.com/decert-me"},
+  ]
 
   function init(params) {
     const page = location.pathname;
@@ -38,10 +41,11 @@ export default function AppFooter({ isMobile }) {
             </div>
             {/* right icon */}
             <div className="right">
-              <img src={Notion} onClick={()=>{window.open('https://decert.notion.site/Decert-me-8b479c6e443740f192a56f2e090829ab','_blank')}} />
-              <img src={Twitter} onClick={()=>{window.open('https://twitter.com/decertme','_blank')}}></img>
-              <img src={Discord} onClick={()=>{window.open(`https://discord.gg/${process.env.REACT_APP_DISCORD_VERIFY_INVITE_LINK}`,'_blank')}}/>
-              <img src={Github} onClick={()=>{window.open('https://github.com/decert-me','_blank')}} />
+              {
+                urls.map(e => 
+                  <a key={e.value} href={e.value} target="_blank">{e.label}</a>
+                )
+              }
             </div>
           </div>
           <Divider />

@@ -227,7 +227,7 @@ export default function Cert(params) {
             {
                 (!isMobile || !isList) &&
                 <div className="provide">
-                    <strong>·</strong>Provide by NFTScan API
+                    <strong>·</strong>Powered by NFTScan API
                 </div>
             }
             <div className="header-line" />
