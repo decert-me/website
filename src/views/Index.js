@@ -22,6 +22,15 @@ export default function Index(params) {
     let [contributor, setContributor] = useState([]);
     let [count, setCount] = useState(8);    // 贡献者下拉
 
+    const partner = [
+        "home-upchain",
+        "home-buidler",
+        "home-rebase",
+        "home-chaintool",
+        "home-aspecta",
+        "home-nftscan",
+    ]
+
     function goCreate(params) {
         if (isMobile) {
             message.info(t("message.info.mobile-publish"))
@@ -62,8 +71,8 @@ export default function Index(params) {
         const dom = document.querySelector(".Home");
         if (window.innerWidth < 1920 && !isMobile) {
             // 只缩小
-            // document.body.style.zoom = window.innerWidth / 1940;
-            dom.style.zoom = window.innerWidth / 1950;
+            // document.body.style.zoom = window.innerWidth / 1920;
+            // dom.style.zoom = 0.8;
         }
     }
 
@@ -73,6 +82,7 @@ export default function Index(params) {
     });
 
     useEffect(() => {
+        console.log(partner);
         getContributor();
     },[])
 
@@ -196,18 +206,13 @@ export default function Index(params) {
                             <div className="partner-content">
                                 <p>{t("home.page.partner")}</p>
                                 <ul>
-                                    <li className="img">
-                                        <img src={require("@/assets/images/img/home-partner1.png")} alt="" />
-                                    </li>
-                                    <li className="img">
-                                        <img src={require("@/assets/images/img/home-partner2.png")} alt="" />
-                                    </li>
-                                    <li className="img">
-                                        <img src={require("@/assets/images/img/home-partner3.png")} alt="" />
-                                    </li>
-                                    <li className="img">
-                                        <img src={require("@/assets/images/img/home-partner4.png")} alt="" />
-                                    </li>
+                                    {
+                                        partner.map(e => 
+                                            <li className="img" key={e}>
+                                                <img src={require(`@/assets/images/img/${e}.png`)} alt="" />
+                                            </li>
+                                        )
+                                    }
                                 </ul>
                             </div>
                         </div>

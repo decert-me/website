@@ -49,7 +49,7 @@ export default function CertNfts(props) {
             {
                 list ? 
                 <>
-                    <ul>
+                    <ul className=" custom-scroll">
                         <li
                             className={`${selectItem === 0 ? "active" : ""}`}
                             onClick={() => change(0)}

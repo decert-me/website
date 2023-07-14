@@ -3,12 +3,23 @@ $container-width: 90vw;
     .Cert{
         width: 100vw;
         margin: 0;
-        margin-top: 5.1875rem;
-        padding: 0 5vw;
+        padding: 5.1875rem 5vw 0;
         display: flex;
         flex-direction: column;
         overflow: hidden;
         min-height: 40rem;
+        max-height: 100vh;
+        .provide{
+            width: 128px;
+            right: calc((100% - 128px) / 2);
+            bottom: 5px;
+            font-size: 10px;
+            strong{
+                padding: 0 5px 3px;
+                font-size: 20px;
+                line-height: 14px;
+            }
+        }
     }
     .header-line{
         height: .0625rem;
@@ -118,6 +129,7 @@ $container-width: 90vw;
                 }
             }
             ul{
+                max-height: 25vh;
                 li{
                     height: 2.875rem;
                     padding: .3125rem;
@@ -156,6 +168,7 @@ $container-width: 90vw;
         .content-header-mobile{
             width: 100%;
             position: absolute;
+            align-items: center;
             top: 0;
         }
         .back{
