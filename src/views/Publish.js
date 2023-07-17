@@ -104,7 +104,7 @@ export default function Publish(params) {
 
     const getJson = async(values, preview) => {
         const { answers, questions: qs } = filterQuestions(questions);
-        const image = values.fileList?.file?.response.data.hash
+        const image = values.fileList?.file?.response?.data.hash
         const jsonHash = await getMetadata({
             values: values,
             address: address,
