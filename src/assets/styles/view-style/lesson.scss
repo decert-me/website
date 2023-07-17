@@ -16,6 +16,19 @@
         display: flex;
         flex-wrap: wrap;
         gap: 40px;
+        .progress{
+            height: 35px;
+            padding-left: 8px;
+            padding-right: 28px;
+            border-top-right-radius: 35px;
+            border-bottom-right-radius: 35px;
+            position: absolute;
+            left: 0;
+            top: 21px;
+            color: #FFFFFF;
+            line-height: 35px;
+            background-color: rgba($color: #000000, $alpha: 0.5);
+        }
         .box{
             width: 700px;
             min-height: 450px;
@@ -24,6 +37,7 @@
             background-color: #fff;
             border: 1px solid #F0F0F0;
             cursor: pointer;
+            position: relative;
             .img{
                 height: 316px;
             }
