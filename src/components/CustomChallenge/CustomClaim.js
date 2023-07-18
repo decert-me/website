@@ -67,8 +67,8 @@ export default function CustomClaim(props) {
         if (!hasHash) {
             return
         }
-
         let obj = {...cliamObj};
+        obj.uri = obj.uri[obj.tokenId]
         obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
         setWriteLoading(true);
         const signature = await getClaimHash(obj);
