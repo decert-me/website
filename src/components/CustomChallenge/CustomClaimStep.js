@@ -175,7 +175,7 @@ export default function CustomClaimStep(props) {
                                     step={step}
                                     setStep={changeStep}
                                     cliamObj={{
-                                        uri: cacheAnswers?.realAnswer[tokenId],
+                                        uri: cacheAnswers?.realAnswer,
                                         tokenId: Number(tokenId),
                                         score: answerInfo.score,
                                         answer: JSON.stringify(answers),

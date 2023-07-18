@@ -40,6 +40,7 @@ export default function Challenge(params) {
     let [answers, setAnswers] = useState([]);
     let [percent, setPercent] = useState();
     let [isEdit, setIsEdit] = useState();   //  修改challenge预览
+    let [isPreview, setIsPreview] = useState();
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
     let [realAnswer, setRealAnswer] = useState([]);
@@ -202,6 +203,7 @@ export default function Challenge(params) {
             return
         }
         const cache = challenge || JSON.parse(local);
+        setIsPreview(true);
         isEdit = challenge;
         setIsEdit(isEdit);
         cacheDetail = cache.hash;
@@ -268,7 +270,7 @@ export default function Challenge(params) {
                     setAnswers={setAnswers}
                     saveAnswer={saveAnswer}
                     index={page-1}
-                    isPreview={isEdit}
+                    isPreview={isPreview}
                 />
             case 2:
             case "fill_blank":
@@ -278,7 +280,7 @@ export default function Challenge(params) {
                         label={question.title} 
                         value={changeAnswer} 
                         defaultValue={answers[i]} 
-                        isPreview={isEdit}
+                        isPreview={isPreview}
                         answer={realAnswer[i]}
                     />
                 )
@@ -291,7 +293,7 @@ export default function Challenge(params) {
                         options={question.options} 
                         value={changeAnswer}
                         defaultValue={answers[i]} 
-                        isPreview={isEdit}
+                        isPreview={isPreview}
                         answer={realAnswer[i]}
                     />
                 )
@@ -305,7 +307,7 @@ export default function Challenge(params) {
                         options={question.options} 
                         value={changeAnswer} 
                         defaultValue={answers[i]} 
-                        isPreview={isEdit}
+                        isPreview={isPreview}
                         answer={realAnswer[i]}
                     />
                 ) 

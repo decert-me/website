@@ -63,7 +63,9 @@ export default function CustomForm(props) {
     function challengeInit(challenge) {
         const chanllengeInfo = challenge?.attributes?.challenge_ipfs_url;
         const img = challenge ? challenge.image : changeItem.metadata.image;
-        initImage(img.replace("ipfs://", ipfsPath+"/"));
+        if (img.indexOf("undefined") === -1) {
+            initImage(img.replace("ipfs://", ipfsPath+"/"));
+        }
         fields = [
             {
                 name: ["title"],
@@ -113,7 +115,9 @@ export default function CustomForm(props) {
             return
         }
         const cache = JSON.parse(local);
-        initImage(cache.hash.image.replace("ipfs://", ipfsPath+"/"));
+        if (cache.hash.image.indexOf("undefined") === -1) {
+            initImage(cache.hash.image.replace("ipfs://", ipfsPath+"/"));
+        }
         if (cache?.hash) {
             const nftCache = cache.hash
             const questCache = nftCache.attributes.challenge_ipfs_url
