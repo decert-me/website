@@ -174,3 +174,12 @@ export const nftJson = (data) => {
         data
     })
 }
+
+// 获取教程阅览进度
+export const tutorialProgress = (data) => {
+    return serviceAxios({
+        url: `/tutorial/progress`,
+        method: "post",
+        data
+    })
+}

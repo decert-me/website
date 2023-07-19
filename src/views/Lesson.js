@@ -3,11 +3,31 @@ import "@/assets/styles/mobile/view-style/lesson.scss"
 import { useTranslation } from "react-i18next";
 import { useEffect, useState } from "react";
 import axios from "axios";
+import { useAccount } from "wagmi";
+import { tutorialProgress } from "@/request/api/public";
 
 export default function Lesson(params) {
     
     const { t } = useTranslation();
+    const { address } = useAccount();
     let [tutorials, setTutorials] = useState([]);
+
+    async function getProgress(params) {
+        for (let i = 0; i < tutorials.length; i++) {
+            await tutorialProgress({catalogueName: tutorials[i].catalogueName})
+            .then(res => {
+                if (res?.status === 0) {
+                    const data = res.data.data;
+                    let sum = 0;
+                    data.forEach(element => {
+                        element.is_finish && sum++
+                    });
+                    tutorials[i].progress = (sum / data.length * 100).toFixed(0)
+                }
+            })
+        }
+        setTutorials([...tutorials]);
+    }
 
     function init(params) {
         const host = window.location.origin;
@@ -24,6 +44,10 @@ export default function Lesson(params) {
     useEffect(() => {
         init();
     },[])
+
+    useEffect(() => {
+        address && getProgress()
+    },[address])
 
     return (
         <div className="Lesson">
@@ -50,6 +74,12 @@ export default function Lesson(params) {
                                         {e?.desc}
                                     </p>
                                 </div>
+                                {
+                                    e?.progress &&
+                                    <div className="progress">
+                                        {t("progress")} {e.progress}%
+                                    </div>
+                                }
                             </div>
                         </a>
                     )
