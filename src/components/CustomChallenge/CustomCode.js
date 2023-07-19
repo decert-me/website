@@ -189,7 +189,7 @@ function CustomCode(props, ref) {
                     language: question.languages[selectIndex],
                     type: question.type
                 }
-                setAnswers([...answers]);
+                setAnswers(answers);
                 saveAnswer();
                 printLog(res);
             }else{

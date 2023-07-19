@@ -173,13 +173,13 @@ export default function Challenge(params) {
             value: value,
             type: type
         }
-        setAnswers([...answers]);
     }
 
     const saveAnswer = () => {
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
         cache[detail.tokenId] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
+        setAnswers([...answers])
     }
 
     const submit = async() => {
@@ -255,6 +255,11 @@ export default function Challenge(params) {
         )
     }
 
+    function changeAnswersValue(arr) {
+        answers = arr;
+        setAnswers([...answers])
+    }
+
     const switchType = (question,i) => {
         // 2: 填空 0: 单选 1: 多选
         switch (question.type) {
@@ -267,7 +272,7 @@ export default function Challenge(params) {
                     token_id={questId} 
                     ref={childRef} 
                     answers={answers}
-                    setAnswers={setAnswers}
+                    setAnswers={changeAnswersValue}
                     saveAnswer={saveAnswer}
                     index={page-1}
                     isPreview={isPreview}
