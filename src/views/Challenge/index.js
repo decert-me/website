@@ -64,9 +64,6 @@ export default function Challenge(params) {
             const questType = detail.metadata.properties.questions[page-1].type;
             if (questType === "special_judge_coding" || questType === "coding") {
                 childRef.current.goTest()
-                .then(() => {
-                    saveAnswer();
-                })
             }
         }
         page = type === 'add' ? page+1 : page-1;
@@ -108,7 +105,6 @@ export default function Challenge(params) {
                 if (cacheAnswers[id]) {
                     // 存在该题cache
                     answers = cacheAnswers[id];
-                    console.log("answers =====>", answers);
                     // 旧版本cache升级
                     try {
                         answers.forEach(e => {
@@ -169,17 +165,18 @@ export default function Challenge(params) {
 
     const changeAnswer = (value, type) => {
         // 新版普通题cache添加
-        answers[index] = {
+        const obj = {
             value: value,
             type: type
         }
+        changeAnswersValue(obj, index)
     }
 
     const saveAnswer = () => {
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
+        console.log("local ===>", cache[detail.tokenId]);
         cache[detail.tokenId] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
-        setAnswers([...answers])
     }
 
     const submit = async() => {
@@ -255,9 +252,12 @@ export default function Challenge(params) {
         )
     }
 
-    function changeAnswersValue(arr) {
-        answers = arr;
-        setAnswers([...answers])
+    function changeAnswersValue(value, index) {
+        let cache = JSON.parse(localStorage.getItem("decert.cache"));
+        cache[detail.tokenId][index] = value;
+        localStorage.setItem("decert.cache", JSON.stringify(cache)); 
+        answers = cache[detail.tokenId];
+        setAnswers([...answers]);
     }
 
     const switchType = (question,i) => {
