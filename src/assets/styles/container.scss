@@ -323,6 +323,27 @@
         align-items: center;
         justify-content: center;
     }
+    .share-link{
+        padding: 0 28px;
+        h3{
+            margin-bottom: 45px;
+            font-size: 20px;
+            font-weight: 500;
+            line-height: 23px;
+        }
+        .link{
+            height: 40px;
+            margin-bottom: 47px;
+            background-color: #F9F9F9;
+            border-radius: 10px;
+            color: #999999;
+            line-height: 40px;
+        }
+        button{
+            width: 162px;
+            height: 40px;
+        }
+    }
 }
 
 .notfound{

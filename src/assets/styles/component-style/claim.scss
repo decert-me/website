@@ -4,6 +4,9 @@
         min-height: calc(100vh - 300px);
         text-align: center;
     }
+    .hide{
+        display: none;
+    }
     .qrcode-box{
         .ant-popover-inner{
             padding: 0;
