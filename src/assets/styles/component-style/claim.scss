@@ -4,6 +4,33 @@
         min-height: calc(100vh - 300px);
         text-align: center;
     }
+    .qrcode-box{
+        .ant-popover-inner{
+            padding: 0;
+        }
+        // 二维码
+        .qrcode{
+            // width: ;
+            width: 161px;
+            height: 200px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            p{
+                margin-top: 17px;
+                font-size: 16px;
+                color: #9FAEC2;
+                line-height: 19px;
+            }
+            .anticon-wechat{
+                margin-right: 6px;
+                font-size: 20px;
+                color: #36C160;
+            }
+        }
+    }
+    
 }
 .Claim{
 

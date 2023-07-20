@@ -1,6 +1,7 @@
-import { Badge, Button, Modal } from "antd";
+import { Badge, Button, Modal, Popover } from "antd";
 import {
     TwitterOutlined,
+    WechatOutlined
 } from '@ant-design/icons';
 import { getClaimHash, submitHash } from "../../request/api/public";
 import { claim } from "../../controller";
@@ -13,6 +14,7 @@ import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { Copy } from "@/utils/Copy"
 import { useNavigate } from "react-router-dom";
 import { modalNotice } from "@/utils/modalNotice";
+import { QRCodeSVG } from "qrcode.react";
 
 export default function CustomClaim(props) {
     
@@ -22,6 +24,8 @@ export default function CustomClaim(props) {
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const { data: signer } = useSigner();
+    const [open, setOpen] = useState(false);
+
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID),
         onError(error) {
@@ -108,8 +112,10 @@ export default function CustomClaim(props) {
     }
 
     const share = () => {
-        showInner();
-        shareTwitter();
+        // TODO: 添加二维码弹出
+        // showInner();
+        // shareTwitter();
+        setOpen(true)
     }
 
     const shareTwitter = () => {
@@ -148,19 +154,34 @@ export default function CustomClaim(props) {
                 t("claim.claimed")
                 :
                 <>
-                    <Badge.Ribbon text={t("claim.share.badge")} className="custom-badge" color={step !== 2 ? "#CBCBCB" : "blue"}>
-                        <div className="box">
-                            <Button id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} className="share claim" onClick={() => share()}>
-                                <TwitterOutlined />
-                                {t("claim.share.btn")}
-                            </Button>
-                        </div>
+                        <Badge.Ribbon text={t("claim.share.badge")} className="custom-badge" color={step !== 2 ? "#CBCBCB" : "blue"}>
+                    <Popover
+                        content={(
+                            <div className="qrcode">
+                                <QRCodeSVG size={104} value="https://reactjs.org/" />
+                                <p><WechatOutlined />微信扫码分享</p>
+                            </div>
+                        )}
+                        overlayClassName="qrcode-box"
+                        getPopupContainer={() => document.querySelector(".Claim")}
+                        trigger="click"
+                        placement="rightBottom"
+                    >
+                            <div className="box">
+                                <Button id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} className="share claim" onClick={() => share()}>
+                                    <TwitterOutlined />
+                                    {t("claim.share.btn")}
+                                </Button>
+                            </div>
+                    </Popover>
                     </Badge.Ribbon>
+
                     <div className="box">
                         <Button className="claim" id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} loading={writeLoading} onClick={() => cliam()}>
                             {t("claim.btn")}
                         </Button>
                     </div>
+                    
                 </>
             }
         </div>
