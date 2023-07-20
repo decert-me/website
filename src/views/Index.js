@@ -11,7 +11,6 @@ import MyContext from "@/provider/context";
 import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CustomIcon from "@/components/CustomIcon";
-import { useRequest, useUpdateEffect } from "ahooks";
 import i18n from 'i18next';
 
 export default function Index(params) {
@@ -67,36 +66,30 @@ export default function Index(params) {
         }
     }
 
-    function scale(params) {
-        const dom = document.querySelector(".Home");
-        if (window.innerWidth < 1920 && !isMobile) {
-            // 只缩小
-            // document.body.style.zoom = window.innerWidth / 1920;
-            // dom.style.zoom = 0.8;
-        }
-    }
+        
+        // // 输入数据和密钥
+        // const data = 'Hello, world!';
+        // const secretKey = 'mySecretKey';
 
-    const { run } = useRequest(scale, {
-        debounceWait: 300,
-        manual: true,
-    });
+        // // 将字符串转换为 Uint8Array
+        // const encoder = new TextEncoder();
+        // const dataBytes = encoder.encode(data);
+        // const keyBytes = encoder.encode(secretKey);
+
+        // // 使用 subtle crypto API 进行 HMAC-SHA256 计算
+        // crypto.subtle.importKey('raw', keyBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
+        // .then(key => crypto.subtle.sign('HMAC', key, dataBytes))
+        // .then(hashBuffer => {
+        //     const hashArray = Array.from(new Uint8Array(hashBuffer));
+        //     const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
+        //     console.log('HMAC-SHA256 哈希值:', hashHex);
+        // })
+        // .catch(error => console.error(error));
 
     useEffect(() => {
-        console.log(partner);
         getContributor();
     },[])
 
-    useUpdateEffect(() => {
-        scale();
-    },[isMobile])
-
-    useEffect(() => {
-        window.addEventListener("resize", run);
-    
-        return () => {
-          window.removeEventListener("resize", run);
-        };
-    }, []);
 
     // function test(event) {
     //         // Cancel the event as stated by the standard.

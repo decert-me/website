@@ -183,14 +183,13 @@ function CustomCode(props, ref) {
         .then(res => {
             if (res.data) {
                 // 写入答案
-                answers[index] = {
+                const value = {
                     correct: res.data.correct,
                     code: obj.code,
                     language: question.languages[selectIndex],
                     type: question.type
                 }
-                setAnswers([...answers]);
-                saveAnswer();
+                setAnswers(value, index);
                 printLog(res);
             }else{
                 setLoading(false);

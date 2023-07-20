@@ -37,14 +37,7 @@ export const usePublish = (props) => {
     let [detail, setDetail] = useState();
     let [createQuestHash, setCreateQuestHash] = useState();
     const { isLoading: transactionLoading } = useWaitForTransaction({
-        hash: createQuestHash,
-        onSuccess() {
-            setTimeout(() => {
-                message.success(t(changeId ? "translation:message.success.save" : "message.success.create"));
-                localStorage.removeItem("decert.store");
-                changeId ? navigateTo(`/quests/${changeId}`) : navigateTo("/challenges")
-            }, 1000);
-        }
+        hash: createQuestHash
     })
 
     const write = (sign, obj, params) => {
@@ -148,6 +141,16 @@ export const usePublish = (props) => {
             switchNetwork()
         }
     },[switchNetwork, isSwitch])
+
+    useUpdateEffect(() => {
+        if (transactionLoading) {
+            setTimeout(() => {
+                message.success(t(changeId ? "translation:message.success.save" : "message.success.create"));
+                localStorage.removeItem("decert.store");
+                changeId ? navigateTo(`/quests/${changeId}`) : navigateTo("/challenges")
+            }, 1000);
+        }
+    },[transactionLoading])
 
     return {
         publish,                //  发布
