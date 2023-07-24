@@ -129,7 +129,7 @@ export default function Index(params) {
                             <div className="social-item" onClick={()=>{window.open('https://twitter.com/decertme','_blank')}}>
                                 <TwitterOutlined />
                             </div>
-                            <div className="social-item" onClick={()=>{window.open(`https://discord.gg/${process.env.REACT_APP_DISCORD_VERIFY_INVITE_LINK}`,'_blank')}}>
+                            <div className="social-item" onClick={()=>{window.open(`https://discord.gg/U3kRbnc6yG`,'_blank')}}>
                                 <CustomIcon type="icon-discord" />
                             </div>
                         </div>
