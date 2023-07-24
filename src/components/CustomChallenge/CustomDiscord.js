@@ -112,9 +112,14 @@ export default function CustomDiscord(props) {
                             <Button className="discord-box" id={step >= 1 ? "hover-btn-ghost" : ""} loading={isLoading} disabled={!step >= 1} onClick={() => onclick()}>
                                 {t("verify")}
                             </Button>
-                            {/* <Link to={`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`} target="_blank"> */}
-                                <Button disabled={!step >= 1} id={step >= 1 ? "hover-btn-ghost" : ""} onClick={() => window.open(`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`, "_blank")}>{t("discord.bind")}</Button>
-                            {/* </Link> */}
+                            <Button 
+                                disabled={!step >= 1} 
+                                id={step >= 1 ? "hover-btn-ghost" : ""} 
+                                onClick={() => 
+                                    window.open(`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`, "_blank")
+                                }>
+                                {t("discord.bind")}
+                            </Button>
                         </div>
                     }
                 </>
