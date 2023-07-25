@@ -192,3 +192,12 @@ export const wechatShare = (data) => {
         data
     })
 }
+
+// 点击分享链接
+export const shareClick = (data) => {
+    return serviceAxios({
+        url: `/share/click`,
+        method: "post",
+        data
+    })
+}

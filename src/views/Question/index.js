@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { getQuests } from "../../request/api/public";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { getQuests, shareClick } from "../../request/api/public";
 import "@/assets/styles/view-style/question.scss"
 import "@/assets/styles/mobile/view-style/question.scss"
 import { constans } from "@/utils/constans";
@@ -12,6 +12,7 @@ import { setMetadata } from "@/utils/getMetadata";
 export default function Quests(params) {
     
     const { ipfsPath, defaultImg } = constans();
+    const location = useLocation();
     const navigateTo = useNavigate();
     let [detail, setDetail] = useState();
     const { questId } = useParams();
@@ -31,6 +32,9 @@ export default function Quests(params) {
 
     useEffect(() => {
         questId && getData(questId);
+        const searchParams = new URLSearchParams(location.search);
+        const code = searchParams.get("code");
+        code && shareClick({share_code: code})
     }, []);
 
     return (
