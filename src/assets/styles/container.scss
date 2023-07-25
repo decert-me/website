@@ -334,10 +334,14 @@
         .link{
             height: 40px;
             margin-bottom: 47px;
+            padding: 0 10px;
             background-color: #F9F9F9;
             border-radius: 10px;
             color: #999999;
             line-height: 40px;
+            white-space: nowrap;  
+            text-overflow:ellipsis; 
+            overflow:hidden;
         }
         button{
             width: 162px;
