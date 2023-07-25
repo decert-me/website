@@ -6,18 +6,20 @@ import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { publicProvider } from 'wagmi/providers/public'
+import { infuraProvider } from 'wagmi/providers/infura'
 import MyProvider from './provider';
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs';
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 
 const projectId = process.env.REACT_APP_PROJECT_ID;
+const infura = process.env.REACT_APP_INFURA_API_KEY;
 
 const { chains, provider, webSocketProvider } = configureChains(
   [mainnet, goerli, polygonMumbai, polygon],
   [
     // alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! }),
-    // infuraProvider({ apiKey: process.env.NEXT_PUBLIC_INFURA_API_KEY! }),
+    infuraProvider({ apiKey: infura }),
     publicProvider(),
   ],
   [w3mProvider({ projectId })],
