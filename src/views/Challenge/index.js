@@ -64,9 +64,6 @@ export default function Challenge(params) {
             const questType = detail.metadata.properties.questions[page-1].type;
             if (questType === "special_judge_coding" || questType === "coding") {
                 childRef.current.goTest()
-                .then(() => {
-                    saveAnswer();
-                })
             }
         }
         page = type === 'add' ? page+1 : page-1;
@@ -108,7 +105,6 @@ export default function Challenge(params) {
                 if (cacheAnswers[id]) {
                     // 存在该题cache
                     answers = cacheAnswers[id];
-                    console.log("answers =====>", answers);
                     // 旧版本cache升级
                     try {
                         answers.forEach(e => {
@@ -169,15 +165,16 @@ export default function Challenge(params) {
 
     const changeAnswer = (value, type) => {
         // 新版普通题cache添加
-        answers[index] = {
+        const obj = {
             value: value,
             type: type
         }
-        setAnswers([...answers]);
+        changeAnswersValue(obj, index)
     }
 
     const saveAnswer = () => {
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
+        console.log("local ===>", cache[detail.tokenId]);
         cache[detail.tokenId] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
     }
@@ -255,6 +252,14 @@ export default function Challenge(params) {
         )
     }
 
+    function changeAnswersValue(value, index) {
+        let cache = JSON.parse(localStorage.getItem("decert.cache"));
+        cache[detail.tokenId][index] = value;
+        localStorage.setItem("decert.cache", JSON.stringify(cache)); 
+        answers = cache[detail.tokenId];
+        setAnswers([...answers]);
+    }
+
     const switchType = (question,i) => {
         // 2: 填空 0: 单选 1: 多选
         switch (question.type) {
@@ -267,7 +272,7 @@ export default function Challenge(params) {
                     token_id={questId} 
                     ref={childRef} 
                     answers={answers}
-                    setAnswers={setAnswers}
+                    setAnswers={changeAnswersValue}
                     saveAnswer={saveAnswer}
                     index={page-1}
                     isPreview={isPreview}

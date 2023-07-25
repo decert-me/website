@@ -59,7 +59,7 @@ export default function UserEdit(params) {
     };
 
     const goBack = () => {
-        navigateTo(`/404`);
+        navigateTo(-1);
     }
 
     const changeUser = (value, key) => {

@@ -179,15 +179,9 @@ export default function User(props) {
         setInfo({...info})
     },[user])
 
-    useEffect(() => {
+    useUpdateEffect(() => {
         getList();
     },[checkStatus, checkType])
-
-    useEffect(() => {
-        isMe = address === account;
-        setIsMe(isMe);
-        getList();
-    },[paramsAddr])
 
     useEffect(() => {
         if (address) {

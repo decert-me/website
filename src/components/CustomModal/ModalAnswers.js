@@ -71,7 +71,6 @@ export default function ModalAnswers(props) {
         realAnswer = eval(decode(key, detail.metadata.properties.answers));
         setRealAnswer([...realAnswer]);
         // 初次进入计算
-        console.log("x");
         getResult();
     }
     

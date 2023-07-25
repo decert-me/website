@@ -7,7 +7,7 @@ import serverConfig from "./config.js";
 // Client-side-only code
 let serviceAxios = axios.create({
   baseURL: serverConfig?.baseURL + process.env.REACT_APP_BASE_API,
-  timeout: process.env.REACT_APP_IPFS_TIMEOUT + 60000 // 请求超时设置
+  timeout: 120000 // 请求超时设置
   //   withCredentials: false, // 跨域请求是否需要携带 cookie
 });
 // 创建请求拦截
