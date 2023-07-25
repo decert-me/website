@@ -1,4 +1,4 @@
-import { Badge, Button, Modal, Popover } from "antd";
+import { Badge, Button, Modal, Popover, Spin } from "antd";
 import {
     TwitterOutlined,
     WechatOutlined,
@@ -19,14 +19,14 @@ import { QRCodeSVG } from "qrcode.react";
 
 export default function CustomClaim(props) {
     
-    const { step, setStep, cliamObj, img, showInner, isClaim, isMobile } = props;
+    const { step, setStep, cliamObj, img, shareWechat, isClaim, isMobile } = props;
     const { t } = useTranslation(["claim", "translation"]);
     const navigateTo = useNavigate();
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const { data: signer } = useSigner();
     let [open, setOpen] = useState();
-    let [link, setLink] = useState("https://reactjs.org/");
+    let [link, setLink] = useState("");
 
     const { switchNetwork } = useSwitchNetwork({
         chainId: Number(process.env.REACT_APP_CHAIN_ID),
@@ -38,6 +38,7 @@ export default function CustomClaim(props) {
         }
     })
     let [isSwitch, setIsSwitch] = useState(false);
+    let [showPopover, setShowPopover] = useState(false);
     let [claimHash, setClaimHash] = useState();
     let [cacheIsClaim, setCacheIsClaim] = useState();
 
@@ -58,7 +59,7 @@ export default function CustomClaim(props) {
         }
     })
 
-    const cliam = async() => {
+    const goclaim = async() => {
 
         if (chain.id != process.env.REACT_APP_CHAIN_ID) {
             setIsSwitch(true);
@@ -113,10 +114,16 @@ export default function CustomClaim(props) {
         setIsModalOpen(false);
     }
 
-    const share = () => {
+    const share = async() => {
         // TODO: 添加二维码弹出
         // showInner();
         // shareTwitter();
+        if (!link) {            
+            const code = await shareWechat();
+            link = window.location.origin + "/quests/" + cliamObj.tokenId + "?code=" + code
+            setLink(link);
+        }
+        setShowPopover(!showPopover);
         isMobile && setOpen(true);
     }
 
@@ -177,14 +184,16 @@ export default function CustomClaim(props) {
                         <Popover
                             content={(
                                 <div className="qrcode">
-                                    <QRCodeSVG size={104} value={link} />
+                                    <Spin spinning={!link} size="large" wrapperClassName="qrcop">
+                                        <QRCodeSVG size={104} value={link} />
+                                    </Spin>
                                     <p><WechatOutlined />{t("translation:share-text")}</p>
                                 </div>
                             )}
                             overlayClassName={`qrcode-box ${isMobile ? "hide" : ""}`}
                             getPopupContainer={() => document.querySelector(".Claim")}
-                            trigger="click"
                             placement="rightBottom"
+                            open={showPopover}
                         >
                             <div className="box">
                                 <Button id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} className="share claim" onClick={() => share()}>
@@ -196,7 +205,7 @@ export default function CustomClaim(props) {
                     </Badge.Ribbon>
 
                     <div className="box">
-                        <Button className="claim" id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} loading={writeLoading} onClick={() => cliam()}>
+                        <Button className="claim" id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} loading={writeLoading} onClick={() => goclaim()}>
                             {t("claim.btn")}
                         </Button>
                     </div>

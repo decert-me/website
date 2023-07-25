@@ -10,7 +10,7 @@ import CustomDiscord from "./CustomDiscord";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { GetScorePercent } from "@/utils/GetPercent";
-import { submitClaimTweet } from "@/request/api/public";
+import { submitClaimTweet, wechatShare } from "@/request/api/public";
 import { ClaimShareSuccess } from "../CustomMessage";
 import MyContext from "@/provider/context";
 import { useNavigate } from "react-router-dom";
@@ -44,6 +44,18 @@ export default function CustomClaimStep(props) {
     function changeHrefUrl(e) {
         hrefUrl = e;
         setHrefUrl(hrefUrl);
+    }
+
+    async function shareWechat(params) {
+        let score = GetScorePercent(answerInfo.totalScore, answerInfo.score);
+        return await wechatShare({
+            tokenId: Number(tokenId),
+            score: score,
+            answer: JSON.stringify(answers)
+        })
+        .then(res => {
+            return res.status === 0 ? res.data : null
+        })
     }
 
     async function hrefSubmit() {
@@ -182,6 +194,7 @@ export default function CustomClaimStep(props) {
                                         totalScore: answerInfo.totalScore
                                     }}
                                     img={detail.metadata.image}
+                                    shareWechat={shareWechat}
                                     showInner={showInner}
                                     isClaim={isClaim}
                                     isMobile={isMobile}

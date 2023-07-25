@@ -183,3 +183,12 @@ export const tutorialProgress = (data) => {
         data
     })
 }
+
+// 获取微信分享二维码
+export const wechatShare = (data) => {
+    return serviceAxios({
+        url: `/badge/submitClaimShare`,
+        method: "post",
+        data
+    })
+}
