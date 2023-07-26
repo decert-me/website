@@ -197,7 +197,7 @@ export default function CustomClaim(props) {
                         >
                             <div className="box">
                                 <Button id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} className="share claim" onClick={() => share()}>
-                                    <TwitterOutlined />
+                                    <WechatOutlined />
                                     {t("claim.share.btn")}
                                 </Button>
                             </div>
