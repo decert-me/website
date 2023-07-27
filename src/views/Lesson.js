@@ -16,7 +16,7 @@ export default function Lesson(params) {
         for (let i = 0; i < tutorials.length; i++) {
             await tutorialProgress({catalogueName: tutorials[i].catalogueName})
             .then(res => {
-                if (res?.status === 0) {
+                if (res?.status === 0 && res.data.data) {
                     const data = res.data.data;
                     let sum = 0;
                     data.forEach(element => {
