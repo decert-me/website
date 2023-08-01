@@ -187,7 +187,16 @@ export default function CustomClaim(props) {
                                     <Spin spinning={!link} size="large" wrapperClassName="qrcop">
                                         <QRCodeSVG size={104} value={link} />
                                     </Spin>
-                                    <p><WechatOutlined />{t("translation:share-text")}</p>
+                                    <div
+                                        style={{
+                                            width: 122,
+                                            display: "flex",
+                                            alignItems: "flex-start",
+                                            marginTop: 17
+                                        }}
+                                    >
+                                        <WechatOutlined /><p>{t("translation:share-text")}</p>
+                                    </div>
                                 </div>
                             )}
                             overlayClassName={`qrcode-box ${isMobile ? "hide" : ""}`}

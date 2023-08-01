@@ -13,9 +13,8 @@
         }
         // 二维码
         .qrcode{
-            // width: ;
             width: 161px;
-            height: 200px;
+            padding: 32px 0 24px;
             display: flex;
             flex-direction: column;
             align-items: center;
@@ -26,7 +25,6 @@
                 }
             }
             p{
-                margin-top: 17px;
                 font-size: 16px;
                 color: #9FAEC2;
                 line-height: 19px;
