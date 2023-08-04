@@ -1,7 +1,6 @@
 .Lesson{
     width: 100%;
     margin: 82px auto 0;
-    padding-bottom: 200px;
     position: relative;
     background-color: #FBFBFB;
     .custom-bg-round{
@@ -63,9 +62,7 @@
     // 展示列表
     .content-list{
         width: 80.21%;
-        padding-left: 30px;
-        padding-right: 38px;
-        padding-top: 55px;
+        padding: 55px 38px 200px 30px;
         background-color: #FEFEFE;
         transition: width 0.2s;
         .progress{
