@@ -84,6 +84,7 @@
         .selectItems{
             margin-bottom: 22px;
             display: flex;
+            flex-wrap: wrap;
             gap: 10px;
             .selectItem{
                 padding: 10px 16px;

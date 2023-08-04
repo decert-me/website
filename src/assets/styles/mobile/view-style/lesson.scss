@@ -1,11 +1,18 @@
 $container-width: 90vw;
 .Mobile{
     .Lesson{
-        width: $container-width;
-        margin: 5.625rem auto 0;
-        padding-bottom: 6.25rem;
+        width: 100%;
+        margin: 0 auto;
+        padding: 4.375rem 0 0;
+        background-color: #F9F9F9;
         .custom-bg-round{
-            top: -9.6875rem;
+            display: none;
+        }
+        .tutorial-icon-full{
+            width: 2.5rem;
+            height: 2.5rem;
+            border-radius: .5rem;
+            background-color: #F7F7F7;
         }
         .title{
             margin-bottom: 1.1875rem;
@@ -13,28 +20,119 @@ $container-width: 90vw;
             line-height: 1.625rem;
         }
         .content{
+            padding: .9375rem 1.375rem 6.25rem;
             flex-direction: column;
             gap: 0;
-            a{
-                margin-bottom: .625rem;
+            background-color: #fff;
+            // 抽屉
+            .drawer-sidebar{
+                .ant-drawer-content-wrapper{
+                    height: calc(100vh - 3.75rem) !important;
+                    box-shadow: none;
+                    .ant-drawer-body{
+                        padding: 0;
+                    }
+                }
+            }
+            // 侧边栏
+            .content-sidebar{
+                width: 100%;
+                height: 100%;
+                padding: .625rem 2.125rem;
+                position: static;
+                .close{
+                    margin-bottom: 1.25rem;
+                    position: absolute;
+                    top: .5625rem;
+                    right: .8125rem;
+                }
+                .sidebar-list{
+                    margin: 0;
+                    padding-top: 3.75rem;
+                    position: relative;
+                    .sidebar-item{
+                        &:first-child{
+                            margin: 0;
+                        }
+                    }
+                }
+            }
+            .content-list{
+                width: 100% !important;
+                padding: 0 !important;
+                .selectItems{
+                    margin-bottom: 1rem;
+                    gap: .625rem;
+                    .selectItem{
+                        padding: .625rem 1rem;
+                        line-height: 1rem;
+                        font-size: .875rem;
+                        border-radius: .5rem;
+                        border-width: .0625rem;
+                    }
+                }
+                .content-title{
+                    margin-bottom: 1.0625rem;
+                    font-size: 1rem;
+                    line-height: 1.375rem;
+                }
+                .tutorials-operate{
+                    margin-bottom: 1rem;
+                    .filter-icon{
+                    }
+                }
+            }
+            .boxs{
+                gap: 1rem;
             }
             .box{
                 width: 100%;
-                min-height: 14.375rem;
-                border-radius: .4375rem;
+                border-radius: 1.25rem;
                 .img{
-                    height: 9.8125rem;
+                    height: 12.5rem;
                 }
                 .box-content{
-                    padding: .8125rem 1.5rem 1.25rem .875rem;
+                    padding: .9375rem;
+                    padding-bottom: 1.25rem;
                     .box-title{
-                        font-size: .875rem;
-                        line-height: 1.1875rem;
+                        margin-bottom: .875rem;
+                        font-size: 1rem;
+                        line-height: 1.3125rem;
                     }
                     .box-desc{
+                        font-size: .875rem;
+                        line-height: 1.0625rem;
+                        -webkit-line-clamp: 2;
+                    }
+                    .ant-divider{
+                        margin: .8125rem 0;
+                    }
+                    .data-info{
+                        height: 1.875rem;
+                        gap: .875rem;
+                        li{
+                            padding: 0 .75rem;
+                            font-size: .875rem;
+                        }
+                        .point{
+                            width: .375rem;
+                            height: .375rem;
+                            margin-right: .3125rem;
+                        }
+                        .icon{
+                            width: .75rem;
+                            height: .75rem;
+                            margin-right: .3125rem;
+                        }
+                    }
+                }
+                .tag-list{
+                    gap: .5rem;
+                    .tag{
+                        padding: .1875rem .75rem;
                         font-size: .75rem;
-                        line-height: .75rem;
-                        -webkit-line-clamp: 1;
+                        line-height: 1.0625rem;
+                        border-radius: 2rem;
                     }
                 }
             }

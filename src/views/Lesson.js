@@ -1,12 +1,13 @@
 import "@/assets/styles/view-style/lesson.scss"
 import "@/assets/styles/mobile/view-style/lesson.scss"
 import { useTranslation } from "react-i18next";
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAccount } from "wagmi";
 import { tutorialProgress } from "@/request/api/public";
-import { Button, Divider } from "antd";
+import { Button, Divider, Drawer } from "antd";
 import CustomCategory from "@/components/CustomCategory";
+import MyContext from "@/provider/context";
 
 function SelectItems({selectItems: items, removeItem, removeAllItems}) {
     const result = [];
@@ -20,7 +21,8 @@ function SelectItems({selectItems: items, removeItem, removeAllItems}) {
         })
     }
     return (
-        <>
+        result.length !== 0 &&
+        <div className="selectItems">
             {
                 result.map((item) => 
                     <div 
@@ -38,7 +40,7 @@ function SelectItems({selectItems: items, removeItem, removeAllItems}) {
                         Clear All
                     </div>
             }
-        </>
+        </div>
     )
 }
 
@@ -50,9 +52,11 @@ export default function Lesson(params) {
     const buttonRef = useRef(null);
     const childRef = useRef(null);
 
+    const { isMobile } = useContext(MyContext);
     const { t } = useTranslation();
     const { address } = useAccount();
     const { tutorialsSidebar } = require("../mock/index");
+    const [openM, setOpenM] = useState(false);    //  移动端抽屉
     let [tutorials, setTutorials] = useState([]);   //  教程列表
     let [sidebarIsOpen, setSidebarIsOpen] = useState(true);   //  侧边栏展开
     let [selectItems, setSelectItems] = useState([[],[],[],[]]);   //  当前选中的类别
@@ -160,40 +164,77 @@ export default function Lesson(params) {
             <div className="custom-bg-round" />
             <div className="content">
                 {/* 侧边栏 */}
-                <div className="content-sidebar" ref={sidebarRef}>
-                    <Button 
-                        type="default" 
-                        className="sidebar-title"
-                        onClick={() => changeSidebar()}
-                        ref={buttonRef}
+                {
+                    isMobile ? 
+                    <Drawer
+                        placement="bottom"
+                        closable={false}
+                        onClose={() => setOpenM(false)}
+                        open={openM}
+                        mask={false}
+                        rootClassName="drawer-sidebar"
+                        getContainer={() => document.querySelector(".Lesson .content")}
                     >
-                        <div className="icon"></div>
-                        Filters
-                    </Button>
-                    <div className="sidebar-list">
-                        {
-                            tutorialsSidebar.map((item, i) => 
-                                <div className="sidebar-item" key={item.label}>
-                                    <CustomCategory 
-                                        items={item.list} 
-                                        label={item.label}
-                                        changeSelectItems={(e) => changeSelectItems(e, i)} 
-                                        allSelectItems={selectItems}
-                                        sidebarIndex={i}
-                                        ref={childRef}
-                                    />
-                                </div>
-                            )
-                        }
+                        <div className="content-sidebar">
+                            <div className="close tutorial-icon-full" onClick={() => setOpenM(false)}></div>
+                            <div className="sidebar-list">
+                                {
+                                    tutorialsSidebar.map((item, i) => 
+                                        <div className="sidebar-item" key={item.label}>
+                                            <CustomCategory 
+                                                items={item.list} 
+                                                label={item.label}
+                                                changeSelectItems={(e) => changeSelectItems(e, i)} 
+                                                allSelectItems={selectItems}
+                                                sidebarIndex={i}
+                                                ref={childRef}
+                                            />
+                                        </div>
+                                    )
+                                }
+                            </div>
+                        </div>
+                    </Drawer>
+                    :
+                    <div className="content-sidebar" ref={sidebarRef}>
+                        <Button 
+                            type="default" 
+                            className="sidebar-title"
+                            onClick={() => changeSidebar()}
+                            ref={buttonRef}
+                        >
+                            <div className="icon"></div>
+                            Filters
+                        </Button>
+                        <div className="sidebar-list">
+                            {
+                                tutorialsSidebar.map((item, i) => 
+                                    <div className="sidebar-item" key={item.label}>
+                                        <CustomCategory 
+                                            items={item.list} 
+                                            label={item.label}
+                                            changeSelectItems={(e) => changeSelectItems(e, i)} 
+                                            allSelectItems={selectItems}
+                                            sidebarIndex={i}
+                                            ref={childRef}
+                                        />
+                                    </div>
+                                )
+                            }
+                        </div>
                     </div>
-                </div>
+                }
                 {/* 展示列表 */}
                 <div className="content-list" ref={listRef}>
                     {/* 导航栏 */}
-                    <div className="selectItems">
-                        <SelectItems selectItems={selectItems} removeItem={removeItem} removeAllItems={removeAllItems} />
-                    </div>
+                    <SelectItems selectItems={selectItems} removeItem={removeItem} removeAllItems={removeAllItems} />
                     <p className="content-title">{t("header.lesson")}</p>
+                    {
+                        isMobile && 
+                        <div className="tutorials-operate">
+                            <div className="tutorial-icon-full filter-icon" onClick={() => setOpenM(true)}></div>
+                        </div>
+                    }
                     <div className="boxs">
                         {
                             tutorials.map(e => 
