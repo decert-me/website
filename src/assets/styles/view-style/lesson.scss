@@ -27,7 +27,7 @@
     .content-sidebar{
         width: 380px;
         height: calc(100vh - 82px);
-        padding: 55px 14px 0 40px;
+        padding: 55px 14px 55px 40px;
         background-color: #FEFEFE;
         position: fixed;
         left: 0;
@@ -71,6 +71,7 @@
     // 展示列表
     .content-list{
         width: calc(100% - 380px - 10px);
+        min-height: calc(100vh - 82px);
         padding: 55px 25px 200px 30px;
         background-color: #FEFEFE;
         transition: width 0.2s;
