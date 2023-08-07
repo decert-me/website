@@ -177,14 +177,18 @@ export default function Lesson(params) {
 
     // 页面滑动出content区域侧边栏高度改变
     function scrollSidebar() {
-        if (contentRef.current) {
+        if (listRef.current) {
             const elementRect = contentRef.current.getBoundingClientRect();
             const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
+            sidebarRef.current.style = "";
             if (elementRect.bottom <= viewportHeight) {
-                const bottom = viewportHeight - elementRect.bottom
-                sidebarRef.current.style.height = `calc(100vh - ${bottom}px - 82px)`
+                sidebarRef.current.style.position = "absolute";
+                sidebarRef.current.style.top = "auto";
+                sidebarRef.current.style.bottom = 0;
+            }else{
+                sidebarRef.current.style.position = "fixed";
+                sidebarRef.current.style.top = "82px";
             }
-            
         }
     }
 
@@ -461,7 +465,7 @@ export default function Lesson(params) {
                                         {
                                             e.percent !== 0 &&
                                             <div className="progress">
-                                                {t("progress")} {e.percent}%
+                                                {t("progress")} {parseInt(e.percent * 100)}%
                                             </div>
                                         }
                                     </div>
