@@ -349,6 +349,14 @@ export default function Lesson(params) {
         address && getProgress()
     },[address])
 
+    useUpdateEffect(() => {
+        if (openM) {
+            document.body.style.overflow = "hidden";
+        }else{
+            document.body.style.overflow = "auto";
+        }
+    },[openM])
+
     return (
         <div className="Lesson" ref={contentRef}>
             <div className="custom-bg-round" />
@@ -366,10 +374,10 @@ export default function Lesson(params) {
                         getContainer={() => document.querySelector(".Lesson .content")}
                     >
                         <div className="content-sidebar">
-                            <div className="close tutorial-icon-full icon" onClick={() => setOpenM(false)}>
-                                <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
-                            </div>
                             <div className="sidebar-list">
+                                <div className="close tutorial-icon-full icon" onClick={() => setOpenM(false)}>
+                                    <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
+                                </div>
                                 {
                                     tutorialsSidebar.map((item, i) => 
                                         <div className="sidebar-item" key={item.label}>
