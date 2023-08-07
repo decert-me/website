@@ -19,15 +19,15 @@ export const tutorialsSidebar = [
     {
         label: "媒体类型",
         list: [
-            {key: 301, label: "文章"}, 
-            {key: 302, label: "视频"}
+            {key: 301, label: "文章", value: "article"}, 
+            {key: 302, label: "视频", value: "video"}
         ]
     },
     {
         label: "语言",
         list: [
-            {key: 401, label: "中文"}, 
-            {key: 402, label: "English"}
+            {key: 401, label: "中文", value: "zh"}, 
+            {key: 402, label: "English", value: "en"}
         ]
     }
 ]
