@@ -55,9 +55,11 @@ function CustomCategory(props, ref) {
             <div className="label">
                 <p>{label}</p>
                 <div 
-                    className="arrow" 
+                    className={`arrow ${isActive ? "" : "arrow-rotate"}`} 
                     onClick={() => setIsActive(!isActive)}
-                />
+                >
+                    <img src={require("@/assets/images/icon/icon-arrow.png")} alt="" />
+                </div>
             </div>
             <div className={`items ${isActive ? "" : "items-hide"}`}>
                 {
@@ -67,7 +69,7 @@ function CustomCategory(props, ref) {
                             className={`item ${selectItems.some(e => e.key === item.key) ? "item-active" : ""}`}
                             onClick={() => handleSelect(item)}
                         >
-                            {item.label}
+                            {item.label} <img src={require(`@/assets/images/icon/icon-${selectItems.some(e => e.key === item.key) ? "reduce" : "add"}.png`)} alt="" />
                         </div>
                     )
                 }

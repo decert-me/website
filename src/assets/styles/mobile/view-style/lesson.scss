@@ -45,6 +45,10 @@ $container-width: 90vw;
                     position: absolute;
                     top: .5625rem;
                     right: .8125rem;
+                    img{
+                        width: 1.25rem;
+                        height: 1.25rem;
+                    }
                 }
                 .sidebar-list{
                     margin: 0;
@@ -79,6 +83,10 @@ $container-width: 90vw;
                 .tutorials-operate{
                     margin-bottom: 1rem;
                     .filter-icon{
+                        img{
+                            width: 1.25rem;
+                            height: 1.25rem;
+                        }
                     }
                 }
             }
@@ -86,10 +94,19 @@ $container-width: 90vw;
                 gap: 1rem;
             }
             .box{
-                width: 100%;
+                width: calc(100vw - 2.75rem);
                 border-radius: 1.25rem;
                 .img{
                     height: 12.5rem;
+                }
+                .progress{
+                    height: 1.5rem;
+                    padding: .1875rem .375rem;
+                    border-radius: .75rem;
+                    left: .5625rem;
+                    top: .625rem;
+                    font-size: .75rem;
+                    line-height: 1.125rem;
                 }
                 .box-content{
                     padding: .9375rem;

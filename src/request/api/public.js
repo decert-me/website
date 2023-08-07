@@ -201,3 +201,12 @@ export const shareClick = (data) => {
         data
     })
 }
+
+// 获取阅读进度列表
+export const progressList = (data) => {
+    return serviceAxios({
+        url: `/tutorial/progressList`,
+        method: "post",
+        data
+    })
+}

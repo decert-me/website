@@ -4,13 +4,56 @@ import { useTranslation } from "react-i18next";
 import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAccount } from "wagmi";
-import { tutorialProgress } from "@/request/api/public";
+import { progressList, tutorialProgress } from "@/request/api/public";
 import { Button, Divider, Drawer } from "antd";
 import CustomCategory from "@/components/CustomCategory";
 import MyContext from "@/provider/context";
 import { useUpdateEffect } from "ahooks";
+import { totalTime } from "@/utils/date";
 
-function SelectItems({selectItems: items, removeItem, removeAllItems}) {
+function Difficulty(tutorial) {
+    let color = "";
+    let label = "";
+
+    switch (tutorial.difficulty) {
+        case 0:
+            color = "#FFB21E";
+            label = "简单";
+            break;
+        case 1:
+            color = "#5887E1";
+            label = "中等";
+            break;
+        case 2:
+        default:
+            color = "#EB1C1C";
+            label = "困难";
+            break;
+    }
+    
+    return (
+        <>
+        <div className="point" style={{backgroundColor: color}}></div>{label}
+        </>
+    )
+}
+
+function GetTags({ tutorial }) {
+    const arr = [];
+    tutorial.category.forEach(ele => {
+        arr.push(ele)
+    })
+    tutorial.theme.forEach(ele => {
+        arr.push(ele)
+    })
+    return (
+        arr.map((item,index) => 
+            <li className="tag" key={index}>{item}</li>
+        )
+    )
+}
+
+function SelectItems({selectItems: items, removeItem, removeAllItems, sidebarIsOpen, changeSidebar}) {
     const result = [];
     for (let i = 0; i < items.length; i++) {
         const element = items[i];
@@ -22,8 +65,14 @@ function SelectItems({selectItems: items, removeItem, removeAllItems}) {
         })
     }
     return (
-        result.length !== 0 &&
+        (result.length !== 0 || !sidebarIsOpen) &&
         <div className="selectItems">
+            {
+                !sidebarIsOpen &&
+                <div className="icon" onClick={() => changeSidebar()}>
+                    <img src={require("@/assets/images/icon/icon-filter.png")} alt="" />
+                </div>
+            }
             {
                 result.map((item) => 
                     <div 
@@ -31,7 +80,7 @@ function SelectItems({selectItems: items, removeItem, removeAllItems}) {
                         key={item.key}
                         onClick={() => removeItem(item.key, item.index)}
                     >
-                        {item.label}
+                        {item.label} <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
                     </div>
                 )
             }
@@ -92,16 +141,12 @@ export default function Lesson(params) {
 
         if (sidebarIsOpen) {
             sidebarRef.current.style.left = "0";
-            listRef.current.style.width = "80.21%";
+            listRef.current.style.width = "calc(100% - 380px - 10px)";
             listRef.current.style.paddingLeft = "30px"
-            buttonRef.current.style.position = "absolute";
-            buttonRef.current.style.left = "40px";
         }else{
-            sidebarRef.current.style.left = "calc(-19.79% - 10px)";
+            sidebarRef.current.style.left = "-380px";
             listRef.current.style.width = "100%"
             listRef.current.style.paddingLeft = "37px"
-            buttonRef.current.style.position = "fixed";
-            buttonRef.current.style.left = "0px";
         }
     }
 
@@ -148,20 +193,43 @@ export default function Lesson(params) {
 
     // 获取学习进度
     async function getProgress(params) {
-        for (let i = 0; i < tutorials.length; i++) {
-            await tutorialProgress({catalogueName: tutorials[i].catalogueName})
-            .then(res => {
-                if (res?.status === 0 && res.data.data) {
-                    const data = res.data.data;
-                    let sum = 0;
-                    data.forEach(element => {
-                        element.is_finish && sum++
-                    });
-                    tutorials[i].progress = (sum / data.length * 100).toFixed(0)
-                }
-            })
-        }
-        setTutorials([...tutorials]);
+        // for (let i = 0; i < tutorials.length; i++) {
+        //     await tutorialProgress({catalogueName: tutorials[i].catalogueName})
+        //     .then(res => {
+        //         if (res?.status === 0 && res.data.data) {
+        //             const data = res.data.data;
+        //             let sum = 0;
+        //             data.forEach(element => {
+        //                 element.is_finish && sum++
+        //             });
+        //             tutorials[i].progress = (sum / data.length * 100).toFixed(0)
+        //         }
+        //     })
+        // }
+        // setTutorials([...tutorials]);
+        const arr = [];
+        tutorials.forEach(tutorial => arr.push(tutorial.catalogueName));
+        await progressList({catalogueNameList: arr})
+        .then(res => {
+            console.log(res);
+            if (res.status === 0) {
+                const catalogueMap = {};
+                res.data.forEach(e => {
+                    catalogueMap[e.catalogueName] = {
+                        readNum: e.readNum,
+                        percent: e.percent
+                    };
+                });
+                tutorials.forEach(tutorial => {
+                    const catalogInfo = catalogueMap[tutorial.catalogueName];
+                    if (catalogInfo) {
+                        tutorial.readNum = catalogInfo.readNum;
+                        tutorial.percent = catalogInfo.percent;
+                    }
+                })
+                setTutorials([...tutorials]);
+            }
+        })
     }
 
     function init(params) {
@@ -181,7 +249,9 @@ export default function Lesson(params) {
                 "startPage": "blockchain-basic/start",
                 "category": ["dapp"],
                 "theme": ["DeFi"],
-                "language": "zh"
+                "language": "zh",
+                "time": 9000000,  //  预估时间
+                "difficulty": 2     //  难度
                 },
                 {
                 "repoUrl": "https://github.com/decert-me/learnsolidity",
@@ -194,7 +264,9 @@ export default function Lesson(params) {
                 "startPage": "solidity/intro",
                 "category": ["dapp"],
                 "theme": ["DeFi"],
-                "language": "zh"
+                "language": "zh",
+                "time": 9000000,  //  预估时间
+                "difficulty": 2     //  难度
                 },
                 {
                 "repoUrl": "https://github.com/SixdegreeLab/MasteringChainAnalytics",
@@ -208,7 +280,9 @@ export default function Lesson(params) {
                 "startPage": "MasteringChainAnalytics/README",
                 "category": ["dapp"],
                 "theme": ["DeFi"],
-                "language": "zh"
+                "language": "zh",
+                "time": 9000000,  //  预估时间
+                "difficulty": 2     //  难度
                 },
                 {
                 "repoUrl": "https://github.com/miguelmota/ethereum-development-with-go-book",
@@ -222,7 +296,9 @@ export default function Lesson(params) {
                 "startPage": "ethereum-development-with-go-book/README",
                 "category": ["dapp"],
                 "theme": ["DeFi"],
-                "language": "zh"
+                "language": "zh",
+                "time": 9000000,  //  预估时间
+                "difficulty": 2     //  难度
                 },
                 {
                 "repoUrl": "https://github.com/RandyPen/sui-move-intro-course-zh",
@@ -233,7 +309,9 @@ export default function Lesson(params) {
                 "docType": "mdBook",
                 "category": ["nft"],
                 "theme": ["NFT"],
-                "language": "zh"
+                "language": "zh",
+                "time": 9000000,  //  预估时间
+                "difficulty": 2     //  难度
                 },
                 {
                 "repoUrl": "https://github.com/ingonyama-zk/ingopedia",
@@ -248,13 +326,16 @@ export default function Lesson(params) {
                 "commitHash": "9f27ed7ab0fdd92c446a14e1df59891c17f6e8ed",
                 "category": ["dapp"],
                 "theme": ["DeFi", "Bitcoin"],
-                "language": "en"
+                "language": "en",
+                "time": 9000000,  //  预估时间
+                "difficulty": 2     //  难度
                 }
                 ]
             tutorials.forEach(tutorial => {
                 tutorial.docType = tutorial.docType === "video" ? "video" : "article";
             })
             setTutorials([...tutorials]);
+            getProgress();
             filterTutorials();
         })
         .catch(err => {
@@ -298,7 +379,9 @@ export default function Lesson(params) {
                         getContainer={() => document.querySelector(".Lesson .content")}
                     >
                         <div className="content-sidebar">
-                            <div className="close tutorial-icon-full" onClick={() => setOpenM(false)}></div>
+                            <div className="close tutorial-icon-full icon" onClick={() => setOpenM(false)}>
+                                <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
+                            </div>
                             <div className="sidebar-list">
                                 {
                                     tutorialsSidebar.map((item, i) => 
@@ -325,7 +408,9 @@ export default function Lesson(params) {
                             onClick={() => changeSidebar()}
                             ref={buttonRef}
                         >
-                            <div className="icon"></div>
+                            <div className="icon">
+                                <img src={require("@/assets/images/icon/icon-filter.png")} alt="" />
+                            </div>
                             Filters
                         </Button>
                         <div className="sidebar-list">
@@ -349,12 +434,14 @@ export default function Lesson(params) {
                 {/* 展示列表 */}
                 <div className="content-list" ref={listRef}>
                     {/* 导航栏 */}
-                    <SelectItems selectItems={selectItems} removeItem={removeItem} removeAllItems={removeAllItems} />
+                    <SelectItems selectItems={selectItems} removeItem={removeItem} removeAllItems={removeAllItems} sidebarIsOpen={sidebarIsOpen} changeSidebar={changeSidebar} />
                     <p className="content-title">{t("header.lesson")}</p>
                     {
                         isMobile && 
                         <div className="tutorials-operate">
-                            <div className="tutorial-icon-full filter-icon" onClick={() => setOpenM(true)}></div>
+                            <div className="tutorial-icon-full filter-icon icon" onClick={() => setOpenM(true)}>
+                                <img src={require("@/assets/images/icon/icon-filter.png")} alt="" />
+                            </div>
                         </div>
                     }
                     <div className="boxs">
@@ -379,25 +466,19 @@ export default function Lesson(params) {
                                             </p>
                                             <Divider />
                                             <ul className="data-info">
-                                                <li className="font-color"><div className="point"></div>简单</li>
-                                                <li className="font-color"><div className="icon"></div>6</li>
-                                                <li className="font-color-span"><div className="icon"></div>8 m</li>
+                                                <li className="font-color"><Difficulty tutorial={e} /></li>
+                                                <li className="font-color"><div className="icon"><img src={require("@/assets/images/icon/icon-people.png")} alt="" /></div>{e?.readNum}</li>
+                                                <li className="font-color-span"><div className="icon"><img src={require("@/assets/images/icon/icon-time.png")} alt="" /></div>{totalTime(e.time)}</li>
                                             </ul>
                                             <Divider />
                                             <ul className="tag-list">
-                                                <li className="tag">公链</li>
-                                                <li className="tag">公链</li>
-                                                <li className="tag">公链</li>
-                                                <li className="tag">公链</li>
-                                                <li className="tag">公链</li>
-                                                <li className="tag">公链</li>
-                                                <li className="tag">公链</li>
+                                                <GetTags tutorial={e} />
                                             </ul>
                                         </div>
                                         {
-                                            e?.progress &&
+                                            e.percent !== 0 &&
                                             <div className="progress">
-                                                {t("progress")} {e.progress}%
+                                                {t("progress")} {e.percent}%
                                             </div>
                                         }
                                     </div>

@@ -9,10 +9,16 @@
         font-weight: 600;
         line-height: 19px;
         .arrow{
-            width: 12px;
-            height: 8px;
-            background-color: #000;
+            width: 16px;
+            height: 16px;
+            display: flex;
             cursor: pointer;
+            img{
+                width: 100%;
+            }
+        }
+        .arrow-rotate{
+            transform: rotate(180deg);
         }
     }
     .items-hide{
@@ -30,6 +36,13 @@
             border-radius: 8px;
             background-color: #F7F7F7;
             cursor: pointer;
+            display: flex;
+            align-items: center;
+            img{
+                width: 16px;
+                height: 16px;
+                margin-left: 5px;
+            }
         }
         .item-active{
             color: #FFFFFF;
