@@ -4,21 +4,19 @@ import { useTranslation } from "react-i18next";
 import { useContext, useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { useAccount } from "wagmi";
-import { progressList, tutorialProgress } from "@/request/api/public";
+import { progressList } from "@/request/api/public";
 import { Button, Divider, Drawer } from "antd";
 import CustomCategory from "@/components/CustomCategory";
 import MyContext from "@/provider/context";
 import { useUpdateEffect } from "ahooks";
 import { totalTime } from "@/utils/date";
 
-function Difficulty(tutorial) {
+function Difficulty({tutorial, label}) {
     let color = "";
-    let label = "";
 
     switch (tutorial.difficulty) {
         case 0:
             color = "#FFB21E";
-            label = "简单";
             break;
         case 1:
             color = "#5887E1";
@@ -27,7 +25,6 @@ function Difficulty(tutorial) {
         case 2:
         default:
             color = "#EB1C1C";
-            label = "困难";
             break;
     }
     
@@ -38,7 +35,7 @@ function Difficulty(tutorial) {
     )
 }
 
-function GetTags({ tutorial }) {
+function GetTags({ tutorial, t }) {
     const arr = [];
     tutorial.category.forEach(ele => {
         arr.push(ele)
@@ -48,7 +45,7 @@ function GetTags({ tutorial }) {
     })
     return (
         arr.map((item,index) => 
-            <li className="tag" key={index}>{item}</li>
+            <li className="tag" key={index}>{t(`tutorial.${item}`)}</li>
         )
     )
 }
@@ -193,20 +190,6 @@ export default function Lesson(params) {
 
     // 获取学习进度
     async function getProgress(params) {
-        // for (let i = 0; i < tutorials.length; i++) {
-        //     await tutorialProgress({catalogueName: tutorials[i].catalogueName})
-        //     .then(res => {
-        //         if (res?.status === 0 && res.data.data) {
-        //             const data = res.data.data;
-        //             let sum = 0;
-        //             data.forEach(element => {
-        //                 element.is_finish && sum++
-        //             });
-        //             tutorials[i].progress = (sum / data.length * 100).toFixed(0)
-        //         }
-        //     })
-        // }
-        // setTutorials([...tutorials]);
         const arr = [];
         tutorials.forEach(tutorial => arr.push(tutorial.catalogueName));
         await progressList({catalogueNameList: arr})
@@ -247,8 +230,8 @@ export default function Lesson(params) {
                 "desc": "区块链是一项令人兴奋且在快速发展的技术，你也许看到过这些频繁在社交媒体、新闻频道上冒出的新名词：智能合约、代币（通证）、Web3、DeFi、DAO 组织。 如果你还不是很明白他们的意思，这份免费区块链基础教程就是为你（小白们）准备的。",
                 "challenge": 10000,
                 "startPage": "blockchain-basic/start",
-                "category": ["dapp"],
-                "theme": ["DeFi"],
+                "category": ["dapps"],
+                "theme": ["defi"],
                 "language": "zh",
                 "time": 9000000,  //  预估时间
                 "difficulty": 2     //  难度
@@ -262,8 +245,8 @@ export default function Lesson(params) {
                 "docType": "docusaurus",
                 "challenge": 10002,
                 "startPage": "solidity/intro",
-                "category": ["dapp"],
-                "theme": ["DeFi"],
+                "category": ["chain-public"],
+                "theme": ["btc"],
                 "language": "zh",
                 "time": 9000000,  //  预估时间
                 "difficulty": 2     //  难度
@@ -278,8 +261,8 @@ export default function Lesson(params) {
                 "challenge": 10004,
                 "commitHash": "cfb5403f14932b520adc9084673bd1c011f1aa2b",
                 "startPage": "MasteringChainAnalytics/README",
-                "category": ["dapp"],
-                "theme": ["DeFi"],
+                "category": ["layer2"],
+                "theme": ["web3"],
                 "language": "zh",
                 "time": 9000000,  //  预估时间
                 "difficulty": 2     //  难度
@@ -294,8 +277,8 @@ export default function Lesson(params) {
                 "branch": "master",
                 "docPath": "/zh",
                 "startPage": "ethereum-development-with-go-book/README",
-                "category": ["dapp"],
-                "theme": ["DeFi"],
+                "category": ["safe"],
+                "theme": ["blockchain"],
                 "language": "zh",
                 "time": 9000000,  //  预估时间
                 "difficulty": 2     //  难度
@@ -307,8 +290,8 @@ export default function Lesson(params) {
                 "catalogueName": "sui-move-intro-course-zh",
                 "img": "https://ipfs.learnblockchain.cn/images/sui.png",
                 "docType": "mdBook",
-                "category": ["nft"],
-                "theme": ["NFT"],
+                "category": ["storage"],
+                "theme": ["metaverse"],
                 "language": "zh",
                 "time": 9000000,  //  预估时间
                 "difficulty": 2     //  难度
@@ -324,8 +307,8 @@ export default function Lesson(params) {
                 "branch": "master",
                 "docPath": "/src",
                 "commitHash": "9f27ed7ab0fdd92c446a14e1df59891c17f6e8ed",
-                "category": ["dapp"],
-                "theme": ["DeFi", "Bitcoin"],
+                "category": ["others"],
+                "theme": ["cryptography", "eth", "dao"],
                 "language": "en",
                 "time": 9000000,  //  预估时间
                 "difficulty": 2     //  难度
@@ -411,7 +394,7 @@ export default function Lesson(params) {
                             <div className="icon">
                                 <img src={require("@/assets/images/icon/icon-filter.png")} alt="" />
                             </div>
-                            Filters
+                            {t("tutorial.filter")}
                         </Button>
                         <div className="sidebar-list">
                             {
@@ -466,13 +449,13 @@ export default function Lesson(params) {
                                             </p>
                                             <Divider />
                                             <ul className="data-info">
-                                                <li className="font-color"><Difficulty tutorial={e} /></li>
+                                                <li className="font-color"><Difficulty tutorial={e} label={t(`diff-info.${e.difficulty === 0 ? "easy" : e.difficulty === 1 ? "normal" : "diff"}`)} /></li>
                                                 <li className="font-color"><div className="icon"><img src={require("@/assets/images/icon/icon-people.png")} alt="" /></div>{e?.readNum}</li>
                                                 <li className="font-color-span"><div className="icon"><img src={require("@/assets/images/icon/icon-time.png")} alt="" /></div>{totalTime(e.time)}</li>
                                             </ul>
                                             <Divider />
                                             <ul className="tag-list">
-                                                <GetTags tutorial={e} />
+                                                <GetTags tutorial={e} t={t} />
                                             </ul>
                                         </div>
                                         {

@@ -1,6 +1,7 @@
 import { forwardRef, useImperativeHandle, useState } from "react";
 import "./index.scss"
 import { useUpdateEffect } from "ahooks";
+import { useTranslation } from "react-i18next";
 
 function CustomCategory(props, ref) {
     
@@ -16,6 +17,7 @@ function CustomCategory(props, ref) {
         removeSelect
     }))
 
+    const { t } = useTranslation();
     let [selectItems, setSelectItems] = useState([]);
     const [isActive, setIsActive] = useState(true);
 
@@ -53,7 +55,7 @@ function CustomCategory(props, ref) {
     return (
         <div className="CustomCategory">
             <div className="label">
-                <p>{label}</p>
+                <p>{t(`tutorial.${label}`)}</p>
                 <div 
                     className={`arrow ${isActive ? "" : "arrow-rotate"}`} 
                     onClick={() => setIsActive(!isActive)}
@@ -69,7 +71,7 @@ function CustomCategory(props, ref) {
                             className={`item ${selectItems.some(e => e.key === item.key) ? "item-active" : ""}`}
                             onClick={() => handleSelect(item)}
                         >
-                            {item.label} <img src={require(`@/assets/images/icon/icon-${selectItems.some(e => e.key === item.key) ? "reduce" : "add"}.png`)} alt="" />
+                            {t(`tutorial.${item.label}`)} <img src={require(`@/assets/images/icon/icon-${selectItems.some(e => e.key === item.key) ? "reduce" : "add"}.png`)} alt="" />
                         </div>
                     )
                 }
