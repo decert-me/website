@@ -207,9 +207,9 @@ export default function Lesson(params) {
             let value;
             // 如果够展开
             if ((((num - 1) * 20) + (350 * num)) <= contentWidth ) {
-                value = `calc(${(100 / num).toFixed(2)}% - ${parseInt((num - 1) * 20 / num)}px)`
+                value = `calc(${(100 / num).toFixed(2)}% - ${parseInt((num - 1) * 20 / num) + 1}px)`
             }else{
-                value = `calc(${(100 / (num - 1)).toFixed(2)}% - ${(parseInt(num - 2) * 20 / (num - 1))}px)`
+                value = `calc(${(100 / (num - 1)).toFixed(2)}% - ${(parseInt(num - 2) * 20 / (num - 1)) + 1}px)`
             }
             domArr.forEach(dom => {
                 dom.style.setProperty("flex-basis", value);

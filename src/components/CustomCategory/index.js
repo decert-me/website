@@ -44,7 +44,6 @@ function CustomCategory(props, ref) {
 
     useUpdateEffect(() => {
         const newArr = allSelectItems[sidebarIndex];
-        // const isReduce = newArr.length < selectItems.length;
         if (newArr.length === selectItems.length) {
             return
         }
