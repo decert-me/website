@@ -50,7 +50,7 @@ function GetTags({ tutorial, t }) {
     )
 }
 
-function SelectItems({selectItems: items, removeItem, removeAllItems, sidebarIsOpen, changeSidebar}) {
+function SelectItems({selectItems: items, removeItem, removeAllItems, sidebarIsOpen, changeSidebar, t}) {
     const result = [];
     for (let i = 0; i < items.length; i++) {
         const element = items[i];
@@ -77,14 +77,14 @@ function SelectItems({selectItems: items, removeItem, removeAllItems, sidebarIsO
                         key={item.key}
                         onClick={() => removeItem(item.key, item.index)}
                     >
-                        {item.label} <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
+                        {t(`tutorial.${item.label}`)} <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
                     </div>
                 )
             }
             {
                 result.length !== 0 &&
                     <div className="selectItem" onClick={() => removeAllItems()}>
-                        Clear All
+                        {t("tutorial.clear")}
                     </div>
             }
         </div>
@@ -180,7 +180,6 @@ export default function Lesson(params) {
         if (listRef.current) {
             const elementRect = contentRef.current.getBoundingClientRect();
             const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
-            sidebarRef.current.style = "";
             if (elementRect.bottom <= viewportHeight) {
                 sidebarRef.current.style.position = "absolute";
                 sidebarRef.current.style.top = "auto";
@@ -429,7 +428,7 @@ export default function Lesson(params) {
                 {/* 展示列表 */}
                 <div className="content-list" ref={listRef}>
                     {/* 导航栏 */}
-                    <SelectItems selectItems={selectItems} removeItem={removeItem} removeAllItems={removeAllItems} sidebarIsOpen={sidebarIsOpen} changeSidebar={changeSidebar} />
+                    <SelectItems selectItems={selectItems} removeItem={removeItem} removeAllItems={removeAllItems} sidebarIsOpen={sidebarIsOpen} changeSidebar={changeSidebar} t={t} />
                     <p className="content-title">{t("header.lesson")}</p>
                     {
                         isMobile && 
