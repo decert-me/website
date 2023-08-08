@@ -45,6 +45,5 @@ Date.prototype.Format = function(fmt) {
     const hours = Math.floor(m / 60);
     const mins = m % 60;
 
-    console.log(hours, "===", mins, "===");
     return hours > 0 ? `${hours} h ${mins} m` : `${mins} m`
   }

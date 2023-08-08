@@ -8,7 +8,7 @@ import { progressList } from "@/request/api/public";
 import { Button, Divider, Drawer } from "antd";
 import CustomCategory from "@/components/CustomCategory";
 import MyContext from "@/provider/context";
-import { useUpdateEffect } from "ahooks";
+import { useRequest, useUpdateEffect } from "ahooks";
 import { totalTime } from "@/utils/date";
 
 function Difficulty({tutorial, label}) {
@@ -98,7 +98,8 @@ export default function Lesson(params) {
     const listRef = useRef(null);
     const buttonRef = useRef(null);
     const childRef = useRef(null);
-
+    const boxsRef = useRef(null);
+    
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation();
     const { address } = useAccount();
@@ -108,7 +109,13 @@ export default function Lesson(params) {
     let [newTutorials, setNewTutorials] = useState([]);   //  选中的教程列表
     
     let [sidebarIsOpen, setSidebarIsOpen] = useState(true);   //  侧边栏展开
+    let [isOk, setIsOk] = useState(false);   //  dom操作是否完成
     let [selectItems, setSelectItems] = useState([[],[],[],[]]);   //  当前选中的类别
+    
+    const { data, loading, run } = useRequest(resizeContent, {
+        debounceWait: 300,
+        manual: true,
+    });
 
     // 移除选中的单个 *类别*
     function removeItem(key, index) {
@@ -145,6 +152,7 @@ export default function Lesson(params) {
             listRef.current.style.width = "100%"
             listRef.current.style.paddingLeft = "37px"
         }
+        run()
     }
 
     function filterTutorials(params) {
@@ -191,13 +199,31 @@ export default function Lesson(params) {
         }
     }
 
+    function resizeContent() {
+        if (boxsRef.current) {
+            const domArr = document.querySelectorAll(".boxs .box-link");
+            const contentWidth = boxsRef.current.getBoundingClientRect().width;
+            const num = parseInt(contentWidth / 350);
+            let value;
+            // 如果够展开
+            if ((((num - 1) * 20) + (350 * num)) <= contentWidth ) {
+                value = `calc(${(100 / num).toFixed(2)}% - ${parseInt((num - 1) * 20 / num)}px)`
+            }else{
+                value = `calc(${(100 / (num - 1)).toFixed(2)}% - ${(parseInt(num - 2) * 20 / (num - 1))}px)`
+            }
+            domArr.forEach(dom => {
+                dom.style.setProperty("flex-basis", value);
+            })
+            setIsOk(true);
+        }
+    }
+
     // 获取学习进度
     async function getProgress(params) {
         const arr = [];
         tutorials.forEach(tutorial => arr.push(tutorial.catalogueName));
         await progressList({catalogueNameList: arr})
         .then(res => {
-            console.log(res);
             if (res.status === 0) {
                 const catalogueMap = {};
                 res.data.forEach(e => {
@@ -323,6 +349,7 @@ export default function Lesson(params) {
             setTutorials([...tutorials]);
             getProgress();
             filterTutorials();
+            run();
         })
         .catch(err => {
             console.log(err);
@@ -337,9 +364,11 @@ export default function Lesson(params) {
     // 初始化
     useEffect(() => {
         init();
-        window.addEventListener('scroll', scrollSidebar)
+        window.addEventListener('scroll', scrollSidebar);
+        window.addEventListener('resize', run);
         return () => {
-            window.removeEventListener('scroll', scrollSidebar)
+            window.removeEventListener('scroll', scrollSidebar);
+            window.removeEventListener('resize', run);
         }
     },[])
 
@@ -438,7 +467,7 @@ export default function Lesson(params) {
                             </div>
                         </div>
                     }
-                    <div className="boxs">
+                    <div className="boxs" ref={boxsRef} style={{opacity: isOk ? 1 : 0}}>
                         {
                             newTutorials.map(e => 
                                 <a 
@@ -446,6 +475,7 @@ export default function Lesson(params) {
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                     key={e.catalogueName}
+                                    className="box-link"
                                 >
                                     <div className="box">
                                         <div className="img">
