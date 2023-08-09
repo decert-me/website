@@ -415,6 +415,10 @@ export default function Lesson(params) {
         }
     },[openM])
 
+    useUpdateEffect(() => {
+        resizeContent();
+    },[newTutorials])
+
     return (
         <div className="Lesson" ref={contentRef}>
             <div className="custom-bg-round" />
