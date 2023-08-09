@@ -112,10 +112,33 @@ export default function Lesson(params) {
     let [isOk, setIsOk] = useState(false);   //  dom操作是否完成
     let [selectItems, setSelectItems] = useState([[],[],[],[]]);   //  当前选中的类别
     
-    const { data, loading, run } = useRequest(resizeContent, {
+    const { run } = useRequest(resizeContent, {
         debounceWait: 300,
         manual: true,
     });
+
+    const { run: runAdd } = useRequest(addClassName, {
+        throttleWait: 300,
+        manual: true,
+    });
+
+    const { run: runRemove } = useRequest(removeClassName, {
+        debounceWait: 500,
+        manual: true,
+    });
+
+    // 侧边栏删除类名
+    function removeClassName() {
+        sidebarRef.current.classList.remove("content-sidebar-scrollbar")
+        console.log("remove");
+    }
+
+    // 侧边栏添加类名
+    function addClassName() {
+        sidebarRef.current.classList.add("content-sidebar-scrollbar")
+        console.log("add");
+        runRemove()
+    }
 
     // 移除选中的单个 *类别*
     function removeItem(key, index) {
@@ -199,6 +222,7 @@ export default function Lesson(params) {
         }
     }
 
+    // 动态调整教程宽度
     function resizeContent() {
         if (boxsRef.current) {
             const domArr = document.querySelectorAll(".boxs .box-link");
@@ -371,6 +395,12 @@ export default function Lesson(params) {
             window.removeEventListener('resize', run);
         }
     },[])
+
+    useEffect(() => {
+        if (sidebarRef.current) {
+            sidebarRef.current.addEventListener('scroll', runAdd);
+        }
+    },[sidebarRef])
 
     // 监听地址 ==> 获取学习进度
     useEffect(() => {
