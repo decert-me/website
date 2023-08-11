@@ -537,8 +537,9 @@ export default function Lesson(params) {
                                             </ul>
                                         </div>
                                         {
-                                            e.percent !== 0 &&
+                                            e?.percent && e.percent !== 0 &&
                                             <div className="progress">
+                                                {e.percent}
                                                 {t("progress")} {parseInt(e.percent * 100)}%
                                             </div>
                                         }
