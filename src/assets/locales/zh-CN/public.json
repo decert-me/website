@@ -77,8 +77,8 @@
         "research": "研究",
         "others": "其他",
         
-        "defi": "去中心化金融",
-        "nft": "非同质化代币",
+        "defi": "DeFi",
+        "nft": "NFT",
         "btc": "比特币",
         "eth": "以太坊",
         "blockchain": "区块链",
@@ -89,7 +89,7 @@
         "consensus": "共识机制",
         "cryptography": "密码学",
         "wallet": "钱包",
-        "dao": "去中心化自治组织",
+        "dao": "DAO",
         "technical-analysis": "技术分析",
 
         "article": "文章",
