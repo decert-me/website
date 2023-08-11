@@ -161,7 +161,7 @@ export default function DefaultLayout(params) {
     useEffect(() => {
         const path = location.pathname;
         const addr = localStorage.getItem('decert.address');
-        run(addr, path)
+        !document.hidden && run(addr, path)
     },[address])
 
     useEffect(() => {
