@@ -132,6 +132,10 @@ function CustomCode(props, ref) {
         .then(res => {
             res.data ? printLog(res) : setLoading(false);
         })
+        .catch(err => {
+            addLogs(err.toString());
+            setLoading(false);
+        })
     }
 
     async function goTest(params) {
@@ -194,6 +198,9 @@ function CustomCode(props, ref) {
             }else{
                 setLoading(false);
             }
+        }).catch(err => {
+            addLogs(err.toString());
+            setLoading(false);
         })
 
     }
