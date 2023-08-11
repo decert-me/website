@@ -67,7 +67,7 @@
         "sort-popular": "Most Popular",
         "sort-lastest": "Latest",
         
-        "dapps": "Dapps",
+        "dapps": "Dapp",
         "chain-public": "Public blockchain",
         "programming-lang": "Programming language",
         "layer2": "Layer 2",
@@ -85,13 +85,12 @@
         "blockchain": "Blockchain",
         "metaverse": "Metaverse",
         "web3": "Web3",
-        "contract": "Smart contracts",
+        "contract": "Smart contract",
         "zkp": "Zero knowledge proof",
         "consensus": "Consensus",
         "cryptography": "Cryptography",
         "wallet": "Wallet",
         "dao": "DAO",
-        "tutorials": "Tutorials",
         "technical-analysis": "Technical Analysis",
 
         "article": "Article",
@@ -104,7 +103,7 @@
     "diff": "Difficulty",
     "diff-info": {
        "easy": "Easy",
-       "normal": "Normal",
+       "normal": "Medium",
        "diff": "Difficult"
     },
 

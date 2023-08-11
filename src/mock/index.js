@@ -31,7 +31,6 @@ export const tutorialsSidebar = [
             { key: 211, label: "cryptography" },
             { key: 212, label: "wallet" },
             { key: 213, label: "dao" },
-            { key: 214, label: "tutorials" },
             { key: 215, label: "technical-analysis" }
         ]
     },

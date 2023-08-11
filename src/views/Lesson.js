@@ -20,7 +20,6 @@ function Difficulty({tutorial, label}) {
             break;
         case 1:
             color = "#5887E1";
-            label = "中等";
             break;
         case 2:
         default:
@@ -287,7 +286,7 @@ export default function Lesson(params) {
                 "theme": ["defi"],
                 "language": "zh",
                 "time": 9000000,  //  预估时间
-                "difficulty": 2     //  难度
+                "difficulty": 1     //  难度
                 },
                 {
                 "repoUrl": "https://github.com/decert-me/learnsolidity",
@@ -302,7 +301,7 @@ export default function Lesson(params) {
                 "theme": ["btc"],
                 "language": "zh",
                 "time": 9000000,  //  预估时间
-                "difficulty": 2     //  难度
+                "difficulty": 0     //  难度
                 },
                 {
                 "repoUrl": "https://github.com/SixdegreeLab/MasteringChainAnalytics",
@@ -524,7 +523,11 @@ export default function Lesson(params) {
                                             </p>
                                             <Divider />
                                             <ul className="data-info">
-                                                <li className="font-color"><Difficulty tutorial={e} label={t(`diff-info.${e.difficulty === 0 ? "easy" : e.difficulty === 1 ? "normal" : "diff"}`)} /></li>
+                                                <li className="font-color">
+                                                    <Difficulty 
+                                                        tutorial={e} 
+                                                        label={t(`diff-info.${e.difficulty == 0 ? "easy" : e.difficulty == 1 ? "normal" : "diff"}`)} />
+                                                </li>
                                                 <li className="font-color"><div className="icon"><img src={require("@/assets/images/icon/icon-people.png")} alt="" /></div>{e?.readNum}</li>
                                                 <li className="font-color-span"><div className="icon"><img src={require("@/assets/images/icon/icon-time.png")} alt="" /></div>{totalTime(e.time)}</li>
                                             </ul>
