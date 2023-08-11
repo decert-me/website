@@ -91,7 +91,11 @@
         "wallet": "钱包",
         "dao": "DAO",
         "technical-analysis": "技术分析",
-
+        "solidity": "solidity",
+        "move": "move",
+        "sui": "sui",
+        "go": "go",
+        
         "article": "文章",
         "video": "视频",
 

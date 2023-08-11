@@ -92,6 +92,10 @@
         "wallet": "Wallet",
         "dao": "DAO",
         "technical-analysis": "Technical Analysis",
+        "solidity": "solidity",
+        "move": "move",
+        "sui": "sui",
+        "go": "go",
 
         "article": "Article",
         "video": "Video",
