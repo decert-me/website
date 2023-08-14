@@ -131,13 +131,11 @@ export default function Lesson(params) {
     // 侧边栏删除类名
     function removeClassName() {
         sidebarRef.current.classList.remove("content-sidebar-scrollbar")
-        console.log("remove");
     }
 
     // 侧边栏添加类名
     function addClassName() {
         sidebarRef.current.classList.add("content-sidebar-scrollbar")
-        console.log("add");
         runRemove()
     }
 
@@ -188,10 +186,6 @@ export default function Lesson(params) {
             return
         }
         tutorials.forEach(tutorial => {
-            console.log(tutorial);
-            console.log(selectItems);
-            console.log(selectItems[2].some(item => tutorial.docType.includes(item.value)));
-            console.log(tutorial.docType);
             if (
                 (tutorial.category && selectItems[0].some(item => tutorial.category.includes(item.label))) || 
                 (tutorial.theme && selectItems[1].some(item => tutorial.theme.includes(item.label))) || 
@@ -276,7 +270,6 @@ export default function Lesson(params) {
                 tutorial.docType = tutorial.docType === "video" ? "video" : "article";
             })
             setTutorials([...tutorials]);
-            console.log(tutorials);
             getProgress();
             filterTutorials();
             run();
