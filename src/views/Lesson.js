@@ -187,13 +187,14 @@ export default function Lesson(params) {
             setNewTutorials([...newTutorials]);
             return
         }
-
         tutorials.forEach(tutorial => {
+            console.log(tutorial);
+            console.log(selectItems);
             if (
                 (
-                    selectItems[0].some(item => tutorial.category.includes(item.label)) || 
-                    selectItems[1].some(item => tutorial.theme.includes(item.label)) || 
-                    selectItems[3].some(item => tutorial.language.includes(item.value))
+                    (tutorial.category && selectItems[0].some(item => tutorial.category.includes(item.label))) || 
+                    (tutorial.theme && selectItems[1].some(item => tutorial.theme.includes(item.label))) || 
+                    (tutorial.language && selectItems[3].some(item => tutorial.language.includes(item.value)))
                 ) &&
                 (
                     selectItems[2].length === 0 || 
@@ -325,6 +326,7 @@ export default function Lesson(params) {
 
     useUpdateEffect(() => {
         resizeContent();
+        scrollSidebar();
     },[newTutorials])
 
     return (
