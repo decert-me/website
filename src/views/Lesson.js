@@ -190,16 +190,13 @@ export default function Lesson(params) {
         tutorials.forEach(tutorial => {
             console.log(tutorial);
             console.log(selectItems);
+            console.log(selectItems[2].some(item => tutorial.docType.includes(item.value)));
+            console.log(tutorial.docType);
             if (
-                (
-                    (tutorial.category && selectItems[0].some(item => tutorial.category.includes(item.label))) || 
-                    (tutorial.theme && selectItems[1].some(item => tutorial.theme.includes(item.label))) || 
-                    (tutorial.language && selectItems[3].some(item => tutorial.language.includes(item.value)))
-                ) &&
-                (
-                    selectItems[2].length === 0 || 
-                    selectItems[2].some(item => tutorial.docType.includes(item.value))
-                )
+                (tutorial.category && selectItems[0].some(item => tutorial.category.includes(item.label))) || 
+                (tutorial.theme && selectItems[1].some(item => tutorial.theme.includes(item.label))) || 
+                (tutorial.language && selectItems[3].some(item => tutorial.language.includes(item.value))) ||
+                selectItems[2].some(item => tutorial.docType.includes(item.value))
             ) {
                 arr.push(tutorial)
             }
