@@ -437,7 +437,7 @@ export default function Lesson(params) {
                                                         tutorial={e} 
                                                         label={t(`diff-info.${e.difficulty == 0 ? "easy" : e.difficulty == 1 ? "normal" : "diff"}`)} />
                                                 </li>
-                                                {/* <li className="font-color"><div className="icon"><img src={require("@/assets/images/icon/icon-people.png")} alt="" /></div>{e?.readNum}</li> */}
+                                                <li className="font-color"><div className="icon"><img src={require("@/assets/images/icon/icon-people.png")} alt="" /></div>{e?.readNum}</li>
                                                 {
                                                     e?.time &&
                                                     <li className="font-color-span"><div className="icon"><img src={require("@/assets/images/icon/icon-time.png")} alt="" /></div>{totalTime(e.time)}</li>
