@@ -38,3 +38,12 @@ Date.prototype.Format = function(fmt) {
     }
     return d.toLocaleString();
   }
+
+  export function totalTime(time) {
+    const s = time / 1000;    //  秒
+    const m = Math.floor(s / 60);    //  分
+    const hours = Math.floor(m / 60);
+    const mins = m % 60;
+
+    return hours > 0 ? `${hours} h ${mins} m` : `${mins} m`
+  }

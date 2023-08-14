@@ -86,6 +86,10 @@ export default function ModalAddCodeQuestion(props) {
                 logs.push(...[t("inner.run.fail.compile")]);
             }
         })
+        .catch(err => {
+            logs.push(err.toString());
+            setLoading(false);
+        })
         return logs
         
     }
@@ -146,6 +150,9 @@ export default function ModalAddCodeQuestion(props) {
                     )
                 })
             }
+        })
+        .catch(err => {
+            setLoading(false);
         })
         setLoading(false);
         if (!flag) {
