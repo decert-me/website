@@ -16,6 +16,7 @@ import { Copy } from "@/utils/Copy"
 import { useNavigate } from "react-router-dom";
 import { modalNotice } from "@/utils/modalNotice";
 import { QRCodeSVG } from "qrcode.react";
+import { useRequest } from "ahooks";
 
 export default function CustomClaim(props) {
     
@@ -58,6 +59,11 @@ export default function CustomClaim(props) {
             setStep(3)
         }
     })
+
+    const { runAsync } = useRequest(shareWechat, {
+        debounceWait: 500,
+        manual: true
+    });
 
     const goclaim = async() => {
 
@@ -114,12 +120,10 @@ export default function CustomClaim(props) {
         setIsModalOpen(false);
     }
 
-    const share = async() => {
+    async function share(params) {
         // TODO: 添加二维码弹出
-        // showInner();
-        // shareTwitter();
         if (!link) {            
-            const code = await shareWechat();
+            const code = await runAsync();
             link = window.location.origin + "/quests/" + cliamObj.tokenId + "?code=" + code
             setLink(link);
         }
@@ -205,7 +209,7 @@ export default function CustomClaim(props) {
                             open={showPopover}
                         >
                             <div className="box">
-                                <Button id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} className="share claim" onClick={() => share()}>
+                                <Button id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2 || writeLoading} className="share claim" onClick={() => share()}>
                                     <WechatOutlined />
                                     {t("claim.share.btn")}
                                 </Button>
@@ -214,7 +218,7 @@ export default function CustomClaim(props) {
                     </Badge.Ribbon>
 
                     <div className="box">
-                        <Button className="claim" id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2} loading={writeLoading} onClick={() => goclaim()}>
+                        <Button className="claim" id={step !== 2 ? "" : "hover-btn-full"} disabled={step !== 2 || showPopover} loading={writeLoading} onClick={() => goclaim()}>
                             {t("claim.btn")}
                         </Button>
                     </div>
