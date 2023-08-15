@@ -219,6 +219,8 @@ export default function Lesson(params) {
     function resizeContent() {
         if (boxsRef.current) {
             const domArr = document.querySelectorAll(".boxs .box-link");
+            const imgArr = document.querySelectorAll(".boxs .box-link .img");
+
             const contentWidth = boxsRef.current.getBoundingClientRect().width;
             const num = parseInt(contentWidth / 350);
             let value;
@@ -230,6 +232,11 @@ export default function Lesson(params) {
             }
             domArr.forEach(dom => {
                 dom.style.setProperty("flex-basis", value);
+            })
+
+            imgArr.forEach(imgDom => {
+                const scale = imgDom.getBoundingClientRect().width / 350;
+                imgDom.style.height = (scale * 200) + "px"
             })
             setIsOk(true);
         }
@@ -441,7 +448,7 @@ export default function Lesson(params) {
                                             </ul>
                                         </div>
                                         {
-                                            e?.percent != 0 &&
+                                            typeof e.percent === "number" && e?.percent != 0 &&
                                             <div className="progress">
                                                 {t("progress")} {parseInt(e.percent * 100)}%
                                             </div>
