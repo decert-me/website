@@ -13,7 +13,6 @@ export async function GetSign(params) {
                     message = res.data.loginMessage;
                 }
             })
-            console.log(message);
         // 2、获取签名
             await signer?.signMessage(message)
             .then(async(res) => {
@@ -25,7 +24,7 @@ export async function GetSign(params) {
                 })
                 .then(res => {
                     if (res) {
-                        localStorage.setItem(`decert.token`,res.data.token)
+                        localStorage.setItem(`decert.token`,res.data.token);
                         setTimeout(() => {
                             resolve();
                         }, 100);

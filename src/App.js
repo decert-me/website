@@ -77,7 +77,12 @@ export default function App() {
           </MyProvider>
         </StyleProvider>
       </WagmiConfig>
-      <Web3Modal projectId={projectId} ethereumClient={ethereumClient} />
+      <Web3Modal 
+        projectId={projectId} 
+        ethereumClient={ethereumClient}
+        enableAccountView={false}
+        enableExplorer={false}
+      />
     </>
   )
 }
