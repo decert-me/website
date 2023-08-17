@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom";
+// import { useNavigate } from "react-router-dom";
 import { getQuests } from "../request/api/public"
 import "@/assets/styles/view-style/explore.scss"
 import "@/assets/styles/mobile/view-style/explore.scss"
@@ -11,7 +11,7 @@ import ChallengeItem from "@/components/User/ChallengeItem";
 export default function Explore(params) {
     
     const { t } = useTranslation(["explore", "translation"]);
-    const navigateTo = useNavigate();
+    // const navigateTo = useNavigate();
     const scrollRef = useRef(null);
     
     let [page, setPage] = useState(0);
@@ -28,13 +28,13 @@ export default function Explore(params) {
 
     store.subscribe(handleMobileChange);
     
-    const goChallenge = (item) => {
-        if (item.claimed || item.claimable) {
-            navigateTo(`/claim/${item.tokenId}`);
-        }else{
-            navigateTo(`/quests/${item.tokenId}`);
-        }
-    }
+    // const goChallenge = (item) => {
+    //     if (item.claimed || item.claimable) {
+    //         navigateTo(`/claim/${item.tokenId}`);
+    //     }else{
+    //         navigateTo(`/quests/${item.tokenId}`);
+    //     }
+    // }
 
     const getChallenge = async() => {
         const cache = localStorage.getItem("decert.cache");
@@ -75,26 +75,23 @@ export default function Explore(params) {
             <h3>{t("title")}</h3>
             {/* Challenge */}
             <div className="challenges" ref={scrollRef}>
-                    {
-                        challenges.map(item => (
-                            <ChallengeItem
-                                key={item.id} 
-                                info={item}
-                            />
-                        ))
-                    }
-
                 {
-                        challenges.length !== 0 && !isOver &&
-                        <div ref={loader}>
-                            {/* <Spin size="large" className="loading" /> */}
-                            <InfiniteScroll
-                                scrollRef={scrollRef}
-                                func={getChallenge}
-                            />
-                        </div>
-                    }
-                
+                    challenges.map(item => (
+                        <ChallengeItem
+                            key={item.id} 
+                            info={item}
+                        />
+                    ))
+                }
+                {
+                    challenges.length !== 0 && !isOver &&
+                    <div ref={loader}>
+                        <InfiniteScroll
+                            scrollRef={scrollRef}
+                            func={getChallenge}
+                        />
+                    </div>
+                }
             </div>
         </div>
     )

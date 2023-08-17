@@ -11,6 +11,7 @@ import { useRequest, useUpdateEffect } from "ahooks";
 import { totalTime } from "@/utils/date";
 import { getLabelList, getTutorialList } from "@/request/api/admin";
 import i18n from 'i18next';
+import InfiniteScroll from "@/components/InfiniteScroll";
 
 function Difficulty({tutorial, label}) {
     let color = "";
@@ -112,6 +113,14 @@ export default function Lesson(params) {
     let [selectItems, setSelectItems] = useState([[],[],[]]);   //  当前选中的类别
     let [tags, setTags] = useState([]);     //  所选标签
     let [sidebar, setSidebar] = useState([]);     //  所选语种标签
+
+    let [isOver, setIsOver] = useState();   //  无限滚动
+    let [pageConfig, setPageConfig] = useState({
+        page: 1, pageSize: 20
+    });   //  分页配置
+    const loader = useRef(null);
+
+
     
     const { run } = useRequest(resizeContent, {
         debounceWait: 300,
@@ -258,12 +267,15 @@ export default function Lesson(params) {
 
     async function getTutorials(obj) {
         await getTutorialList({
-            page: 1, pageSize: 20, status: 2, ...(obj !== undefined && obj)
+            ...pageConfig, status: 2, ...(obj !== undefined && obj)
         })
         .then(res => {
             if (res.code === 0) {
                 const list = res.data.list;
-                tutorials = list ? list : [];
+                if (list.length !== 20) {
+                    setIsOver(true);
+                }
+                tutorials = tutorials.concat(list ? list : []);
                 setTutorials([...tutorials]);
             }
         })
@@ -295,6 +307,12 @@ export default function Lesson(params) {
             category
           };
         getTutorials(obj);
+    }
+
+    function nextPage() {
+        pageConfig.page += 1;
+        setPageConfig({...pageConfig});
+        updateTutorials()
     }
 
     // 初始化
@@ -333,6 +351,8 @@ export default function Lesson(params) {
     },[tutorials])
 
     useUpdateEffect(() => {
+        tutorials = [];
+        setTutorials([...tutorials]);
         updateTutorials();
     },[selectItems])
 
@@ -467,7 +487,17 @@ export default function Lesson(params) {
                                 </a>
                             )
                         }
+                        {/* 无限滚动 */}
                     </div>
+                    {
+                        tutorials.length !== 0 && !isOver &&
+                        <div ref={loader}>
+                            <InfiniteScroll
+                                scrollRef={boxsRef}
+                                func={nextPage}
+                            />
+                        </div>
+                    }
                 </div>
             </div>
         </div>
