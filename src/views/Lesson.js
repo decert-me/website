@@ -442,7 +442,7 @@ export default function Lesson(params) {
                         {
                             tutorials.map(e => 
                                 <a 
-                                    href={`https://decert.me/tutorial/${e.catalogueName}${/^README$/i.test(e.startPage.split("/")[1]) ? "/" : "/"+e.startPage.split("/")[1]}`} 
+                                    href={`/tutorial/${e.catalogueName}${/^README$/i.test(e.startPage.split("/")[1]) ? "/" : "/"+e.startPage.split("/")[1]}`} 
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                     key={e.catalogueName}
