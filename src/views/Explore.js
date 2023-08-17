@@ -20,6 +20,7 @@ export default function Explore(params) {
     let [isOver, setIsOver] = useState();
     let [challenges, setChallenges] = useState([]);
     let [isMobile, setIsMobile] = useState(store.getState().isMobile);
+    let [loading, setLoading] = useState(false);
 
     function handleMobileChange() {
         isMobile = store.getState().isMobile;
@@ -37,6 +38,10 @@ export default function Explore(params) {
     // }
 
     const getChallenge = async() => {
+        if (loading) {
+            return
+        }
+        setLoading(true);
         const cache = localStorage.getItem("decert.cache");
         page += 1;
         setPage(page);
@@ -62,6 +67,7 @@ export default function Explore(params) {
             }
         }
         setChallenges([...challenges]);
+        setLoading(false);
     }
 
     useEffect(() => {
