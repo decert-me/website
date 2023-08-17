@@ -2,7 +2,6 @@ import "@/assets/styles/view-style/lesson.scss"
 import "@/assets/styles/mobile/view-style/lesson.scss"
 import { useTranslation } from "react-i18next";
 import { useContext, useEffect, useRef, useState } from "react";
-import axios from "axios";
 import { useAccount } from "wagmi";
 import { progressList } from "@/request/api/public";
 import { Button, Divider, Drawer } from "antd";
@@ -10,6 +9,8 @@ import CustomCategory from "@/components/CustomCategory";
 import MyContext from "@/provider/context";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { totalTime } from "@/utils/date";
+import { getLabelList, getTutorialList } from "@/request/api/admin";
+import i18n from 'i18next';
 
 function Difficulty({tutorial, label}) {
     let color = "";
@@ -34,19 +35,18 @@ function Difficulty({tutorial, label}) {
     )
 }
 
-function GetTags({ tutorial, t }) {
+function GetTags({ tutorial, tags }) {
     const arr = [];
     tutorial?.category &&
     tutorial.category.forEach(ele => {
-        arr.push(ele)
-    })
-    tutorial?.theme &&
-    tutorial.theme.forEach(ele => {
-        arr.push(ele)
+        // 获取ele的中英文
+        arr.push(tags.filter(e => e.ID === ele)[0])
     })
     return (
         arr.map((item,index) => 
-            <li className="tag" key={index}>{t(`tutorial.${item}`)}</li>
+            <li className="tag" key={index}>
+                {i18n.language === "zh-CN" ? item.Chinese : item.English}
+            </li>
         )
     )
 }
@@ -75,10 +75,10 @@ function SelectItems({selectItems: items, removeItem, removeAllItems, sidebarIsO
                 result.map((item) => 
                     <div 
                         className="selectItem" 
-                        key={item.key}
+                        key={item.ID}
                         onClick={() => removeItem(item.key, item.index)}
                     >
-                        {t(`tutorial.${item.label}`)} <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
+                        {i18n.language === "zh-CN" ? item.Chinese : item.English} <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
                     </div>
                 )
             }
@@ -104,14 +104,14 @@ export default function Lesson(params) {
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation();
     const { address } = useAccount();
-    const { tutorialsSidebar } = require("../mock/index");
     const [openM, setOpenM] = useState(false);    //  移动端抽屉
     let [tutorials, setTutorials] = useState([]);   //  教程列表
-    let [newTutorials, setNewTutorials] = useState([]);   //  选中的教程列表
     
     let [sidebarIsOpen, setSidebarIsOpen] = useState(true);   //  侧边栏展开
     let [isOk, setIsOk] = useState(false);   //  dom操作是否完成
-    let [selectItems, setSelectItems] = useState([[],[],[],[]]);   //  当前选中的类别
+    let [selectItems, setSelectItems] = useState([[],[],[]]);   //  当前选中的类别
+    let [tags, setTags] = useState([]);     //  所选标签
+    let [sidebar, setSidebar] = useState([]);     //  所选语种标签
     
     const { run } = useRequest(resizeContent, {
         debounceWait: 300,
@@ -175,28 +175,6 @@ export default function Lesson(params) {
             listRef.current.style.paddingLeft = "37px"
         }
         run()
-    }
-
-    function filterTutorials(params) {
-        const arr = [];
-        
-        if (selectItems.every(item => item.length === 0)) {
-            newTutorials = tutorials;
-            setNewTutorials([...newTutorials]);
-            return
-        }
-        tutorials.forEach(tutorial => {
-            if (
-                (tutorial.category && selectItems[0].some(item => tutorial.category.includes(item.label))) || 
-                (tutorial.theme && selectItems[1].some(item => tutorial.theme.includes(item.label))) || 
-                (tutorial.language && selectItems[3].some(item => tutorial.language.includes(item.value))) ||
-                selectItems[2].some(item => tutorial.docType.includes(item.value))
-            ) {
-                arr.push(tutorial)
-            }
-        })
-        newTutorials = arr;
-        setNewTutorials([...newTutorials]);
     }
 
     // 页面滑动出content区域侧边栏高度改变
@@ -268,28 +246,56 @@ export default function Lesson(params) {
         })
     }
 
-    function init(params) {
-        const host = window.location.origin;
-        axios.get(`${host.indexOf("localhost") === -1 ? host : "https://decert.me"}/tutorial/tutorials.json`)
+    async function getTags(obj) {
+        return await getLabelList(obj)
         .then(res => {
-            tutorials = res.data;
-            tutorials.forEach(tutorial => {
-                tutorial.docType = tutorial.docType === "video" ? "video" : "article";
-            })
-            setTutorials([...tutorials]);
-            getProgress();
-            filterTutorials();
-            run();
-        })
-        .catch(err => {
-            console.log(err);
+            if (res.code === 0) {
+                const list = res.data;
+                return list ? list : [];
+            }
         })
     }
 
-    useUpdateEffect(() => {
-        // 比较筛选 ===> 
-        filterTutorials();
-    },[selectItems])
+    async function getTutorials(obj) {
+        await getTutorialList({
+            page: 1, pageSize: 20, status: 2, ...(obj !== undefined && obj)
+        })
+        .then(res => {
+            if (res.code === 0) {
+                const list = res.data.list;
+                tutorials = list ? list : [];
+                setTutorials([...tutorials]);
+            }
+        })
+    }
+
+    async function init(params) {
+        tags = await getTags({type: "category"});
+        setTags([...tags]);
+
+        const lang = await getTags({type: "language"});
+        sidebar = [
+            { label: "type", list: tags },
+            { label: "media", list: [{ID: "article", Chinese: "文章", English: "Article"}, {ID: "video", Chinese: "视频", English: "Video"}] },
+            { label: "lang", list: lang }
+        ]
+        setSidebar([...sidebar]);
+        await getTutorials({});
+        getProgress();
+        run();
+    }
+
+    function updateTutorials(params) {
+        const docType = selectItems[1].map(e => e.ID);
+        const language = selectItems[2].map(e => e.ID);
+        const category = selectItems[0].map(e => e.ID);
+        const obj = {
+            ...(language.length === 1 && { language: language[0] }),
+            ...(docType.length === 1 && { docType: docType[0] }),
+            category
+          };
+        getTutorials(obj);
+    }
 
     // 初始化
     useEffect(() => {
@@ -324,7 +330,11 @@ export default function Lesson(params) {
     useUpdateEffect(() => {
         resizeContent();
         scrollSidebar();
-    },[newTutorials])
+    },[tutorials])
+
+    useUpdateEffect(() => {
+        updateTutorials();
+    },[selectItems])
 
     return (
         <div className="Lesson" ref={contentRef}>
@@ -348,7 +358,7 @@ export default function Lesson(params) {
                                     <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
                                 </div>
                                 {
-                                    tutorialsSidebar.map((item, i) => 
+                                    sidebar.map((item, i) => 
                                         <div className="sidebar-item" key={item.label}>
                                             <CustomCategory 
                                                 items={item.list} 
@@ -379,7 +389,7 @@ export default function Lesson(params) {
                         </Button>
                         <div className="sidebar-list">
                             {
-                                tutorialsSidebar.map((item, i) => 
+                                sidebar.map((item, i) => 
                                     <div className="sidebar-item" key={item.label}>
                                         <CustomCategory 
                                             items={item.list} 
@@ -410,7 +420,7 @@ export default function Lesson(params) {
                     }
                     <div className="boxs" ref={boxsRef} style={{opacity: isOk ? 1 : 0}}>
                         {
-                            newTutorials.map(e => 
+                            tutorials.map(e => 
                                 <a 
                                     href={`https://decert.me/tutorial/${e.catalogueName}${/^README$/i.test(e.startPage.split("/")[1]) ? "/" : "/"+e.startPage.split("/")[1]}`} 
                                     target="_blank" 
@@ -420,7 +430,7 @@ export default function Lesson(params) {
                                 >
                                     <div className="box">
                                         <div className="img">
-                                            <img src={e?.img?.indexOf("http") === -1 ? require(`@/${e.img}`) : e.img} alt="" />
+                                            <img src={`https://ipfs.decert.me/${e.img}`} alt="" />
                                         </div>
                                         <div className="box-content">
                                             <p className="box-title newline-omitted">
@@ -444,7 +454,7 @@ export default function Lesson(params) {
                                             </ul>
                                             <Divider />
                                             <ul className="tag-list">
-                                                <GetTags tutorial={e} t={t} />
+                                                <GetTags tutorial={e} tags={tags} />
                                             </ul>
                                         </div>
                                         {
