@@ -71,6 +71,7 @@ export default function App() {
         }
       }
       console.log('当前localStorage已用' + (size / 1024).toFixed(2) + 'KB');
+      localStorage.removeItem("wagmi.cache");
     }
   }
 
