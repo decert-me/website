@@ -37,7 +37,8 @@ export const usePublish = (props) => {
     let [detail, setDetail] = useState();
     let [createQuestHash, setCreateQuestHash] = useState();
     const { isLoading: transactionLoading } = useWaitForTransaction({
-        hash: createQuestHash
+        hash: createQuestHash,
+        cacheTime: 0
     })
 
     const write = (sign, obj, params) => {

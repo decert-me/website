@@ -56,8 +56,28 @@ const ethereumClient = new EthereumClient(web3modalClient, chains)
 export default function App() {
   window.Buffer = window.Buffer || require("buffer").Buffer;
 
+  function localInit(params) {
+    // 测试1mb大小local空间
+    try {
+      localStorage.setItem('decert.test', 'a'.repeat(1 * 1024 * 1024));
+      localStorage.removeItem('decert.test');
+    } catch (error) {   
+      var size = 0;
+      for(const item in window.localStorage) {
+        if(window.localStorage.hasOwnProperty(item)) {
+          const itemSize = window.localStorage.getItem(item).length;
+          size += itemSize
+          console.log(item + "===>" + (itemSize / 1024).toFixed(2) + 'KB');
+        }
+      }
+      console.log('当前localStorage已用' + (size / 1024).toFixed(2) + 'KB');
+      localStorage.removeItem("wagmi.cache");
+    }
+  }
+
   // 语种初始化 && cache
   useEffect(() => {
+    localInit()
     let lang
     if (localStorage.getItem("decert.lang")) {
       lang = localStorage.getItem("decert.lang");
@@ -68,6 +88,21 @@ export default function App() {
     i18n.changeLanguage(lang);
     !localStorage.getItem("decert.cache") && localStorage.setItem("decert.cache", JSON.stringify({}))
   },[])
+
+  useEffect(() => {
+    const handleBeforeUnload = (e) => {
+      e.preventDefault();
+      // e.returnValue = ''; // 必须设置一个空字符串，否则浏览器可能会显示默认的提示消息
+      localStorage.removeItem("wagmi.cache");
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      window.removeEventListener('beforeunload', handleBeforeUnload);
+    };
+  }, []);
+
   return (
     <>
       <WagmiConfig client={wagmiClient}>
