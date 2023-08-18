@@ -47,7 +47,7 @@ export default function CustomClaim(props) {
     let [writeLoading, setWriteLoading] = useState();
     const { isLoading } = useWaitForTransaction({
         hash: claimHash,
-        onSuccess() {
+        onSuccess() { 
             // 清除cache
             const cache = JSON.parse(localStorage.getItem('decert.cache'));
             delete cache[cliamObj.tokenId];
@@ -57,7 +57,9 @@ export default function CustomClaim(props) {
             localStorage.setItem("decert.cache", JSON.stringify(cache));
             setCacheIsClaim(true);
             setStep(3)
-        }
+        },
+        cacheTime: 0
+
     })
 
     const { runAsync } = useRequest(shareWechat, {
