@@ -22,17 +22,14 @@ const { chains, provider, webSocketProvider } = configureChains(
     infuraProvider({ apiKey: infura }),
     publicProvider(),
   ],
-  [w3mProvider({ projectId })],
   { targetQuorum: 1 },
 )
-
+const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
 const web3modalClient = createClient({
   autoConnect: true,
-  connectors: [
-    ...w3mConnectors({ projectId, version: 2, chains })
-  ],
-  provider,
-  webSocketProvider,
+  connectors: w3mConnectors({ projectId, chains }),
+  publicClient,
+  // webSocketProvider,
 })
 
 const wagmiClient = createClient({
