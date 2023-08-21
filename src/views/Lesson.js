@@ -447,12 +447,19 @@ export default function Lesson(params) {
                                                 <GetTags tutorial={e} t={t} />
                                             </ul>
                                         </div>
-                                        {
-                                            typeof e.percent === "number" && e?.percent != 0 &&
-                                            <div className="progress">
-                                                {t("progress")} {parseInt(e.percent * 100)}%
+                                        
+                                            
+                                            <div className="position">
+                                                <div className="type">
+                                                    <img src={require(`@/assets/images/icon/${e.docType === "video" ? "icon-video" : "icon-article"}.png`)} alt="" />
+                                                </div>
+                                                {
+                                                    typeof e.percent === "number" && e?.percent != 0 &&
+                                                    <div className="progress">
+                                                        {t("progress")} {parseInt(e.percent * 100)}%
+                                                    </div>
+                                                }
                                             </div>
-                                        }
                                     </div>
                                 </a>
                             )
