@@ -30,6 +30,7 @@ $container-width: 90vw;
     }
     .Cert-sidbar{
         width: 100%;
+        height: calc(100vh - 5.1875rem);
         padding-right: 0rem;
         padding-top: 0rem;
         .search{
