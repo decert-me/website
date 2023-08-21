@@ -184,12 +184,9 @@ export default function User(props) {
     },[checkStatus, checkType])
 
     useEffect(() => {
-        if (address) {
-            isMe = address === account;
-            setIsMe(isMe);
-            init();
-            getList();
-        }
+        isMe = address === account;
+        setIsMe(isMe);
+        getList();
     },[address])
 
     useUpdateEffect(() => {
