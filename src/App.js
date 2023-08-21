@@ -115,8 +115,8 @@ export default function App() {
       <Web3Modal 
         projectId={projectId} 
         ethereumClient={ethereumClient}
-        enableAccountView={false}
-        enableExplorer={false}
+        // enableAccountView={false}
+        // enableExplorer={false}
       />
     </>
   )

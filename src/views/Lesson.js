@@ -201,7 +201,7 @@ export default function Lesson(params) {
 
     // 页面滑动出content区域侧边栏高度改变
     function scrollSidebar() {
-        if (listRef.current) {
+        if (listRef.current && sidebarRef.current) {
             const elementRect = contentRef.current.getBoundingClientRect();
             const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
             if (elementRect.bottom <= viewportHeight) {
