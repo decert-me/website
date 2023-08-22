@@ -2,9 +2,11 @@ import store, { showCustomSigner } from "@/redux/store";
 import { message } from "antd";
 import axios from "axios";
 
+const path = process.env.REACT_APP_NFT_API;
+
 // Client-side-only code
 let nftAxios = axios.create({
-  baseURL: process.env.REACT_APP_NFT_BASE_URL + process.env.REACT_APP_NFT_API,
+  baseURL: process.env.REACT_APP_NFT_BASE_URL + (path || ""),
   timeout: 120000 // 请求超时设置
   //   withCredentials: false, // 跨域请求是否需要携带 cookie
 });
