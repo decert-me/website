@@ -99,12 +99,19 @@ $container-width: 90vw;
                 .img{
                     height: 12.5rem;
                 }
+                .position{
+                    left: .5625rem;
+                    top: .625rem;
+                    gap: .3125rem;
+                    img{
+                        width: 1.5rem;
+                        height: 1.5rem;
+                    }
+                }
                 .progress{
                     height: 1.5rem;
                     padding: .1875rem .375rem;
                     border-radius: .75rem;
-                    left: .5625rem;
-                    top: .625rem;
                     font-size: .75rem;
                     line-height: 1.125rem;
                 }

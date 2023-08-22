@@ -146,13 +146,26 @@
             border: 1px solid #F0F0F0;
             cursor: pointer;
             position: relative;
+            .position{
+                position: absolute;
+                left: 9px;
+                top: 10px;
+                display: flex;
+                gap: 5px;
+                .type{
+                    border-radius: 50%;
+                    background-color: rgba($color: #000, $alpha: 0.4);
+                    backdrop-filter: blur(10px);
+                }
+                img{
+                    width: 24px;
+                    height: 24px;
+                }
+            }
             .progress{
                 height: 24px;
                 padding: 3px 6px;
                 border-radius: 12px;
-                position: absolute;
-                left: 9px;
-                top: 10px;
                 color: #FFFFFF;
                 font-size: 12px;
                 line-height: 18px;

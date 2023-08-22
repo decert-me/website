@@ -75,10 +75,10 @@ export default function AppHeader({ isMobile, user }) {
         {to: "/vitae", label: t("header.cert")}
     ]
 
-    const openModal = () => {
+    const openModal = async() => {
         if (isMobile) {
+            await open({route: "ConnectWallet"})
             setIsOpenM(!isOpenM)
-            open()
             return
         }
         changeConnect();
