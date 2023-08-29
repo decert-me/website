@@ -59,13 +59,13 @@ export default function ChallengeItems({info, goCollection}) {
     return (
         <div className="ChallengeItem" onClick={() => goCollection(info.id)}>
             {
-                collectionInfo.claimable &&
+                collectionInfo.claimable && collectionInfo.questNum !== 0 &&
                 <div className="item-claimable">
                     {t("claimble")}
                 </div>
             }
             {
-                collectionInfo.claimed && 
+                collectionInfo.claimed && collectionInfo.questNum !== 0 && 
                 <div className="item-claimed">
                     {t("explore:pass")}
                 </div>
