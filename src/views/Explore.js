@@ -87,6 +87,8 @@ export default function Explore(params) {
         setChallenges([...challenges]);
         page = 0;
         setPage(page);
+        isOver = false;
+        setIsOver(isOver);
         getChallenge()
     },[location])
 
