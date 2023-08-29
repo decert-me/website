@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import store from "@/redux/store";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import ChallengeItem from "@/components/User/ChallengeItem";
+import ChallengeItems from "@/components/User/ChallengeItems";
 
 export default function Explore(params) {
     
@@ -83,9 +84,15 @@ export default function Explore(params) {
             <div className="challenges" ref={scrollRef}>
                 {
                     challenges.map(item => (
+                        item.style === 1 ?
                         <ChallengeItem
                             key={item.id} 
                             info={item}
+                        />
+                        :
+                        <ChallengeItems 
+                            key={item.id} 
+                            info={item} 
                         />
                     ))
                 }
