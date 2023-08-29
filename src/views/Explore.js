@@ -1,5 +1,4 @@
 import { useEffect, useRef, useState } from "react"
-// import { useNavigate } from "react-router-dom";
 import { getQuests } from "../request/api/public"
 import "@/assets/styles/view-style/explore.scss"
 import "@/assets/styles/mobile/view-style/explore.scss"
@@ -8,12 +7,19 @@ import store from "@/redux/store";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import ChallengeItem from "@/components/User/ChallengeItem";
 import ChallengeItems from "@/components/User/ChallengeItems";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { getCollectionQuest } from "@/request/api/quests";
+import {
+    ArrowLeftOutlined,
+  } from '@ant-design/icons';
 
 export default function Explore(params) {
     
     const { t } = useTranslation(["explore", "translation"]);
-    // const navigateTo = useNavigate();
+    const { id } = useParams();
     const scrollRef = useRef(null);
+    const location = useLocation();
+    const navigateTo = useNavigate();
     
     let [page, setPage] = useState(0);
     const loader = useRef(null);
@@ -30,13 +36,12 @@ export default function Explore(params) {
 
     store.subscribe(handleMobileChange);
     
-    // const goChallenge = (item) => {
-    //     if (item.claimed || item.claimable) {
-    //         navigateTo(`/claim/${item.tokenId}`);
-    //     }else{
-    //         navigateTo(`/quests/${item.tokenId}`);
-    //     }
-    // }
+    const goCollection = (id) => {
+        // challenges = [];
+        // setChallenges([...challenges]);
+        console.log("清空");
+        navigateTo(`/collection/${id}`)
+    }
 
     const getChallenge = async() => {
         if (loading) {
@@ -44,9 +49,15 @@ export default function Explore(params) {
         }
         setLoading(true);
         const cache = localStorage.getItem("decert.cache");
+
         page += 1;
         setPage(page);
-        const res = await getQuests({pageSize: 10, page: page});
+        let res
+        if (id) {
+            res = await getCollectionQuest({id: Number(id)});
+        }else{
+            res = await getQuests({pageSize: 10, page: page});
+        }
         if (res.data.list.length !== 10) {
             setIsOver(true);
         }
@@ -72,12 +83,23 @@ export default function Explore(params) {
     }
 
     useEffect(() => {
+        challenges = [];
+        setChallenges([...challenges]);
+        page = 0;
+        setPage(page);
         getChallenge()
-    },[])
+    },[location])
 
     return (
-        <div className="Explore">
+        <div className="Explore" key={location.pathname}>
             <div className="custom-bg-round"></div>
+            {
+                id && 
+                <div className="back" onClick={() => window.history.go(-1)}>
+                    <ArrowLeftOutlined />
+                    <p>返回</p>
+                </div>
+            }
             {/* title */}
             <h3>{t("title")}</h3>
             {/* Challenge */}
@@ -92,7 +114,8 @@ export default function Explore(params) {
                         :
                         <ChallengeItems 
                             key={item.id} 
-                            info={item} 
+                            info={item}
+                            goCollection={goCollection}
                         />
                     ))
                 }
