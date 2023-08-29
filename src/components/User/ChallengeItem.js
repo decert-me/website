@@ -8,25 +8,20 @@ import { useTranslation } from "react-i18next";
 import { convertTime } from "@/utils/convert";
 import MyContext from '@/provider/context';
 import { useContext } from 'react';
-import { tokenSupply } from '@/controller';
-import { useSigner } from 'wagmi';
 import { message } from 'antd';
 
 export default function ChallengeItem(props) {
     
-    const { data: signer } = useSigner();
     const { info, profile } = props;
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
     const [messageApi, contextHolder] = message.useMessage();
-    // const { ipfsPath, defaultImg, openseaLink } = constans(checkType === 1 ? true : false);
     const { ipfsPath, defaultImg, openseaLink } = constans(profile?.checkType);
     const arr = [0, 1, 2];
 
 
     const toQuest = () => {
-        // if (profile?.isMe && info.complete_ts) {
         if (info?.claimable || info?.claimed) {
             // 个人查看完成的挑战
             navigateTo(`/claim/${info.tokenId}`)

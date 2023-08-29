@@ -10,6 +10,16 @@ export const getChallengers = (data) => {
     })
 }
 
+export const getCollectionQuest = (data) => {
+    return serviceAxios({
+        url: `/quests/collection?id=${data.id}`,
+        method: "get",
+        data
+    })
+}
+
+// 
+
 // 代码题 
 
 // 代码自测
