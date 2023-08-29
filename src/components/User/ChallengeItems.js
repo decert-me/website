@@ -10,7 +10,7 @@ import { getCollectionQuest } from "@/request/api/quests";
 import { useNavigate } from "react-router-dom";
 
 
-export default function ChallengeItems({info}) {
+export default function ChallengeItems({info, goCollection}) {
     
 
     const navigateTo = useNavigate();
@@ -57,7 +57,7 @@ export default function ChallengeItems({info}) {
     },[])
 
     return (
-        <div className="ChallengeItem" onClick={() => navigateTo(`/challenges/${info.id}`)}>
+        <div className="ChallengeItem" onClick={() => goCollection(info.id)}>
             {
                 collectionInfo.claimable &&
                 <div className="item-claimable">

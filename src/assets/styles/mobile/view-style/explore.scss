@@ -3,6 +3,18 @@
         width: 21.875rem;
         min-height: 100vh;
         padding-top: 5.625rem;
+        .back{
+          position: absolute;
+          display: flex;
+          align-items: center;
+          top: 4.3375rem;
+          font-size: .75rem;
+          cursor: pointer;
+          .anticon{
+            margin-right: .3125rem;
+            font-size: 1rem;
+          }
+        }
         // title
         h3 {
           margin-bottom: 1.25rem;

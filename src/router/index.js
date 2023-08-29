@@ -21,6 +21,10 @@ const routes = [
       element: <Explore />,
     },
     { 
+      path: "/collection/:id",
+      element: <Explore />,
+    },
+    { 
       path: "/publish",
       element: <Publish />,
     },
