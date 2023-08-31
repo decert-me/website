@@ -97,7 +97,7 @@ export default function Explore(params) {
             <div className="custom-bg-round"></div>
             {
                 id && 
-                <div className="back" onClick={() => window.history.go(-1)}>
+                <div className="back" onClick={() => navigateTo("/challenges")}>
                     <ArrowLeftOutlined />
                     <p>返回</p>
                 </div>
