@@ -106,15 +106,6 @@ export default function Explore(params) {
             <h3>{t("title")}</h3>
             {/* Challenge */}
             <div className="challenges" ref={scrollRef}>
-                    {
-                        challenges.map(item => (
-                            <ChallengeItem
-                                key={item.id} 
-                                info={item}
-                            />
-                        ))
-                    }
-
                 {
                     challenges.map(item => (
                         item.style === 1 ?
