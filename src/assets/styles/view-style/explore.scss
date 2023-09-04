@@ -3,6 +3,19 @@
     padding-top: 170px;
     margin: 0 auto;
     font-family: Source;
+    position: relative;
+    .back{
+      position: absolute;
+      display: flex;
+      align-items: center;
+      top: 95px;
+      font-size: 20px;
+      cursor: pointer;
+      .anticon{
+        margin-right: 11px;
+        font-size: 30px;
+      }
+    }
     // title
     h3 {
       margin-bottom: 80px;
