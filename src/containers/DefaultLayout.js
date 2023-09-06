@@ -194,8 +194,9 @@ export default function DefaultLayout(params) {
     // },[address])
     
     useUpdateEffect(() => {
-        if (status === "disconnected") {
+        if (status === "disconnected" && localStorage.getItem("decert.token")) {
             ClearStorage();
+            navigateTo(0);
         }
     },[status])
 
