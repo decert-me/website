@@ -6,7 +6,7 @@ import AppFooter from "./AppFooter";
 import { useContext, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
-import { useRequest } from "ahooks";
+import { useRequest, useUpdateEffect } from "ahooks";
 import CustomSigner from "@/redux/CustomSigner";
 import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
@@ -192,8 +192,12 @@ export default function DefaultLayout(params) {
     //     // !address && localStorage.getItem("wagmi.connected") && navigateTo(0)
     //     console.log(status);
     // },[address])
-
     
+    useUpdateEffect(() => {
+        if (status === "disconnected") {
+            ClearStorage();
+        }
+    },[status])
 
     return (
         <Layout className={isMobile ? "Mobile" : ""}>
