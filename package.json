@@ -42,6 +42,8 @@
     "ethers": "^5.7.2",
     "file-loader": "^6.2.0",
     "fs-extra": "^10.0.0",
+    "github-markdown-css": "^5.2.0",
+    "highlight.js": "^11.8.0",
     "html-webpack-plugin": "^5.5.0",
     "i18next": "^22.4.9",
     "identicon.js": "^2.3.3",

@@ -5,7 +5,6 @@ import { Editor } from '@bytemd/react'
 import frontmatter from '@bytemd/plugin-frontmatter'
 import highlight from '@bytemd/plugin-highlight-ssr'
 import breaks from '@bytemd/plugin-breaks'
-import 'bytemd/dist/index.css'
 import 'highlight.js/styles/default.css'
 import importHtml from '@bytemd/plugin-import-html';
 import zh_Hans from 'bytemd/locales/zh_Hans.json'
