@@ -59,7 +59,7 @@ export default function Explore(params) {
             res = await getQuests({pageSize: 10, page: page});
         }
         challenges = challenges.concat(res.data.list);
-        if (challenges.length === res.data.total) {
+        if (challenges.length === res.data.total || id) {
             setIsOver(true);
         }
         if (cache) {
