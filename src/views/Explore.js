@@ -58,10 +58,10 @@ export default function Explore(params) {
         }else{
             res = await getQuests({pageSize: 10, page: page});
         }
-        if (res.data.list.length !== 10 || !res.data.list) {
+        challenges = challenges.concat(res.data.list);
+        if (challenges.length === res.data.total) {
             setIsOver(true);
         }
-        challenges = challenges.concat(res.data.list);
         if (cache) {
             const claimable = JSON.parse(cache)?.claimable;
             if (claimable && claimable.length > 0) {
