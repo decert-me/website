@@ -58,7 +58,7 @@ export default function Explore(params) {
         }else{
             res = await getQuests({pageSize: 10, page: page});
         }
-        if (res.data.list.length !== 10) {
+        if (res.data.list.length !== 10 || !res.data.list) {
             setIsOver(true);
         }
         challenges = challenges.concat(res.data.list);
