@@ -87,9 +87,6 @@ export default function CustomCompleted(props) {
                         add_ts
                     })
                 }
-            }else{
-                const index = claimable.findIndex(e => e.token_id == tokenId);
-                claimable.splice(index,1);
             }
             cache.claimable = claimable;
             localStorage.setItem("decert.cache", JSON.stringify(cache))

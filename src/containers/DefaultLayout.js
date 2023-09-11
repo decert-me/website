@@ -6,11 +6,12 @@ import AppFooter from "./AppFooter";
 import { useContext, useEffect, useState } from "react";
 import { useAccount } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
-import { useRequest } from "ahooks";
+import { useRequest, useUpdateEffect } from "ahooks";
 import CustomSigner from "@/redux/CustomSigner";
 import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
+import { useWeb3Modal } from "@web3modal/react";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
@@ -19,6 +20,7 @@ export default function DefaultLayout(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
     const { isMobile, user } = useContext(MyContext);
+    const { close } = useWeb3Modal();
     const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
     let [headerHide, setHeaderHide] = useState(false);
@@ -28,7 +30,9 @@ export default function DefaultLayout(params) {
             // 已登陆  ====>  未登录
             console.log("断开链接");
             const path = location.pathname;
-            ClearStorage();
+            if (!isMobile) {
+                ClearStorage();
+            }
             isClaim(path);
             isExplore(path);
             isCert(path, 'signout');
@@ -112,7 +116,10 @@ export default function DefaultLayout(params) {
     }
 
     const verifySignUpType = async(addr, path) => {
-        if (addr === null && address) {
+        if (address && isMobile && localStorage.getItem("decert.token")) {
+            close()
+        }
+        if (addr === null && address) { 
             // 未登录  ====>  登录
             localStorage.setItem("decert.address", address);
             await sign()
@@ -185,8 +192,13 @@ export default function DefaultLayout(params) {
     //     // !address && localStorage.getItem("wagmi.connected") && navigateTo(0)
     //     console.log(status);
     // },[address])
-
     
+    useUpdateEffect(() => {
+        if (status === "disconnected" && localStorage.getItem("decert.token")) {
+            ClearStorage();
+            navigateTo(0);
+        }
+    },[status])
 
     return (
         <Layout className={isMobile ? "Mobile" : ""}>

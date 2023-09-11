@@ -188,7 +188,7 @@ export default function Lesson(params) {
 
     // 页面滑动出content区域侧边栏高度改变
     function scrollSidebar() {
-        if (listRef.current) {
+        if (listRef.current && sidebarRef.current) {
             const elementRect = contentRef.current.getBoundingClientRect();
             const viewportHeight = window.innerHeight || document.documentElement.clientHeight;
             if (elementRect.bottom <= viewportHeight) {
@@ -477,12 +477,19 @@ export default function Lesson(params) {
                                                 <GetTags tutorial={e} tags={tags} />
                                             </ul>
                                         </div>
-                                        {
-                                            typeof e.percent === "number" && e?.percent != 0 &&
-                                            <div className="progress">
-                                                {t("progress")} {parseInt(e.percent * 100)}%
+                                        
+                                            
+                                            <div className="position">
+                                                <div className="type">
+                                                    <img src={require(`@/assets/images/icon/${e.docType === "video" ? "icon-video" : "icon-article"}.png`)} alt="" />
+                                                </div>
+                                                {
+                                                    typeof e.percent === "number" && e?.percent != 0 &&
+                                                    <div className="progress">
+                                                        {t("progress")} {parseInt(e.percent * 100)}%
+                                                    </div>
+                                                }
                                             </div>
-                                        }
                                     </div>
                                 </a>
                             )

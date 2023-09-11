@@ -3,7 +3,7 @@ import {
     TwitterOutlined,
     DownOutlined
 } from '@ant-design/icons';
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import "@/assets/styles/view-style/index.scss"
 import "@/assets/styles/mobile/view-style/index.scss"
 import { useTranslation } from "react-i18next";
@@ -18,8 +18,10 @@ export default function Index(params) {
     const navigateTo = useNavigate();
     const { t } = useTranslation();
     const { isMobile } = useContext(MyContext);
+    const location = useLocation();
     let [contributor, setContributor] = useState([]);
     let [count, setCount] = useState(8);    // 贡献者下拉
+    let [hide, setHide] = useState(false);  //  隐藏
 
     const partner = [
         "home-upchain",
@@ -66,7 +68,6 @@ export default function Index(params) {
         }
     }
 
-        
         // // 输入数据和密钥
         // const data = 'Hello, world!';
         // const secretKey = 'mySecretKey';
@@ -90,27 +91,25 @@ export default function Index(params) {
         getContributor();
     },[])
 
-
-    // function test(event) {
-    //         // Cancel the event as stated by the standard.
-    //         // 添加上 会出现弹窗，不添加则会静默执行回调函数内的任务，下面同这条类似作用，只是处理兼容问题
-    //         event.preventDefault();
-    //         // Chrome requires returnValue to be set.
-    //         event.returnValue = '';
-    // }
-
-
-    // useEffect(() => {
-    //     window.addEventListener('beforeunload', test);
-    //     return () => {
-    //         window.removeEventListener("beforeunload", test);
-    //     }
-    // },[])
+    useEffect(() => {
+        const timestamp = new Date().getTime();
+        hide = timestamp > 1693497600000;
+        setHide(hide);
+    },[location])
 
     return (
         <div className="Home ">
             <div className="custom-bg-round"></div>
             <div className="main">
+                {/* gitcoin */}
+                {
+                    !hide &&
+                    <div className="global-prompt">
+                        <p onClick={() => window.open("https://learnblockchain.cn/article/6414")}>
+                            {t("home.global-prompt")}<a href="https://learnblockchain.cn/article/6414" target="_blank">{t("home.jump")}</a> &gt;&gt;
+                        </p>
+                    </div>
+                }
                 <div className="main-center">
                     <div className="main-header">
                         <div className={`describe ${i18n.language === "zh-CN" ? "fs-big" : ""}`}>

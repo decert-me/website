@@ -30,6 +30,7 @@ $container-width: 90vw;
     }
     .Cert-sidbar{
         width: 100%;
+        min-height: calc(100vh - 5.1875rem);
         padding-right: 0rem;
         padding-top: 0rem;
         .search{
@@ -113,7 +114,7 @@ $container-width: 90vw;
         }
         .nfts{
             width: 100%;
-            min-height: 25rem;
+            height: calc(100vh - (1.5625rem * 2) - 5.625rem - 1.25rem - 2.75rem - 1.625rem - 0.9375rem - 2.9375rem - 1.875rem - 5.1875rem - 1rem);
             .add{
                 margin-bottom: .875rem;
                 font-size: 1.125rem;
@@ -129,7 +130,7 @@ $container-width: 90vw;
                 }
             }
             ul{
-                max-height: 25vh;
+                max-height: 100%;
                 li{
                     height: 2.875rem;
                     padding: .3125rem;

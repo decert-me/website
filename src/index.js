@@ -3,6 +3,9 @@ import ReactDOM from 'react-dom/client';
 import "./assets/locales/config";
 import 'antd/dist/reset.css';
 import '@/assets/styles/index.css';
+import 'highlight.js/styles/vs.css';
+import 'github-markdown-css/github-markdown-light.css';
+import 'bytemd/dist/index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 

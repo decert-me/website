@@ -1,5 +1,4 @@
 import { CloseOutlined, EditOutlined } from '@ant-design/icons';
-import { Viewer } from '@bytemd/react'
 import { Divider, Popconfirm } from 'antd';
 import { useTranslation } from 'react-i18next';
 
