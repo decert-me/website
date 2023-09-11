@@ -3,7 +3,7 @@ import serverConfig from "./config.js";
 
 // Client-side-only code
 let adminAxios = axios.create({
-  baseURL: process.env.REACT_APP_ADMIN_BASE_URL + "/v1",
+  baseURL: process.env.REACT_APP_BASE_URL + "/api/v1",
   timeout: 120000 // 请求超时设置
   //   withCredentials: false, // 跨域请求是否需要携带 cookie
 });

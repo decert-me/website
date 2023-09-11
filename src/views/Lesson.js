@@ -258,7 +258,7 @@ export default function Lesson(params) {
     async function getTags(obj) {
         return await getLabelList(obj)
         .then(res => {
-            if (res.code === 0) {
+            if (res.status === 0) {
                 const list = res.data;
                 return list ? list : [];
             }
@@ -270,7 +270,7 @@ export default function Lesson(params) {
             ...pageConfig, status: 2, ...(obj !== undefined && obj)
         })
         .then(res => {
-            if (res.code === 0) {
+            if (res.status === 0) {
                 const list = res.data.list;
                 if (list.length !== 20) {
                     setIsOver(true);

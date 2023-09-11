@@ -10,7 +10,7 @@ export const getTutorialList = (data) => {
 
 export const getLabelList = (data) => {
     return adminAxios({
-        url: `/label/getLabelList`,
+        url: `/tutorial/getLabelList`,
         method: "post",
         data
     })
