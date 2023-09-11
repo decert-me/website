@@ -40,8 +40,8 @@ Date.prototype.Format = function(fmt) {
   }
 
   export function totalTime(time) {
-    const s = time / 1000;    //  秒
-    const m = Math.floor(s / 60);    //  分
+    console.log(time);
+    const m = time;    //  分
     const hours = Math.floor(m / 60);
     const mins = m % 60;
 
