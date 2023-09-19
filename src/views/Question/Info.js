@@ -39,7 +39,7 @@ export default function Info(props) {
                     <p className="title mt13">{t("explore:creator")}</p>
                     <div className="info-content">
                         <Link to={{pathname: `/user/${user.address}`, search: "to=created"}}>
-                            <div className="img">
+                            <div className="img avatar">
                                 <img src={avatar(user)} alt="" />
                             </div>
                         </Link>
