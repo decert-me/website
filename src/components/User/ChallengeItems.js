@@ -8,6 +8,7 @@ import { LazyLoadImage } from "react-lazy-load-image-component";
 import { constans } from "@/utils/constans";
 import { getCollectionQuest } from "@/request/api/quests";
 import { useNavigate } from "react-router-dom";
+import { hashAvatar } from "@/utils/HashAvatar";
 
 
 export default function ChallengeItems({info, goCollection}) {
@@ -94,6 +95,12 @@ export default function ChallengeItems({info, goCollection}) {
                     <p className="desc newline-omitted">
                         {info.description}
                     </p>
+                </div>
+                <div className="collection-author">
+                    <div className="img">
+                        <img src={info.author_info.avatar ? process.env.REACT_APP_BASE_URL + info.author_info.avatar : hashAvatar(info.author_info.address)} alt="" />
+                    </div>
+                    <p>{info.author_info.nickname}</p>
                 </div>
                 <div className="sbt-detail">
                     <div className='flex'>
