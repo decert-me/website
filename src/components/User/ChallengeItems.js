@@ -97,9 +97,12 @@ export default function ChallengeItems({info, goCollection}) {
                     </p>
                 </div>
                 <div className="collection-author">
-                    <div className="img">
-                        <img src={info.author_info.avatar ? process.env.REACT_APP_BASE_URL + info.author_info.avatar : hashAvatar(info.author_info.address)} alt="" />
-                    </div>
+                    {
+                        info.author_info.avatar &&
+                        <div className="img">
+                            <img src={process.env.REACT_APP_BASE_URL + info.author_info.avatar} alt="" />
+                        </div>
+                    }
                     <p>{info.author_info.nickname}</p>
                 </div>
                 <div className="sbt-detail">
