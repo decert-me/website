@@ -4,7 +4,7 @@ import {
     WechatOutlined,
     CloseOutlined
 } from '@ant-design/icons';
-import { getClaimHash, submitHash } from "../../request/api/public";
+import { getClaimHash, getQuests, submitHash } from "../../request/api/public";
 import { claim } from "../../controller";
 import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
@@ -65,6 +65,10 @@ export default function CustomClaim(props) {
     const { runAsync } = useRequest(shareWechat, {
         debounceWait: 500,
         manual: true
+    });
+
+    const { data, run, cancel } = useRequest(refetch, {
+        pollingInterval: 3000,
     });
 
     const goclaim = async() => {
@@ -148,8 +152,18 @@ export default function CustomClaim(props) {
         );
     }
 
+    // 轮询获取当前详情
+    async function refetch(params) {
+        const res = await getQuests({id: cliamObj.tokenId});
+        if (res.data.claimed) {
+            setCacheIsClaim(true);
+            cancel()        
+        }
+    }
+
     function airpost(params) {
-        runAsync()
+        runAsync();
+        run();
     }
 
     useEffect(() => {
