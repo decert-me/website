@@ -241,7 +241,7 @@ export default function CustomClaim(props) {
                 </>
             } */}
             {
-                step !== 2 ? 
+                step < 2 ? 
                     t("claim.btn")
                 :
                 isClaim || cacheIsClaim ? 
