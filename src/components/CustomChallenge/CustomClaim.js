@@ -4,7 +4,7 @@ import {
     WechatOutlined,
     CloseOutlined
 } from '@ant-design/icons';
-import { getClaimHash, submitHash } from "../../request/api/public";
+import { getClaimHash, getQuests, submitHash } from "../../request/api/public";
 import { claim } from "../../controller";
 import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
@@ -65,6 +65,10 @@ export default function CustomClaim(props) {
     const { runAsync } = useRequest(shareWechat, {
         debounceWait: 500,
         manual: true
+    });
+
+    const { data, run, cancel } = useRequest(refetch, {
+        pollingInterval: 3000,
     });
 
     const goclaim = async() => {
@@ -148,15 +152,45 @@ export default function CustomClaim(props) {
         );
     }
 
+    // 轮询获取当前详情
+    async function refetch(params) {
+        const res = await getQuests({id: cliamObj.tokenId});
+        if (res.data.claimed) {
+            const cache = JSON.parse(localStorage.getItem('decert.cache'));
+            delete cache[cliamObj.tokenId];
+            if (cache?.claimable) {
+                cache.claimable = cache.claimable.filter(obj => obj.token_id != cliamObj.tokenId);
+            }
+            localStorage.setItem("decert.cache", JSON.stringify(cache));
+            setCacheIsClaim(true);
+            setStep(3)
+            cancel()        
+        }
+    }
+
+    function airpost(params) {
+        runAsync();
+        run();
+    }
+
     useEffect(() => {
         if (isSwitch && switchNetwork) {
             switchNetwork()
         }
     },[switchNetwork, isSwitch])
+    
+    useEffect(() => {
+        step === 2 && airpost()
+    },[step])
 
     return (
-        <div className={`CustomBox ${step === 2 ? "checked-step" : ""} ${isClaim || cacheIsClaim ? "" : "CustomCliam" } step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}>
-            <ModalLoading 
+        //  css:  ${isClaim || cacheIsClaim ? "" : "CustomCliam" }
+        <div className={`CustomBox ${step === 2 ? "checked-step" : ""} step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}
+            style={{
+                justifyContent: "center"
+            }}
+        >
+            {/* <ModalLoading 
                 isModalOpen={isModalOpen}
                 handleCancel ={handleCancel}
                 isLoading={isLoading}
@@ -226,6 +260,15 @@ export default function CustomClaim(props) {
                     </div>
                     
                 </>
+            } */}
+            {
+                step < 2 ? 
+                    t("claim.btn")
+                :
+                isClaim || cacheIsClaim ? 
+                    t("claim.claimed")
+                :
+                    "等待空投..."
             }
         </div>
     )

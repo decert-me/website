@@ -77,7 +77,7 @@ export default function CustomCompleted(props) {
             }
 
             const cache = JSON.parse(localStorage.getItem("decert.cache"));
-            const claimable = cache?.claimable ? cache.claimable : [];
+            let claimable = cache?.claimable ? cache.claimable : [];
             if (answerInfo.isPass) {
                 setShowConfetti(true);
                 if (!claimable.some(item => item.token_id == tokenId)) {
@@ -87,6 +87,9 @@ export default function CustomCompleted(props) {
                         add_ts
                     })
                 }
+            }else{
+                // 未通过，查找cache中是否有该缓存，有则清除
+                claimable = claimable.filter(e => e.token_id !== Number(tokenId));
             }
             cache.claimable = claimable;
             localStorage.setItem("decert.cache", JSON.stringify(cache))
