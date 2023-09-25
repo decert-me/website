@@ -148,15 +148,28 @@ export default function CustomClaim(props) {
         );
     }
 
+    function airpost(params) {
+        runAsync()
+    }
+
     useEffect(() => {
         if (isSwitch && switchNetwork) {
             switchNetwork()
         }
     },[switchNetwork, isSwitch])
+    
+    useEffect(() => {
+        step === 2 && airpost()
+    },[step])
 
     return (
-        <div className={`CustomBox ${step === 2 ? "checked-step" : ""} ${isClaim || cacheIsClaim ? "" : "CustomCliam" } step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}>
-            <ModalLoading 
+        //  css:  ${isClaim || cacheIsClaim ? "" : "CustomCliam" }
+        <div className={`CustomBox ${step === 2 ? "checked-step" : ""} step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}
+            style={{
+                justifyContent: "center"
+            }}
+        >
+            {/* <ModalLoading 
                 isModalOpen={isModalOpen}
                 handleCancel ={handleCancel}
                 isLoading={isLoading}
@@ -226,6 +239,15 @@ export default function CustomClaim(props) {
                     </div>
                     
                 </>
+            } */}
+            {
+                step !== 2 ? 
+                    t("claim.btn")
+                :
+                isClaim || cacheIsClaim ? 
+                    t("claim.claimed")
+                :
+                    "等待空投..."
             }
         </div>
     )
