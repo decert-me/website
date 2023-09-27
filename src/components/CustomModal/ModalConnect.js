@@ -2,13 +2,15 @@ import { Divider, Modal } from "antd";
 import { useAccount, useConnect } from "wagmi";
 import { useIsMounted } from '@/hooks/useIsMounted'
 import "@/assets/styles/component-style"
+import { constans } from "@/utils/constans";
 
 export default function ModalConnect(props) {
 
     const { isModalOpen, handleCancel } = props;
+    const { defaultChainId } = constans();
     const isMounted = useIsMounted();
     const { connect, connectors } = useConnect({
-        chainId: Number(process.env.REACT_APP_CHAIN_ID)
+        chainId: defaultChainId
     });
     const { connector, isReconnecting } = useAccount({
         onConnect() {

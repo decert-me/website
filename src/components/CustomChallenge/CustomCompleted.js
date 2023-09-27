@@ -11,14 +11,16 @@ import CustomClaimInfo from "./CustomClaimInfo";
 import CustomClaimStep from "./CustomClaimStep";
 import { useBadgeContract } from "@/controller/contract";
 import Confetti from "react-confetti";
+import { constans } from "@/utils/constans";
 
 
 export default function CustomCompleted(props) {
     
     const { answers, detail, tokenId, isClaim } = props;
+    const { defaultChainId } = constans();
     const { verify } = useVerifyToken();
     const { data: signer } = useSigner({
-        chainId: Number(process.env.REACT_APP_CHAIN_ID)
+        chainId: defaultChainId
     });
     const { address, isConnected } = useAccount();
     const { decode } = Encryption();

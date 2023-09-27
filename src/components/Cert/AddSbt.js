@@ -16,11 +16,13 @@ import { useNavigate } from "react-router-dom";
 import InfiniteScroll from "../InfiniteScroll";
 import CustomLoading from "../CustomLoading";
 import { covertChain } from "@/utils/convert";
+import { constans } from "@/utils/constans";
 const { Option } = Select;
 
 export default function AddSbt(props) {
     
     const { handleCancel, isMobile } = props;
+    const { ipfsGateway } = constans();
     const scrollRef = useRef(null);
     const navigateTo = useNavigate();
     const { t } = useTranslation(["translation", "cert"]);
@@ -34,8 +36,8 @@ export default function AddSbt(props) {
     let [list, setList] = useState([]);
     let [cache, setCache] = useState([]);
     let [gateway, setGateway] = useState(
-          process.env.REACT_APP_IPFS_GATEWAY
-          );
+        ipfsGateway
+    );
   
       let [addIds, setAddIds] = useState([]);
       let [deleteIds, setDeleteIds] = useState([]);

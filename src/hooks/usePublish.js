@@ -15,6 +15,7 @@ import { useUpdateEffect } from "ahooks";
 export const usePublish = (props) => {
 
     const { jsonHash, recommend, changeId } = props;
+    const { defaultChainId } = constans();
     const { chain } = useNetwork();
     const { data: signer } = useSigner();
     const { verify } = useVerifyToken();
@@ -22,7 +23,7 @@ export const usePublish = (props) => {
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
     const { switchNetwork } = useSwitchNetwork({
-        chainId: Number(process.env.REACT_APP_CHAIN_ID),
+        chainId: defaultChainId,
         onError() {
             setIsSwitch(false);
         },
@@ -112,7 +113,7 @@ export const usePublish = (props) => {
             return
         }
         // 链不同
-        if (chain.id != process.env.REACT_APP_CHAIN_ID) {
+        if (chain.id != defaultChainId) {
             setIsSwitch(true);
             return
         }

@@ -17,10 +17,12 @@ import { useNavigate } from "react-router-dom";
 import { modalNotice } from "@/utils/modalNotice";
 import { QRCodeSVG } from "qrcode.react";
 import { useRequest } from "ahooks";
+import { constans } from "@/utils/constans";
 
 export default function CustomClaim(props) {
     
     const { step, setStep, cliamObj, img, shareWechat, isClaim, isMobile } = props;
+    const { defaultChainId } = constans();
     const { t } = useTranslation(["claim", "translation"]);
     const navigateTo = useNavigate();
     const { chain } = useNetwork();
@@ -30,7 +32,7 @@ export default function CustomClaim(props) {
     let [link, setLink] = useState("");
 
     const { switchNetwork } = useSwitchNetwork({
-        chainId: Number(process.env.REACT_APP_CHAIN_ID),
+        chainId: defaultChainId,
         onError(error) {
             setIsSwitch(false);
         },
@@ -73,7 +75,7 @@ export default function CustomClaim(props) {
 
     const goclaim = async() => {
 
-        if (chain.id != process.env.REACT_APP_CHAIN_ID) {
+        if (chain.id != defaultChainId) {
             setIsSwitch(true);
             return
         }
