@@ -26,7 +26,7 @@ export const getCollectionQuest = (data) => {
 
 export const codeRun = (data) => {
     return codingAxios({
-        url: `/run/tryRun`,
+        url: `/v1/run/tryRun`,
         method: "post",
         data
     })
@@ -34,7 +34,7 @@ export const codeRun = (data) => {
 
 export const codeTest = (data) => {
     return codingAxios({
-        url: `/run/tryTestRun`,
+        url: `/v1/run/tryTestRun`,
         method: "post",
         data
     })
