@@ -134,13 +134,22 @@ export default function Index(params) {
                         </div>
 
                         {/* list */}
-                        <div className="listImg img">
-                            {
-                                i18n.language !== "zh-CN" ? 
-                                <img src={require("@/assets/images/img/home-img1-en.png")} alt="" />
-                                :
-                                <img src={require("@/assets/images/img/home-img1.png")} alt="" />
-                        }
+                        <div className="listImg">
+                            <div className="type">
+                                <img src={require("@/assets/images/img/home-tutorials.png")} alt="" />
+                            </div>
+                            <div className="arrow">
+                                <img src={require("@/assets/images/img/home-arrow.png")} alt="" />
+                            </div>
+                            <div className="type">
+                                <img src={require("@/assets/images/img/home-challenges.png")} alt="" />
+                            </div>
+                            <div className="arrow">
+                                <img src={require("@/assets/images/img/home-arrow.png")} alt="" />
+                            </div>
+                            <div className="type">
+                                <img src={require("@/assets/images/img/home-vitae.png")} alt="" />
+                            </div>
                         </div>
 
                         {/* 愿景 */}
