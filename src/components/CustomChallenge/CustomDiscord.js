@@ -116,7 +116,7 @@ export default function CustomDiscord(props) {
                                 disabled={!step >= 1} 
                                 id={step >= 1 ? "hover-btn-ghost" : ""} 
                                 onClick={() => 
-                                    window.open(`https://discord.com/invite/WR3uxWad7B`, "_blank")
+                                    window.open(`https://discord.com/invite/${process.env.REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_LINK}`, "_blank")
                                 }>
                                 {t("discord.bind")}
                             </Button>
