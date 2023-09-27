@@ -106,7 +106,7 @@ export default function Claim(props) {
     return (
         <div className="Claim">
             {
-                detail && isChange && ( !isClaim || isClaim && address )  ?
+                detail && isChange && ( !isClaim || isClaim && address ) ?
                 <CustomCompleted 
                     answers={answers} 
                     detail={detail} 
