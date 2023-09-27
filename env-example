@@ -17,4 +17,5 @@ REACT_APP_IPFS_TEPL=""
 
 REACT_APP_INFURA_API_KEY="9aa3d95b3bc440fa88ea12eaa4456161"
 
-REACT_APP_IPFS_GATEWAY=""
+# ipfs网关默认为: "https://nftscan.mypinata.cloud/ipfs/"
+# REACT_APP_IPFS_GATEWAY=""

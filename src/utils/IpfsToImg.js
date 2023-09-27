@@ -3,10 +3,10 @@ import { constans } from "./constans";
 
 
 export const ipfsToImg = (e) => {
-    let gateway = process.env.REACT_APP_IPFS_GATEWAY;
-    // let gateway = "https://dweb.link/ipfs/";
 
-    const { defaultImg } = constans();
+    const { defaultImg, ipfsGateway } = constans();
+
+    let gateway = ipfsGateway;
     const url = e.image_uri;
     const contractUrl = e.contract_logo;
     let type = "img";
