@@ -14,7 +14,7 @@ import { Web3Modal } from '@web3modal/react'
 import * as Sentry from "@sentry/react";
 
 Sentry.init({
-  dsn: "https://o4505753108283392.ingest.sentry.io/4505753137512448",
+  dsn: process.env.REACT_APP_SENTRY_KEY,
   integrations: [
     new Sentry.BrowserTracing({
       // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
