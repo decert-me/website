@@ -18,11 +18,13 @@ import { useTranslation } from "react-i18next";
 import { useUpdateEffect } from "ahooks";
 import Paginations from "@/components/User/Pagination";
 import MyContext from "@/provider/context";
+import { constans } from "@/utils/constans";
 
 
 export default function User(props) {
     
     const { t } = useTranslation(["translation","profile", "explore"]);
+    const { imgPath } = constans();
     const navigateTo = useNavigate();
     const { user } = useContext(MyContext);
     const { address } = useAccount();
@@ -138,7 +140,7 @@ export default function User(props) {
             nickname: user.data.nickname ? user.data.nickname : NickName(account),
             address: account,
             description: user.data.description,
-            avatar: user.data.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(account),
+            avatar: user.data.avatar ? imgPath + user.data.avatar : hashAvatar(account),
             socials: user.data.socials
         }
         setTimeout(() => {

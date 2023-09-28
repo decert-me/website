@@ -14,7 +14,7 @@ export const ipfsToImg = (e) => {
     let selectValue = "";
 
     if (!url) {
-        selectValue = process.env.REACT_APP_NFT_BASE_URL+e.contract_logo;
+        selectValue = process.env.REACT_APP_NFT_BASE_URL+"/v1"+e.contract_logo;
     }else if (!url && !contractUrl) {
         selectValue = defaultImg;
     }else {

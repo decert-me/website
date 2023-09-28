@@ -14,6 +14,7 @@ import { getUser, putUser } from "@/request/api/public";
 import { UploadAvatarProps } from "@/utils/UploadProps";
 import { useTranslation } from "react-i18next";
 import { changeConnect } from "@/utils/redux";
+import { constans } from "@/utils/constans";
 const { TextArea } = Input;
 
 export default function UserEdit(params) {
@@ -25,6 +26,7 @@ export default function UserEdit(params) {
      * 4. 提交
      */
     const { address, isConnected } = useAccount();
+    const { imgPath } = constans();
     const { t } = useTranslation(["translation","profile"]);
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -103,7 +105,7 @@ export default function UserEdit(params) {
             nickname: user?.nickname ? user.nickname : NickName(account),
             address: account,
             description: user?.description ? user.description : "",
-            avatar: user?.avatar ? process.env.REACT_APP_BASE_URL + user.avatar : hashAvatar(account)
+            avatar: user?.avatar ? imgPath + user.avatar : hashAvatar(account)
         }
         setInfo({...info});
         console.log(info);

@@ -15,7 +15,7 @@ export default function ChallengeItems({info, goCollection}) {
     
 
     const navigateTo = useNavigate();
-    const { ipfsPath } = constans();
+    const { ipfsPath, imgPath } = constans();
     const { t } = useTranslation(["profile", "explore"]);
     let [collectionInfo, setCollectionInfo] = useState({
         questNum: 0, claimable: false, claimed: false
@@ -100,7 +100,7 @@ export default function ChallengeItems({info, goCollection}) {
                     {
                         info.author_info.avatar &&
                         <div className="img">
-                            <img src={process.env.REACT_APP_BASE_URL + info.author_info.avatar} alt="" />
+                            <img src={imgPath + info.author_info.avatar} alt="" />
                         </div>
                     }
                     <p>{info.author_info.nickname}</p>
