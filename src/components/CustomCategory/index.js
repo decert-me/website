@@ -2,6 +2,7 @@ import { forwardRef, useImperativeHandle, useState } from "react";
 import "./index.scss"
 import { useUpdateEffect } from "ahooks";
 import { useTranslation } from "react-i18next";
+import i18n from 'i18next';
 
 function CustomCategory(props, ref) {
     
@@ -22,7 +23,7 @@ function CustomCategory(props, ref) {
     const [isActive, setIsActive] = useState(true);
 
     function handleSelect(item) {
-        const index = selectItems.findIndex(e => e.key === item.key);
+        const index = selectItems.findIndex(e => e.ID === item.ID);
         if (index === -1) {
             selectItems.push(item);
         }else{
@@ -66,11 +67,12 @@ function CustomCategory(props, ref) {
                 {
                     items.map(item =>
                         <div 
-                            key={item.key}
-                            className={`item ${selectItems.some(e => e.key === item.key) ? "item-active" : ""}`}
+                            key={item.ID}
+                            className={`item ${selectItems.some(e => e.ID === item.ID) ? "item-active" : ""}`}
                             onClick={() => handleSelect(item)}
                         >
-                            {t(`tutorial.${item.label}`)} <img src={require(`@/assets/images/icon/icon-${selectItems.some(e => e.key === item.key) ? "reduce" : "add"}.png`)} alt="" />
+                            {i18n.language === "zh-CN" ? item.Chinese : item.English}
+                            <img src={require(`@/assets/images/icon/icon-${selectItems.some(e => e.ID === item.ID) ? "reduce" : "add"}.png`)} alt="" />
                         </div>
                     )
                 }

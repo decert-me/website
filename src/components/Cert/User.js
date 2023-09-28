@@ -11,10 +11,12 @@ import { useTranslation } from "react-i18next";
 import { useLocation } from "react-router-dom";
 import { useUpdateEffect } from "ahooks";
 import CustomIcon from "../CustomIcon";
+import { constans } from "@/utils/constans";
 
 export default function CertUser(props) {
 
     const { ensParse, urlAddr } = props;
+    const { ipfsGateway } = constans();
     const location = useLocation();
     const { t } = useTranslation(["translation","profile", "explore"]);
     let [socials, setSocials] = useState();
@@ -41,7 +43,7 @@ export default function CertUser(props) {
       let ensAvatar;
       // 头像为ens ==> 解析
       if (ensParse?.avatar.indexOf("ipfs://") !== -1) {
-        ensAvatar = ensParse.avatar.replace("ipfs://", process.env.REACT_APP_IPFS_GATEWAY)
+        ensAvatar = ensParse.avatar.replace("ipfs://", ipfsGateway)
       }
       if (ensParse?.avatar.indexOf("https://") !== -1 || ensParse?.avatar.indexOf("data:") !== -1) {
         ensAvatar = ensParse.avatar;

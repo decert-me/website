@@ -11,12 +11,14 @@ import { setMetadata } from "@/utils/getMetadata";
 import { localRealAnswerInit } from "@/utils/localRealAnswerInit";
 import { useTranslation } from "react-i18next";
 import { modalNotice } from "@/utils/modalNotice";
+import { constans } from "@/utils/constans";
 export default function Claim(props) {
     
+    const { defaultChainId } = constans();
     const { t } = useTranslation(["translation"]);
     const navigateTo = useNavigate();
     const { data: signer } = useSigner({
-        chainId: Number(process.env.REACT_APP_CHAIN_ID)
+        chainId: defaultChainId
     });
     const { address } = useAccount();
     const { questId } = useParams();
@@ -106,7 +108,7 @@ export default function Claim(props) {
     return (
         <div className="Claim">
             {
-                detail && isChange && ( !isClaim || isClaim && address )  ?
+                detail && isChange && ( !isClaim || isClaim && address ) ?
                 <CustomCompleted 
                     answers={answers} 
                     detail={detail} 

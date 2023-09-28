@@ -5,7 +5,6 @@ import {
     MoreOutlined
   } from '@ant-design/icons';
 import { Dropdown, Tooltip } from 'antd';
-import { useState } from 'react';
 import { useTranslation } from 'react-i18next';
 
 
@@ -13,9 +12,6 @@ export default function NftBox(props) {
     
     const { info, changeNftStatus, isMe, options } = props;
     const { t } = useTranslation(["cert"]);
-    let [gateway, setGateway] = useState(
-        process.env.REACT_APP_IPFS_GATEWAY
-        );
 
     return (
         <div className="nft-detail">

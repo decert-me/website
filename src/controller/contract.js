@@ -1,8 +1,10 @@
 import { useContractRead } from "wagmi"
 import { useBadgeConfig, useQuestConfig } from "./config"
+import { constans } from "@/utils/constans";
 
 
 export function useBadgeContract({functionName, args}) {
+  const { defaultChainId } = constans();
 
   const { config } = useBadgeConfig({
     functionName: functionName,
@@ -10,7 +12,7 @@ export function useBadgeContract({functionName, args}) {
   })
   const { data, isLoading, refetch, error } = useContractRead({
     ...config,
-    chainId: Number(process.env.REACT_APP_CHAIN_ID)
+    chainId: defaultChainId
   })
 
   return {
@@ -21,6 +23,7 @@ export function useBadgeContract({functionName, args}) {
 }
 
 export function useQuestContract({functionName, args}) {
+  const { defaultChainId } = constans();
   
   const { config } = useQuestConfig({
     functionName: functionName,
@@ -28,7 +31,7 @@ export function useQuestContract({functionName, args}) {
   })
   const { data, isLoading, refetch } = useContractRead({
     ...config,
-    chainId: Number(process.env.REACT_APP_CHAIN_ID)
+    chainId: defaultChainId
   })
 
   return {
