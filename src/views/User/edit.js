@@ -161,7 +161,7 @@ export default function UserEdit(params) {
                         <p className="label">{t("profile:edit.inner.name")}</p>
                         <Input 
                             className="input" 
-                            placeholder="0xda...9e57" 
+                            placeholder={NickName(account)}
                             maxLength={16} 
                             defaultValue={info.nickname}
                             onChange={(e) => changeUser(e.target.value, 'nickname')}
