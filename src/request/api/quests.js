@@ -4,7 +4,7 @@ import serviceAxios from "../index";
 // 获取登录签名信息
 export const getChallengers = (data) => {
     return serviceAxios({
-        url: `/quests/${data.questId}/challengeUsers`,
+        url: `/v1/quests/${data.questId}/challengeUsers`,
         method: "get",
         data
     })
@@ -12,7 +12,7 @@ export const getChallengers = (data) => {
 
 export const getCollectionQuest = (data) => {
     return serviceAxios({
-        url: `/quests/collection?id=${data.id}`,
+        url: `/v1/quests/collection?id=${data.id}`,
         method: "get",
         data
     })

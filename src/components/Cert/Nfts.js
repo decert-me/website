@@ -73,7 +73,7 @@ export default function CertNfts(props) {
                                     onClick={() => change(e.id)}
                                 >
                                     <div className="img">
-                                        <img src={e.contract_logo ? process.env.REACT_APP_NFT_BASE_URL + "/v1" + e.contract_logo : require("@/assets/images/img/default-contract.png")} alt="" />
+                                        <img src={e.contract_logo ? process.env.REACT_APP_NFT_BASE_URL + e.contract_logo : require("@/assets/images/img/default-contract.png")} alt="" />
                                         <div className="badge">
                                             {
                                                 options.map(item => {
