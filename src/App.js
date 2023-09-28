@@ -102,6 +102,8 @@ export default function App() {
 
   return (
     <>
+
+    {/* wagmi */}
       <WagmiConfig client={wagmiClient}>
         <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
           <MyProvider>
