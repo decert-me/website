@@ -135,19 +135,19 @@ export default function Index(params) {
 
                         {/* list */}
                         <div className="listImg">
-                            <div className="type">
+                            <div className="type" onClick={() => navigateTo("/tutorials")}>
                                 <img src={require("@/assets/images/img/home-tutorials.png")} alt="" />
                             </div>
                             <div className="arrow">
                                 <img src={require("@/assets/images/img/home-arrow.png")} alt="" />
                             </div>
-                            <div className="type">
+                            <div className="type" onClick={() => navigateTo("/challenges")}>
                                 <img src={require("@/assets/images/img/home-challenges.png")} alt="" />
                             </div>
                             <div className="arrow">
                                 <img src={require("@/assets/images/img/home-arrow.png")} alt="" />
                             </div>
-                            <div className="type">
+                            <div className="type" onClick={() => navigateTo("/vitae")}>
                                 <img src={require("@/assets/images/img/home-vitae.png")} alt="" />
                             </div>
                         </div>
