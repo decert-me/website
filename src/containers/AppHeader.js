@@ -19,10 +19,12 @@ import logo_normal from "@/assets/images/svg/logo-normal.png";
 import { changeConnect } from '@/utils/redux';
 import { getUser } from '@/request/api/public';
 import store, { setUser } from '@/redux/store';
+import { constans } from '@/utils/constans';
 
 export default function AppHeader({ isMobile, user }) {
     
     const { address, isConnected } = useAccount()
+    const { imgPath } = constans();
     const { t } = useTranslation();
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
@@ -99,7 +101,7 @@ export default function AppHeader({ isMobile, user }) {
             nickname: user.data.nickname ? user.data.nickname : NickName(address),
             address: address,
             description: user.data.description,
-            avatar: user.data.avatar ? process.env.REACT_APP_BASE_URL + user.data.avatar : hashAvatar(address),
+            avatar: user.data.avatar ? imgPath + user.data.avatar : hashAvatar(address),
             socials: user.data.socials
         }
         store.dispatch(setUser(info));

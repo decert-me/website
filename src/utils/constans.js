@@ -59,8 +59,10 @@ export const constans = (contractType) => {
     const maxUint32 = Math.pow(2,32) - 1;
     const maxUint192 = BigNumber.from('2').pow(192).sub(1);
 
+    const imgPath = process.env.REACT_APP_BASE_URL + "/v1";
+
     const openseaBase = window.location.hostname.indexOf("https://decert.me/") === -1 ? "https://testnets.opensea.io" : "https://opensea.io/";
-    const openseaLink = `${openseaBase}/assets/${chains[defaultChainId].opensea ? chains[defaultChainId].opensea : chains[defaultChainId].name}/${contractType ? questAddr : BadgeAddress}`;
+    const openseaLink = `${openseaBase}/assets/${chains[defaultChainId]?.opensea || chains[defaultChainId].name}/${contractType ? questAddr : BadgeAddress}`;
     const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY || "https://nftscan.mypinata.cloud/ipfs/"
     const defaultImg = require('@/assets/images/img/default.png');
     const ipfsPath = 'https://ipfs.decert.me';
@@ -77,6 +79,7 @@ export const constans = (contractType) => {
         chains,
         defaultChainId,
         screenSize,
-        ipfsGateway
+        ipfsGateway,
+        imgPath
     }
 }

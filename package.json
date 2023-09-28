@@ -12,6 +12,7 @@
     "@bytemd/react": "^1.20.2",
     "@monaco-editor/react": "^4.5.1",
     "@pmmmwh/react-refresh-webpack-plugin": "^0.5.3",
+    "@sentry/react": "^7.71.0",
     "@svgr/webpack": "^5.5.0",
     "@testing-library/jest-dom": "^5.16.5",
     "@testing-library/react": "^13.4.0",

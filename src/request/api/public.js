@@ -5,7 +5,7 @@ import nftAxios from "../nft";
 // 获取登录签名信息
 export const getLoginMsg = (data) => {
     return serviceAxios({
-        url: `/users/getLoginMessage?address=${data.address}`,
+        url: `/v1/users/getLoginMessage?address=${data.address}`,
         method: "get",
         data
     })
@@ -14,7 +14,7 @@ export const getLoginMsg = (data) => {
 // 校验登录签名信息
 export const authLoginSign = (data) => {
     return serviceAxios({
-        url: `/users/authLoginSign`,
+        url: `/v1/users/authLoginSign`,
         method: "post",
         data
     })
@@ -23,7 +23,7 @@ export const authLoginSign = (data) => {
 // 获取个人资料
 export const getUser = (data) => {
     return serviceAxios({
-        url: `/users/${data.address}`,
+        url: `/v1/users/${data.address}`,
         method: "get",
         data
     })
@@ -32,7 +32,7 @@ export const getUser = (data) => {
 // 更新资料
 export const putUser = (data) => {
     return serviceAxios({
-        url: `/users/${data.address}`,
+        url: `/v1/users/${data.address}`,
         method: "put",
         data
     })
@@ -41,7 +41,7 @@ export const putUser = (data) => {
 // 更新头像
 export const uploadAvatar = (data) => {
     return serviceAxios({
-        url: `/users/avatar`,
+        url: `/v1/users/avatar`,
         method: "post",
         data
     })
@@ -50,7 +50,7 @@ export const uploadAvatar = (data) => {
 // 获取完成的挑战
 export const getChallengeComplete = (data) => {
     return serviceAxios({
-        url: `/users/challenge/${data.address}?type=${data.type}&page=${data.page}&pageSize=${data.pageSize}${data.claimable ? "&claimable="+data.claimable : ""}`,
+        url: `/v1/users/challenge/${data.address}?type=${data.type}&page=${data.page}&pageSize=${data.pageSize}${data.claimable ? "&claimable="+data.claimable : ""}`,
         method: "get",
         data
     })
@@ -59,7 +59,7 @@ export const getChallengeComplete = (data) => {
 // 获取发布的挑战
 export const getChallengeCreate = (data) => {
     return serviceAxios({
-        url: `/users/quests/${data.address}?page=${data.page}&pageSize=${data.pageSize}`,
+        url: `/v1/users/quests/${data.address}?page=${data.page}&pageSize=${data.pageSize}`,
         method: "get",
         data
     })
@@ -68,7 +68,7 @@ export const getChallengeCreate = (data) => {
 // 获取 challenge
 export const getQuests = (data) => {
     return serviceAxios({
-        url: `/quests${data.id ? '/'+data.id : ''}${data.pageSize ? '?pageSize='+data.pageSize : ''}${data.page ? '&page='+data.page : ''}${data.type ? '?type='+data.type : ''}`,
+        url: `/v1/quests${data.id ? '/'+data.id : ''}${data.pageSize ? '?pageSize='+data.pageSize : ''}${data.page ? '&page='+data.page : ''}${data.type ? '?type='+data.type : ''}`,
         method: "get",
         data
     })
@@ -77,7 +77,7 @@ export const getQuests = (data) => {
 // 提交 challenge 
 export const submitChallenge = (data) => {
     return serviceAxios({
-        url: `/challenge`,
+        url: `/v1/challenge`,
         method: "post",
         data
     })
@@ -86,7 +86,7 @@ export const submitChallenge = (data) => {
 // 添加 challenge
 export const addQuests = (data) => {
     return serviceAxios({
-        url: `/quests`,
+        url: `/v1/quests`,
         method: "post",
         data
     })
@@ -95,7 +95,7 @@ export const addQuests = (data) => {
 // 修改 challenge
 export const modifyQuests = (data) => {
     return serviceAxios({
-        url: `/quests`,
+        url: `/v1/quests`,
         method: "put",
         data
     })
@@ -104,7 +104,7 @@ export const modifyQuests = (data) => {
 // 修改 recommend
 export const modifyRecommend = (data) => {
     return serviceAxios({
-        url: `/quests/recommend`,
+        url: `/v1/quests/recommend`,
         method: "put",
         data
     })
@@ -113,7 +113,7 @@ export const modifyRecommend = (data) => {
 // 提交交易哈希
 export const submitHash = (data) => {
     return serviceAxios({
-        url: `/transaction/submit`,
+        url: `/v1/transaction/submit`,
         method: "post",
         data
     })
@@ -122,7 +122,7 @@ export const submitHash = (data) => {
 // 获取 Discord 是否绑定
 export const verifyDiscord = (data) => {
     return serviceAxios({
-        url: `/users/discord`,
+        url: `/v1/users/discord`,
         method: "get",
         data
     })
@@ -131,7 +131,7 @@ export const verifyDiscord = (data) => {
 // 获取铸造所需签名
 export const getClaimHash = (data) => {
     return serviceAxios({
-        url: `/badge/claim`,
+        url: `/v1/badge/claim`,
         method: "post",
         data
     })
@@ -140,7 +140,7 @@ export const getClaimHash = (data) => {
 // 分享推文免费获取Badge
 export const submitClaimTweet = (data) => {
     return serviceAxios({
-        url: `/badge/submitClaimTweet`,
+        url: `/v1/badge/submitClaimTweet`,
         method: "post",
         data
     })
@@ -151,7 +151,7 @@ export const submitClaimTweet = (data) => {
 
 export const ipfsImg = (data) => {
     return ipfsAxios({
-        url: `/uploadFile`,
+        url: `/v1/ipfs/uploadFile`,
         method: "post",
         data
     })
@@ -160,7 +160,7 @@ export const ipfsImg = (data) => {
 // 挑战json
 export const challengeJson = (data) => {
     return ipfsAxios({
-        url: `/uploadJson?type=challenge`,
+        url: `/v1/ipfs/uploadJson?type=challenge`,
         method: "post",
         data
     })
@@ -169,7 +169,7 @@ export const challengeJson = (data) => {
 // nftjson
 export const nftJson = (data) => {
     return ipfsAxios({
-        url: `/uploadJson?type=nft`,
+        url: `/v1/ipfs/uploadJson?type=nft`,
         method: "post",
         data
     })
@@ -178,7 +178,7 @@ export const nftJson = (data) => {
 // 获取教程阅览进度
 export const tutorialProgress = (data) => {
     return serviceAxios({
-        url: `/tutorial/progress`,
+        url: `/v1/tutorial/progress`,
         method: "post",
         data
     })
@@ -187,7 +187,7 @@ export const tutorialProgress = (data) => {
 // 获取微信分享二维码
 export const wechatShare = (data) => {
     return serviceAxios({
-        url: `/badge/submitClaimShare`,
+        url: `/v1/badge/submitClaimShare`,
         method: "post",
         data
     })
@@ -196,7 +196,7 @@ export const wechatShare = (data) => {
 // 点击分享链接
 export const shareClick = (data) => {
     return serviceAxios({
-        url: `/share/click`,
+        url: `/v1/share/click`,
         method: "post",
         data
     })
@@ -205,7 +205,7 @@ export const shareClick = (data) => {
 // 获取阅读进度列表
 export const progressList = (data) => {
     return serviceAxios({
-        url: `/tutorial/progressList`,
+        url: `/v1/tutorial/progressList`,
         method: "post",
         data
     })
