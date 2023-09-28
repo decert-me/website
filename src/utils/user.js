@@ -1,10 +1,13 @@
 import { hashAvatar } from "./HashAvatar";
+import { constans } from "./constans";
 
 
 export function avatar(props) {
+
+    const { imgPath } = constans();
     const { address, avatar } = props;
     if (avatar) {
-        return process.env.REACT_APP_BASE_URL + avatar
+        return imgPath + avatar
     }else {
         return hashAvatar(address)
     }
