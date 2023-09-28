@@ -70,14 +70,18 @@
       }
 
       .listImg{
-        width: 20.8125rem;
-        height: 11.125rem;
-        margin-top: 3.25rem;
+        margin: 4.6875rem auto 3.875rem;
+        .type{
+          height: 2.125rem;
+        }
+        .arrow{
+          width: .75rem;
+          margin: 0 .3125rem;
+        }
       }
 
       .vision{
         height: 13.625rem;
-        margin-top: -2.5rem;
         padding-top: 4.25rem;
         h3{
           margin-bottom: 1.25rem;
