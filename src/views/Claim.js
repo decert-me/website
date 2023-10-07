@@ -115,6 +115,7 @@ export default function Claim(props) {
                     detail={detail} 
                     tokenId={questId} 
                     isClaim={isClaim}
+                    address={address}
                 />
                 :
                 <div className="claim-loading">

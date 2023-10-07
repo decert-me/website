@@ -17,7 +17,7 @@ import { useAddress } from "@/hooks/useAddress";
 
 export default function CustomCompleted(props) {
     
-    const { answers, detail, tokenId, isClaim } = props;
+    const { answers, detail, tokenId, isClaim, address: addr } = props;
     const { defaultChainId } = constans();
     const { verify } = useVerifyToken();
     const { data: signer } = useSigner({
@@ -32,7 +32,8 @@ export default function CustomCompleted(props) {
     let [step, setStep] = useState(0);
     let [isShow, setIsShow] = useState();
     let [percent, setPercent] = useState(0);
-    let [scoresArgs, setScoresArgs] = useState(address ? [Number(tokenId), address] : null);
+
+    let [scoresArgs, setScoresArgs] = useState([Number(tokenId), addr]);
     const { data, isLoading, refetch } = useBadgeContract({
         functionName: "scores",
         args: scoresArgs
@@ -150,7 +151,7 @@ export default function CustomCompleted(props) {
     }
 
     useEffect(() => {
-        init()
+        address && init()
     },[signer, address])
 
     return (
