@@ -70,7 +70,6 @@ const wagmiClient = createClient({
 const ethereumClient = new EthereumClient(web3modalClient, chains)
 
 export default function App() {
-  window.Buffer = window.Buffer || require("buffer").Buffer;
 
   function localInit(params) {
     // 测试1mb大小local空间
