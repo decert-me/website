@@ -62,10 +62,7 @@ export const constans = (contractType) => {
     const imgPath = process.env.REACT_APP_BASE_URL;
 
     const openseaBase = window.location.origin.indexOf("https://decert.me/") === -1 ? "https://testnets.opensea.io" : "https://opensea.io/";
-    console.log(Number(process.env.REACT_APP_CHAIN_ID) , (window.location.origin.indexOf("https://decert.me/") === -1 ? 80001 : 137));
-    console.log(defaultChainId);
     const openseaLink = `${openseaBase}/assets/${chains[defaultChainId]?.opensea || chains[defaultChainId]?.name}/${contractType ? questAddr : BadgeAddress}`;
-    console.log(openseaLink);
     const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY || "https://nftscan.mypinata.cloud/ipfs/"
     const defaultImg = require('@/assets/images/img/default.png');
     const ipfsPath = 'https://ipfs.decert.me';
