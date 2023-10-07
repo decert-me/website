@@ -4,7 +4,6 @@ import routes from "@/router";
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import { useContext, useEffect, useState } from "react";
-import { useAccount } from "wagmi";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useRequest, useUpdateEffect } from "ahooks";
 import CustomSigner from "@/redux/CustomSigner";

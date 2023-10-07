@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
-import { useAccount, useSigner } from "wagmi";
+import { useSigner } from "wagmi";
 import CustomCompleted from "../components/CustomChallenge/CustomCompleted";
 import "@/assets/styles/component-style"
 import "@/assets/styles/mobile/view-style/claim.scss"
@@ -12,6 +12,7 @@ import { localRealAnswerInit } from "@/utils/localRealAnswerInit";
 import { useTranslation } from "react-i18next";
 import { modalNotice } from "@/utils/modalNotice";
 import { constans } from "@/utils/constans";
+import { useAddress } from "@/hooks/useAddress";
 export default function Claim(props) {
     
     const { defaultChainId } = constans();
@@ -20,7 +21,7 @@ export default function Claim(props) {
     const { data: signer } = useSigner({
         chainId: defaultChainId
     });
-    const { address } = useAccount();
+    const { address } = useAddress();
     const { questId } = useParams();
 
     let [detail, setDetail] = useState();

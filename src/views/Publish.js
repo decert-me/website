@@ -14,12 +14,13 @@ import { usePublish } from "@/hooks/usePublish";
 import ModalEditQuestion from "@/components/CustomModal/ModalEditQuestion";
 import MyContext from "@/provider/context";
 import { getMetadata } from "@/utils/getMetadata";
-import { useAccount, useSigner } from "wagmi";
+import { useSigner } from "wagmi";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 import { changeConnect } from "@/utils/redux";
 import { getQuests, modifyRecommend } from "@/request/api/public";
 import store, { setChallenge } from "@/redux/store";
 import { tokenSupply } from "@/controller";
+import { useAddress } from "@/hooks/useAddress";
 
 export default function Publish(params) {
     
@@ -27,7 +28,7 @@ export default function Publish(params) {
 
     const { t } = useTranslation(["publish", "translation", "profile"]);
     const { isMobile } = useContext(MyContext);
-    const { address, isConnected } = useAccount();
+    const { address, isConnected } = useAddress();
     const { data: signer } = useSigner();
     const location = useLocation();
     const [messageApi, contextHolder] = message.useMessage();

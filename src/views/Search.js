@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import i18n from 'i18next';
 import { useTranslation } from "react-i18next";
 import { getEns } from "@/request/api/nft";
-import { useAccount } from "wagmi";
+import { useAddress } from "@/hooks/useAddress";
 
 export default function Search(params) {
 
@@ -17,7 +17,7 @@ export default function Search(params) {
     let [isLoading, setIsLoading] = useState(false);
     
     const { t } = useTranslation("cert");
-    const { address } = useAccount();
+    const { address } = useAddress();
     const navigateTo = useNavigate();
     const links = [
         {lable: "me", value: address},

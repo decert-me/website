@@ -6,7 +6,6 @@ import {
     LoadingOutlined,
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
-import { useAccount } from "wagmi";
 import { useLocation, useNavigate } from "react-router-dom";
 import { hashAvatar } from "@/utils/HashAvatar";
 import { NickName } from "@/utils/NickName";
@@ -15,6 +14,7 @@ import { UploadAvatarProps } from "@/utils/UploadProps";
 import { useTranslation } from "react-i18next";
 import { changeConnect } from "@/utils/redux";
 import { constans } from "@/utils/constans";
+import { useAddress } from "@/hooks/useAddress";
 const { TextArea } = Input;
 
 export default function UserEdit(params) {
@@ -25,7 +25,7 @@ export default function UserEdit(params) {
      * 3. 回显
      * 4. 提交
      */
-    const { address, isConnected } = useAccount();
+    const { address, isConnected } = useAddress();
     const { imgPath } = constans();
     const { t } = useTranslation(["translation","profile"]);
     const location = useLocation();
