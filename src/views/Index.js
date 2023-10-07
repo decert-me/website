@@ -12,6 +12,7 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CustomIcon from "@/components/CustomIcon";
 import i18n from 'i18next';
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 export default function Index(params) {
     

@@ -3,6 +3,7 @@ import { useAccount, useConnect } from "wagmi";
 import { useIsMounted } from '@/hooks/useIsMounted'
 import "@/assets/styles/component-style"
 import { constans } from "@/utils/constans";
+import { WalletMultiButton } from "@solana/wallet-adapter-react-ui";
 
 export default function ModalConnect(props) {
 
@@ -72,6 +73,7 @@ export default function ModalConnect(props) {
                     </div>
                 ))
                 }
+            <WalletMultiButton />
         </Modal>
         </>
     )

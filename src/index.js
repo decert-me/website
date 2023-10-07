@@ -8,11 +8,12 @@ import 'github-markdown-css/github-markdown-light.css';
 import 'bytemd/dist/index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
+import WalletAdapter from './wallet';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <BrowserRouter>
-    <App />
+    <WalletAdapter />
   </BrowserRouter>
 );
 
