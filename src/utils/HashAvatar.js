@@ -3,7 +3,7 @@ import Identicon from "identicon.js";
 
 export function hashAvatar(address) {
     
-    if (!address || address.length !== 42) {
+    if (!address) {
         return require("@/assets/images/img/nodata.png")
     }
     // address 15+ hex chars

@@ -5,11 +5,10 @@ import { CustomQuestion, CustomEditor } from "@/components/CustomItem";
 import { useEffect, useState } from "react";
 import { UploadProps } from "@/utils/UploadProps";
 import { InboxOutlined } from '@ant-design/icons';
-import { useAccount } from "wagmi";
 import { useUpdateEffect } from "ahooks";
 import { constans } from "@/utils/constans";
-import store from "@/redux/store";
 import { useLocation } from "react-router-dom";
+import { useAddress } from "@/hooks/useAddress";
 
 const { TextArea } = Input;
 const { Dragger } = Upload;
@@ -40,7 +39,7 @@ export default function CustomForm(props) {
     const { ipfsPath } = constans();
     const { t } = useTranslation(["publish", "translation"]);
     const [form] = Form.useForm();
-    const { isConnected } = useAccount();
+    const { isConnected } = useAddress();
     const location = useLocation();
     let [fields, setFields] = useState([]);
     let [fileList, setFileList] = useState([]);

@@ -12,6 +12,8 @@ import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import { useWeb3Modal } from "@web3modal/react";
+import { useAddress } from "@/hooks/useAddress";
+import { useWallet } from "@solana/wallet-adapter-react";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
@@ -25,20 +27,9 @@ export default function DefaultLayout(params) {
     let [footerHide, setFooterHide] = useState(false);
     let [headerHide, setHeaderHide] = useState(false);
     let [vh, setVh] = useState(100);
-    const { address, status } = useAccount({
-        onDisconnect(){
-            // 已登陆  ====>  未登录
-            console.log("断开链接");
-            const path = location.pathname;
-            if (!isMobile) {
-                ClearStorage();
-            }
-            isClaim(path);
-            isExplore(path);
-            isCert(path, 'signout');
-            isUser(path);
-        }
-    });
+
+    const { address } = useAddress();
+    const { connected } = useWallet();
 
     const headerStyle = {
         width: "100%",
@@ -169,7 +160,7 @@ export default function DefaultLayout(params) {
         const path = location.pathname;
         const addr = localStorage.getItem('decert.address');
         !document.hidden && run(addr, path)
-    },[address])
+    },[address, connected])
 
     useEffect(() => {
         zoomVh()
@@ -187,18 +178,6 @@ export default function DefaultLayout(params) {
           window.removeEventListener("resize", zoomVh);
         };
     }, []);
-
-    // useEffect(() => {
-    //     // !address && localStorage.getItem("wagmi.connected") && navigateTo(0)
-    //     console.log(status);
-    // },[address])
-    
-    useUpdateEffect(() => {
-        if (status === "disconnected" && localStorage.getItem("decert.token")) {
-            ClearStorage();
-            navigateTo(0);
-        }
-    },[status])
 
     return (
         <Layout className={isMobile ? "Mobile" : ""}>

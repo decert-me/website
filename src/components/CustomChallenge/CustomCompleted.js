@@ -4,7 +4,7 @@ import {
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
-import { useAccount, useSigner } from "wagmi";
+import { useSigner } from "wagmi";
 import { GetPercent } from "@/utils/GetPercent";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import CustomClaimInfo from "./CustomClaimInfo";
@@ -12,6 +12,7 @@ import CustomClaimStep from "./CustomClaimStep";
 import { useBadgeContract } from "@/controller/contract";
 import Confetti from "react-confetti";
 import { constans } from "@/utils/constans";
+import { useAddress } from "@/hooks/useAddress";
 
 
 export default function CustomCompleted(props) {
@@ -22,7 +23,7 @@ export default function CustomCompleted(props) {
     const { data: signer } = useSigner({
         chainId: defaultChainId
     });
-    const { address, isConnected } = useAccount();
+    const { address, isConnected } = useAddress();
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
     
@@ -131,9 +132,9 @@ export default function CustomCompleted(props) {
 
     const getStep = async() => {
         // 判断当前步骤
-        if(isConnected === false || !localStorage.getItem('decert.token')){
+        if(!isConnected || !localStorage.getItem('decert.token')){
             step = 0;
-        }else if(isConnected === true){
+        }else if(isConnected){
             step = 1;
         }
         if (isClaim) {
@@ -150,7 +151,7 @@ export default function CustomCompleted(props) {
 
     useEffect(() => {
         init()
-    },[signer])
+    },[signer, address])
 
     return (
         <div className="CustomCompleted">

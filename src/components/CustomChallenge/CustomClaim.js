@@ -71,6 +71,8 @@ export default function CustomClaim(props) {
 
     const { data, run, cancel } = useRequest(refetch, {
         pollingInterval: 3000,
+        manual: true,
+        pollingWhenHidden: false
     });
 
     const goclaim = async() => {
