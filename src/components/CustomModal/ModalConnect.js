@@ -1,4 +1,4 @@
-import { Divider, Modal } from "antd";
+import { Modal } from "antd";
 import { useAccount, useConnect } from "wagmi";
 import { useIsMounted } from '@/hooks/useIsMounted'
 import "@/assets/styles/component-style"
@@ -34,14 +34,14 @@ export default function ModalConnect(props) {
             open={isModalOpen}
             onCancel={handleCancel}
             footer={null}
-            closeIcon={<></>}
             width={500}
             centered
+            title="Connect your wallet."
         >
             {
                 connectors.map((x,i) => (
-                    <div key={x.name}>
                     <div
+                        key={x.name}
                         className="wallet-item"
                         disabled={!x.ready || isReconnecting || connector?.id === x.id}
                         onClick={() => goConnect(x)}
@@ -58,22 +58,22 @@ export default function ModalConnect(props) {
                             <p className="name">
                                 {x.id === 'injected' ? (isMounted ? x.name : x.id) : x.name}
                             </p>
-                            <p className="tips">
-                                {x.name === 'MetaMask' ? 
-                                'Connect to your MetaMask Wallet'
-                                :'Scan with WalletConnect to connect'
-                                }
-                            </p>
                         </div>
-                    </div>
-                    {
-                        i < connectors.length-1 &&
-                        <Divider />
-                    }
                     </div>
                 ))
                 }
-            <WalletMultiButton />
+            <WalletMultiButton>
+                <div className="wallet-item">
+                    <div className="item">
+                        <div className="img">
+                            <img src={(require("@/assets/images/img/Solana.png"))} alt="" />
+                        </div>
+                        <p className="name">
+                            Solana Wallet
+                        </p>
+                    </div>
+                </div>
+            </WalletMultiButton>
         </Modal>
         </>
     )
