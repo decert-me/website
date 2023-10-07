@@ -10,14 +10,15 @@ import {
   CoinbaseWalletAdapter,
   PhantomWalletAdapter,
   SolflareWalletAdapter,
-  TrustWalletAdapter
+  TrustWalletAdapter,
+  UnsafeBurnerWalletAdapter
 } from "@solana/wallet-adapter-wallets";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 export default function WalletAdapter() {
-  const network = WalletAdapterNetwork.Devnet;
+  const network = WalletAdapterNetwork.Mainnet;
 
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
@@ -26,7 +27,8 @@ export default function WalletAdapter() {
       new CoinbaseWalletAdapter(),
       new PhantomWalletAdapter(),
       // new SolflareWalletAdapter({ network }),
-      new TrustWalletAdapter()
+      new TrustWalletAdapter(),
+      new UnsafeBurnerWalletAdapter()
     ],
     [network]
   );
