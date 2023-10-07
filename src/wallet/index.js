@@ -17,7 +17,7 @@ import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 export default function WalletAdapter() {
-  const network = WalletAdapterNetwork.Mainnet;
+  const network = WalletAdapterNetwork.Devnet;
 
   const endpoint = useMemo(() => clusterApiUrl(network), [network]);
 
