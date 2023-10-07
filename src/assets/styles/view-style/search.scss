@@ -92,12 +92,10 @@
                 border-radius: 20px;
                 background-color: #fff;
                 cursor: pointer;
-                &:first-child{
-                    color: #A9814D;
-                }
-                a{
-                    color: #777777;
-                }
+                // &:first-child{
+                //     color: #A9814D;
+                // }
+                color: #777777;
             }
         }
     }

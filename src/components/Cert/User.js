@@ -16,7 +16,7 @@ import { constans } from "@/utils/constans";
 export default function CertUser(props) {
 
     const { ensParse, urlAddr } = props;
-    const { ipfsGateway } = constans();
+    const { ipfsGateway, imgPath } = constans();
     const location = useLocation();
     const { t } = useTranslation(["translation","profile", "explore"]);
     let [socials, setSocials] = useState();
@@ -52,7 +52,7 @@ export default function CertUser(props) {
         info = {
             nickname: user?.data?.nickname ? user?.data?.nickname : ensParse.domain ? ensParse.domain : urlAddr ? urlAddr : NickName(ensParse.address),
             address: ensParse.address,
-            avatar: user?.data?.avatar ? process.env.REACT_APP_BASE_URL + user?.data?.avatar : ensAvatar ? ensAvatar : ensParse.avatar ? ensParse.avatar : hashAvatar(ensParse.address)
+            avatar: user?.data?.avatar ? imgPath + user?.data?.avatar : ensAvatar ? ensAvatar : ensParse.avatar ? ensParse.avatar : hashAvatar(ensParse.address)
         }
           setInfo({...info})
       }, 1000);

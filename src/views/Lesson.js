@@ -233,6 +233,9 @@ export default function Lesson(params) {
     async function getProgress(params) {
         const arr = [];
         tutorials.forEach(tutorial => arr.push(tutorial.catalogueName));
+        if (arr.length === 0) {
+            return
+        }
         await progressList({catalogueNameList: arr})
         .then(res => {
             if (res.status === 0) {

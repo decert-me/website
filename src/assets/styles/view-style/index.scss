@@ -95,17 +95,29 @@
       }
 
       .listImg{
-        width: 877px;
-        height: 450px;
-        margin: 0 auto;
-        margin-top: 83px;
-        position: relative;
+        margin: 210px auto 170px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        .type{
+          height: 100px;
+          cursor: pointer;
+          img{
+            height: 100%;
+          }
+        }
+        .arrow{
+          width: 26px;
+          margin: 0 65px;
+          img{
+            width: 100%;
+          }
+        }
       }
 
       .vision{
         width: 100%;
         height: 600px;
-        margin-top: -92px;
         padding-top: 210px;
         background-color: #C19E6D;
         text-align: center;

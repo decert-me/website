@@ -71,9 +71,9 @@ export default function Search(params) {
                     {
                         links.filter(e => e.value).map(e => 
                             <li key={e.lable}>
-                                <a href={e.value}>
+                                <p onClick={() => changeAccount(e.value)}>
                                     {e.lable}
-                                </a>
+                                </p>
                             </li>
                         )
                     }
