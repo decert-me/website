@@ -33,14 +33,19 @@ export default function Search(params) {
 
     const start = async() => {
         setIsLoading(true);
-        await getEns({address: account})
-        .then(res => {
-            if (res?.data) {
-                setTimeout(() => {
-                    navigateTo(`/${account}`)
-                }, 500);
-            }
-        })
+        if (account.length === 44) {
+            // solana钱包
+            navigateTo(`/${account}`)
+        }else{
+            await getEns({address: account})
+            .then(res => {
+                if (res?.data) {
+                    setTimeout(() => {
+                        navigateTo(`/${account}`)
+                    }, 500);
+                }
+            })
+        }
         setTimeout(() => {
             setIsLoading(false);
         }, 500);

@@ -116,6 +116,16 @@ export default function Cert(params) {
     }
 
     const init = async() => {
+        if (urlAddr.length === 44) {
+            ensParse = {
+                "address": urlAddr,
+                "domain": "",
+                "avatar": ""
+            }
+            setEnsParse({...ensParse});
+            initContracts();
+            return
+        }
         await new Promise((resolve, reject) => {
            getEns({address: urlAddr})
             .then(res => {
