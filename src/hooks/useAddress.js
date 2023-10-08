@@ -18,6 +18,9 @@ export const useAddress = () => {
             setAddress(address);
             walletType = /^0x/.test(address) ? "evm" : "solana";
             setWalletType(walletType);
+        }else{
+            setAddress(null);
+            setWalletType(null);
         }
     },[wagmiAddress, publicKey])
 
