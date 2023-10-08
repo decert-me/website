@@ -212,7 +212,7 @@ export default function Publish(params) {
             changeConnect()
             return
         }
-        if (walletType === "evm") {
+        if (walletType !== "evm") {
             message.info("请切换到Polygon!");
             changeConnect()
             return
