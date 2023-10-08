@@ -52,7 +52,8 @@ export const constans = (contractType) => {
             link: "https://gnosisscan.io/address/"
         }
     }
-    const defaultChainId = Number(process.env.REACT_APP_CHAIN_ID) || (window.location.hostname.indexOf("https://decert.me/") === -1 ? 80001 : 137);
+    const isDev = process.env.REACT_APP_IS_DEV;
+    const defaultChainId = Number(process.env.REACT_APP_CHAIN_ID) || (isDev ? 80001 : 137);
 
     const questAddr = process.env.REACT_APP_CONTRACT_QUEST_ADDRESS;
 
@@ -61,7 +62,7 @@ export const constans = (contractType) => {
 
     const imgPath = process.env.REACT_APP_BASE_URL;
 
-    const openseaBase = window.location.hostname.indexOf("https://decert.me/") === -1 ? "https://testnets.opensea.io" : "https://opensea.io/";
+    const openseaBase = isDev ? "https://testnets.opensea.io" : "https://opensea.io/";
     const openseaLink = `${openseaBase}/assets/${chains[defaultChainId]?.opensea || chains[defaultChainId].name}/${contractType ? questAddr : BadgeAddress}`;
     const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY || "https://nftscan.mypinata.cloud/ipfs/"
     const defaultImg = require('@/assets/images/img/default.png');
