@@ -32,7 +32,6 @@ export default function WalletAdapter() {
     ],
     [network]
   );
-    console.log(window?.solana);
   return (
     <ConnectionProvider endpoint={endpoint}>
       <WalletProvider wallets={wallets} autoConnect>

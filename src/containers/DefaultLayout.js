@@ -13,6 +13,7 @@ import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import { useWeb3Modal } from "@web3modal/react";
 import { useAddress } from "@/hooks/useAddress";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { useAccount } from "wagmi";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
@@ -27,6 +28,7 @@ export default function DefaultLayout(params) {
     let [headerHide, setHeaderHide] = useState(false);
     let [vh, setVh] = useState(100);
 
+    const { isConnected } = useAccount();
     const { address } = useAddress();
     const { connected } = useWallet();
 
@@ -106,9 +108,14 @@ export default function DefaultLayout(params) {
     }
 
     const verifySignUpType = async(addr, path) => {
+        if (!connected && !isConnected) {
+            return
+        }
+
         if (address && isMobile && localStorage.getItem("decert.token")) {
             close()
         }
+
         if (addr === null && address) { 
             // 未登录  ====>  登录
             localStorage.setItem("decert.address", address);

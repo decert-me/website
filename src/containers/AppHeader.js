@@ -101,8 +101,10 @@ export default function AppHeader({ isMobile, user }) {
             disconnect();
             ClearStorage();
         }else{
-            wallet.adapter.disconnect();
-            ClearStorage();
+            wallet.adapter.disconnect()
+            .then(res => {
+                ClearStorage();
+            })
         }
     }
 
