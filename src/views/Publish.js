@@ -28,7 +28,7 @@ export default function Publish(params) {
 
     const { t } = useTranslation(["publish", "translation", "profile"]);
     const { isMobile } = useContext(MyContext);
-    const { address, isConnected } = useAddress();
+    const { address, isConnected, walletType } = useAddress();
     const { data: signer } = useSigner();
     const location = useLocation();
     const [messageApi, contextHolder] = message.useMessage();
@@ -209,6 +209,11 @@ export default function Publish(params) {
 
     const onFinish = async(values) => {
         if (!isConnected) {
+            changeConnect()
+            return
+        }
+        if (walletType === "evm") {
+            message.info("请切换到Polygon!");
             changeConnect()
             return
         }
