@@ -4,7 +4,7 @@ import {
     WechatOutlined,
     CloseOutlined
 } from '@ant-design/icons';
-import { getClaimHash, getQuests, submitHash } from "../../request/api/public";
+import { getClaimHash, getQuests, hasClaimed, submitHash } from "../../request/api/public";
 import { claim } from "../../controller";
 import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
@@ -30,7 +30,8 @@ export default function CustomClaim(props) {
     const { data: signer } = useSigner();
     let [open, setOpen] = useState();
     let [link, setLink] = useState("");
-
+    let [status, setStatus] = useState(0);
+    
     const { switchNetwork } = useSwitchNetwork({
         chainId: defaultChainId,
         onError(error) {
@@ -158,8 +159,10 @@ export default function CustomClaim(props) {
 
     // 轮询获取当前详情
     async function refetch(params) {
-        const res = await getQuests({id: cliamObj.tokenId});
-        if (res.data.claimed) {
+        const res = await hasClaimed({id: cliamObj.tokenId});
+        status = res?.data?.status;
+        setStatus(status);
+        if (res?.data?.status === 2) {
             const cache = JSON.parse(localStorage.getItem('decert.cache'));
             delete cache[cliamObj.tokenId];
             if (cache?.claimable) {
@@ -168,13 +171,24 @@ export default function CustomClaim(props) {
             localStorage.setItem("decert.cache", JSON.stringify(cache));
             setCacheIsClaim(true);
             setStep(3)
-            cancel()        
+            cancel()
         }
     }
 
-    function airpost(params) {
-        runAsync();
-        run();
+    async function airpost(params) {
+        if (step === 2 && status === 0) {
+            status = 1;
+            setStatus(status);
+            await runAsync();
+            run();
+        }
+    }
+
+    async function init(params) {
+        await refetch()
+        if (status === 1) {
+            run()
+        }
     }
 
     useEffect(() => {
@@ -184,15 +198,18 @@ export default function CustomClaim(props) {
     },[switchNetwork, isSwitch])
     
     useEffect(() => {
-        step === 2 && airpost()
+        step === 2 && init()
     },[step])
 
     return (
         //  css:  ${isClaim || cacheIsClaim ? "" : "CustomCliam" }
         <div className={`CustomBox ${step === 2 ? "checked-step" : ""} step-box ${isClaim||cacheIsClaim ? "isClaim" : ""}`}
             style={{
-                justifyContent: "center"
+                justifyContent: "center",
+                cursor: step === 2 && status === 0 && "pointer"
             }}
+            onClick={() => airpost()}
+            
         >
             {/* <ModalLoading 
                 isModalOpen={isModalOpen}
@@ -272,7 +289,10 @@ export default function CustomClaim(props) {
                 isClaim || cacheIsClaim ? 
                     t("claim.claimed")
                 :
-                    "等待空投..."
+                status === 0 ?
+                    t("claim.btn")
+                :
+                    t("claim.wait")
             }
         </div>
     )
