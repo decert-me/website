@@ -27,6 +27,48 @@ export default function ModalConnect(props) {
         connect({ connector: x })
     }
 
+    function Wallet(x, i) {
+        return (
+            <>
+            {
+                i === 1 && 
+                <WalletMultiButton>
+                    <div className="wallet-item">
+                        <div className="item">
+                            <div className="img">
+                                <img src={(require("@/assets/images/img/Solana.png"))} alt="" />
+                            </div>
+                            <p className="name">
+                                Solana Wallet
+                            </p>
+                        </div>
+                    </div>
+                </WalletMultiButton>
+            }
+            <div
+                key={x.name}
+                className="wallet-item"
+                disabled={!x.ready || isReconnecting || connector?.id === x.id}
+                onClick={() => goConnect(x)}
+            >
+                <div className="item">
+                    <div className="img">
+                        {
+                            x.name === 'MetaMask' ? 
+                                <img src={require("@/assets/images/img/MetaMask.png")} alt="" />
+                                :
+                                <img src={require("@/assets/images/img/WalletConnect.png")} alt="" />
+                        }
+                    </div>
+                    <p className="name">
+                        {x.id === 'injected' ? (isMounted ? x.name : x.id) : x.name}
+                    </p>
+                </div>
+            </div>
+            </>
+        )
+    }
+
     return (
         <>
         <Modal
@@ -40,40 +82,9 @@ export default function ModalConnect(props) {
         >
             {
                 connectors.map((x,i) => (
-                    <div
-                        key={x.name}
-                        className="wallet-item"
-                        disabled={!x.ready || isReconnecting || connector?.id === x.id}
-                        onClick={() => goConnect(x)}
-                    >
-                        <div className="item">
-                            <div className="img">
-                                {
-                                    x.name === 'MetaMask' ? 
-                                        <img src={require("@/assets/images/img/MetaMask.png")} alt="" />
-                                        :
-                                        <img src={require("@/assets/images/img/WalletConnect.png")} alt="" />
-                                }
-                            </div>
-                            <p className="name">
-                                {x.id === 'injected' ? (isMounted ? x.name : x.id) : x.name}
-                            </p>
-                        </div>
-                    </div>
+                    Wallet(x, i)
                 ))
-                }
-            <WalletMultiButton>
-                <div className="wallet-item">
-                    <div className="item">
-                        <div className="img">
-                            <img src={(require("@/assets/images/img/Solana.png"))} alt="" />
-                        </div>
-                        <p className="name">
-                            Solana Wallet
-                        </p>
-                    </div>
-                </div>
-            </WalletMultiButton>
+            }
         </Modal>
         </>
     )
