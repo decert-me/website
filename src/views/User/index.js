@@ -27,7 +27,7 @@ export default function User(props) {
     const { imgPath } = constans();
     const navigateTo = useNavigate();
     const { user } = useContext(MyContext);
-    const { address } = useAddress();
+    const { address, walletType } = useAddress();
     const location = useLocation();
     const { address: paramsAddr } = useParams();
     let [account, setAccount] = useState();
@@ -297,7 +297,8 @@ export default function User(props) {
                             profile={{
                                 isMe,
                                 checkType,
-                                address
+                                address,
+                                walletType
                             }}
                         />
                     )

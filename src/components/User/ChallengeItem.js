@@ -17,7 +17,7 @@ export default function ChallengeItem(props) {
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
     const [messageApi, contextHolder] = message.useMessage();
-    const { ipfsPath, defaultImg, openseaLink } = constans(profile?.checkType);
+    const { ipfsPath, defaultImg, openseaLink, openseaSolanaLink } = constans(profile?.checkType);
     const arr = [0, 1, 2];
 
 
@@ -32,13 +32,19 @@ export default function ChallengeItem(props) {
 
     const toOpensea = (event) => {
         event.stopPropagation();
-        window.open(`${openseaLink}/${info.tokenId}`,'_blank');
+        if (profile.walletType === "evm") {
+            window.open(`${openseaLink}/${info.tokenId}`,'_blank');
+        }else{
+            window.open(`${openseaSolanaLink}/${info.nft_address}`,'_blank');
+        }
     }
 
     function clickSbt(event) {
         if (isMobile) {
             event.stopPropagation();
             window.open(`${openseaLink}/${info.tokenId}`,'_blank');
+        }else{
+            window.open(`${openseaSolanaLink}/${info.nft_address}`,'_blank');
         }
     }
 

@@ -15,6 +15,7 @@ import { ClaimShareSuccess } from "../CustomMessage";
 import MyContext from "@/provider/context";
 import { useNavigate } from "react-router-dom";
 import { modalNotice } from "@/utils/modalNotice";
+import { useAddress } from "@/hooks/useAddress";
 
 
 
@@ -32,7 +33,8 @@ export default function CustomClaimStep(props) {
         verify,
         answerInfo
     } = props;
-    const { openseaLink, defaultImg, ipfsPath } = constans(); 
+    const { walletType } = useAddress();
+    const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(); 
     const { t } = useTranslation(["claim", "translation"]);
     const { isMobile } = useContext(MyContext);
     const navigateTo = useNavigate();
@@ -151,8 +153,8 @@ export default function CustomClaimStep(props) {
                             }
                             alt="" 
                         />
-                        <a href={`${openseaLink}/${detail.tokenId}`} className="icon" target="_blank">
-                        <img src={require("@/assets/images/icon/opensea.png")} alt="" />
+                        <a href={`${walletType === "evm" ? openseaLink+"/"+detail.tokenId : openseaSolanaLink+"/"+detail.nft_address }`} className="icon" target="_blank">
+                            <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                         </a>
                     </div>
             </div>
