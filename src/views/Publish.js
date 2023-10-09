@@ -368,7 +368,11 @@ export default function Publish(params) {
             message.info(t("translation:message.info.mobile-publish"))
             navigateTo('/')
         }
-    },[isMobile])
+        if (walletType === "solana") {
+            message.info("请切换到Polygon!");
+            navigateTo('/')
+        }
+    },[isMobile, walletType])
 
     useEffect(() => {
         const tokenId = location.search.replace("?","");
