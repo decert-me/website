@@ -2,7 +2,6 @@ import "@/assets/styles/view-style/lesson.scss"
 import "@/assets/styles/mobile/view-style/lesson.scss"
 import { useTranslation } from "react-i18next";
 import { useContext, useEffect, useRef, useState } from "react";
-import { useAccount } from "wagmi";
 import { progressList } from "@/request/api/public";
 import { Button, Divider, Drawer } from "antd";
 import CustomCategory from "@/components/CustomCategory";
@@ -12,6 +11,7 @@ import { totalTime } from "@/utils/date";
 import { getLabelList, getTutorialList } from "@/request/api/admin";
 import i18n from 'i18next';
 import InfiniteScroll from "@/components/InfiniteScroll";
+import { useAddress } from "@/hooks/useAddress";
 
 function Difficulty({tutorial, label}) {
     let color = "";
@@ -104,7 +104,7 @@ export default function Lesson(params) {
     
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation();
-    const { address } = useAccount();
+    const { address } = useAddress();
     const [openM, setOpenM] = useState(false);    //  移动端抽屉
     let [tutorials, setTutorials] = useState([]);   //  教程列表
     

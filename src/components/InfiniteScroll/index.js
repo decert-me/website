@@ -29,7 +29,6 @@ export default function InfiniteScroll(props) {
         const documentHeight = document.querySelector("main").scrollHeight;
         const zoom = document.body.style.zoom ? document.body.style.zoom : 1;
         if ((scrollTop + windowHeight + (height ? height : 500)) / zoom >= documentHeight) {
-            console.log("...");
             runAsync();
         }
     }
@@ -38,7 +37,6 @@ export default function InfiniteScroll(props) {
         const { scrollTop, clientHeight, scrollHeight } = scrollRef.current;
         const isLoading = document.querySelector(`${className ? '.'+className : ".loading"}`);
         if ((scrollTop + clientHeight >= (scrollHeight - (customHeight ? customHeight : 130))) && isLoading) {
-            console.log("...");
             runAsync();
         }
     }

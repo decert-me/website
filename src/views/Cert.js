@@ -10,19 +10,19 @@ import { useLocation, useParams } from "react-router-dom";
 import { CertSearch, CertUser, CertNfts, NftBox, ModalAddSbt } from "@/components/Cert";
 import { getAllNft, getContracts, getEns, modifyNftStatus, reloadSbt } from "@/request/api/nft";
 import { useUpdateEffect } from "ahooks";
-import { useAccount } from "wagmi";
 import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
 import CustomLoading from "@/components/CustomLoading";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import { covertChain } from "@/utils/convert";
+import { useAddress } from "@/hooks/useAddress";
 
 export default function Cert(params) {
     
     const { t } = useTranslation(["cert"]);
     const location = useLocation();
     const { address: urlAddr } = useParams();
-    const { address } = useAccount();
+    const { address } = useAddress();
     const { isMobile } = useContext(MyContext);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -116,6 +116,16 @@ export default function Cert(params) {
     }
 
     const init = async() => {
+        if (urlAddr.length === 44) {
+            ensParse = {
+                "address": urlAddr,
+                "domain": "",
+                "avatar": ""
+            }
+            setEnsParse({...ensParse});
+            initContracts();
+            return
+        }
         await new Promise((resolve, reject) => {
            getEns({address: urlAddr})
             .then(res => {

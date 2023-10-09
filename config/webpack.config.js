@@ -297,6 +297,21 @@ module.exports = function (webpackEnv) {
       // We placed these paths second because we want `node_modules` to "win"
       // if there are any conflicts. This matches Node resolution mechanism.
       // https://github.com/facebook/create-react-app/issues/253
+      fallback: {
+        // path: require.resolve("path-browserify"),
+        // assert: require.resolve("assert/"),
+        https: require.resolve("https-browserify"),
+        http: require.resolve("stream-http"),
+        crypto: require.resolve("crypto-browserify"),
+        // os: require.resolve("os-browserify/browser"),
+        stream: require.resolve("stream-browserify"),
+        zlib: false,
+        url: false,
+        // net: false,
+        // fs: false,
+        // readline: require.resolve("readline-promise"),
+        // tls: false
+      },
       modules: ['node_modules', paths.appNodeModules].concat(
         modules.additionalModulePaths || []
       ),

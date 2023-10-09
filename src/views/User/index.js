@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { useAccount } from "wagmi";
 import {
     EditOutlined,
     CopyOutlined
@@ -19,6 +18,7 @@ import { useUpdateEffect } from "ahooks";
 import Paginations from "@/components/User/Pagination";
 import MyContext from "@/provider/context";
 import { constans } from "@/utils/constans";
+import { useAddress } from "@/hooks/useAddress";
 
 
 export default function User(props) {
@@ -27,7 +27,7 @@ export default function User(props) {
     const { imgPath } = constans();
     const navigateTo = useNavigate();
     const { user } = useContext(MyContext);
-    const { address } = useAccount();
+    const { address, walletType } = useAddress();
     const location = useLocation();
     const { address: paramsAddr } = useParams();
     let [account, setAccount] = useState();
@@ -297,7 +297,8 @@ export default function User(props) {
                             profile={{
                                 isMe,
                                 checkType,
-                                address
+                                address,
+                                walletType
                             }}
                         />
                     )
