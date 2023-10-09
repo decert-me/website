@@ -153,9 +153,12 @@ export default function CustomClaimStep(props) {
                             }
                             alt="" 
                         />
-                        <a href={`${walletType === "evm" ? openseaLink+"/"+detail.tokenId : openseaSolanaLink+"/"+detail.nft_address }`} className="icon" target="_blank">
-                            <img src={require("@/assets/images/icon/opensea.png")} alt="" />
-                        </a>
+                        {
+                            walletType === "evm" || detail.claimed &&
+                            <a href={`${walletType === "evm" ? openseaLink+"/"+detail.tokenId : openseaSolanaLink+"/"+detail.nft_address }`} className="icon" target="_blank">
+                                <img src={require("@/assets/images/icon/opensea.png")} alt="" />
+                            </a>
+                        }
                     </div>
             </div>
             <div className="step">

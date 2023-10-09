@@ -40,11 +40,13 @@ export default function ChallengeItem(props) {
     }
 
     function clickSbt(event) {
-        if (isMobile) {
+        if (isMobile && (profile.walletType === "evm" || info.claimed)) {
             event.stopPropagation();
-            window.open(`${openseaLink}/${info.tokenId}`,'_blank');
-        }else{
-            window.open(`${openseaSolanaLink}/${info.nft_address}`,'_blank');
+            if (profile.walletType === "evm") {
+                window.open(`${openseaLink}/${info.tokenId}`,'_blank');
+            }else{
+                window.open(`${openseaSolanaLink}/${info.nft_address}`,'_blank');
+            }
         }
     }
 
@@ -105,7 +107,7 @@ export default function ChallengeItem(props) {
                         />
                 </div>
                 {
-                    profile && 
+                    profile && (profile.walletType === "evm" || info.claimed) &&
                     <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
                         <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                     </div>
