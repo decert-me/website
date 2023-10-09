@@ -213,7 +213,7 @@ export default function Publish(params) {
             return
         }
         if (walletType !== "evm") {
-            message.info("请切换到Polygon!");
+            message.info(t("translation:message.info.solana-publish"));
             changeConnect()
             return
         }
@@ -369,7 +369,7 @@ export default function Publish(params) {
             navigateTo('/')
         }
         if (walletType === "solana") {
-            message.info("请切换到Polygon!");
+            message.info(t("translation:message.info.solana-publish"));
             navigateTo('/')
         }
     },[isMobile, walletType])

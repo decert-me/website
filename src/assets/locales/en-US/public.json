@@ -166,7 +166,8 @@
             "preview-submit": "Currently in preview mode, cannot be submitted."
         },
         "info": {
-            "mobile-publish": "Please open on your computer."
+            "mobile-publish": "Please open on your computer.",
+            "solana-publish": "Please connect to Polygon"
         }
     },
     "pop": {

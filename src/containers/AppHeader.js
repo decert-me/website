@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDisconnect } from 'wagmi';
-import { Button, Dropdown } from 'antd';
+import { Button, Dropdown, message } from 'antd';
 import {
     MenuOutlined,
     CloseOutlined,
@@ -38,7 +38,13 @@ export default function AppHeader({ isMobile, user }) {
 
     const items = [
         {
-            label: (<p onClick={() => navigateTo(`/publish`)}> {t("home.btn-publish")} </p>),
+            label: (<p onClick={() => {
+                if (walletType === "solana") {
+                    message.info(t("translation:message.info.solana-publish"))
+                    return
+                }
+                navigateTo(`/publish`)
+            }}> {t("home.btn-publish")} </p>),
             key: '0',
             icon: '',
         },
