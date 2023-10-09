@@ -103,10 +103,14 @@ export default function CustomCompleted(props) {
                 totalScore += e.score;
             })
             let res;
-            await refetch()
-            .then(result => {
-                res = result.data?.toString();
-            })
+            if (detail.user_score === 0) {
+                await refetch()
+                .then(result => {
+                    res = result.data?.toString();
+                })
+            }else{
+                res = detail.user_score
+            }
             percent = res / 100;
             answerInfo = {
                 totalScore: totalScore,
