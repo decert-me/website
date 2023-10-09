@@ -3,13 +3,16 @@ import { Modal } from 'antd';
 import { useEffect } from 'react';
 import { connect } from 'react-redux';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { useAccount, useDisconnect, useSigner } from 'wagmi';
+import { useDisconnect, useSigner } from 'wagmi';
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useAddress } from '@/hooks/useAddress';
 const { confirm } = Modal;
 
 function CustomSigner(props) {
 
     const { data: signer } = useSigner();
-    const { address } = useAccount();
+    const { connected, wallet } = useWallet();
+    const { address } = useAddress();
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
     const location = useLocation();
@@ -31,8 +34,9 @@ function CustomSigner(props) {
       if (!address) {
         return
       }
+        const sign = signer || wallet.adapter
         openModal()
-        await GetSign({address: address, signer: signer, disconnect: disconnect})
+        await GetSign({address, signer: sign, disconnect: disconnect})
         .then(() => {
             if (localStorage.getItem('decert.token')) {
                 Modal.destroyAll();
@@ -49,8 +53,8 @@ function CustomSigner(props) {
     }
 
     useEffect(() => {
-      props?.isShow && signer && goSigner()
-    },[props, signer])
+      props?.isShow && (signer || connected) && goSigner()
+    },[props, signer, connected])
 
   return (
     <></>

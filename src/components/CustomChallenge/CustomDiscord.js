@@ -1,10 +1,10 @@
 import { Button, message } from "antd";
 import { useEffect, useState } from "react"
-import { useAccount } from "wagmi"
 import { verifyDiscord } from "@/request/api/public"
 import { useRequest } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
+import { useAddress } from "@/hooks/useAddress";
 
 
 
@@ -13,7 +13,7 @@ export default function CustomDiscord(props) {
     
     const { t } = useTranslation(["claim"]);
     const { step, setStep } = props;
-    const { address } = useAccount();
+    const { address } = useAddress();
     const { verify: verifyHash } = useVerifyToken();
     let [isBind, setIsBind] = useState();
     let [username, setUsername] = useState();

@@ -2,8 +2,8 @@ import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useAccount, useDisconnect } from 'wagmi';
-import { Button, Dropdown } from 'antd';
+import { useDisconnect } from 'wagmi';
+import { Button, Dropdown, message } from 'antd';
 import {
     MenuOutlined,
     CloseOutlined,
@@ -20,21 +20,31 @@ import { changeConnect } from '@/utils/redux';
 import { getUser } from '@/request/api/public';
 import store, { setUser } from '@/redux/store';
 import { constans } from '@/utils/constans';
+import { useWallet } from "@solana/wallet-adapter-react";
+import { useAddress } from '@/hooks/useAddress';
+import { ClearStorage } from '@/utils/ClearStorage';
 
 export default function AppHeader({ isMobile, user }) {
     
-    const { address, isConnected } = useAccount()
+    const { address, walletType, isConnected } = useAddress();
+    const { connected, wallet } = useWallet();
     const { imgPath } = constans();
     const { t } = useTranslation();
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
     const location = useLocation();
-    let [isOpenM, setIsOpenM] = useState(false);
     const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
+    let [isOpenM, setIsOpenM] = useState(false);
 
     const items = [
         {
-            label: (<p onClick={() => navigateTo(`/publish`)}> {t("home.btn-publish")} </p>),
+            label: (<p onClick={() => {
+                if (walletType === "solana") {
+                    message.info(t("translation:message.info.solana-publish"))
+                    return
+                }
+                navigateTo(`/publish`)
+            }}> {t("home.btn-publish")} </p>),
             key: '0',
             icon: '',
         },
@@ -65,7 +75,7 @@ export default function AppHeader({ isMobile, user }) {
             type: 'divider',
         },
         {
-            label: (<p onClick={() => disconnect()}> {t("header.disconnect")} </p>),
+            label: (<p onClick={() => goDisconnect()}> {t("header.disconnect")} </p>),
             key: '3',
             icon: '',
         }
@@ -90,6 +100,18 @@ export default function AppHeader({ isMobile, user }) {
         let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
         i18n.changeLanguage(lang);
         localStorage.setItem("decert.lang", lang)
+    }
+
+    function goDisconnect() {
+        if (walletType === "evm") {
+            disconnect();
+            ClearStorage();
+        }else{
+            wallet.adapter.disconnect()
+            .then(res => {
+                ClearStorage();
+            })
+        }
     }
 
     async function init(params) {

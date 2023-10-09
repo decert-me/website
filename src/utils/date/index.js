@@ -40,7 +40,6 @@ Date.prototype.Format = function(fmt) {
   }
 
   export function totalTime(time) {
-    console.log(time);
     const m = time;    //  分
     const hours = Math.floor(m / 60);
     const mins = m % 60;

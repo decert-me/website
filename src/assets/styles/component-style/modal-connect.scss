@@ -1,38 +1,68 @@
 .ModalConnect{
+    .ant-modal-header{
+        margin-bottom: 50px !important;
+        .ant-modal-title{
+           font-size: 24px;
+           font-weight: 600;
+           line-height: 28px;
+       }
+    }
     .ant-modal-content{
-        padding: 0;
+        padding: 30px 33px 20px !important;
+        border-radius: 25px !important;
+        position: relative;
+        &::after{
+            content: "";
+            width: 100%;
+            height: 1px;
+            position: absolute;
+            left: 0;
+            top: 74px;
+            background-color: #F0F0F0;
+        }
     }   
     .ant-modal-body{
         display: flex;
         flex-direction: column;
-
+    }
+    .wallet-adapter-button{
+        width: 100%;
+        height: auto;
+        padding: 0;
+        background-color: #fff;
+        &:hover{
+            background-color: #fff !important;
+        }
     }
     .wallet-item{
         width: 100%;
-        padding: 8px;
+        margin-bottom: 20px;
         cursor: pointer;
+        border-radius: 10px;
+        background-color: #FCFCFC;
+        transition: background-color 0.2s;
         &:hover{
-            .item{
-                background-color: #f7f7f7;
-            }
+            background-color: #f7f7f7;
         }
         .item{
-            padding: 24px 16px;
+            padding: 16px 26px;
             display: flex;
-            flex-direction: column;
-            align-items: center;            
-            border-radius: 12px;
-            transition: background-color 0.2s;
+            align-items: center;
         }
     }
+    .wallet-adapter-button-start-icon{
+        display: none;
+    }
     .img{
-        width: 45px;
-        height: 45px;
+        width: 40px;
+        height: 40px;
     }
     .name{
-        font-size: 24px;
-        font-weight: 700;
-        margin-top: 0.5em;
+        margin-left: 30px;
+        font-size: 20px;
+        font-weight: 500;
+        color: #333333;
+        font-family: PingFang SC-Medium, PingFang SC;
     }
     .tips{
         font-size: 18px;

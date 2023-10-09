@@ -14,12 +14,13 @@ import { usePublish } from "@/hooks/usePublish";
 import ModalEditQuestion from "@/components/CustomModal/ModalEditQuestion";
 import MyContext from "@/provider/context";
 import { getMetadata } from "@/utils/getMetadata";
-import { useAccount, useSigner } from "wagmi";
+import { useSigner } from "wagmi";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 import { changeConnect } from "@/utils/redux";
 import { getQuests, modifyRecommend } from "@/request/api/public";
 import store, { setChallenge } from "@/redux/store";
 import { tokenSupply } from "@/controller";
+import { useAddress } from "@/hooks/useAddress";
 
 export default function Publish(params) {
     
@@ -27,7 +28,7 @@ export default function Publish(params) {
 
     const { t } = useTranslation(["publish", "translation", "profile"]);
     const { isMobile } = useContext(MyContext);
-    const { address, isConnected } = useAccount();
+    const { address, isConnected, walletType } = useAddress();
     const { data: signer } = useSigner();
     const location = useLocation();
     const [messageApi, contextHolder] = message.useMessage();
@@ -211,6 +212,11 @@ export default function Publish(params) {
             changeConnect()
             return
         }
+        if (walletType !== "evm") {
+            message.info(t("translation:message.info.solana-publish"));
+            changeConnect()
+            return
+        }
         // 上传图片后删除: 若是`修改挑战`则跳过该判断
         if (!changeId && !Array.isArray(values.fileList) && values.fileList.file.status !== "done") {
             return
@@ -362,7 +368,11 @@ export default function Publish(params) {
             message.info(t("translation:message.info.mobile-publish"))
             navigateTo('/')
         }
-    },[isMobile])
+        if (walletType === "solana") {
+            message.info(t("translation:message.info.solana-publish"));
+            navigateTo('/')
+        }
+    },[isMobile, walletType])
 
     useEffect(() => {
         const tokenId = location.search.replace("?","");

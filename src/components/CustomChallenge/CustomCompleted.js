@@ -4,7 +4,7 @@ import {
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
-import { useAccount, useSigner } from "wagmi";
+import { useSigner } from "wagmi";
 import { GetPercent } from "@/utils/GetPercent";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import CustomClaimInfo from "./CustomClaimInfo";
@@ -12,17 +12,18 @@ import CustomClaimStep from "./CustomClaimStep";
 import { useBadgeContract } from "@/controller/contract";
 import Confetti from "react-confetti";
 import { constans } from "@/utils/constans";
+import { useAddress } from "@/hooks/useAddress";
 
 
 export default function CustomCompleted(props) {
     
-    const { answers, detail, tokenId, isClaim } = props;
+    const { answers, detail, tokenId, isClaim, address: addr } = props;
     const { defaultChainId } = constans();
     const { verify } = useVerifyToken();
     const { data: signer } = useSigner({
         chainId: defaultChainId
     });
-    const { address, isConnected } = useAccount();
+    const { address, isConnected } = useAddress();
     const { decode } = Encryption();
     const key = process.env.REACT_APP_ANSWERS_KEY;
     
@@ -31,7 +32,8 @@ export default function CustomCompleted(props) {
     let [step, setStep] = useState(0);
     let [isShow, setIsShow] = useState();
     let [percent, setPercent] = useState(0);
-    let [scoresArgs, setScoresArgs] = useState(address ? [Number(tokenId), address] : null);
+
+    let [scoresArgs, setScoresArgs] = useState([Number(tokenId), addr]);
     const { data, isLoading, refetch } = useBadgeContract({
         functionName: "scores",
         args: scoresArgs
@@ -101,10 +103,14 @@ export default function CustomCompleted(props) {
                 totalScore += e.score;
             })
             let res;
-            await refetch()
-            .then(result => {
-                res = result.data?.toString();
-            })
+            if (detail.user_score === 0) {
+                await refetch()
+                .then(result => {
+                    res = result.data?.toString();
+                })
+            }else{
+                res = detail.user_score
+            }
             percent = res / 100;
             answerInfo = {
                 totalScore: totalScore,
@@ -131,9 +137,9 @@ export default function CustomCompleted(props) {
 
     const getStep = async() => {
         // 判断当前步骤
-        if(isConnected === false || !localStorage.getItem('decert.token')){
+        if(!isConnected || !localStorage.getItem('decert.token')){
             step = 0;
-        }else if(isConnected === true){
+        }else if(isConnected){
             step = 1;
         }
         if (isClaim) {
@@ -149,8 +155,8 @@ export default function CustomCompleted(props) {
     }
 
     useEffect(() => {
-        init()
-    },[signer])
+        address && init()
+    },[signer, address])
 
     return (
         <div className="CustomCompleted">

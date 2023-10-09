@@ -146,6 +146,16 @@ export const submitClaimTweet = (data) => {
     })
 }
 
+// 是否空投
+export const hasClaimed = (data) => {
+    return serviceAxios({
+        url: `/v1/badge/hasClaimed/${data.id}`,
+        method: "get",
+        data
+    })
+}
+
+
 
 // ipfs ===>>>>>>>>
 

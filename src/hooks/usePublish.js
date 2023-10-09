@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useAccount, useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { addQuests, modifyQuests, submitHash } from "@/request/api/public";
 import { constans } from "@/utils/constans";

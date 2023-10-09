@@ -1,10 +1,10 @@
 import store, { showCustomSigner } from "@/redux/store";
 import { convertToken } from "@/utils/convert";
-import { useAccount } from "wagmi";
+import { useAddress } from "./useAddress";
 
 export const useVerifyToken = () => {
 
-    const { isConnected } = useAccount();
+    const { isConnected } = useAddress();
 
     const verify = async() => {
         

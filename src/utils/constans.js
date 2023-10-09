@@ -64,6 +64,8 @@ export const constans = (contractType) => {
 
     const openseaBase = isDev ? "https://testnets.opensea.io" : "https://opensea.io/";
     const openseaLink = `${openseaBase}/assets/${chains[defaultChainId]?.opensea || chains[defaultChainId].name}/${contractType ? questAddr : BadgeAddress}`;
+    const openseaSolanaLink = `${openseaBase}/assets/solana`;
+
     const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY || "https://nftscan.mypinata.cloud/ipfs/"
     const defaultImg = require('@/assets/images/img/default.png');
     const ipfsPath = 'https://ipfs.decert.me';
@@ -75,6 +77,7 @@ export const constans = (contractType) => {
         maxUint32,
         maxUint192,
         openseaLink,
+        openseaSolanaLink,
         defaultImg,
         ipfsPath,
         chains,
