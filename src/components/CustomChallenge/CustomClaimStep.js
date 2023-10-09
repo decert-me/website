@@ -154,7 +154,7 @@ export default function CustomClaimStep(props) {
                             alt="" 
                         />
                         {
-                            walletType === "evm" || detail.claimed &&
+                            (walletType === "evm" || detail.claimed) &&
                             <a href={`${walletType === "evm" ? openseaLink+"/"+detail.tokenId : openseaSolanaLink+"/"+detail.nft_address }`} className="icon" target="_blank">
                                 <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                             </a>
