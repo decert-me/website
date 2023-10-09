@@ -108,12 +108,11 @@ export default function UserEdit(params) {
             avatar: user?.avatar ? imgPath + user.avatar : hashAvatar(account)
         }
         setInfo({...info});
-        console.log(info);
     }
 
     useEffect(() => {
-        init();
-    },[])
+        address && init();
+    },[address])
 
     return (
         info &&
