@@ -1,3 +1,4 @@
+import { useAddress } from '@/hooks/useAddress';
 import { ipfsToImg } from '@/utils/IpfsToImg';
 import {
     EyeOutlined,
@@ -12,6 +13,7 @@ export default function NftBox(props) {
     
     const { info, changeNftStatus, isMe, options } = props;
     const { t } = useTranslation(["cert"]);
+    const { walletType } = useAddress();
 
     return (
         <div className="nft-detail">
@@ -39,7 +41,7 @@ export default function NftBox(props) {
                                     </div>
                                 }
                                 {
-                                    isMe &&
+                                    isMe && walletType === "evm" &&
                                     <Tooltip
                                             title={
                                                 info.status === 1 ? t("cert:sidbar.list.hide") : t("cert:sidbar.list.public")
