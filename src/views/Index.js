@@ -210,6 +210,7 @@ export default function Index(params) {
                                 <div className="contributor-content">
                                     {
                                         contributor.map((e,i) => 
+                                            e?.link ? 
                                             <a href={e.link} target="_blank" key={i}>
                                                 <div className="contributor-item img">
                                                     <img src={e.avatar} alt="" />
@@ -218,6 +219,15 @@ export default function Index(params) {
                                                     {e.name}
                                                 </div>
                                             </a>
+                                            :
+                                            <div>
+                                                <div className="contributor-item img">
+                                                    <img src={e.avatar} alt="" />
+                                                </div>
+                                                <div className={isMobile ? "usernameM" : "username"}>
+                                                    {e.name}
+                                                </div>
+                                            </div>
                                         )
                                     }
                                 </div>

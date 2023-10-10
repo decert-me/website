@@ -14,21 +14,24 @@ import { Web3Modal } from '@web3modal/react'
 import * as Sentry from "@sentry/react";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
-Sentry.init({
-  dsn: process.env.REACT_APP_SENTRY_KEY,
-  integrations: [
-    new Sentry.BrowserTracing({
-      // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
-      tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
-    }),
-    new Sentry.Replay(),
-  ],
-  // Performance Monitoring
-  tracesSampleRate: process.env.REACT_APP_SENTRY_TRACES || 1.0, // Capture 100% of the transactions, reduce in production!
-  // Session Replay
-  replaysSessionSampleRate: process.env.REACT_APP_SENTRY_REPLAYS_SESSION || 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
-  replaysOnErrorSampleRate: process.env.REACT_APP_SENTRY_REPLAYS_ON_ERROR || 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
-});
+const sentryKey = process.env.REACT_APP_SENTRY_KEY;
+if (sentryKey) {
+  Sentry.init({
+    dsn: sentryKey,
+    integrations: [
+      new Sentry.BrowserTracing({
+        // Set 'tracePropagationTargets' to control for which URLs distributed tracing should be enabled
+        tracePropagationTargets: ["localhost", /^https:\/\/yourserver\.io\/api/],
+      }),
+      new Sentry.Replay(),
+    ],
+    // Performance Monitoring
+    tracesSampleRate: process.env.REACT_APP_SENTRY_TRACES || 1.0, // Capture 100% of the transactions, reduce in production!
+    // Session Replay
+    replaysSessionSampleRate: process.env.REACT_APP_SENTRY_REPLAYS_SESSION || 0.1, // This sets the sample rate at 10%. You may want to change it to 100% while in development and then sample at a lower rate in production.
+    replaysOnErrorSampleRate: process.env.REACT_APP_SENTRY_REPLAYS_ON_ERROR || 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
+  });
+}
 
 
 const projectId = process.env.REACT_APP_PROJECT_ID;

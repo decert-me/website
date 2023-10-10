@@ -62,6 +62,12 @@
             .ant-progress-inner, .ant-progress-circle{
                 overflow: visible !important;
             }
+            foreignObject div div{
+                background: conic-gradient(from 180deg, rgb(90, 214, 141) 0%, rgb(67, 180, 114) 100%) !important;
+            }
+            // .ant-progress-circle-path{
+                // stroke-linecap: round;
+            // }
             .pass .ant-progress-circle-path{
                 transform: rotate(90deg) !important;
             }
