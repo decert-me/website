@@ -50,6 +50,13 @@ export const constans = (contractType) => {
             nftscan: "gnosis",
             icon: require("@/assets/images/img/net-Gnosis.png"),
             link: "https://gnosisscan.io/address/"
+        },
+        "solana": {
+            name: "Solana",
+            opensea: "solana",
+            nftscan: "solana",
+            icon: require("@/assets/images/img/net-Solana.png"),
+            link: "https://solscan.io/token/"
         }
     }
     const defaultChainId = Number(process.env.REACT_APP_CHAIN_ID) || (window.location.origin.indexOf("https://decert.me/") === -1 ? 80001 : 137);

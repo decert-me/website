@@ -21,14 +21,19 @@ export default function NftBox(props) {
                         return (
                             <div key={index} className={info.status === 1 ? "show" : ""}>
                                 <div className="badge badge-chain">
-                                    <a href={`${item.link}${info.contract_address}`} target="_blank">
+                                    <a href={`${item.link}${info.contract_address||info.nft_address}`} target="_blank">
                                         <img src={item.icon} alt="" key={item.value} />
                                     </a>
                                 </div>
                                 {
-                                    item.opensea && 
+                                    (item.opensea || info.nft_address) && 
                                     <div className="badge badge-opensea">
-                                        <a href={`https://opensea.io/assets/${item.opensea}/${info.contract_address}/${info.token_id}`} target="_blank">
+                                        <a href={
+                                            info.chain === "solana" ?
+                                            `https://opensea.io/assets/solana/${info.nft_address}`
+                                            :
+                                            `https://opensea.io/assets/${item.opensea}/${info.contract_address}/${info.token_id}`
+                                        } target="_blank">
                                             <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                                         </a>
                                     </div>
