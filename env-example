@@ -10,6 +10,9 @@ REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_CODE=""
 
 REACT_APP_SENTRY_KEY=""
 
+# 测试网配置，默认为false
+# REACT_APP_IS_DEV=true
+
 # infura key 默认为: null
 # REACT_APP_INFURA_API_KEY=""
 

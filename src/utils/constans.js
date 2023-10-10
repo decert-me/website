@@ -62,7 +62,7 @@ export const constans = (contractType) => {
 
     const imgPath = process.env.REACT_APP_BASE_URL;
 
-    const openseaBase = isDev ? "https://testnets.opensea.io" : "https://opensea.io/";
+    const openseaBase = isDev ? "https://testnets.opensea.io" : "https://opensea.io";
     const openseaLink = `${openseaBase}/assets/${chains[defaultChainId]?.opensea || chains[defaultChainId].name}/${contractType ? questAddr : BadgeAddress}`;
     const openseaSolanaLink = `${openseaBase}/assets/solana`;
 
