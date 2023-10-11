@@ -6,6 +6,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { useDisconnect, useSigner } from 'wagmi';
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAddress } from '@/hooks/useAddress';
+import { useRequest } from 'ahooks';
 const { confirm } = Modal;
 
 function CustomSigner(props) {
@@ -16,6 +17,11 @@ function CustomSigner(props) {
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
     const location = useLocation();
+
+    const { runAsync } = useRequest(goSigner, {
+      debounceWait: 300,
+      manual: true
+    });
 
     function openModal() {
         confirm({
@@ -53,7 +59,7 @@ function CustomSigner(props) {
     }
 
     useEffect(() => {
-      props?.isShow && (signer || connected) && goSigner()
+      props?.isShow && (signer || connected) && runAsync()
     },[props, signer, connected])
 
   return (

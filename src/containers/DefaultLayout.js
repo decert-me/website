@@ -129,12 +129,12 @@ export default function DefaultLayout(params) {
             // isCert(path, 'toggle');
             isExplore(path);
             isUser(path);
-            sign()
+            await sign()
         }
     }
 
     const { run } = useRequest(verifySignUpType, {
-        debounceWait: 500,
+        debounceWait: 300,
         manual: true
     });
 
