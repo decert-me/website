@@ -126,15 +126,15 @@ export default function DefaultLayout(params) {
             ClearStorage();
             localStorage.setItem("decert.address", address);
             isClaim(path);
-            isCert(path, 'toggle');
+            // isCert(path, 'toggle');
             isExplore(path);
             isUser(path);
-            sign()
+            await sign()
         }
     }
 
     const { run } = useRequest(verifySignUpType, {
-        debounceWait: 500,
+        debounceWait: 300,
         manual: true
     });
 
