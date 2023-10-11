@@ -43,3 +43,17 @@ export const ipfsToImg = (e) => {
         return <div className="img" dangerouslySetInnerHTML={{__html: selectValue}} />
     }
 }
+
+
+export const imgTypeCompatible = (url) => {
+
+    const { ipfsGateway } = constans();
+    let newUrl = "";
+    if (url.indexOf("ipfs://") !== -1) {
+        newUrl = ipfsGateway + url.replace("ipfs://", "");
+    }else{
+        newUrl = process.env.REACT_APP_NFT_BASE_URL + url;
+    }
+
+    return newUrl
+}
