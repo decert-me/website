@@ -126,7 +126,7 @@ export default function DefaultLayout(params) {
             ClearStorage();
             localStorage.setItem("decert.address", address);
             isClaim(path);
-            isCert(path, 'toggle');
+            // isCert(path, 'toggle');
             isExplore(path);
             isUser(path);
             sign()
