@@ -150,7 +150,7 @@ export default function Collection(params) {
                 })
             }
         }
-    },[isConnected])
+    },[isCreated, isConnected])
 
     useEffect(() => {
         init();
