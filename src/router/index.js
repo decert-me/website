@@ -10,6 +10,7 @@ import Cert from "@/views/Cert";
 import Lesson from "@/views/Lesson";
 import Search from "@/views/Search";
 import NotFound from "@/views/NotFound";
+import Collection from "@/views/Collection";
 
 const routes = [
     { 
@@ -22,7 +23,7 @@ const routes = [
     },
     { 
       path: "/collection/:id",
-      element: <Explore />,
+      element: <Collection />,
     },
     { 
       path: "/publish",
