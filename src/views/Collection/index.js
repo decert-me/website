@@ -21,7 +21,6 @@ import { hasClaimed } from "@/request/api/public";
 
 export default function Collection(params) {
     
-    const isDev = process.env.REACT_APP_IS_DEV;
     const { id } = useParams();
     const { address, walletType, isConnected } = useAddress();
     const { ipfsPath, defaultImg } = constans();
@@ -85,8 +84,7 @@ export default function Collection(params) {
 
         const { title, description, cover, difficulty } = detail.collection;
         
-        const baseUrl = isDev ? "http://192.168.1.10:8087/quests/" : "https://decert.me/quests/"
-        const challenges = detail.list.map(e => baseUrl + e.tokenId);
+        const challenges = detail.list.map(e => e.tokenId);
         
         setLoading(true);
 

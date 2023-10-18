@@ -62,6 +62,8 @@ export async function getMetadata({values, address, questions, answers, image, s
 
 export async function getCollectionMetadata({values, challenges, address}) {
     
+    const isDev = process.env.REACT_APP_IS_DEV;
+
     const version = 1.2;
     const uuid = generateUUID();
     const nft = {
@@ -69,14 +71,14 @@ export async function getCollectionMetadata({values, challenges, address}) {
         description: values.desc,
         image: values.image,
         attributes: {
-            challenge_url: `https://decert.me/collection/${uuid}`,
+            challenge_url: isDev ? `http://192.168.1.10:8087/collection/${uuid}` : `https://decert.me/collection/${uuid}`,
             challenge_title: values.title,
             challenge_type: "collection",
             challenges: challenges,
             creator: address,
             difficulty: values?.difficulty || null,
         },
-        external_url: "https://decert.me",
+        external_url: isDev ? "http://192.168.1.10:8087" : "https://decert.me",
         version: version
     }
     const nftHash = await nftJson(nft, "collection");
