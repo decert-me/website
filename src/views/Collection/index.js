@@ -184,6 +184,7 @@ export default function Collection(params) {
                             {
                                 isCreated && detail?.collection.claimed &&
                                 <a 
+                                    target="_blank"
                                     href={openseaLink+"/"+detail?.collection.tokenId} 
                                     className="badge">
                                     <img src={require("@/assets/images/icon/opensea.png")} alt="" />
