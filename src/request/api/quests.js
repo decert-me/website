@@ -10,6 +10,7 @@ export const getChallengers = (data) => {
     })
 }
 
+// 合辑详情
 export const getCollectionQuest = (data) => {
     return serviceAxios({
         url: `/v1/collection?id=${data.id}`,
@@ -18,10 +19,20 @@ export const getCollectionQuest = (data) => {
     })
 }
 
+// 合辑挑战者
 export const getCollectionChallenger = (data) => {
     return serviceAxios({
         url: `/v1/collection/challengeUsers?collection_id=${data.id}&page=${data.page}&pageSize=${data.pageSize}`,
         method: "get",
+        data
+    })
+}
+
+// 领取合辑NFT
+export const claimCollection = (data) => {
+    return serviceAxios({
+        url: `/v1/collection/claim`,
+        method: "post",
         data
     })
 }

@@ -24,7 +24,7 @@ export async function getMetadata({values, address, questions, answers, image, s
         }
      *  */    
 
-    const version = 1.1;
+    const version = 1.2;
     const obj = {
         title: values.title,
         description: values.desc,
@@ -48,6 +48,7 @@ export async function getMetadata({values, address, questions, answers, image, s
             challenge_ipfs_url: preview ? questHash : "ipfs://" + questHash.data.hash,
             challenge_url: `https://decert.me/quests/${olduuid || uuid}`,
             challenge_title: values.title,
+            challenge_type: "challenge",
             creator: address,
             difficulty: values.difficulty !== undefined ? values.difficulty : null,
         },
@@ -59,6 +60,30 @@ export async function getMetadata({values, address, questions, answers, image, s
     return preview ? nftHash : nftHash.data
 }
 
+export async function getCollectionMetadata({values, challenges, address}) {
+    
+    const version = 1.2;
+    const uuid = generateUUID();
+    const nft = {
+        name: values.title,
+        description: values.desc,
+        image: values.image,
+        attributes: {
+            challenge_url: `https://decert.me/collection/${uuid}`,
+            challenge_title: values.title,
+            challenge_type: "collection",
+            challenges: challenges,
+            creator: address,
+            difficulty: values?.difficulty || null,
+        },
+        external_url: "https://decert.me",
+        version: version
+    }
+    const nftHash = await nftJson(nft, "collection");
+
+    return nftHash.data
+}
+
 export async function setMetadata(props) {
     let metadata = props;
     const { ipfsPath } = constans();
@@ -67,7 +92,7 @@ export async function setMetadata(props) {
         case 1:
             
             break;
-        case 1.1:
+        case 1.1 || 1.2:
             await v1_1()
             break;
         default:

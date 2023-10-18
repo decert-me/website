@@ -10,20 +10,24 @@ import {
 
 export default function CollectionChallenger({id}) {
     
-    let [detail, setDetail] = useState();
+    const pageSize = 15;
     const { t } = useTranslation(["explore"]);
     const [page, setPage] = useState(0);
+    const [isOver, setIsOver] = useState();
+    let [detail, setDetail] = useState();
     let [challengers, setChallengers] = useState([]);
 
     async function init(params) {
         setPage(page+1);
-        getCollectionChallenger({id: id, page, pageSize: 15})
+        getCollectionChallenger({id: id, page, pageSize})
         .then(res => {
             detail = res?.data;
             setDetail(detail);
             challengers = challengers.concat(detail.users);
             setChallengers([...challengers]);
-            console.log(challengers);
+            if (detail.users.length !== pageSize) {
+                setIsOver(true)
+            }
         })
     }
 
@@ -49,7 +53,10 @@ export default function CollectionChallenger({id}) {
                             </li>
                         )
                     }
-                    <DownOutlined className="arrow" onClick={init} />
+                    {
+                        !isOver &&
+                        <DownOutlined className="arrow" onClick={init} />
+                    }
                 </ul>
             </div>
         </div>

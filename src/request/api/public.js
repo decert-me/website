@@ -177,9 +177,9 @@ export const challengeJson = (data) => {
 }
 
 // nftjson
-export const nftJson = (data) => {
+export const nftJson = (data, type) => {
     return ipfsAxios({
-        url: `/v1/ipfs/uploadJson?type=nft`,
+        url: `/v1/ipfs/uploadJson?type=${type || "nft"}`,
         method: "post",
         data
     })
