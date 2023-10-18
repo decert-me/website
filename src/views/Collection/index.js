@@ -23,7 +23,7 @@ export default function Collection(params) {
     
     const { id } = useParams();
     const { address, walletType, isConnected } = useAddress();
-    const { ipfsPath, defaultImg } = constans();
+    const { ipfsPath, defaultImg, openseaLink } = constans();
     const { t } = useTranslation(["publish", "translation", "profile"]);
     const [isCreated, setIsCreated] = useState();
     const [isWrite, setIsWrite] = useState(false);
@@ -114,7 +114,12 @@ export default function Collection(params) {
     }
 
     async function init() {
-        const res = await getCollectionQuest({id: Number(id)});
+        // 判断id是collectionID还是uuid
+        let collectionId = Number(id);
+        if (isNaN(collectionId)) {
+            collectionId = id;
+        }
+        const res = await getCollectionQuest({id: collectionId});
         detail = res.data;
         setDetail({...detail});
         // 是否创建了nft
@@ -176,10 +181,15 @@ export default function Collection(params) {
                                     : defaultImg
                                 }
                                 alt="" />
+                            {
+                                isCreated && detail?.collection.claimed &&
+                                <a 
+                                    href={openseaLink+"/"+detail?.collection.tokenId} 
+                                    className="badge">
+                                    <img src={require("@/assets/images/icon/opensea.png")} alt="" />
+                                </a>
+                            }
                         </div>
-                        {/* <div className="status">
-                            {detail.quest_data?.status === "updating" ? "未完结" : "完结"}
-                        </div> */}
                     </div>
                     {
                         detail.collection.author === address &&

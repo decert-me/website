@@ -50,6 +50,16 @@
                     border-radius: 10px;
                     overflow: hidden;
                     background-color: rgba($color: #8F5A35, $alpha: 5%);
+                    position: relative;
+                    .badge{
+                        position: absolute;
+                        right: 7px;
+                        top: 7px;
+                        img{
+                            width: 32px;
+                            height: 32px;
+                        }
+                    }
                 }
                 .status{
                     width: 130px;
