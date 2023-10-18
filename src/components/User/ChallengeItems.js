@@ -9,6 +9,7 @@ import { constans } from "@/utils/constans";
 import { getCollectionQuest } from "@/request/api/quests";
 import { useNavigate } from "react-router-dom";
 import { hashAvatar } from "@/utils/HashAvatar";
+import { hasClaimed } from "@/request/api/public";
 
 
 export default function ChallengeItems({info, goCollection}) {
@@ -32,25 +33,35 @@ export default function ChallengeItems({info, goCollection}) {
         )
     }
 
-    function init(params) {
+    async function init(params) {
         // 获取本地缓存已完成的
         let local = localStorage.getItem("decert.cache");
         if (local) {
             local = JSON.parse(local).claimable;
         }
-        getCollectionQuest({id: Number(info.id)})
+        let tokenId;
+        await getCollectionQuest({id: Number(info.id)})
         .then(res => {
             if (res.status === 0) {
                 const list = res.data.list || [];
                 collectionInfo.questNum = list.length;
-                collectionInfo.claimed = !list.some(e => !e.claimed);
-                if (local && local.length !== 0) {
-                    const commonElements = list.filter(element => local.some(ele => ele.token_id == element.tokenId));
-                    collectionInfo.claimable = commonElements.length !== 0;
+                tokenId = res.data.collection.tokenId;
+                if (tokenId !== 0) {
+                    collectionInfo.claimable = !list.some(e => !e.claimed);
                 }
                 setCollectionInfo({...collectionInfo});
             }
         })
+        if (tokenId !== 0) {            
+            hasClaimed({id: tokenId})
+            .then(res => {
+                const status = res.data.status;
+                if (status === 2) {
+                    collectionInfo.claimed = true;
+                    setCollectionInfo({...collectionInfo});
+                }
+            })
+        }
     }
 
     useEffect(() => {
