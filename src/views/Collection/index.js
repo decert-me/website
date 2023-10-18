@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import { getCollectionQuest } from "@/request/api/quests";
 import { constans } from "@/utils/constans";
 import { Button } from "antd";
+import CollectionChallenger from "./challenger";
 
 export default function Collection(params) {
     
@@ -49,7 +50,7 @@ export default function Collection(params) {
                         </div> */}
                     </div>
                     <Button className="btn-claim">领取</Button>
-                    {/* <CollectionChallenger questId={questId} /> */}
+                    <CollectionChallenger id={detail.collection.id} />
                 </div>
             </div>
         </div>

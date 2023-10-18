@@ -6,6 +6,7 @@ import { getUser } from "@/request/api/public";
 import { avatar, nickname } from "@/utils/user";
 import CustomViewer from "@/components/CustomViewer";
 import { convertTime } from "@/utils/convert";
+import ChallengeItem from "@/components/User/ChallengeItem";
 
 export default function CollectionInfo(props) {
     
@@ -33,8 +34,8 @@ export default function CollectionInfo(props) {
 
     return(
         user &&
-        <div className="quest-info">
-            <ul className="quest-info-top">
+        <div className="collection-info">
+            <ul className="collection-info-top">
                 <div className="quest-creator">
                     {/* <p className="title mt13">{t("explore:creator")}</p> */}
                     <div className="creator-info">
@@ -63,24 +64,32 @@ export default function CollectionInfo(props) {
                         <p className="reward">SBT</p>
                     </div>
                 </li>
+                <li className="li">
+                    <p className="title">{t("translation:diff")}</p>
+                    <div className="info-content">
+                        {
+                            detail.collection?.difficulty !== null &&
+                            arr.map((e,i) => {
+                                if (i >= detail.collection.difficulty + 1) {
+                                    return <img key={i} src={require("@/assets/images/icon/star-line.png")} alt="" />
+                                }else{
+                                    return <img key={i} src={require("@/assets/images/icon/star-full.png")} alt="" />
+                                }
+                            })
+                        }
+                    </div>
+                </li>
             </ul>
             <div className="challenges">
                 {
                     detail.list.map((challenge, index) => (
-                        <div className="challenge" key={index}>
-                            <p className="challenge-title">{challenge.title}</p>
-                            <p className="challenge-desc">{challenge.description}</p>
-                            <div className="challenge-score">
-                                <div className="score">
-                                    {
-                                        true && <p>分数：<span>98分</span></p>
-                                    }
-                                </div>
-                                <Button className="btn-start" onClick={() => startChallenge(challenge.tokenId)}>开始挑战</Button>
-                            </div>
-                        </div>
+                        <ChallengeItem
+                            key={challenge.id} 
+                            info={challenge}
+                        />
                     ))
                 }
+                
             </div>
         </div>
     )

@@ -12,7 +12,15 @@ export const getChallengers = (data) => {
 
 export const getCollectionQuest = (data) => {
     return serviceAxios({
-        url: `/v1/quests/collection?id=${data.id}`,
+        url: `/v1/collection?id=${data.id}`,
+        method: "get",
+        data
+    })
+}
+
+export const getCollectionChallenger = (data) => {
+    return serviceAxios({
+        url: `/v1/collection/challengeUsers?collection_id=${data.id}&page=${data.page}&pageSize=${data.pageSize}`,
         method: "get",
         data
     })

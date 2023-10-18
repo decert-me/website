@@ -1,19 +1,24 @@
 .Collection{
     width: 1440px;
-    margin: 82px auto 70px;
+    min-height: calc(100vh - 82px);
+    margin: 82px auto 0;
     .question-content{
+        width: 100%;
+        height: 100%;
         display: flex;
         .question-left{
             width: 990px;
             padding-left: 85px;
             padding-right: 70px;
+            border-right: 1px solid #E9E9E9;
         }
         .question-right{
             width: 450px;
             padding-top: 62px;
             padding-left: 60px;
             padding-right: 85px;
-            border-left: 1px solid #E9E9E9;
+            position: fixed;
+            left: calc((100% - 1440px) / 2 + 990px);
             .nft{
                 width: 305px;
                 height: 305px;
@@ -95,16 +100,22 @@
 }
 // content-left
 .quest-challenger{
-    width: 515px;
-    margin-top: 45px;
+    width: 100%;
+    margin-top: 30px;
     .list ul{
-        margin-top: 27px;
+        max-height: calc(100vh - 82px - 62px - 305px - 32px - 50px - 30px - 23px - 20px - 50px);
+        margin-top: 20px;
         display: flex;
         flex-wrap: wrap;
-        gap: 30px;
+        overflow: hidden;
+        overflow-y: auto;
+        gap: 16px;
+        &::-webkit-scrollbar {
+            display: none;
+        }
         li{
-            width: 60px;
-            height: 60px;
+            width: 48px;
+            height: 48px;
             border-radius: 50%;
             overflow: hidden;
         }
@@ -112,11 +123,16 @@
             width: 100%;
             height: 100%;
         }
+        .arrow{
+            margin: 0 auto;
+            font-size: 12px;
+            cursor: pointer;
+        }
     }
 }
 
 // content-right
-.quest-info{
+.collection-info{
     padding-top: 64px;
     .li{
         margin-bottom: 30px;
@@ -141,11 +157,6 @@
         }
     }
     .avatar{
-        img{
-            margin-right: 0;
-        }
-    }
-    .img{
         width: 50px;
         height: 50px;
         border-radius: 50%;
@@ -153,6 +164,7 @@
         img{
             width: 100%;
             height: 100%;
+            margin-right: 0;
         }
     }
     .mt13{
@@ -220,51 +232,12 @@
         font-weight: 600;
     }
     .challenges{
-        margin-top: 52px;
-        .challenge{
-            padding: 24px 30px;
-            margin-top: 20px;
-            border: 2px solid #8F5A35;
-            border-radius: 10px;
-            .challenge-title{
-                color: #222222;
-                font-size: 15px;
-                font-weight: 600;
-                line-height: 22px;
-            }
-            .challenge-desc{
-                margin-top: 10px;
-                color: #666666;
-                font-size: 12px;
-                font-weight: 600;
-            }
-            .challenge-score{
-                margin-top: 10px;
-                display: flex;
-                justify-content: space-between;
-                align-items: center;
-                .score{
-                    font-size: 15px;
-                    color: #100C0C;
-                    span{
-                        color: #4ABE7A;
-                    }
-                }
-                .btn-start{
-                    height: 40px;
-                    padding: 0 35px;
-                    background-color: #100C0C;
-                    border: none;
-                    box-shadow: none;
-                    border-radius: 8px;
-                    color: #fff;
-                    font-size: 15px;
-                    font-weight: 600;
-                }
-            }
+        margin-top: 20px;
+        .ChallengeItem{
+            margin-bottom: 20px;
         }
     }
-    .quest-info-top{
+    .collection-info-top{
         overflow: hidden;
         .quest-creator{
             margin-bottom: 32px;

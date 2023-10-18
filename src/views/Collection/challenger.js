@@ -1,25 +1,34 @@
-import { getChallengers } from "@/request/api/quests"
+import { getChallengers, getCollectionChallenger } from "@/request/api/quests"
 import { avatar } from "@/utils/user";
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next";
 import { Link } from "react-router-dom";
+import {
+    DownOutlined
+} from '@ant-design/icons';
 
-export default function CollectionChallenger(props) {
+
+export default function CollectionChallenger({id}) {
     
-    const { questId } = props;
     let [detail, setDetail] = useState();
     const { t } = useTranslation(["explore"]);
+    const [page, setPage] = useState(0);
+    let [challengers, setChallengers] = useState([]);
 
     async function init(params) {
-        getChallengers({questId: questId})
+        setPage(page+1);
+        getCollectionChallenger({id: id, page, pageSize: 15})
         .then(res => {
             detail = res?.data;
             setDetail(detail);
+            challengers = challengers.concat(detail.users);
+            setChallengers([...challengers]);
+            console.log(challengers);
         })
     }
 
     useEffect(() => {
-        questId && init();
+        init();
     },[])
 
     return (
@@ -32,7 +41,7 @@ export default function CollectionChallenger(props) {
             <div className="list">
                 <ul>
                     {
-                        detail.users.map((e,i) => 
+                        challengers.map((e,i) => 
                             <li key={i}>
                                 <Link to={`/${e.address}`}>
                                     <img src={avatar(e)} alt="" />
@@ -40,6 +49,7 @@ export default function CollectionChallenger(props) {
                             </li>
                         )
                     }
+                    <DownOutlined className="arrow" onClick={init} />
                 </ul>
             </div>
         </div>
