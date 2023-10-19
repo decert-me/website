@@ -4,7 +4,7 @@ import { ConfirmClearQuest } from "../CustomConfirm/ConfirmClearQuest";
 import { CustomQuestion, CustomEditor } from "@/components/CustomItem";
 import { useEffect, useState } from "react";
 import { UploadProps } from "@/utils/UploadProps";
-import { InboxOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
 import { constans } from "@/utils/constans";
 import { useLocation } from "react-router-dom";
@@ -233,7 +233,7 @@ export default function CustomForm(props) {
                     maxWidth: 380,
                 }}
             >
-                <Dragger
+                <Upload
                     {...UploadProps} 
                     beforeUpload={(file) => {
                         if (!isConnected) {
@@ -243,20 +243,21 @@ export default function CustomForm(props) {
                         UploadProps.beforeUpload(file)
                     }}
                     listType="picture-card"
+                    className="custom-upload"
                     fileList={fileList}
                     onChange={handleChange}
                 >
-                    <p className="ant-upload-drag-icon" style={{ color: "#a0aec0" }}>
-                        <InboxOutlined />
+                    <p className="upload-icon">
+                        <UploadOutlined />
                     </p>
-                    <p className="ant-upload-text " style={{ color: "#a0aec0" }}>
+                    <p className="text-title">
                         {t("inner.content.img.p1")}
                     </p>
-                    <p className="ant-upload-hint " style={{ color: "#a0aec0" }}>
+                    <p className="text-normal">
                         {t("inner.content.img.p2")}
-                        <span style={{ color: "#f14e4e", fontSize: "20px" }}>*</span>
                     </p>
-                </Dragger>
+                    <p className="text-normal">{t("inner.content.img.p3")}</p>
+                </Upload>
             </Form.Item>
 
             <Divider />
