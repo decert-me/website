@@ -97,7 +97,7 @@ export default function ChallengeItem(props) {
                 </div>
             }
             <div className="right-sbt" onClick={clickSbt}>
-                <div className="img">
+                <div className="img challenge-img">
                         <LazyLoadImage
                             src={
                                 info.metadata.image.split("//")[1]

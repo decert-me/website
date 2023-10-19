@@ -72,7 +72,7 @@ export default function ChallengeItems({info, goCollection}) {
                 </div>
             }
             <div className="right-sbt">
-                <div className="img">
+                <div className="img challenge-img">
                         <LazyLoadImage
                             src={`${ipfsPath}/${info.cover}`}
                         />
