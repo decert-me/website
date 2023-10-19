@@ -71,8 +71,8 @@ export default function ChallengeItems({info, goCollection}) {
                     {t("explore:pass")}
                 </div>
             }
-            <div className="right-sbt">
-                <div className="img challenge-img">
+            <div className="right-sbt challenge-img">
+                <div className="img">
                         <LazyLoadImage
                             src={`${ipfsPath}/${info.cover}`}
                         />
