@@ -220,7 +220,7 @@ export default function Collection(params) {
                         </div>
                     }
 
-                    <Tooltip placement="top" title={!isCreated ? "等待合辑更新完后方可领取" : progressObj.total > progressObj.now ? "请先完成所有挑战" : ""}>
+                    <Tooltip placement="top" title={!isCreated ? "等待合辑更新完后方可领取" : progressObj.total > progressObj.now || !address ? "请先完成所有挑战" : ""}>
                         <Button 
                             className={!isCreated || progressObj.total > progressObj.now || !address ? "btn-disable" : claimStatus === 1 ? "btn-airpost" : claimStatus === 2 ? "" : "btn-normal"}
                             disabled={!isCreated || progressObj.total > progressObj.now || claimStatus !== 0 || !address}
