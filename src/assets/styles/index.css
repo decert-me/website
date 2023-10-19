@@ -22,13 +22,15 @@ ul{
   padding: 0;
   margin: 0;
 }
+.challenge-img{
+  background-color: #FCFCFC;
+  border: 1px solid #F1F1F1;
+}
 .img{
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #FCFCFC;
-  border: 1px solid #F1F1F1;
 }
 .img > img{
   /* width: 100%; */
