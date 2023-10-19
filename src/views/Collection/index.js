@@ -210,7 +210,7 @@ export default function Collection(params) {
                     }
 
                     {
-                        isCreated &&
+                        isCreated && address &&
                         <div className="progress">
                             <p className="progress-tips"><ExclamationCircleOutlined />完成全部挑战后可领取</p>
                             <div className="progress-info">
@@ -222,8 +222,8 @@ export default function Collection(params) {
 
                     <Tooltip placement="top" title={!isCreated ? "等待合辑更新完后方可领取" : progressObj.total > progressObj.now ? "请先完成所有挑战" : ""}>
                         <Button 
-                            className={!isCreated || progressObj.total > progressObj.now ? "btn-disable" : claimStatus === 1 ? "btn-airpost" : claimStatus === 2 ? "" : "btn-normal"}
-                            disabled={!isCreated || progressObj.total > progressObj.now || claimStatus !== 0}
+                            className={!isCreated || progressObj.total > progressObj.now || !address ? "btn-disable" : claimStatus === 1 ? "btn-airpost" : claimStatus === 2 ? "" : "btn-normal"}
+                            disabled={!isCreated || progressObj.total > progressObj.now || claimStatus !== 0 || !address}
                             onClick={() => claimCollectionNft()}
                             style={{
                                 marginTop: "30px"
