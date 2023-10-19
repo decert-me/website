@@ -155,7 +155,7 @@ export default function CustomCompleted(props) {
     }
 
     useEffect(() => {
-        address && init()
+        init()
     },[signer, address])
 
     return (
