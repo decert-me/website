@@ -1,6 +1,6 @@
 import "./index.scss";
 import { useParams } from "react-router-dom"
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { claimCollection, getCollectionQuest } from "@/request/api/quests";
 import { constans } from "@/utils/constans";
 import { Button, Tooltip, message } from "antd";
@@ -16,12 +16,14 @@ import CollectionChallenger from "./challenger";
 import CollectionInfo from "./detail";
 import usePublishCollection from "@/hooks/usePublishCollection";
 import { hasClaimed } from "@/request/api/public";
+import MyContext from "@/provider/context";
 
 
 
 export default function Collection(params) {
     
     const { id } = useParams();
+    const { isMobile } = useContext(MyContext);
     const { address, walletType, isConnected } = useAddress();
     const { ipfsPath, defaultImg, openseaLink } = constans();
     const { t } = useTranslation(["publish", "translation", "profile"]);
@@ -164,7 +166,7 @@ export default function Collection(params) {
 
     return (
         detail &&
-        <div className="Collection">
+        <div className={`Collection ${isMobile ? "Collection-mobile" : ""}`}>
             <div className="custom-bg-round"></div>
             <div className="question-content">
                 <div className="question-left">

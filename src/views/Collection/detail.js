@@ -48,7 +48,7 @@ export default function CollectionInfo(props) {
                     </div>
                     <Button className="btn-share">分享</Button>
                 </div>
-                <h1>{detail.collection.title}</h1>
+                <h1 className="newline-omitted">{detail.collection.title}</h1>
                 <li className="li">
                     <p className="title">{t("publish:inner.desc")}</p>
                     <div className="info-content desc overflow">
