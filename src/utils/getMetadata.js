@@ -94,7 +94,8 @@ export async function setMetadata(props) {
         case 1:
             
             break;
-        case 1.1 || 1.2:
+        case 1.1:
+        case 1.2:
             await v1_1()
             break;
         default:
