@@ -46,7 +46,7 @@ export default function CollectionInfo(props) {
                         </Link>
                         <p className="name">{nickname(user)}</p>
                     </div>
-                    <Button className="btn-share">分享</Button>
+                    {/* <Button className="btn-share">分享</Button> */}
                 </div>
                 <h1 className="newline-omitted">{detail.collection.title}</h1>
                 <li className="li">
