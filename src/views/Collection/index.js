@@ -124,6 +124,8 @@ export default function Collection(params) {
         const res = await getCollectionQuest({id: collectionId});
         detail = res.data;
         setDetail({...detail});
+        progressObj.total = detail.list.length;
+        setProgressObj({...progressObj});
         // 是否创建了nft
         setIsCreated(detail.collection.tokenId !== 0);
     }
@@ -210,7 +212,7 @@ export default function Collection(params) {
                     }
 
                     {
-                        isCreated && address &&
+                        isCreated &&
                         <div className="progress">
                             <p className="progress-tips"><ExclamationCircleOutlined />完成全部挑战后可领取</p>
                             <div className="progress-info">
