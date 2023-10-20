@@ -34,7 +34,8 @@ export default function CustomForm(props) {
         changeConnect,
         changeItem,
         changeId,
-        challenge
+        challenge,
+        setQuestion
     } = props;
     const { ipfsPath } = constans();
     const { t } = useTranslation(["publish", "translation"]);
@@ -44,6 +45,47 @@ export default function CustomForm(props) {
     let [fields, setFields] = useState([]);
     let [fileList, setFileList] = useState([]);
 
+    function importFile(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            const titleReg = /(?<=\d\.\s)(.*?)(?=（\d+）)/g;
+            const titles = content.match(titleReg);
+
+            const questions = content.trim().split(/\n\s*\n/);
+            const result = questions.map((question, index) => {
+                const lines = question.split('\n');
+                const score = Number(lines[0].match(/（(\d+)）/)[1]);
+                const options = [];
+                const answers = [];
+                const title = titles[index];
+                let type;
+                lines.slice(1).forEach((line, index) => {
+                    // const option = line.match(/- \**(.+)\**/)[1].replace(/\*/g, '');;
+                    // options.push(eval(option));
+                    // if (line.includes('**')) {
+                    //     answers.push(index);
+                    // }
+                    if (line.startsWith('    - ')) {
+                        const option = line.match(/- \**(.+)\**/)[1].replace(/\*/g, '');;
+                        options.push(eval(option));
+                        if (line.includes('**')) {
+                            answers.push(index);
+                        }
+                    } else {
+                        // Handle the new question format
+                        options.push(eval(line));
+                        answers.push(eval(line));
+                    }
+                });
+                type = options.length === 1 ? "fill_blank" : answers.length === 1 ? "multiple_choice" : "multiple_response"
+                return { options, answers, score, title, type };
+            });
+            setQuestion(result);
+        };
+        reader.readAsText(file);
+    }
     
     const checkPreview = async() => {
         let flag;
@@ -314,6 +356,7 @@ export default function CustomForm(props) {
                 >
                     {t("inner.add-code")}
                 </Button>
+                <input type="file" accept=".md" onChange={importFile} />
             </div>
             <Divider />
 
