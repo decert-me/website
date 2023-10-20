@@ -45,7 +45,7 @@ export default function Quests(params) {
             <div className="content">
                 <div className="content-left">
                     <div className="quest-title">
-                        <div className="img">
+                        <div className="img challenge-img">
                             <img 
                                 src={
                                     detail.metadata.image.split("//")[1]

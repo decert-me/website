@@ -96,7 +96,7 @@ export default function ChallengeItem(props) {
                     {t("explore:pass")}
                 </div>
             }
-            <div className="right-sbt" onClick={clickSbt}>
+            <div className="right-sbt challenge-img" onClick={clickSbt}>
                 <div className="img">
                         <LazyLoadImage
                             src={
