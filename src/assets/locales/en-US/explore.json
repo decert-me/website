@@ -11,6 +11,19 @@
     "pass": "Claimed",
     "claimable": "Claimable",
     "correct": "right answer",
+    
+    "notice": "Please complete all challenge first.",
+    "comming": "Please stay tuned.",
+    "airdropping": "Airdropping...",
+    "progress": "Progress",
+    "airdrop": "NFT will be airdropped to your wallet within 5 minutes.",
+    "btn": {
+        "create-nft": "Create NFT",
+        "created-nft": "Created NFT",
+        "complet": "Claim after completing all challenges",
+        "claim": "Claim"
+    },
+
     "ques": {
         "title": "Technology Certification",
         "desc": "Upon completion of the challenge, you will earn SBT (Soulbound Token) as proof of your technical ability. Share it on your social platforms and let the world know what you can do."

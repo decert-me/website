@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react";
 import { claimCollection, getCollectionQuest } from "@/request/api/quests";
 import { constans } from "@/utils/constans";
-import { Button, Tooltip, message } from "antd";
+import { Button, Tooltip, message, notification } from "antd";
 import { useAddress } from "@/hooks/useAddress";
 import { getCollectionMetadata } from "@/utils/getMetadata";
 import { useRequest, useUpdateEffect } from "ahooks";
@@ -26,12 +26,13 @@ export default function Collection(params) {
     const { isMobile } = useContext(MyContext);
     const { address, walletType, isConnected } = useAddress();
     const { ipfsPath, defaultImg, openseaLink } = constans();
-    const { t } = useTranslation(["publish", "translation", "profile"]);
+    const [api, contextHolder] = notification.useNotification();
+    const { t } = useTranslation(["publish", "translation", "profile", "explore"]);
     const [isCreated, setIsCreated] = useState();
     const [isWrite, setIsWrite] = useState(false);
     const [loading, setLoading] = useState(false);
     const [claimStatus, setClaimStatus] = useState(0);
-    const [claimButtonText, setClaimButtonText] = useState("领取");
+    const [claimButtonText, setClaimButtonText] = useState(0);
     const { run, cancel } = useRequest(userClaimStatus, {
         pollingInterval: 3000,
         pollingWhenHidden: false,
@@ -58,8 +59,8 @@ export default function Collection(params) {
     async function userClaimStatus() {
         const res = await hasClaimed({id: detail.collection.tokenId})
         const status = res.data.status;
-        const text = status === 2 ? "已领取" : status === 1 ? "空投中..." : "领取";
-        setClaimButtonText(text);
+        // const text = status === 2 ? t("explore:pass") : status === 1 ? "空投中..." : "领取";
+        setClaimButtonText(status);
         if (status === 0 || status === 2) {
             cancel();
         }
@@ -68,6 +69,14 @@ export default function Collection(params) {
     }
     
     async function claimCollectionNft(params) {
+        if (progressObj.total > progressObj.now) {
+            api.info({
+                message: t("explore:notice"),
+                description: "",
+                placement: "topRight",
+            });
+            return
+        }
         // 发起空投
         await claimCollection({
             token_id: detail.collection.tokenId
@@ -169,11 +178,15 @@ export default function Collection(params) {
     return (
         detail &&
         <div className={`Collection ${isMobile ? "Collection-mobile" : ""}`}>
+            {contextHolder}
             <div className="custom-bg-round"></div>
             <div className="question-content">
                 <div className="question-left">
                     {/* 挑战列表 */}
-                    <CollectionInfo detail={detail} />
+                    <CollectionInfo 
+                        detail={detail} 
+                        isCreated={isCreated}
+                    />
                 </div>
                 <div className="question-right">
                     <div className="nft">
@@ -197,7 +210,7 @@ export default function Collection(params) {
                         </div>
                     </div>
                     {
-                        detail.collection.author === address &&
+                        detail.collection.author === address && !isCreated &&
                         <Button 
                             className={isCreated ? "btn-disable" : "btn-normal"}
                             disabled={isCreated}
@@ -207,43 +220,46 @@ export default function Collection(params) {
                                 marginTop: "30px"
                             }}
                         >
-                            {isCreated ? "已创建NFT" : "创建NFT"}
+                            {isCreated ? t("explore:btn.created-nft") : t("explore:btn.create-nft")}
                         </Button>
                     }
 
                     {
                         isCreated &&
                         <div className="progress">
-                            <p className="progress-tips"><ExclamationCircleOutlined />完成全部挑战后可领取</p>
+                            <p className="progress-tips"><ExclamationCircleOutlined />{t("explore:btn.complet")}</p>
                             <div className="progress-info">
-                                <p>进度:</p>
+                                <p>{t("explore:progress")}:</p>
                                 <p>{progressObj.now}/{progressObj.total}</p>
                             </div>
                         </div>
                     }
-
-                    <Tooltip placement="top" title={!isCreated ? "等待合辑更新完后方可领取" : progressObj.total > progressObj.now || !address ? "请先完成所有挑战" : ""}>
+                    {/*  : progressObj.total > progressObj.now || !address ? "请先完成所有挑战" */}
+                    <Tooltip placement="top" title={!isCreated ? t("explore:btn.complet") : ""}>
                         <Button 
-                            className={!isCreated || progressObj.total > progressObj.now || !address ? "btn-disable" : claimStatus === 1 ? "btn-airpost" : claimStatus === 2 ? "" : "btn-normal"}
-                            disabled={!isCreated || progressObj.total > progressObj.now || claimStatus !== 0 || !address}
+                            className={!isCreated || !address ? "btn-disable" : claimStatus === 1 ? "btn-airpost" : claimStatus === 2 ? "" : "btn-normal"}
+                            disabled={!isCreated || claimStatus !== 0 || !address}
                             onClick={() => claimCollectionNft()}
                             style={{
                                 marginTop: "30px"
                             }}
-                        >{claimButtonText}</Button>
+                        >{claimButtonText === 2 ? t("explore:pass") :
+                            claimButtonText === 1 ? t("explore:airdropping") : 
+                            t("explore:btn.claim")
+                        }</Button>
                     </Tooltip>
                     {
                         claimStatus === 1 &&
                         <div className="airpostTips">
-                            将在5分钟内空投至你的钱包
+                            {t("explore:airdrop")}
                         </div>
                     }
-                    {
+                    {/* {
                         claimStatus === 2 &&
                         <div className="claimedTips">
                             将NFT导入钱包
                         </div>
-                    }
+                    } */}
                     <CollectionChallenger id={detail.collection.id} />
                 </div>
             </div>

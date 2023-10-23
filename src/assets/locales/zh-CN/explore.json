@@ -11,6 +11,19 @@
     "pass": "已领取",
     "claimable": "可领取",
     "correct": "正确答案",
+
+    "notice": "请先完成所有挑战",
+    "comming": "敬请期待...",
+    "airdropping": "空投中...",
+    "progress": "进度",
+    "airdrop": "NFT 将在5分钟内空投至你的钱包",
+    "btn": {
+        "create-nft": "创建 NFT",
+        "created-nft": "已创建 NFT",
+        "complet": "完成全部挑战后方可领取",
+        "claim": "领取"
+    },
+
     "ques": {
         "title": "技术认证",
         "desc": "完成挑战，可获得SBT（灵魂绑定代币）作为技术能力的证明。分享到你的社交平台，让世界知道你的能力。"

@@ -10,7 +10,7 @@ import ChallengeItem from "@/components/User/ChallengeItem";
 
 export default function CollectionInfo(props) {
     
-    const { detail } = props;
+    const { detail, isCreated } = props;
     const { t } = useTranslation(["explore","translation","publish"]);
     const navigateTo = useNavigate();
     let [user, setuser] = useState();
@@ -89,7 +89,12 @@ export default function CollectionInfo(props) {
                         />
                     ))
                 }
-                
+                {
+                    !isCreated &&
+                    <div className="ChallengeItem comming">
+                        {t("comming")}
+                    </div>
+                }
             </div>
         </div>
     )
