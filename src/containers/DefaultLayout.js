@@ -5,7 +5,7 @@ import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import { useContext, useEffect, useState } from "react";
 import { ClearStorage } from "@/utils/ClearStorage";
-import { useRequest, useUpdateEffect } from "ahooks";
+import { useDebounceEffect, useRequest, useUpdateEffect } from "ahooks";
 import CustomSigner from "@/redux/CustomSigner";
 import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
@@ -28,8 +28,8 @@ export default function DefaultLayout(params) {
     let [headerHide, setHeaderHide] = useState(false);
     let [vh, setVh] = useState(100);
 
-    const { isConnected } = useAccount();
-    const { address } = useAddress();
+    // const { isConnected } = useAccount();
+    const { address, isConnected } = useAddress();
     const { connected } = useWallet();
 
     const headerStyle = {
@@ -161,6 +161,20 @@ export default function DefaultLayout(params) {
             setVh(100)
         }
     }
+
+    // useUpdateEffect(() => {
+    //     // TODO: 判断当前钱包是否链接
+    //     console.log(address, isConnected);
+    //     console.log(localStorage.getItem("wagmi.connected"));
+    // },[address])
+
+    useDebounceEffect(() => {
+        const token = localStorage.getItem("decert.token");
+        if (!address && !isConnected && token) {
+            ClearStorage();
+            navigateTo(0);
+        }
+    },[address],{wait: 1000});
 
     useEffect(() => {
         const path = location.pathname;
