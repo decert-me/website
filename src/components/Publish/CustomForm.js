@@ -57,9 +57,11 @@ export default function CustomForm(props) {
             const result = questions.map((question, index) => {
                 const lines = question.split('\n');
                 const score = Number(lines[0].match(/（(\d+)）/)[1]);
-                const options = [];
-                const answers = [];
+                // const options = [];
+                // const answers = [];
                 const title = titles[index];
+                let options = [];
+                let answers = [];
                 let type;
                 lines.slice(1).forEach((line, index) => {
                     // const option = line.match(/- \**(.+)\**/)[1].replace(/\*/g, '');;
@@ -68,9 +70,18 @@ export default function CustomForm(props) {
                     //     answers.push(index);
                     // }
                     if (line.startsWith('    - ')) {
-                        const option = line.match(/- \**(.+)\**/)[1].replace(/\*/g, '');;
-                        options.push(eval(option));
-                        if (line.includes('**')) {
+                        // const option = line.match(/- \**(.+)\**/)[1].replace(/\*/g, '');;
+                        // options.push(eval(option));
+                        
+                        options = lines.slice(1).map(line => {
+                            let match = line.match(/- \[(.)\] (.*)/);
+                            return match ? match[2] : null;
+                        }).filter(Boolean);
+                        // options.push(eval(option));
+                        // answers = lines.slice(1).map((line, index) => {
+                        //     return line.includes('[x]') ? index : null;
+                        // }).filter(index => index !== null);
+                        if (line.includes('[x]')) {
                             answers.push(index);
                         }
                     } else {
@@ -80,6 +91,9 @@ export default function CustomForm(props) {
                     }
                 });
                 type = options.length === 1 ? "fill_blank" : answers.length === 1 ? "multiple_choice" : "multiple_response"
+                if (type === "multiple_choice") {
+                    answers = answers[0]
+                }
                 return { options, answers, score, title, type };
             });
             setQuestion(result);
