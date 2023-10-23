@@ -235,7 +235,7 @@ export default function Collection(params) {
                         </div>
                     }
                     {/*  : progressObj.total > progressObj.now || !address ? "请先完成所有挑战" */}
-                    <Tooltip placement="top" title={!isCreated ? t("explore:btn.complet") : ""}>
+                    <Tooltip placement="top" title={!isCreated ? t("explore:btn.complet") : ""} getPopupContainer={() => document.querySelector(".question-right")}>
                         <Button 
                             className={!isCreated || !address ? "btn-disable" : claimStatus === 1 ? "btn-airpost" : claimStatus === 2 ? "" : "btn-normal"}
                             disabled={!isCreated || claimStatus !== 0 || !address}

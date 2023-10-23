@@ -91,7 +91,7 @@ export default function CollectionInfo(props) {
                 }
                 {
                     !isCreated &&
-                    <div className="ChallengeItem comming">
+                    <div className="comming">
                         {t("comming")}
                     </div>
                 }
