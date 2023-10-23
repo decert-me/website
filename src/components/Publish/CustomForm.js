@@ -103,18 +103,18 @@ export default function CustomForm(props) {
 
     function challengeInit(challenge) {
         const chanllengeInfo = challenge?.attributes?.challenge_ipfs_url;
-        const img = challenge ? challenge.image : changeItem.metadata.image;
-        if (img.indexOf("undefined") === -1) {
+        const img = challenge ? challenge.image : changeItem?.metadata.image;
+        if (img && img.indexOf("undefined") === -1) {
             initImage(img.replace("ipfs://", ipfsPath+"/"));
         }
         fields = [
             {
                 name: ["title"],
-                value: challenge ? challenge.name : changeItem.title
+                value: challenge ? challenge.name : changeItem?.title
             },
             {
                 name: ["desc"],
-                value: challenge ? challenge.description : changeItem.metadata.description
+                value: challenge ? challenge.description : changeItem?.metadata.description
             },
             {
                 name: ["score"],
@@ -122,7 +122,7 @@ export default function CustomForm(props) {
             },
             {
                 name: ["difficulty"],
-                value: challenge ? challenge?.attributes?.difficulty : changeItem.metadata?.attributes?.difficulty
+                value: challenge ? challenge?.attributes?.difficulty : changeItem?.metadata?.attributes?.difficulty
             },
             {
                 name: ["time"],
@@ -156,7 +156,7 @@ export default function CustomForm(props) {
             return
         }
         const cache = JSON.parse(local);
-        if (cache.hash.image.indexOf("undefined") === -1) {
+        if (cache.hash.image?.indexOf("undefined") === -1) {
             initImage(cache.hash.image.replace("ipfs://", ipfsPath+"/"));
         }
         if (cache?.hash) {
