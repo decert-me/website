@@ -110,15 +110,15 @@ export default function CustomForm(props) {
         fields = [
             {
                 name: ["title"],
-                value: challenge ? challenge.name : changeItem?.title
+                value: challenge ? challenge?.name : changeItem?.title
             },
             {
                 name: ["desc"],
-                value: challenge ? challenge.description : changeItem?.metadata.description
+                value: challenge ? challenge?.description : changeItem?.metadata.description
             },
             {
                 name: ["score"],
-                value: challenge ? chanllengeInfo.passingScore : changeItem?.quest_data.passingScore
+                value: challenge ? chanllengeInfo?.passingScore : changeItem?.quest_data.passingScore
             },
             {
                 name: ["difficulty"],
