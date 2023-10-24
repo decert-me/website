@@ -176,6 +176,10 @@ export default function Collection(params) {
     },[])
 
     useUpdateEffect(() => {
+        init();
+    },[address])
+
+    useUpdateEffect(() => {
         if (isWrite && isOk) {
             publish();
         }
