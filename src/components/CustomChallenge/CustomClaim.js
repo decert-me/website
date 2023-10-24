@@ -18,11 +18,12 @@ import { modalNotice } from "@/utils/modalNotice";
 import { QRCodeSVG } from "qrcode.react";
 import { useRequest } from "ahooks";
 import { constans } from "@/utils/constans";
+import ModalAirdrop from "../CustomModal/ModalAirdrop";
 
 export default function CustomClaim(props) {
     
-    const { step, setStep, cliamObj, img, shareWechat, isClaim, isMobile } = props;
-    const { defaultChainId } = constans();
+    const { step, setStep, cliamObj, img, shareWechat, isClaim, isMobile, detail } = props;
+    const { ipfsPath, defaultImg, openseaLink, defaultChainId } = constans();
     const { t } = useTranslation(["claim", "translation"]);
     const navigateTo = useNavigate();
     const { chain } = useNetwork();
@@ -47,6 +48,7 @@ export default function CustomClaim(props) {
     let [cacheIsClaim, setCacheIsClaim] = useState();
 
     let [isModalOpen, setIsModalOpen] = useState();
+    let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
     let [writeLoading, setWriteLoading] = useState();
     const { isLoading } = useWaitForTransaction({
         hash: claimHash,
@@ -177,6 +179,8 @@ export default function CustomClaim(props) {
 
     async function airpost(params) {
         if (step === 2 && status === 0) {
+            // 弹出框
+            setIsModalAirdropOpen(true);
             status = 1;
             setStatus(status);
             await runAsync();
@@ -198,7 +202,7 @@ export default function CustomClaim(props) {
     },[switchNetwork, isSwitch])
     
     useEffect(() => {
-        step === 2 && init()
+        step >= 2 && init()
     },[step])
 
     return (
@@ -211,6 +215,17 @@ export default function CustomClaim(props) {
             onClick={() => airpost()}
             
         >
+            {
+                !isModalAirdropOpen &&
+                <ModalAirdrop
+                    isModalAirdropOpen={isModalAirdropOpen}
+                    closeModal={() => {setIsModalAirdropOpen(false)}}
+                    img={img}
+                    isMobile={isMobile}
+                    detail={detail}
+                    status={status}
+                />
+            }
             {/* <ModalLoading 
                 isModalOpen={isModalOpen}
                 handleCancel ={handleCancel}

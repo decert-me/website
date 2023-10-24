@@ -37,6 +37,16 @@ export const claimCollection = (data) => {
     })
 }
 
+
+export const checkQuestInCollection = (data) => {
+    return serviceAxios({
+        url: `/v1/collection/checkQuestInCollection?token_id=${data.id}`,
+        method: "get",
+        data
+    })
+}
+
+
 // 
 
 // 代码题 

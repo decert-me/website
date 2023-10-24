@@ -203,6 +203,7 @@ export default function CustomClaimStep(props) {
                                     showInner={showInner}
                                     isClaim={isClaim}
                                     isMobile={isMobile}
+                                    detail={detail}
                                 />
                             )
                         }
