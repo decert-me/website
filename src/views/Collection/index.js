@@ -139,6 +139,7 @@ export default function Collection(params) {
         const res = await getCollectionQuest({id: collectionId});
         detail = res.data;
         setDetail({...detail});
+        progressObj.now = 0;
         progressObj.total = detail.list.length;
         setProgressObj({...progressObj});
         // 是否创建了nft
@@ -176,8 +177,8 @@ export default function Collection(params) {
     },[])
 
     useUpdateEffect(() => {
-        init();
-    },[address])
+        !isConnected && init();
+    },[isConnected])
 
     useUpdateEffect(() => {
         if (isWrite && isOk) {
