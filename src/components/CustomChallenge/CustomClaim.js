@@ -216,7 +216,7 @@ export default function CustomClaim(props) {
             
         >
             {
-                !isModalAirdropOpen &&
+                isModalAirdropOpen &&
                 <ModalAirdrop
                     isModalAirdropOpen={isModalAirdropOpen}
                     closeModal={() => {setIsModalAirdropOpen(false)}}
