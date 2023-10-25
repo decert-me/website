@@ -66,7 +66,7 @@ export default function ModalAirdrop({
                     status !== 2 && <p className="tips">{t("explore:airdrop")}</p>
                 }
                 {
-                    collectionInfo && <p className="navigateTo">{t("explore:go-to")}<span onClick={() => {navigateTo(`/collection/${collectionInfo.id}`)}}>【{collectionInfo.title}】</span>&gt;&gt;</p>
+                    collectionInfo && <p className="navigateTo">{t("explore:go-to")}&nbsp;<span onClick={() => {navigateTo(`/collection/${collectionInfo.id}`)}}>【{collectionInfo.title}】</span>&nbsp;&gt;&gt;</p>
                 }
             </div>
         </Modal>
