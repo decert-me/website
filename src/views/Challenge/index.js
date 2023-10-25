@@ -84,7 +84,7 @@ export default function Challenge(params) {
                 setDetail({...detail});
                 // 获取本地存储 ===> 
                 const local = JSON.parse(localStorage.getItem("decert.cache"));
-                let cacheAnswers = local ? local : null;
+                let cacheAnswers = local || {};
                 let flag = false;
                 
                 const { cacheAnswers: newAnswers } = localRealAnswerInit({

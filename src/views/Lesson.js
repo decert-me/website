@@ -453,7 +453,7 @@ export default function Lesson(params) {
                                 >
                                     <div className="box">
                                         <div className="img">
-                                            <img src={`https://ipfs.decert.me/${e.img}`} alt="" />
+                                            <img className="img-cover" src={`https://ipfs.decert.me/${e.img}`} alt="" />
                                         </div>
                                         <div className="box-content">
                                             <p className="box-title newline-omitted">
