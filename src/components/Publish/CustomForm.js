@@ -1,4 +1,4 @@
-import { Button, Divider, Empty, Form, Input, InputNumber, Select, Upload } from "antd";
+import { Button, Divider, Empty, Form, Input, InputNumber, Select, Upload, message } from "antd";
 import { useTranslation } from "react-i18next";
 import { ConfirmClearQuest } from "../CustomConfirm/ConfirmClearQuest";
 import { CustomQuestion, CustomEditor } from "@/components/CustomItem";
@@ -292,11 +292,26 @@ export default function CustomForm(props) {
                 <Upload
                     {...UploadProps} 
                     beforeUpload={(file) => {
+                        const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif"]
+                        let isImage = false
+                        formatArr.map((e)=>{
+                          if ( file.type === e ) {
+                            isImage = true
+                          }
+                        })
                         if (!isConnected) {
                             changeConnect()
-                            return false || Upload.LIST_IGNORE
+                            return Upload.LIST_IGNORE
                         }
-                        UploadProps.beforeUpload(file)
+                        if (!isImage) {
+                          message.error("You can only upload JPG/PNG file!");
+                          return Upload.LIST_IGNORE
+                        }
+                        const isLt100M = file.size / 1024 / 1024 < 20;
+                        if (!isLt100M) {
+                          message.error("Image must smaller than 20MB!");
+                          return Upload.LIST_IGNORE
+                        }
                     }}
                     listType="picture-card"
                     className="custom-upload"

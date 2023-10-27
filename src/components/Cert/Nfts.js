@@ -1,12 +1,12 @@
-import { findFastestGateway } from "@/utils/LoadImg";
 import { useUpdateEffect } from "ahooks";
 import { Button, Skeleton } from "antd";
 import {
     RightOutlined
 } from '@ant-design/icons';
 import { useState } from "react";
-import ModalAddSbt from "./ModalAddSbt";
 import { useTranslation } from "react-i18next";
+import { imgTypeCompatible } from "@/utils/IpfsToImg";
+import { useAddress } from "@/hooks/useAddress";
 
 
 
@@ -15,6 +15,7 @@ export default function CertNfts(props) {
     
     const { changeContractId, total, isMe, nftlist: list, isMobile, goAddSbt, options } = props;
     const { t } = useTranslation(["translation", "cert"]);
+    const { walletType } = useAddress();
     let [selectItem, setSelectItem] = useState(isMobile ? null : 0);
 
     const change = (id) => {
@@ -40,7 +41,7 @@ export default function CertNfts(props) {
 
         <div className="nfts">
             {
-                isMe &&
+                isMe && walletType === "evm" &&
                 <div className="add">
                     <p>{t("cert:sidbar.list.add")}</p>
                     <Button id="hover-btn-full" onClick={() => goAddSbt()}>+</Button>
@@ -73,7 +74,9 @@ export default function CertNfts(props) {
                                     onClick={() => change(e.id)}
                                 >
                                     <div className="img">
-                                        <img src={e.contract_logo ? process.env.REACT_APP_NFT_BASE_URL + e.contract_logo : require("@/assets/images/img/default-contract.png")} alt="" />
+                                        {/* TODO: 图片识别ipfs/静态 */}
+                                        {/* process.env.REACT_APP_NFT_BASE_URL + e.contract_logo */}
+                                        <img src={e.contract_logo ? imgTypeCompatible(e.contract_logo) : require("@/assets/images/img/default-contract.png")} alt="" />
                                         <div className="badge">
                                             {
                                                 options.map(item => {

@@ -1,0 +1,42 @@
+.ModalAirdrop{
+
+    // 内边距
+    .ant-modal-content{
+        padding: 80px 0 100px !important;
+    }
+    .content{
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+    .img{
+        width: 200px;
+        height: 200px;
+        margin-bottom: 40px;
+        overflow: hidden;
+        border-radius: 10px;
+    }
+    .text{
+        margin-bottom: 15px;
+        font-size: 18px;
+        line-height: 25px;
+    }
+    .tips{
+        padding: 7px 24px;
+        background: rgba(69,182,116,0.1);
+        border-radius: 10px;
+        color: #44B573;
+        font-weight: 500;
+        font-size: 12px;
+    }
+    .navigateTo{
+        margin-top: 90px;
+        font-size: 12px;
+        line-height: 17px;
+        span{
+            text-decoration: underline;
+            color: #8F5A35;
+            cursor: pointer;
+        }
+    }
+}
