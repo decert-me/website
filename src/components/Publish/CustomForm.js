@@ -50,7 +50,7 @@ export default function CustomForm(props) {
         const reader = new FileReader();
         reader.onload = (e) => {
             const content = e.target.result;
-            const titleReg = /(?<=\d\.\s)(.*?)(?=（\d+）)/g;
+            const titleReg = /\d+\.\s(.*?)(?=[（(]\d+[)）]|$|\n)/g;
             const titles = content.match(titleReg);
 
             const questions = content.trim().split(/\n\s*\n/);
@@ -58,7 +58,7 @@ export default function CustomForm(props) {
                 const lines = question.split('\n');
                 const arr = lines[0].match(/[（(](\d+)[)）]/);
                 const score = arr ? Number(arr[1]) : 10;
-                const title = titles[index];
+                const title = titles[index].replace(/^\d+\.\s/, '');
                 let options = [];
                 let answers = [];
                 let type;
