@@ -56,31 +56,18 @@ export default function CustomForm(props) {
             const questions = content.trim().split(/\n\s*\n/);
             const result = questions.map((question, index) => {
                 const lines = question.split('\n');
-                const score = Number(lines[0].match(/（(\d+)）/)[1]);
-                // const options = [];
-                // const answers = [];
+                const arr = lines[0].match(/[（(](\d+)[)）]/);
+                const score = arr ? Number(arr[1]) : 10;
                 const title = titles[index];
                 let options = [];
                 let answers = [];
                 let type;
                 lines.slice(1).forEach((line, index) => {
-                    // const option = line.match(/- \**(.+)\**/)[1].replace(/\*/g, '');;
-                    // options.push(eval(option));
-                    // if (line.includes('**')) {
-                    //     answers.push(index);
-                    // }
                     if (line.startsWith('    - ')) {
-                        // const option = line.match(/- \**(.+)\**/)[1].replace(/\*/g, '');;
-                        // options.push(eval(option));
-                        
                         options = lines.slice(1).map(line => {
                             let match = line.match(/- \[(.)\] (.*)/);
                             return match ? match[2] : null;
                         }).filter(Boolean);
-                        // options.push(eval(option));
-                        // answers = lines.slice(1).map((line, index) => {
-                        //     return line.includes('[x]') ? index : null;
-                        // }).filter(index => index !== null);
                         if (line.includes('[x]')) {
                             answers.push(index);
                         }
