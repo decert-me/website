@@ -18,8 +18,9 @@ export default function CollectionChallenger({id}) {
     let [challengers, setChallengers] = useState([]);
 
     async function init(params) {
-        setPage(page+1);
-        getCollectionChallenger({id: id, page, pageSize})
+        let newpage = page + 1;
+        setPage(newpage);
+        getCollectionChallenger({id: id, page: newpage, pageSize})
         .then(res => {
             detail = res?.data;
             setDetail(detail);
