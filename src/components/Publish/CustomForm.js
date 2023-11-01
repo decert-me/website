@@ -81,6 +81,10 @@ export default function CustomForm(props) {
                 if (type === "multiple_choice") {
                     answers = answers[0]
                 }
+                if (type === "fill_blank") {
+                    answers = String(answers[0])
+                    options[0] = String(options[0])
+                }
                 return { options, answers, score, title, type };
             });
             setQuestion(result);
