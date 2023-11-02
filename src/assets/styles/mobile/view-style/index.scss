@@ -175,7 +175,7 @@
       .partner{
         // height: 13.4375rem;
         height: auto;
-        padding: 2.1875rem 1.1875rem 2.5rem;
+        padding: 2.1875rem 1.09rem 2.5rem;
         p{
           margin-bottom: 1.375rem;
           font-size: .75rem;
@@ -183,21 +183,16 @@
         }
         ul{
           flex-wrap: wrap;
-          border-top: .0625rem solid #FFFFFF;
-          border-left: .0625rem solid #FFFFFF;
+          gap: .0625rem;
+          border-width: .0625rem;
         }
         li{
           width: 7.3125rem;
           height: 7.3125rem;
           border: none;
-          border-right: .0625rem solid #FFFFFF;
-          border-bottom: .0625rem solid #FFFFFF;
           img{
             width: 5rem;
             height: 1.8125rem;
-          }
-          &:last-child{
-            border-right: .0625rem solid #fff;
           }
         }
       }
@@ -209,7 +204,7 @@
         font-size: 1rem;
         line-height: 1.1875rem;
         .ofh{
-          max-height: calc((4.25rem + 3.125rem + .875rem + 1.0625rem) * 2);
+          // max-height: calc((4.25rem + 3.125rem + .875rem + 1.0625rem) * 2);
         }
         .contributor-label{
           margin: 0 auto;
@@ -217,7 +212,7 @@
           text-align: center;
           font-weight: bold;
         }
-        a{
+        .a{
           margin-right: 1.6875rem;
           &:nth-child(4n){
             margin-right: 0;
