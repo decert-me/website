@@ -114,32 +114,24 @@
         height: 93px;
         margin-top: 75px;
         background-color: #fff;
-        .btns{
-            height: 100%;
-            margin: 0 auto;
-            display: flex;
-            justify-content: space-between;
-        }
-        .left button{
-            min-width: 100px;
+        display: flex;
+        justify-content: flex-end;
+        button{
+            min-width: 150px;
             height: 42px;
-            padding-inline: 18px;
+            margin-left: 22px;
             border-radius: 5px;
-            border-color: #3360F4;
-            color: #3360F4;
-            &:hover{
-                color: #FF0000;
-                border-color: #FF0000;
-            }
         }
-        .right{
-            display: flex;
-            button{
-                min-width: 150px;
-                height: 42px;
-                margin-left: 22px;
-                border-radius: 5px;
-            }
+    }
+
+
+    // Form Item questions
+    .questions{
+        position: relative;
+        .quest-message{
+            position: absolute;
+            left: 15px;
+            bottom: 60px;
         }
     }
 }

@@ -1,0 +1,140 @@
+import { useState } from "react";
+import { useTranslation } from "react-i18next";
+import { Button, Divider, Empty } from "antd";
+import { ConfirmClearQuest } from "@/components/CustomConfirm/ConfirmClearQuest";
+import { CustomQuestion } from "@/components/CustomItem";
+import ModalAddQuestion from "@/components/CustomModal/ModalAddQuestion";
+import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
+import { importFile } from "@/utils/importFile";
+
+
+
+export default function PublishQuestion({
+    questions, 
+    questionEdit,
+    questionChange, 
+    questionImport,
+    deleteQuestion,
+    clearQuest,
+}) {
+    
+    const { t } = useTranslation(["publish", "translation"]);
+    let [showAddQs, setShowAddQs] = useState(false);        //  添加普通题
+    let [showAddCodeQs, setShowAddCodeQs] = useState(false);    //  添加编程题
+
+    let [selectQs, setSelectQs] = useState();       //  修改题目内容
+    let [selectIndex, setSelectIndex] = useState();     //  修改题目索引
+
+    async function importChallenge(event) {
+        const res = await importFile(event);
+        questionImport(res);
+    }
+
+    function showEditModal(index) {
+        const obj = questions[index];
+        if (obj.type === "coding" || obj.type === "special_judge_coding") {
+            // 编程题
+            setShowAddCodeQs(true);
+        }else{
+            // 普通题
+            setShowAddQs(true);
+        }
+        selectQs = obj;
+        setSelectQs({...selectQs});
+        setSelectIndex(index);
+    }
+
+    function clearSelect() {
+        setSelectQs(null);
+        setSelectIndex(null);
+    }
+
+    return (
+        <>
+            {/* 添加普通题弹窗 */}
+            {
+                showAddQs &&
+                <ModalAddQuestion
+                    isModalOpen={showAddQs} 
+                    handleCancel={() => {setShowAddQs(false)}}
+                    questionChange={questionChange}
+                    // 编辑部分
+                    selectQs={selectQs}
+                    questionEdit={(quest) => questionEdit(quest, selectIndex)}
+                />
+            }
+            {
+                showAddCodeQs &&
+                <ModalAddCodeQuestion
+                    isModalOpen={showAddCodeQs} 
+                    handleCancel={() => {setShowAddCodeQs(false)}}
+                    questionChange={questionChange}
+                    // 编辑部分
+                    selectQs={selectQs}
+                    questionEdit={(quest) => questionEdit(quest, selectIndex)}
+                />
+            }
+            {/* 普通题 */}
+            <div className="questions">
+                <div className="quest-head" style={{
+                    justifyContent: "flex-end"
+                }}>
+                    {
+                        questions.length !== 0 &&
+                        <Button
+                            type="link" 
+                            onClick={() => ConfirmClearQuest(clearQuest)}
+                        >
+                            {t("inner.clear")} 
+                        </Button>
+                    }
+                </div>
+                {
+                    questions.length !== 0 ?
+                    <Divider />:
+                    <Empty image={Empty.PRESENTED_IMAGE_SIMPLE} description={t("inner.nodata")} />
+                }
+                {
+                    questions.map((e,i) => 
+                        <CustomQuestion
+                            key={i} 
+                            item={e} 
+                            index={i+1} 
+                            deleteQuestion={deleteQuestion}
+                            showEditModal={showEditModal} 
+                        />
+                    )
+                }
+            </div>
+        
+            {/* 添加题目 */}
+            <div className="add-btns">
+                {/* 添加普通题 */}
+                <Button
+                    type="link" 
+                    onClick={() => {
+                        clearSelect();
+                        setShowAddQs(true);
+                    }}
+                >
+                    {t("inner.add")}
+                </Button>
+                
+                {/* 添加编程题 */}
+                <Button
+                    type="link" 
+                    onClick={() => {
+                        clearSelect();
+                        setShowAddCodeQs(true);
+                    }}
+                >
+                    {t("inner.add-code")}
+                </Button>
+
+                {/* 导入题目 */}
+                <input type="file" accept=".md" onChange={importChallenge} />
+            </div>
+            <Divider />
+        </>
+    )
+}

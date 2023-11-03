@@ -26,6 +26,7 @@ import store from "@/redux/store";
 import { localRealAnswerInit } from '@/utils/localRealAnswerInit';
 import { modalNotice } from '@/utils/modalNotice';
 import { Encryption } from '@/utils/Encryption';
+import { getDataBase } from '@/utils/saveCache';
 
 export default function Challenge(params) {
 
@@ -169,7 +170,7 @@ export default function Challenge(params) {
             value: value,
             type: type
         }
-        changeAnswersValue(obj, index)
+        !isPreview && changeAnswersValue(obj, index)
     }
 
     const saveAnswer = () => {
@@ -191,22 +192,26 @@ export default function Challenge(params) {
         navigateTo(`/claim/${detail.tokenId}`)
     }
 
+    // 获取预览内容
     const cacheInit = async() => {
-        const { challenge } = store.getState();
-        const local = localStorage.getItem("decert.store");
-        if (!challenge && (!local || (local && JSON.parse(local).questions.length === 0))) {
+        // 判断当前search栏是否有token_id ? 获取editChallenge : 获取publish
+        const tokenId = location.search.replace("?","");
+        const data = await getDataBase(tokenId ? "editChallenge" : "publish");
+
+        // 没有缓存 || 编辑tokenid不一致 返回挑战列表c
+        if (data.length === 0 || (tokenId && data[0].token_id !== tokenId)) {
             navigateTo("/challenges");
             return
         }
-        const cache = challenge || JSON.parse(local);
+
+        const cache = data[0];
+        setIsEdit(true);
         setIsPreview(true);
-        isEdit = challenge;
-        setIsEdit(isEdit);
-        cacheDetail = cache.hash;
+        cacheDetail = cache;
         setCacheDetail({...cacheDetail});
         answers = new Array(Number(cache.questions.length))
         setAnswers([...answers])
-        realAnswer = eval(decode(key, cacheDetail.attributes.challenge_ipfs_url.answers));
+        realAnswer = cache.questions.map(quest => quest.answers);
         setRealAnswer([...realAnswer]);
     }
 
@@ -223,7 +228,7 @@ export default function Challenge(params) {
     useEffect(() => {
         // 修改进度条
         if (detail || cacheDetail) {
-            const total = detail?.metadata.properties.questions.length ? detail?.metadata.properties.questions.length : cacheDetail.attributes.challenge_ipfs_url.questions.length;
+            const total = detail?.metadata.properties.questions.length ? detail?.metadata.properties.questions.length : cacheDetail.questions.length;
             percent = page === total ? 100 : (100/ total) * page;
             setPercent(percent);
         }
@@ -352,7 +357,7 @@ export default function Challenge(params) {
                                     <>
                                         {/* 预览模式 */}
                                         <ArrowLeftOutlined />
-                                        <p>{cacheDetail?.name}</p>
+                                        <p>{cacheDetail?.title}</p>
                                     </>
                                 }
                             </div>
@@ -361,7 +366,7 @@ export default function Challenge(params) {
                         cacheDetail &&
                         <div className="preview-head">
                             <p>{t("mode-preview")}</p>
-                            <Button className="btn-exit" onClick={() => {isEdit ? navigateTo(`/publish?${isEdit.changeId}`) : navigateTo("/publish")}}>
+                            <Button className="btn-exit" onClick={() => {cacheDetail?.token_id ? navigateTo(`/publish?${cacheDetail.token_id}`) : navigateTo("/publish")}}>
                                 <ExportOutlined className='icon' />
                                 {t("btn-exit")}
                             </Button>
@@ -369,7 +374,7 @@ export default function Challenge(params) {
                     }
                     {
                         detail ? topic(detail.metadata.properties.questions)
-                        : topic(cacheDetail.attributes.challenge_ipfs_url.questions)
+                        : topic(cacheDetail.questions)
                     }
                     <div className="progress">
                         <Progress strokeLinecap="butt" percent={percent} showInfo={false} />
@@ -381,7 +386,7 @@ export default function Challenge(params) {
                             detail ?
                             detail.metadata.properties.questions.length
                             :
-                            cacheDetail.attributes.challenge_ipfs_url.questions.length
+                            cacheDetail.questions.length
                         } 
                         onChange={checkPage} 
                         openAnswers={openAnswers}
