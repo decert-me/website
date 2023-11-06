@@ -110,8 +110,11 @@ export default function Publish(params) {
 
     // 修改Form内容
     function changeForm(key, value) {
-        key === "questions" && totalScore(value);
         form.setFieldValue(key, value);
+        if (key === "questions") {
+            totalScore(value);
+            saveCache(dataBase, form.getFieldsValue(), isEdit);
+        }
     }
 
     // 提交表单 => 发布
