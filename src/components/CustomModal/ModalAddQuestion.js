@@ -94,6 +94,8 @@ export default function ModalAddQuestion(props) {
 
         if (selectQs) {
             form.setFieldValue("score", selectQs.score);
+            score = selectQs.score;
+            setScore(score);
         }
     }
 
