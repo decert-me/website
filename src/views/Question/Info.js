@@ -52,8 +52,8 @@ export default function Info(props) {
                     <div className="info-content desc overflow">
                         {/* <p className="desc">{detail.metadata.description}</p> */}
                         {
-                            detail.metadata.description &&
-                            <CustomViewer label={detail.metadata.description} />
+                            detail.description &&
+                            <CustomViewer label={detail.description} />
                         }
                     </div>
                 </li>
