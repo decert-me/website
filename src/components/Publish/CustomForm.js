@@ -88,6 +88,7 @@ export default function CustomForm(props) {
                 return { options, answers, score, title, type };
             });
             setQuestion(result);
+            event.target.value = null;
         };
         reader.readAsText(file);
     }
