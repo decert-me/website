@@ -4,7 +4,7 @@ import { ConfirmClearQuest } from "../CustomConfirm/ConfirmClearQuest";
 import { CustomQuestion, CustomEditor } from "@/components/CustomItem";
 import { useEffect, useState } from "react";
 import { UploadProps } from "@/utils/UploadProps";
-import { InboxOutlined } from '@ant-design/icons';
+import { UploadOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
 import { constans } from "@/utils/constans";
 import { useLocation } from "react-router-dom";
@@ -34,7 +34,8 @@ export default function CustomForm(props) {
         changeConnect,
         changeItem,
         changeId,
-        challenge
+        challenge,
+        setQuestion
     } = props;
     const { ipfsPath } = constans();
     const { t } = useTranslation(["publish", "translation"]);
@@ -44,6 +45,52 @@ export default function CustomForm(props) {
     let [fields, setFields] = useState([]);
     let [fileList, setFileList] = useState([]);
 
+    function importFile(event) {
+        const file = event.target.files[0];
+        const reader = new FileReader();
+        reader.onload = (e) => {
+            const content = e.target.result;
+            const titleReg = /\d+\.\s(.*?)(?=[（(]\d+[)）]|$|\n)/g;
+            const titles = content.match(titleReg);
+
+            const questions = content.trim().split(/\n\s*\n/);
+            const result = questions.map((question, index) => {
+                const lines = question.split('\n');
+                const arr = lines[0].match(/[（(](\d+)[)）]/);
+                const score = arr ? Number(arr[1]) : 10;
+                const title = titles[index].replace(/^\d+\.\s/, '');
+                let options = [];
+                let answers = [];
+                let type;
+                lines.slice(1).forEach((line, index) => {
+                    if (line.startsWith('    - ')) {
+                        options = lines.slice(1).map(line => {
+                            let match = line.match(/- \[(.)\] (.*)/);
+                            return match ? match[2] : null;
+                        }).filter(Boolean);
+                        if (line.includes('[x]')) {
+                            answers.push(index);
+                        }
+                    } else {
+                        // Handle the new question format
+                        options.push(eval(line));
+                        answers.push(eval(line));
+                    }
+                });
+                type = options.length === 1 ? "fill_blank" : answers.length === 1 ? "multiple_choice" : "multiple_response"
+                if (type === "multiple_choice") {
+                    answers = answers[0]
+                }
+                if (type === "fill_blank") {
+                    answers = String(answers[0])
+                    options[0] = String(options[0])
+                }
+                return { options, answers, score, title, type };
+            });
+            setQuestion(result);
+        };
+        reader.readAsText(file);
+    }
     
     const checkPreview = async() => {
         let flag;
@@ -61,26 +108,26 @@ export default function CustomForm(props) {
 
     function challengeInit(challenge) {
         const chanllengeInfo = challenge?.attributes?.challenge_ipfs_url;
-        const img = challenge ? challenge.image : changeItem.metadata.image;
-        if (img.indexOf("undefined") === -1) {
+        const img = challenge ? challenge.image : changeItem?.metadata.image;
+        if (img && img.indexOf("undefined") === -1) {
             initImage(img.replace("ipfs://", ipfsPath+"/"));
         }
         fields = [
             {
                 name: ["title"],
-                value: challenge ? challenge.name : changeItem.title
+                value: challenge ? challenge?.name : changeItem?.title
             },
             {
                 name: ["desc"],
-                value: challenge ? challenge.description : changeItem.metadata.description
+                value: challenge ? challenge?.description : changeItem?.metadata.description
             },
             {
                 name: ["score"],
-                value: challenge ? chanllengeInfo.passingScore : changeItem?.quest_data.passingScore
+                value: challenge ? chanllengeInfo?.passingScore : changeItem?.quest_data.passingScore
             },
             {
                 name: ["difficulty"],
-                value: challenge ? challenge?.attributes?.difficulty : changeItem.metadata?.attributes?.difficulty
+                value: challenge ? challenge?.attributes?.difficulty : changeItem?.metadata?.attributes?.difficulty
             },
             {
                 name: ["time"],
@@ -114,7 +161,7 @@ export default function CustomForm(props) {
             return
         }
         const cache = JSON.parse(local);
-        if (cache.hash.image.indexOf("undefined") === -1) {
+        if (cache.hash.image?.indexOf("undefined") === -1) {
             initImage(cache.hash.image.replace("ipfs://", ipfsPath+"/"));
         }
         if (cache?.hash) {
@@ -233,7 +280,7 @@ export default function CustomForm(props) {
                     maxWidth: 380,
                 }}
             >
-                <Dragger
+                <Upload
                     {...UploadProps} 
                     beforeUpload={(file) => {
                         const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif"]
@@ -258,20 +305,21 @@ export default function CustomForm(props) {
                         }
                     }}
                     listType="picture-card"
+                    className="custom-upload"
                     fileList={fileList}
                     onChange={handleChange}
                 >
-                    <p className="ant-upload-drag-icon" style={{ color: "#a0aec0" }}>
-                        <InboxOutlined />
+                    <p className="upload-icon">
+                        <UploadOutlined />
                     </p>
-                    <p className="ant-upload-text " style={{ color: "#a0aec0" }}>
+                    <p className="text-title">
                         {t("inner.content.img.p1")}
                     </p>
-                    <p className="ant-upload-hint " style={{ color: "#a0aec0" }}>
+                    <p className="text-normal">
                         {t("inner.content.img.p2")}
-                        <span style={{ color: "#f14e4e", fontSize: "20px" }}>*</span>
                     </p>
-                </Dragger>
+                    <p className="text-normal">{t("inner.content.img.p3")}</p>
+                </Upload>
             </Form.Item>
 
             <Divider />
@@ -328,6 +376,7 @@ export default function CustomForm(props) {
                 >
                     {t("inner.add-code")}
                 </Button>
+                <input type="file" accept=".md" onChange={importFile} />
             </div>
             <Divider />
 
