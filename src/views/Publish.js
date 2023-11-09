@@ -79,6 +79,11 @@ export default function Publish(params) {
         setSelectIndex(index);
     }
 
+    function setQuests(arr) {
+        questions = arr;
+        setQuestions([...questions]);
+    }
+
     const questionChange = ( val => {
         questions.push(val)
         setQuestions([...questions])
@@ -437,6 +442,7 @@ export default function Publish(params) {
                 changeItem={changeItem}
                 changeId={changeId}
                 challenge={cache}
+                setQuestion={setQuests}
             />
 
         </div>
