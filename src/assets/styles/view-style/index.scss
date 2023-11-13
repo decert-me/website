@@ -253,19 +253,17 @@
           margin: 0 auto;
           display: flex;
           justify-content: center;
+          gap: 1px;
+          background-color: #fff;
+          border: 1px solid #FFFFFF;
         }
         li{
           width: 233px;
           height: 233px;
-          border: 1px solid #FFFFFF;
-          border-right: none;
-          background-color: #ffffff00;
+          background-color: #C19E6D;
           img{
             width: 160px;
             height: 58px;
-          }
-          &:last-child{
-            border-right: 1px solid #fff;
           }
         }
       }
@@ -280,8 +278,8 @@
         font-size: 50px;
         line-height: 59px;
         .ofh{
-          max-height: calc(150px + 88px + 58px + 35px);
-          overflow: hidden;
+          // max-height: calc(150px + 88px + 58px + 35px);
+          // overflow: hidden;
           transition: max-height 0.2s;
         }
         .contributor-label{

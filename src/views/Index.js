@@ -49,7 +49,6 @@ export default function Index(params) {
                 const [name, avatar, link] = line.split(",");
                 return { name, avatar, link }
             })
-
         setContributor([...contributor])
     }
 
@@ -211,7 +210,7 @@ export default function Index(params) {
                                     {
                                         contributor.map((e,i) => 
                                             e?.link ? 
-                                            <a href={e.link} target="_blank" key={i}>
+                                            <a className="a" href={e.link} target="_blank" key={i}>
                                                 <div className="contributor-item img">
                                                     <img src={e.avatar} alt="" />
                                                 </div>
@@ -220,7 +219,7 @@ export default function Index(params) {
                                                 </div>
                                             </a>
                                             :
-                                            <div>
+                                            <div className="a">
                                                 <div className="contributor-item img">
                                                     <img src={e.avatar} alt="" />
                                                 </div>
@@ -232,12 +231,12 @@ export default function Index(params) {
                                     }
                                 </div>
                             </div>
-                            {
+                            {/* {
                                 contributor.length > count &&
                                 <div className="btn-drop" onClick={dropdown}>
                                     <DownOutlined />
                                 </div>
-                            }
+                            } */}
                         </div>
                 </div>
             </div>

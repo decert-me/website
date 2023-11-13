@@ -107,20 +107,6 @@ export default function App() {
     !localStorage.getItem("decert.cache") && localStorage.setItem("decert.cache", JSON.stringify({}))
   },[])
 
-  useEffect(() => {
-    const handleBeforeUnload = (e) => {
-      e.preventDefault();
-      // e.returnValue = ''; // 必须设置一个空字符串，否则浏览器可能会显示默认的提示消息
-      localStorage.removeItem("wagmi.cache");
-    };
-
-    window.addEventListener('beforeunload', handleBeforeUnload);
-
-    return () => {
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, []);
-
   return (
     <>
 
