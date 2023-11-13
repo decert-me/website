@@ -196,7 +196,14 @@ export default function Challenge(params) {
     const cacheInit = async() => {
         // 判断当前search栏是否有token_id ? 获取editChallenge : 获取publish
         const tokenId = location.search.replace("?","");
-        const data = await getDataBase(tokenId ? "editChallenge" : "publish");
+        // 判断是否是 发布预览 => publish || 修改挑战预览 => store
+        let data;
+        if (tokenId) {
+            const { challenge } = await store.getState();
+            data = [challenge]
+        }else{
+            data = await getDataBase("publish");
+        }
 
         // 没有缓存 || 编辑tokenid不一致 返回挑战列表c
         if (data.length === 0 || (tokenId && data[0].token_id !== tokenId)) {

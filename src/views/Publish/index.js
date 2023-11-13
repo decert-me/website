@@ -232,13 +232,6 @@ export default function Publish(params) {
         if (isClaim) {
             return
         }
-        const { challenge } = await store.getState();
-        if (challenge) {
-            cache = challenge;
-            setCache({...cache});
-            setTradeLoading(false);
-            return
-        }
         // 获取对应challenge信息
         const { title, description, recommend, metadata, quest_data, difficulty, uri, uuid } = data;
         const answers = JSON.parse(decode(process.env.REACT_APP_ANSWERS_KEY, data.quest_data.answers))
@@ -274,6 +267,18 @@ export default function Publish(params) {
             uuid,
         }
         setChangeItem({...changeItem});
+        //  redux中是否已经有缓存
+        const { challenge } = await store.getState();
+        if (challenge) {
+            cache = challenge;
+            setCache({...cache});
+            setTradeLoading(false);
+            form.setFieldsValue(cache);
+            fileList = Array.isArray(cache.fileList) ? cache.fileList : cache.fileList.fileList;
+            setFileList([...fileList]);
+            totalScore(cache.questions || []);
+            return
+        }
         form.setFieldsValue(changeItem);
         fileList = changeItem.fileList || [];
         setFileList([...fileList]);
@@ -285,13 +290,21 @@ export default function Publish(params) {
     async function preview() {
         // 判断是否是修改挑战
         if (isEdit) {
-            const {title, questions} = await form.getFieldsValue();
+            // {title, questions}
+            const values = await form.getFieldsValue();
             // 存储至indexDB
-            saveCache("editChallenge", {
-                token_id: isEdit,
-                title,
-                questions
-            })
+            // saveCache("editChallenge", {
+            //     token_id: isEdit,
+            //     title,
+            //     questions
+            // })
+            const obj = {
+                ...values,
+                token_id: isEdit,   
+            }
+            console.log(values);
+            // 改为存储至redux，刷新丢失 ==>
+            await store.dispatch(setChallenge(obj))
         }
         setTimeout(() => {
             navigateTo(`/preview${isEdit ? "?"+isEdit : ""}`)
