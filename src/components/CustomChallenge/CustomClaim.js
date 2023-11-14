@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import { getClaimHash, getQuests, hasClaimed, submitHash } from "../../request/api/public";
 import { claim } from "../../controller";
-import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useNetwork, useWalletClient, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
 import ModalLoading from "../CustomModal/ModalLoading";
 import { GetScorePercent } from "@/utils/GetPercent";
@@ -28,7 +28,7 @@ export default function CustomClaim(props) {
     const navigateTo = useNavigate();
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
-    const { data: signer } = useSigner();
+    const { data: signer } = useWalletClient();
     let [open, setOpen] = useState();
     let [link, setLink] = useState("");
     let [status, setStatus] = useState(0);

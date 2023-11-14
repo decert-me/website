@@ -17,7 +17,7 @@ import CollectionInfo from "./detail";
 import usePublishCollection from "@/hooks/usePublishCollection";
 import { hasClaimed } from "@/request/api/public";
 import MyContext from "@/provider/context";
-import { useProvider, useSigner } from "wagmi";
+import { useProvider, useWalletClient } from "wagmi";
 
 
 
@@ -25,7 +25,7 @@ export default function Collection(params) {
     
     const { id } = useParams();
     const { isMobile } = useContext(MyContext);
-    const { data: signer } = useSigner()
+    const { data: signer } = useWalletClient()
     const { address, walletType, isConnected } = useAddress();
     const { ipfsPath, defaultImg, openseaLink } = constans();
     const [api, contextHolder] = notification.useNotification();

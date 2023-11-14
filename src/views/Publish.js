@@ -14,7 +14,7 @@ import { usePublish } from "@/hooks/usePublish";
 import ModalEditQuestion from "@/components/CustomModal/ModalEditQuestion";
 import MyContext from "@/provider/context";
 import { getMetadata } from "@/utils/getMetadata";
-import { useSigner } from "wagmi";
+import { useWalletClient } from "wagmi";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 import { changeConnect } from "@/utils/redux";
 import { getQuests, modifyRecommend } from "@/request/api/public";
@@ -29,7 +29,7 @@ export default function Publish(params) {
     const { t } = useTranslation(["publish", "translation", "profile"]);
     const { isMobile } = useContext(MyContext);
     const { address, isConnected, walletType } = useAddress();
-    const { data: signer } = useSigner();
+    const { data: signer } = useWalletClient();
     const location = useLocation();
     const [messageApi, contextHolder] = message.useMessage();
 

@@ -4,7 +4,7 @@ import {
 } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
-import { useSigner } from "wagmi";
+import { useWalletClient } from "wagmi";
 import { GetPercent } from "@/utils/GetPercent";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import CustomClaimInfo from "./CustomClaimInfo";
@@ -20,7 +20,7 @@ export default function CustomCompleted(props) {
     const { answers, detail, tokenId, isClaim, address: addr } = props;
     const { defaultChainId } = constans();
     const { verify } = useVerifyToken();
-    const { data: signer } = useSigner({
+    const { data: signer } = useWalletClient({
         chainId: defaultChainId
     });
     const { address, isConnected } = useAddress();

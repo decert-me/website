@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
-import { useSigner } from "wagmi";
+import { useWalletClient } from "wagmi";
 
 import { CustomEditor } from "@/components/CustomItem";
 import { UploadProps } from "@/utils/UploadProps";
@@ -32,7 +32,7 @@ export default function Publish(params) {
     const isFirstRender = useRef(true);     //  是否是第一次渲染
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
-    const { data: signer } = useSigner();
+    const { data: signer } = useWalletClient();
     const { isConnected, walletType, address } = useAddress();
     const { t } = useTranslation(["publish", "translation"]);
     const { encode, decode } = Encryption();

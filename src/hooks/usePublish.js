@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useNetwork, useWalletClient, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { addQuests, modifyQuests, submitHash } from "@/request/api/public";
 import { constans } from "@/utils/constans";
@@ -17,7 +17,7 @@ export const usePublish = (props) => {
     const { jsonHash, recommend, changeId } = props;
     const { defaultChainId } = constans();
     const { chain } = useNetwork();
-    const { data: signer } = useSigner();
+    const { data: signer } = useWalletClient();
     const { verify } = useVerifyToken();
     const { ipfsPath, maxUint32, maxUint192 } = constans();
     const navigateTo = useNavigate();

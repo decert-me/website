@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react"
 import { useNavigate, useParams } from "react-router-dom";
-import { useSigner } from "wagmi";
+import { useWalletClient } from "wagmi";
 import CustomCompleted from "../components/CustomChallenge/CustomCompleted";
 import "@/assets/styles/component-style"
 import "@/assets/styles/mobile/view-style/claim.scss"
@@ -18,7 +18,7 @@ export default function Claim(props) {
     const { defaultChainId } = constans();
     const { t } = useTranslation(["translation"]);
     const navigateTo = useNavigate();
-    const { data: signer } = useSigner({
+    const { data: signer } = useWalletClient({
         chainId: defaultChainId
     });
     const { address } = useAddress();

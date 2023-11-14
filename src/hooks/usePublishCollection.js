@@ -1,4 +1,4 @@
-import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useNetwork, useWalletClient, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useVerifyToken } from "./useVerifyToken";
 import { constans } from "@/utils/constans";
 import { useNavigate } from "react-router-dom";
@@ -13,7 +13,7 @@ import { message } from "antd";
 export default function usePublishCollection({ detail, jsonHash, collectionId }) {
     
     const { chain } = useNetwork();
-    const { data: signer } = useSigner();
+    const { data: signer } = useWalletClient();
     const { verify } = useVerifyToken();
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
