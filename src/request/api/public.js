@@ -185,6 +185,14 @@ export const nftJson = (data, type) => {
     })
 }
 
+export const uploadFile = (data) => {
+    return ipfsAxios({
+        url: `/v1/ipfs/uploadFile?type=open_quest`,
+        method: "post",
+        data
+    })
+}
+
 // 获取教程阅览进度
 export const tutorialProgress = (data) => {
     return serviceAxios({

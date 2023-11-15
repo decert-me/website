@@ -26,10 +26,6 @@ const routes = [
       path: "/collection/:id",
       element: <Collection />,
     },
-    // { 
-    //   path: "/publish",
-    //   element: <Publish />,
-    // },
     { 
       path: "/publish",
       element: <NewPublish />,

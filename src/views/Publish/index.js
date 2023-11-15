@@ -4,6 +4,8 @@ import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from 
 import { UploadOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
 import { useSigner } from "wagmi";
+import "@/assets/styles/view-style/publish.scss"
+import "@/assets/styles/component-style";
 
 import { CustomEditor } from "@/components/CustomItem";
 import { UploadProps } from "@/utils/UploadProps";

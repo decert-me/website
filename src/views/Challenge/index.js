@@ -1,32 +1,20 @@
-import {
-    ArrowLeftOutlined,
-    ExportOutlined
-} from '@ant-design/icons';
-import { 
-    Button, 
-    Modal, 
-    Progress 
-} from 'antd';
-import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { getQuests, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
-import CustomPagination from '../../components/CustomPagination';
-import ModalAnswers from '../../components/CustomModal/ModalAnswers';
-import { 
-    CustomRadio, 
-    CustomInput, 
-    CustomCheckbox 
-} from '../../components/CustomChallenge';
-import { useTranslation } from 'react-i18next';
-import { setMetadata } from '@/utils/getMetadata';
-import CustomCode from '@/components/CustomChallenge/CustomCode';
 import store from "@/redux/store";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
+import { Button, Modal, Progress } from 'antd';
+import { ArrowLeftOutlined, ExportOutlined } from '@ant-design/icons';
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { getQuests, submitChallenge } from "../../request/api/public";
+import { CustomRadio, CustomInput, CustomCheckbox, CustomOpen, CustomCode } from '../../components/CustomChallenge/QuestType';
+import { setMetadata } from '@/utils/getMetadata';
 import { localRealAnswerInit } from '@/utils/localRealAnswerInit';
 import { modalNotice } from '@/utils/modalNotice';
 import { Encryption } from '@/utils/Encryption';
 import { getDataBase } from '@/utils/saveCache';
+import CustomPagination from '../../components/CustomPagination';
+import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 
 export default function Challenge(params) {
 
@@ -164,12 +152,9 @@ export default function Challenge(params) {
         }
     }
 
-    const changeAnswer = (value, type) => {
+    const changeAnswer = (value, type, annex) => {
         // 新版普通题cache添加
-        const obj = {
-            value: value,
-            type: type
-        }
+        const obj = annex ? { value, type, annex } : { value, type };
         !isPreview && changeAnswersValue(obj, index)
     }
 
@@ -308,14 +293,12 @@ export default function Challenge(params) {
                         label={question.title} 
                         options={question.options} 
                         value={changeAnswer}
-                        defaultValue={answers[i]} 
                         isPreview={isPreview}
                         answer={realAnswer[i]}
                     />
                 )
             case 0:
             case "multiple_choice":
-                console.log();
                 return (
                     <CustomRadio 
                         key={i} 
@@ -325,6 +308,31 @@ export default function Challenge(params) {
                         defaultValue={answers[i]} 
                         isPreview={isPreview}
                         answer={realAnswer[i]}
+                    />
+                ) 
+            case "open_quest":
+                const fileList = [];
+                if (answers[i]) {
+                    const {annex} = answers[i];
+                    annex.forEach((file, i) => {
+                        fileList.push({
+                            uid: i,
+                            name: file.name,
+                            status: 'done',
+                            url: file.hash,
+                        })
+                    })
+                }
+                return (
+                    <CustomOpen 
+                        key={i} 
+                        label={question.title} 
+                        options={question.options} 
+                        value={changeAnswer} 
+                        defaultValue={answers[i]} 
+                        defaultFileList={fileList}
+                        isPreview={isPreview}
+                        // answer={realAnswer[i]}
                     />
                 ) 
             default:
