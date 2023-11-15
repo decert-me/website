@@ -6,6 +6,7 @@ import { CustomQuestion } from "@/components/CustomItem";
 import ModalAddQuestion from "@/components/CustomModal/ModalAddQuestion";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 import { importFile } from "@/utils/importFile";
+import ModalAddOpenQuestion from "@/components/CustomModal/ModalAddOpenQuestion";
 
 
 
@@ -21,6 +22,7 @@ export default function PublishQuestion({
     const { t } = useTranslation(["publish", "translation"]);
     let [showAddQs, setShowAddQs] = useState(false);        //  添加普通题
     let [showAddCodeQs, setShowAddCodeQs] = useState(false);    //  添加编程题
+    let [showAddOpenQs, setShowAddOpenQs] = useState(false);    //  添加编程题
 
     let [selectQs, setSelectQs] = useState();       //  修改题目内容
     let [selectIndex, setSelectIndex] = useState();     //  修改题目索引
@@ -35,7 +37,10 @@ export default function PublishQuestion({
         if (obj.type === "coding" || obj.type === "special_judge_coding") {
             // 编程题
             setShowAddCodeQs(true);
-        }else{
+        }else if (obj.type === "open_quest") {
+            // 开放题
+            setShowAddOpenQs(true);
+        }else {
             // 普通题
             setShowAddQs(true);
         }
@@ -63,17 +68,31 @@ export default function PublishQuestion({
                     questionEdit={(quest) => questionEdit(quest, selectIndex)}
                 />
             }
+            {/* 添加代码题弹窗 */}
             {
                 showAddCodeQs &&
                 <ModalAddCodeQuestion
                     isModalOpen={showAddCodeQs} 
                     handleCancel={() => {setShowAddCodeQs(false)}}
                     questionChange={questionChange}
+                    编辑部分
+                    selectQs={selectQs}
+                    questionEdit={(quest) => questionEdit(quest, selectIndex)}
+                />
+            }
+            {/* 添加开放题弹窗 */}
+            {
+                showAddOpenQs &&
+                <ModalAddOpenQuestion
+                    isModalOpen={showAddOpenQs} 
+                    handleCancel={() => {setShowAddOpenQs(false)}}
+                    questionChange={questionChange}
                     // 编辑部分
                     selectQs={selectQs}
                     questionEdit={(quest) => questionEdit(quest, selectIndex)}
                 />
             }
+            
             {/* 普通题 */}
             <div className="questions">
                 <div className="quest-head" style={{
@@ -129,6 +148,17 @@ export default function PublishQuestion({
                     }}
                 >
                     {t("inner.add-code")}
+                </Button>
+
+                {/* 添加开放题 */}
+                <Button
+                    type="link" 
+                    onClick={() => {
+                        clearSelect();
+                        setShowAddOpenQs(true);
+                    }}
+                >
+                    添加开放题
                 </Button>
 
                 {/* 导入题目 */}
