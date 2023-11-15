@@ -119,7 +119,7 @@ export default function ChallengeItem(props) {
                         {info.title}
                     </p>
                     <p className="desc newline-omitted">
-                        {info.metadata.description}
+                        {info.description}
                     </p>
                 </div>
                 <div className="sbt-detail">
