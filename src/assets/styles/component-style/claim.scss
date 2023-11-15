@@ -1,4 +1,27 @@
 .Claim{
+    .waiting{
+        margin: 240px auto 0;
+        text-align: center;
+        p{
+            font-size: 30px;
+        }
+        .tip{
+            margin-top: 20px;
+            font-size: 16px;
+        }
+        button{
+            margin: 0 auto;
+            display: block;
+        }
+        #hover-btn-line{
+            margin-top: 70px;
+        }
+        .btn-link{
+            margin-top: 200px;
+            font-size: 16px;
+            color: #000000;
+        }
+    }
     .claim-loading{
         margin: 200px auto 0;
         min-height: calc(100vh - 300px);

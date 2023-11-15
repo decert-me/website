@@ -174,6 +174,12 @@ export default function Challenge(params) {
             token_id: detail.tokenId,
             answer: JSON.stringify(answers)
         })
+        // // 是否有开放题 ? 跳转至等待评分页 : 跳转至claim页
+        // const isOpenQuest = answers.filter(answer => answer.type === "open_quest");
+        // if (isOpenQuest.length !== 0) {
+        //     navigateTo(`/claim/${detail.tokenId}`)
+        // }else{
+        // }
         navigateTo(`/claim/${detail.tokenId}`)
     }
 
