@@ -103,12 +103,12 @@ export default function ModalAnswers(props) {
                 <div className="tip">
                     <div className="round true">
                         <div className="point"></div>
-                    </div>正确
+                    </div>{t("publish:inner.true")}
                 </div>
                 <div className="tip">
                     <div className="round false">
                         <div className="point"></div>
-                    </div>错误
+                    </div>{t("publish:inner.false")}
                 </div>
                 <div className="tip">
                     <div className="round answered">

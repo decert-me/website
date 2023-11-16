@@ -43,5 +43,9 @@
         "error": {
             "publish": "Please exit preview model and complete the challenge content."
         }
+    },
+    "confirm": {
+        "title": "Confirm submission?",
+        "content": "Continuing to submit will overwrite the previous challenge score."
     }
 }

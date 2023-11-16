@@ -148,7 +148,9 @@
         "success": {
             "submit": {
                 "title": "Submit succeed",
-                "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet."
+                "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet.",
+                "wait": "The creator is scoring your challenge. Please be patient.",
+                "score": "As the challenge includes open-ended questions without fixed answers, the creator needs to score."
             },
             "save": "Update success!",
             "copy": "Copy success!",

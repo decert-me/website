@@ -136,8 +136,8 @@
     }
 }
 .isCover{
-    width: auto !important;
-    min-width: 364px;
+    width: 364px !important;
+    // min-width: 364px;
     .ant-modal-content{
         padding: 60px 55px 40px !important;
         position: relative;

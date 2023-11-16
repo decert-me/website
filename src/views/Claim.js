@@ -137,9 +137,9 @@ export default function Claim(props) {
                 :
                 isWaitting ?
                 <div className="waiting">
-                    <p>提交成功</p>
-                    <p style={{marginTop: "45px"}}>出题者正在为您的挑战打分，请耐心等待。</p>
-                    <p className="tip">由于挑战包含开放题，无固定答案，需要出题者评分。</p>
+                    <p>{t("message.success.submit.title")}</p>
+                    <p style={{marginTop: "45px"}}>{t("message.success.submit.wait")}</p>
+                    <p className="tip">{t("message.success.submit.score")}</p>
                     <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${questId}`)}>
                         {t("btn-go-challenge")}
                     </Button>

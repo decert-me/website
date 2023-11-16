@@ -228,3 +228,21 @@ export const progressList = (data) => {
         data
     })
 }
+
+// 获取未读消息
+export const getUnreadMessage = (data) => {
+    return serviceAxios({
+        url: `/v1/message/getUnreadMessage`,
+        method: "get",
+        data
+    })
+}
+
+// 阅读消息
+export const readMessage = (data) => {
+    return serviceAxios({
+        url: `/v1/message/readMessage`,
+        method: "post",
+        data
+    })
+}

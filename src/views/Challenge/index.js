@@ -175,8 +175,8 @@ export default function Challenge(params) {
                 className: "isCover",
                 icon: <></>,
                 centered: true,
-                cancelText: "取消",
-                okText: "确认",
+                cancelText: t("translation:btn-cancel"),
+                okText: t("translation:btn-confirm"),
                 onOk: () => {
                     saveAnswer()
                     submitChallenge({
@@ -189,8 +189,8 @@ export default function Challenge(params) {
                 content: (
                     <>
                         <CloseOutlined onClick={() => Modal.destroyAll()} />
-                        <p className="confirm-title">确认提交？</p>
-                        <p className="confirm-content">继续提交将覆盖上次的挑战成绩</p>
+                        <p className="confirm-title">{t("confirm.title")}</p>
+                        <p className="confirm-content">{t("confirm.content")}</p>
                     </>
                 )
             })
