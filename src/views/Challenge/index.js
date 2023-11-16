@@ -232,6 +232,21 @@ export default function Challenge(params) {
         }
     },[page, detail, cacheDetail])
 
+    function questTye(type) {
+        switch (type) {
+            case "open_quest":
+                return "(开放性问题)"
+            case "fill_blank":
+                return "(填空题)"
+            case "multiple_choice":
+                return "(选择题)"
+            case "multiple_response":
+                return "(多选题)"
+            default:
+                break;
+        }
+    }
+
     function topic(params) {
         return (
             params.map((e,i) => {
@@ -240,7 +255,7 @@ export default function Challenge(params) {
                         {
                             e.type !== "coding" &&
                             <h4 className='challenge-title'>{t("challenge.title")}
-                                #{page} &nbsp;&nbsp; 
+                                #{page} {questTye(e.type)}&nbsp;&nbsp; 
                                 {
                                     isEdit && 
                                     <span className="score">({e.score}分)</span>
