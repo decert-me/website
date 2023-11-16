@@ -4,7 +4,7 @@ import store from "@/redux/store";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, Progress } from 'antd';
-import { ArrowLeftOutlined, ExportOutlined } from '@ant-design/icons';
+import { ArrowLeftOutlined, ExportOutlined, CloseOutlined } from '@ant-design/icons';
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getQuests, submitChallenge } from "../../request/api/public";
 import { CustomRadio, CustomInput, CustomCheckbox, CustomOpen, CustomCode } from '../../components/CustomChallenge/QuestType';
@@ -78,7 +78,6 @@ export default function Challenge(params) {
                 
                 const { cacheAnswers: newAnswers } = localRealAnswerInit({
                     cacheAnswers, id, detail, reload: () => {
-                        // TODO: 弹窗提示 ===> 跳转
                         Modal.warning({
                             ...modalNotice({
                                 t, 
@@ -167,6 +166,36 @@ export default function Challenge(params) {
     const submit = async() => {
         childRef.current &&
         await childRef.current.goTest()
+        // 是否有开放题 ? 查看是否已经提交过答案 : 跳转至claim页
+        const isOpenQuest = answers.filter(answer => answer.type === "open_quest");
+        if (isOpenQuest.length !== 0 && detail.open_quest_review_status !== 0) {
+            // TODO: 展示覆盖弹窗
+            Modal.confirm({
+                title: "",
+                className: "isCover",
+                icon: <></>,
+                centered: true,
+                cancelText: "取消",
+                okText: "确认",
+                onOk: () => {
+                    saveAnswer()
+                    submitChallenge({
+                        token_id: detail.tokenId,
+                        answer: JSON.stringify(answers)
+                    }).then(res => {
+                        navigateTo(`/claim/${detail.tokenId}`)
+                    })
+                },
+                content: (
+                    <>
+                        <CloseOutlined onClick={() => Modal.destroyAll()} />
+                        <p className="confirm-title">确认提交？</p>
+                        <p className="confirm-content">继续提交将覆盖上次的挑战成绩</p>
+                    </>
+                )
+            })
+            return
+        }
         // 本地 ==> 存储答案 ==> 跳转领取页
         saveAnswer()
         // 提交答题次数给后端
@@ -174,12 +203,6 @@ export default function Challenge(params) {
             token_id: detail.tokenId,
             answer: JSON.stringify(answers)
         })
-        // // 是否有开放题 ? 跳转至等待评分页 : 跳转至claim页
-        // const isOpenQuest = answers.filter(answer => answer.type === "open_quest");
-        // if (isOpenQuest.length !== 0) {
-        //     navigateTo(`/claim/${detail.tokenId}`)
-        // }else{
-        // }
         navigateTo(`/claim/${detail.tokenId}`)
     }
 

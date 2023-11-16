@@ -56,9 +56,9 @@ export default function Claim(props) {
 
     function hasOpenQuest(answers, info) {
         const isOpenQuest = answers.filter(answer => answer.type === "open_quest");
-        // TODO: 有开放题 && 未审核 ? 展示等待 : 正常显示claim
+        // 有开放题 && 未审核 ? 展示等待 : 正常显示claim
 
-        if (isOpenQuest.length !== 0 && info?.open_quest_review_status === 1) {
+        if (isOpenQuest.length !== 0 && info?.open_quest_review_status !== 2) {
             setIsWaitting(true);
             return true
         }else{
@@ -105,8 +105,8 @@ export default function Claim(props) {
         }).catch(err => {
             // 未领取
             if (cache && cache[id]) {
-                // 已答 未领 ==>
-                answers = cache[id];
+                // 已答 未领 ==> 获取后端数据
+                answers = detail?.answer || cache[id];
                 setAnswers([...answers]);
                 realAnswerInit(cache)
             }else{
