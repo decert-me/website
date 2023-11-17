@@ -41,7 +41,7 @@ export default function DefaultLayout(params) {
         manual: true,
         onSuccess: (data) => {
             const lang = localStorage.getItem("decert.lang");
-            msgList = data.data.reverse();
+            msgList = data?.data.reverse() || [];
             setMsgList([...msgList]);
             msgList.forEach((msg, i) => {
                 api.open({

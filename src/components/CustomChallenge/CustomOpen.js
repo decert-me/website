@@ -4,6 +4,8 @@ import { UploadOutlined } from '@ant-design/icons';
 import CustomViewer from "../CustomViewer";
 import { uploadFile } from "@/request/api/public";
 import { useEffect, useState } from "react";
+import { changeConnect } from "@/utils/redux";
+import { useAddress } from "@/hooks/useAddress";
 
 const { TextArea } = Input;
 
@@ -11,6 +13,7 @@ export default function CustomOpen(props) {
     
     const { label, value, defaultValue, defaultFileList } = props;
     const { t } = useTranslation(["explore"]);
+    const { isConnected } = useAddress();
     let [annex, setAnnex] = useState([]);
     let [inner, setInner] = useState("");
 
@@ -60,28 +63,17 @@ export default function CustomOpen(props) {
                 }
             };
         },
-        // beforeUpload(file) {
-        //     const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif"]
-        //     let isImage = false
-        //     formatArr.map((e)=>{
-        //       if ( file.type === e ) {
-        //         isImage = true
-        //       }
-        //     })
-        //     if (!isConnected) {
-        //         changeConnect()
-        //         return Upload.LIST_IGNORE
-        //     }
-        //     if (!isImage) {
-        //       message.error("You can only upload JPG/PNG file!");
-        //       return Upload.LIST_IGNORE
-        //     }
-        //     const isLt100M = file.size / 1024 / 1024 < 20;
-        //     if (!isLt100M) {
-        //       message.error("Image must smaller than 20MB!");
-        //       return Upload.LIST_IGNORE
-        //     }
-        // }
+        beforeUpload(file) {
+            if (!isConnected) {
+                changeConnect()
+                return Upload.LIST_IGNORE
+            }
+            const isLt100M = file.size / 1024 / 1024 < 20;
+            if (!isLt100M) {
+              message.error("Image must smaller than 20MB!");
+              return Upload.LIST_IGNORE
+            }
+        }
     };
 
     // 修改缓存
