@@ -96,12 +96,12 @@ export default function ChallengeItem(props) {
                    {t("explore:pass")}
                </div> 
             }
-            {/* {
-                info.claimed && 
-                <div className="item-claimed">
+            {
+                info?.open_quest_review_status === 1 && 
+                <div className="item-claimed" style={{borderColor: "#fbae38", color: "#fbae38"}}>
                     {t("explore:review")}
                 </div>
-            } */}
+            }
             <div className="right-sbt challenge-img" onClick={clickSbt}>
                 <div className="img">
                         <LazyLoadImage
