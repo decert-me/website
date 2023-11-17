@@ -55,6 +55,9 @@
     "btn-publish": "发布挑战",
     "btn-view": "预览",
     "btn-clear": "清空所有",
+    "btn-another": "浏览其他挑战",
+    "btn-ok": "我知道了",
+    "btn-link": "前往查看",
 
     "tutorial": {
         "filter": "筛选",

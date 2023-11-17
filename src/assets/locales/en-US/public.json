@@ -56,6 +56,9 @@
     "btn-publish": "Publish",
     "btn-view": "Preview",
     "btn-clear": "Clear data",
+    "btn-another": "Browse other challenges",
+    "btn-ok": "OK",
+    "btn-link": "View",
 
     "tutorial": {
         "filter": "Filters",

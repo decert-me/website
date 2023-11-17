@@ -15,10 +15,12 @@ import { useAddress } from "@/hooks/useAddress";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAccount } from "wagmi";
 import { getUnreadMessage, readMessage } from "@/request/api/public";
+import { useTranslation } from "react-i18next";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
 
+    const { t } = useTranslation(["translation"]);
     const outlet = useRoutes(routes);
     const navigateTo = useNavigate();
     const location = useLocation();
@@ -58,14 +60,14 @@ export default function DefaultLayout(params) {
                                 api.destroy(i);
                                 readMessage({id: msg.ID});
                             }}>
-                                我知道了
+                                {t("btn-ok")}
                             </Button>
                             <Button type="primary" size="small" onClick={() => {
                                 api.destroy(i);
                                 readMessage({id: msg.ID});
                                 navigateTo(`/claim/${msg.token_id}`)
                             }}>
-                                前往查看
+                                {t("btn-link")}
                             </Button>
                         </Space>
                     )

@@ -91,11 +91,17 @@ export default function ChallengeItem(props) {
                 </div>
             }
             {
+               info.claimed && 
+               <div className="item-claimed">
+                   {t("explore:pass")}
+               </div> 
+            }
+            {/* {
                 info.claimed && 
                 <div className="item-claimed">
-                    {t("explore:pass")}
+                    {t("explore:review")}
                 </div>
-            }
+            } */}
             <div className="right-sbt challenge-img" onClick={clickSbt}>
                 <div className="img">
                         <LazyLoadImage

@@ -143,7 +143,7 @@ export default function Claim(props) {
                     <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${questId}`)}>
                         {t("btn-go-challenge")}
                     </Button>
-                    <Button className="btn-link" type="link" onClick={() => navigateTo("/challenges")}>浏览其他挑战</Button>
+                    <Button className="btn-link" type="link" onClick={() => navigateTo("/challenges")}>{t("btn-another")}</Button>
                 </div>
                 :
                 <div className="claim-loading">

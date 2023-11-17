@@ -9,9 +9,12 @@
     "reward": "Rewards",
     "challenger": "challengers",
     "pass": "Claimed",
+    "review": "In review",
     "claimable": "Claimable",
     "correct": "right answer",
     "go-to": "Head to",
+    "suport": "Support",
+    "size": "Size",
     
     "notice": "Please complete all challenge first.",
     "comming": "Please stay tuned.",
@@ -22,12 +25,17 @@
         "create-nft": "Create NFT",
         "created-nft": "Created NFT",
         "complet": "Claim after completing all challenges",
-        "claim": "Claim"
+        "claim": "Claim",
+        "upload": "Upload"
     },
 
     "ques": {
         "title": "Technology Certification",
-        "desc": "Upon completion of the challenge, you will earn SBT (Soulbound Token) as proof of your technical ability. Share it on your social platforms and let the world know what you can do."
+        "desc": "Upon completion of the challenge, you will earn SBT (Soulbound Token) as proof of your technical ability. Share it on your social platforms and let the world know what you can do.",
+        "open": "Open-ended question",
+        "fill": "Blank  filling question",
+        "radio": "Single choice question",
+        "select": "Multiple choice question"
     },
     "challenge": {
         "title": "Quiz"
@@ -47,5 +55,9 @@
     "confirm": {
         "title": "Confirm submission?",
         "content": "Continuing to submit will overwrite the previous challenge score."
+    },
+    "inner": {
+        "text": "There is no exact answer to this question. Please answer according to the question."
+
     }
 }

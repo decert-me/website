@@ -123,7 +123,7 @@ export default function CustomOpen(props) {
                     autoSize={{
                         minRows: 7,
                     }}
-                    placeholder="本题没有准确答案，请根据题目作答。"
+                    placeholder={t("inner.text")}
                 />
                 <Upload 
                     {...upload} 
@@ -138,7 +138,7 @@ export default function CustomOpen(props) {
                         style={{
                             marginTop: "30px"
                         }}
-                    >Upload</Button>
+                    >{t("btn.upload")}</Button>
                 </Upload>
                 <Space 
                     size="middle" 
@@ -146,8 +146,8 @@ export default function CustomOpen(props) {
                         marginTop: "10px"
                     }}
                 >
-                    <p>Support: .rar .zip .doc .jpg...</p>
-                    <p>Size: 20MB</p>
+                    <p>{t("suport")}: .rar .zip .doc .jpg...</p>
+                    <p>{t("size")}: 20MB</p>
                 </Space>
             </div>
         </div>

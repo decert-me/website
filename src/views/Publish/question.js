@@ -150,6 +150,7 @@ export default function PublishQuestion({
                     {t("inner.add-code")}
                 </Button>
 
+{/* TODO: 登陆后没权限 ===>  隐藏 */}
                 {/* 添加开放题 */}
                 <Button
                     type="link" 
@@ -162,7 +163,10 @@ export default function PublishQuestion({
                 </Button>
 
                 {/* 导入题目 */}
-                <input type="file" accept=".md" onChange={importChallenge} />
+                <input id="fileInput" type="file" accept=".md" onChange={importChallenge} style={{display: "none"}} />
+                <Button size="small" onClick={() => {
+                    document.getElementById("fileInput").click();
+                }}>{t("upload")}</Button>
             </div>
             <Divider />
         </>

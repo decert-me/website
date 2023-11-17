@@ -266,13 +266,13 @@ export default function Challenge(params) {
     function questTye(type) {
         switch (type) {
             case "open_quest":
-                return "(开放性问题)"
+                return `(${t("ques.open")})`
             case "fill_blank":
-                return "(填空题)"
+                return `(${t("ques.fill")})`
             case "multiple_choice":
-                return "(单项选择题)"
+                return `(${t("ques.radio")})`
             case "multiple_response":
-                return "(多项多选题)"
+                return `(${t("ques.select")})`
             default:
                 break;
         }

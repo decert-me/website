@@ -2,6 +2,7 @@
     "title": "Create a Challenge",
     "title-modify": "Edit Challenge",
     "preview": "Only creator is visible",
+    "upload": "Upload",
     "inner": {
         "title": "Title",
         "desc": "Description",
