@@ -113,12 +113,12 @@ export default function ModalAnswers(props) {
                 <div className="tip">
                     <div className="round answered">
                         <div className="point"></div>
-                    </div>已答
+                    </div>{t("publish:inner.answered")}
                 </div>
                 <div className="tip">
                     <div className="round unanswer">
                         <div className="point"></div>
-                    </div>未答
+                    </div>{t("publish:inner.unanswered")}
                 </div>
             </div>
             <div className="box custom-scroll">

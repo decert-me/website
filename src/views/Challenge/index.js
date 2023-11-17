@@ -15,11 +15,14 @@ import { Encryption } from '@/utils/Encryption';
 import { getDataBase } from '@/utils/saveCache';
 import CustomPagination from '../../components/CustomPagination';
 import ModalAnswers from '../../components/CustomModal/ModalAnswers';
+import { useAddress } from "@/hooks/useAddress";
+import { changeConnect } from "@/utils/redux";
 
 export default function Challenge(params) {
 
     const { t } = useTranslation(["explore", "translation"]);
 
+    const { isConnected } = useAddress();
     const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -167,7 +170,7 @@ export default function Challenge(params) {
         childRef.current &&
         await childRef.current.goTest()
         // 是否有开放题 ? 查看是否已经提交过答案 : 跳转至claim页
-        const isOpenQuest = answers.filter(answer => answer.type === "open_quest");
+        const isOpenQuest = answers.filter(answer => answer?.type === "open_quest");
         if (isOpenQuest.length !== 0 && detail.open_quest_review_status !== 0) {
             // TODO: 展示覆盖弹窗
             Modal.confirm({
@@ -194,6 +197,11 @@ export default function Challenge(params) {
                     </>
                 )
             })
+            return
+        }
+        // 有开放题的同时未登录
+        if (isOpenQuest.length !== 0 && !isConnected) {
+            changeConnect();
             return
         }
         // 本地 ==> 存储答案 ==> 跳转领取页
@@ -262,9 +270,9 @@ export default function Challenge(params) {
             case "fill_blank":
                 return "(填空题)"
             case "multiple_choice":
-                return "(选择题)"
+                return "(单项选择题)"
             case "multiple_response":
-                return "(多选题)"
+                return "(多项多选题)"
             default:
                 break;
         }

@@ -158,7 +158,7 @@ export default function PublishQuestion({
                         setShowAddOpenQs(true);
                     }}
                 >
-                    添加开放题
+                    {t("inner.add-open")}
                 </Button>
 
                 {/* 导入题目 */}

@@ -55,7 +55,7 @@ export default function Claim(props) {
     }
 
     function hasOpenQuest(answers, info) {
-        const isOpenQuest = answers.filter(answer => answer.type === "open_quest");
+        const isOpenQuest = answers.filter(answer => answer?.type === "open_quest");
         // 有开放题 && 未审核 ? 展示等待 : 正常显示claim
 
         if (isOpenQuest.length !== 0 && info?.open_quest_review_status !== 2) {
