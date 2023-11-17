@@ -45,6 +45,7 @@ export default function DefaultLayout(params) {
             const lang = localStorage.getItem("decert.lang");
             msgList = data?.data.reverse() || [];
             setMsgList([...msgList]);
+
             msgList.forEach((msg, i) => {
                 api.open({
                     key: i,
@@ -65,7 +66,12 @@ export default function DefaultLayout(params) {
                             <Button type="primary" size="small" onClick={() => {
                                 api.destroy(i);
                                 readMessage({id: msg.ID});
-                                navigateTo(`/claim/${msg.token_id}`)
+                                // 判断当前是否在这页 ？ 刷新 ： 跳转
+                                if (location.pathname.indexOf("/claim") !== -1) {
+                                    navigateTo(0);
+                                }else{
+                                    navigateTo(`/claim/${msg.token_id}`);
+                                }
                             }}>
                                 {t("btn-link")}
                             </Button>

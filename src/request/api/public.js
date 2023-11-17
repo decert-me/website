@@ -246,3 +246,12 @@ export const readMessage = (data) => {
         data
     })
 }
+
+// 获取当前登陆用户是否能创建开放题
+export const hasCreateOpenQuestPerm = (data) => {
+    return serviceAxios({
+        url: `/v1/users/hasCreateOpenQuestPerm`,
+        method: "get",
+        data
+    })
+}

@@ -7,6 +7,10 @@ import ModalAddQuestion from "@/components/CustomModal/ModalAddQuestion";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 import { importFile } from "@/utils/importFile";
 import ModalAddOpenQuestion from "@/components/CustomModal/ModalAddOpenQuestion";
+import { useAddress } from "@/hooks/useAddress";
+import { changeConnect } from "@/utils/redux";
+import { useUpdateEffect } from "ahooks";
+import { hasCreateOpenQuestPerm } from "@/request/api/public";
 
 
 
@@ -20,6 +24,8 @@ export default function PublishQuestion({
 }) {
     
     const { t } = useTranslation(["publish", "translation"]);
+    const { isConnected } = useAddress();
+    let [isBeta, setIsBeta] = useState();
     let [showAddQs, setShowAddQs] = useState(false);        //  添加普通题
     let [showAddCodeQs, setShowAddCodeQs] = useState(false);    //  添加编程题
     let [showAddOpenQs, setShowAddOpenQs] = useState(false);    //  添加编程题
@@ -53,6 +59,20 @@ export default function PublishQuestion({
         setSelectQs(null);
         setSelectIndex(null);
     }
+
+    function getOpenQus() {
+        hasCreateOpenQuestPerm()
+        .then(res => {
+
+            isBeta = res.data;
+            setIsBeta(isBeta);
+        })
+    }
+
+    useUpdateEffect(() => {
+        // 内侧 && 获取当前账户是否可创建开放题
+        getOpenQus()
+    },[isConnected])
 
     return (
         <>
@@ -152,15 +172,23 @@ export default function PublishQuestion({
 
 {/* TODO: 登陆后没权限 ===>  隐藏 */}
                 {/* 添加开放题 */}
-                <Button
-                    type="link" 
-                    onClick={() => {
-                        clearSelect();
-                        setShowAddOpenQs(true);
-                    }}
-                >
-                    {t("inner.add-open")}
-                </Button>
+                {
+                    isBeta && ((isBeta.beta && isBeta.perm) || (!isBeta)) &&
+
+                    <Button
+                        type="link" 
+                        onClick={() => {
+                            if (!isConnected) {
+                                changeConnect();
+                                return
+                            }
+                            clearSelect();
+                            setShowAddOpenQs(true);
+                        }}
+                    >
+                        {t("inner.add-open")}
+                    </Button>
+                }
 
                 {/* 导入题目 */}
                 <input id="fileInput" type="file" accept=".md" onChange={importChallenge} style={{display: "none"}} />
