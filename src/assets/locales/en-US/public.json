@@ -56,7 +56,7 @@
     "btn-publish": "Publish",
     "btn-view": "Preview",
     "btn-clear": "Clear data",
-    "btn-another": "Browse other challenges",
+    "btn-another": "Explore Challenges",
     "btn-ok": "OK",
     "btn-link": "View",
 
@@ -150,7 +150,8 @@
     "message": {
         "success": {
             "submit": {
-                "title": "Submit succeed",
+                "info": "Submitted successfully",
+                "title": "In review, Please be patient...",
                 "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet.",
                 "wait": "The creator is scoring your challenge. Please be patient.",
                 "score": "As the challenge includes open-ended questions without fixed answers, the creator needs to score."

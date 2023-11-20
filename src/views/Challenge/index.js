@@ -3,7 +3,7 @@ import "@/assets/styles/mobile/view-style/challenge.scss"
 import store from "@/redux/store";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
-import { Button, Modal, Progress } from 'antd';
+import { Button, Modal, Progress, message } from 'antd';
 import { ArrowLeftOutlined, ExportOutlined, CloseOutlined } from '@ant-design/icons';
 import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
 import { getQuests, submitChallenge } from "../../request/api/public";
@@ -92,10 +92,9 @@ export default function Challenge(params) {
                     }
                 })
                 cacheAnswers = newAnswers
-    
-                if (cacheAnswers[id]) {
+                if (cacheAnswers[id] || detail?.answer) {
                     // 存在该题cache
-                    answers = cacheAnswers[id];
+                    answers = detail?.answer || cacheAnswers[id];
                     // 旧版本cache升级
                     try {
                         answers.forEach(e => {
@@ -171,8 +170,13 @@ export default function Challenge(params) {
         await childRef.current.goTest()
         // 是否有开放题 ? 查看是否已经提交过答案 : 跳转至claim页
         const isOpenQuest = answers.filter(answer => answer?.type === "open_quest");
+        // 有开放题的同时未登录
+        if (isOpenQuest.length !== 0 && !isConnected) {
+            changeConnect();
+            return
+        }
         if (isOpenQuest.length !== 0 && detail.open_quest_review_status !== 0) {
-            // TODO: 展示覆盖弹窗
+            // 展示覆盖弹窗
             Modal.confirm({
                 title: "",
                 className: "isCover",
@@ -186,6 +190,7 @@ export default function Challenge(params) {
                         token_id: detail.tokenId,
                         answer: JSON.stringify(answers)
                     }).then(res => {
+                        message.success(t("translation:message.success.submit.info"));
                         navigateTo(`/claim/${detail.tokenId}`)
                     })
                 },
@@ -199,11 +204,6 @@ export default function Challenge(params) {
             })
             return
         }
-        // 有开放题的同时未登录
-        if (isOpenQuest.length !== 0 && !isConnected) {
-            changeConnect();
-            return
-        }
         // 本地 ==> 存储答案 ==> 跳转领取页
         saveAnswer()
         // 提交答题次数给后端
@@ -211,6 +211,7 @@ export default function Challenge(params) {
             token_id: detail.tokenId,
             answer: JSON.stringify(answers)
         })
+        message.success(t("translation:message.success.submit.info"));
         navigateTo(`/claim/${detail.tokenId}`)
     }
 

@@ -143,9 +143,15 @@ export default function Claim(props) {
                 :
                 isWaitting ?
                 <div className="waiting">
-                    <p>{t("message.success.submit.title")}</p>
-                    <p style={{marginTop: "45px"}}>{t("message.success.submit.wait")}</p>
-                    <p className="tip">{t("message.success.submit.score")}</p>
+                    <div className="box">
+                        <img className="icon-wait" src={require("@/assets/images/icon/icon-wait.png")} alt="" />
+                        <p>{t("message.success.submit.title")}</p>
+                    </div>
+                    {/* <p style={{marginTop: "45px"}}>{t("message.success.submit.wait")}</p> */}
+                    <div className="box">
+                        <img className="icon-info" src={require("@/assets/images/icon/icon-info.png")} alt="" />
+                        <p className="tip">{t("message.success.submit.score")}</p>
+                    </div>
                     <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${questId}`)}>
                         {t("btn-go-challenge")}
                     </Button>

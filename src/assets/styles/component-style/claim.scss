@@ -2,12 +2,28 @@
     .waiting{
         margin: 240px auto 0;
         text-align: center;
+        .box{
+            margin-bottom: 33px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .icon-wait{
+                width: 20px;
+                height: 20px;
+                margin-right: 22px;
+            }
+            .icon-info{
+                width: 14px;
+                height: 14px;
+                margin-right: 3px;
+            }
+        }
         p{
-            font-size: 30px;
+            font-size: 26px;
         }
         .tip{
-            margin-top: 20px;
-            font-size: 16px;
+            color: #999999;
+            font-size: 14px;
         }
         button{
             margin: 0 auto;
@@ -20,6 +36,9 @@
             margin-top: 200px;
             font-size: 16px;
             color: #000000;
+            span{
+                text-decoration: underline;
+            }
         }
     }
     .claim-loading{
