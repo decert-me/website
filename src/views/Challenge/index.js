@@ -347,6 +347,7 @@ export default function Challenge(params) {
                         value={changeAnswer}
                         isPreview={isPreview}
                         answer={realAnswer[i]}
+                        defaultValue={answers[i]} 
                     />
                 )
             case 0:
