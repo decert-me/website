@@ -128,6 +128,7 @@ export default function CustomOpen(props) {
                 <Upload 
                     {...upload} 
                     defaultFileList={defaultFileList}
+                    maxCount={1}
                     onRemove={(file) => {
                         annex.splice(annex.findIndex(e => e.name === file.name), 1);
                         setAnnex([...annex]);
