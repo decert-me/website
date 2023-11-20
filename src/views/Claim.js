@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react"
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { useSigner } from "wagmi";
 import CustomCompleted from "../components/CustomChallenge/CustomCompleted";
 import "@/assets/styles/component-style"
@@ -13,11 +13,13 @@ import { useTranslation } from "react-i18next";
 import { modalNotice } from "@/utils/modalNotice";
 import { constans } from "@/utils/constans";
 import { useAddress } from "@/hooks/useAddress";
+import { useUpdateEffect } from "ahooks";
 export default function Claim(props) {
     
+    const location = useLocation();
+    const navigateTo = useNavigate();
     const { defaultChainId } = constans();
     const { t } = useTranslation(["translation"]);
-    const navigateTo = useNavigate();
     const { data: signer } = useSigner({
         chainId: defaultChainId
     });
@@ -118,6 +120,10 @@ export default function Claim(props) {
     const init = () =>{
         questId && switchStatus(questId);
     }
+
+    useUpdateEffect(() => {
+        navigateTo(0);
+    },[location])
 
     useEffect(() => {
         init()
