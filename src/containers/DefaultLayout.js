@@ -67,7 +67,7 @@ export default function DefaultLayout(params) {
                                 api.destroy(i);
                                 readMessage({id: msg.ID});
                                 // 判断当前是否在这页 ？ 刷新 ： 跳转
-                                if (location.pathname.indexOf("/claim") !== -1) {
+                                if (location.pathname.indexOf("/claim") !== -1 && location.pathname.split("/claim/")[1] != msg.token_id) {
                                     navigateTo(0);
                                 }else{
                                     navigateTo(`/claim/${msg.token_id}`);
