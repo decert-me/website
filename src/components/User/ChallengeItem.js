@@ -98,7 +98,7 @@ export default function ChallengeItem(props) {
             }
             {
                 info?.open_quest_review_status === 1 && 
-                <div className="item-claimed" style={{borderColor: "#fbae38", color: "#fbae38"}}>
+                <div className="item-claimed" style={{borderColor: "#007DFA", color: "#007DFA"}}>
                     {t("explore:review")}
                 </div>
             }
