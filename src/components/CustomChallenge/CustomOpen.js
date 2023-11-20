@@ -120,6 +120,7 @@ export default function CustomOpen(props) {
                     bordered={false} 
                     onChange={e => changeInner(e.target.value)}  
                     defaultValue={defaultValue?.value}
+                    maxLength={2000}
                     autoSize={{
                         minRows: 7,
                     }}
