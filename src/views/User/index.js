@@ -45,7 +45,9 @@ export default function User(props) {
         { key: 'complete', label: t("profile:challenge-completed"), children: [
             { key: 0, label: t("profile:type0") },
             { key: 1, label: t("profile:type1") },
-            { key: 2, label: t("profile:type2") }
+            { key: 2, label: t("profile:type2") },
+            { key: 3, label: t("explore:review") }
+
         ]},
         { key: 'publish', label: t("profile:challenge-publish"), children: [
             { key: 0, label: t("profile:type0")}
