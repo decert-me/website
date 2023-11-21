@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { useNetwork, useWalletClient, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useContext, useEffect, useState } from "react";
+import { useNetwork, useWalletClient, useSwitchNetwork, useWaitForTransaction, useContractWrite } from "wagmi";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { addQuests, modifyQuests, submitHash } from "@/request/api/public";
 import { constans } from "@/utils/constans";
@@ -9,13 +9,14 @@ import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useUpdateEffect } from "ahooks";
-
+import MyContext from "@/provider/context";
 
 
 export const usePublish = (props) => {
 
     const { jsonHash, recommend, changeId } = props;
     const { defaultChainId } = constans();
+    const { questContract } = useContext(MyContext);
     const { chain } = useNetwork();
     const { data: signer } = useWalletClient();
     const { verify } = useVerifyToken();
@@ -41,8 +42,17 @@ export const usePublish = (props) => {
         hash: createQuestHash,
         cacheTime: 0
     })
+    const { writeAsync, status } = useContractWrite({
+        ...questContract,
+        functionName: 'createQuest',
+    })
 
     const write = (sign, obj, params) => {
+        let { startTs, endTs, supply, title, uri } = obj;
+        endTs = constans().maxUint32;
+        supply = constans().maxUint192;
+        // supply = constans().maxUint32;
+        const args = [startTs, endTs, supply, title, uri];
         changeId ?
         modifyQuest(changeId, obj, sign, signer)
         .then(res => {
@@ -56,17 +66,27 @@ export const usePublish = (props) => {
             }
         })
         :
-        createQuest(obj, sign, signer)
-        .then(res => {
-            setIsLoading(false);
-            if (res) {
-                submitHash({
-                    hash: res, 
-                    params: params
-                })
-                setCreateQuestHash(res)
-            }
+        writeAsync({
+            args: [args, sign]
         })
+        .then(res => {
+            console.log(res);
+        })
+        .catch(err => {
+            console.log(err);
+            console.log(status, questContract, args);
+        })
+        // createQuest(obj, sign, signer)
+        // .then(res => {
+        //     setIsLoading(false);
+        //     if (res) {
+        //         submitHash({
+        //             hash: res, 
+        //             params: params
+        //         })
+        //         setCreateQuestHash(res)
+        //     }
+        // })
     }
 
     const processingData = async() => {

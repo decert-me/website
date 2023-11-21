@@ -16,7 +16,9 @@ export async function GetSign(params) {
             })
             // 2、获取签名
             // 判断当前address为solana
+            console.log("2222222222");
             if (/^0x/.test(address)) {
+                console.log("33333333333");
                 await signer?.signMessage(message)
                 .then(async(res) => {
                     // 3、获取token
@@ -35,6 +37,7 @@ export async function GetSign(params) {
                     })
                 })
                 .catch(err => {
+                    console.log("err ===>", err);
                     reject(err);
                     disconnect();
                 })

@@ -147,7 +147,7 @@ export default function DefaultLayout(params) {
             ClearStorage();
             navigateTo(0);
         }
-    },[address],{wait: 1000});
+    },[address],{wait: 2000});
 
     useEffect(() => {
         const path = location.pathname;
