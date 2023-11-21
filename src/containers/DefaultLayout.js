@@ -5,7 +5,7 @@ import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import { useContext, useEffect, useState } from "react";
 import { ClearStorage } from "@/utils/ClearStorage";
-import { useDebounceEffect, useRequest, useUpdateEffect } from "ahooks";
+import { useDebounceEffect, useRequest } from "ahooks";
 import CustomSigner from "@/redux/CustomSigner";
 import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
@@ -13,7 +13,6 @@ import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import { useWeb3Modal } from "@web3modal/react";
 import { useAddress } from "@/hooks/useAddress";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useAccount } from "wagmi";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
@@ -28,7 +27,6 @@ export default function DefaultLayout(params) {
     let [headerHide, setHeaderHide] = useState(false);
     let [vh, setVh] = useState(100);
 
-    // const { isConnected } = useAccount();
     const { address, isConnected } = useAddress();
     const { connected } = useWallet();
 
@@ -70,25 +68,6 @@ export default function DefaultLayout(params) {
     const isExplore = (path) => {
         if (path && path.indexOf('challenges') !== -1) {
             navigateTo(0)
-        }
-    }
-
-    const isCert = (path, type) => {
-        if (path && path.split('/')[1].length === 42) {
-            if (type === "toggle") {
-                navigateTo(`/${address}`);
-                navigateTo(0);
-                setTimeout(() => {
-                }, 20);
-            }else if (type === "signout"){
-                setTimeout(() => {
-                    navigateTo(0);
-                }, 500);
-            }else{
-                setTimeout(() => {
-                    navigateTo(0);
-                }, 500);
-            }
         }
     }
 
@@ -161,12 +140,6 @@ export default function DefaultLayout(params) {
             setVh(100)
         }
     }
-
-    // useUpdateEffect(() => {
-    //     // TODO: 判断当前钱包是否链接
-    //     console.log(address, isConnected);
-    //     console.log(localStorage.getItem("wagmi.connected"));
-    // },[address])
 
     useDebounceEffect(() => {
         const token = localStorage.getItem("decert.token");

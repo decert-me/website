@@ -1,21 +1,10 @@
-import i18n from 'i18next';
 import { useEffect } from "react";
-
-import { WagmiConfig, configureChains, createConfig } from 'wagmi';
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
-import { publicProvider } from 'wagmi/providers/public';
-import { infuraProvider } from 'wagmi/providers/infura';
-import { polygon, polygonMumbai } from 'viem/chains';
-
-import { Web3Modal } from '@web3modal/react';
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum';
+import i18n from 'i18next';
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs';
-
+import * as Sentry from "@sentry/react";
+// 依赖
 import MyProvider from './provider';
 import BeforeRouterEnter from "@/components/BeforeRouterEnter";
-import * as Sentry from "@sentry/react";
-require("@solana/wallet-adapter-react-ui/styles.css");
 
 const sentryKey = process.env.REACT_APP_SENTRY_KEY;
 if (sentryKey) {
@@ -35,43 +24,6 @@ if (sentryKey) {
     replaysOnErrorSampleRate: process.env.REACT_APP_SENTRY_REPLAYS_ON_ERROR || 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
   });
 }
-
-
-const projectId = process.env.REACT_APP_PROJECT_ID;
-const infura = process.env.REACT_APP_INFURA_API_KEY;
-
-const { chains, publicClient: provider, webSocketPublicClient: webSocketProvider } = configureChains(
-  [polygonMumbai, polygon],
-  [
-    infuraProvider({ apiKey: infura }),
-    publicProvider(),
-  ]
-)
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
-const web3modalClient = createConfig({
-  autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
-  publicClient,
-  // webSocketProvider,
-})
-
-const wagmiClient = createConfig({
-  autoConnect: true,
-  connectors: [
-    new MetaMaskConnector({ chains }),
-    new WalletConnectConnector({
-      chains,
-      options: {
-        projectId: projectId,
-        showQrModal: true
-      },
-    }),
-  ],
-  publicClient: provider,
-  webSocketPublicClient: webSocketProvider,
-})
-
-const ethereumClient = new EthereumClient(web3modalClient, chains)
 
 export default function App() {
 
@@ -110,21 +62,11 @@ export default function App() {
 
   return (
     <>
-
-    {/* wagmi */}
-    <WagmiConfig config={wagmiClient}>
-            <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
-              <MyProvider>
-                <BeforeRouterEnter />
-              </MyProvider>
-            </StyleProvider>
-    </WagmiConfig>
-      <Web3Modal 
-        projectId={projectId} 
-        ethereumClient={ethereumClient}
-        // enableAccountView={false}
-        // enableExplorer={false}
-      />
+      <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
+        <MyProvider>
+          <BeforeRouterEnter />
+        </MyProvider>
+      </StyleProvider>
     </>
   )
 }

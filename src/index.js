@@ -8,13 +8,22 @@ import 'github-markdown-css/github-markdown-light.css';
 import 'bytemd/dist/index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import WalletAdapter from './wallet';
+import { Wagmi, WalletAdapter, Web3ModalProvider } from './wallet';
+
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
-  <BrowserRouter>
-    <WalletAdapter />
-  </BrowserRouter>
+  <React.StrictMode>
+    <BrowserRouter>
+      <WalletAdapter>
+        <Wagmi>
+          <Web3ModalProvider>
+            <App />
+          </Web3ModalProvider>
+        </Wagmi>
+      </WalletAdapter>
+    </BrowserRouter>
+  </React.StrictMode>
 );
 
 // If you want to start measuring performance in your app, pass a function

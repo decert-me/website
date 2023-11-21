@@ -219,7 +219,7 @@ export default function Index(params) {
                                                 </div>
                                             </a>
                                             :
-                                            <div className="a">
+                                            <div className="a" key={i}>
                                                 <div className="contributor-item img">
                                                     <img src={e.avatar} alt="" />
                                                 </div>
