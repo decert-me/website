@@ -22,7 +22,7 @@ export default function ChallengeItem(props) {
 
 
     const toQuest = () => {
-        if (info?.claimable || info?.claimed || info?.open_quest_review_status === 1) {
+        if (info?.claimable || info?.claimed || (profile && profile.isMe && info.complete_ts && !info.claimed) || info?.open_quest_review_status === 1) {
             // 个人查看完成的挑战
             navigateTo(`/claim/${info.tokenId}`)
         }else{
