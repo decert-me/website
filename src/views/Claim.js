@@ -106,7 +106,7 @@ export default function Claim(props) {
             setIsClaim(true);
         }).catch(err => {
             // 未领取
-            if (cache && cache[id]) {
+            if ((cache && cache[id]) || detail?.answer) {
                 // 已答 未领 ==> 获取后端数据
                 answers = detail?.answer || cache[id];
                 setAnswers([...answers]);
