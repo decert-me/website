@@ -77,29 +77,32 @@ export default function ChallengeItem(props) {
     return (
         <div className="ChallengeItem" onClick={toQuest}>
             {contextHolder}
+            {/* 可领取 */}
             {
-                (!profile && info.claimable) || (profile && profile.isMe && info.complete_ts && !info.claimed) ?
+                info.claimable &&
                 <div className="item-claimable">
                     {t("claimble")}
                 </div>
-                :<></>
             }
-            {
-                profile && info?.creator === profile?.address && info?.has_claim !== undefined &&
-                <div className="edit" onClick={goEdit}>
-                    <EditOutlined />
-                </div>
-            }
+            {/* 已领取 */}
             {
                info.claimed && 
                <div className="item-claimed">
                    {t("explore:pass")}
                </div> 
             }
+            {/* 待打分 */}
             {
                 info?.open_quest_review_status === 1 && 
                 <div className="item-claimed" style={{borderColor: "#007DFA", color: "#007DFA"}}>
                     {t("explore:review")}
+                </div>
+            }
+            {/* 编辑 */}
+            {
+                profile && info?.creator === profile?.address && info?.has_claim !== undefined &&
+                <div className="edit" onClick={goEdit}>
+                    <EditOutlined />
                 </div>
             }
             <div className="right-sbt challenge-img" onClick={clickSbt}>

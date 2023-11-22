@@ -56,20 +56,11 @@ export default function User(props) {
 
     const getList = () => {
         if (checkType === 0) {
-            let claimable;
-            if (isMe) {
-                const cache = JSON.parse(localStorage.getItem("decert.cache"));
-                if (cache?.claimable && cache.claimable.length > 0) {
-                    // 如果有可领取的
-                    claimable = JSON.stringify(cache.claimable);
-                }
-            }
             // 'complete'
             getChallengeComplete({
                 ...pageConfig,
                 type: checkStatus,
-                address: account,
-                claimable
+                address: account
             })
             .then(res => {
                 if (res?.data) {
@@ -79,21 +70,6 @@ export default function User(props) {
                     setPageConfig({...pageConfig});
                 }
             })
-            let claimableArr = []
-            if (claimable) {
-                claimableArr = JSON.parse(claimable);
-            }
-            if (claimableArr && claimableArr.length > 0) {
-                list.map(e => {
-                    claimableArr.map((ele,index) => {
-                        if (e.tokenId == ele.token_id && e.claimed) {
-                            const newCache = JSON.parse(localStorage.getItem("decert.cache"));
-                            newCache.claimable.splice(index,1);
-                            localStorage.setItem("decert.cache", JSON.stringify(newCache));
-                        }
-                    })
-                })
-            }
             // 如果是“可领取”状态，择再获取本地缓存“可领取”，分页
         }else{
             // 'publish'
@@ -173,6 +149,7 @@ export default function User(props) {
         checkType = location.search.indexOf("created") !== -1 ? 1 : 0;
         setCheckType(checkType)
         init();
+        getList();
     }, []);
 
     useEffect(() => {
@@ -190,7 +167,6 @@ export default function User(props) {
     useEffect(() => {
         isMe = address === account;
         setIsMe(isMe);
-        getList();
     },[address])
 
     useUpdateEffect(() => {

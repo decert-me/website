@@ -59,7 +59,6 @@ export default function Claim(props) {
     function hasOpenQuest(answers, info) {
         const isOpenQuest = answers.filter(answer => answer?.type === "open_quest");
         // 有开放题 && 未审核 ? 展示等待 : 正常显示claim
-
         if (isOpenQuest.length !== 0 && info?.open_quest_review_status !== 2) {
             setIsWaitting(true);
             return true
@@ -74,7 +73,7 @@ export default function Claim(props) {
         const res = await getQuests({id: id});
         
         // 判断是否有开放题
-        if (cache && cache[id] && hasOpenQuest(cache[id], res.data)) {
+        if (hasOpenQuest(cache[id]||res.data.answer, res.data)) {
             return
         }
         new Promise(async(resolve, reject) => {
@@ -147,7 +146,6 @@ export default function Claim(props) {
                         <img className="icon-wait" src={require("@/assets/images/icon/icon-wait.png")} alt="" />
                         <p>{t("message.success.submit.title")}</p>
                     </div>
-                    {/* <p style={{marginTop: "45px"}}>{t("message.success.submit.wait")}</p> */}
                     <div className="box">
                         <img className="icon-info" src={require("@/assets/images/icon/icon-info.png")} alt="" />
                         <p className="tip">{t("message.success.submit.score")}</p>
