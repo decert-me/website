@@ -151,10 +151,10 @@
         "success": {
             "submit": {
                 "info": "Submitted successfully",
-                "title": "In review, Please be patient...",
+                "title": "In review, please be patient...",
                 "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet.",
                 "wait": "The creator is scoring your challenge. Please be patient.",
-                "score": "As the challenge includes open-ended questions without fixed answers, the creator needs to score."
+                "score": "As the challenge includes open-ended questions without fixed answers, it needs to be scored by the creator."
             },
             "save": "Update success!",
             "copy": "Copy success!",

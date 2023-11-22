@@ -158,17 +158,6 @@ export default function PublishQuestion({
                 >
                     {t("inner.add")}
                 </Button>
-                
-                {/* 添加编程题 */}
-                <Button
-                    type="link" 
-                    onClick={() => {
-                        clearSelect();
-                        setShowAddCodeQs(true);
-                    }}
-                >
-                    {t("inner.add-code")}
-                </Button>
 
 {/* TODO: 登陆后没权限 ===>  隐藏 */}
                 {/* 添加开放题 */}
@@ -189,6 +178,17 @@ export default function PublishQuestion({
                         {t("inner.add-open")}
                     </Button>
                 }
+                
+                {/* 添加编程题 */}
+                <Button
+                    type="link" 
+                    onClick={() => {
+                        clearSelect();
+                        setShowAddCodeQs(true);
+                    }}
+                >
+                    {t("inner.add-code")}
+                </Button>
 
                 {/* 导入题目 */}
                 <input id="fileInput" type="file" accept=".md" onChange={importChallenge} style={{display: "none"}} />
