@@ -303,9 +303,9 @@ export default function Challenge(params) {
 
     function changeAnswersValue(value, index) {
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
-        cache[detail.tokenId][index] = value;
+        answers[index] = value;
+        cache[detail.tokenId] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
-        answers = cache[detail.tokenId];
         setAnswers([...answers]);
     }
 
