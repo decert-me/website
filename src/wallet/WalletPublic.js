@@ -3,7 +3,7 @@ import { Web3ModalProvider } from "./Web3ModalProvider";
 
 export function WalletPublic({ children }) {
     
-    const isMobile = window.innerWidth < 768;
+    const isMobile = window.innerWidth < 480;
     
     return isMobile ? (
         <Web3ModalProvider>

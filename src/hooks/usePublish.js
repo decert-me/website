@@ -1,9 +1,8 @@
 import { useContext, useEffect, useState } from "react";
-import { useNetwork, useWalletClient, useSwitchNetwork, useWaitForTransaction, useContractWrite } from "wagmi";
+import { useNetwork, useSwitchNetwork, useWaitForTransaction, useContractWrite } from "wagmi";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { addQuests, modifyQuests, submitHash } from "@/request/api/public";
 import { constans } from "@/utils/constans";
-import { createQuest, modifyQuest } from "@/controller";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -18,7 +17,6 @@ export const usePublish = (props) => {
     const { defaultChainId } = constans();
     const { questContract } = useContext(MyContext);
     const { chain } = useNetwork();
-    const { data: signer } = useWalletClient();
     const { verify } = useVerifyToken();
     const { ipfsPath, maxUint32, maxUint192 } = constans();
     const navigateTo = useNavigate();
@@ -42,51 +40,53 @@ export const usePublish = (props) => {
         hash: createQuestHash,
         cacheTime: 0
     })
-    const { writeAsync, status } = useContractWrite({
+    const { writeAsync: createQuest, status } = useContractWrite({
         ...questContract,
         functionName: 'createQuest',
+    })
+
+    const { writeAsync: modifyQuest } = useContractWrite({
+        ...questContract,
+        functionName: 'modifyQuest',
     })
 
     const write = (sign, obj, params) => {
         let { startTs, endTs, supply, title, uri } = obj;
         endTs = constans().maxUint32;
         supply = constans().maxUint192;
-        // supply = constans().maxUint32;
         const args = [startTs, endTs, supply, title, uri];
-        changeId ?
-        modifyQuest(changeId, obj, sign, signer)
-        .then(res => {
-            setIsLoading(false);
-            if (res) {
-                submitHash({
-                    hash: res, 
-                    params: params
-                })
-                setCreateQuestHash(res)
-            }
-        })
-        :
-        writeAsync({
-            args: [args, sign]
-        })
-        .then(res => {
-            console.log(res);
-        })
-        .catch(err => {
-            console.log(err);
-            console.log(status, questContract, args);
-        })
-        // createQuest(obj, sign, signer)
-        // .then(res => {
-        //     setIsLoading(false);
-        //     if (res) {
-        //         submitHash({
-        //             hash: res, 
-        //             params: params
-        //         })
-        //         setCreateQuestHash(res)
-        //     }
-        // })
+        if (changeId) {
+            modifyQuest({ args: [changeId, args, sign] })
+            .then(res => {
+                setIsLoading(false);
+                if (res) {
+                    submitHash({
+                        hash: res.hash, 
+                        params: params
+                    })
+                    setCreateQuestHash(res)
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }else{
+            createQuest({ args: [args, sign] })
+            .then(res => {
+                setIsLoading(false);
+                if (res) {
+                    submitHash({
+                        hash: res.hash, 
+                        params: params
+                    })
+                    setCreateQuestHash(res)
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                setIsLoading(false);
+            })
+        }
     }
 
     const processingData = async() => {

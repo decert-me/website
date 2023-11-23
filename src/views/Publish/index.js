@@ -1,9 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
-import { useWalletClient } from "wagmi";
+import { useContractRead, useWalletClient } from "wagmi";
 
 import { CustomEditor } from "@/components/CustomItem";
 import { UploadProps } from "@/utils/UploadProps";
@@ -18,7 +18,7 @@ import { getQuests, modifyRecommend } from "@/request/api/public";
 import { usePublish } from "@/hooks/usePublish";
 import { clearDataBase, getDataBase, saveCache } from "@/utils/saveCache";
 import store, { setChallenge } from "@/redux/store";
-import { tokenSupply } from "@/controller";
+import MyContext from "@/provider/context";
 
 
 const { TextArea } = Input;
@@ -28,6 +28,7 @@ export default function Publish(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
     const dataBase = "publish";
+    const { badgeContract } = useContext(MyContext);
     const [form] = Form.useForm();
     const isFirstRender = useRef(true);     //  是否是第一次渲染
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
@@ -56,6 +57,13 @@ export default function Publish(params) {
         recommend: publishObj?.recommend,
         changeId: isEdit
     });
+
+    const { refetch } = useContractRead({
+        ...badgeContract,
+        enabled: false,
+        functionName: 'tokenSupply',
+        args: [changeId]
+    })
 
     // json => ipfs
     const getJson = async(values, preview) => {
@@ -194,8 +202,9 @@ export default function Publish(params) {
     }
 
     // 修改挑战情况下 => 判断该挑战是否有人铸造
-    async function hasClaimed(tokenId) {
-        const supply = await tokenSupply(tokenId, signer)
+    async function hasClaimed(tokenId) {    
+        const { data } = await refetch()
+        const supply = Number(data);
         // 已有人claim，终止
         if ( typeof supply === "number" && supply > 0) {
             message.warning(t("profile:edit.error"));
@@ -317,6 +326,8 @@ export default function Publish(params) {
         // 是否是编辑模式 => 获取编辑挑战详情
         if (tokenId) {
             setIsEdit(tokenId);
+            changeId = tokenId;
+            setChangeId(changeId);
             return
         }
         // 有本地缓存
