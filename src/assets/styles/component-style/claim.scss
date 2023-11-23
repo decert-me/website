@@ -1,4 +1,46 @@
 .Claim{
+    .waiting{
+        margin: 240px auto 0;
+        text-align: center;
+        .box{
+            margin-bottom: 33px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            .icon-wait{
+                width: 20px;
+                height: 20px;
+                margin-right: 22px;
+            }
+            .icon-info{
+                width: 14px;
+                height: 14px;
+                margin-right: 3px;
+            }
+        }
+        p{
+            font-size: 26px;
+        }
+        .tip{
+            color: #999999;
+            font-size: 14px;
+        }
+        button{
+            margin: 0 auto;
+            display: block;
+        }
+        #hover-btn-line{
+            margin-top: 70px;
+        }
+        .btn-link{
+            margin-top: 200px;
+            font-size: 16px;
+            color: #000000;
+            span{
+                text-decoration: underline;
+            }
+        }
+    }
     .claim-loading{
         margin: 200px auto 0;
         min-height: calc(100vh - 300px);
@@ -63,7 +105,18 @@
                 overflow: visible !important;
             }
             foreignObject div div{
-                background: conic-gradient(from 180deg, rgb(90, 214, 141) 0%, rgb(67, 180, 114) 100%) !important;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .pass{
+                foreignObject div div{
+                    background: conic-gradient(from 180deg, rgb(90, 214, 141) 0%, rgb(67, 180, 114) 100%) !important;
+                }
+            }
+            .unpass{
+                foreignObject div div{
+                    background: conic-gradient(from 180deg, #F46565 0%, #B64444 100%) !important;
+                }
             }
             // .ant-progress-circle-path{
                 // stroke-linecap: round;

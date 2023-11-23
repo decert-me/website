@@ -1,12 +1,11 @@
-import { Button, Form, Input, InputNumber, message, Modal } from "antd";
+import { Button, Divider, Form, Input, InputNumber, message, Modal } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { filterType } from "../../utils/filter";
-import CustomAddAnswer from "../CustomItem/CustomAddAnswer";
 import CustomEditor from "../CustomItem/CustomEditor";
 
 
-export default function ModalAddQuestion(props) {
+export default function ModalAddOpenQuestion(props) {
     
     const { isModalOpen, handleCancel, questionChange, selectQs, questionEdit } = props;
     const { t } = useTranslation(['publish', 'translation']);
@@ -27,28 +26,18 @@ export default function ModalAddQuestion(props) {
         handleCancel()
     }
 
-    const onFinish = (values) => {
+    const onFinish = ({score}) => {
         if (!questionTitle) {
             message.warning(t("inner.rule.title"))
             return
         }
-
-        let optionArr = [];
-        const { type, ans } = filterType(values);
-        if (ans.length === 0) {
-            message.warning(t("message.error.answer"))
-            return
-        }
-        values.options.map((e)=>{
-            optionArr.push(e.title)
-        })
         questInfo = {
             ...questInfo,
             title: questionTitle,
-            options: optionArr,
+            options: null,
             score: score,
-            type: type,
-            answers: ans
+            type: "open_quest",
+            answers: null
         }
         setQuestInfo({...questInfo})
         if (selectQs) {
@@ -60,42 +49,9 @@ export default function ModalAddQuestion(props) {
         handleCancel()
     }
 
-    function getAnswer(i) {
-        let option = null;
-        switch (selectQs.type) {
-            case "multiple_choice":
-                // 单选
-                option = selectQs.answers === i ? 2 : 1;
-                break;
-            case "multiple_response": 
-                // 多选
-                option = selectQs.answers.includes(i) ? 2 : 1;
-            default:
-                // 填空
-                break;
-        }
-        return option
-    }
-
     function init() {            
-        let arr = [];
-        selectQs?.options.map((e,i) => {
-            arr.push({
-                "key": i,
-                "name": i,
-                "isListField": true,
-                "fieldKey": i,
-                "title": e,
-                "options": getAnswer(i)
-            })
-        })
-        fields = arr;
-        setFields([...fields]);
-
         if (selectQs) {
             form.setFieldValue("score", selectQs.score);
-            score = selectQs.score;
-            setScore(score);
         }
     }
 
@@ -122,9 +78,10 @@ export default function ModalAddQuestion(props) {
                 onFinish={onFinish}
                 form={form}
             >
-                { fields && <CustomAddAnswer fields={fields} /> }
-                
-
+                <Divider style={{
+                    marginBottom: 0,
+                    marginTop: "30px"
+                }} />
                 <Form.Item
                     label={t("inner.sc")}
                     name="score"
@@ -137,8 +94,6 @@ export default function ModalAddQuestion(props) {
                 >
                     <InputNumber 
                         min={1} 
-                        value={score} 
-                        onChange={(e)=>setScore(e)} 
                         controls={false}
                         precision={0}
                     />

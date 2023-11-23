@@ -50,6 +50,7 @@ export default function CustomCompleted(props) {
                 // 兼容原先版本localStorage ==> decert.cache格式
                 totalScore += Number(questions[i].score);
                 if (e === null) {
+                    console.log(answers[i]);
                     if (answers[i]?.correct) {
                         score+=Number(questions[i].score);
                         successNum+=1;

@@ -44,7 +44,7 @@ export default function CustomClaimInfo(props) {
                                     :
                                     {
                                         '0%': '#F46565',
-                                        '100%': '#B64444',
+                                        '100%': '#B64444'
                                     }
                                 }
                                 format={(percent) => (

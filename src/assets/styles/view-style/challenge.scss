@@ -135,3 +135,57 @@
         }
     }
 }
+.isCover{
+    width: 364px !important;
+    // min-width: 364px;
+    .ant-modal-content{
+        padding: 60px 55px 40px !important;
+        position: relative;
+        border-radius: 0 !important;
+        .ant-modal-confirm-content{
+            text-align: center;
+            font-size: 18px;
+            line-height: 25px;
+            .anticon-close{
+                position: absolute;
+                top: 20px;
+                right: 20px;
+                cursor: pointer;
+            }
+            .confirm-title{
+                margin-bottom: 30px;
+                color: #0D0D0D;
+            }
+            .confirm-content{
+                color: #999999;
+
+            }
+        }
+        .ant-modal-confirm-btns{
+            margin-top: 70px;
+            display: flex;
+            justify-content: center;
+            gap: 15px;
+            button{
+                width: 120px;
+                height: 40px;
+                border-radius: 10px;
+            }
+            .ant-btn-primary{
+                margin: 0;
+                background-color: #8F5A35;
+                &:hover{
+                    background-color: #a4704b;
+                }
+            }
+            .ant-btn-default{
+                color: #999999;
+                border-color: #999999;
+                &:hover{
+                    color: #d0d0d0;
+                    border-color: #d0d0d0;
+                }
+            }
+        }
+    }
+}

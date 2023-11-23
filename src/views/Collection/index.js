@@ -17,6 +17,7 @@ import CollectionInfo from "./detail";
 import usePublishCollection from "@/hooks/usePublishCollection";
 import { hasClaimed } from "@/request/api/public";
 import MyContext from "@/provider/context";
+import { useProvider, useSigner } from "wagmi";
 
 
 
@@ -24,6 +25,7 @@ export default function Collection(params) {
     
     const { id } = useParams();
     const { isMobile } = useContext(MyContext);
+    const { data: signer } = useSigner()
     const { address, walletType, isConnected } = useAddress();
     const { ipfsPath, defaultImg, openseaLink } = constans();
     const [api, contextHolder] = notification.useNotification();
@@ -174,6 +176,48 @@ export default function Collection(params) {
 
     useEffect(() => {
         init();
+    },[])
+
+    async function getMyNFTs() {
+        // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+        // const account = accounts[0];
+      
+        // const balance = await contract.methods.balanceOf(account).call();
+        // for (let i = 0; i < balance; i++) {
+        //   const tokenId = await contract.methods.tokenOfOwnerByIndex(account, i).call();
+        //   console.log(`You own token ID: ${tokenId}`);
+        // }
+      }
+
+    function test(params) {
+        console.log(window.ethereum.isMetaMask);
+        window.ethereum.request({
+            method: 'wallet_watchAsset',
+            params: {
+                type: 'ERC1155',
+                options: {
+                    address: '0x66C54CB10Ef3d038aaBA2Ac06d2c25B326be8142',
+                    // decimals: 18,
+                    // symbol: 'FOO',
+                    // image: 'https://ipfs.decert.me/QmRqVu69rPdvgSbKDa54BUsHJKQotvBdfHwVkqrFeKbcWH',
+                    tokenId: "10423"
+                }
+            }})
+            .then((success) => {
+                if (success) {
+                console.log('FOO successfully added to wallet!');
+                } else {
+                throw new Error('Something went wrong.');
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+    }
+
+    useEffect(() => {
+        test();
     },[])
 
     useUpdateEffect(() => {
