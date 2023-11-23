@@ -105,7 +105,18 @@
                 overflow: visible !important;
             }
             foreignObject div div{
-                background: conic-gradient(from 180deg, rgb(90, 214, 141) 0%, rgb(67, 180, 114) 100%) !important;
+                border-radius: 10px;
+                overflow: hidden;
+            }
+            .pass{
+                foreignObject div div{
+                    background: conic-gradient(from 180deg, rgb(90, 214, 141) 0%, rgb(67, 180, 114) 100%) !important;
+                }
+            }
+            .unpass{
+                foreignObject div div{
+                    background: conic-gradient(from 180deg, #F46565 0%, #B64444 100%) !important;
+                }
             }
             // .ant-progress-circle-path{
                 // stroke-linecap: round;

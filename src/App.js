@@ -12,6 +12,7 @@ import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/c
 import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 import * as Sentry from "@sentry/react";
+import { ConfigProvider } from 'antd';
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 const sentryKey = process.env.REACT_APP_SENTRY_KEY;
@@ -113,9 +114,20 @@ export default function App() {
     {/* wagmi */}
     <WagmiConfig client={wagmiClient}>
             <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
-              <MyProvider>
-                <BeforeRouterEnter />
-              </MyProvider>
+              <ConfigProvider
+                theme={{
+                  components: {
+                    Progress: {
+                      /* here is your component tokens */
+                      gapDegree: 0
+                    },
+                  },
+                }}
+              >
+                <MyProvider>
+                  <BeforeRouterEnter />
+                </MyProvider>
+              </ConfigProvider>
             </StyleProvider>
     </WagmiConfig>
       <Web3Modal 
