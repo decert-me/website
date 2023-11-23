@@ -71,6 +71,12 @@ export default function Claim(props) {
         // 获取tokenId ===> 
         const cache = JSON.parse(localStorage.getItem('decert.cache'));
         const res = await getQuests({id: id});
+
+        // 判断是否有答案
+        if (!cache[id] && !res.data.answer) {
+            navigateTo(`/challenge/${id}`)
+            return
+        }
         
         // 判断是否有开放题
         if (hasOpenQuest(cache[id]||res.data.answer, res.data)) {
