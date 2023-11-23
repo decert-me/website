@@ -25,7 +25,7 @@ if (sentryKey) {
   });
 }
 
-export default function App() {
+export default function App({web3Modal}) {
 
   function localInit(params) {
     // 测试1mb大小local空间
@@ -59,14 +59,11 @@ export default function App() {
     i18n.changeLanguage(lang);
     !localStorage.getItem("decert.cache") && localStorage.setItem("decert.cache", JSON.stringify({}))
   },[])
-
   return (
-    <>
-      <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
-        <MyProvider>
-          <BeforeRouterEnter />
-        </MyProvider>
-      </StyleProvider>
-    </>
+    <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
+      <MyProvider web3Modal={web3Modal}>
+        <BeforeRouterEnter />
+      </MyProvider>
+    </StyleProvider>
   )
 }

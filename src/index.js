@@ -8,7 +8,7 @@ import 'github-markdown-css/github-markdown-light.css';
 import 'bytemd/dist/index.css';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
-import { Wagmi, WalletAdapter, Web3ModalProvider } from './wallet';
+import { WalletPublic, WalletAdapter } from './wallet';
 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
@@ -16,11 +16,9 @@ root.render(
   <React.StrictMode>
     <BrowserRouter>
       <WalletAdapter>
-        <Wagmi>
-          <Web3ModalProvider>
+        <WalletPublic>
             <App />
-          </Web3ModalProvider>
-        </Wagmi>
+        </WalletPublic>
       </WalletAdapter>
     </BrowserRouter>
   </React.StrictMode>

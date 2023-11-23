@@ -5,9 +5,10 @@ import { getContract } from '@wagmi/core'
 import { BadgeAbi, BadgeAddr, QuestMinterAbi, QuestMinterAddr } from "@/contracts";
 
 export default function MyProvider(props) {
+    const { web3Modal } = props;
     let [isMobile, setIsMobile] = useState();
     let [user, setUser] = useState();
-
+    
     const questContract = getContract({
       address: QuestMinterAddr,
       abi: QuestMinterAbi,
@@ -33,7 +34,7 @@ export default function MyProvider(props) {
     store.subscribe(handleUser);
 
     return (
-        <MyContext.Provider value={{ isMobile, user, questContract, badgeContract }}>
+        <MyContext.Provider value={{ isMobile, user, questContract, badgeContract, web3Modal }}>
           {props.children}
         </MyContext.Provider>
       );

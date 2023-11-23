@@ -10,18 +10,16 @@ import CustomSigner from "@/redux/CustomSigner";
 import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
-import { useWeb3Modal } from "@web3modal/react";
 import { useAddress } from "@/hooks/useAddress";
 import { useWallet } from "@solana/wallet-adapter-react";
 const { Header, Footer, Content } = Layout;
 
-export default function DefaultLayout(params) {
+export default function DefaultLayout() {
 
     const outlet = useRoutes(routes);
     const navigateTo = useNavigate();
     const location = useLocation();
-    const { isMobile, user } = useContext(MyContext);
-    const { close } = useWeb3Modal();
+    const { isMobile, user, web3Modal } = useContext(MyContext);
     const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
     let [headerHide, setHeaderHide] = useState(false);
@@ -92,7 +90,7 @@ export default function DefaultLayout(params) {
         }
 
         if (address && isMobile && localStorage.getItem("decert.token")) {
-            close()
+            web3Modal.close()
         }
 
         if (addr === null && address) { 

@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useDisconnect } from 'wagmi';
 import { Button, Dropdown, message } from 'antd';
@@ -13,7 +13,6 @@ import "@/assets/styles/container.scss"
 import "@/assets/styles/mobile/container.scss"
 import { hashAvatar } from '@/utils/HashAvatar';
 import { NickName } from '@/utils/NickName';
-import { useWeb3Modal } from "@web3modal/react";
 import logo_white from "@/assets/images/svg/logo-white.png";
 import logo_normal from "@/assets/images/svg/logo-normal.png";
 import { changeConnect } from '@/utils/redux';
@@ -23,9 +22,12 @@ import { constans } from '@/utils/constans';
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAddress } from '@/hooks/useAddress';
 import { ClearStorage } from '@/utils/ClearStorage';
+import MyContext from '@/provider/context';
 
-export default function AppHeader({ isMobile, user }) {
+export default function AppHeader(props) {
     
+    const { web3Modal } = useContext(MyContext);
+    const { isMobile, user } = props;
     const { address, walletType, isConnected } = useAddress();
     const { connected, wallet } = useWallet();
     const { imgPath } = constans();
@@ -33,7 +35,6 @@ export default function AppHeader({ isMobile, user }) {
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
     const location = useLocation();
-    const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
     let [isOpenM, setIsOpenM] = useState(false);
 
     const items = [
@@ -89,7 +90,7 @@ export default function AppHeader({ isMobile, user }) {
 
     const openModal = async() => {
         if (isMobile) {
-            await open({route: "ConnectWallet"})
+            await web3Modal.open({route: "ConnectWallet"})
             setIsOpenM(!isOpenM)
             return
         }
