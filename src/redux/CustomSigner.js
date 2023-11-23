@@ -10,6 +10,7 @@ import { useRequest } from 'ahooks';
 import bs58 from 'bs58'
 
 import { authLoginSign, getLoginMsg } from '@/request/api/public';
+import { ClearStorage } from '@/utils/ClearStorage';
 const { confirm } = Modal;
 
 function openModal() {
@@ -40,18 +41,19 @@ function CustomSigner(props) {
     let [message, setMessage] = useState();
 
     // 错误处理
-    function isError(err) {
-      console.log(err);
+    async function isError(err) {
       Modal.destroyAll();
-      props.hide();
+      await props.hide();
+      disconnect();
+      ClearStorage();
     }
 
     function signSuccess(token) {
       localStorage.setItem(`decert.token`,token);
-      setTimeout(() => {
+      setTimeout(async() => {
         if (localStorage.getItem('decert.token')) {
           Modal.destroyAll();
-          props.hide();
+          await props.hide();
           if (location.pathname.indexOf("/claim") === -1) {
             navigateTo(0)
           }
