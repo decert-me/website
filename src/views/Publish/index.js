@@ -19,6 +19,9 @@ import { usePublish } from "@/hooks/usePublish";
 import { clearDataBase, getDataBase, saveCache } from "@/utils/saveCache";
 import store, { setChallenge } from "@/redux/store";
 import MyContext from "@/provider/context";
+import "@/assets/styles/view-style/publish.scss"
+import "@/assets/styles/component-style";
+
 
 
 const { TextArea } = Input;
