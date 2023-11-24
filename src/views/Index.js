@@ -22,6 +22,7 @@ export default function Index(params) {
     const location = useLocation();
     let [contributor, setContributor] = useState([]);
     let [count, setCount] = useState(8);    // 贡献者下拉
+    let [hide, setHide] = useState(false);  //  隐藏
 
     const partner = [
         "home-upchain",
@@ -90,10 +91,25 @@ export default function Index(params) {
         getContributor();
     },[])
 
+    useEffect(() => {
+        const timestamp = new Date().getTime();
+        hide = timestamp > 1701360000000;
+        setHide(hide);
+    },[location])
+
     return (
         <div className="Home ">
             <div className="custom-bg-round"></div>
             <div className="main">
+                {/* gitcoin */}
+                {
+                    !hide &&
+                    <div className="global-prompt">
+                        <p onClick={() => window.open("https://0xdwong.notion.site/Decert-me-Gitcoin-Grant-54240d546bfb48e4971fdddc66b31c58")}>
+                            {t("home.global-prompt")}<a href="https://0xdwong.notion.site/Decert-me-Gitcoin-Grant-54240d546bfb48e4971fdddc66b31c58" target="_blank">{t("home.jump")}</a> &gt;&gt;
+                        </p>
+                    </div>
+                }
                 <div className="main-center">
                     <div className="main-header">
                         <div className={`describe ${i18n.language === "zh-CN" ? "fs-big" : ""}`}>
