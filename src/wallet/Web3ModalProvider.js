@@ -9,10 +9,10 @@ export function Web3ModalProvider({ children }) {
     const projectId = process.env.REACT_APP_PROJECT_ID;
 
     const metadata = {
-        name: 'Web3Modal',
-        description: 'Web3Modal Example',
-        url: 'https://web3modal.com',
-        icons: ['https://avatars.githubusercontent.com/u/37784886']
+        name: 'DeCert.Me',
+        description: 'Decentralized skills learning and certification platform · Education in the Age of AI · SBT - Proof of Learn.',
+        url: 'https://decert.me',
+        icons: ['/favicon.ico']
     }
 
     const chains = [polygonMumbai, polygon];
