@@ -33,17 +33,22 @@ export default function ModalAnswers(props) {
     function getResult(params) {
         // 答题记录 ===> 
         answers.map((e,i) => {
-            if (e === null || e === undefined || e?.value === "" || isPreview) {
-                statusAnswer[i] = "none"
+            if (e === null || e === undefined || (e.type!=="open_quest" && e?.value === "") || isPreview) {
+                statusAnswer[i] = "unanswer"
             }else{
                 if (realAnswer[i] === null) {
-                    // 编程题, [id, 正确与否]
-                    statusAnswer[i] = e.correct ? "success" : "error";
+                    if (e.type === "open_quest") {
+                        // 开放题
+                        statusAnswer[i] = e.annex.length === 0 && !e.value ? "unanswer" : "answered"
+                    }else{
+                        // 编程题, [id, 正确与否]
+                        statusAnswer[i] = e.correct ? "true" : "false";
+                    }
                     return
                 }else if (typeof realAnswer[i] === "object") {
                     // 多选
                     if (e.value?.length !== realAnswer[i].length) {
-                        statusAnswer[i] = "error";
+                        statusAnswer[i] = "false";
                         return
                     }
                     let flag = true;
@@ -52,10 +57,10 @@ export default function ModalAnswers(props) {
                             flag = false;
                         }
                     })
-                    statusAnswer[i] = flag ? "success" : "error";
+                    statusAnswer[i] = flag ? "true" : "false";
                 }else{
                     // 单选
-                    statusAnswer[i] = e.value === realAnswer[i] ? "success" : "error"
+                    statusAnswer[i] = e.value === realAnswer[i] ? "true" : "false"
                 }
             }
         })
@@ -94,14 +99,36 @@ export default function ModalAnswers(props) {
             closeIcon={<CloseOutlined style={{fontSize: "18px", color: "#000"}} />}
         >
             <h5>{t("modal.challenge.title")}</h5>
-            
+            <div className="tips">
+                <div className="tip">
+                    <div className="round true">
+                        <div className="point"></div>
+                    </div>{t("publish:inner.true")}
+                </div>
+                <div className="tip">
+                    <div className="round false">
+                        <div className="point"></div>
+                    </div>{t("publish:inner.false")}
+                </div>
+                <div className="tip">
+                    <div className="round answered">
+                        <div className="point"></div>
+                    </div>{t("publish:inner.answered")}
+                </div>
+                <div className="tip">
+                    <div className="round unanswer">
+                        <div className="point"></div>
+                    </div>{t("publish:inner.unanswered")}
+                </div>
+            </div>
             <div className="box custom-scroll">
                 <ul className="answers">
                     {
                         answers.map((e,i) => 
                             <li 
                                 key={i} 
-                                className={`point ${statusAnswer[i] === "success" ? "success" : statusAnswer[i] === "none" ? "normal" : statusAnswer[i] === "error" ? "error" : "normal" }`}
+                                //  === "success" ? "success" : statusAnswer[i] === "none" ? "normal" : statusAnswer[i] === "error" ? "error" : "normal" 
+                                className={`point ${statusAnswer[i]}`}
                                 onClick={() => checkPage(i)}
                             >{i+1}</li>
                         )

@@ -9,9 +9,12 @@
     "reward": "奖励",
     "challenger": "挑战者",
     "pass": "已领取",
+    "review": "评分中",
     "claimable": "可领取",
     "correct": "正确答案",
     "go-to": "前往",
+    "suport": "支持",
+    "size": "大小",
 
     "notice": "请先完成全部挑战",
     "comming": "敬请期待...",
@@ -22,12 +25,17 @@
         "create-nft": "创建 NFT",
         "created-nft": "已创建 NFT",
         "complet": "完成全部挑战后方可领取",
-        "claim": "领取"
+        "claim": "领取",
+        "upload": "上传"
     },
 
     "ques": {
         "title": "技术认证",
-        "desc": "完成挑战，可获得SBT（灵魂绑定代币）作为技术能力的证明。分享到你的社交平台，让世界知道你的能力。"
+        "desc": "完成挑战，可获得SBT（灵魂绑定代币）作为技术能力的证明。分享到你的社交平台，让世界知道你的能力。",
+        "open": "开放性问题",
+        "fill": "填空题",
+        "radio": "单项选择题",
+        "select": "多项多选题"
     },
     "challenge": {
         "title": "题目"
@@ -43,5 +51,13 @@
         "error": {
             "publish": "请退出预览，补充完整挑战内容。"
         }
+    },
+    "confirm": {
+        "title": "确认提交？",
+        "content": "继续提交将覆盖上次的挑战成绩。"
+    },
+    "inner": {
+        "text": "本题没有准确答案，请根据题目作答。"
+
     }
 }

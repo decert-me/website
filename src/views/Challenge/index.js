@@ -1,37 +1,28 @@
-import {
-    ArrowLeftOutlined,
-    ExportOutlined
-} from '@ant-design/icons';
-import { 
-    Button, 
-    Modal, 
-    Progress 
-} from 'antd';
-import { useEffect, useRef, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
-import { getQuests, submitChallenge } from "../../request/api/public";
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
-import CustomPagination from '../../components/CustomPagination';
-import ModalAnswers from '../../components/CustomModal/ModalAnswers';
-import { 
-    CustomRadio, 
-    CustomInput, 
-    CustomCheckbox 
-} from '../../components/CustomChallenge';
-import { useTranslation } from 'react-i18next';
-import { setMetadata } from '@/utils/getMetadata';
-import CustomCode from '@/components/CustomChallenge/CustomCode';
 import store from "@/redux/store";
+import { useEffect, useRef, useState } from "react";
+import { useTranslation } from 'react-i18next';
+import { Button, Modal, Progress, message } from 'antd';
+import { ArrowLeftOutlined, ExportOutlined, CloseOutlined } from '@ant-design/icons';
+import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { getQuests, submitChallenge } from "../../request/api/public";
+import { CustomRadio, CustomInput, CustomCheckbox, CustomOpen, CustomCode } from '../../components/CustomChallenge/QuestType';
+import { setMetadata } from '@/utils/getMetadata';
 import { localRealAnswerInit } from '@/utils/localRealAnswerInit';
 import { modalNotice } from '@/utils/modalNotice';
 import { Encryption } from '@/utils/Encryption';
 import { getDataBase } from '@/utils/saveCache';
+import CustomPagination from '../../components/CustomPagination';
+import ModalAnswers from '../../components/CustomModal/ModalAnswers';
+import { useAddress } from "@/hooks/useAddress";
+import { changeConnect } from "@/utils/redux";
 
 export default function Challenge(params) {
 
     const { t } = useTranslation(["explore", "translation"]);
 
+    const { isConnected } = useAddress();
     const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -90,7 +81,6 @@ export default function Challenge(params) {
                 
                 const { cacheAnswers: newAnswers } = localRealAnswerInit({
                     cacheAnswers, id, detail, reload: () => {
-                        // TODO: 弹窗提示 ===> 跳转
                         Modal.warning({
                             ...modalNotice({
                                 t, 
@@ -102,10 +92,9 @@ export default function Challenge(params) {
                     }
                 })
                 cacheAnswers = newAnswers
-    
-                if (cacheAnswers[id]) {
+                if (cacheAnswers[id] || detail?.answer) {
                     // 存在该题cache
-                    answers = cacheAnswers[id];
+                    answers = detail?.answer || cacheAnswers[id];
                     // 旧版本cache升级
                     try {
                         answers.forEach(e => {
@@ -164,12 +153,9 @@ export default function Challenge(params) {
         }
     }
 
-    const changeAnswer = (value, type) => {
+    const changeAnswer = (value, type, annex) => {
         // 新版普通题cache添加
-        const obj = {
-            value: value,
-            type: type
-        }
+        const obj = annex ? { value, type, annex } : { value, type };
         !isPreview && changeAnswersValue(obj, index)
     }
 
@@ -182,6 +168,42 @@ export default function Challenge(params) {
     const submit = async() => {
         childRef.current &&
         await childRef.current.goTest()
+        // 是否有开放题 ? 查看是否已经提交过答案 : 跳转至claim页
+        const isOpenQuest = answers.filter(answer => answer?.type === "open_quest");
+        // 有开放题的同时未登录
+        if (isOpenQuest.length !== 0 && !isConnected) {
+            changeConnect();
+            return
+        }
+        if (isOpenQuest.length !== 0 && detail.open_quest_review_status !== 0) {
+            // 展示覆盖弹窗
+            Modal.confirm({
+                title: "",
+                className: "isCover",
+                icon: <></>,
+                centered: true,
+                cancelText: t("translation:btn-cancel"),
+                okText: t("translation:btn-confirm"),
+                onOk: () => {
+                    saveAnswer()
+                    submitChallenge({
+                        token_id: detail.tokenId,
+                        answer: JSON.stringify(answers)
+                    }).then(res => {
+                        message.success(t("translation:message.success.submit.info"));
+                        navigateTo(`/claim/${detail.tokenId}`)
+                    })
+                },
+                content: (
+                    <>
+                        <CloseOutlined onClick={() => Modal.destroyAll()} />
+                        <p className="confirm-title">{t("confirm.title")}</p>
+                        <p className="confirm-content">{t("confirm.content")}</p>
+                    </>
+                )
+            })
+            return
+        }
         // 本地 ==> 存储答案 ==> 跳转领取页
         saveAnswer()
         // 提交答题次数给后端
@@ -189,6 +211,7 @@ export default function Challenge(params) {
             token_id: detail.tokenId,
             answer: JSON.stringify(answers)
         })
+        message.success(t("translation:message.success.submit.info"));
         navigateTo(`/claim/${detail.tokenId}`)
     }
 
@@ -241,6 +264,21 @@ export default function Challenge(params) {
         }
     },[page, detail, cacheDetail])
 
+    function questTye(type) {
+        switch (type) {
+            case "open_quest":
+                return `(${t("ques.open")})`
+            case "fill_blank":
+                return `(${t("ques.fill")})`
+            case "multiple_choice":
+                return `(${t("ques.radio")})`
+            case "multiple_response":
+                return `(${t("ques.select")})`
+            default:
+                break;
+        }
+    }
+
     function topic(params) {
         return (
             params.map((e,i) => {
@@ -249,7 +287,7 @@ export default function Challenge(params) {
                         {
                             e.type !== "coding" &&
                             <h4 className='challenge-title'>{t("challenge.title")}
-                                #{page} &nbsp;&nbsp; 
+                                #{page} {questTye(e.type)}&nbsp;&nbsp; 
                                 {
                                     isEdit && 
                                     <span className="score">({e.score}分)</span>
@@ -265,9 +303,9 @@ export default function Challenge(params) {
 
     function changeAnswersValue(value, index) {
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
-        cache[detail.tokenId][index] = value;
+        answers[index] = value;
+        cache[detail.tokenId] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
-        answers = cache[detail.tokenId];
         setAnswers([...answers]);
     }
 
@@ -308,14 +346,13 @@ export default function Challenge(params) {
                         label={question.title} 
                         options={question.options} 
                         value={changeAnswer}
-                        defaultValue={answers[i]} 
                         isPreview={isPreview}
                         answer={realAnswer[i]}
+                        defaultValue={answers[i]} 
                     />
                 )
             case 0:
             case "multiple_choice":
-                console.log();
                 return (
                     <CustomRadio 
                         key={i} 
@@ -325,6 +362,31 @@ export default function Challenge(params) {
                         defaultValue={answers[i]} 
                         isPreview={isPreview}
                         answer={realAnswer[i]}
+                    />
+                ) 
+            case "open_quest":
+                const fileList = [];
+                if (answers[i]) {
+                    const {annex} = answers[i];
+                    annex.forEach((file, i) => {
+                        fileList.push({
+                            uid: i,
+                            name: file.name,
+                            status: 'done',
+                            url: file.hash,
+                        })
+                    })
+                }
+                return (
+                    <CustomOpen 
+                        key={i} 
+                        label={question.title} 
+                        options={question.options} 
+                        value={changeAnswer} 
+                        defaultValue={answers[i]} 
+                        defaultFileList={fileList}
+                        isPreview={isPreview}
+                        // answer={realAnswer[i]}
                     />
                 ) 
             default:

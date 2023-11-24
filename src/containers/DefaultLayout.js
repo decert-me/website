@@ -1,32 +1,85 @@
 import { useLocation, useNavigate, useRoutes } from "react-router-dom";
-import { Layout, message } from "antd";
+import { Button, Layout, Space, message, notification } from "antd";
 import routes from "@/router";
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
 import { useContext, useEffect, useState } from "react";
 import { ClearStorage } from "@/utils/ClearStorage";
-import { useDebounceEffect, useRequest } from "ahooks";
+import { useDebounceEffect, useRequest, useUpdateEffect } from "ahooks";
 import CustomSigner from "@/redux/CustomSigner";
 import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import { useAddress } from "@/hooks/useAddress";
 import { useWallet } from "@solana/wallet-adapter-react";
+import { getUnreadMessage, readMessage } from "@/request/api/public";
+import { useTranslation } from "react-i18next";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout() {
 
+    const { t } = useTranslation(["translation"]);
     const outlet = useRoutes(routes);
     const navigateTo = useNavigate();
     const location = useLocation();
     const { isMobile, user, web3Modal } = useContext(MyContext);
-    const [messageApi, contextHolder] = message.useMessage();
+    const [api, contextHolder] = notification.useNotification();
     let [footerHide, setFooterHide] = useState(false);
     let [headerHide, setHeaderHide] = useState(false);
     let [vh, setVh] = useState(100);
+    let [msgList, setMsgList] = useState([]);
 
     const { address, isConnected } = useAddress();
     const { connected } = useWallet();
+
+    // 获取当前账号未读信息
+    const { runAsync, cancel } = useRequest(getUnreadMessage, {
+        pollingInterval: 5000,
+        pollingWhenHidden: false,
+        manual: true,
+        onSuccess: (data) => {
+            const lang = localStorage.getItem("decert.lang");
+            msgList = data?.data.reverse() || [];
+            setMsgList([...msgList]);
+
+            msgList.forEach((msg, i) => {
+                api.open({
+                    key: i,
+                    duration: 0,
+                    message: lang === "en-US" ? msg.title_en : msg.title,
+                    description: lang === "en-US" ? msg.content_en : msg.content,
+                    onClose: () => {
+                        readMessage({id: msg.ID});
+                    },
+                    btn: (
+                        <Space>
+                            <Button type="link" size="small" onClick={() => {
+                                api.destroy(i);
+                                readMessage({id: msg.ID});
+                            }}>
+                                {t("btn-ok")}
+                            </Button>
+                            <Button type="primary" size="small" onClick={() => {
+                                api.destroy(i);
+                                readMessage({id: msg.ID});
+                                // 判断当前是否在这页 ？ 刷新 ： 跳转
+                                if (location.pathname.indexOf("/claim") !== -1 && location.pathname.split("/claim/")[1] == msg.token_id) {
+                                    navigateTo(0);
+                                }else{
+                                    navigateTo(`/claim/${msg.token_id}`);
+                                }
+                            }}>
+                                {t("btn-link")}
+                            </Button>
+                        </Space>
+                    )
+                });
+            })
+        },
+        onError: (error) => {
+        //   message.error(error.message);
+        },
+    });
 
     const headerStyle = {
         width: "100%",
@@ -169,6 +222,10 @@ export default function DefaultLayout() {
           window.removeEventListener("resize", zoomVh);
         };
     }, []);
+    
+    useUpdateEffect(() => {
+        isConnected ? runAsync() : cancel()
+    },[isConnected])
 
     return (
         <Layout className={isMobile ? "Mobile" : ""}>

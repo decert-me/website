@@ -1,5 +1,6 @@
-import { useEffect } from "react";
 import i18n from 'i18next';
+import { useEffect } from "react";
+import { ConfigProvider } from 'antd';
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs';
 import * as Sentry from "@sentry/react";
 // 依赖
@@ -61,9 +62,15 @@ export default function App({web3Modal}) {
   },[])
   return (
     <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
-      <MyProvider web3Modal={web3Modal}>
-        <BeforeRouterEnter />
-      </MyProvider>
+      <ConfigProvider
+        theme={{
+          components: { Progress: { gapDegree: 0 }}}
+        }
+      >
+        <MyProvider web3Modal={web3Modal}>
+          <BeforeRouterEnter />
+        </MyProvider>
+      </ConfigProvider>
     </StyleProvider>
   )
 }

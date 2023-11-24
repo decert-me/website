@@ -250,12 +250,14 @@
         }
         ul{
           width: 100%;
+          max-width: calc(6 * 233px + 7px);
+          padding: 1px;
           margin: 0 auto;
           display: flex;
           justify-content: center;
           gap: 1px;
           background-color: #fff;
-          border: 1px solid #FFFFFF;
+          // border: 1px solid #FFFFFF;
         }
         li{
           width: 233px;

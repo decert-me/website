@@ -56,6 +56,9 @@
     "btn-publish": "Publish",
     "btn-view": "Preview",
     "btn-clear": "Clear data",
+    "btn-another": "Explore Challenges",
+    "btn-ok": "OK",
+    "btn-link": "View",
 
     "tutorial": {
         "filter": "Filters",
@@ -147,8 +150,11 @@
     "message": {
         "success": {
             "submit": {
-                "title": "Submit succeed",
-                "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet."
+                "info": "Submitted successfully",
+                "title": "In review, please be patient...",
+                "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet.",
+                "wait": "The creator is scoring your challenge. Please be patient.",
+                "score": "As the challenge includes open-ended questions without fixed answers, it needs to be scored by the creator."
             },
             "save": "Update success!",
             "copy": "Copy success!",

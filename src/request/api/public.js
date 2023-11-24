@@ -185,6 +185,14 @@ export const nftJson = (data, type) => {
     })
 }
 
+export const uploadFile = (data) => {
+    return ipfsAxios({
+        url: `/v1/ipfs/uploadFile?type=open_quest`,
+        method: "post",
+        data
+    })
+}
+
 // 获取教程阅览进度
 export const tutorialProgress = (data) => {
     return serviceAxios({
@@ -217,6 +225,33 @@ export const progressList = (data) => {
     return serviceAxios({
         url: `/v1/tutorial/progressList`,
         method: "post",
+        data
+    })
+}
+
+// 获取未读消息
+export const getUnreadMessage = (data) => {
+    return serviceAxios({
+        url: `/v1/message/getUnreadMessage`,
+        method: "get",
+        data
+    })
+}
+
+// 阅读消息
+export const readMessage = (data) => {
+    return serviceAxios({
+        url: `/v1/message/readMessage`,
+        method: "post",
+        data
+    })
+}
+
+// 获取当前登陆用户是否能创建开放题
+export const hasCreateOpenQuestPerm = (data) => {
+    return serviceAxios({
+        url: `/v1/users/hasCreateOpenQuestPerm`,
+        method: "get",
         data
     })
 }
