@@ -1,7 +1,5 @@
 import { Spin } from "antd";
-import {
-    LoadingOutlined
-} from '@ant-design/icons';
+import { LoadingOutlined } from '@ant-design/icons';
 import { useContext, useEffect, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
 import { useContractRead, useWalletClient } from "wagmi";
