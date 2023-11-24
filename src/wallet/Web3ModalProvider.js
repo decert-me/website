@@ -12,7 +12,7 @@ export function Web3ModalProvider({ children }) {
         name: 'DeCert.Me',
         description: 'Decentralized skills learning and certification platform · Education in the Age of AI · SBT - Proof of Learn.',
         url: 'https://decert.me',
-        icons: ['/favicon.ico']
+        icons: ['https://decert.me/favicon.ico']
     }
 
     const chains = [polygonMumbai, polygon];
