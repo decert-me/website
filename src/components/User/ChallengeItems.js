@@ -52,7 +52,8 @@ export default function ChallengeItems({info, goCollection}) {
                 setCollectionInfo({...collectionInfo});
             }
         })
-        if (tokenId !== 0) {            
+        // 判断合集ntf是否创建 => 创建了则判断当前用户登陆状态
+        if (tokenId !== 0 && localStorage.getItem("decert.token")) {            
             hasClaimed({id: tokenId})
             .then(res => {
                 const status = res.data.status;
