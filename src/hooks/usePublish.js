@@ -40,7 +40,7 @@ export const usePublish = (props) => {
         hash: createQuestHash,
         cacheTime: 0
     })
-    const { writeAsync: createQuest, status } = useContractWrite({
+    const { writeAsync: createQuest } = useContractWrite({
         ...questContract,
         functionName: 'createQuest',
     })
@@ -69,6 +69,7 @@ export const usePublish = (props) => {
             })
             .catch(err => {
                 console.log(err);
+                setIsLoading(false);
             })
         }else{
             createQuest({ args: [args, sign] })

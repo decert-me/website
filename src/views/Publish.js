@@ -14,12 +14,11 @@ import { usePublish } from "@/hooks/usePublish";
 import ModalEditQuestion from "@/components/CustomModal/ModalEditQuestion";
 import MyContext from "@/provider/context";
 import { getMetadata } from "@/utils/getMetadata";
-import { useWalletClient } from "wagmi";
+import { useContractRead, useWalletClient } from "wagmi";
 import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion";
 import { changeConnect } from "@/utils/redux";
 import { getQuests, modifyRecommend } from "@/request/api/public";
 import store, { setChallenge } from "@/redux/store";
-import { tokenSupply } from "@/controller";
 import { useAddress } from "@/hooks/useAddress";
 
 export default function Publish(params) {
@@ -27,7 +26,7 @@ export default function Publish(params) {
     const navigateTo = useNavigate();
 
     const { t } = useTranslation(["publish", "translation", "profile"]);
-    const { isMobile } = useContext(MyContext);
+    const { isMobile, badgeContract } = useContext(MyContext);
     const { address, isConnected, walletType } = useAddress();
     const { data: signer } = useWalletClient();
     const location = useLocation();
@@ -51,6 +50,12 @@ export default function Publish(params) {
     let [publishObj, setPublishObj] = useState({});
     let [isWrite, setIsWrite] = useState(false);
     const [loading, setLoading] = useState(false);
+    const { refetch } = useContractRead({
+        ...badgeContract,
+        enabled: false,
+        functionName: 'tokenSupply',
+        args: [changeId]
+    })
     const { publish, isLoading, isOk, transactionLoading } = usePublish({
         jsonHash: publishObj?.jsonHash, 
         recommend: publishObj?.recommend,
@@ -288,13 +293,8 @@ export default function Publish(params) {
             return
         }
 
-        const supply = await tokenSupply(tokenId, signer)
-            .then(res => {
-                return res
-            })
-            .catch(err => {
-                console.log(err);
-            })
+        const { data:res } = await refetch()
+        const supply = Number(res);
         // 已有人claim，终止
         if (supply > 0) {
             messageApi.open({

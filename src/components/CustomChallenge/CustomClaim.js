@@ -5,9 +5,8 @@ import {
     CloseOutlined
 } from '@ant-design/icons';
 import { getClaimHash, getQuests, hasClaimed, submitHash } from "../../request/api/public";
-import { claim } from "../../controller";
-import { useNetwork, useWalletClient, useSwitchNetwork, useWaitForTransaction } from "wagmi";
-import { useEffect, useState } from "react";
+import { useNetwork, useWalletClient, useSwitchNetwork, useWaitForTransaction, useContractWrite } from "wagmi";
+import { useContext, useEffect, useState } from "react";
 import ModalLoading from "../CustomModal/ModalLoading";
 import { GetScorePercent } from "@/utils/GetPercent";
 import { useTranslation } from "react-i18next";
@@ -19,20 +18,31 @@ import { QRCodeSVG } from "qrcode.react";
 import { useRequest } from "ahooks";
 import { constans } from "@/utils/constans";
 import ModalAirdrop from "../CustomModal/ModalAirdrop";
+import MyContext from "@/provider/context";
 
 export default function CustomClaim(props) {
     
+    const navigateTo = useNavigate();
     const { step, setStep, cliamObj, img, shareWechat, isClaim, isMobile, detail } = props;
     const { ipfsPath, defaultImg, openseaLink, defaultChainId } = constans();
     const { t } = useTranslation(["claim", "translation"]);
-    const navigateTo = useNavigate();
+    const { questContract } = useContext(MyContext);
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const { data: signer } = useWalletClient();
     let [open, setOpen] = useState();
     let [link, setLink] = useState("");
     let [status, setStatus] = useState(0);
-    
+ 
+    let [isSwitch, setIsSwitch] = useState(false);
+    let [showPopover, setShowPopover] = useState(false);
+    let [claimHash, setClaimHash] = useState();
+    let [cacheIsClaim, setCacheIsClaim] = useState();
+
+    let [isModalOpen, setIsModalOpen] = useState();
+    let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
+    let [writeLoading, setWriteLoading] = useState();
+       
     const { switchNetwork } = useSwitchNetwork({
         chainId: defaultChainId,
         onError(error) {
@@ -42,14 +52,7 @@ export default function CustomClaim(props) {
             setIsSwitch(false);
         }
     })
-    let [isSwitch, setIsSwitch] = useState(false);
-    let [showPopover, setShowPopover] = useState(false);
-    let [claimHash, setClaimHash] = useState();
-    let [cacheIsClaim, setCacheIsClaim] = useState();
 
-    let [isModalOpen, setIsModalOpen] = useState();
-    let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
-    let [writeLoading, setWriteLoading] = useState();
     const { isLoading } = useWaitForTransaction({
         hash: claimHash,
         onSuccess() { 
@@ -65,6 +68,11 @@ export default function CustomClaim(props) {
         },
         cacheTime: 0
 
+    })
+
+    const { writeAsync: claim } = useContractWrite({
+        ...questContract,
+        functionName: 'claim',
     })
 
     const { runAsync } = useRequest(shareWechat, {
@@ -110,12 +118,7 @@ export default function CustomClaim(props) {
             return
         }
         if (signature) {
-            claimHash = await claim(
-                obj.tokenId, 
-                obj.score, 
-                signature.data, 
-                signer
-            )
+            const { hash: claimHash } = await claim({ args: [obj.tokenId, obj.score, signature.data] })
             setClaimHash(claimHash);
             setWriteLoading(false);
 
