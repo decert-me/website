@@ -56,7 +56,6 @@ export const usePublish = (props) => {
         supply = constans().maxUint192;
         const args = [startTs, endTs, supply, title, uri];
         if (changeId) {
-            console.log(changeId, args, sign);
             modifyQuest({ args: [changeId, args, sign] })
             .then(res => {
                 setIsLoading(false);
