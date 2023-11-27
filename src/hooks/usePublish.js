@@ -14,11 +14,10 @@ import MyContext from "@/provider/context";
 export const usePublish = (props) => {
 
     const { jsonHash, recommend, changeId } = props;
-    const { defaultChainId } = constans();
     const { questContract } = useContext(MyContext);
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
-    const { ipfsPath, maxUint32, maxUint192 } = constans();
+    const { ipfsPath, maxUint32, maxUint192, defaultChainId } = constans();
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
     const { switchNetwork } = useSwitchNetwork({
@@ -52,8 +51,8 @@ export const usePublish = (props) => {
 
     const write = (sign, obj, params) => {
         let { startTs, endTs, supply, title, uri } = obj;
-        endTs = constans().maxUint32;
-        supply = constans().maxUint192;
+        endTs = maxUint32.toString();
+        supply = maxUint192.toString();
         const args = [startTs, endTs, supply, title, uri];
         if (changeId) {
             modifyQuest({ args: [changeId, args, sign] })
