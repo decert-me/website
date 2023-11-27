@@ -2,7 +2,7 @@ import store from "@/redux/store";
 import { useState } from "react";
 import MyContext from "./context";
 import { getContract } from '@wagmi/core'
-import { BadgeAbi, BadgeAddr, BadgeMinterAddr, QuestMinterAbi, QuestMinterAddr } from "@/contracts";
+import { BadgeAbi, BadgeAddr, BadgeMinterAbi, BadgeMinterAddr, QuestMinterAbi, QuestMinterAddr } from "@/contracts";
 
 export default function MyProvider(props) {
     const { web3Modal } = props;
@@ -21,7 +21,7 @@ export default function MyProvider(props) {
 
     const badgeMinterContract = getContract({
       address: BadgeMinterAddr,
-      abi: BadgeMinterAddr,
+      abi: BadgeMinterAbi,
     })
 
     function handleMobileChange() {
