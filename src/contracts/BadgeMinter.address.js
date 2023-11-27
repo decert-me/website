@@ -1,0 +1,1 @@
+module.exports = process.env.REACT_APP_CONTRACT_BADGEMINTER_ADDRESS;
