@@ -151,7 +151,7 @@
         "success": {
             "submit": {
                 "info": "Submitted successfully",
-                "title": "In review, please be patient...",
+                "title": "The challenge consists of open quizzes, it will take some time to score, please be patient...",
                 "desc": "The system will airdrop the SBT to your wallet later, please do not delete the tweet.",
                 "wait": "The creator is scoring your challenge. Please be patient.",
                 "score": "As the challenge includes open-ended questions without fixed answers, it needs to be scored by the creator."
