@@ -12,7 +12,7 @@ import MyContext from "@/provider/context";
 
 export default function usePublishCollection({ detail, jsonHash, collectionId }) {
     
-    const { questContract } = useContext(MyContext);
+    const { questMinterContract } = useContext(MyContext);
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const navigateTo = useNavigate();
@@ -24,7 +24,7 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
     let [isSwitch, setIsSwitch] = useState(false);
     let [createQuestHash, setCreateQuestHash] = useState();
     const { writeAsync: createQuest } = useContractWrite({
-        ...questContract,
+        ...questMinterContract,
         functionName: 'createQuest',
     })
     const { switchNetwork } = useSwitchNetwork({

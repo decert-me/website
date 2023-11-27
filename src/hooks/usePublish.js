@@ -14,7 +14,7 @@ import MyContext from "@/provider/context";
 export const usePublish = (props) => {
 
     const { jsonHash, recommend, changeId } = props;
-    const { questContract } = useContext(MyContext);
+    const { questMinterContract } = useContext(MyContext);
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const { ipfsPath, maxUint32, maxUint192, defaultChainId } = constans();
@@ -40,12 +40,12 @@ export const usePublish = (props) => {
         cacheTime: 0
     })
     const { writeAsync: createQuest } = useContractWrite({
-        ...questContract,
+        ...questMinterContract,
         functionName: 'createQuest',
     })
 
     const { writeAsync: modifyQuest } = useContractWrite({
-        ...questContract,
+        ...questMinterContract,
         functionName: 'modifyQuest',
     })
 

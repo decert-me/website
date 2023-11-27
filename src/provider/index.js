@@ -2,14 +2,14 @@ import store from "@/redux/store";
 import { useState } from "react";
 import MyContext from "./context";
 import { getContract } from '@wagmi/core'
-import { BadgeAbi, BadgeAddr, QuestMinterAbi, QuestMinterAddr } from "@/contracts";
+import { BadgeAbi, BadgeAddr, BadgeMinterAddr, QuestMinterAbi, QuestMinterAddr } from "@/contracts";
 
 export default function MyProvider(props) {
     const { web3Modal } = props;
     let [isMobile, setIsMobile] = useState();
     let [user, setUser] = useState();
     
-    const questContract = getContract({
+    const questMinterContract = getContract({
       address: QuestMinterAddr,
       abi: QuestMinterAbi,
     })
@@ -17,6 +17,11 @@ export default function MyProvider(props) {
     const badgeContract = getContract({
       address: BadgeAddr,
       abi: BadgeAbi,
+    })
+
+    const badgeMinterContract = getContract({
+      address: BadgeMinterAddr,
+      abi: BadgeMinterAddr,
     })
 
     function handleMobileChange() {
@@ -34,7 +39,7 @@ export default function MyProvider(props) {
     store.subscribe(handleUser);
 
     return (
-        <MyContext.Provider value={{ isMobile, user, questContract, badgeContract, web3Modal }}>
+        <MyContext.Provider value={{ isMobile, user, questMinterContract, badgeContract, badgeMinterContract, web3Modal }}>
           {props.children}
         </MyContext.Provider>
       );

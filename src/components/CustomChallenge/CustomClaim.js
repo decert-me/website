@@ -26,7 +26,7 @@ export default function CustomClaim(props) {
     const { step, setStep, cliamObj, img, shareWechat, isClaim, isMobile, detail } = props;
     const { ipfsPath, defaultImg, openseaLink, defaultChainId } = constans();
     const { t } = useTranslation(["claim", "translation"]);
-    const { questContract } = useContext(MyContext);
+    const { questMinterContract } = useContext(MyContext);
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const { data: signer } = useWalletClient();
@@ -71,7 +71,7 @@ export default function CustomClaim(props) {
     })
 
     const { writeAsync: claim } = useContractWrite({
-        ...questContract,
+        ...questMinterContract,
         functionName: 'claim',
     })
 
