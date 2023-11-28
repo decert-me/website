@@ -17,7 +17,7 @@ export default function ChallengeItem(props) {
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
     const [messageApi, contextHolder] = message.useMessage();
-    const { ipfsPath, defaultImg, openseaLink, openseaSolanaLink } = constans(profile?.checkType);
+    const { ipfsPath, defaultImg, openseaLink, openseaSolanaLink } = constans(profile?.checkType, info.version);
     const arr = [0, 1, 2];
 
 

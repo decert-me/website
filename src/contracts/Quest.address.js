@@ -1,0 +1,1 @@
+module.exports = process.env.REACT_APP_CONTRACT_QUEST_ADDRESS;

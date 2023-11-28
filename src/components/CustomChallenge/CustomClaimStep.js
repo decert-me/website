@@ -34,7 +34,7 @@ export default function CustomClaimStep(props) {
         answerInfo
     } = props;
     const { walletType } = useAddress();
-    const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(); 
+    const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(null, detail.version); 
     const { t } = useTranslation(["claim", "translation"]);
     const { isMobile } = useContext(MyContext);
     const navigateTo = useNavigate();

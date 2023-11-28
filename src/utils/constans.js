@@ -1,7 +1,7 @@
-import BadgeAddress from "@/contracts/Badge.address";
+import { BadgeAddr, QuestAddr } from "@/contracts";
 import { BigNumber } from "bignumber.js";
 
-export const constans = (contractType) => {
+export const constans = (contractType, version) => {
 
     const chains = {
         80001: {
@@ -61,7 +61,8 @@ export const constans = (contractType) => {
     const isDev = process.env.REACT_APP_IS_DEV;
     const defaultChainId = Number(process.env.REACT_APP_CHAIN_ID) || (isDev ? 80001 : 137);
 
-    const questAddr = process.env.REACT_APP_CONTRACT_QUEST_ADDRESS;
+    const questAddr = version === "1" ? process.env.REACT_APP_CONTRACT_QUEST_ADDRESS_V1 : QuestAddr;
+    const badgeAddr = version === "1" ? process.env.REACT_APP_CONTRACT_BADGE_ADDRESS_V1 : BadgeAddr;
 
     const maxUint32 = Math.pow(2,32) - 1;
     const uint192Max = new BigNumber(2).exponentiatedBy(192).minus(1);
@@ -71,7 +72,7 @@ export const constans = (contractType) => {
     const imgPath = process.env.REACT_APP_BASE_URL;
 
     const openseaBase = isDev ? "https://testnets.opensea.io" : "https://opensea.io";
-    const openseaLink = `${openseaBase}/assets/${chains[defaultChainId]?.opensea || chains[defaultChainId].name}/${contractType ? questAddr : BadgeAddress}`;
+    const openseaLink = `${openseaBase}/assets/${chains[defaultChainId]?.opensea || chains[defaultChainId].name}/${contractType ? questAddr : badgeAddr}`;
     const openseaSolanaLink = `${openseaBase}/assets/solana`;
 
     const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY || "https://nftscan.mypinata.cloud/ipfs/"

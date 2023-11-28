@@ -7,10 +7,10 @@ import { useContext } from "react";
 
 export default function ModalLoading(props) {
 
-    const { ipfsPath, defaultImg, openseaLink } = constans();
+    const { isModalOpen, handleCancel, isLoading, img, tokenId, shareTwitter, detail } = props;
+    const { ipfsPath, defaultImg, openseaLink } = constans(null, detail.version);
     const { t } = useTranslation(["translation"]);
     const { isMobile } = useContext(MyContext);
-    const { isModalOpen, handleCancel, isLoading, img, tokenId, shareTwitter } = props;
 
     const icon = (
         <LoadingOutlined

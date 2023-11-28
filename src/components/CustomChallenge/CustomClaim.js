@@ -24,7 +24,7 @@ export default function CustomClaim(props) {
     
     const navigateTo = useNavigate();
     const { step, setStep, cliamObj, img, shareWechat, isClaim, isMobile, detail } = props;
-    const { ipfsPath, defaultImg, openseaLink, defaultChainId } = constans();
+    const { ipfsPath, defaultImg,  defaultChainId } = constans();
     const { t } = useTranslation(["claim", "translation"]);
     const { badgeMinterContract } = useContext(MyContext);
     const { chain } = useNetwork();
@@ -236,6 +236,7 @@ export default function CustomClaim(props) {
                 img={img}
                 tokenId={cliamObj.tokenId}
                 shareTwitter={shareTwitter}
+                detail={detail}
             />
             <Modal 
                 className="modal-tip"

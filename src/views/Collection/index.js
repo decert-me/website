@@ -27,7 +27,6 @@ export default function Collection(params) {
     const { isMobile } = useContext(MyContext);
     const { data: signer } = useWalletClient()
     const { address, walletType, isConnected } = useAddress();
-    const { ipfsPath, defaultImg, openseaLink } = constans();
     const [api, contextHolder] = notification.useNotification();
     const { t } = useTranslation(["publish", "translation", "profile", "explore"]);
     const [isCreated, setIsCreated] = useState();
@@ -56,6 +55,7 @@ export default function Collection(params) {
         isOk, 
         transactionLoading 
     } = usePublishCollection(createObj);
+    const { ipfsPath, defaultImg, openseaLink } = constans(null, detail.version);
 
 
     async function userClaimStatus() {
