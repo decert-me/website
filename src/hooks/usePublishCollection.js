@@ -42,10 +42,9 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
     })
 
     const write = (sign, obj, params) => {
-        let { startTs, endTs, supply, title, uri } = obj;
+        let { startTs, endTs, title, uri } = obj;
         endTs = constans().maxUint32;
-        supply = constans().maxUint192;
-        const args = [startTs, endTs, supply, title, uri];
+        const args = [startTs, endTs, title, uri];
         createQuest({ args: [args, sign] })
         .then(res => {
             setIsLoading(false);

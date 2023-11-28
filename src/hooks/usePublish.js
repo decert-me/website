@@ -50,10 +50,9 @@ export const usePublish = (props) => {
     })
 
     const write = (sign, obj, params) => {
-        let { startTs, endTs, supply, title, uri } = obj;
+        let { startTs, endTs, title, uri } = obj;
         endTs = maxUint32.toString();
-        supply = maxUint192.toString();
-        const args = [startTs, endTs, supply, title, uri];
+        const args = [startTs, endTs, title, uri];
         if (changeId) {
             modifyQuest({ args: [changeId, args, sign] })
             .then(res => {

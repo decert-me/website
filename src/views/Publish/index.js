@@ -61,12 +61,12 @@ export default function Publish(params) {
         changeId: isEdit
     });
 
-    const { refetch } = useContractRead({
-        ...badgeContract,
-        enabled: false,
-        functionName: 'tokenSupply',
-        args: [changeId]
-    })
+    // const { refetch } = useContractRead({
+    //     ...badgeContract,
+    //     enabled: false,
+    //     functionName: 'getBadgeNum',
+    //     args: [changeId]
+    // })
 
     // json => ipfs
     const getJson = async(values, preview) => {
@@ -206,18 +206,19 @@ export default function Publish(params) {
 
     // 修改挑战情况下 => 判断该挑战是否有人铸造
     async function hasClaimed(tokenId) {    
-        const { data } = await refetch()
-        const supply = Number(data);
-        // 已有人claim，终止
-        if ( typeof supply === "number" && supply > 0) {
-            message.warning(t("profile:edit.error"));
-            setTimeout(() => {
-                navigateTo(-1)
-            }, 1000);
-            return true
-        }else{
-            return false
-        }
+        // TODO: 改为后端接口调用查找
+        // const { data } = await refetch()
+        // const supply = Number(data);
+        // // 已有人claim，终止
+        // if ( typeof supply === "number" && supply > 0) {
+        //     message.warning(t("profile:edit.error"));
+        //     setTimeout(() => {
+        //         navigateTo(-1)
+        //     }, 1000);
+        //     return true
+        // }else{
+        //     return false
+        // }
     }
 
     // 推荐教程反序列化

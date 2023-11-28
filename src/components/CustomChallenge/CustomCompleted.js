@@ -32,14 +32,14 @@ export default function CustomCompleted(props) {
     let [isShow, setIsShow] = useState();
     let [percent, setPercent] = useState(0);
 
-    let [scoresArgs, setScoresArgs] = useState([Number(tokenId), addr]);
+    // let [scoresArgs, setScoresArgs] = useState([Number(tokenId), addr]);
 
-    const { refetch } = useContractRead({
-        ...badgeContract,
-        enabled: false,
-        functionName: 'scores',
-        args: scoresArgs
-    })
+    // const { refetch } = useContractRead({
+    //     ...badgeContract,
+    //     enabled: false,
+    //     functionName: 'scores',
+    //     args: scoresArgs
+    // })
 
     const contrast = async(arr) => {
         const questions = detail.metadata.properties.questions;
@@ -107,10 +107,10 @@ export default function CustomCompleted(props) {
             })
             let res;
             if (detail.user_score === 0) {
-                await refetch()
-                .then(result => {
-                    res = result.data?.toString();
-                })
+                // await refetch()
+                // .then(result => {
+                //     res = result.data?.toString();
+                // })
             }else{
                 res = detail.user_score
             }
