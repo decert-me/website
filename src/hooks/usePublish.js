@@ -97,7 +97,6 @@ export const usePublish = (props) => {
             description: detail.description,
             'start_ts': '0', 
             'end_ts': maxUint32.toString(), 
-            'supply': maxUint192.toString(),       
         })
         :
         await addQuests({
@@ -106,12 +105,10 @@ export const usePublish = (props) => {
             description: detail.description,
             'start_ts': '0', 
             'end_ts': maxUint32.toString(), 
-            'supply': maxUint192.toString(),       
         })
         const questData = {
             'startTs': 0, 
             'endTs': maxUint32.toString(), 
-            'supply': maxUint192.toString(), 
             'title': detail.title,
             'uri': "ipfs://"+jsonHash, 
         }
