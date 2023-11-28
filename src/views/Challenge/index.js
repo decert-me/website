@@ -292,7 +292,8 @@ export default function Challenge(params) {
                         {
                             e.type !== "coding" &&
                             <h4 className='challenge-title'>{t("challenge.title")}
-                                #{page} {questTye(e.type)}&nbsp;&nbsp; 
+                                #{page} 
+                                {/* {questTye(e.type)}&nbsp;&nbsp;  */}
                                 {
                                     isEdit && 
                                     <span className="score">({e.score}分)</span>
