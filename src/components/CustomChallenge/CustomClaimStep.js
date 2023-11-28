@@ -50,13 +50,15 @@ export default function CustomClaimStep(props) {
 
     async function shareWechat(params) {
         let score = GetScorePercent(answerInfo.totalScore, answerInfo.score);
-        return await wechatShare({
+        const data = {
             tokenId: Number(tokenId),
             score: score,
             answer: JSON.stringify(answers)
-        })
+        }
+        const {version} = detail
+        return await wechatShare({data, version})
         .then(res => {
-            return res.status === 0 ? res.data : null
+            return res?.status === 0 ? res.data : null
         })
     }
 

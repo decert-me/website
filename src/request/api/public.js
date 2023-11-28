@@ -203,9 +203,9 @@ export const tutorialProgress = (data) => {
 }
 
 // 获取微信分享二维码
-export const wechatShare = (data) => {
+export const wechatShare = ({data, version}) => {
     return serviceAxios({
-        url: `/v1/badge/submitClaimShare`,
+        url: `/v${version}/badge/submitClaimShare`,
         method: "post",
         data
     })
