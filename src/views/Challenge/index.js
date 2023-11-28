@@ -68,8 +68,13 @@ export default function Challenge(params) {
     }
 
     const getData = async (id) => {
+        const res = await getQuests({id: id});
+        if (res.data.status === 2) {
+            navigateTo(-1)
+            return
+        }
         try {
-            const res = await getQuests({id: id});
+
             setMetadata(res.data)
             .then(res => {
                 detail = res ? res : {};
