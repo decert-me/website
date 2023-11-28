@@ -100,13 +100,16 @@ export default function Info(props) {
                     </li>
                 }
             </ul>
-            <ul className="info-bottom">
-                <div className="submit-bg">
-                    <Button className="submit" id="hover-btn-full" onClick={() => goChallenge()}>
-                        {t("btn-start")}
-                    </Button>
-                </div>
-            </ul>
+            {
+                detail.status === 1 &&
+                <ul className="info-bottom">
+                    <div className="submit-bg">
+                        <Button className="submit" id="hover-btn-full" onClick={() => goChallenge()}>
+                            {t("btn-start")}
+                        </Button>
+                    </div>
+                </ul>
+            }
         </div>
     )
 }

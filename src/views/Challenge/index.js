@@ -68,8 +68,13 @@ export default function Challenge(params) {
     }
 
     const getData = async (id) => {
+        const res = await getQuests({id: id});
+        if (res.data.status === 2) {
+            navigateTo(-1)
+            return
+        }
         try {
-            const res = await getQuests({id: id});
+
             setMetadata(res.data)
             .then(res => {
                 detail = res ? res : {};
@@ -287,7 +292,8 @@ export default function Challenge(params) {
                         {
                             e.type !== "coding" &&
                             <h4 className='challenge-title'>{t("challenge.title")}
-                                #{page} {questTye(e.type)}&nbsp;&nbsp; 
+                                #{page} 
+                                {/* {questTye(e.type)}&nbsp;&nbsp;  */}
                                 {
                                     isEdit && 
                                     <span className="score">({e.score}分)</span>
