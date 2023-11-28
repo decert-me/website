@@ -1,23 +1,23 @@
-import "./index.scss";
-import { useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react";
-import { claimCollection, getCollectionQuest } from "@/request/api/quests";
-import { constans } from "@/utils/constans";
-import { Button, Tooltip, message, notification } from "antd";
-import { useAddress } from "@/hooks/useAddress";
-import { getCollectionMetadata } from "@/utils/getMetadata";
-import { useRequest, useUpdateEffect } from "ahooks";
-import { changeConnect } from "@/utils/redux";
+import { useParams } from "react-router-dom"
 import { useTranslation } from "react-i18next";
-import {
-    ExclamationCircleOutlined
-} from '@ant-design/icons';
-import CollectionChallenger from "./challenger";
-import CollectionInfo from "./detail";
-import usePublishCollection from "@/hooks/usePublishCollection";
+import "./index.scss";
+
+import { useRequest, useUpdateEffect } from "ahooks";
+import { Button, Tooltip, message, notification } from "antd";
+import { ExclamationCircleOutlined } from '@ant-design/icons';
+
 import { hasClaimed } from "@/request/api/public";
+import { claimCollection, getCollectionQuest } from "@/request/api/quests";
+import { useAddress } from "@/hooks/useAddress";
+import usePublishCollection from "@/hooks/usePublishCollection";
 import MyContext from "@/provider/context";
-import { useProvider, useWalletClient } from "wagmi";
+import { changeConnect } from "@/utils/redux";
+import { getCollectionMetadata } from "@/utils/getMetadata";
+
+import CollectionNft from "./nft";
+import CollectionInfo from "./detail";
+import CollectionChallenger from "./challenger";
 
 
 
@@ -25,7 +25,6 @@ export default function Collection(params) {
     
     const { id } = useParams();
     const { isMobile } = useContext(MyContext);
-    const { data: signer } = useWalletClient()
     const { address, walletType, isConnected } = useAddress();
     const [api, contextHolder] = notification.useNotification();
     const { t } = useTranslation(["publish", "translation", "profile", "explore"]);
@@ -55,7 +54,6 @@ export default function Collection(params) {
         isOk, 
         transactionLoading 
     } = usePublishCollection(createObj);
-    const { ipfsPath, defaultImg, openseaLink } = constans(null, detail.version);
 
 
     async function userClaimStatus() {
@@ -178,6 +176,7 @@ export default function Collection(params) {
         init();
     },[])
 
+    // nft导入至钱包
     async function getMyNFTs() {
         // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
         // const account = accounts[0];
@@ -244,26 +243,10 @@ export default function Collection(params) {
                     />
                 </div>
                 <div className="question-right">
-                    <div className="nft">
-                        <div className="img">
-                            <img 
-                                src={
-                                    detail.collection.cover
-                                    ? `${ipfsPath}/${detail.collection.cover}`
-                                    : defaultImg
-                                }
-                                alt="" />
-                            {
-                                isCreated && detail?.collection.claimed &&
-                                <a 
-                                    target="_blank"
-                                    href={openseaLink+"/"+detail?.collection.tokenId} 
-                                    className="badge">
-                                    <img src={require("@/assets/images/icon/opensea.png")} alt="" />
-                                </a>
-                            }
-                        </div>
-                    </div>
+                    <CollectionNft
+                        detail={detail}
+                        isCreated={isCreated}
+                    />
                     {
                         detail.collection.author === address && !isCreated &&
                         <Button 
