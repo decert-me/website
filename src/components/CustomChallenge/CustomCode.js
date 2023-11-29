@@ -17,7 +17,6 @@ function CustomCode(props, ref) {
     const editorRef = useRef(null);
     const consoleRef = useRef(null);
     const { decode } = Encryption();
-    const key = process.env.REACT_APP_ANSWERS_KEY;
 
     const [loading, setLoading] = useState();
     let [previewCode, setPreviewCode] = useState([
@@ -209,7 +208,7 @@ function CustomCode(props, ref) {
         selectCode = cacheQuest.code_snippets[0];
         // 解码示例代码
         if (!selectCode?.decodeAnswer) {
-            selectCode.decodeAnswer = eval(decode(key, selectCode.correctAnswer));
+            selectCode.decodeAnswer = eval(decode(selectCode.correctAnswer));
         }
 
         setSelectCode({...selectCode});

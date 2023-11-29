@@ -24,7 +24,6 @@ export default function CustomCompleted(props) {
     });
     const { address, isConnected } = useAddress();
     const { decode } = Encryption();
-    const key = process.env.REACT_APP_ANSWERS_KEY;
     
     let [answerInfo, setAnswerInfo] = useState();
     let [showConfetti, setShowConfetti] = useState(false);
@@ -153,7 +152,7 @@ export default function CustomCompleted(props) {
     }
 
     const init = () => {
-        const reAnswers = eval(decode(key, detail.metadata.properties.answers));
+        const reAnswers = eval(decode(detail.metadata.properties.answers));
         contrast(reAnswers)
     }
 

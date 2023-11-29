@@ -11,7 +11,6 @@ import { CustomRadio, CustomInput, CustomCheckbox, CustomOpen, CustomCode } from
 import { setMetadata } from '@/utils/getMetadata';
 import { localRealAnswerInit } from '@/utils/localRealAnswerInit';
 import { modalNotice } from '@/utils/modalNotice';
-import { Encryption } from '@/utils/Encryption';
 import { getDataBase } from '@/utils/saveCache';
 import CustomPagination from '../../components/CustomPagination';
 import ModalAnswers from '../../components/CustomModal/ModalAnswers';
@@ -33,8 +32,6 @@ export default function Challenge(params) {
     let [percent, setPercent] = useState();
     let [isEdit, setIsEdit] = useState();   //  修改challenge预览
     let [isPreview, setIsPreview] = useState();
-    const { decode } = Encryption();
-    const key = process.env.REACT_APP_ANSWERS_KEY;
     let [realAnswer, setRealAnswer] = useState([]);
 
     let [page, setPage] = useState(1);

@@ -1,6 +1,8 @@
 export function Encryption () {
 
-    const xorStrings = (key, input)=>{
+    const key = process.env.REACT_APP_ANSWERS_KEY;
+
+    const xorStrings = (input)=>{
         var output = '';
         for (var i = 0; i < input.length; i++) {
             var c = input.charCodeAt(i);
@@ -10,12 +12,12 @@ export function Encryption () {
         return output;
     }
     
-    const encode = (key, data)=>{
-        return Buffer.from(xorStrings(key, data), 'utf8').toString('base64');
+    const encode = (data)=>{
+        return Buffer.from(xorStrings(data), 'utf8').toString('base64');
     }
     
-    const decode = (key, data)=>{
-        return xorStrings(key, Buffer.from(data, 'base64').toString('utf8'));
+    const decode = (data)=>{
+        return xorStrings(Buffer.from(data, 'base64').toString('utf8'));
     }
     
 

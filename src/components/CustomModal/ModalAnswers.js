@@ -16,7 +16,6 @@ export default function ModalAnswers(props) {
     const { t } = useTranslation(["explore", "translation", "publish"]);
     const { isMobile } = useContext(MyContext);
     const { decode } = Encryption();
-    const key = process.env.REACT_APP_ANSWERS_KEY;
     let [realAnswer, setRealAnswer] = useState([]);
     let [statusAnswer, setStatusAnswer] = useState([]);
 
@@ -73,7 +72,7 @@ export default function ModalAnswers(props) {
     });
 
     function init(params) {
-        realAnswer = eval(decode(key, detail.metadata.properties.answers));
+        realAnswer = eval(decode(detail.metadata.properties.answers));
         setRealAnswer([...realAnswer]);
         // 初次进入计算
         getResult();

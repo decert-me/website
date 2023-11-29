@@ -19,7 +19,6 @@ export default function ModalAddCodeQuestion(props) {
     const { t } = useTranslation(['publish', 'translation']);
     const { encode, decode } = Encryption();
     const [form] = Form.useForm();
-    const key = process.env.REACT_APP_ANSWERS_KEY;
     const caseRef = useRef(null);
     const [modal, contextHolder] = Modal.useModal();
     const [loading, setLoading] = useState(false);
@@ -106,7 +105,7 @@ export default function ModalAddCodeQuestion(props) {
         .map(e => ({
             lang: e.value,
             code: e.code,
-            correctAnswer: encode(key, JSON.stringify(e.correctAnswer))
+            correctAnswer: encode(JSON.stringify(e.correctAnswer))
         }));
 
         const obj = {
@@ -121,7 +120,7 @@ export default function ModalAddCodeQuestion(props) {
         let flag = true;
         const testObj = {
             code: "", //写入的代码
-            example_code: JSON.parse(decode(key, obj.code_snippets[0].correctAnswer)), //代码示例
+            example_code: JSON.parse(decode(obj.code_snippets[0].correctAnswer)), //代码示例
             code_snippet: obj.code_snippets[0].code, //代码片段
             lang: obj.languages[0],
             input: [],
@@ -221,7 +220,7 @@ export default function ModalAddCodeQuestion(props) {
                 e.checked = true;
                 Object.keys(code_snippets[index]).map(ele => {
                     const value = code_snippets[index][ele];
-                    e[ele] = ele === "correctAnswer" ? eval(decode(key, value)) : value;
+                    e[ele] = ele === "correctAnswer" ? eval(decode(value)) : value;
                 })
             }
             
