@@ -177,29 +177,18 @@ export default function Collection(params) {
     },[])
 
     // nft导入至钱包
-    async function getMyNFTs() {
-        // const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
-        // const account = accounts[0];
-      
-        // const balance = await contract.methods.balanceOf(account).call();
-        // for (let i = 0; i < balance; i++) {
-        //   const tokenId = await contract.methods.tokenOfOwnerByIndex(account, i).call();
-        //   console.log(`You own token ID: ${tokenId}`);
-        // }
-      }
-
     function test(params) {
-        console.log(window.ethereum.isMetaMask);
+        const isMetaMask = window.ethereum.isMetaMask;
+        if (!isMetaMask) {
+            return
+        }
         window.ethereum.request({
             method: 'wallet_watchAsset',
             params: {
                 type: 'ERC1155',
                 options: {
                     address: '0x66C54CB10Ef3d038aaBA2Ac06d2c25B326be8142',
-                    // decimals: 18,
-                    // symbol: 'FOO',
-                    // image: 'https://ipfs.decert.me/QmRqVu69rPdvgSbKDa54BUsHJKQotvBdfHwVkqrFeKbcWH',
-                    tokenId: "10423"
+                    tokenId: "10473"
                 }
             }})
             .then((success) => {
@@ -214,10 +203,6 @@ export default function Collection(params) {
             });
 
     }
-
-    useEffect(() => {
-        test();
-    },[])
 
     useUpdateEffect(() => {
         !isConnected && init();
