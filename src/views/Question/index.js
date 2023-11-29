@@ -7,6 +7,7 @@ import { constans } from "@/utils/constans";
 import Challenger from "./Challenger";
 import Info from "./Info";
 import { setMetadata } from "@/utils/getMetadata";
+// import { importNft } from "@/utils/importNft";
 
 
 export default function Quests(params) {
@@ -24,6 +25,14 @@ export default function Quests(params) {
             .then(res => {
                 detail = res ? res : {};
                 setDetail({...detail});
+                // nft导入至钱包
+                // const {version} = detail;
+                // const obj = {
+                //     type: version == "1" ? "ERC1155" : "ERC721",
+                //     address: version == "1" ? "0x66C54CB10Ef3d038aaBA2Ac06d2c25B326be8142" : "0xc7A0c8746F8C91690a2EcA2196b4AE0b91053060",
+                //     tokenId: id
+                // }
+                // importNft(obj);
             })
         } catch (error) {
             navigateTo("/404")

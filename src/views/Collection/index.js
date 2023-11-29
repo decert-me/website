@@ -176,34 +176,6 @@ export default function Collection(params) {
         init();
     },[])
 
-    // nft导入至钱包
-    function test(params) {
-        const isMetaMask = window.ethereum.isMetaMask;
-        if (!isMetaMask) {
-            return
-        }
-        window.ethereum.request({
-            method: 'wallet_watchAsset',
-            params: {
-                type: 'ERC1155',
-                options: {
-                    address: '0x66C54CB10Ef3d038aaBA2Ac06d2c25B326be8142',
-                    tokenId: "10473"
-                }
-            }})
-            .then((success) => {
-                if (success) {
-                console.log('FOO successfully added to wallet!');
-                } else {
-                throw new Error('Something went wrong.');
-                }
-            })
-            .catch(err => {
-                console.log(err);
-            });
-
-    }
-
     useUpdateEffect(() => {
         !isConnected && init();
     },[isConnected])
