@@ -4,6 +4,7 @@ import Publish from "@/views/Publish"
 import Question from "@/views/Question/index";
 import Challenge from "@/views/Challenge/index";
 import Claim from "@/views/Claim";
+import NewClaim from "@/views/Claim/index";
 import User from "@/views/User/index";
 import UserEdit from "@/views/User/edit";
 import Cert from "@/views/Cert";
@@ -44,6 +45,10 @@ const routes = [
     { 
       path: "/claim/:questId",
       element: <Claim />,
+    },
+    { 
+      path: "/newclaim/:questId",
+      element: <NewClaim />,
     },
     { 
       path: "/user",

@@ -412,6 +412,27 @@
     }
 }
 
+.flex{
+    padding: 0;
+    display: flex;
+    gap: 30px;
+    background-color: #ffffff00 !important;
+    button{
+        width: 100%;
+        height: 55px;
+        border: 1px solid #F0F0F0;
+        color: #F0F0F0;
+        font-weight: 400;
+    }
+}
+
+.checked-flex{
+    button{
+        border-color: #B17042;
+        color: #444444;
+    }
+}
+
 .CustomDiscord{
     padding-inline: 41px 14px;
     justify-content: space-between;

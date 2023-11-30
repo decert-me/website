@@ -119,6 +119,15 @@ export const submitHash = (data) => {
     })
 }
 
+// 获取绑定 Discord 链接
+export const authDiscord = (data) => {
+    return serviceAxios({
+        url: `/v1/authorization/discord`,
+        method: "get",
+        data
+    })
+}
+
 // 获取 Discord 是否绑定
 export const verifyDiscord = (data) => {
     return serviceAxios({
