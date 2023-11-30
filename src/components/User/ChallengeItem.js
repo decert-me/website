@@ -33,7 +33,7 @@ export default function ChallengeItem(props) {
     const toOpensea = (event) => {
         event.stopPropagation();
         if (profile.walletType === "evm") {
-            window.open(`${openseaLink}/${info.tokenId}`,'_blank');
+            window.open(`${openseaLink}/${info.badge_token_id}`,'_blank');
         }else{
             window.open(`${openseaSolanaLink}/${info.nft_address}`,'_blank');
         }

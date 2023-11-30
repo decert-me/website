@@ -34,7 +34,7 @@ export default function NftBox(props) {
                                             info.chain === "solana" ?
                                             `https://opensea.io/assets/solana/${info.nft_address}`
                                             :
-                                            `https://opensea.io/assets/${item.opensea}/${info.contract_address}/${info.token_id}`
+                                            `https://opensea.io/assets/${item.opensea}/${info.contract_address}/${info.badge_token_id}`
                                         } target="_blank">
                                             <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                                         </a>

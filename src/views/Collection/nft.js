@@ -21,7 +21,7 @@ export default function CollectionNft(props) {
                     isCreated && detail?.collection.claimed &&
                     <a 
                         target="_blank"
-                        href={openseaLink+"/"+detail?.collection.tokenId} 
+                        href={openseaLink+"/"+detail?.collection.badge_token_id} 
                         className="badge">
                         <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                     </a>
