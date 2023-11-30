@@ -13,13 +13,15 @@ async function submitClaimable(params) {
                 const data = cache[quest.token_id];
                 await submitChallenge({
                     token_id: quest.token_id,
-                    answer: JSON.stringify(data)
+                    answer: JSON.stringify(data),
+                    uri: cache.realAnswer[quest.token_id]
                 })
                 .then(res => {
                     delete cache[quest.token_id]
                 })
             }
             cache.claimable = [];
+            cache.realAnswer = [];
             localStorage.setItem("decert.cache", JSON.stringify(cache));
         }
     }

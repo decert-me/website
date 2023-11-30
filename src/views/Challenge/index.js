@@ -214,7 +214,8 @@ export default function Challenge(params) {
         // 提交答题次数给后端
         await submitChallenge({
             token_id: detail.tokenId,
-            answer: JSON.stringify(answers)
+            answer: JSON.stringify(answers),
+            uri: detail.uri
         })
         message.success(t("translation:message.success.submit.info"));
         navigateTo(`/claim/${detail.tokenId}`)
