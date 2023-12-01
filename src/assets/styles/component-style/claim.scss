@@ -1,3 +1,21 @@
+.Mobile{
+    .Claim{
+        .waiting{
+            p{
+                width: 100vw;
+                padding: 0 5%;
+                font-size: 1.3rem;
+            }
+            #hover-btn-line{
+                margin-top: 3.25rem;
+            }
+            .btn-link{
+                margin-top: 9.375rem;
+            }
+        }
+    }
+}
+
 .Claim{
     .waiting{
         margin: 240px auto 0;
@@ -19,7 +37,9 @@
             }
         }
         p{
+            width: 450px;
             font-size: 26px;
+            line-height: 36px;
         }
         .tip{
             color: #999999;
@@ -30,7 +50,7 @@
             display: block;
         }
         #hover-btn-line{
-            margin-top: 70px;
+            margin-top: 150px;
         }
         .btn-link{
             margin-top: 200px;
