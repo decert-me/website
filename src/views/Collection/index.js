@@ -86,7 +86,7 @@ export default function Collection(params) {
         // 发起空投
         await claimCollection({
             token_id: detail.collection.tokenId
-        })
+        }, detail.collection.version)
         // 开启轮询查看空投是否成功
         run();
     }
