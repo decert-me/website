@@ -175,7 +175,7 @@ export default function Collection(params) {
     useEffect(() => {
         init();
     },[])
-
+    
     useUpdateEffect(() => {
         !isConnected && init();
     },[isConnected])
