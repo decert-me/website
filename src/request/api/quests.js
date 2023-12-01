@@ -29,9 +29,9 @@ export const getCollectionChallenger = (data) => {
 }
 
 // 领取合辑NFT
-export const claimCollection = (data) => {
+export const claimCollection = (data, version) => {
     return serviceAxios({
-        url: `/v1/collection/claim`,
+        url: `/v${version}/collection/claim`,
         method: "post",
         data
     })
