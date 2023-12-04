@@ -32,7 +32,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
 
     async function bindDiscordAc(params) {
         setIsDiscordLoad(true);
-        const { data: url } = await bindDiscord({callback: `${window.location.origin}/callback/`});
+        const { data: url } = await bindDiscord({callback: `${window.location.origin}/callback/discord`});
         window.open(url, 'popup', 'width=375,height=667');
         // 轮询 ===>
         run();
