@@ -31,7 +31,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
     async function bindDiscordAc(params) {
         setIsDiscordLoad(true);
         const { data: url } = await bindDiscord({callback: `${window.location.origin}/callback/discord`});
-        window.open(url, 'popup', 'width=375,height=667');
+        window.open(url, 'popup', `width=${isMobile ? "375" : "700"},height=667`);
         // 轮询 ===>
         run();
     }
@@ -120,7 +120,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
                 </Button>
                 :
                 <Popover
-                    trigger="click"
+                    trigger="focus"
                     content={(
                         <div className="qrcode">
                             <Spin spinning={!qrCode} size="large" wrapperClassName="qrcop">
@@ -138,7 +138,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
                             </div>
                         </div>
                     )}
-                    overlayClassName={`qrcode-box ${isMobile ? "hide" : ""}`}
+                    overlayClassName="qrcode-box"
                     getPopupContainer={() => document.querySelector(".Claim")}
                     placement="rightBottom"
                     // open={qrCode}
