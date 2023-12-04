@@ -58,6 +58,8 @@ export default function StepSocial({step, setStep, defaultValue}) {
                 const { discord, wechat } = res.data;
                 bindObj = res.data;
                 setBindObj({...bindObj});
+                discord && setIsDiscordLoad(false);
+                wechat && setIsWechatLoad(false);
                 if (discord || wechat) {
                     setStep(2);
                     cancel();
