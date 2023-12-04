@@ -1,7 +1,7 @@
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useRequest, useUpdateEffect } from "ahooks";
-import { Button, Popover, Spin } from "antd";
+import { Button, Popover, Spin, message } from "antd";
 import { WechatOutlined } from '@ant-design/icons';
 import { bindDiscord, bindWechat } from "@/request/api/social";
 import { hasBindSocialAccount } from "@/request/api/public";
@@ -50,6 +50,15 @@ export default function StepSocial({step, setStep, defaultValue}) {
 
     // 初始化检测是否绑定了 dicord || wechat
     function hasBindSocialAc() {
+        const notice = localStorage.getItem("decert.bind.notice");
+        if (notice) {
+            message.error(notice);
+            localStorage.removeItem("decert.bind.notice");
+            setIsDiscordLoad(false);
+            setIsWechatLoad(false);
+            cancel();
+            return
+        }
         hasBindSocialAccount()
         .then(res => {
             if (res.status === 0) {

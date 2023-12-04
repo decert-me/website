@@ -23,12 +23,8 @@ socialAxios.interceptors.response.use(
   res => {
     let data = res.data;
     if (data.data?.reload) {
-      // store.dispatch(showCustomSigner());
+      store.dispatch(showCustomSigner());
       return
-    }
-    if (data.status !== 0) {
-      message.error(data.message)
-      return null
     }
     
     // 处理自己的业务逻辑，比如判断 token 是否过期等等

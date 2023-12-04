@@ -1,8 +1,8 @@
-import { authDiscord } from "@/request/api/social";
-import { Spin, message } from "antd";
 import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
-
+import { Spin } from "antd";
+import { LoadingOutlined } from '@ant-design/icons';
+import { authDiscord } from "@/request/api/social";
 
 export default function Callback() {
     
@@ -13,9 +13,17 @@ export default function Callback() {
     const code = searchParams.get("code");
 
     async function init() {
-        if (social === "discord") {
+        const token = localStorage.getItem("decert.token");
+        if (social === "discord" && token) {
             await authDiscord({code, callback: `${window.location.origin}/callback/discord`})
-            window.close();
+            .then(res => {
+                if (res.status !== 0) {
+                    localStorage.setItem("decert.bind.notice", res.message);
+                }
+            })
+            setTimeout(() => {
+                window.close();
+            }, 40);
         }
     }
 
@@ -24,6 +32,23 @@ export default function Callback() {
     },[])
 
     return (
-        <Spin size="large" />
+        <div style={{
+            width: "100vw",
+            height: "100vh",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center"
+        }}>
+            <Spin 
+                indicator={
+                    <LoadingOutlined
+                      style={{
+                        fontSize: "5rem",
+                      }}
+                      spin
+                    />
+                }
+            />
+        </div>
     )
 }
