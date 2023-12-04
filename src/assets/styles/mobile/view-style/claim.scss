@@ -131,17 +131,18 @@ $container-width: 21.875rem;
                     .ant-steps-item-icon{
                         width: .8125rem;
                         height: .8125rem;
+                        margin-top: 0.75rem;
                         margin-right: .75rem;
-                    }
-    
-                    .ant-steps-item-tail{
-                        height: 2.6563rem;
-                        top: 2.125rem !important;
                     }
                     .custom-dot{
                         width: .25rem;
-                        height: .25rem;
-                        margin-left: .25rem;
+                        left: .25rem;
+                        bottom: .3125rem;
+                        .dot{
+                            width: .25rem;
+                            height: .25rem;
+                            margin-bottom: .75rem;
+                        }
                     }
                     .ant-steps-item-description{
                         padding-bottom: 2.375rem;
@@ -211,6 +212,13 @@ $container-width: 21.875rem;
         }
         p:last-child{
             font-size: .75rem;
+        }
+    }
+    .flex{
+        padding-left: 0;
+        padding-right: 0;
+        button{
+            height: 2.5rem;
         }
     }
     .pl70{

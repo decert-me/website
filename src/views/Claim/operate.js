@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useUpdateEffect } from "ahooks";
 import { Steps } from "antd";
 import { hasBindSocialAccount } from "@/request/api/public";
 import { useAddress } from "@/hooks/useAddress";
@@ -8,9 +7,6 @@ import MyContext from "@/provider/context";
 import StepConnect from "./step_connect";
 import StepClaim from "./step_claim";
 import StepSocial from "./step_social";
-
-
-
 
 export default function ClaimOperate({detail, answerInfo}) {
 
@@ -42,6 +38,21 @@ export default function ClaimOperate({detail, answerInfo}) {
             setStep(1);
         }
     }
+
+    function stepDotInit() {
+        const doms = document.querySelectorAll(".ant-steps .ant-steps-item-container");
+        for (let i = 0; i < doms.length - 1; i++) {
+            const dom = doms[i];
+            const dot = document.createElement("div");
+            dot.classList.add("custom-dot");
+            if (isMobile) {
+                dot.innerHTML = `<div class="dot"></div><div class="dot"></div><div class="dot"></div>`;
+            }else{
+                dot.innerHTML = `<div class="dot"></div><div class="dot"></div><div class="dot"></div><div class="dot"></div>`;
+            }
+            dom.appendChild(dot);
+        }
+    }
     
     const decertToken = (event) => {
         event.key === "decert.token" && localStorage.getItem('decert.token') && initStep();
@@ -65,6 +76,7 @@ export default function ClaimOperate({detail, answerInfo}) {
 
     useEffect(() => {
         localStorage.getItem('decert.token') && initStep();
+        stepDotInit();
     },[])
 
     return (
