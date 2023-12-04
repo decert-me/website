@@ -14,7 +14,7 @@ export default function Callback() {
 
     async function init() {
         if (social === "discord") {
-            await authDiscord({code})
+            await authDiscord({code, callback: `${window.location.origin}/callback/discord`})
             window.close();
         }
     }
