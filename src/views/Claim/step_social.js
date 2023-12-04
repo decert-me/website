@@ -1,6 +1,5 @@
 import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useLocation } from "react-router-dom";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { Button, Popover, Spin } from "antd";
 import { WechatOutlined } from '@ant-design/icons';
@@ -11,7 +10,6 @@ import MyContext from "@/provider/context";
 
 export default function StepSocial({step, setStep, defaultValue}) {
     
-    const location = useLocation();
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["claim", "translation"]);
     const [isDiscordLoad, setIsDiscordLoad] = useState();
@@ -60,10 +58,10 @@ export default function StepSocial({step, setStep, defaultValue}) {
                 setBindObj({...bindObj});
                 discord && setIsDiscordLoad(false);
                 wechat && setIsWechatLoad(false);
-                if (discord || wechat) {
+                if ((discord || wechat) && step === 1) {
                     setStep(2);
                     cancel();
-                }else if (count === 100) {
+                }else if (count === 100 || (discord && wechat)) {
                     cancel();
                     setCount(0);
                 }else{
@@ -108,7 +106,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
 
             {
                 bindObj.wechat ? 
-                <Button disabled>
+                <Button disabled className="is-bind">
                     已绑定
                 </Button>
                 :
