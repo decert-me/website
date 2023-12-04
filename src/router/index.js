@@ -4,7 +4,11 @@ import Publish from "@/views/Publish"
 import NewPublish from "@/views/Publish/index"
 import Question from "@/views/Question/index";
 import Challenge from "@/views/Challenge/index";
+<<<<<<< HEAD
 import Claim from "@/views/Claim";
+=======
+import Claim from "@/views/Claim/index";
+>>>>>>> 016fc7d (en: 添加icon样式)
 import User from "@/views/User/index";
 import UserEdit from "@/views/User/edit";
 import Cert from "@/views/Cert";
@@ -45,12 +49,7 @@ const routes = [
     },
     { 
       path: "/claim/:questId",
-      // element: <Claim />,
-      element: <NewClaim />,
-    },
-    { 
-      path: "/newclaim/:questId",
-      element: <NewClaim />,
+      element: <Claim />,
     },
     { 
       path: "/callback/:social",
