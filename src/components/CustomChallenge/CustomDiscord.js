@@ -32,16 +32,16 @@ export default function CustomDiscord(props) {
         if (!address) {
             return
         }
-        verifyDiscord({address: address, isClick: isClick})
-        .then(res => {
-            isBind = !res ? false : res.data ? true : false;
-            setIsBind(isBind);
-            username = isBind && res.data?.username ? res.data.username : null;
-            setUsername(username);
-            if (isClick && res) {
-                message.success(res.message);
-            }
-        })
+        // verifyDiscord({address: address, isClick: isClick})
+        // .then(res => {
+        //     isBind = !res ? false : res.data ? true : false;
+        //     setIsBind(isBind);
+        //     username = isBind && res.data?.username ? res.data.username : null;
+        //     setUsername(username);
+        //     if (isClick && res) {
+        //         message.success(res.message);
+        //     }
+        // })
     }
 
     const { run } = useRequest(verify, {
