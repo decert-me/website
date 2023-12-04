@@ -289,9 +289,8 @@
                         background-color: #B17042;
                     }
                     .step-box{
-                        background-color: rgba(177,112,66,0.5);
+                        background-color: #D6B59E;
                         color: #fff;
-                        opacity: 0.5;
                     }
                 } 
                 // 正在
@@ -418,6 +417,11 @@
         font-size: 16px;
         padding-inline: 25px;
     }
+    .is-bind{
+        border: none;
+        color: #fff;
+        background-color: #D6B59E;
+    }
 }
 .pl70{
     padding-left: 70px;
@@ -431,6 +435,43 @@
         }
     }
 }
+
+.flex{
+    padding: 0;
+    display: flex;
+    gap: 30px;
+    background-color: #ffffff00 !important;
+    button{
+        width: 100%;
+        height: 55px;
+        border: 1px solid #F0F0F0;
+        color: #F0F0F0;
+        font-weight: 400;
+    }
+}
+
+.ant-steps-item-finish{
+    .flex,.CustomBox{
+        button{
+            background-color: #fff;
+            border-color: #B17042;
+            color: #444444;
+        }
+        .is-bind{
+            border: none;
+            color: #fff;
+            background-color: #D6B59E;
+        }
+    }
+}
+
+.checked-flex{
+    button{
+        border-color: #B17042 !important;
+        color: #444444;
+    }
+}
+
 
 .CustomDiscord{
     padding-inline: 41px 14px;

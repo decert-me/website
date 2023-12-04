@@ -12,6 +12,7 @@ import Lesson from "@/views/Lesson";
 import Search from "@/views/Search";
 import NotFound from "@/views/NotFound";
 import Collection from "@/views/Collection";
+import Callback from "@/views/Callback";
 
 const routes = [
     { 
@@ -44,7 +45,16 @@ const routes = [
     },
     { 
       path: "/claim/:questId",
-      element: <Claim />,
+      // element: <Claim />,
+      element: <NewClaim />,
+    },
+    { 
+      path: "/newclaim/:questId",
+      element: <NewClaim />,
+    },
+    { 
+      path: "/callback/:social",
+      element: <Callback />,
     },
     { 
       path: "/user",
