@@ -4,9 +4,8 @@ import socialAxios from "../social";
 // 获取绑定 Discord 链接
 export const bindDiscord = (data) => {
     return socialAxios({
-        url: `/v1/authorization/discord`,
-        method: "get",
-        data
+        url: `/v1/authorization/discord?callback=${data.callback}`,
+        method: "get"
     })
 }
 
