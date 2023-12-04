@@ -206,6 +206,10 @@ $container-width: 21.875rem;
             border-radius: .5rem;
             font-size: .75rem;
             line-height: 1.0625rem;
+            gap: 1rem;
+            .icon{
+                font-size: 1rem;
+            }
         }
         .discord-box{
             margin-right: .8125rem;

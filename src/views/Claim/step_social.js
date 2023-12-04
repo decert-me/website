@@ -6,6 +6,7 @@ import { WechatOutlined } from '@ant-design/icons';
 import { bindDiscord, bindWechat } from "@/request/api/social";
 import { hasBindSocialAccount } from "@/request/api/public";
 import MyContext from "@/provider/context";
+import CustomIcon from "@/components/CustomIcon";
 
 
 export default function StepSocial({step, setStep, defaultValue}) {
@@ -101,7 +102,8 @@ export default function StepSocial({step, setStep, defaultValue}) {
             {
                 bindObj.discord ?
                 <Button disabled className="is-bind">
-                    已绑定
+                    <CustomIcon type="icon-discord" className="icon discord" />
+                    <p>已绑定</p>
                 </Button>
                 :
                 <Button
@@ -109,14 +111,16 @@ export default function StepSocial({step, setStep, defaultValue}) {
                     disabled={!step >= 1} 
                     loading={isDiscordLoad}
                 >
-                    绑定 Discord
+                    <CustomIcon type="icon-discord" className="icon discord" />
+                    <p>绑定 Discord</p>
                 </Button>
             }
 
             {
                 bindObj.wechat ? 
                 <Button disabled className="is-bind">
-                    已绑定
+                    <CustomIcon type="icon-wechat" className="icon" />
+                    <p>已绑定</p>
                 </Button>
                 :
                 <Popover
@@ -148,7 +152,8 @@ export default function StepSocial({step, setStep, defaultValue}) {
                         disabled={!step >= 1} 
                         loading={isWechatLoad}
                     >
-                        绑定微信
+                        <CustomIcon type="icon-wechat" className="icon" />
+                        <p>绑定微信</p>
                     </Button>
                 </Popover>
             }
