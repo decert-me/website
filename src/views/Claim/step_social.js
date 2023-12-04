@@ -1,17 +1,17 @@
-import { hasBindSocialAccount } from "@/request/api/public";
-import { bindDiscord, bindWechat } from "@/request/api/social";
+import { useContext, useState } from "react";
+import { useTranslation } from "react-i18next";
+import { useLocation } from "react-router-dom";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { Button, Popover, Spin } from "antd";
-import { useContext, useState } from "react";
-import {
-    WechatOutlined,
-} from '@ant-design/icons';
-import { useTranslation } from "react-i18next";
+import { WechatOutlined } from '@ant-design/icons';
+import { bindDiscord, bindWechat } from "@/request/api/social";
+import { hasBindSocialAccount } from "@/request/api/public";
 import MyContext from "@/provider/context";
 
 
 export default function StepSocial({step, setStep, defaultValue}) {
     
+    const location = useLocation();
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["claim", "translation"]);
     const [isDiscordLoad, setIsDiscordLoad] = useState();
@@ -32,7 +32,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
 
     async function bindDiscordAc(params) {
         setIsDiscordLoad(true);
-        const { data: url } = await bindDiscord();
+        const { data: url } = await bindDiscord({callback: `${window.location.host}/callback/`});
         window.open(url, 'popup', 'width=375,height=667');
         // 轮询 ===>
         run();
