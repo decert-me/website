@@ -10,7 +10,8 @@ import { modalNotice } from "@/utils/modalNotice";
 import { Encryption } from "@/utils/Encryption";
 import { GetPercent } from "@/utils/GetPercent";
 import ClaimInfo from "./info";
-
+import "@/assets/styles/component-style"
+import "@/assets/styles/mobile/view-style/claim.scss"
 
 
 
