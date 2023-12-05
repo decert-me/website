@@ -128,9 +128,9 @@ export default function StepSocial({step, setStep, defaultValue}) {
                     content={(
                         <div className="qrcode">
                             <Spin spinning={!qrCode} size="large" wrapperClassName="qrcop">
-                                <img src={qrCode} alt="" style={{width: 104, height: 104}} />
+                                <img src={qrCode} alt="" style={{width: 150, height: 150}} />
                             </Spin>
-                            <div
+                            {/* <div
                                 style={{
                                     width: 122,
                                     display: "flex",
@@ -139,7 +139,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
                                 }}
                             >
                                 <WechatOutlined /><p>{t("translation:share-text")}</p>
-                            </div>
+                            </div> */}
                         </div>
                     )}
                     overlayClassName="qrcode-box"
