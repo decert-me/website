@@ -1,0 +1,122 @@
+import ModalAirdrop from "@/components/CustomModal/ModalAirdrop";
+import { hasClaimed, wechatShare } from "@/request/api/public";
+import { useRequest } from "ahooks";
+import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
+
+
+
+export default function StepClaim({step, setStep, detail, isMobile, answerInfo}) {
+    
+    const { t } = useTranslation(["claim", "translation"]);
+    const { score, passingPercent, isPass, answers } = answerInfo
+    let [status, setStatus] = useState(0);
+    let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
+    let [cacheIsClaim, setCacheIsClaim] = useState();
+
+    const { runAsync } = useRequest(shareWechat, {
+        debounceWait: 500,
+        manual: true
+    });
+
+    const { data, run, cancel } = useRequest(refetch, {
+        pollingInterval: 3000,
+        manual: true,
+        pollingWhenHidden: false
+    });
+
+    async function airpost(params) {
+        if (step === 2 && status === 0) {
+            // 弹出框
+            setIsModalAirdropOpen(true);
+            status = 1;
+            setStatus(status);
+            await runAsync();
+            run();
+        }
+    }
+
+    async function shareWechat(params) {
+        const data = {
+            tokenId: Number(detail.tokenId),
+            score: score,
+            answer: JSON.stringify(answers)
+        }
+        const {version} = detail
+        return await wechatShare({data, version})
+        .then(res => {
+            return res?.status === 0 ? res.data : null
+        })
+    }
+
+    // 轮询获取当前详情
+    async function refetch(params) {
+        const res = await hasClaimed({id: detail.tokenId});
+        status = res?.data?.status;
+        setStatus(status);
+        if (res?.data?.status === 2) {
+            const cache = JSON.parse(localStorage.getItem('decert.cache'));
+            delete cache[detail.tokenId];
+            if (cache?.claimable) {
+                cache.claimable = cache.claimable.filter(obj => obj.token_id != detail.tokenId);
+            }
+            localStorage.setItem("decert.cache", JSON.stringify(cache));
+            setCacheIsClaim(true);
+            setStep(3)
+            cancel()
+        }
+    }
+
+    function closeModal() {
+        isModalAirdropOpen = false;
+        setIsModalAirdropOpen(isModalAirdropOpen);
+    }
+
+    async function init(params) {
+        await refetch()
+        if (status === 1) {
+            run()
+        }
+    }
+
+    useEffect(() => {
+        step >= 2 && init()
+    },[step])
+
+    return (
+        <>
+        {
+            isModalAirdropOpen &&
+            <ModalAirdrop
+                isModalAirdropOpen={isModalAirdropOpen}
+                closeModal={closeModal}
+                img={detail.metadata.image}
+                isMobile={isMobile}
+                detail={detail}
+                status={status}
+            />
+        }
+        <div className={`CustomBox ${step === 2 ? "checked-step" : ""} step-box ${detail.claimed||cacheIsClaim ? "isClaim" : ""}`}
+            style={{
+                justifyContent: "center",
+                cursor: step === 2 && status === 0 && "pointer"
+            }}
+            onClick={() => airpost()}
+            
+        >
+            {
+                step < 2 ? 
+                    t("claim.btn")
+                :
+                detail.claimed || cacheIsClaim ? 
+                    t("claim.claimed")
+                :
+                status === 0 ?
+                    t("claim.btn")
+                :
+                    t("claim.wait")
+            }
+        </div>
+        </>
+    )
+}

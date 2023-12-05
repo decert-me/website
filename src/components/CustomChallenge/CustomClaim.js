@@ -215,7 +215,7 @@ export default function CustomClaim(props) {
             onClick={() => airpost()}
             
         >
-            {
+            {/* {
                 isModalAirdropOpen &&
                 <ModalAirdrop
                     isModalAirdropOpen={isModalAirdropOpen}
@@ -225,7 +225,7 @@ export default function CustomClaim(props) {
                     detail={detail}
                     status={status}
                 />
-            }
+            } */}
             {/* <ModalLoading 
                 isModalOpen={isModalOpen}
                 handleCancel ={handleCancel}
