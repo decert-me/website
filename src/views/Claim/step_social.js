@@ -125,17 +125,20 @@ export default function StepSocial({step, setStep, defaultValue}) {
                 :
                 <Popover
                     trigger="focus"
+                    // trigger="click"
                     content={(
                         <div className="qrcode">
                             <Spin spinning={!qrCode} size="large" wrapperClassName="qrcop">
-                                <img src={qrCode} alt="" style={{width: 104, height: 104}} />
+                                <img src={qrCode} alt="" style={{width: 104, height: 104, marginBottom: 18}} />
                             </Spin>
                             <div
                                 style={{
-                                    width: 122,
+                                    width: 146,
                                     display: "flex",
                                     alignItems: "flex-start",
-                                    marginTop: 17
+                                    justifyContent: "center",
+                                    boxSizing: "content-box",
+                                    lineHeight: "20px"
                                 }}
                             >
                                 <WechatOutlined /><p>{t("translation:share-text")}</p>
