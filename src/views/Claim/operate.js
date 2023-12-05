@@ -82,6 +82,9 @@ export default function ClaimOperate({detail, answerInfo}) {
     return (
         <div className="step">
             <h5>{t("step.title")}</h5>
+            <div className="tips">
+                {t("choose")}
+            </div>
             <Steps
                 className="step-detail"
                 progressDot

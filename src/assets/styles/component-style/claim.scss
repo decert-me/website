@@ -250,7 +250,14 @@
         }
         .step{
             width: 591px;
+            position: relative;
             // 自定义step type
+            .tips{
+                position: absolute;
+                top: 170px;
+                left: 46px;
+                font-weight: 500;
+            }
             .step-detail{
                 margin-top: 40px;
                 .ant-steps-item-finish .custom-dot .dot{
@@ -427,9 +434,9 @@
         .discord{
             color: #5865F2;
         }
-    }
-    .discord-box{
-        margin-right: 18px;
+        .wechat{
+            color: #00DA6B;
+        }
     }
     p:last-child{
         font-size: 16px;
@@ -439,6 +446,9 @@
         border: none;
         color: #fff;
         background-color: #D6B59E;
+        .icon{
+            color: #fff;
+        }
     }
 }
 .pl70{

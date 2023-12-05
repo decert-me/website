@@ -5,6 +5,7 @@
     "recommend": "推荐教程",
     "view": "查看全文",
     "desc": "通过挑战领取的 SBT（灵魂绑定代币）徽章，将在链上永久保存，且不可转移或出售。这是你技术能力的证明，为你的履历增添价值。",
+    "choose": "选择一个社交账号",
     "score": {
         "now": "得分",
         "passScore": "达到 {{score}} 即可挑战通关"
@@ -36,6 +37,11 @@
         "bind": "打开 Discord",
         "unbind": "未绑定",
         "binded": "已绑定"
+    },
+    "bind": {
+        "wechat": "绑定微信",
+        "discord": "绑定 Discord",
+        "end": "已绑定"
     },
     "claim": {
         "claimed": "已领取SBT",
