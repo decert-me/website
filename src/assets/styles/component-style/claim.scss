@@ -76,7 +76,8 @@
         // 二维码
         .qrcode{
             width: 161px;
-            padding: 32px 0 24px;
+            // padding: 32px 0 24px;
+            padding: 10px;
             display: flex;
             flex-direction: column;
             align-items: center;
