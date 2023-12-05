@@ -46,7 +46,7 @@ export default function ClaimInfo({answerInfo, detail}) {
                             <Progress
                                 type="circle"
                                 className={isPass ? "pass" : "unpass"}
-                                percent={score}
+                                percent={score / 100}
                                 size={isMobile ? 126 : 208}
                                 strokeColor={
                                     isPass ? 
