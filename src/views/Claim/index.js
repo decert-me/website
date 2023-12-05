@@ -8,7 +8,7 @@ import { getQuests } from "@/request/api/public";
 import { localRealAnswerInit } from "@/utils/localRealAnswerInit";
 import { modalNotice } from "@/utils/modalNotice";
 import { Encryption } from "@/utils/Encryption";
-import { GetPercent } from "@/utils/GetPercent";
+import { GetPercent, GetScorePercent } from "@/utils/GetPercent";
 import ClaimInfo from "./info";
 import "@/assets/styles/component-style"
 import "@/assets/styles/mobile/view-style/claim.scss"
@@ -105,12 +105,12 @@ export default function Claim(params) {
         })
         answerInfo = {
             isPass: score >= detail.quest_data.passingScore,
-            score: GetPercent(totalScore, score),
+            score: GetScorePercent(totalScore, score),
             answers: userAnswer,
             passingPercent: GetPercent(totalScore, detail.quest_data.passingScore),
         }
         setAnswerInfo({...answerInfo});
-
+        console.log("===>", answerInfo);
         // 缓存可领取状态修改
         const cache = JSON.parse(localStorage.getItem("decert.cache"));
         let claimable = cache?.claimable ? cache.claimable : [];
