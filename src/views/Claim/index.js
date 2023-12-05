@@ -110,7 +110,6 @@ export default function Claim(params) {
             passingPercent: GetPercent(totalScore, detail.quest_data.passingScore),
         }
         setAnswerInfo({...answerInfo});
-        console.log("===>", answerInfo);
         // 缓存可领取状态修改
         const cache = JSON.parse(localStorage.getItem("decert.cache"));
         let claimable = cache?.claimable ? cache.claimable : [];

@@ -128,7 +128,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
                     content={(
                         <div className="qrcode">
                             <Spin spinning={!qrCode} size="large" wrapperClassName="qrcop">
-                                <img src={qrCode} alt="" style={{width: 150, height: 150}} />
+                                <img src={qrCode} alt="" style={{width: 104, height: 104}} />
                             </Spin>
                             <div
                                 style={{
