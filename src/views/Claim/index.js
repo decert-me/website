@@ -182,13 +182,13 @@ export default function Claim(params) {
                 // 开放题判题loading
                 <div className="waiting">
                     <div className="box">
-                        <img className="icon-wait" src={require("@/assets/images/icon/icon-wait.png")} alt="" />
+                        {/* <img className="icon-wait" src={require("@/assets/images/icon/icon-wait.png")} alt="" /> */}
                         <p>{t("message.success.submit.title")}</p>
                     </div>
-                    <div className="box">
+                    {/* <div className="box">
                         <img className="icon-info" src={require("@/assets/images/icon/icon-info.png")} alt="" />
                         <p className="tip">{t("message.success.submit.score")}</p>
-                    </div>
+                    </div> */}
                     <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${questId}`)}>
                         {t("btn-go-challenge")}
                     </Button>
