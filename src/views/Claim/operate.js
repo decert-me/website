@@ -28,6 +28,7 @@ export default function ClaimOperate({detail, answerInfo}) {
     async function initStep() {
         // 判断是否领取了
         if (detail.claimed) {
+            await hasBindSocialAc()
             setStep(3);
         }
         // 判断是否绑定社交
@@ -82,9 +83,12 @@ export default function ClaimOperate({detail, answerInfo}) {
     return (
         <div className="step">
             <h5>{t("step.title")}</h5>
-            <div className="tips">
-                {t("choose")}
-            </div>
+            {
+                (!bindObj || (!bindObj.discord && !bindObj.wechat)) &&
+                <div className="tips">
+                    {t("choose")}
+                </div>
+            }
             <Steps
                 className="step-detail"
                 progressDot
