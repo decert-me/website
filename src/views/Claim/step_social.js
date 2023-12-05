@@ -103,7 +103,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
                 bindObj.discord ?
                 <Button disabled className="is-bind">
                     <CustomIcon type="icon-discord" className="icon discord" />
-                    <p>已绑定</p>
+                    <p>{t("bind.end")}</p>
                 </Button>
                 :
                 <Button
@@ -112,15 +112,15 @@ export default function StepSocial({step, setStep, defaultValue}) {
                     loading={isDiscordLoad}
                 >
                     <CustomIcon type="icon-discord" className="icon discord" />
-                    <p>绑定 Discord</p>
+                    <p>{t("bind.discord")}</p>
                 </Button>
             }
 
             {
                 bindObj.wechat ? 
                 <Button disabled className="is-bind">
-                    <CustomIcon type="icon-wechat" className="icon" />
-                    <p>已绑定</p>
+                    <WechatOutlined className="icon wechat" />
+                    <p>{t("bind.end")}</p>
                 </Button>
                 :
                 <Popover
@@ -152,8 +152,8 @@ export default function StepSocial({step, setStep, defaultValue}) {
                         disabled={!step >= 1} 
                         loading={isWechatLoad}
                     >
-                        <CustomIcon type="icon-wechat" className="icon" />
-                        <p>绑定微信</p>
+                        <WechatOutlined className="icon wechat" />
+                        <p>{t("bind.wechat")}</p>
                     </Button>
                 </Popover>
             }

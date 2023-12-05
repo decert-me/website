@@ -126,6 +126,11 @@ $container-width: 21.875rem;
             .step{
                 width: 100%;
                 // 自定义step type
+                .tips{
+                    top: 7rem;
+                    left: 1.5625rem;
+                    font-size: .625rem;
+                }
                 .step-detail{
                     margin-top: 3.125rem;
                     .ant-steps-item-icon{
@@ -206,7 +211,7 @@ $container-width: 21.875rem;
             border-radius: .5rem;
             font-size: .75rem;
             line-height: 1.0625rem;
-            gap: 1rem;
+            gap: 0.7rem;
             .icon{
                 font-size: 1rem;
             }
