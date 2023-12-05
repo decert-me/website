@@ -178,19 +178,8 @@ export default function Claim(params) {
                     detail={detail}
                 />
                 :
-                <div className="claim-loading">
-                    <Spin
-                        indicator={
-                            <LoadingOutlined style={{fontSize: "50px"}} spin />
-                        } 
-                    />
-                </div>
-            }
-
-
-            {/* 开放题判题loading */}
-            {
-                isWaitting &&
+                isWaitting ?
+                // 开放题判题loading
                 <div className="waiting">
                     <div className="box">
                         <img className="icon-wait" src={require("@/assets/images/icon/icon-wait.png")} alt="" />
@@ -204,6 +193,14 @@ export default function Claim(params) {
                         {t("btn-go-challenge")}
                     </Button>
                     <Button className="btn-link" type="link" onClick={() => navigateTo("/challenges")}>{t("btn-another")}</Button>
+                </div>
+                :
+                <div className="claim-loading">
+                    <Spin
+                        indicator={
+                            <LoadingOutlined style={{fontSize: "50px"}} spin />
+                        } 
+                    />
                 </div>
             }
         </div>
