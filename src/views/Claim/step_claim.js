@@ -67,6 +67,11 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
         }
     }
 
+    function closeModal() {
+        isModalAirdropOpen = false;
+        setIsModalAirdropOpen(isModalAirdropOpen);
+    }
+
     async function init(params) {
         await refetch()
         if (status === 1) {
@@ -79,6 +84,18 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
     },[step])
 
     return (
+        <>
+        {
+            isModalAirdropOpen &&
+            <ModalAirdrop
+                isModalAirdropOpen={isModalAirdropOpen}
+                closeModal={closeModal}
+                img={detail.metadata.image}
+                isMobile={isMobile}
+                detail={detail}
+                status={status}
+            />
+        }
         <div className={`CustomBox ${step === 2 ? "checked-step" : ""} step-box ${detail.claimed||cacheIsClaim ? "isClaim" : ""}`}
             style={{
                 justifyContent: "center",
@@ -87,17 +104,6 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
             onClick={() => airpost()}
             
         >
-            {
-                isModalAirdropOpen &&
-                <ModalAirdrop
-                    isModalAirdropOpen={isModalAirdropOpen}
-                    closeModal={() => {setIsModalAirdropOpen(false)}}
-                    img={detail.metadata.image}
-                    isMobile={isMobile}
-                    detail={detail}
-                    status={status}
-                />
-            }
             {
                 step < 2 ? 
                     t("claim.btn")
@@ -111,5 +117,6 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                     t("claim.wait")
             }
         </div>
+        </>
     )
 }
