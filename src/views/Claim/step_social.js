@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { forwardRef, useContext, useImperativeHandle, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { Button, Popover, Spin, message } from "antd";
@@ -9,7 +9,7 @@ import MyContext from "@/provider/context";
 import CustomIcon from "@/components/CustomIcon";
 
 
-export default function StepSocial({step, setStep, defaultValue}) {
+function StepSocial({step, setStep, defaultValue}, ref) {
     
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["claim", "translation"]);
@@ -96,6 +96,9 @@ export default function StepSocial({step, setStep, defaultValue}) {
         }
     },[defaultValue])
 
+    useImperativeHandle(ref, () => ({
+        bindObj
+    }))
 
     return (
         <div className={`CustomBox flex ${step === 1 ? "checked-flex" : ""}`}>
@@ -163,3 +166,5 @@ export default function StepSocial({step, setStep, defaultValue}) {
         </div>
     )
 }
+
+export default forwardRef(StepSocial)
