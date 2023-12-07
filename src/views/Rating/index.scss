@@ -1,0 +1,263 @@
+.rating{
+    width: 100vw;
+    max-width: 1440px;
+    margin: 120px auto 0;
+    padding: 0 100px;
+    h2{
+        margin-bottom: 20px;
+    }
+
+    // 表格
+    .custom-tabel{
+        border: 2px solid #f7f7f7;
+        border-radius: 5px;
+        .ant-table-thead .ant-table-cell{
+            padding: 12px 30px !important;
+            &::before{
+                content: none !important;
+            }
+        }
+        .ant-table-body{
+            overflow-y: auto !important;
+        }
+        .ant-table-tbody .ant-table-row .ant-table-cell{
+            padding: 23px 30px;
+            line-height: 22px;
+            height: auto;
+            border-bottom: none !important;
+        }
+        // 分页器
+        .ant-spin-container .custom-pagination{
+            margin: 20px 26px;
+            // 上一页、下一页
+            .ant-pagination-prev, .ant-pagination-next{
+                button span{
+                    color: #BBBBBB;
+                }
+            }
+            // 默认
+            .ant-pagination-item{
+                margin-right: 13px;
+                box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.07);
+                font-size: 17px;
+                a{
+                    color: #504744;
+                }
+            }
+            // 选中
+            .ant-pagination-item-active{
+                background-color: #8F5A35;
+                border-color: #8F5A35;
+                a{
+                    color: #fff;
+                }
+            }
+        }
+    }
+    
+    // 开始评分按钮
+    .flex{
+        display: flex;
+        justify-content: center;
+        .btn-start{
+            width: 290px;
+            height: 50px;
+            margin: 34px auto 47px;
+            box-shadow: none;
+            border: none;
+            font-size: 16px;
+        }
+    }
+
+    // 评分弹窗
+    .judg-modal{
+        .ant-modal-content{
+            padding: 29px 24px;
+            padding-right: 47px;
+            position: relative;
+        }
+        .ant-modal-footer{
+            margin-top: 40px;
+            height: 58px;
+            button{
+                width: 180px;
+                height: 58px;
+                border-radius: 12px;
+                font-size: 20px;
+            }
+            .ant-btn-default{
+                border-color: #5570F1;
+                color: #5570F1;
+            }
+            .ant-btn-primary{
+                background-color: #5570F1;
+                &:hover{
+                    background-color: #4562ef;
+                }
+            }
+        }
+        .judg-content{
+            h1{
+                margin: 0;
+                margin-bottom: 40px;
+                font-size: 20px;
+                font-weight: 500;
+                color: #2B2F32;
+            }
+            .judg-info{
+                .item{
+                    margin-top: 24px;
+                    .item-title{
+                        margin-bottom: 24px;
+                        color: #8B8D97;
+                        line-height: 17px;
+                    }
+                    .item-content{
+                        color: #2B2F32;
+                    }
+                    .box{
+                        width: 100%;
+                        min-height: 100px;
+                        padding: 11px 17px;
+                        box-sizing: border-box;
+                        border-radius: 10px;
+                        background-color: #F2F4F6;
+                    }
+                    .isPass{
+                        width: 460px;
+                        display: flex;
+                        justify-content: space-between;
+                        label{
+                            .ant-radio{
+                                margin-right: 13px;
+                            }
+                            span{
+                                padding: 0;
+                            }
+                        }
+                    }
+                }
+            }
+            .pagination{
+                position: absolute;
+                bottom: 29px;
+                display: flex;
+                align-items: center;
+                gap: 15px;
+                font-size: 20px;
+                color: #5570F1;
+                button{
+                    width: 120px;
+                    height: 58px;
+                    border-radius: 12px;
+                    font-size: 20px;
+                    border-color: #5570F1;
+                    color: #5570F1;
+                    background-color: #fff;
+                    &:disabled{
+                        border-color: #d9d9d9;
+                        color: #d9d9d9;
+                    }
+                }
+            }
+        }
+    }
+}
+
+
+.Mobile .rating{
+    width: 100vw;
+    margin: 83px auto 0;
+    padding: 0 18px;
+    h2{
+        margin-bottom: 18px;
+        font-size: 17px;
+    }
+
+    // 表格
+    .custom-tabel{
+        border: 1px solid #f7f7f7;
+        border-radius: 4px;
+        .ant-table-thead .ant-table-cell{
+            padding: 10px 20px !important;
+            font-size: 12px;
+        }
+        .ant-table-tbody .ant-table-row{
+            // 普通单元格
+            .ant-table-cell{
+                padding: 10px 20px;
+                line-height: 19px;
+                font-size: 12px;
+            }
+            // 更多
+            .ant-table-row-expand-icon-cell{
+                display: flex;
+                justify-content: center;
+                .btn-more{
+                    width: 28px;
+                    height: 28px;
+                    padding: 0;
+                    border-radius: 8px;
+                    border: 1px solid #000;
+                    display: flex;
+                    align-items: center;
+                    justify-content: center;
+                    span{
+                        transition: transform 0.3s;
+                    }
+                    .active-icon{
+                        transform: rotate(180deg);
+                    }
+                }
+            }
+        }
+
+        // 隐藏添加的阴影
+        .ant-table-container{
+            &::before, &::after{
+                content: none;
+            }
+            .ant-table-content{
+                overflow: visible;
+            }
+        }
+
+
+        // 分页器
+        .ant-spin-container .custom-pagination{
+            margin: 14px 0;
+            // 默认
+            .ant-pagination-item{
+                margin-right: 13px;
+                box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.07);
+                font-size: 17px;
+                a{
+                    color: #504744;
+                }
+            }
+            // 选中
+            .ant-pagination-item-active{
+                background-color: #8F5A35;
+                border-color: #8F5A35;
+                a{
+                    color: #fff;
+                }
+            }
+        }
+    }
+    
+    // 开始评分按钮
+    .flex{
+        display: flex;
+        justify-content: center;
+        .btn-start{
+            // width: 290px;
+            width: 100%;
+            height: 50px;
+            margin: 11px auto 47px;
+            box-shadow: none;
+            border: none;
+            font-size: 16px;
+        }
+    }
+}
