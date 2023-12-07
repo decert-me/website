@@ -1,7 +1,6 @@
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Steps } from "antd";
-import { useUpdateEffect } from "ahooks";
 import { hasBindSocialAccount } from "@/request/api/public";
 import MyContext from "@/provider/context";
 import StepConnect from "./step_connect";
@@ -11,10 +10,8 @@ import StepSocial from "./step_social";
 export default function ClaimOperate({detail, answerInfo}) {
 
     const { t } = useTranslation(["claim", "translation"]);
-    const socialRef = useRef();
     const { isMobile } = useContext(MyContext);
     const [step, setStep] = useState(0);
-    let [isBind, setIsBind] = useState(false);
     let [bindObj, setBindObj] = useState();
 
     // 判断是否绑定社交媒体
@@ -81,18 +78,11 @@ export default function ClaimOperate({detail, answerInfo}) {
         stepDotInit();
     },[])
 
-    useUpdateEffect(() => {
-        if (socialRef.current?.bindObj) {
-            isBind = socialRef.current?.bindObj.discord || socialRef.current?.bindObj.wechat
-            setIsBind(isBind);
-        }
-    },[socialRef.current?.bindObj])
-
     return (
         <div className="step">
             <h5>{t("step.title")}</h5>
             {
-                (!bindObj || (!bindObj.discord && !bindObj.wechat)) || !isBind &&
+                step <= 1 &&
                 <div className="tips">
                     {t("choose")}
                 </div>
@@ -117,7 +107,6 @@ export default function ClaimOperate({detail, answerInfo}) {
                                 defaultValue={bindObj}
                                 step={step}
                                 setStep={(params) => setStep(params)}
-                                ref={socialRef}
                             />
                         )
                     },
