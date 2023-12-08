@@ -25,7 +25,7 @@ function RatingModal({data, onFinish}, ref) {
     async function init() {
         page = 0;
         setPage(page);
-        detail = data;
+        detail = data?.filter(e => e.open_quest_review_status === 1);
         setDetail([...detail]);
         // 获取开放题列表
         const arr = [];

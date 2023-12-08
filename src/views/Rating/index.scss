@@ -11,6 +11,26 @@
     .custom-tabel{
         border: 2px solid #f7f7f7;
         border-radius: 5px;
+        .nodata{
+            height: 100%; 
+            display: flex; 
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 26px;
+            p{
+                color: #000000;
+                font-weight: 600;
+            }
+            button{
+                width: 226px;
+                height: 50px;
+                border: 1px solid #000000;
+                border-radius: 6px;
+                font-size: 14px;
+                font-weight: 500;
+            }
+        }
         .ant-table-thead .ant-table-cell{
             padding: 12px 30px !important;
             &::before{
@@ -19,6 +39,12 @@
         }
         .ant-table-body{
             overflow-y: auto !important;
+        }
+        .ant-table-placeholder{
+            height: calc(100vh - 414px);
+            .ant-table-cell{
+                border: none !important;
+            }
         }
         .ant-table-tbody .ant-table-row .ant-table-cell{
             padding: 23px 30px;
@@ -174,6 +200,17 @@
     .custom-tabel{
         border: 1px solid #f7f7f7;
         border-radius: 4px;
+        .nodata{
+            gap: 20px;
+            font-size: 12px;
+            button{
+                width: 180px;
+                height: 35px;
+                border: 1px solid #000000;
+                border-radius: 6px;
+                font-size: 12px;
+            }
+        }
         .ant-table-thead .ant-table-cell{
             padding: 10px 20px !important;
             font-size: 12px;

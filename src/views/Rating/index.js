@@ -187,8 +187,7 @@ export default function Rating(params) {
                     loading: isLoading
                 }}
             >
-                {/* <ChallengeJudgPage ref={judgRef} selectQuest={selectQuest}  /> */}
-                <RatingModal ref={judgRef} onFinish={onFinish} data={data?.filter(e => e.open_quest_review_status === 1)} />
+                <RatingModal ref={judgRef} onFinish={onFinish} data={data} />
             </Modal>
             <div className="custom-bg-round"></div>
             <h2>评分列表</h2>
