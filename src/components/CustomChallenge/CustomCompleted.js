@@ -54,6 +54,9 @@ export default function CustomCompleted(props) {
                     if (answers[i]?.correct) {
                         score+=Number(questions[i].score);
                         successNum+=1;
+                    }else if (answers[i]?.score) {
+                        score += answers[i]?.score;
+                        successNum+=1;
                     }
                 }else if (typeof e === 'object') {
                     if (JSON.stringify(e) == JSON.stringify(answers[i]?.value) || JSON.stringify(e) == JSON.stringify(answers[i])) {
