@@ -41,10 +41,9 @@ export default function DefaultLayout() {
             const lang = localStorage.getItem("decert.lang");
             msgList = data?.data.reverse() || [];
             setMsgList([...msgList]);
-
             msgList.forEach((msg, i) => {
                 api.open({
-                    key: i,
+                    key: msg.ID,
                     duration: 0,
                     message: lang === "en-US" ? msg.title_en : msg.title,
                     description: lang === "en-US" ? msg.content_en : msg.content,
@@ -54,13 +53,13 @@ export default function DefaultLayout() {
                     btn: (
                         <Space>
                             <Button type="link" size="small" onClick={() => {
-                                api.destroy(i);
+                                api.destroy(msg.ID);
                                 readMessage({id: msg.ID});
                             }}>
                                 {t("btn-ok")}
                             </Button>
                             <Button type="primary" size="small" onClick={() => {
-                                api.destroy(i);
+                                api.destroy(msg.ID);
                                 readMessage({id: msg.ID});
                                 // 判断当前是否在这页 ？ 刷新 ： 跳转
                                 if (location.pathname.indexOf("/claim") !== -1 && location.pathname.split("/claim/")[1] == msg.token_id) {
@@ -229,7 +228,7 @@ export default function DefaultLayout() {
 
     return (
         <>
-            {/* {contextHolder} */}
+            {contextHolder}
             <Layout className={isMobile ? "Mobile" : ""}>
                 <Header style={headerStyle}>
                     <AppHeader isMobile={isMobile} user={user} />
