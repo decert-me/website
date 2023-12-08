@@ -1,0 +1,24 @@
+{
+    "h1": "Grading List",
+    "quest": "Quiz",
+    "ans": "Answer",
+    "status": "Status",
+    "annex": "File",
+    "score": "Score",
+    "c-num": "Challenge Number",
+    "c-addr": "Challenge Address",
+    "all": "All",
+    "rated": "Processed",
+    "rate": "Pending",
+    "submit-time": "Submitssion time",
+    "rate-time": "Processing time",
+    "none": "No data",
+    "submit": "Submit",
+    "prev": "Prev",
+    "next": "Next",
+    "btn-rate": "Start Grading",
+
+    "reset": "Reset",
+    "ok": "Confirm",
+    "more": "More"
+}

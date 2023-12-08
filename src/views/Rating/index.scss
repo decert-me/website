@@ -40,11 +40,10 @@
         .ant-table-body{
             overflow-y: auto !important;
         }
-        .ant-table-placeholder{
-            height: calc(100vh - 414px);
-            .ant-table-cell{
-                border: none !important;
-            }
+        .ant-table-cell{
+            white-space: nowrap;
+            overflow: hidden;
+            text-overflow: ellipsis;
         }
         .ant-table-tbody .ant-table-row .ant-table-cell{
             padding: 23px 30px;
@@ -189,49 +188,75 @@
 
 .Mobile .rating{
     width: 100vw;
-    margin: 83px auto 0;
-    padding: 0 18px;
+    margin: 5.1875rem auto 0;
+    padding: 0 1.125rem;
     h2{
-        margin-bottom: 18px;
-        font-size: 17px;
+        margin-bottom: 1.125rem;
+        font-size: 1.0625rem;
     }
 
     // 表格
     .custom-tabel{
-        border: 1px solid #f7f7f7;
-        border-radius: 4px;
+        border: .0625rem solid #f7f7f7;
+        border-radius: .25rem;
         .nodata{
-            gap: 20px;
-            font-size: 12px;
+            gap: 1.25rem;
+            font-size: .75rem;
             button{
-                width: 180px;
-                height: 35px;
-                border: 1px solid #000000;
-                border-radius: 6px;
-                font-size: 12px;
+                width: 11.25rem;
+                height: 2.1875rem;
+                border: .0625rem solid #000000;
+                border-radius: .375rem;
+                font-size: .75rem;
+            }
+        }
+        // 下拉更多
+        .more-items{
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1rem 2.5rem;
+            .item{
+                width: 8.4375rem;
+            }
+            .label{
+                font-size: .75rem;
+                color: #666666;
+            }
+            .value{
+                font-size: .75rem;
+                font-weight: 600;
+            }
+        }
+        .ant-table-placeholder{
+            height: calc(100vh - 25.875rem);
+            .ant-table-cell{
+                border: none !important;
             }
         }
         .ant-table-thead .ant-table-cell{
-            padding: 10px 20px !important;
-            font-size: 12px;
+            padding: .625rem 1.25rem !important;
+            font-size: .75rem;
         }
         .ant-table-tbody .ant-table-row{
             // 普通单元格
             .ant-table-cell{
-                padding: 10px 20px;
-                line-height: 19px;
-                font-size: 12px;
+                padding: .625rem 1.25rem;
+                line-height: 1.1875rem;
+                font-size: .75rem;
+            }
+            .ant-table-cell-row-hover{
+                background-color: #fff !important;
             }
             // 更多
             .ant-table-row-expand-icon-cell{
                 display: flex;
                 justify-content: center;
                 .btn-more{
-                    width: 28px;
-                    height: 28px;
+                    width: 1.75rem;
+                    height: 1.75rem;
                     padding: 0;
-                    border-radius: 8px;
-                    border: 1px solid #000;
+                    border-radius: .5rem;
+                    border: .0625rem solid #000;
                     display: flex;
                     align-items: center;
                     justify-content: center;
@@ -243,6 +268,9 @@
                     }
                 }
             }
+        }
+        .ant-table-expanded-row .ant-table-cell{
+            padding: .625rem 1.25rem;
         }
 
         // 隐藏添加的阴影
@@ -258,12 +286,12 @@
 
         // 分页器
         .ant-spin-container .custom-pagination{
-            margin: 14px 0;
+            margin: .875rem 0;
             // 默认
             .ant-pagination-item{
-                margin-right: 13px;
-                box-shadow: 0px 4px 8px 0px rgba(0,0,0,0.07);
-                font-size: 17px;
+                margin-right: .8125rem;
+                box-shadow: 0rem .25rem .5rem 0rem rgba(0,0,0,0.07);
+                font-size: 1.0625rem;
                 a{
                     color: #504744;
                 }
@@ -284,13 +312,13 @@
         display: flex;
         justify-content: center;
         .btn-start{
-            // width: 290px;
+            // width: 18.125rem;
             width: 100%;
-            height: 50px;
-            margin: 11px auto 47px;
+            height: 3.125rem;
+            margin: .6875rem auto 2.9375rem;
             box-shadow: none;
             border: none;
-            font-size: 16px;
+            font-size: 1rem;
         }
     }
 }
@@ -298,61 +326,61 @@
 // 打分弹窗
 .mobile-judg-modal{
     .ant-modal-content{
-        padding: 23px 15px 21px !important;
+        padding: 1.4375rem .9375rem 1.3125rem !important;
     }
     .ant-modal-footer{
-        margin-top: 112px !important;
-        height: 46px;
+        margin-top: 7rem !important;
+        height: 2.875rem;
         button{
             width: 100%;
             height: 100%;
             margin-left: 0 !important;
-            border-radius: 10px;
-            font-size: 16px;
+            border-radius: .625rem;
+            font-size: 1rem;
         }
     }
     .judg-content{
         h1{
-            margin-bottom: 33px;
-            font-size: 16px;
+            margin-bottom: 2.0625rem;
+            font-size: 1rem;
         }
         .judg-info{
             .item{
-                margin-top: 20px;
+                margin-top: 1.25rem;
                 .item-title{
-                    margin-bottom: 20px;
-                    line-height: 17px;
+                    margin-bottom: 1.25rem;
+                    line-height: 1.0625rem;
                     // 星星
                     .ant-rate{
-                        font-size: 27px;
+                        font-size: 1.6875rem;
                     }
                 }
                 .flex{
-                    gap: 10px;
+                    gap: .625rem;
                 }
                 .item-content{
                     // Viewer 设置
                     .markdown-body{
-                        font-size: 12px;
+                        font-size: .75rem;
                     }
                 }
                 .box{
-                    min-height: 100px;
-                    padding: 10px 12px;
-                    border-radius: 8px;
+                    min-height: 6.25rem;
+                    padding: .625rem .75rem;
+                    border-radius: .5rem;
                 }
             }
         }
         .pagination{
-            width: calc(100% - 30px);
-            bottom: 100px;
+            width: calc(100% - 1.875rem);
+            bottom: 6.25rem;
             justify-content: space-between;
-            font-size: 16px;
+            font-size: 1rem;
             button{
-                width: 120px;
-                height: 47px;
-                border-radius: 10px;
-                font-size: 16px;
+                width: 7.5rem;
+                height: 2.9375rem;
+                border-radius: .625rem;
+                font-size: 1rem;
             }
         }
     }

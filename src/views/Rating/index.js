@@ -8,11 +8,13 @@ import MyContext from "@/provider/context";
 import RatingModal from "./modal";
 import { getUserOpenQuestList } from "@/request/api/judg";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
 
 export default function Rating(params) {
 
     const judgRef = useRef(null);
     const navigateTo = useNavigate();
+    const { t } = useTranslation(["rate"]);
     const { isMobile } = useContext(MyContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     let [status, setStatus] = useState(1);
@@ -27,18 +29,18 @@ export default function Rating(params) {
 
     const mobileColumns = [
         {
-            title: "题目",
+            title: t("quest"),
             key: 'title',
             dataIndex: "title",
             width: "50%"
         },
         {
-            title: "状态",
+            title: t("status"),
             key: 'status',
             dataIndex: "open_quest_review_status",
             filters: [
-                { text: "待处理", value: 1 },
-                { text: "已处理", value: 2 },
+                { text: t("rate"), value: 1 },
+                { text: t("rated"), value: 2 },
             ],
             filterMultiple: false,
             filteredValue: [status],
@@ -46,7 +48,7 @@ export default function Rating(params) {
                 <p style={{
                     color: status === 2 ? "#35D6A6" : "#9A9A9A",
                     fontWeight: 600
-                }}>{status === 2 ? "已处理" : "待处理"}</p>
+                }}>{status === 2 ? t("rated") : t("rate")}</p>
             )
         },
         Table.EXPAND_COLUMN
@@ -54,28 +56,28 @@ export default function Rating(params) {
 
     const columns = [
         {
-            title: "题目",
+            title: t("rate"),
             key: 'title',
             dataIndex: "title",
         },
         {
-            title: "挑战编号",
+            title: t("c-num"),
             key: 'token_id',
             dataIndex: "token_id"
         },
         {
-            title: "挑战者地址",
+            title: t("c-addr"),
             key: 'address',
             dataIndex: "address",
             render: (address) => address.substring(0,5) + "..." + address.substring(38,42)
         },
         {
-            title: "状态",
+            title: t("status"),
             key: 'status',
             dataIndex: "open_quest_review_status",
             filters: [
-                { text: "待处理", value: 1 },
-                { text: "已处理", value: 2 },
+                { text: t("rate"), value: 1 },
+                { text: t("rated"), value: 2 },
             ],
             filterMultiple: false,
             filteredValue: [status],
@@ -83,11 +85,11 @@ export default function Rating(params) {
                 <p style={{
                     color: status === 2 ? "#35D6A6" : "#9A9A9A",
                     fontWeight: 600
-                }}>{status === 2 ? "已处理" : "待处理"}</p>
+                }}>{status === 2 ? t("rated") : t("rate")}</p>
             )
         },
         {
-            title: "提交时间",
+            title: t("submit-time"),
             key: 'updated_at',
             dataIndex: "updated_at",
             render: (time) => (
@@ -97,7 +99,7 @@ export default function Rating(params) {
             )
         },
         {
-            title: "评分时间",
+            title: t("rate-time"),
             key: 'open_quest_review_time',
             dataIndex: "open_quest_review_time",
             render: (time) => (
@@ -178,6 +180,7 @@ export default function Rating(params) {
                 open={isModalOpen}
                 onOk={handleOk}
                 onCancel={() => {setIsModalOpen(false)}}
+                okText={t("submit")}
                 cancelButtonProps={{
                     style: {
                         display: "none"
@@ -190,7 +193,7 @@ export default function Rating(params) {
                 <RatingModal ref={judgRef} onFinish={onFinish} data={data} />
             </Modal>
             <div className="custom-bg-round"></div>
-            <h2>评分列表</h2>
+            <h2>{t("h1")}</h2>
             <Table
                 columns={isMobile ? mobileColumns : columns}
                 dataSource={data}
@@ -198,23 +201,22 @@ export default function Rating(params) {
                 scroll={{ y: isMobile ? null : "calc(100vh - 414px)" }}
                 onChange={handleChange}
                 locale={{
-                    filterReset: "重置",
-                    filterConfirm: "确定",
-                    // emptyText: "无数据"
+                    filterReset: t("reset"),
+                    filterConfirm: t("ok")
                 }}
                 expandable={isMobile && {
                     expandedRowRender: (record) => (
-                        <div className="items">
+                        <div className="more-items">
                             <div className="item">
-                                <p className="label">挑战编号</p>
+                                <p className="label">{t("c-num")}</p>
                                 <p className="value">{record.token_id}</p>
                             </div>
                             <div className="item">
-                                <p className="label">挑战者地址</p>
+                                <p className="label">{t("c-addr")}</p>
                                 <p className="value">{record.address.substring(0,5) + "..." + record.address.substring(38,42)}</p>
                             </div>
                             <div className="item">
-                                <p className="label">提交时间</p>
+                                <p className="label">{t("submit-time")}</p>
                                 <p className="value">{
                                     record.updated_at.indexOf("0001-01-01T") === -1 ?
                                     record.updated_at.replace("T", " ").split(".")[0]
@@ -222,7 +224,7 @@ export default function Rating(params) {
                                 }</p>
                             </div>
                             <div className="item">
-                                <p className="label">评分时间</p>
+                                <p className="label">{t("rate-time")}</p>
                                 <p className="value">{record.open_quest_review_time}</p>
                             </div>
                         </div>
@@ -233,7 +235,7 @@ export default function Rating(params) {
                         </div>
                     ),
                     columnTitle: (
-                        <p style={{textAlign: "center"}}>更多</p>
+                        <p style={{textAlign: "center"}}>{t("more")}</p>
                     ),
                     columnWidth: "auto"
                 }}
@@ -252,7 +254,7 @@ export default function Rating(params) {
             {
                 data?.findIndex((e) => e.open_quest_review_status === 1) !== -1 &&
                 <div className="flex">
-                    <Button id="hover-btn-full" className="btn-start" onClick={() => {setIsModalOpen(true)}}>开始评分</Button>
+                    <Button id="hover-btn-full" className="btn-start" onClick={() => {setIsModalOpen(true)}}>{t("btn-rate")}</Button>
                 </div>
             }
         </div>

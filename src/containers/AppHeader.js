@@ -120,6 +120,12 @@ export default function AppHeader({ isMobile, user }) {
                 ClearStorage();
             })
         }
+
+        // 判断是否是claim页
+        const path = location.pathname;
+        if (path && path.indexOf('claim') !== -1) {
+            navigateTo(0)
+        }
     }
 
     async function init(params) {
