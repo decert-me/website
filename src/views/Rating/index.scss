@@ -31,6 +31,9 @@
                 font-weight: 500;
             }
         }
+        .anticon-filter{
+            color: #B47243;
+        }
         .ant-table-thead .ant-table-cell{
             padding: 12px 30px !important;
             &::before{
@@ -381,6 +384,43 @@
                 height: 2.9375rem;
                 border-radius: .625rem;
                 font-size: 1rem;
+            }
+        }
+    }
+}
+
+
+// 下拉过滤器
+.ant-table-filter-dropdown{
+
+    // ul
+    .ant-dropdown-menu{
+        
+        .ant-dropdown-menu-item-selected{
+            background-color: rgba(#8F5A35, 0.1) !important;
+            .ant-radio-inner{
+                border-color: #8F5A35;
+                background-color: #8F5A35;
+            }
+            span{
+                color: #8F5A35;
+            }
+        }
+    }
+
+    // btn
+    .ant-table-filter-dropdown-btns{
+        justify-content: flex-end !important;
+        button:first-child{
+            display: none;
+        }
+        button{
+            color: #fff;
+            background-color: #8F5A35;
+            border: none;
+            box-shadow: none;
+            &:hover{
+                background-color: #B47243 !important;
             }
         }
     }

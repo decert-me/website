@@ -60,7 +60,7 @@ export default function Rating(params) {
 
     const columns = [
         {
-            title: t("rate"),
+            title: t("quest"),
             key: 'title',
             dataIndex: "title",
             render: (title) => (
