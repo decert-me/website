@@ -85,6 +85,9 @@ export default function Claim(params) {
                 if (userAnswer[i]?.correct) {
                     score+=Number(questions[i].score);
                     successNum+=1;
+                }else if (userAnswer[i]?.score) {
+                    score += userAnswer[i]?.score;
+                    successNum+=1;
                 }
             }else if (typeof e === 'object') {
                 if (JSON.stringify(e) == JSON.stringify(userAnswer[i]?.value) || JSON.stringify(e) == JSON.stringify(userAnswer[i])) {

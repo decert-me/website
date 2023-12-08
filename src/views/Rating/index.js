@@ -1,20 +1,25 @@
 import "./index.scss";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { Button, Modal, Table } from "antd";
 import {
     DownOutlined
   } from '@ant-design/icons';
 import MyContext from "@/provider/context";
 import RatingModal from "./modal";
+import { getUserOpenQuestList } from "@/request/api/judg";
+import { useNavigate } from "react-router-dom";
 
 export default function Rating(params) {
 
+    const judgRef = useRef(null);
+    const navigateTo = useNavigate();
     const { isMobile } = useContext(MyContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
-    const [status, setStatus] = useState(1);
+    let [status, setStatus] = useState(1);
     let [data, setData] = useState([]);
     let [pageConfig, setPageConfig] = useState({
         page: 0,
+        // pageSize: 1,
         pageSize: 10,
         total: 0,
     });
@@ -22,19 +27,20 @@ export default function Rating(params) {
     const mobileColumns = [
         {
             title: "题目",
-            dataIndex: "lastName",
+            key: 'title',
+            dataIndex: "title",
             width: "50%"
         },
         {
             title: "状态",
-            dataIndex: "address1",
+            key: 'status',
+            dataIndex: "open_quest_review_status",
             filters: [
                 { text: "待处理", value: 1 },
                 { text: "已处理", value: 2 },
             ],
             filterMultiple: false,
             filteredValue: [status],
-            align: "center",
             render: (status) => (
                 <p style={{
                     color: status === 2 ? "#35D6A6" : "#9A9A9A",
@@ -42,36 +48,30 @@ export default function Rating(params) {
                 }}>{status === 2 ? "已处理" : "待处理"}</p>
             )
         },
-        // {
-        //     title: "更多",
-        //     key: 'more',
-        //     align: "center",
-        //     render: (_, quest) => (
-        //         <>
-        //             <Button className="btn-more"><DownOutlined /></Button>
-
-        //         </>
-        //     ),
-        // }
         Table.EXPAND_COLUMN
     ]
 
     const columns = [
         {
             title: "题目",
-            dataIndex: "lastName",
+            key: 'title',
+            dataIndex: "title",
         },
         {
             title: "挑战编号",
-            render: (_, record) => `Group ${Math.floor(record.id / 4)}`,
+            key: 'token_id',
+            dataIndex: "token_id"
         },
         {
             title: "挑战者地址",
-            dataIndex: "Age",
+            key: 'address',
+            dataIndex: "address",
+            render: (address) => address.substring(0,5) + "..." + address.substring(38,42)
         },
         {
             title: "状态",
-            dataIndex: "address1",
+            key: 'status',
+            dataIndex: "open_quest_review_status",
             filters: [
                 { text: "待处理", value: 1 },
                 { text: "已处理", value: 2 },
@@ -87,31 +87,74 @@ export default function Rating(params) {
         },
         {
             title: "提交时间",
-            dataIndex: "address2",
+            key: 'updated_at',
+            dataIndex: "updated_at",
+            render: (time) => (
+                time.indexOf("0001-01-01T") === -1 ?
+                <p>{time.replace("T", " ").split(".")[0]}</p>
+                :"-"
+            )
         },
         {
             title: "评分时间",
-            dataIndex: "address3",
+            key: 'open_quest_review_time',
+            dataIndex: "open_quest_review_time",
+            render: (time) => (
+                time.indexOf("0001-01-01T") === -1 ?
+                <p>{time.replace("T", " ").split(".")[0]}</p>
+                :"-"
+            )
         }
     ];
 
-    const getList = () => {
-        const count = data.length + 100;
-        data = new Array(count).fill(null).map((_, index) => ({
-            id: index,
-            firstName: `First_${index.toString(16)}`,
-            lastName: `Last_${index.toString(16)}`,
-            Age: 25 + (index % 10),
-            address1: Math.random() > 0.5 ? 1 : 2,
-            address2: `2023-07-28 15:55:08`,
-            address3: `2023-07-28 15:55:08`,
-            desc: "My name is Joe Black, I am 32 years old, living in Sydney No. 1 Lake Park."
-        }));
-        setData([...data]);
+    function onFinish() {
+        setIsModalOpen(false)
+        getList()
+    }
+
+    // 修改状态过滤
+    const handleChange = (pagination, filters, sorter) => {
+        const { pageSize } = pagination
+        const newStatus = Array.isArray(filters.status) ? filters.status[0] : null;
+        if (status !== newStatus) {
+            status = newStatus;
+            setStatus(newStatus);
+            data = [];
+            setData([...data]);
+            getList(1);
+        }
+        if (pageSize !== pageConfig.pageSize) {
+            pageConfig.pageSize = pageSize;
+            setPageConfig({...pageConfig});
+            getList();
+        }
+    };
+
+    const getList = (page) => {
+        if (page) {
+            pageConfig.page = page;
+            setPageConfig({...pageConfig});
+        }
+        getUserOpenQuestList({
+            open_quest_review_status: status,
+            ...pageConfig
+        })
+        .then(res => {
+            const list = res.data.list;
+            data = list ? list : [];
+            // 添加key
+            data.forEach((ele, index) => {
+                ele.key = index.toString()
+            })
+            setData([...data]);
+            console.log(data);
+            pageConfig.total = res.data.total;
+            setPageConfig({...pageConfig});
+        })
     };
 
     function handleOk() {
-        console.log("提交 ===>");
+        judgRef.current.confirm();
     }
 
     function init() {
@@ -121,20 +164,26 @@ export default function Rating(params) {
     }
 
     useEffect(() => {
-        init();
+        const token = localStorage.getItem("decert.token");
+        token ? init() : navigateTo("/");
     }, []);
 
     return (
         <div className="rating" >
             <Modal
                 width={1177}
-                open={isModalOpen}
                 className="judg-modal"
-                onCancel={() => {setIsModalOpen(false)}}
+                open={isModalOpen}
                 onOk={handleOk}
+                onCancel={() => {setIsModalOpen(false)}}
+                cancelButtonProps={{
+                    style: {
+                        display: "none"
+                    }
+                }}
             >
-                {/* <ChallengeJudgPage ref={judgRef} selectQuest={selectQuest} onFinish={onFinish} /> */}
-                <RatingModal />
+                {/* <ChallengeJudgPage ref={judgRef} selectQuest={selectQuest}  /> */}
+                <RatingModal ref={judgRef} onFinish={onFinish} data={data.filter(e => e.open_quest_review_status === 1)} />
             </Modal>
             <div className="custom-bg-round"></div>
             <h2>评分列表</h2>
@@ -144,6 +193,12 @@ export default function Rating(params) {
                 dataSource={data || []}
                 rootClassName="custom-tabel"
                 scroll={{ y: isMobile ? null : "calc(100vh - 414px)" }}
+                onChange={handleChange}
+                locale={{
+                    filterReset: "重置",
+                    filterConfirm: "确定",
+                    // emptyText: "无数据"
+                }}
                 expandable={isMobile && {
                     expandedRowRender: (record) => (
                         <p style={{ margin: 0,}}> {record.desc} </p>
@@ -156,24 +211,26 @@ export default function Rating(params) {
                     columnTitle: (
                         <p style={{textAlign: "center"}}>更多</p>
                     ),
-                    // columnWidth: "65px",
                     columnWidth: "auto"
                 }}
                 pagination={{
                     className: "custom-pagination",
                     showSizeChanger: false,
-                    position: isMobile ? ["bottomCenter"] : ["bottomRight"]
-                    // current: pageConfig.page, 
-                    // total: pageConfig.total, 
-                    // pageSize: pageConfig.pageSize, 
-                    // onChange: (page) => {
-                    //     page !== pageConfig.page && getList(page)
-                    // }
+                    position: isMobile ? ["bottomCenter"] : ["bottomRight"],
+                    current: pageConfig.page, 
+                    total: pageConfig.total, 
+                    pageSize: pageConfig.pageSize, 
+                    onChange: (page) => {
+                        page !== pageConfig.page && getList(page)
+                    }
                 }}
             />
-            <div className="flex">
-                <Button id="hover-btn-full" className="btn-start" onClick={() => {setIsModalOpen(true)}}>开始评分</Button>
-            </div>
+            {
+                data.findIndex((e) => e.open_quest_review_status === 1) !== -1 &&
+                <div className="flex">
+                    <Button id="hover-btn-full" className="btn-start" onClick={() => {setIsModalOpen(true)}}>开始评分</Button>
+                </div>
+            }
         </div>
     );
 }
