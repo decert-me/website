@@ -32,13 +32,17 @@ export default function Rating(params) {
             title: t("quest"),
             key: 'title',
             dataIndex: "title",
-            width: "50%"
+            width: "50%",
+            render: (title) => (
+                <p className="of-h">{title}</p>
+            )
         },
         {
             title: t("status"),
             key: 'status',
             dataIndex: "open_quest_review_status",
             filters: [
+                { text: t("all"), value: null },
                 { text: t("rate"), value: 1 },
                 { text: t("rated"), value: 2 },
             ],
@@ -48,7 +52,7 @@ export default function Rating(params) {
                 <p style={{
                     color: status === 2 ? "#35D6A6" : "#9A9A9A",
                     fontWeight: 600
-                }}>{status === 2 ? t("rated") : t("rate")}</p>
+                }}>{status === 2 ? t("rated") : status === 1 ? t("rate") : t("all")}</p>
             )
         },
         Table.EXPAND_COLUMN
@@ -59,6 +63,9 @@ export default function Rating(params) {
             title: t("rate"),
             key: 'title',
             dataIndex: "title",
+            render: (title) => (
+                <p className="of-h">{title}</p>
+            )
         },
         {
             title: t("c-num"),
@@ -76,6 +83,7 @@ export default function Rating(params) {
             key: 'status',
             dataIndex: "open_quest_review_status",
             filters: [
+                { text: t("all"), value: null },
                 { text: t("rate"), value: 1 },
                 { text: t("rated"), value: 2 },
             ],
@@ -85,7 +93,7 @@ export default function Rating(params) {
                 <p style={{
                     color: status === 2 ? "#35D6A6" : "#9A9A9A",
                     fontWeight: 600
-                }}>{status === 2 ? t("rated") : t("rate")}</p>
+                }}>{status === 2 ? t("rated") : status === 1 ? t("rate") : t("all")}</p>
             )
         },
         {
@@ -94,7 +102,7 @@ export default function Rating(params) {
             dataIndex: "updated_at",
             render: (time) => (
                 time.indexOf("0001-01-01T") === -1 ?
-                <p>{time.replace("T", " ").split(".")[0]}</p>
+                time.replace("T", " ").split(".")[0]
                 :"-"
             )
         },
@@ -104,7 +112,7 @@ export default function Rating(params) {
             dataIndex: "open_quest_review_time",
             render: (time) => (
                 time.indexOf("0001-01-01T") === -1 ?
-                <p>{time.replace("T", " ").split(".")[0]}</p>
+                time.replace("T", " ").split(".")[0]
                 :"-"
             )
         }
@@ -201,7 +209,7 @@ export default function Rating(params) {
                 scroll={{ y: isMobile ? null : "calc(100vh - 414px)" }}
                 onChange={handleChange}
                 locale={{
-                    filterReset: t("reset"),
+                    filterReset: null,
                     filterConfirm: t("ok")
                 }}
                 expandable={isMobile && {

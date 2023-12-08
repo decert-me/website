@@ -178,6 +178,13 @@ export default function Challenge(params) {
             return
         }
         if (isOpenQuest.length !== 0 && detail.open_quest_review_status !== 0) {
+            const newAns = answers.map(obj => {
+                let newObj = { ...obj };
+                delete newObj.score;
+                delete newObj.open_quest_review_time;
+                delete newObj.correct;
+                return newObj;
+            })
             // 展示覆盖弹窗
             Modal.confirm({
                 title: "",
@@ -190,7 +197,7 @@ export default function Challenge(params) {
                     saveAnswer()
                     submitChallenge({
                         token_id: detail.tokenId,
-                        answer: JSON.stringify(answers),
+                        answer: JSON.stringify(newAns),
                         uri: detail.uri
                     }).then(res => {
                         message.success(t("translation:message.success.submit.info"));
