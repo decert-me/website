@@ -193,7 +193,8 @@ export default function Challenge(params) {
                     saveAnswer()
                     submitChallenge({
                         token_id: detail.tokenId,
-                        answer: JSON.stringify(answers)
+                        answer: JSON.stringify(answers),
+                        uri: detail.uri
                     }).then(res => {
                         message.success(t("translation:message.success.submit.info"));
                         navigateTo(`/claim/${detail.tokenId}`)
