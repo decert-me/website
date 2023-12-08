@@ -17,14 +17,9 @@ function RatingModal({data, onFinish}, ref) {
     let [selectOpenQs, setSelectOpenQs] = useState({});
     let [page, setPage] = useState(0);
 
-    function confirm(params) {
-        reviewOpenQuest(reviewQuests)
-        .then(res => {
-            onFinish();
-        })
-        .catch(err => {
-            onFinish();
-        })
+    async function confirm(params) {
+        await reviewOpenQuest(reviewQuests)
+        onFinish();
     }
 
     async function init() {
