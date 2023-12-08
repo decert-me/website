@@ -76,7 +76,7 @@ export default function AppHeader(props) {
                     return
                 }
                 navigateTo(`/rating`)
-            }}>评分列表</p>),
+            }}>{t("header.rate")}</p>),
             key: '3',
             icon: <MenuOutlined />,
         },
