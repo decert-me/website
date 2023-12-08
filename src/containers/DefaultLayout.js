@@ -228,21 +228,21 @@ export default function DefaultLayout() {
     },[isConnected])
 
     return (
-        <Layout className={isMobile ? "Mobile" : ""}>
-            <Header style={headerStyle}>
-                <AppHeader isMobile={isMobile} user={user} />
-            </Header>
-            <Content style={contentStyle}>
-                { outlet }
-            </Content>
-            {contextHolder}
-
-            <CustomSigner store={store} />
-            <CustomConnect store={store} />
-
-            <Footer style={footerStyle}>
-                <AppFooter isMobile={isMobile} />
-            </Footer>
-        </Layout>
+        <>
+            {/* {contextHolder} */}
+            <Layout className={isMobile ? "Mobile" : ""}>
+                <Header style={headerStyle}>
+                    <AppHeader isMobile={isMobile} user={user} />
+                </Header>
+                <Content style={contentStyle}>
+                    { outlet }
+                </Content>
+                <CustomSigner store={store} />
+                <CustomConnect store={store} />
+                <Footer style={footerStyle}>
+                    <AppFooter isMobile={isMobile} />
+                </Footer>
+            </Layout>
+        </>
     )
 }

@@ -41,7 +41,7 @@ export default function AppHeader(props) {
         {
             label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("header.profile")} </p>),
             key: '0',
-            icon: <MenuOutlined />,
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-user.png")} alt="" />,
         },
         {
             label: (
@@ -53,7 +53,7 @@ export default function AppHeader(props) {
                 </p>
             ),
             key: '1',
-            icon: <MenuOutlined />,
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-cert.png")} alt="" />,
         },
         {
             type: 'divider',
@@ -67,7 +67,7 @@ export default function AppHeader(props) {
                 navigateTo(`/publish`)
             }}> {t("home.btn-publish")} </p>),
             key: '2',
-            icon: <MenuOutlined />,
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-publish.png")} alt="" />,
         },
         {
             label: (<p onClick={() => {
@@ -78,7 +78,7 @@ export default function AppHeader(props) {
                 navigateTo(`/rating`)
             }}>{t("header.rate")}</p>),
             key: '3',
-            icon: <MenuOutlined />,
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-rate.png")} alt="" />,
         },
         {
             type: 'divider',
@@ -86,7 +86,7 @@ export default function AppHeader(props) {
         {
             label: (<p onClick={() => goDisconnect()}> {t("header.disconnect")} </p>),
             key: '4',
-            icon: <MenuOutlined />,
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-exit.png")} alt="" />,
         }
     ]
 
