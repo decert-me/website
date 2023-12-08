@@ -16,6 +16,7 @@ export default function Rating(params) {
     const { isMobile } = useContext(MyContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
     let [status, setStatus] = useState(1);
+    let [isLoading, setIsLoading] = useState();
     let [data, setData] = useState([]);
     let [pageConfig, setPageConfig] = useState({
         page: 0,
@@ -144,17 +145,18 @@ export default function Rating(params) {
             data = list ? list : [];
             // 添加key
             data.forEach((ele, index) => {
-                ele.key = index.toString()
+                ele.key = ele.updated_at + ele.index + index
             })
             setData([...data]);
-            console.log(data);
             pageConfig.total = res.data.total;
             setPageConfig({...pageConfig});
         })
     };
 
-    function handleOk() {
-        judgRef.current.confirm();
+    async function handleOk() {
+        setIsLoading(true);
+        await judgRef.current.confirm();
+        setIsLoading(false);
     }
 
     function init() {
@@ -172,7 +174,7 @@ export default function Rating(params) {
         <div className="rating" >
             <Modal
                 width={1177}
-                className="judg-modal"
+                className={`judg-modal ${isMobile ? "mobile-judg-modal" : ""}`}
                 open={isModalOpen}
                 onOk={handleOk}
                 onCancel={() => {setIsModalOpen(false)}}
@@ -181,16 +183,18 @@ export default function Rating(params) {
                         display: "none"
                     }
                 }}
+                okButtonProps={{
+                    loading: isLoading
+                }}
             >
                 {/* <ChallengeJudgPage ref={judgRef} selectQuest={selectQuest}  /> */}
-                <RatingModal ref={judgRef} onFinish={onFinish} data={data.filter(e => e.open_quest_review_status === 1)} />
+                <RatingModal ref={judgRef} onFinish={onFinish} data={data?.filter(e => e.open_quest_review_status === 1)} />
             </Modal>
             <div className="custom-bg-round"></div>
             <h2>评分列表</h2>
             <Table
                 columns={isMobile ? mobileColumns : columns}
-                rowKey="id"
-                dataSource={data || []}
+                dataSource={data}
                 rootClassName="custom-tabel"
                 scroll={{ y: isMobile ? null : "calc(100vh - 414px)" }}
                 onChange={handleChange}
@@ -201,7 +205,28 @@ export default function Rating(params) {
                 }}
                 expandable={isMobile && {
                     expandedRowRender: (record) => (
-                        <p style={{ margin: 0,}}> {record.desc} </p>
+                        <div className="items">
+                            <div className="item">
+                                <p className="label">挑战编号</p>
+                                <p className="value">{record.token_id}</p>
+                            </div>
+                            <div className="item">
+                                <p className="label">挑战者地址</p>
+                                <p className="value">{record.address.substring(0,5) + "..." + record.address.substring(38,42)}</p>
+                            </div>
+                            <div className="item">
+                                <p className="label">提交时间</p>
+                                <p className="value">{
+                                    record.updated_at.indexOf("0001-01-01T") === -1 ?
+                                    record.updated_at.replace("T", " ").split(".")[0]
+                                    :"-"
+                                }</p>
+                            </div>
+                            <div className="item">
+                                <p className="label">评分时间</p>
+                                <p className="value">{record.open_quest_review_time}</p>
+                            </div>
+                        </div>
                     ),
                     expandIcon: ({ expanded, onExpand, record }) => (
                         <div className="btn-more" onClick={e => onExpand(record, e)}>
@@ -226,7 +251,7 @@ export default function Rating(params) {
                 }}
             />
             {
-                data.findIndex((e) => e.open_quest_review_status === 1) !== -1 &&
+                data?.findIndex((e) => e.open_quest_review_status === 1) !== -1 &&
                 <div className="flex">
                     <Button id="hover-btn-full" className="btn-start" onClick={() => {setIsModalOpen(true)}}>开始评分</Button>
                 </div>

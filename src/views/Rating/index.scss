@@ -68,100 +68,6 @@
             font-size: 16px;
         }
     }
-
-    // 评分弹窗
-    .judg-modal{
-        .ant-modal-content{
-            padding: 29px 24px;
-            padding-right: 47px;
-            position: relative;
-        }
-        .ant-modal-footer{
-            margin-top: 40px;
-            height: 58px;
-            button{
-                width: 180px;
-                height: 58px;
-                border-radius: 12px;
-                font-size: 20px;
-            }
-            .ant-btn-default{
-                border-color: #5570F1;
-                color: #5570F1;
-            }
-            .ant-btn-primary{
-                background-color: #5570F1;
-                &:hover{
-                    background-color: #4562ef;
-                }
-            }
-        }
-        .judg-content{
-            h1{
-                margin: 0;
-                margin-bottom: 40px;
-                font-size: 20px;
-                font-weight: 500;
-                color: #2B2F32;
-            }
-            .judg-info{
-                .item{
-                    margin-top: 24px;
-                    .item-title{
-                        margin-bottom: 24px;
-                        color: #8B8D97;
-                        line-height: 17px;
-                    }
-                    .item-content{
-                        color: #2B2F32;
-                    }
-                    .box{
-                        width: 100%;
-                        min-height: 100px;
-                        padding: 11px 17px;
-                        box-sizing: border-box;
-                        border-radius: 10px;
-                        background-color: #F2F4F6;
-                    }
-                    .isPass{
-                        width: 460px;
-                        display: flex;
-                        justify-content: space-between;
-                        label{
-                            .ant-radio{
-                                margin-right: 13px;
-                            }
-                            span{
-                                padding: 0;
-                            }
-                        }
-                    }
-                }
-            }
-            .pagination{
-                position: absolute;
-                bottom: 29px;
-                display: flex;
-                align-items: center;
-                gap: 15px;
-                font-size: 20px;
-                color: #5570F1;
-                button{
-                    width: 120px;
-                    height: 58px;
-                    border-radius: 12px;
-                    font-size: 20px;
-                    border-color: #5570F1;
-                    color: #5570F1;
-                    background-color: #fff;
-                    &:disabled{
-                        border-color: #d9d9d9;
-                        color: #d9d9d9;
-                    }
-                }
-            }
-        }
-    }
 }
 
 // 打分弹窗
@@ -223,19 +129,6 @@
                     box-sizing: border-box;
                     border-radius: 10px;
                     background-color: #F2F4F6;
-                }
-                .isPass{
-                    width: 460px;
-                    display: flex;
-                    justify-content: space-between;
-                    label{
-                        .ant-radio{
-                            margin-right: 13px;
-                        }
-                        span{
-                            padding: 0;
-                        }
-                    }
                 }
             }
             .mb40{
@@ -361,6 +254,69 @@
             box-shadow: none;
             border: none;
             font-size: 16px;
+        }
+    }
+}
+
+// 打分弹窗
+.mobile-judg-modal{
+    .ant-modal-content{
+        padding: 23px 15px 21px !important;
+    }
+    .ant-modal-footer{
+        margin-top: 112px !important;
+        height: 46px;
+        button{
+            width: 100%;
+            height: 100%;
+            margin-left: 0 !important;
+            border-radius: 10px;
+            font-size: 16px;
+        }
+    }
+    .judg-content{
+        h1{
+            margin-bottom: 33px;
+            font-size: 16px;
+        }
+        .judg-info{
+            .item{
+                margin-top: 20px;
+                .item-title{
+                    margin-bottom: 20px;
+                    line-height: 17px;
+                    // 星星
+                    .ant-rate{
+                        font-size: 27px;
+                    }
+                }
+                .flex{
+                    gap: 10px;
+                }
+                .item-content{
+                    // Viewer 设置
+                    .markdown-body{
+                        font-size: 12px;
+                    }
+                }
+                .box{
+                    min-height: 100px;
+                    padding: 10px 12px;
+                    border-radius: 8px;
+                }
+            }
+        }
+        .pagination{
+            width: calc(100% - 30px);
+            bottom: 100px;
+            justify-content: space-between;
+            font-size: 16px;
+            button{
+                width: 120px;
+                height: 47px;
+                border-radius: 10px;
+                font-size: 16px;
+            }
         }
     }
 }
