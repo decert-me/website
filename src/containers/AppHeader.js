@@ -121,6 +121,12 @@ export default function AppHeader(props) {
                 ClearStorage();
             })
         }
+
+        // 判断是否是claim页
+        const path = location.pathname;
+        if (path && path.indexOf('claim') !== -1) {
+            navigateTo(0)
+        }
     }
 
     async function init(params) {

@@ -7,10 +7,12 @@ import { Viewer } from "@bytemd/react";
 import CustomIcon from "@/components/CustomIcon";
 import { GetPercentScore } from "@/utils/GetPercent";
 import { reviewOpenQuest } from "@/request/api/judg";
+import { useTranslation } from "react-i18next";
 
 
 function RatingModal({data, onFinish}, ref) {
 
+    const { t } = useTranslation(["rate"]);
     let [detail, setDetail] = useState();
     let [openQuest, setOpenQuest] = useState([]);
     let [reviewQuests, setReviewQuests] = useState([]);
@@ -105,19 +107,19 @@ function RatingModal({data, onFinish}, ref) {
             <h1>{selectOpenQs?.challenge_title}</h1>
                 <div className="judg-info">
                     <div className="item">
-                        <p className="item-title">题目:</p>
+                        <p className="item-title">{t("quest")}:</p>
                         <div className="item-content">
                             <Viewer value={selectOpenQs?.title} />
                         </div>
                     </div>
 
                     <div className="item">
-                        <p className="item-title">答案:</p>
+                        <p className="item-title">{t("ans")}:</p>
                         <p className="item-content box">{selectOpenQs?.value}</p>
                     </div>
 
                     <div className="item">
-                        <p className="item-title">附件:</p>
+                        <p className="item-title">{t("file")}:</p>
                         <div className="item-content">
                             {
                                 selectOpenQs?.annex && selectOpenQs?.annex.map(e => (
@@ -142,9 +144,9 @@ function RatingModal({data, onFinish}, ref) {
                     
                 </div>
             <div className="pagination">
-                <Button disabled={page === 0} onClick={() => changePage(page - 1)}>上一题</Button>
+                <Button disabled={page === 0} onClick={() => changePage(page - 1)}>{t("prev")}</Button>
                 <p>{page + 1}/<span style={{color: "#8B8D97"}}>{openQuest.length}</span></p>
-                <Button disabled={page+1 === openQuest.length} onClick={() => changePage(page + 1)}>下一题</Button>
+                <Button disabled={page+1 === openQuest.length} onClick={() => changePage(page + 1)}>{t("next")}</Button>
             </div>
         </div>
     )

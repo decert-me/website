@@ -19,6 +19,9 @@ import profileCN from './zh-CN/profile.json';
 import certUS from './en-US/cert.json';
 import certCN from './zh-CN/cert.json';
 
+import rateUS from './en-US/rate.json';
+import rateCN from './zh-CN/rate.json';
+
 const resources = {
     "zh-CN": {
         translation: publicCN,
@@ -26,7 +29,8 @@ const resources = {
         explore: exploreCN,
         claim: claimCN,
         profile: profileCN,
-        cert: certCN
+        cert: certCN,
+        rate: rateCN
     },
     "en-US": {
         translation: publicUS,
@@ -34,7 +38,8 @@ const resources = {
         explore: exploreUS,
         claim: claimUS,
         profile: profileUS,
-        cert: certUS
+        cert: certUS,
+        rate: rateUS
     }
 };
 
