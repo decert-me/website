@@ -42,8 +42,13 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
             score: score,
             answer: JSON.stringify(answers)
         }
-        const {version} = detail
-        return await wechatShare({data, version})
+        // const {version} = detail
+
+        // return await wechatShare({data, version})
+        // .then(res => {
+        //     return res?.status === 0 ? res.data : null
+        // })
+        return await wechatShare(data)
         .then(res => {
             return res?.status === 0 ? res.data : null
         })
