@@ -4,9 +4,9 @@ import { Steps } from "antd";
 import { hasBindSocialAccount } from "@/request/api/public";
 import { useAddress } from "@/hooks/useAddress";
 import MyContext from "@/provider/context";
-import StepConnect from "./step_connect";
 import StepClaim from "./step_claim";
 import StepSocial from "./step_social";
+import StepConnect from "./step_connect";
 
 export default function ClaimOperate({detail, answerInfo}) {
 
@@ -105,7 +105,7 @@ export default function ClaimOperate({detail, answerInfo}) {
                     },
                     {
                         description: (
-                            <StepSocial 
+                            <StepSocial
                                 defaultValue={bindObj}
                                 step={step}
                                 setStep={(params) => setStep(params)}
