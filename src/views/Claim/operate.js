@@ -1,8 +1,7 @@
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Steps } from "antd";
 import { hasBindSocialAccount } from "@/request/api/public";
-import { useAddress } from "@/hooks/useAddress";
 import MyContext from "@/provider/context";
 import StepConnect from "./step_connect";
 import StepClaim from "./step_claim";
@@ -11,7 +10,6 @@ import StepSocial from "./step_social";
 export default function ClaimOperate({detail, answerInfo}) {
 
     const { t } = useTranslation(["claim", "translation"]);
-    const { isConnected } = useAddress();
     const { isMobile } = useContext(MyContext);
     const [step, setStep] = useState(0);
     let [bindObj, setBindObj] = useState();
@@ -84,7 +82,7 @@ export default function ClaimOperate({detail, answerInfo}) {
         <div className="step">
             <h5>{t("step.title")}</h5>
             {
-                (!bindObj || (!bindObj.discord && !bindObj.wechat)) &&
+                step <= 1 &&
                 <div className="tips">
                     {t("choose")}
                 </div>

@@ -9,7 +9,7 @@ import MyContext from "@/provider/context";
 import CustomIcon from "@/components/CustomIcon";
 
 
-export default function StepSocial({step, setStep, defaultValue}) {
+export default function StepSocial({step, setStep, defaultValue}, ref) {
     
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["claim", "translation"]);
@@ -95,7 +95,6 @@ export default function StepSocial({step, setStep, defaultValue}) {
             setBindObj({...bindObj});
         }
     },[defaultValue])
-
 
     return (
         <div className={`CustomBox flex ${step === 1 ? "checked-flex" : ""}`}>
