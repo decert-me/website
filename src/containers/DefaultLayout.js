@@ -1,5 +1,6 @@
 import { useLocation, useNavigate, useRoutes } from "react-router-dom";
 import { Button, Layout, Space, message, notification } from "antd";
+import { CloseOutlined } from '@ant-design/icons';
 import routes from "@/router";
 import AppHeader from "./AppHeader";
 import AppFooter from "./AppFooter";
@@ -51,9 +52,9 @@ export default function DefaultLayout(params) {
                     duration: 0,
                     message: lang === "en-US" ? msg.title_en : msg.title,
                     description: lang === "en-US" ? msg.content_en : msg.content,
-                    onClose: () => {
-                        readMessage({id: msg.ID});
-                    },
+                    closeIcon: (
+                        <CloseOutlined onClick={() => readMessage({id: msg.ID})} />
+                    ),
                     btn: (
                         <Space>
                             <Button type="link" size="small" onClick={() => {
@@ -64,13 +65,7 @@ export default function DefaultLayout(params) {
                             </Button>
                             <Button type="primary" size="small" onClick={() => {
                                 api.destroy(msg.ID);
-                                readMessage({id: msg.ID});
-                                // 判断当前是否在这页 ？ 刷新 ： 跳转
-                                if (location.pathname.indexOf("/claim") !== -1 && location.pathname.split("/claim/")[1] == msg.token_id) {
-                                    navigateTo(0);
-                                }else{
-                                    navigateTo(`/claim/${msg.token_id}`);
-                                }
+                                goClaim(msg);
                             }}>
                                 {t("btn-link")}
                             </Button>
@@ -111,6 +106,11 @@ export default function DefaultLayout(params) {
         backgroundColor: '#000',
         display: footerHide ? "none" : "block",
     };
+
+    async function goClaim(msg) {
+        await readMessage({id: msg.ID});
+        navigateTo(`/claim/${msg.token_id}`);
+    }
 
     const isClaim = (path) => {
         if (path && path.indexOf('claim') !== -1) {
