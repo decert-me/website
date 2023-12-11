@@ -21,6 +21,8 @@ function RatingModal({data, onFinish}, ref) {
 
     async function confirm(params) {
         await reviewOpenQuest(reviewQuests)
+        reviewQuests = [];
+        setReviewQuests([...reviewQuests]);
         onFinish();
     }
 
