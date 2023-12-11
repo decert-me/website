@@ -151,7 +151,7 @@ export default function CustomCompleted(props) {
     }
 
     const init = () => {
-        const reAnswers = eval(decode(key, detail.metadata.properties.answers));
+        const reAnswers = eval(decode(detail.metadata.properties.answers));
         contrast(reAnswers)
     }
 

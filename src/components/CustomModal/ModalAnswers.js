@@ -73,7 +73,7 @@ export default function ModalAnswers(props) {
     });
 
     function init(params) {
-        realAnswer = eval(decode(key, detail.metadata.properties.answers));
+        realAnswer = eval(decode(detail.metadata.properties.answers));
         setRealAnswer([...realAnswer]);
         // 初次进入计算
         getResult();
