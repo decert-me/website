@@ -1,6 +1,6 @@
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { Button, Modal, Spin } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
 import { useAddress } from "@/hooks/useAddress";
@@ -12,12 +12,14 @@ import { GetPercent, GetScorePercent } from "@/utils/GetPercent";
 import ClaimInfo from "./info";
 import "@/assets/styles/component-style"
 import "@/assets/styles/mobile/view-style/claim.scss"
+import { useUpdateEffect } from "ahooks";
 
 
 
 export default function Claim(params) {
     
     const navigateTo = useNavigate();
+    const location = useLocation();
     const { decode } = Encryption();
     const { questId } = useParams();
     const { address } = useAddress();
@@ -171,6 +173,10 @@ export default function Claim(params) {
     useEffect(() => {
         init();
     },[address])
+
+    useUpdateEffect(() => {
+        init();
+    },[location])
 
     return (
         <div className="Claim">
