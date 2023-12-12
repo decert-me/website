@@ -1,13 +1,11 @@
 import { forwardRef, useEffect, useImperativeHandle, useState } from "react"
-import { Button, Radio, Rate, message } from "antd";
-import { download } from "../../utils/file/download";
-// import { reviewOpenQuest } from "../../request/api/judgment";
-// import { getUserOpenQuestList } from "@/request/api/public";
+import { useTranslation } from "react-i18next";
+import { Button, Rate } from "antd";
 import { Viewer } from "@bytemd/react";
-import CustomIcon from "@/components/CustomIcon";
+import { download } from "@/utils/file/download";
 import { GetPercentScore } from "@/utils/GetPercent";
 import { reviewOpenQuest } from "@/request/api/judg";
-import { useTranslation } from "react-i18next";
+import CustomIcon from "@/components/CustomIcon";
 
 
 function RatingModal({data, onFinish}, ref) {
@@ -19,7 +17,18 @@ function RatingModal({data, onFinish}, ref) {
     let [selectOpenQs, setSelectOpenQs] = useState({});
     let [page, setPage] = useState(0);
 
+    // 比对当前已打分length 
+    function isOver() {
+        const flag = reviewQuests.length === detail.length;
+        const remain = detail.length - reviewQuests.length;
+        return  {flag, remain}
+    }
+
     async function confirm(params) {
+        // 没有改分直接退出
+        if (reviewQuests.length === 0) {
+            return
+        }
         await reviewOpenQuest(reviewQuests)
         reviewQuests = [];
         setReviewQuests([...reviewQuests]);
@@ -100,7 +109,8 @@ function RatingModal({data, onFinish}, ref) {
     },[data])
 
     useImperativeHandle(ref, () => ({
-        confirm
+        confirm,
+        isOver
     }))
 
     return (
