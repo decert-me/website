@@ -1,9 +1,7 @@
 import "./index.scss";
 import { useContext, useEffect, useRef, useState } from "react";
 import { Button, Modal, Table } from "antd";
-import {
-    DownOutlined
-  } from '@ant-design/icons';
+import { DownOutlined, CloseOutlined } from '@ant-design/icons';
 import MyContext from "@/provider/context";
 import RatingModal from "./modal";
 import { getUserOpenQuestList } from "@/request/api/judg";
@@ -192,9 +190,15 @@ export default function Rating(params) {
             submitReview()
         }
         confirm({
-            title: `还有${remain}道未评分，仍然提交？`,
+            title: "",
+            className: "confirm-modal",
             icon: <></>,
-            content: '',
+            content: (
+                <>
+                <CloseOutlined style={{position: "absolute", right: 20, top: 20}} />   
+                {t("confirm.submit", {num: remain})}
+                </>
+            ),
             okText: t("submit"),
             cancelText: t("cancel"),
             onOk() {
