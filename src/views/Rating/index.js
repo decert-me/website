@@ -36,8 +36,8 @@ export default function Rating(params) {
             key: 'title',
             dataIndex: "title",
             width: "50%",
-            render: (title) => (
-                <p className="of-h">{title}</p>
+            render: (title, quest) => (
+                <p className="of-h" onClick={() => openDetail(quest)}>{title}</p>
             )
         },
         {
@@ -262,11 +262,11 @@ export default function Rating(params) {
                 expandable={isMobile && {
                     expandedRowRender: (record) => (
                         <div className="more-items">
-                            <div className="item">
+                            <div className="item" onClick={() => window.open(`/quests/${record.token_id}`, "_blank")}>
                                 <p className="label">{t("c-num")}</p>
                                 <p className="value">{record.token_id}</p>
                             </div>
-                            <div className="item">
+                            <div className="item" onClick={() => window.open(`/${record.address}`, "_blank")}>
                                 <p className="label">{t("c-addr")}</p>
                                 <p className="value">{record.address.substring(0,5) + "..." + record.address.substring(38,42)}</p>
                             </div>
