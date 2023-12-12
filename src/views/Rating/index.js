@@ -188,23 +188,24 @@ export default function Rating(params) {
         const {flag, remain} = judgRef.current.isOver();
         if (flag) {
             submitReview()
+        }else{
+            confirm({
+                title: "",
+                className: "confirm-modal",
+                icon: <></>,
+                content: (
+                    <>
+                    <CloseOutlined style={{position: "absolute", right: 20, top: 20}} />   
+                    {t("confirm.submit", {num: remain})}
+                    </>
+                ),
+                okText: t("submit"),
+                cancelText: t("cancel"),
+                onOk() {
+                    submitReview()
+                },
+            });
         }
-        confirm({
-            title: "",
-            className: "confirm-modal",
-            icon: <></>,
-            content: (
-                <>
-                <CloseOutlined style={{position: "absolute", right: 20, top: 20}} />   
-                {t("confirm.submit", {num: remain})}
-                </>
-            ),
-            okText: t("submit"),
-            cancelText: t("cancel"),
-            onOk() {
-                submitReview()
-            },
-        });
     }
 
     function init() {
