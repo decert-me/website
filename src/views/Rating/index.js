@@ -75,7 +75,7 @@ export default function Rating(params) {
             key: 'token_id',
             dataIndex: "token_id",
             render: (token_id) => (
-                <p className="pointer">{token_id}</p>
+                <p className="pointer" onClick={() => window.open(`/quests/${token_id}`, "_blank")}>{token_id}</p>
             )
         },
         {
@@ -83,7 +83,7 @@ export default function Rating(params) {
             key: 'address',
             dataIndex: "address",
             render: (address) => (
-                <p className="pointer">{address.substring(0,5) + "..." + address.substring(38,42)}</p>
+                <p className="pointer" onClick={() => window.open(`/${address}`, "_blank")}>{address.substring(0,5) + "..." + address.substring(38,42)}</p>
             )
         },
         {
