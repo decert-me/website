@@ -1,6 +1,6 @@
-import { forwardRef, useEffect, useImperativeHandle, useState } from "react"
+import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import { useTranslation } from "react-i18next";
-import { Button, Rate } from "antd";
+import { Button, Rate, Tour } from "antd";
 import { Viewer } from "@bytemd/react";
 import { download } from "@/utils/file/download";
 import { GetPercentScore } from "@/utils/GetPercent";
@@ -8,14 +8,36 @@ import { reviewOpenQuest } from "@/request/api/judg";
 import CustomIcon from "@/components/CustomIcon";
 
 
-function RatingModal({data, onFinish}, ref) {
+function RatingModal({data, isMobile, onFinish}, ref) {
 
-    const { t } = useTranslation(["rate"]);
+    const star = useRef(null);
+    const { t } = useTranslation(["rate", "translation"]);
+    const [open, setOpen] = useState(false);    //  漫游引导展示
     let [detail, setDetail] = useState();
     let [openQuest, setOpenQuest] = useState([]);
     let [reviewQuests, setReviewQuests] = useState([]);
     let [selectOpenQs, setSelectOpenQs] = useState({});
     let [page, setPage] = useState(0);
+
+    const steps = [
+        {
+          cover: (
+            <div>
+                <img
+                    alt="tour.png"
+                    src={require("@/assets/images/img/touch.gif")}
+                    id="tourImg"
+                    style={{
+                    width: "100px",
+                    marginTop: "-40px"
+                    }}
+                />
+                <Button className="custom-ikonw" ghost onClick={() => setOpen(false)} >{t("translation:btn-ok")}</Button>
+            </div>
+          ),
+          target: () => star.current,
+        }
+    ]
 
     // 比对当前已打分length 
     function isOver() {
@@ -58,6 +80,19 @@ function RatingModal({data, onFinish}, ref) {
         setOpenQuest([...openQuest]);
         selectOpenQs = openQuest[page];
         setSelectOpenQs({...selectOpenQs});
+
+        // 判断是否是第一次进入该页面
+        const isFrist = localStorage.getItem("decert.rate");
+        if (!isFrist) {
+            setOpen(true);
+            localStorage.setItem("decert.rate", true);
+            setTimeout(() => {
+                if (star?.current) {
+                    const tourImg = document.getElementById("tourImg");
+                    tourImg.style.marginLeft = `${star.current?.offsetWidth}px`;
+                }
+            }, 50);
+        }
     }
 
     // 切换上下题
@@ -131,7 +166,7 @@ function RatingModal({data, onFinish}, ref) {
                     </div>
 
                     <div className="item">
-                        <p className="item-title">{t("file")}:</p>
+                        <p className="item-title">{t("annex")}:</p>
                         <div className="item-content">
                             {
                                 selectOpenQs?.annex && selectOpenQs?.annex.map(e => (
@@ -143,14 +178,18 @@ function RatingModal({data, onFinish}, ref) {
 
                     <div className="item mb40">
                         <div className="item-title flex">
-                            评分: 
-                            <Rate 
-                                allowHalf 
-                                value={selectOpenQs?.rate}
-                                style={{color: "#DD8C53"}} 
-                                character={<CustomIcon type="icon-star" className="icon" />} 
-                                onChange={(percent) => getScore(percent)}
-                            />
+                            {t("score")}: 
+                            <div 
+                                ref={star}
+                            >
+                                <Rate 
+                                    allowHalf 
+                                    value={selectOpenQs?.rate}
+                                    style={{color: "#DD8C53"}} 
+                                    character={<CustomIcon type="icon-star" className="icon" />} 
+                                    onChange={(percent) => getScore(percent)}
+                                />
+                            </div>
                         </div>
                     </div>
                     
@@ -160,6 +199,7 @@ function RatingModal({data, onFinish}, ref) {
                 <p>{page + 1}/<span style={{color: "#8B8D97"}}>{openQuest.length}</span></p>
                 <Button disabled={page+1 === openQuest.length} onClick={() => changePage(page + 1)}>{t("next")}</Button>
             </div>
+            <Tour rootClassName={`custom-tour ${isMobile ? "mobile-custom-tour" : ""}`} open={open} steps={steps} closeIcon={<></>} placement="bottomLeft" />
         </div>
     )
 }

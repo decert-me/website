@@ -425,3 +425,44 @@
         }
     }
 }
+
+
+// 漫游式引导
+.custom-tour{
+    width: auto !important;
+    .ant-tour-arrow{
+        display: none !important;
+    }
+    .ant-tour-inner{
+        background-color: #ffffff00 !important;
+        box-shadow: none !important;
+    }
+    .ant-tour-cover{
+        padding: 0 !important;
+    }
+    .ant-tour-footer{
+        display: none !important;
+    }
+    .custom-ikonw{
+        width: 226px;
+        height: 50px;
+        border-radius: 6px;
+        position: fixed;
+        left: calc((100vw - 226px) / 2);
+        bottom: 165px;
+
+        font-size: 16px;
+        font-weight: 500;
+    }
+}
+
+.mobile-custom-tour{
+    .custom-ikonw{
+        width: 12.5rem;
+        height: 2.5rem;
+        left: calc((100vw - 12.5rem) / 2);
+        bottom: 3.125rem;
+
+        font-size: 1rem;
+    }
+}
