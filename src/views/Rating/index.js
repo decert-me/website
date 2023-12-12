@@ -219,7 +219,7 @@ export default function Rating(params) {
                     loading: isLoading
                 }}
             >
-                <RatingModal ref={judgRef} onFinish={onFinish} data={data} />
+                <RatingModal ref={judgRef} onFinish={onFinish} data={data} isMobile={isMobile} />
             </Modal>
             <div className="custom-bg-round"></div>
             <h2>{t("h1")}</h2>
