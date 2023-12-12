@@ -476,3 +476,42 @@
         font-size: 1rem;
     }
 }
+
+
+// 通知弹窗
+.confirm-modal{
+    width: 364px !important;
+    padding-bottom: 0;
+    .ant-modal-content{
+        padding: 112px 32px 40px;
+        border-radius: 0;
+    }
+    .ant-modal-confirm-content{
+        font-size: 18px;
+        color: #999999;
+        text-align: center;
+    }
+    .ant-modal-confirm-paragraph{
+        gap: 0;
+    }
+    .ant-modal-confirm-btns{
+        margin-top: 74px;
+        padding: 0 22px;
+        display: flex;
+        justify-content: space-between;
+        button{
+            width: 120px;
+            height: 40px;
+            border-radius: 10px;
+            font-size: 14px;
+            &:first-child, &:first-child:hover{
+                color: #999999;
+                border-color: #999999;
+            }
+            &:last-child, &:last-child:hover{
+                color: #FFF;
+                background-color: #8F5A35;
+            }
+        }
+    }
+}

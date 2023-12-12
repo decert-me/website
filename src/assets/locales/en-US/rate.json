@@ -21,5 +21,9 @@
     "reset": "Reset",
     "ok": "Confirm",
     "cancel": "Cancel",
-    "more": "More"
+    "more": "More",
+
+    "confirm": {
+        "submit": "There are {{num}} questions yet to be graded. Still submitting?"
+    }
 }
