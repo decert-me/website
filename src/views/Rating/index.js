@@ -10,6 +10,8 @@ import { getUserOpenQuestList } from "@/request/api/judg";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 
+const { confirm } = Modal;
+
 export default function Rating(params) {
 
     const judgRef = useRef(null);
@@ -163,10 +165,29 @@ export default function Rating(params) {
         })
     };
 
-    async function handleOk() {
+    // 提交批改内容
+    async function submitReview(params) {
         setIsLoading(true);
         await judgRef.current.confirm();
         setIsLoading(false);
+    }
+
+    function handleOk() {
+        // 是否批改完
+        const {flag, remain} = judgRef.current.isOver();
+        if (flag) {
+            submitReview()
+        }
+        confirm({
+            title: `还有${remain}道未评分，仍然提交？`,
+            icon: <></>,
+            content: '',
+            okText: t("submit"),
+            cancelText: t("cancel"),
+            onOk() {
+                submitReview()
+            },
+        });
     }
 
     function init() {
