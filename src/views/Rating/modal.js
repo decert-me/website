@@ -60,15 +60,24 @@ function RatingModal({data, isMobile, onFinish}, ref) {
     async function init() {
         page = 0;
         setPage(page);
-        detail = data?.filter(e => e.open_quest_review_status === 1);
+        if (onFinish) {
+            detail = data?.filter(e => e.open_quest_review_status === 1);
+        }else{
+            detail = data;
+        }
         setDetail([...detail]);
         // 获取开放题列表
         const arr = [];
         detail.forEach((quest, i) => {
+            let rate = 0;
+            // 展示模式获取当前得分
+            if (!onFinish) {
+                rate = quest.answer?.correct ? quest.score : (quest.answer.score / quest.score * 5);
+            }
             arr.push({
                 index: i,
                 isPass: null,
-                rate: 0,
+                rate: rate,
                 title: quest.title,
                 value: quest.answer.value,
                 annex: quest.answer.annex,
@@ -184,6 +193,7 @@ function RatingModal({data, isMobile, onFinish}, ref) {
                             >
                                 <Rate 
                                     allowHalf 
+                                    disabled={!onFinish}     //  预览模式不可选
                                     value={selectOpenQs?.rate}
                                     style={{color: "#DD8C53"}} 
                                     character={<CustomIcon type="icon-star" className="icon" />} 
@@ -194,12 +204,17 @@ function RatingModal({data, isMobile, onFinish}, ref) {
                     </div>
                     
                 </div>
-            <div className="pagination">
-                <Button disabled={page === 0} onClick={() => changePage(page - 1)}>{t("prev")}</Button>
-                <p>{page + 1}/<span style={{color: "#8B8D97"}}>{openQuest.length}</span></p>
-                <Button disabled={page+1 === openQuest.length} onClick={() => changePage(page + 1)}>{t("next")}</Button>
-            </div>
-            <Tour rootClassName={`custom-tour ${isMobile ? "mobile-custom-tour" : ""}`} open={open} steps={steps} closeIcon={<></>} placement="bottomLeft" />
+            {
+                onFinish &&
+                <>
+                    <div className="pagination">
+                        <Button disabled={page === 0} onClick={() => changePage(page - 1)}>{t("prev")}</Button>
+                        <p>{page + 1}/<span style={{color: "#8B8D97"}}>{openQuest.length}</span></p>
+                        <Button disabled={page+1 === openQuest.length} onClick={() => changePage(page + 1)}>{t("next")}</Button>
+                    </div>
+                    <Tour rootClassName={`custom-tour ${isMobile ? "mobile-custom-tour" : ""}`} open={open} steps={steps} closeIcon={<></>} placement="bottomLeft" />
+                </>
+            }
         </div>
     )
 }

@@ -19,12 +19,13 @@ export default function Rating(params) {
     const { t } = useTranslation(["rate"]);
     const { isMobile } = useContext(MyContext);
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const [detailOpen, setDetailOpen] = useState(false);
+    let [detail, setDetail] = useState([]);
     let [status, setStatus] = useState(1);
     let [isLoading, setIsLoading] = useState();
     let [data, setData] = useState([]);
     let [pageConfig, setPageConfig] = useState({
         page: 0,
-        // pageSize: 1,
         pageSize: 10,
         total: 0,
     });
@@ -65,20 +66,25 @@ export default function Rating(params) {
             title: t("quest"),
             key: 'title',
             dataIndex: "title",
-            render: (title) => (
-                <p className="of-h">{title}</p>
+            render: (title, quest) => (
+                <p className="of-h pointer" onClick={() => openDetail(quest)}>{title}</p>
             )
         },
         {
             title: t("c-num"),
             key: 'token_id',
-            dataIndex: "token_id"
+            dataIndex: "token_id",
+            render: (token_id) => (
+                <p className="pointer">{token_id}</p>
+            )
         },
         {
             title: t("c-addr"),
             key: 'address',
             dataIndex: "address",
-            render: (address) => address.substring(0,5) + "..." + address.substring(38,42)
+            render: (address) => (
+                <p className="pointer">{address.substring(0,5) + "..." + address.substring(38,42)}</p>
+            )
         },
         {
             title: t("status"),
@@ -119,6 +125,13 @@ export default function Rating(params) {
             )
         }
     ];
+
+    // 展示该题详情
+    function openDetail(quest) {
+        detail = [quest];
+        setDetail([...detail]);
+        setDetailOpen(true);
+    }
 
     function onFinish() {
         setIsModalOpen(false)
@@ -203,6 +216,7 @@ export default function Rating(params) {
 
     return (
         <div className="rating" >
+            {/* rateModal */}
             <Modal
                 width={1177}
                 className={`judg-modal ${isMobile ? "mobile-judg-modal" : ""}`}
@@ -221,6 +235,18 @@ export default function Rating(params) {
             >
                 <RatingModal ref={judgRef} onFinish={onFinish} data={data} isMobile={isMobile} />
             </Modal>
+
+            {/* detailModal */}
+            <Modal
+                width={1177}
+                className={`judg-modal ${isMobile ? "mobile-judg-modal" : ""}`}
+                open={detailOpen}
+                footer={null}
+                onCancel={() => {setDetailOpen(false)}}
+            >
+                <RatingModal data={detail} isMobile={isMobile} />
+            </Modal>
+
             <div className="custom-bg-round"></div>
             <h2>{t("h1")}</h2>
             <Table
