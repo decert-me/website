@@ -11,6 +11,16 @@
     .custom-tabel{
         border: 2px solid #f7f7f7;
         border-radius: 5px;
+
+        // 点击跳转
+        .pointer{
+            cursor: pointer;
+            &:hover{
+                text-decoration: underline;
+            }
+        }
+
+        // 无内容
         .nodata{
             height: 100%; 
             display: flex; 
