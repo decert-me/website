@@ -186,10 +186,11 @@ export default function AppHeader(props) {
                             isConnected && !isOpenM &&
                                 <Dropdown
                                     placement="bottomRight" 
-                                    menu={{items: items.slice(1,items.length)}}
-                                    overlayClassName="mobile-custom-drop-menu"
+                                    menu={{items: items}}
+                                    // overlayClassName="mobile-custom-drop-menu"
+                                    overlayClassName="custom-dropmenu"
                                     overlayStyle={{
-                                        width: "160px",
+                                        width: "210px",
                                         fontWeight: 500
                                     }}
                                 >
