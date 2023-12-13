@@ -30,6 +30,39 @@ export default function Rating(params) {
         total: 0,
     });
 
+    const fillter = (confirm) => (
+        <div
+          style={{
+            display: "flex",
+            flexDirection: "column"
+          }}
+          onKeyDown={(e) => e.stopPropagation()}
+        >
+            <Radio.Group 
+                style={{
+                    padding: "4px"
+                }}
+                onChange={(e) => {
+                    select = e.target.value;
+                    setSelect(select);
+                }} 
+                value={select !== undefined ? select : status}>
+                <Space direction="vertical" style={{padding: "5px 12px"}}>
+                    <Radio value={null}>{t("all")}</Radio>
+                    <Radio value={1}>{t("rate")}</Radio>
+                    <Radio value={2}>{t("rated")}</Radio>
+                </Space>
+            </Radio.Group>
+            <div className="ant-table-filter-dropdown-btns" >
+                <button></button>
+                <Button size="small" onClick={() => {
+                    handleConfirm();
+                    confirm();
+                }}>{t("ok")}</Button>
+            </div>
+        </div>
+    )
+
     const mobileColumns = [
         {
             title: t("quest"),
@@ -51,27 +84,7 @@ export default function Rating(params) {
             ],
             filterMultiple: false,
             filteredValue: [status],
-            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
-                <div
-                  style={{
-                    padding: 8,
-                  }}
-                  onKeyDown={(e) => e.stopPropagation()}
-                >
-                    <Radio.Group onChange={(e) => {
-                        console.log(e);
-                    }} value={status}>
-                        <Space direction="vertical">
-                            <Radio value={null}>{t("all")}</Radio>
-                            <Radio value={1}>{t("rate")}</Radio>
-                            <Radio value={2}>{t("rated")}</Radio>
-                        </Space>
-                    </Radio.Group>
-                  <Space>
-                    <Button size="small">{t("ok")}</Button>
-                  </Space>
-                </div>
-            ),
+            filterDropdown: ({ confirm }) => fillter(confirm),
             onFilterDropdownOpenChange: (v) => {
                 console.log(v);
             },
@@ -121,38 +134,7 @@ export default function Rating(params) {
             ],
             filterMultiple: false,
             filteredValue: [status],
-            filterDropdown: ({ confirm }) => (
-                <div
-                  style={{
-                    display: "flex",
-                    flexDirection: "column"
-                  }}
-                  onKeyDown={(e) => e.stopPropagation()}
-                >
-                    <Radio.Group 
-                        style={{
-                            padding: "4px"
-                        }}
-                        onChange={(e) => {
-                            select = e.target.value;
-                            setSelect(select);
-                        }} 
-                        value={select !== undefined ? select : status}>
-                        <Space direction="vertical" style={{padding: "5px 12px"}}>
-                            <Radio value={null}>{t("all")}</Radio>
-                            <Radio value={1}>{t("rate")}</Radio>
-                            <Radio value={2}>{t("rated")}</Radio>
-                        </Space>
-                    </Radio.Group>
-                    <div className="ant-table-filter-dropdown-btns" >
-                        <button></button>
-                        <Button size="small" onClick={() => {
-                            handleConfirm();
-                            confirm();
-                        }}>{t("ok")}</Button>
-                    </div>
-                </div>
-            ),
+            filterDropdown: ({ confirm }) => fillter(confirm),
             render: (status) => (
                 <p style={{
                     color: status === 2 ? "#35D6A6" : "#9A9A9A",
