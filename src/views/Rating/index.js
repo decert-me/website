@@ -85,9 +85,6 @@ export default function Rating(params) {
             filterMultiple: false,
             filteredValue: [status],
             filterDropdown: ({ confirm }) => fillter(confirm),
-            onFilterDropdownOpenChange: (v) => {
-                console.log(v);
-            },
             render: (status) => (
                 <p style={{
                     color: status === 2 ? "#35D6A6" : "#9A9A9A",
