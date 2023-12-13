@@ -404,18 +404,11 @@
 .ant-table-filter-dropdown{
 
     // ul
-    .ant-dropdown-menu{
-        
-        .ant-dropdown-menu-item-selected{
-            background-color: rgba(#8F5A35, 0.1) !important;
-            .ant-radio-inner{
-                border-color: #8F5A35;
-                background-color: #8F5A35;
-            }
-            span{
-                color: #8F5A35;
-            }
-        }
+    .ant-radio-inner{
+        border-color: #8F5A35 !important;
+    }
+    .ant-radio-checked .ant-radio-inner{
+        background-color: #8F5A35 !important;
     }
 
     // btn
