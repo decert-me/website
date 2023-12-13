@@ -38,26 +38,9 @@ export default function AppHeader({ isMobile, user }) {
 
     const items = [
         {
-            label: (<p onClick={() => {
-                if (walletType === "solana") {
-                    message.info(t("translation:message.info.solana-publish"))
-                    return
-                }
-                navigateTo(`/publish`)
-            }}> {t("home.btn-publish")} </p>),
-            key: '0',
-            icon: '',
-        },
-        {
-            type: 'divider',
-        },
-        {
             label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("header.profile")} </p>),
-            key: '1',
-            icon: '',
-        },
-        {
-            type: 'divider',
+            key: '0',
+            icon: <MenuOutlined />,
         },
         {
             label: (
@@ -68,16 +51,41 @@ export default function AppHeader({ isMobile, user }) {
                     {t("header.cert")} 
                 </p>
             ),
+            key: '1',
+            icon: <MenuOutlined />,
+        },
+        {
+            type: 'divider',
+        },
+        {
+            label: (<p onClick={() => {
+                if (walletType === "solana") {
+                    message.info(t("translation:message.info.solana-publish"))
+                    return
+                }
+                navigateTo(`/publish`)
+            }}> {t("home.btn-publish")} </p>),
             key: '2',
-            icon: '',
+            icon: <MenuOutlined />,
+        },
+        {
+            label: (<p onClick={() => {
+                if (walletType === "solana") {
+                    message.info(t("translation:message.info.solana-publish"))
+                    return
+                }
+                navigateTo(`/rating`)
+            }}>评分列表</p>),
+            key: '3',
+            icon: <MenuOutlined />,
         },
         {
             type: 'divider',
         },
         {
             label: (<p onClick={() => goDisconnect()}> {t("header.disconnect")} </p>),
-            key: '3',
-            icon: '',
+            key: '4',
+            icon: <MenuOutlined />,
         }
     ]
 
