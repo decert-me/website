@@ -56,7 +56,7 @@ export default function CustomIcon(props) {
       "icon-close": close,
       "icon-share": share,
       "icon-arrow": arrow,
-      "icon-search": search
+      "icon-search": search,
       "icon-wechat": wechat,
       "icon-star": star
     }
