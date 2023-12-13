@@ -1,6 +1,6 @@
 import "./index.scss";
 import { useContext, useEffect, useRef, useState } from "react";
-import { Button, Modal, Table } from "antd";
+import { Button, Modal, Radio, Space, Table } from "antd";
 import { DownOutlined, CloseOutlined } from '@ant-design/icons';
 import MyContext from "@/provider/context";
 import RatingModal from "./modal";
@@ -20,7 +20,9 @@ export default function Rating(params) {
     const [detailOpen, setDetailOpen] = useState(false);
     let [detail, setDetail] = useState([]);
     let [status, setStatus] = useState(1);
+    let [select, setSelect] = useState();
     let [isLoading, setIsLoading] = useState();
+    let [tableLoad, setTableLoad] = useState();
     let [data, setData] = useState([]);
     let [pageConfig, setPageConfig] = useState({
         page: 0,
@@ -49,6 +51,30 @@ export default function Rating(params) {
             ],
             filterMultiple: false,
             filteredValue: [status],
+            filterDropdown: ({ setSelectedKeys, selectedKeys, confirm, clearFilters, close }) => (
+                <div
+                  style={{
+                    padding: 8,
+                  }}
+                  onKeyDown={(e) => e.stopPropagation()}
+                >
+                    <Radio.Group onChange={(e) => {
+                        console.log(e);
+                    }} value={status}>
+                        <Space direction="vertical">
+                            <Radio value={null}>{t("all")}</Radio>
+                            <Radio value={1}>{t("rate")}</Radio>
+                            <Radio value={2}>{t("rated")}</Radio>
+                        </Space>
+                    </Radio.Group>
+                  <Space>
+                    <Button size="small">{t("ok")}</Button>
+                  </Space>
+                </div>
+            ),
+            onFilterDropdownOpenChange: (v) => {
+                console.log(v);
+            },
             render: (status) => (
                 <p style={{
                     color: status === 2 ? "#35D6A6" : "#9A9A9A",
@@ -95,6 +121,38 @@ export default function Rating(params) {
             ],
             filterMultiple: false,
             filteredValue: [status],
+            filterDropdown: ({ confirm }) => (
+                <div
+                  style={{
+                    display: "flex",
+                    flexDirection: "column"
+                  }}
+                  onKeyDown={(e) => e.stopPropagation()}
+                >
+                    <Radio.Group 
+                        style={{
+                            padding: "4px"
+                        }}
+                        onChange={(e) => {
+                            select = e.target.value;
+                            setSelect(select);
+                        }} 
+                        value={select !== undefined ? select : status}>
+                        <Space direction="vertical" style={{padding: "5px 12px"}}>
+                            <Radio value={null}>{t("all")}</Radio>
+                            <Radio value={1}>{t("rate")}</Radio>
+                            <Radio value={2}>{t("rated")}</Radio>
+                        </Space>
+                    </Radio.Group>
+                    <div className="ant-table-filter-dropdown-btns" >
+                        <button></button>
+                        <Button size="small" onClick={() => {
+                            handleConfirm();
+                            confirm();
+                        }}>{t("ok")}</Button>
+                    </div>
+                </div>
+            ),
             render: (status) => (
                 <p style={{
                     color: status === 2 ? "#35D6A6" : "#9A9A9A",
@@ -124,6 +182,16 @@ export default function Rating(params) {
         }
     ];
 
+    function handleConfirm() {
+        status = select;
+        setStatus(status);
+        setSelect(undefined);
+
+        data = [];
+        setData([...data]);
+        getList(1);
+    }
+
     // 展示该题详情
     function openDetail(quest) {
         detail = [quest];
@@ -139,14 +207,14 @@ export default function Rating(params) {
     // 修改状态过滤
     const handleChange = (pagination, filters, sorter) => {
         const { pageSize } = pagination
-        const newStatus = Array.isArray(filters.status) ? filters.status[0] : null;
-        if (status !== newStatus) {
-            status = newStatus;
-            setStatus(newStatus);
-            data = [];
-            setData([...data]);
-            getList(1);
-        }
+        // const newStatus = Array.isArray(filters.status) ? filters.status[0] : null;
+        // if (status !== newStatus) {
+        //     status = newStatus;
+        //     setStatus(newStatus);
+        //     data = [];
+        //     setData([...data]);
+        //     getList(1);
+        // }
         if (pageSize !== pageConfig.pageSize) {
             pageConfig.pageSize = pageSize;
             setPageConfig({...pageConfig});
@@ -154,12 +222,13 @@ export default function Rating(params) {
         }
     };
 
-    const getList = (page) => {
+    const getList = async(page) => {
+        setTableLoad(true);
         if (page) {
             pageConfig.page = page;
             setPageConfig({...pageConfig});
         }
-        getUserOpenQuestList({
+        await getUserOpenQuestList({
             open_quest_review_status: status,
             ...pageConfig
         })
@@ -174,6 +243,7 @@ export default function Rating(params) {
             pageConfig.total = res.data.total;
             setPageConfig({...pageConfig});
         })
+        setTableLoad(false);
     };
 
     // 提交批改内容
@@ -260,6 +330,7 @@ export default function Rating(params) {
                 rootClassName="custom-tabel"
                 scroll={{ y: isMobile ? null : "calc(100vh - 414px)" }}
                 onChange={handleChange}
+                loading={tableLoad}
                 locale={{
                     filterReset: null,
                     filterConfirm: t("ok")
