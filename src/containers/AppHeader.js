@@ -185,7 +185,7 @@ export default function AppHeader({ isMobile, user }) {
                             isConnected && !isOpenM &&
                                 <Dropdown
                                     placement="bottomRight" 
-                                    menu={{items: items}}
+                                    menu={{items: items.filter((e, i) => i!== 3 )}}
                                     // overlayClassName="mobile-custom-drop-menu"
                                     overlayClassName="custom-dropmenu"
                                     overlayStyle={{
