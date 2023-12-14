@@ -18,5 +18,6 @@
             "add": "Add NFT"
         }
     },
-    "reload": "Reload"
+    "reload": "Reload",
+    "msg": "Unable to query, please check if the wallet address /ENS is correct."
 }
