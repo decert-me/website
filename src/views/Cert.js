@@ -1,4 +1,4 @@
-import { Button, Divider } from "antd";
+import { Button, Divider, message } from "antd";
 import {
     LeftOutlined
 } from '@ant-design/icons';
@@ -129,7 +129,12 @@ export default function Cert(params) {
         await new Promise((resolve, reject) => {
            getEns({address: urlAddr})
             .then(res => {
-                res ? resolve(res.data) : reject()
+                if (res.data) {
+                    resolve(res.data)
+                }else{
+                    message.error(t("msg"))
+                    reject()
+                }
             })
         }).then(res => {
             ensParse = res;
