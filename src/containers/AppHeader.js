@@ -38,26 +38,9 @@ export default function AppHeader({ isMobile, user }) {
 
     const items = [
         {
-            label: (<p onClick={() => {
-                if (walletType === "solana") {
-                    message.info(t("translation:message.info.solana-publish"))
-                    return
-                }
-                navigateTo(`/publish`)
-            }}> {t("home.btn-publish")} </p>),
-            key: '0',
-            icon: '',
-        },
-        {
-            type: 'divider',
-        },
-        {
             label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("header.profile")} </p>),
-            key: '1',
-            icon: '',
-        },
-        {
-            type: 'divider',
+            key: '0',
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-user.png")} alt="" />,
         },
         {
             label: (
@@ -68,16 +51,41 @@ export default function AppHeader({ isMobile, user }) {
                     {t("header.cert")} 
                 </p>
             ),
+            key: '1',
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-cert.png")} alt="" />,
+        },
+        {
+            type: 'divider',
+        },
+        {
+            label: (<p onClick={() => {
+                if (walletType === "solana") {
+                    message.info(t("translation:message.info.solana-publish"))
+                    return
+                }
+                navigateTo(`/publish`)
+            }}> {t("home.btn-publish")} </p>),
             key: '2',
-            icon: '',
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-publish.png")} alt="" />,
+        },
+        {
+            label: (<p onClick={() => {
+                if (walletType === "solana") {
+                    message.info(t("translation:message.info.solana-publish"))
+                    return
+                }
+                navigateTo(`/rating`)
+            }}>{t("header.rate")}</p>),
+            key: '3',
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-rate.png")} alt="" />,
         },
         {
             type: 'divider',
         },
         {
             label: (<p onClick={() => goDisconnect()}> {t("header.disconnect")} </p>),
-            key: '3',
-            icon: '',
+            key: '4',
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-exit.png")} alt="" />,
         }
     ]
 
@@ -111,6 +119,12 @@ export default function AppHeader({ isMobile, user }) {
             .then(res => {
                 ClearStorage();
             })
+        }
+
+        // 判断是否是claim页
+        const path = location.pathname;
+        if (path && path.indexOf('claim') !== -1) {
+            navigateTo(0)
         }
     }
 
@@ -171,10 +185,11 @@ export default function AppHeader({ isMobile, user }) {
                             isConnected && !isOpenM &&
                                 <Dropdown
                                     placement="bottomRight" 
-                                    menu={{items: items.slice(1,items.length)}}
-                                    overlayClassName="mobile-custom-drop-menu"
+                                    menu={{items: items.filter((e, i) => i!== 3 )}}
+                                    // overlayClassName="mobile-custom-drop-menu"
+                                    overlayClassName="custom-dropmenu"
                                     overlayStyle={{
-                                        width: "160px",
+                                        width: "210px",
                                         fontWeight: 500
                                     }}
                                 >

@@ -136,7 +136,7 @@ export default function ModalAnswers(props) {
                 </ul>
             </div>
 
-            <Button className='submit' onClick={checkSubmit}>{t("translation:btn-sumbit-confirm")}</Button>
+            <Button id="hover-btn-full" className='submit' onClick={checkSubmit}>{t("translation:btn-sumbit-confirm")}</Button>
         </Modal>
     )
 }

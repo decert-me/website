@@ -1,6 +1,5 @@
 import Index from "@/views/Index"
 import Explore from "@/views/Explore"
-import Publish from "@/views/Publish"
 import NewPublish from "@/views/Publish/index"
 import Question from "@/views/Question/index";
 import Challenge from "@/views/Challenge/index";
@@ -12,6 +11,7 @@ import Lesson from "@/views/Lesson";
 import Search from "@/views/Search";
 import NotFound from "@/views/NotFound";
 import Collection from "@/views/Collection";
+import Rating from "@/views/Rating";
 
 const routes = [
     { 
@@ -41,6 +41,10 @@ const routes = [
     { 
       path: "/preview",
       element: <Challenge />,
+    },
+    { 
+      path: "/rating",
+      element: <Rating />,
     },
     { 
       path: "/claim/:questId",
