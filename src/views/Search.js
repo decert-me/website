@@ -1,4 +1,4 @@
-import { Button, Input } from "antd";
+import { Button, Input, message } from "antd";
 import {
     SearchOutlined
 } from "@ant-design/icons"
@@ -39,10 +39,12 @@ export default function Search(params) {
         }else{
             await getEns({address: account})
             .then(res => {
-                if (res?.data) {
+                if (res.data) {
                     setTimeout(() => {
                         navigateTo(`/${account}`)
                     }, 500);
+                }else{
+                    message.error(t("msg"))
                 }
             })
         }

@@ -41,10 +41,10 @@ export default function CustomOpen(props) {
                 // 成功后将对象写入annex数组对象中 => {后缀、ipfs链接}
                 if (res.status === 0) {                    
                     message.success(res.message);
-                    annex.push({
+                    annex = [{
                         name: file.name,
                         hash: "https://ipfs.decert.me/" + res.data.hash
-                    })
+                    }]
                     setAnnex([...annex]);
                     onChangeValue();
                     onSuccess(res, file);
