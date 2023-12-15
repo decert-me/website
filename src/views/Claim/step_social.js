@@ -17,17 +17,28 @@ export default function StepSocial({step, setStep, defaultValue}) {
     const [isWechatLoad, setIsWechatLoad] = useState();
     const [qrCode, setQrCode] = useState();
     const [count, setCount] = useState(0);
+    const [pollingCount, setPollingCount] = useState(0);
     let [bindObj, setBindObj] = useState({
         discord: false,
         wechat: false
     })
 
     // 轮询检测是否绑定social ===>
-    const { run, cancel } = useRequest(hasBindSocialAc, {
+    const { run, cancel } = useRequest(polling, {
         pollingInterval: 3000,
         manual: true
     });
 
+    function polling() {
+        setPollingCount(pollingCount + 1);
+        hasBindSocialAc()
+        if (pollingCount === 60) {
+            cancel();
+            setIsDiscordLoad(false);
+            setIsWechatLoad(false);
+            setPollingCount(0);
+        }
+    }
 
     async function bindDiscordAc(params) {
         setIsDiscordLoad(true);
