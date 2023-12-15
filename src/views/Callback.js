@@ -17,7 +17,7 @@ export default function Callback() {
         if (social === "discord" && token) {
             await authDiscord({code, callback: `${window.location.origin}/callback/discord`})
             .then(res => {
-                if (res.status !== 0) {
+                if (res?.message) {
                     localStorage.setItem("decert.bind.notice", res.message);
                 }
             })
