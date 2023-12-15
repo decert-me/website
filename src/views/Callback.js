@@ -14,6 +14,10 @@ export default function Callback() {
 
     async function init() {
         const token = localStorage.getItem("decert.token");
+        if (!code) {
+            window.close();
+            return
+        }
         if (social === "discord" && token) {
             await authDiscord({code, callback: `${window.location.origin}/callback/discord`})
             .then(res => {
