@@ -209,7 +209,7 @@ function CustomCode(props, ref) {
         selectCode = cacheQuest.code_snippets[0];
         // 解码示例代码
         if (!selectCode?.decodeAnswer) {
-            selectCode.decodeAnswer = eval(decode(key, selectCode.correctAnswer));
+            selectCode.decodeAnswer = eval(decode(selectCode.correctAnswer));
         }
 
         setSelectCode({...selectCode});

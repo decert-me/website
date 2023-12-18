@@ -120,13 +120,23 @@ export const submitHash = (data) => {
 }
 
 // 获取 Discord 是否绑定
-export const verifyDiscord = (data) => {
+// export const verifyDiscord = (data) => {
+//     return serviceAxios({
+//         url: `/v1/users/discord`,
+//         method: "get",
+//         data
+//     })
+// }
+
+// 检测 social 是否绑定
+export const hasBindSocialAccount = (data) => {
     return serviceAxios({
-        url: `/v1/users/discord`,
+        url: `/v1/users/hasBindSocialAccount`,
         method: "get",
         data
     })
 }
+
 
 // 获取铸造所需签名
 export const getClaimHash = (data) => {

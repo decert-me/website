@@ -67,7 +67,7 @@ export default function Publish(params) {
             values: values,
             address: address,
             questions: qs,
-            answers: encode(process.env.REACT_APP_ANSWERS_KEY, JSON.stringify(answers)),
+            answers: encode(JSON.stringify(answers)),
             image: "ipfs://"+image,
             startTime: isEdit ? changeItem.startTime : null,
             olduuid: isEdit ? changeItem.uuid : null
@@ -236,7 +236,7 @@ export default function Publish(params) {
         }
         // 获取对应challenge信息
         const { title, description, recommend, metadata, quest_data, difficulty, uri, uuid } = data;
-        const answers = JSON.parse(decode(process.env.REACT_APP_ANSWERS_KEY, data.quest_data.answers))
+        const answers = JSON.parse(decode(data.quest_data.answers))
         const editor = isSerializedString(recommend);
         const questions = quest_data.questions.map((e,i) => {
             return ({
