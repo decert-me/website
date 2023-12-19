@@ -8,7 +8,7 @@ import { getUserOpenQuestList, reviewOpenQuest } from "@/request/api/judg";
 import CustomIcon from "@/components/CustomIcon";
 
 
-function RatingModal({data, rateNum, pageNum, isMobile, onFinish}, ref) {
+function RatingModal({data, rateNum, pageNum, status, isMobile, onFinish}, ref) {
 
     const star = useRef(null);
     const { t } = useTranslation(["rate", "translation"]);
@@ -58,15 +58,41 @@ function RatingModal({data, rateNum, pageNum, isMobile, onFinish}, ref) {
         onFinish();
     }
 
+    function reviewInit(quest) {
+        const arr = [{
+            index: 0,
+            isPass: null,
+            rate: quest.answer?.correct ? quest.score : (quest.answer.score / quest.score * 5),
+            title: quest.title,
+            value: quest.answer.value,
+            annex: quest.answer.annex,
+            challenge_title: quest.challenge_title
+        }];
+        openQuest = arr;
+        setOpenQuest([...openQuest]);
+        page = 0;
+        setPage(page);
+        selectOpenQs = openQuest[page];
+        setSelectOpenQs({...selectOpenQs});
+    }
+
     async function init() {
         page = 0;
         setPage(page);
         if (onFinish) {
             detail = data?.filter(e => e.open_quest_review_status === 1);
+
         }else{
             detail = data;
+            setDetail([...detail]);
+            const quest = detail[0];
+            reviewInit(quest);
+            return
         }
-
+        if (status !== 1) {
+            changePage(0);
+            return
+        }
         // 创建指定长度的数组
         const length = rateNum;
         const allArr = Array.from({ length });
@@ -82,23 +108,16 @@ function RatingModal({data, rateNum, pageNum, isMobile, onFinish}, ref) {
         // 获取开放题列表
         const arr = [];
         detail.forEach((quest, i) => {
-            let rate = 0;
-            // 展示模式获取当前得分
-            if (!onFinish) {
-                rate = quest.answer?.correct ? quest.score : (quest.answer.score / quest.score * 5);
-            }
             arr.push(quest ? {
                 index: i,
                 isPass: null,
-                rate: rate,
+                rate: 0,
                 title: quest.title,
                 value: quest.answer.value,
                 annex: quest.answer.annex,
                 challenge_title: quest.challenge_title
             } : null)
         })
-
-
 
         openQuest = arr;
         setOpenQuest([...openQuest]);
