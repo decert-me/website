@@ -179,11 +179,15 @@ export default function Challenge(params) {
         }
         if (isOpenQuest.length !== 0 && detail.open_quest_review_status !== 0) {
             const newAns = answers.map(obj => {
-                let newObj = { ...obj };
-                delete newObj.score;
-                delete newObj.open_quest_review_time;
-                delete newObj.correct;
-                return newObj;
+                if (obj) {
+                    let newObj = { ...obj };
+                    delete newObj.score;
+                    delete newObj.open_quest_review_time;
+                    delete newObj.correct;
+                    return newObj;
+                }else{
+                    return null;
+                }
             })
             // 展示覆盖弹窗
             Modal.confirm({
