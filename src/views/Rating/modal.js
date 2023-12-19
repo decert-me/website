@@ -1,6 +1,6 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import { useTranslation } from "react-i18next";
-import { Button, Rate, Tour } from "antd";
+import { Button, Rate, Spin, Tour } from "antd";
 import { Viewer } from "@bytemd/react";
 import { download } from "@/utils/file/download";
 import { GetPercentScore } from "@/utils/GetPercent";
@@ -13,6 +13,7 @@ function RatingModal({data, rateNum, pageNum, isMobile, onFinish}, ref) {
     const star = useRef(null);
     const { t } = useTranslation(["rate", "translation"]);
     const [open, setOpen] = useState(false);    //  漫游引导展示
+    const [loading, setLoading] = useState(false);
     let [detail, setDetail] = useState();
     let [openQuest, setOpenQuest] = useState([]);
     let [reviewQuests, setReviewQuests] = useState([]);
@@ -124,6 +125,7 @@ function RatingModal({data, rateNum, pageNum, isMobile, onFinish}, ref) {
     async function changePage(newPage) {
         // 当指定索引内容为null时 加载新内容
         if (!openQuest[newPage]) {
+            setLoading(true);
             const page = Math.trunc(newPage/10) + 1;
             await getUserOpenQuestList({
                 open_quest_review_status: 1,
@@ -155,6 +157,7 @@ function RatingModal({data, rateNum, pageNum, isMobile, onFinish}, ref) {
                 setDetail([...detail])
                 setOpenQuest([...openQuest])
             })
+            setLoading(false);
         }
         page = newPage;
         setPage(page);
@@ -211,49 +214,52 @@ function RatingModal({data, rateNum, pageNum, isMobile, onFinish}, ref) {
         detail &&
         <div className="judg-content">
             <h1>{selectOpenQs?.challenge_title}</h1>
-                <div className="judg-info">
-                    <div className="item">
-                        <p className="item-title">{t("quest")}:</p>
-                        <div className="item-content">
-                            <Viewer value={selectOpenQs?.title} />
-                        </div>
-                    </div>
-
-                    <div className="item">
-                        <p className="item-title">{t("ans")}:</p>
-                        <p className="item-content box">{selectOpenQs?.value}</p>
-                    </div>
-
-                    <div className="item">
-                        <p className="item-title">{t("annex")}:</p>
-                        <div className="item-content">
-                            {
-                                selectOpenQs?.annex && selectOpenQs?.annex.map(e => (
-                                    <Button type="link" key={e.name} onClick={() => download(e.hash, e.name)}>{e.name}</Button>
-                                ))
-                            }
-                        </div>
-                    </div>
-
-                    <div className="item mb40">
-                        <div className="item-title flex">
-                            {t("score")}: 
-                            <div 
-                                ref={star}
-                            >
-                                <Rate 
-                                    allowHalf 
-                                    disabled={!onFinish}     //  预览模式不可选
-                                    value={selectOpenQs?.rate}
-                                    style={{color: "#DD8C53"}} 
-                                    character={<CustomIcon type="icon-star" className="icon" />} 
-                                    onChange={(percent) => getScore(percent)}
-                                />
+                <Spin spinning={loading}>
+                    <div className="judg-info">
+                        <div className="item">
+                            <p className="item-title">{t("quest")}:</p>
+                            <div className="item-content">
+                                <Viewer value={selectOpenQs?.title} />
                             </div>
                         </div>
+
+                        <div className="item">
+                            <p className="item-title">{t("ans")}:</p>
+                            <p className="item-content box">{selectOpenQs?.value}</p>
+                        </div>
+
+                        <div className="item">
+                            <p className="item-title">{t("annex")}:</p>
+                            <div className="item-content">
+                                {
+                                    selectOpenQs?.annex && selectOpenQs?.annex.map(e => (
+                                        <Button type="link" key={e.name} onClick={() => download(e.hash, e.name)}>{e.name}</Button>
+                                    ))
+                                }
+                            </div>
+                        </div>
+
+                        <div className="item mb40">
+                            <div className="item-title flex">
+                                {t("score")}: 
+                                <div 
+                                    ref={star}
+                                >
+                                    <Rate 
+                                        allowHalf 
+                                        disabled={!onFinish}     //  预览模式不可选
+                                        value={selectOpenQs?.rate}
+                                        style={{color: "#DD8C53"}} 
+                                        character={<CustomIcon type="icon-star" className="icon" />} 
+                                        onChange={(percent) => getScore(percent)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
-                    
-                </div>
+                </Spin>
+
             {
                 onFinish &&
                 <>
