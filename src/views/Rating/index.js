@@ -24,6 +24,7 @@ export default function Rating(params) {
     let [isLoading, setIsLoading] = useState();
     let [tableLoad, setTableLoad] = useState();
     let [data, setData] = useState([]);
+    let [rateNum, setRateNum] = useState();
     let [pageConfig, setPageConfig] = useState({
         page: 0,
         pageSize: 10,
@@ -220,6 +221,10 @@ export default function Rating(params) {
             })
             setData([...data]);
             pageConfig.total = res.data.total;
+            if (!rateNum) {
+                rateNum = pageConfig.total;
+                setRateNum(rateNum);
+            }
             setPageConfig({...pageConfig});
         })
         setTableLoad(false);
@@ -302,7 +307,7 @@ export default function Rating(params) {
             </Modal>
 
             <div className="custom-bg-round"></div>
-            <h2>{t("h1")}</h2>
+            <h2>{t("h1")}&nbsp;&nbsp;<span>({t("rate")} {rateNum})</span></h2>
             <Table
                 columns={isMobile ? mobileColumns : columns}
                 dataSource={data}
