@@ -292,7 +292,7 @@ export default function Rating(params) {
                     loading: isLoading
                 }}
             >
-                <RatingModal ref={judgRef} onFinish={onFinish} data={data} isMobile={isMobile} />
+                <RatingModal ref={judgRef} onFinish={onFinish} rateNum={rateNum} pageNum={pageConfig.page} data={data} isMobile={isMobile} />
             </Modal>
 
             {/* detailModal */}
