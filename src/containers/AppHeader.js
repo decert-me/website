@@ -108,6 +108,17 @@ export default function AppHeader({ isMobile, user }) {
         let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
         i18n.changeLanguage(lang);
         localStorage.setItem("decert.lang", lang)
+        const path = location.pathname;
+
+        //  指定页面刷新 内容
+        if (path === "/challenges" || 
+            path.indexOf("/quests") !== -1 || 
+            path.indexOf("/challenge") !== -1 || 
+            path.indexOf("/user") !== -1 || 
+            path.indexOf("/claim") !== -1
+        ) {
+            navigateTo(0)
+        }
     }
 
     function goDisconnect() {
