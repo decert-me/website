@@ -221,7 +221,7 @@ export default function Rating(params) {
             })
             setData([...data]);
             pageConfig.total = res.data.total;
-            if (!rateNum) {
+            if (status === 1) {
                 rateNum = pageConfig.total;
                 setRateNum(rateNum);
             }
