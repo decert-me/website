@@ -198,8 +198,6 @@ export default function Challenge(params) {
                 cancelText: t("translation:btn-cancel"),
                 okText: t("translation:btn-confirm"),
                 onOk: () => {
-                    console.log(newAns, answers);
-                    return
                     saveAnswer()
                     submitChallenge({
                         token_id: detail.tokenId,
