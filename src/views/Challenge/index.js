@@ -380,7 +380,7 @@ export default function Challenge(params) {
                 const fileList = [];
                 if (answers[i]) {
                     const {annex} = answers[i];
-                    annex.forEach((file, i) => {
+                    annex?.forEach((file, i) => {
                         fileList.push({
                             uid: i,
                             name: file.name,
