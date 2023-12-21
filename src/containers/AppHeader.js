@@ -115,7 +115,8 @@ export default function AppHeader({ isMobile, user }) {
             path.indexOf("/quests") !== -1 || 
             path.indexOf("/challenge") !== -1 || 
             path.indexOf("/user") !== -1 || 
-            path.indexOf("/claim") !== -1
+            path.indexOf("/claim") !== -1 ||
+            path.indexOf("/collection") !== -1
         ) {
             navigateTo(0)
         }
