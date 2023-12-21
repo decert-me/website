@@ -1,16 +1,21 @@
-import { getChallengers } from "@/request/api/quests"
-import { avatar } from "@/utils/user";
-import { Segmented } from "antd";
+import { getQuestFlashRank, getQuestHighRank, getQuestHolderRank } from "@/request/api/quests"
+import { avatar, nickname } from "@/utils/user";
+import { Segmented, Spin } from "antd";
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next";
-import { Link } from "react-router-dom";
 
 export default function Challenger(props) {
     
     const { questId } = props;
     const { t } = useTranslation(["explore"]);
-    const [selectType, setSelectType] = useState("fast");
+    const [loading, setLoading] = useState(false);
+    const [isOver, setIsOver] = useState(false);
+    let [selectType, setSelectType] = useState("fast");
     let [detail, setDetail] = useState();
+    let [rankList, setRankList] = useState([]);
+    let [pageConfig, setPageConfig] = useState({
+        page: 1, pageSize: 6
+    });
 
     const options = [
         {
@@ -27,42 +32,92 @@ export default function Challenger(props) {
         },
     ]
 
-    const mock = {
-        avatar: "https://ipfs.decert.me/bafybeicd2u6h5uozel22ykklrw4dwh5nk2pyladngst4kjtrwijeihmto4", addr: "0xFB...6CA28", time: "2023-12-12 10:30", score: "90"
+    const timestamp = (time) => {
+        return time.replace("T"," ").split("+")[0];
     }
-
-    const mockData =[
-        
-    ]
 
     function changeSelect(type) {
-        setSelectType(type);
+        selectType = type;
+        setSelectType(selectType);
+        getList();
     }
 
-    async function init(params) {
-        getChallengers({questId: questId})
+    async function pendingHolder() {
+        setLoading(true);
+        pageConfig.page = pageConfig.page+1;
+        setPageConfig({...pageConfig});
+
+        await getQuestHolderRank({questId, ...pageConfig})
         .then(res => {
-            detail = res?.data;
-            setDetail(detail);
+            const list = res?.data?.list || [];
+            rankList = rankList.concat(list);
+            setRankList([...rankList]);
+            console.log(rankList);
+            if (list.length < pageConfig.pageSize || rankList.length === detail.total) {
+                setIsOver(true);
+            }
         })
+
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
+    }
+
+    async function getList() {
+        setLoading(true);
+        switch (selectType) {
+            // 闪电榜
+            case "fast":
+                await getQuestFlashRank({questId})
+                .then(res => {
+                    detail = res?.data;
+                    setDetail({...detail});
+                    rankList = res?.data?.RankList || [];
+                    setRankList([...rankList]);
+                })
+                break;
+            case "score":
+                await getQuestHighRank({questId})
+                .then(res => {
+                    detail = res?.data;
+                    setDetail({...detail});
+                    rankList = res?.data?.RankList || [];
+                    setRankList([...rankList]);
+                })
+                break;
+            case "holder":
+                const {page, pageSize} = pageConfig;
+                await getQuestHolderRank({questId, page, pageSize})
+                .then(res => {
+                    detail = res?.data;
+                    setDetail({...detail});
+                    rankList = res?.data?.list || [];
+                    setRankList([...rankList]);
+                    if (rankList.length < pageConfig.pageSize || rankList.length === detail.total) {
+                        setIsOver(true);
+                    }
+                })
+                break;
+            default:
+                break;
+        }
+        setTimeout(() => {
+            setLoading(false);
+        }, 1000);
     }
 
     useEffect(() => {
-        questId && init();
+        questId && getList();
     },[])
 
     return (
-        detail &&
+        <Spin spinning={loading}>
         <div className="quest-challenger">
             <Segmented rootClassName="selector" options={options} value={selectType}  onChange={(e) => changeSelect(e)} />
-            {/* <div className="title">
-                {t("challenger")}
-                <span>{detail.Times}</span>
-            </div> */}
             <div className="label">
                 <p className="label-title">
                     {selectType === "holder" ?
-                        `Total ${detail.Times}` : "Top 10"
+                        `Total ${detail?.total || ""}` : "Top 10"
                     }
                 </p>
                 <div className="label-type">
@@ -73,80 +128,82 @@ export default function Challenger(props) {
             </div>
             <div className="list">
                 <ul>
-                    {/* {
-                        detail.users.map((e,i) => 
-                            <li key={i}>
-                                <Link to={`/${e.address}`}>
-                                    <img src={avatar(e)} alt="" />
-                                </Link>
-                            </li>
-                        )
-                    } */}
                     {
-                        Array.from({length: 10}).map((e,i) => (
-                            <li key={i}>
+                        rankList.map((e,i) => (
+                            <li key={`${selectType}${e.address}`}>
                                 <div className="info">
-                                    <div className="no">
-                                        {
-                                            i > 2 ? 
-                                            i + 1 :
-                                            <img src={require(`@/assets/images/img/no${i+1}.png`)} alt="" />
-                                        }
-                                    </div>
+                                    {
+                                        selectType !== "holder" &&
+                                        <div className="no">
+                                            {
+                                                e.rank > 3 ? 
+                                                e.rank :
+                                                <img src={require(`@/assets/images/img/no${e.rank}.png`)} alt="" />
+                                            }
+                                        </div>
+                                    }
                                     <div className="avatar">
-                                        <img src={mock.avatar} width={30} height={30} alt="" />
+                                        <img src={avatar(e)} width={30} height={30} alt="" />
                                     </div>
                                     <div className="addr">
-                                        {mock.addr}
+                                        {nickname(e)}
                                     </div>
                                 </div>
                                 <div className="res">
                                     {
                                         selectType === "score" &&
                                         <div className="score">
-                                            {mock.score}分
+                                            {e.score}分
                                         </div>
                                     }
                                     <div className={`time ${selectType === "score" ? "c9" : ""}`}>
-                                        {mock.time}
+                                        {timestamp(e.finish_time || e.claim_time)}
                                     </div>
                                 </div>
                             </li>
                         ))
                     }
                     {
-                        selectType === "holder" ?
-                        <div style={{margin: "0 auto", cursor: "pointer"}}>
+                        (selectType === "holder" && !isOver) ?
+                        <div style={{margin: "0 auto", cursor: "pointer"}} onClick={pendingHolder}>
                             <img className="btn-more" src={require("@/assets/images/icon/more.png")} alt="" />
                         </div>
                         :
+                        detail?.address ?
                         <li className="my-rank">
                             <div className="info">
                                 <div className="no">
-                                    190
+                                    {
+                                        detail?.rank > 3 ? 
+                                        detail?.rank :
+                                        <img src={require(`@/assets/images/img/no${detail?.rank}.png`)} alt="" />
+                                    }
                                 </div>
                                 <div className="avatar">
-                                    <img src={mock.avatar} width={30} height={30} alt="" />
+                                    <img src={avatar(detail)} width={30} height={30} alt="" />
                                 </div>
                                 <div className="addr">
-                                    {mock.addr}
+                                    {nickname(detail)}
                                 </div>
                             </div>
                             <div className="res">
                                 {
                                     selectType === "score" &&
                                     <div className="score">
-                                        {mock.score}分
+                                        {detail?.score}分
                                     </div>
                                 }
                                 <div className={`time ${selectType === "score" ? "c9" : ""}`}>
-                                    {mock.time}
+                                    {timestamp(detail.finish_time)}
                                 </div>
                             </div>
                         </li>
+                        :
+                        ""
                     }
                 </ul>
             </div>
         </div>
+        </Spin>
     )
 }

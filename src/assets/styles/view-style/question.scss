@@ -85,6 +85,8 @@
     }
     .list {
         width: 100%;
+        max-height: 665px;
+        overflow-y: auto;
     }
     ul{
         width: 100%;
@@ -135,10 +137,10 @@
             padding-left: 0;
             background-color: #FDF9F0;
             border-left: 2px solid #8F5A35;
+            // background: linear-gradient(90deg, #8F5A35 0%, rgba(143,90,53,0) 100%);
             .info{
                 height: 100%;
                 padding-left: 8px;
-                background: linear-gradient(90deg, #8F5A35 0%, rgba(143,90,53,0) 100%);
                 .no{
                     color: #190B06;
                 }
