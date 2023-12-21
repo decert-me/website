@@ -68,7 +68,7 @@ export const getChallengeCreate = (data) => {
 // 获取 challenge
 export const getQuests = (data) => {
     return serviceAxios({
-        url: `/v1/quests${data.id ? '/'+data.id : ''}${data.pageSize ? '?pageSize='+data.pageSize : ''}${data.page ? '&page='+data.page : ''}${data.type ? '&type='+data.type : ''}${data.original ? '&original='+data.original : ''}`,
+        url: `/v1/quests${data.id ? '/'+data.id : ''}${data.original ? '?original='+data.original : ''}${data.pageSize ? '?pageSize='+data.pageSize : ''}${data.page ? '&page='+data.page : ''}${data.type ? '&type='+data.type : ''}`,
         method: "get",
         data
     })
