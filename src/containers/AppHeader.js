@@ -105,11 +105,9 @@ export default function AppHeader({ isMobile, user }) {
     }
 
     const toggleI18n = () => {
-        let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
-        i18n.changeLanguage(lang);
-        localStorage.setItem("decert.lang", lang)
         const path = location.pathname;
-
+        let lang = i18n.language === 'zh-CN' ? 'en-US' : 'zh-CN';
+        localStorage.setItem("decert.lang", lang)
         //  指定页面刷新 内容
         if (path === "/challenges" || 
             path.indexOf("/quests") !== -1 || 
@@ -117,8 +115,13 @@ export default function AppHeader({ isMobile, user }) {
             path.indexOf("/claim") !== -1 ||
             path.indexOf("/collection") !== -1
         ) {
-            navigateTo(0)
+            setTimeout(() => {
+                navigateTo(0)
+            }, 40);
+            return
         }
+        i18n.changeLanguage(lang);
+
     }
 
     function goDisconnect() {
