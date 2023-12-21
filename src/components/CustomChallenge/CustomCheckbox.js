@@ -38,7 +38,7 @@ export default function CustomCheckbox(props) {
         })
         items = arr;
         setItems([...items]);
-    },[])
+    },[options])
 
     useEffect(() => {
         isPreview && changeDom()

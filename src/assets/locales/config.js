@@ -43,9 +43,10 @@ const resources = {
     }
 };
 
+
 i18n.use(initReactI18next).init({
     resources,
-    lng: 'en-US',
+    lng: localStorage.getItem("decert.lang") || (navigator.language !== 'zh-CN' ? 'en-US' : 'zh-CN'),
     interpolation: {
         escapeValue: false,
     },

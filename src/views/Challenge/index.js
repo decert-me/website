@@ -1,6 +1,7 @@
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
 import store from "@/redux/store";
+import i18n from 'i18next';
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, Progress, message } from 'antd';
@@ -16,6 +17,7 @@ import CustomPagination from '../../components/CustomPagination';
 import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 import { useAddress } from "@/hooks/useAddress";
 import { changeConnect } from "@/utils/redux";
+import { useUpdateEffect } from "ahooks";
 
 export default function Challenge(params) {
 
@@ -72,7 +74,7 @@ export default function Challenge(params) {
         }
         try {
 
-            setMetadata(res.data)
+            await setMetadata(res.data)
             .then(res => {
                 detail = res ? res : {};
                 setDetail({...detail});
@@ -255,6 +257,20 @@ export default function Challenge(params) {
         realAnswer = cache.questions.map(quest => quest.answers);
         setRealAnswer([...realAnswer]);
     }
+
+    async function toggleLang() {
+        const selectPage = page;
+        await getData(questId);
+        changePage(selectPage);
+    }
+
+    useUpdateEffect(() => {
+        // 挑战模式
+        if (location.pathname !== "/preview") {
+            // 切换语种
+            toggleLang();
+        }
+    },[i18n.language])
 
     useEffect(() => {
         if (location.pathname === "/preview") {

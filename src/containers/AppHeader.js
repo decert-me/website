@@ -113,7 +113,6 @@ export default function AppHeader({ isMobile, user }) {
         //  指定页面刷新 内容
         if (path === "/challenges" || 
             path.indexOf("/quests") !== -1 || 
-            path.indexOf("/challenge") !== -1 || 
             path.indexOf("/user") !== -1 || 
             path.indexOf("/claim") !== -1 ||
             path.indexOf("/collection") !== -1
