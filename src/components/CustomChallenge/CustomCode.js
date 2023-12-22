@@ -8,12 +8,14 @@ import { Encryption } from "@/utils/Encryption";
 import { useTranslation } from "react-i18next";
 import { Modal, Tooltip } from "antd";
 import { modalNotice } from "@/utils/modalNotice";
+import { useLocation } from "react-router-dom";
 
 
 function CustomCode(props, ref) {
 
-    const { question, token_id, answers, setAnswers, saveAnswer, index, isPreview } = props;
+    const { question, reload, token_id, answers, setAnswers, index, isPreview } = props;
     const { t } = useTranslation(['publish','explore']);
+    const location = useLocation();
     const editorRef = useRef(null);
     const consoleRef = useRef(null);
     const { decode } = Encryption();
@@ -233,7 +235,20 @@ function CustomCode(props, ref) {
     }
 
     function revertCode() {
+        if (location.pathname === "/preview") {
+            editorRef.current.monacoInit();
+            return
+        }
+        const local = localStorage.getItem("decert.cache");
+        if (local) {
+            let cache = JSON.parse(local);
+            cache[token_id][index] = null;
+            localStorage.setItem("decert.cache", JSON.stringify(cache));
+        }
+        reload();
         editorRef.current.monacoInit();
+        logs = [];
+        setLogs([...logs]);
     }
 
     async function init(params) {

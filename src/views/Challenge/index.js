@@ -67,9 +67,14 @@ export default function Challenge(params) {
     }
 
     const getData = async (id) => {
-        const res = await getQuests({id: id});
+        let res = {};
+        await getQuests({id})
+        .then(result => {
+            res = JSON.parse(JSON.stringify(result));
+        })
+
         if (res.data.status === 2) {
-            navigateTo(-1)
+            navigateTo("/404")
             return
         }
         try {
@@ -272,6 +277,10 @@ export default function Challenge(params) {
         }
     },[i18n.language])
 
+    async function reload() {
+        await getData(questId);
+    }
+
     useEffect(() => {
         if (location.pathname === "/preview") {
             // 预览模式
@@ -353,6 +362,7 @@ export default function Challenge(params) {
                     saveAnswer={saveAnswer}
                     index={page-1}
                     isPreview={isPreview}
+                    reload={reload}
                 />
             case 2:
             case "fill_blank":
