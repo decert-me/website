@@ -16,7 +16,7 @@ export default function Console(props) {
             <ul>
                 {
                     logs.map((e, i) => 
-                        <li key={i} style={{marginBottom: "10px"}}>
+                        <li key={i} style={{marginBottom: "10px", whiteSpace: "pre-wrap"}}>
                             {e}
                         </li>    
                     )
