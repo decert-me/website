@@ -6,7 +6,7 @@ import { codeRun, codeTest } from '@/request/api/quests';
 import CustomViewer from "../CustomViewer";
 import { Encryption } from "@/utils/Encryption";
 import { useTranslation } from "react-i18next";
-import { Modal } from "antd";
+import { Modal, Tooltip } from "antd";
 import { modalNotice } from "@/utils/modalNotice";
 
 
@@ -181,7 +181,8 @@ function CustomCode(props, ref) {
         paramsObj.code = obj.code;
         paramsObj.lang = obj.lang;
         paramsObj.quest_index = index;
-
+        logs = [];
+        setLogs(logs);
         addLogs([t("inner.run.start")]);
         await codeRun(paramsObj)
         .then(res => {
@@ -229,6 +230,10 @@ function CustomCode(props, ref) {
         setEditorCode(editorCode);
         // 切换编辑器语种
         editorRef.current.changeReadOnly(code !== "tpl" );
+    }
+
+    function revertCode() {
+        editorRef.current.monacoInit();
     }
 
     async function init(params) {
@@ -306,6 +311,15 @@ function CustomCode(props, ref) {
                         <div 
                             className="out-inner"
                         >
+                            {/* 还原代码模板 */}
+                            <Tooltip 
+                                title={t("revert")}
+                                arrow={false} 
+                                rootClassName="reload-tips" 
+                            >
+                                <img onClick={revertCode} className="icon-reload" src={require("@/assets/images/img/reload.png")} alt="" />
+                            </Tooltip>
+                            
                             {
                                 isPreview && 
                                 <div className="preview-menu">

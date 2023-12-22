@@ -14,7 +14,7 @@ function MonacoEditor(props, ref) {
     let [readOnly, setReadOnly] = useState(false);
 
     useImperativeHandle(ref, () => ({
-        changeLang,changeReadOnly
+        changeLang,changeReadOnly,monacoInit
     }))
 
     function changeLang(params) {
@@ -40,6 +40,7 @@ function MonacoEditor(props, ref) {
     }
 
     async function monacoInit(params) {
+        setEditorIsOk(false);
         config({
             paths: {
                 vs: "https://ipfs.decert.me/lib/monaco-editor@0.36.1"
