@@ -1,4 +1,4 @@
-import { getQuestFlashRank, getQuestHighRank, getQuestHolderRank } from "@/request/api/quests"
+import { getCollectionFlashRank, getCollectionHighRank, getCollectionHolderRank, getQuestFlashRank, getQuestHighRank, getQuestHolderRank } from "@/request/api/quests"
 import { avatar, nickname } from "@/utils/user";
 import { Segmented, Spin } from "antd";
 import { useEffect, useState } from "react"
@@ -6,7 +6,7 @@ import { useTranslation } from "react-i18next";
 
 export default function Challenger(props) {
     
-    const { questId } = props;
+    const { questId, isCollection } = props;
     const { t } = useTranslation(["explore"]);
     const [loading, setLoading] = useState(false);
     const [isOver, setIsOver] = useState(false);
@@ -33,7 +33,7 @@ export default function Challenger(props) {
     ]
 
     const timestamp = (time) => {
-        return time.replace("T"," ").split("+")[0];
+        return time.replace("T"," ").split("+")[0].split(".")[0];
     }
 
     function changeSelect(type) {
@@ -46,25 +46,75 @@ export default function Challenger(props) {
         setLoading(true);
         pageConfig.page = pageConfig.page+1;
         setPageConfig({...pageConfig});
-
-        await getQuestHolderRank({questId, ...pageConfig})
-        .then(res => {
-            const list = res?.data?.list || [];
-            rankList = rankList.concat(list);
-            setRankList([...rankList]);
-            console.log(rankList);
-            if (list.length < pageConfig.pageSize || rankList.length === detail.total) {
-                setIsOver(true);
-            }
-        })
+        if (isCollection) {
+            await getCollectionHolderRank({questId, ...pageConfig})
+            .then(res => {
+                const list = res?.data?.list || [];
+                rankList = rankList.concat(list);
+                setRankList([...rankList]);
+                if (list.length < pageConfig.pageSize || rankList.length === detail.total) {
+                    setIsOver(true);
+                }
+            })
+        }else{
+            await getQuestHolderRank({questId, ...pageConfig})
+            .then(res => {
+                const list = res?.data?.list || [];
+                rankList = rankList.concat(list);
+                setRankList([...rankList]);
+                if (list.length < pageConfig.pageSize || rankList.length === detail.total) {
+                    setIsOver(true);
+                }
+            })
+        }
 
         setTimeout(() => {
             setLoading(false);
         }, 1000);
     }
 
-    async function getList() {
-        setLoading(true);
+    // 合集榜单数据
+    async function collectionUpdate() {
+        switch (selectType) {
+            // 闪电榜
+            case "fast":
+                await getCollectionFlashRank({questId})
+                .then(res => {
+                    detail = res?.data;
+                    setDetail({...detail});
+                    rankList = res?.data?.RankList || [];
+                    setRankList([...rankList]);
+                })
+                break;
+            case "score":
+                await getCollectionHighRank({questId})
+                .then(res => {
+                    detail = res?.data;
+                    setDetail({...detail});
+                    rankList = res?.data?.RankList || [];
+                    setRankList([...rankList]);
+                })
+                break;
+            case "holder":
+                const {page, pageSize} = pageConfig;
+                await getCollectionHolderRank({questId, page, pageSize})
+                .then(res => {
+                    detail = res?.data;
+                    setDetail({...detail});
+                    rankList = res?.data?.list || [];
+                    setRankList([...rankList]);
+                    if (rankList.length < pageConfig.pageSize || rankList.length === detail.total) {
+                        setIsOver(true);
+                    }
+                })
+                break;
+            default:
+                break;
+        }
+    }
+
+    // 挑战榜单数据
+    async function questUpdate() {
         switch (selectType) {
             // 闪电榜
             case "fast":
@@ -100,6 +150,15 @@ export default function Challenger(props) {
                 break;
             default:
                 break;
+        }
+    }
+
+    async function getList() {
+        setLoading(true);
+        if (isCollection) {
+            await collectionUpdate();
+        }else{
+            await questUpdate();
         }
         setTimeout(() => {
             setLoading(false);

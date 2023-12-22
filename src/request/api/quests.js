@@ -9,6 +9,14 @@ export const getChallengers = (data) => {
     })
 }
 
+// 获取合集闪电榜
+export const getCollectionFlashRank = (data) => {
+    return serviceAxios({
+        url: `/v1/collection/${data.questId}/getCollectionFlashRank`,
+        method: "get"
+    })
+}
+
 // 获取挑战闪电榜
 export const getQuestFlashRank = (data) => {
     return serviceAxios({
@@ -17,10 +25,26 @@ export const getQuestFlashRank = (data) => {
     })
 }
 
+// 获取合集高分榜
+export const getCollectionHighRank = (data) => {
+    return serviceAxios({
+        url: `/v1/collection/${data.questId}/getCollectionHighRank`,
+        method: "get"
+    })
+}
+
 // 获取挑战高分榜
 export const getQuestHighRank = (data) => {
     return serviceAxios({
         url: `/v1/quests/${data.questId}/getQuestHighRank`,
+        method: "get"
+    })
+}
+
+// 获取合集holder榜
+export const getCollectionHolderRank = (data) => {
+    return serviceAxios({
+        url: `/v1/collection/${data.questId}/getCollectionHolderRank?page=${data.page}&pageSize=${data.pageSize}`,
         method: "get"
     })
 }
