@@ -3,6 +3,7 @@
     "title-modify": "Edit Challenge",
     "preview": "Only creator is visible",
     "upload": "Upload",
+    "revert": "Revert to default code template",
     "inner": {
         "title": "Title",
         "desc": "Description",

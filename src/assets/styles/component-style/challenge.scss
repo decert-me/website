@@ -116,6 +116,16 @@
     }
 }
 
+.reload-tips{
+    .ant-tooltip-content .ant-tooltip-inner{
+        padding: 10px 17px;
+        color: #454545;
+        border-radius: 7px;
+        background-color: #fff;
+        box-shadow: 0px 8px 20px 0px rgba(0,0,0,0.1);
+    }
+}
+
 .CustomCode{
     width: 100%;
     height: 100%;
@@ -150,11 +160,22 @@
     .out-inner{
         flex: 1;
         margin-bottom: 10px;
-        padding-top: 32px;
+        padding-top: 55px;
         background-color: #fff;
         border-radius: 10px;
         overflow: hidden;
         position: relative;
+        .icon-reload{
+            width: 26px;
+            height: 26px;
+            position: absolute;
+            right: 27px;
+            top: 12px;
+            cursor: pointer;
+        }
+        .reload-tips{
+
+        }
     }
     .preview-menu{
         height: 30px;
