@@ -87,22 +87,23 @@ export async function getCollectionMetadata({values, challenges, address}) {
 }
 
 export async function setMetadata(props) {
-    let metadata = props;
+    const metadata = props;
     const { ipfsPath } = constans();
     const params = props?.metadata ? props.metadata : props;
-    switch (params.version) {
-        case 1:
-            
-            break;
-        case 1.1:
-        case 1.2:
-            await v1_1()
-            break;
-        default:
-            break;
+    if (params.version === 1) {
+        return metadata
     }
-
-    async function v1_1() {
+    // switch (params.version) {
+    //     case 1:
+            
+    //         break;
+    //     case 1.1:
+    //     case 1.2:
+    //         await v1_1()
+    //         break;
+    //     default:
+    //         break;
+    // }
         let challenge;
         if (props.quest_data) {
             challenge = props.quest_data;
@@ -117,6 +118,7 @@ export async function setMetadata(props) {
             creator: challenge.creator,
             properties: {
                 questions: challenge.questions,
+                // default_questions: defaultQuest || [],
                 answers: challenge.answers,
                 passingScore: challenge.passingScore,
                 startTime: challenge.startTime,
@@ -128,11 +130,11 @@ export async function setMetadata(props) {
             },
         }
         if (props?.metadata) {
-            metadata.metadata = obj;
+            const res = JSON.parse(JSON.stringify(metadata));
+            res.metadata = obj;
+            return res
         }else{
-            metadata = obj
+            metadata = obj;
+            return obj;
         }
-    }
-    
-    return metadata
 }
