@@ -181,7 +181,8 @@ function CustomCode(props, ref) {
         paramsObj.code = obj.code;
         paramsObj.lang = obj.lang;
         paramsObj.quest_index = index;
-
+        logs = [];
+        setLogs(logs);
         addLogs([t("inner.run.start")]);
         await codeRun(paramsObj)
         .then(res => {
