@@ -32,6 +32,7 @@ function CustomCode(props, ref) {
     let [selectCode, setSelectCode] = useState();
     let [selectIndex, setSelectIndex] = useState(0);
     let [editorCode, setEditorCode] = useState();
+    let [answerCode, setAnswerCode] = useState();
     let [logs, setLogs] = useState([]);     //  执行代码返回的日志
     let [codeObj, setCodeObj] = useState({
         code: "",
@@ -253,7 +254,9 @@ function CustomCode(props, ref) {
     async function init(params) {
         cacheQuest = question;
         if (answers[index]) {
-            cacheQuest.code_snippets[selectIndex].code = answers[index].code;
+            answerCode = answers[index].code;
+            setAnswerCode(answerCode);
+            // cacheQuest.code_snippets[selectIndex].code = answers[index].code;
         }
         setCacheQuest({...cacheQuest});
         toggleCode()
@@ -288,6 +291,8 @@ function CustomCode(props, ref) {
 
     async function updateInit() {
         await init();
+        answerCode = null;
+        setAnswerCode(answerCode);
         editorRef.current.monacoInit();
     }
 
@@ -360,7 +365,7 @@ function CustomCode(props, ref) {
                                 </div>
                             }
                             <MonacoEditor
-                                value={editorCode}
+                                value={answerCode||editorCode}
                                 onChange={changeCache}
                                 language={selectCode.lang}
                                 height={"100%"}
