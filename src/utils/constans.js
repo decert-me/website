@@ -77,7 +77,7 @@ export const constans = (contractType) => {
     const defaultImg = require('@/assets/images/img/default.png');
     const ipfsPath = 'https://ipfs.decert.me';
     const screenSize = {
-        mobile: "(max-width: 480px)",
+        mobile: "(max-width: 780px)",
     }
 
     return {

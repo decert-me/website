@@ -325,7 +325,7 @@ export default function ModalAddCodeQuestion(props) {
                                                     <span>{t("inner.code-tpl-desc")}</span>
                                                 </div>
                                                 <MonacoEditor
-                                                    value={e.code}
+                                                    defaultValue={e.code}
                                                     onChange={(newValue) => {
                                                         changeCoding("code", newValue, i);
                                                     }}
@@ -342,7 +342,7 @@ export default function ModalAddCodeQuestion(props) {
                                                     <span>{t("inner.code-spl-desc")}</span>
                                                 </div>
                                                 <MonacoEditor
-                                                    value={e.correctAnswer}
+                                                    defaultValue={e.correctAnswer}
                                                     onChange={(newValue) => {
                                                         changeCoding("correctAnswer", newValue, i);
                                                     }}

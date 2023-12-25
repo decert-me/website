@@ -3,6 +3,7 @@
     "title-modify": "编辑挑战",
     "preview": "仅创建者可见",
     "upload": "上传",
+    "revert": "还原到默认的代码模版",
     "inner": {
         "title": "标题",
         "desc": "描述",
