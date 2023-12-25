@@ -7,7 +7,7 @@ import MonacoComponent from "./MonacoComponent";
 
 function MonacoEditor(props, ref) {
     
-    const {value, onChange, language, height} = props;
+    const {value, defaultValue, onChange, language, height} = props;
     const { config, init } = loader;
     let [editorIsOk, setEditorIsOk] = useState();
     let [newLang, setNewLang] = useState();
@@ -65,6 +65,7 @@ function MonacoEditor(props, ref) {
         <div key={key} style={{height: "100%"}}>
             <MonacoComponent
                 value={value}
+                defaultValue={defaultValue}
                 onChange={onChange}
                 language={newLang}
                 height={height}

@@ -6,7 +6,7 @@ import MyContext from "@/provider/context";
 
 
 export default function MonacoComponent(props) {
-    const { value, onChange, language, height, readOnly } = props;
+    const { value, defaultValue, onChange, language, height, readOnly } = props;
     const { isMobile } = useContext(MyContext);
     const { languageInit } = useMonacoInit({
         language: language
@@ -25,6 +25,7 @@ export default function MonacoComponent(props) {
             theme="light"     // light || vs-dark
             language={language}
             value={value}
+            defaultValue={defaultValue}
             options={options}
             onChange={onChange}
             loading={<LoadingOutlined style={{ fontSize: "30px"}} />}

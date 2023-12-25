@@ -94,7 +94,7 @@ export default function CodingSpecial(props) {
                             defaultValue={defaultValue.spj_code.frame}
                         />
                         <MonacoEditor
-                            value={defaultValue.spj_code.code}
+                            defaultValue={defaultValue.spj_code.code}
                             onChange={(newValue) => {
                                 onChange(newValue, "code")
                             }}
@@ -119,7 +119,7 @@ export default function CodingSpecial(props) {
                     </p>
                     <ul className="log-content custom-scroll">
                         {
-                            logs.map((e,i) => <li key={i} dangerouslySetInnerHTML={{__html: e}} />
+                            logs.map((e,i) => <li key={i} style={{whiteSpace: "pre-wrap"}} dangerouslySetInnerHTML={{__html: e}} />
                             )
                         }
                     </ul>
