@@ -54,7 +54,7 @@ export const usePublish = (props) => {
     function getChallenge() {
         pollingGetQuest({id: createTokenId})
         .then(res => {
-            if (res) {
+            if (res.status === 0) {
                 cancel();
                 createLoading = false;
                 setCreateLoading(createLoading);
