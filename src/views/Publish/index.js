@@ -99,10 +99,10 @@ export default function Publish(params) {
                 })
                 result &&
                 setTimeout(() => {
-                    navigateTo(`/quests/${changeId}`)
+                    navigateTo(`/quests/${isEdit}`)
                 }, 1000);
             }else{
-                navigateTo(`/quests/${changeId}`)
+                navigateTo(`/quests/${isEdit}`)
             }
             return false
         }else{
