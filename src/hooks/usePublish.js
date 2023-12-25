@@ -8,7 +8,8 @@ import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
-import { useUpdateEffect } from "ahooks";
+import { useRequest, useUpdateEffect } from "ahooks";
+import { pollingGetQuest } from "@/request/api/polling";
 
 
 
@@ -37,10 +38,32 @@ export const usePublish = (props) => {
     
     let [detail, setDetail] = useState();
     let [createQuestHash, setCreateQuestHash] = useState();
-    const { isLoading: transactionLoading } = useWaitForTransaction({
+    let [createTokenId, setCreateTokenId] = useState();
+    let [createLoading, setCreateLoading] = useState();
+    const { isLoading: transactionLoading, data } = useWaitForTransaction({
         hash: createQuestHash,
         cacheTime: 0
     })
+    const { run, cancel } = useRequest(getChallenge, {
+        pollingInterval: 1000,
+        manual: true,
+        pollingWhenHidden: false
+    });
+
+
+    function getChallenge() {
+        pollingGetQuest({id: createTokenId})
+        .then(res => {
+            if (res) {
+                cancel();
+                createLoading = false;
+                setCreateLoading(createLoading);
+                message.success(t(changeId ? "translation:message.success.save" : "message.success.create"));
+                localStorage.removeItem("decert.store");
+                changeId ? navigateTo(`/quests/${changeId}`) : navigateTo(`/quests/${createTokenId}`)
+            }
+        })
+    }
 
     const write = (sign, obj, params) => {
         changeId ?
@@ -145,20 +168,24 @@ export const usePublish = (props) => {
     },[switchNetwork, isSwitch])
 
     useUpdateEffect(() => {
-        if (transactionLoading) {
-            setTimeout(() => {
-                message.success(t(changeId ? "translation:message.success.save" : "message.success.create"));
-                localStorage.removeItem("decert.store");
-                changeId ? navigateTo(`/quests/${changeId}`) : navigateTo("/challenges")
-            }, 1000);
+        if (data && !transactionLoading) {
+            data.logs.forEach(log => {
+                if (log.topics[0] === "0x6bb7ff708619ba0610cba295a58592e0451dee2622938c8755667688daf3529b") {
+                    createTokenId = parseInt(log.topics[1], 16);
+                    setCreateTokenId(createTokenId);
+                    createLoading = true;
+                    setCreateLoading(createLoading);
+                    run();
+                }
+            })
         }
-    },[transactionLoading])
+    },[data])
 
     return {
         publish,                //  发布
         processingData,         //  合约交互
         isOk,                   //  publish 准备就绪
         isLoading,              //  发布中
-        transactionLoading      //  交易上链中
+        transactionLoading: transactionLoading || createLoading     //  交易上链中
     }
 }
