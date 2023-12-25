@@ -52,15 +52,24 @@ export const usePublish = (props) => {
 
 
     function getChallenge() {
-        pollingGetQuest({id: createTokenId})
+        pollingGetQuest({id: createTokenId||changeId})
         .then(res => {
-            if (res.status === 0) {
+            if (!changeId && res.status === 0) {
+                // 创建
                 cancel();
                 createLoading = false;
                 setCreateLoading(createLoading);
-                message.success(t(changeId ? "translation:message.success.save" : "message.success.create"));
+                message.success(t("message.success.create"));
                 localStorage.removeItem("decert.store");
-                changeId ? navigateTo(`/quests/${changeId}`) : navigateTo(`/quests/${createTokenId}`)
+                navigateTo(`/quests/${createTokenId}`)
+            }else if (res.data.uri === ("ipfs://"+jsonHash)){
+                // 修改
+                cancel();
+                createLoading = false;
+                setCreateLoading(createLoading);
+                message.success(t("translation:message.success.save"));
+                localStorage.removeItem("decert.store");
+                navigateTo(`/quests/${changeId}`);
             }
         })
     }
@@ -169,6 +178,11 @@ export const usePublish = (props) => {
 
     useUpdateEffect(() => {
         if (data && !transactionLoading) {
+            if (changeId) {
+                createLoading = true;
+                setCreateLoading(createLoading);
+                run()
+            }
             data.logs.forEach(log => {
                 if (log.topics[0] === "0x6bb7ff708619ba0610cba295a58592e0451dee2622938c8755667688daf3529b") {
                     createTokenId = parseInt(log.topics[1], 16);
