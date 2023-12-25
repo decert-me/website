@@ -76,7 +76,7 @@ export default function Challenge(params) {
             return
         }
         try {
-            setMetadata(res.data)
+            await setMetadata(res.data)
             .then(res => {
                 detail = res ? res : {};
                 setDetail({...detail});
