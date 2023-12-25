@@ -58,7 +58,7 @@ export default function Coding(props) {
                     </p>
                     <ul className="log-content custom-scroll">
                         {
-                            logs.map((e,i) => <li key={i} dangerouslySetInnerHTML={{__html: e}} />
+                            logs.map((e,i) => <li key={i} dangerouslySetInnerHTML={{__html: e.replace(/\n/g,"<br/>")}} />
                             )
                         }
                     </ul>
