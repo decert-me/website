@@ -234,7 +234,7 @@ function CustomCode(props, ref) {
         editorRef.current.changeReadOnly(code !== "tpl" );
     }
 
-    function revertCode() {
+    async function revertCode() {
         if (location.pathname === "/preview") {
             editorRef.current.monacoInit();
             return
@@ -245,8 +245,7 @@ function CustomCode(props, ref) {
             cache[token_id][index] = null;
             localStorage.setItem("decert.cache", JSON.stringify(cache));
         }
-        reload();
-        editorRef.current.monacoInit();
+        await reload();
         logs = [];
         setLogs([...logs]);
     }
@@ -287,6 +286,11 @@ function CustomCode(props, ref) {
         setItems([...items]);
     }
 
+    async function updateInit() {
+        await init();
+        editorRef.current.monacoInit();
+    }
+
     useUpdateEffect(() => {
         toggleCode();
     },[selectIndex])
@@ -294,6 +298,10 @@ function CustomCode(props, ref) {
     useEffect(() => {
         init();
     },[])
+
+    useUpdateEffect(() => {
+        updateInit();
+    },[question])
 
     return (
         <>
