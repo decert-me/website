@@ -194,82 +194,87 @@ export default function Challenger(props) {
                     }
                 </div>
             </div>
-            <div className="list">
-                <ul>
-                    {
-                        rankList.map((e,i) => (
-                            <li key={`${selectType}${e.address}`}>
-                                <div className="info">
-                                    {
-                                        selectType !== "holder" &&
-                                        <div className="no">
-                                            {
-                                                e.rank > 3 ? 
-                                                e.rank :
-                                                <img src={require(`@/assets/images/img/no${e.rank}.png`)} alt="" />
-                                            }
+            <div className={`list ${rankList.length === 0 ? "flex-c" : ""}`}>
+                {
+                    rankList.length === 0 ?
+                    <p className="nodata">{t("challengers.nodata")}</p>
+                    :
+                    <ul>
+                        {
+                            rankList.map((e,i) => (
+                                <li key={`${selectType}${e.address}`}>
+                                    <div className="info">
+                                        {
+                                            selectType !== "holder" &&
+                                            <div className="no">
+                                                {
+                                                    e.rank > 3 ? 
+                                                    e.rank :
+                                                    <img src={require(`@/assets/images/img/no${e.rank}.png`)} alt="" />
+                                                }
+                                            </div>
+                                        }
+                                        <div className="avatar" onClick={()=>navigateTo(`/${e.address}`)}>
+                                            <img src={avatar(e)} width={30} height={30} alt="" />
                                         </div>
-                                    }
-                                    <div className="avatar" onClick={()=>navigateTo(`/${e.address}`)}>
-                                        <img src={avatar(e)} width={30} height={30} alt="" />
+                                        <div className="addr" onClick={()=>navigateTo(`/${e.address}`)}>
+                                            {nickname(e)}
+                                        </div>
                                     </div>
-                                    <div className="addr" onClick={()=>navigateTo(`/${e.address}`)}>
-                                        {nickname(e)}
+                                    <div className="res">
+                                        {
+                                            selectType === "score" &&
+                                            <div className="score">
+                                                {e.score}
+                                            </div>
+                                        }
+                                        <div className={`time ${selectType === "score" ? "c9" : ""}`}>
+                                            {timestamp(e.finish_time || e.claim_time)}
+                                        </div>
+                                    </div>
+                                </li>
+                            ))
+                        }
+                        {
+                            (selectType === "holder" && !isOver) ?
+                            <div style={{margin: "0 auto", cursor: "pointer"}} onClick={pendingHolder}>
+                                <img className="btn-more" src={require("@/assets/images/icon/more.png")} alt="" />
+                            </div>
+                            :
+                            detail?.address ?
+                            <li className="my-rank">
+                                <div className="info">
+                                    <div className="no">
+                                        {
+                                            detail?.rank > 3 ? 
+                                            detail?.rank :
+                                            <img src={require(`@/assets/images/img/no${detail?.rank}.png`)} alt="" />
+                                        }
+                                    </div>
+                                    <div className="avatar">
+                                        <img src={avatar(detail)} width={30} height={30} alt="" />
+                                    </div>
+                                    <div className="addr">
+                                        {nickname(detail)}
                                     </div>
                                 </div>
                                 <div className="res">
                                     {
                                         selectType === "score" &&
                                         <div className="score">
-                                            {e.score}
+                                            {detail?.score}
                                         </div>
                                     }
                                     <div className={`time ${selectType === "score" ? "c9" : ""}`}>
-                                        {timestamp(e.finish_time || e.claim_time)}
+                                        {timestamp(detail.finish_time)}
                                     </div>
                                 </div>
                             </li>
-                        ))
-                    }
-                    {
-                        (selectType === "holder" && !isOver) ?
-                        <div style={{margin: "0 auto", cursor: "pointer"}} onClick={pendingHolder}>
-                            <img className="btn-more" src={require("@/assets/images/icon/more.png")} alt="" />
-                        </div>
-                        :
-                        detail?.address ?
-                        <li className="my-rank">
-                            <div className="info">
-                                <div className="no">
-                                    {
-                                        detail?.rank > 3 ? 
-                                        detail?.rank :
-                                        <img src={require(`@/assets/images/img/no${detail?.rank}.png`)} alt="" />
-                                    }
-                                </div>
-                                <div className="avatar">
-                                    <img src={avatar(detail)} width={30} height={30} alt="" />
-                                </div>
-                                <div className="addr">
-                                    {nickname(detail)}
-                                </div>
-                            </div>
-                            <div className="res">
-                                {
-                                    selectType === "score" &&
-                                    <div className="score">
-                                        {detail?.score}
-                                    </div>
-                                }
-                                <div className={`time ${selectType === "score" ? "c9" : ""}`}>
-                                    {timestamp(detail.finish_time)}
-                                </div>
-                            </div>
-                        </li>
-                        :
-                        ""
-                    }
-                </ul>
+                            :
+                            ""
+                        }
+                    </ul>
+                }
             </div>
         </div>
         </Spin>

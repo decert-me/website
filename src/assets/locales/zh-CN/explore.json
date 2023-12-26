@@ -29,7 +29,8 @@
         "collectionScore": "总得分数",
         "score": "得分数",
         "overTime": "完成时间",
-        "claimTime": "领取时间"
+        "claimTime": "领取时间",
+        "nodata": "完成挑战并夺取 Top 1"
     },
 
     "btn": {

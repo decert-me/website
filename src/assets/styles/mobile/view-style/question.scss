@@ -73,6 +73,9 @@ $container-width: 21.875rem;
             font-size: .875rem;
             line-height: 1.125rem;
         }
+        .list {
+            min-height: 5rem;
+        }
         ul{
             margin-top: .625rem;
             gap: .3125rem;
