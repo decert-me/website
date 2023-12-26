@@ -3,10 +3,12 @@ import { avatar, nickname } from "@/utils/user";
 import { Segmented, Spin } from "antd";
 import { useEffect, useState } from "react"
 import { useTranslation } from "react-i18next";
+import { useNavigate } from "react-router-dom";
 
 export default function Challenger(props) {
     
     const { questId, isCollection } = props;
+    const navigateTo = useNavigate();
     const { t } = useTranslation(["explore"]);
     const [loading, setLoading] = useState(false);
     const [isOver, setIsOver] = useState(false);
@@ -201,10 +203,10 @@ export default function Challenger(props) {
                                             }
                                         </div>
                                     }
-                                    <div className="avatar">
+                                    <div className="avatar" onClick={()=>navigateTo(`/${e.address}`)}>
                                         <img src={avatar(e)} width={30} height={30} alt="" />
                                     </div>
-                                    <div className="addr">
+                                    <div className="addr" onClick={()=>navigateTo(`/${e.address}`)}>
                                         {nickname(e)}
                                     </div>
                                 </div>

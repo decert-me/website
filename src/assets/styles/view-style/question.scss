@@ -124,6 +124,11 @@
                 .avatar{
                     border-radius: 50%;
                     overflow: hidden;
+                    cursor: pointer;
+                }
+                .addr:hover{
+                    text-decoration: underline;
+                    cursor: pointer;
                 }
             }
             .res{
