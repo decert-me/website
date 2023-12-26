@@ -235,7 +235,7 @@ export default function Publish(params) {
             return
         }
         // 获取对应challenge信息
-        const { title, description, recommend, metadata, quest_data, difficulty, uri, uuid } = data;
+        const { title, description, recommend, metadata, quest_data, uri, uuid } = data;
         const answers = JSON.parse(decode(data.quest_data.answers))
         const editor = isSerializedString(recommend);
         const questions = quest_data.questions.map((e,i) => {
@@ -244,6 +244,7 @@ export default function Publish(params) {
                 answers: answers[i]
             }) 
         });
+        console.log(data);
         changeItem = {
             tokenId,
             title,
@@ -262,7 +263,7 @@ export default function Publish(params) {
             }],
             questions: questions,
             score: quest_data.passingScore,
-            difficulty,
+            difficulty: metadata.attributes.difficulty,
             time: quest_data.estimateTime,
             uri,
             startTime: quest_data.startTime,
