@@ -35,6 +35,7 @@ function CustomCase(props, ref) {
     function addCase(isSpecial) {
         isSpecial ?
         caseArr.push({
+            key: Math.random(),
             spj_code: {
                 frame: "Hardhat",
                 code: ""
@@ -42,6 +43,7 @@ function CustomCase(props, ref) {
         })
         :
         caseArr.push({
+            key: Math.random(),
             input: "",
             output: "",
         })
@@ -111,7 +113,7 @@ function CustomCase(props, ref) {
                         "spj_code" in e ?
                             // 特殊题
                             <CodingSpecial
-                                key={Math.random()} 
+                                key={e.key} 
                                 onChange={
                                     (e, key) => changeValue(e, "spj_code", i, key)
                                 } 
@@ -127,7 +129,7 @@ function CustomCase(props, ref) {
                             :
                             // 普通题
                             <Coding 
-                                key={Math.random()}  
+                                key={e.key}  
                                 onChange={
                                     (e, type) => changeValue(e, type, i)
                                 } 
