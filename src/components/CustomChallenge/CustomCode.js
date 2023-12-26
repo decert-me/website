@@ -256,7 +256,7 @@ function CustomCode(props, ref) {
         if (answers[index]) {
             answerCode = answers[index].code;
             setAnswerCode(answerCode);
-            // cacheQuest.code_snippets[selectIndex].code = answers[index].code;
+            cacheQuest.code_snippets[selectIndex].code = answers[index].code;
         }
         setCacheQuest({...cacheQuest});
         toggleCode()
