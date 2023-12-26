@@ -187,8 +187,10 @@ export default function Challenger(props) {
                     }
                 </p>
                 <div className="label-type">
-                    {selectType === "score" ?
-                        t("challengers.score") : t("challengers.overTime")
+                    {selectType === "score" && isCollection ? t("challengers.collectionScore") 
+                    : selectType === "score" ? t("challengers.score")
+                    : selectType === "fast" ? t("challengers.overTime")
+                    : t("challengers.claimTime")
                     }
                 </div>
             </div>

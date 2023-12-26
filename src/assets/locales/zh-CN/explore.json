@@ -26,6 +26,7 @@
         "flash": "闪电榜",
         "highScore": "高分榜",
         "totalScore": "总分榜",
+        "collectionScore": "总得分数",
         "score": "得分数",
         "overTime": "完成时间",
         "claimTime": "领取时间"
