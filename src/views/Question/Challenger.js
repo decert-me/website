@@ -39,6 +39,11 @@ export default function Challenger(props) {
     }
 
     function changeSelect(type) {
+        pageConfig = {
+            page: 1, pageSize: 6
+        };
+        setPageConfig({...pageConfig});
+        setIsOver(false);
         selectType = type;
         setSelectType(selectType);
         getList();
