@@ -21,6 +21,8 @@
     "airdropping": "空投中...",
     "progress": "进度",
     "airdrop": "NFT 将在10分钟内空投至你的钱包",
+
+    "tips": "请输入正确答案。",
     "btn": {
         "create-nft": "创建 NFT",
         "created-nft": "已创建 NFT",
