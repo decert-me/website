@@ -21,6 +21,16 @@
     "airdropping": "Airdropping...",
     "progress": "Progress",
     "airdrop": "NFT will be airdropped to your wallet within 10 minutes.",
+
+    "challengers": {
+        "flash": "Lightning",
+        "highScore": "High Score",
+        "totalScore": "Total Score",
+        "score": "Holders",
+        "overTime": "Top",
+        "claimTime": "Total"
+    },
+
     "btn": {
         "create-nft": "Create NFT",
         "created-nft": "Created NFT",

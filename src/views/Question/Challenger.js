@@ -21,11 +21,11 @@ export default function Challenger(props) {
 
     const options = [
         {
-            label: "闪电榜",
+            label: t("challengers.flash"),
             value: "fast"
         },
         {
-            label: isCollection ? "总分榜" : "高分榜",
+            label: isCollection ? t("challengers.totalScore") : t("challengers.highScore"),
             value: "score"
         },
         {
@@ -188,7 +188,7 @@ export default function Challenger(props) {
                 </p>
                 <div className="label-type">
                     {selectType === "score" ?
-                        "得分" : "完成时间"
+                        t("challengers.score") : t("challengers.overTime")
                     }
                 </div>
             </div>
@@ -219,7 +219,7 @@ export default function Challenger(props) {
                                     {
                                         selectType === "score" &&
                                         <div className="score">
-                                            {e.score}分
+                                            {e.score}
                                         </div>
                                     }
                                     <div className={`time ${selectType === "score" ? "c9" : ""}`}>
@@ -256,7 +256,7 @@ export default function Challenger(props) {
                                 {
                                     selectType === "score" &&
                                     <div className="score">
-                                        {detail?.score}分
+                                        {detail?.score}
                                     </div>
                                 }
                                 <div className={`time ${selectType === "score" ? "c9" : ""}`}>
