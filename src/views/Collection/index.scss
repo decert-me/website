@@ -473,7 +473,7 @@
         }
     }
     // content-left
-    // .quest-challenger{
+    .quest-challenger{
     //     width: 100%;
     //     margin-top: 1.875rem;
     //     .list ul{
@@ -488,7 +488,10 @@
     //             font-size: .75rem;
     //         }
     //     }
-    // }
+        .list {
+            max-height: none;
+        }
+    }
     
     // content-right
     .collection-info{

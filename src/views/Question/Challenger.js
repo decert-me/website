@@ -25,7 +25,7 @@ export default function Challenger(props) {
             value: "fast"
         },
         {
-            label: "高分榜",
+            label: isCollection ? "总分榜" : "高分榜",
             value: "score"
         },
         {
