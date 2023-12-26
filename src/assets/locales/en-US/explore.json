@@ -21,6 +21,8 @@
     "airdropping": "Airdropping...",
     "progress": "Progress",
     "airdrop": "NFT will be airdropped to your wallet within 10 minutes.",
+
+    "tips": "Please enter the correct answer.",
     "btn": {
         "create-nft": "Create NFT",
         "created-nft": "Created NFT",
