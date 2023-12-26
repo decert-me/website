@@ -261,7 +261,10 @@ export default function Challenge(params) {
     }
 
     async function reload() {
+        const oldPage = page;
         await getData(questId);
+        page = oldPage;
+        setPage(page);
     }
 
     useEffect(() => {
