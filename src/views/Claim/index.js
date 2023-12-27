@@ -105,7 +105,7 @@ export default function Claim(params) {
                 if (detail.answers.length === 2){
                     const ans1 = eval(decode(detail.answers[0]));
                     const ans2 = eval(decode(detail.answers[1]));
-                    if (ans1[i] == userAnswer[i].value || ans2[i] == userAnswer[i].value) {
+                    if ((ans1[i] == userAnswer[i].value) || (ans2[i] == userAnswer[i].value)) {
                         score+=questions[i].score;
                         successNum+=1;
                     }
