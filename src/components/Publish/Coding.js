@@ -17,7 +17,8 @@ export default function Coding(props) {
     async function Test(params) {
         setLoading(true);
         const arr = await checkCode();
-        logs.push(...arr);
+        // logs.push(...arr);
+        logs = arr;
         setLogs([...logs]);
         setLoading(false);
     }

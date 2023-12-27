@@ -1,18 +1,19 @@
 import { forwardRef, useEffect, useImperativeHandle, useRef, useState } from "react"
 import { useTranslation } from "react-i18next";
-import { Button, Rate, Tour } from "antd";
+import { Button, Rate, Spin, Tour } from "antd";
 import { Viewer } from "@bytemd/react";
 import { download } from "@/utils/file/download";
 import { GetPercentScore } from "@/utils/GetPercent";
-import { reviewOpenQuest } from "@/request/api/judg";
+import { getUserOpenQuestList, reviewOpenQuest } from "@/request/api/judg";
 import CustomIcon from "@/components/CustomIcon";
 
 
-function RatingModal({data, isMobile, onFinish}, ref) {
+function RatingModal({data, rateNum, pageNum, status, isMobile, onFinish}, ref) {
 
     const star = useRef(null);
     const { t } = useTranslation(["rate", "translation"]);
     const [open, setOpen] = useState(false);    //  漫游引导展示
+    const [loading, setLoading] = useState(false);
     let [detail, setDetail] = useState();
     let [openQuest, setOpenQuest] = useState([]);
     let [reviewQuests, setReviewQuests] = useState([]);
@@ -57,40 +58,75 @@ function RatingModal({data, isMobile, onFinish}, ref) {
         onFinish();
     }
 
+    function reviewInit(quest) {
+        const arr = [{
+            index: 0,
+            isPass: null,
+            rate: quest.answer?.correct ? quest.score : (quest.answer.score / quest.score * 5),
+            title: quest.title,
+            value: quest.answer.value,
+            annex: quest.answer.annex,
+            challenge_title: quest.challenge_title
+        }];
+        openQuest = arr;
+        setOpenQuest([...openQuest]);
+        page = 0;
+        setPage(page);
+        selectOpenQs = openQuest[page];
+        setSelectOpenQs({...selectOpenQs});
+    }
+
     async function init() {
         page = 0;
         setPage(page);
         if (onFinish) {
             detail = data?.filter(e => e.open_quest_review_status === 1);
+
         }else{
             detail = data;
+            setDetail([...detail]);
+            const quest = detail[0];
+            reviewInit(quest);
+            return
         }
+        if (status !== 1) {
+            changePage(0);
+            return
+        }
+        // 创建指定长度的数组
+        const length = rateNum;
+        const allArr = Array.from({ length });
+        // 对数组的指定范围（索引10-20）写入数据
+        const start = (pageNum - 1) * 10;
+        const end = start + 10 > rateNum ? rateNum : start + 10;
+        const allData = Array.from({ length: end - start }, (_, index) => index + start);
+        allData.forEach((value, index) => {
+            allArr[start + index] = detail[index];
+        });
+        detail = allArr;
         setDetail([...detail]);
         // 获取开放题列表
         const arr = [];
         detail.forEach((quest, i) => {
-            let rate = 0;
-            // 展示模式获取当前得分
-            if (!onFinish) {
-                rate = quest.answer?.correct ? quest.score : (quest.answer.score / quest.score * 5);
-            }
-            arr.push({
+            arr.push(quest ? {
                 index: i,
                 isPass: null,
-                rate: rate,
+                rate: 0,
                 title: quest.title,
                 value: quest.answer.value,
                 annex: quest.answer.annex,
                 challenge_title: quest.challenge_title
-            })
+            } : null)
         })
 
         openQuest = arr;
         setOpenQuest([...openQuest]);
+        page = start;
+        setPage(page);
         selectOpenQs = openQuest[page];
         setSelectOpenQs({...selectOpenQs});
 
-        // 判断是否是第一次进入该页面
+        // 判断是否是第一次进入该页面 => 提示如何评分动画
         const isFrist = localStorage.getItem("decert.rate");
         if (!isFrist) {
             setOpen(true);
@@ -105,7 +141,43 @@ function RatingModal({data, isMobile, onFinish}, ref) {
     }
 
     // 切换上下题
-    function changePage(newPage) {
+    async function changePage(newPage) {
+        // 当指定索引内容为null时 加载新内容
+        if (!openQuest[newPage]) {
+            setLoading(true);
+            const page = Math.trunc(newPage/10) + 1;
+            await getUserOpenQuestList({
+                open_quest_review_status: 1,
+                pageSize: 10,
+                page
+            })
+            .then(res => {
+                const list = res.data.list;
+                const data = list ? list : [];
+                // 添加key
+                data.forEach((ele, index) => {
+                    ele.key = ele.updated_at + ele.index + index
+                })
+                const start = (page - 1) * 10;
+                const end = start + 10 > rateNum ? rateNum : start + 10;
+                const allData = Array.from({ length: end - start }, (_, index) => index + start);
+                allData.forEach((value, index) => {
+                    detail[start + index] = data[index];
+                    openQuest[start + index] = {
+                        index: start + index,
+                        isPass: null,
+                        rate: 0,
+                        title: data[index].title,
+                        value: data[index].answer.value,
+                        annex: data[index].answer.annex,
+                        challenge_title: data[index].challenge_title
+                    }
+                });
+                setDetail([...detail])
+                setOpenQuest([...openQuest])
+            })
+            setLoading(false);
+        }
         page = newPage;
         setPage(page);
         selectOpenQs = openQuest[page];
@@ -161,56 +233,59 @@ function RatingModal({data, isMobile, onFinish}, ref) {
         detail &&
         <div className="judg-content">
             <h1>{selectOpenQs?.challenge_title}</h1>
-                <div className="judg-info">
-                    <div className="item">
-                        <p className="item-title">{t("quest")}:</p>
-                        <div className="item-content">
-                            <Viewer value={selectOpenQs?.title} />
-                        </div>
-                    </div>
-
-                    <div className="item">
-                        <p className="item-title">{t("ans")}:</p>
-                        <p className="item-content box">{selectOpenQs?.value}</p>
-                    </div>
-
-                    <div className="item">
-                        <p className="item-title">{t("annex")}:</p>
-                        <div className="item-content">
-                            {
-                                selectOpenQs?.annex && selectOpenQs?.annex.map(e => (
-                                    <Button type="link" key={e.name} onClick={() => download(e.hash, e.name)}>{e.name}</Button>
-                                ))
-                            }
-                        </div>
-                    </div>
-
-                    <div className="item mb40">
-                        <div className="item-title flex">
-                            {t("score")}: 
-                            <div 
-                                ref={star}
-                            >
-                                <Rate 
-                                    allowHalf 
-                                    disabled={!onFinish}     //  预览模式不可选
-                                    value={selectOpenQs?.rate}
-                                    style={{color: "#DD8C53"}} 
-                                    character={<CustomIcon type="icon-star" className="icon" />} 
-                                    onChange={(percent) => getScore(percent)}
-                                />
+                <Spin spinning={loading}>
+                    <div className="judg-info">
+                        <div className="item">
+                            <p className="item-title">{t("quest")}:</p>
+                            <div className="item-content">
+                                <Viewer value={selectOpenQs?.title} />
                             </div>
                         </div>
+
+                        <div className="item">
+                            <p className="item-title">{t("ans")}:</p>
+                            <p className="item-content box">{selectOpenQs?.value}</p>
+                        </div>
+
+                        <div className="item">
+                            <p className="item-title">{t("annex")}:</p>
+                            <div className="item-content">
+                                {
+                                    selectOpenQs?.annex && selectOpenQs?.annex.map(e => (
+                                        <Button type="link" key={e.name} onClick={() => download(e.hash, e.name)}>{e.name}</Button>
+                                    ))
+                                }
+                            </div>
+                        </div>
+
+                        <div className="item mb40">
+                            <div className="item-title flex">
+                                {t("score")}: 
+                                <div 
+                                    ref={star}
+                                >
+                                    <Rate 
+                                        allowHalf 
+                                        disabled={!onFinish}     //  预览模式不可选
+                                        value={selectOpenQs?.rate}
+                                        style={{color: "#DD8C53"}} 
+                                        character={<CustomIcon type="icon-star" className="icon" />} 
+                                        onChange={(percent) => getScore(percent)}
+                                    />
+                                </div>
+                            </div>
+                        </div>
+                        
                     </div>
-                    
-                </div>
+                </Spin>
+
             {
                 onFinish &&
                 <>
                     <div className="pagination">
                         <Button disabled={page === 0} onClick={() => changePage(page - 1)}>{t("prev")}</Button>
-                        <p>{page + 1}/<span style={{color: "#8B8D97"}}>{openQuest.length}</span></p>
-                        <Button disabled={page+1 === openQuest.length} onClick={() => changePage(page + 1)}>{t("next")}</Button>
+                        <p>{page + 1}/<span style={{color: "#8B8D97"}}>{rateNum}</span></p>
+                        <Button disabled={page+1 === rateNum} onClick={() => changePage(page + 1)}>{t("next")}</Button>
                     </div>
                     <Tour rootClassName={`custom-tour ${isMobile ? "mobile-custom-tour" : ""}`} open={open} steps={steps} closeIcon={<></>} placement="bottomLeft" />
                 </>
