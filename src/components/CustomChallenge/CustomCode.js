@@ -251,9 +251,9 @@ function CustomCode(props, ref) {
         setLogs([...logs]);
     }
 
-    async function init(params) {
+    async function init(isReload) {
         cacheQuest = question;
-        if (answers[index]) {
+        if (answers[index] && !isReload) {
             answerCode = answers[index].code;
             setAnswerCode(answerCode);
             cacheQuest.code_snippets[selectIndex].code = answers[index].code;
@@ -290,7 +290,7 @@ function CustomCode(props, ref) {
     }
 
     async function updateInit() {
-        await init();
+        await init(true);
         answerCode = null;
         setAnswerCode(answerCode);
         editorRef.current.monacoInit();
