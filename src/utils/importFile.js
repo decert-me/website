@@ -1,6 +1,10 @@
+import { Encryption } from "./Encryption";
 
 
 export async function importFile(event) {
+
+    const { encode } = Encryption();
+
     const file = event.target.files[0];
     const reader = new FileReader();
     return await new Promise((resolve, reject) => {        
@@ -49,8 +53,18 @@ export async function importFile(event) {
             }
             // .json文件
             else{
-                console.log("==>");
-                console.log(JSON.parse(content));
+                try {
+                    const questions = eval(JSON.parse(content));
+                    questions.forEach(quest => {
+                        if (quest.type === "coding") {
+                            const { code_snippets } = quest;
+                            quest.code_snippets[0].correctAnswer = encode(code_snippets[0].correctAnswer);
+                        }
+                    })
+                    resolve(questions);
+                } catch (error) {
+                    console.log(error);
+                }
             }
         };
         reader.readAsText(file);
