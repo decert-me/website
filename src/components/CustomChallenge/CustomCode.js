@@ -289,12 +289,12 @@ function CustomCode(props, ref) {
         setItems([...items]);
     }
 
-    async function updateInit() {
-        await init(true);
-        answerCode = null;
-        setAnswerCode(answerCode);
-        editorRef.current.monacoInit();
-    }
+    // async function updateInit() {
+    //     await init(true);
+    //     answerCode = null;
+    //     setAnswerCode(answerCode);
+    //     editorRef.current.monacoInit();
+    // }
 
     useUpdateEffect(() => {
         toggleCode();
@@ -303,10 +303,6 @@ function CustomCode(props, ref) {
     useEffect(() => {
         init();
     },[])
-
-    useUpdateEffect(() => {
-        updateInit();
-    },[question])
 
     return (
         <>

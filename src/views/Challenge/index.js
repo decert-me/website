@@ -35,6 +35,7 @@ export default function Challenge(params) {
     let [isEdit, setIsEdit] = useState();   //  修改challenge预览
     let [isPreview, setIsPreview] = useState();
     let [realAnswer, setRealAnswer] = useState([]);
+    let [questKey, setQuestKey] = useState(100);
 
     let [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -267,17 +268,11 @@ export default function Challenge(params) {
         setRealAnswer([...realAnswer]);
     }
 
-    async function toggleLang() {
-        const selectPage = page;
-        await getData(questId);
-        changePage(selectPage);
-    }
-
     useUpdateEffect(() => {
         // 挑战模式
         if (location.pathname !== "/preview") {
             // 切换语种
-            toggleLang();
+            reload();
         }
     },[i18n.language])
 
@@ -286,6 +281,8 @@ export default function Challenge(params) {
         await getData(questId);
         page = oldPage;
         setPage(page);
+        questKey = questKey+100;
+        setQuestKey(questKey);
     }
 
     useEffect(() => {
@@ -360,7 +357,7 @@ export default function Challenge(params) {
             case "special_judge_coding":
                 // 编码
                 return <CustomCode 
-                    key={i} 
+                    key={questKey+i} 
                     question={question} 
                     token_id={questId} 
                     ref={childRef} 
