@@ -190,12 +190,14 @@ export default function ModalAddCodeQuestion(props) {
         // 用例初始化
         const coding = input ? input.map((ele,index) => {
             return {
+                key: Math.random(),
                 input: input[index],
                 output: output[index]
             }
         }): []
         const spj = spj_code ? spj_code.map(e => {
             return {
+                key: Math.random(),
                 spj_code: {
                     frame: e.frame,
                     code: e.code
