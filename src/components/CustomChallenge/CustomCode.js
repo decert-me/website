@@ -246,7 +246,7 @@ function CustomCode(props, ref) {
             cache[token_id][index] = null;
             localStorage.setItem("decert.cache", JSON.stringify(cache));
         }
-        await reload();
+        await reload(true, index);
         logs = [];
         setLogs([...logs]);
     }

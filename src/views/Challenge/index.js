@@ -276,9 +276,13 @@ export default function Challenge(params) {
         }
     },[i18n.language])
 
-    async function reload() {
+    async function reload(isClear, index) {
         const oldPage = page;
         await getData(questId);
+        if (isClear) {
+            answers[index] = null;
+            setAnswers([...answers]);
+        }
         page = oldPage;
         setPage(page);
         questKey = questKey+100;
