@@ -169,7 +169,7 @@ export default function PublishQuestion({
                 </Button>
 
                 {/* 导入题目 */}
-                <input id="fileInput" type="file" accept=".md" onChange={importChallenge} style={{display: "none"}} />
+                <input id="fileInput" type="file" accept=".md,.json" onChange={importChallenge} style={{display: "none"}} />
                 <Button size="small" onClick={() => {
                     document.getElementById("fileInput").click();
                 }}>{t("upload")}</Button>
