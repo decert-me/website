@@ -58,7 +58,7 @@ export async function importFile(event) {
                     questions.forEach(quest => {
                         if (quest.type === "coding") {
                             const { code_snippets } = quest;
-                            quest.code_snippets[0].correctAnswer = encode(code_snippets[0].correctAnswer);
+                            quest.code_snippets[0].correctAnswer = encode(JSON.stringify(code_snippets[0].correctAnswer));
                         }
                     })
                     resolve(questions);
