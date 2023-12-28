@@ -27,9 +27,9 @@
         "highScore": "High Score",
         "totalScore": "Total Score",
         "collectionScore": "Total Score",
-        "score": "Holders",
-        "overTime": "Top",
-        "claimTime": "Total",
+        "score": "Score",
+        "overTime": "Completion Time",
+        "claimTime": "Claim Time",
         "nodata": "Complete the challenge and seize Top1"
     },
 
