@@ -60,7 +60,18 @@ export default function ModalAnswers(props) {
                     statusAnswer[i] = flag ? "true" : "false";
                 }else{
                     // 单选
-                    statusAnswer[i] = e.value === realAnswer[i] ? "true" : "false"
+                    // 判断当前答案是否翻译
+                    if (detail.answers.length === 2){
+                        const ans1 = eval(decode(detail.answers[0]));
+                        const ans2 = eval(decode(detail.answers[1]));
+                        if ((ans1[i] == e.value) || (ans2[i] == e.value)) {
+                            statusAnswer[i] = "true"
+                        }else{
+                            statusAnswer[i] = "false"
+                        }
+                    }else {
+                        statusAnswer[i] = e.value === realAnswer[i] ? "true" : "false"
+                    }
                 }
             }
         })

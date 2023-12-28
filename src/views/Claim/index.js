@@ -79,7 +79,6 @@ export default function Claim(params) {
         let totalScore = 0;
         let score = 0;
         let successNum = 0;
-
         realAnswer.map((e,i) => {
             // 通过答案类型判断题型 ===>
             totalScore += Number(questions[i].score);
@@ -102,7 +101,15 @@ export default function Claim(params) {
                     successNum+=1;
                 }
             }else{
-                if (userAnswer[i]?.value && e == userAnswer[i].value) {
+                // 判断当前答案是否翻译
+                if (detail.answers.length === 2){
+                    const ans1 = eval(decode(detail.answers[0]));
+                    const ans2 = eval(decode(detail.answers[1]));
+                    if ((ans1[i] == userAnswer[i].value) || (ans2[i] == userAnswer[i].value)) {
+                        score+=questions[i].score;
+                        successNum+=1;
+                    }
+                }else if (userAnswer[i]?.value && e == userAnswer[i].value) {
                     score+=questions[i].score;
                     successNum+=1;
                 }

@@ -1,6 +1,7 @@
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
 import store from "@/redux/store";
+import i18n from 'i18next';
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, Progress, message } from 'antd';
@@ -16,6 +17,7 @@ import CustomPagination from '../../components/CustomPagination';
 import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 import { useAddress } from "@/hooks/useAddress";
 import { changeConnect } from "@/utils/redux";
+import { useUpdateEffect } from "ahooks";
 
 export default function Challenge(params) {
 
@@ -33,6 +35,7 @@ export default function Challenge(params) {
     let [isEdit, setIsEdit] = useState();   //  修改challenge预览
     let [isPreview, setIsPreview] = useState();
     let [realAnswer, setRealAnswer] = useState([]);
+    let [questKey, setQuestKey] = useState(100);
 
     let [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -76,6 +79,7 @@ export default function Challenge(params) {
             return
         }
         try {
+
             await setMetadata(res.data)
             .then(res => {
                 detail = res ? res : {};
@@ -264,11 +268,25 @@ export default function Challenge(params) {
         setRealAnswer([...realAnswer]);
     }
 
-    async function reload() {
+    useUpdateEffect(() => {
+        // 挑战模式
+        if (location.pathname !== "/preview") {
+            // 切换语种
+            reload();
+        }
+    },[i18n.language])
+
+    async function reload(isClear, index) {
         const oldPage = page;
         await getData(questId);
+        if (isClear) {
+            answers[index] = null;
+            setAnswers([...answers]);
+        }
         page = oldPage;
         setPage(page);
+        questKey = questKey+100;
+        setQuestKey(questKey);
     }
 
     useEffect(() => {
@@ -343,7 +361,7 @@ export default function Challenge(params) {
             case "special_judge_coding":
                 // 编码
                 return <CustomCode 
-                    key={i} 
+                    key={questKey+i} 
                     question={question} 
                     token_id={questId} 
                     ref={childRef} 

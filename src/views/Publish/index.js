@@ -222,7 +222,7 @@ export default function Publish(params) {
 
     // 获取挑战详情
     async function getChallenge(tokenId) {
-        const fetch = await getQuests({id: tokenId})
+        const fetch = await getQuests({id: tokenId, original: true})
         const data = fetch?.data
         // 没有该挑战、该挑战不是你的
         if (!fetch || (address !== data.creator)) {
