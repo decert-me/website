@@ -92,7 +92,7 @@ export default function Info(props) {
                 </li>
                 {
                     detail.recommend &&
-                    <li className="li">
+                    <li className="li li-recommend">
                         <p className="title">{t("translation:header.lesson")}</p>
                         <div className="recommend desc custom-scroll">
                             <CustomViewer label={detail.recommend} />

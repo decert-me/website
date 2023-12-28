@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { getQuests, shareClick } from "../../request/api/public";
 import "@/assets/styles/view-style/question.scss"
@@ -7,10 +7,13 @@ import { constans } from "@/utils/constans";
 import Challenger from "./Challenger";
 import Info from "./Info";
 import { setMetadata } from "@/utils/getMetadata";
+import MyContext from "@/provider/context";
 
 
 export default function Quests(params) {
     
+
+    const { isMobile } = useContext(MyContext);
     const { ipfsPath, defaultImg } = constans();
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -55,11 +58,21 @@ export default function Quests(params) {
                                 alt="" />
                         </div>
                     </div>
-                    <Challenger questId={questId} />
+                    {
+                        !isMobile &&
+                        <Challenger questId={questId} />
+                    }
                 </div>
                 <div className="content-right">
                     <Info detail={detail}/>
                 </div>
+                {
+                    isMobile && 
+                    <>
+                        <div className="line"></div>
+                        <Challenger questId={questId} />
+                    </>
+                }
             </div>
         </div>
     )

@@ -38,17 +38,77 @@ $container-width: 21.875rem;
             border-radius: 1.25rem;
         }
     }
+
+    .line{
+        width: 100%;
+        height: 1px;
+        background-color: #F2F3F7;
+        display: none;
+    }
     .quest-challenger{
         width: 100%;
-        margin-top: 1.4375rem;
-        padding-bottom: 2.5rem;
-        border-bottom: .0625rem solid #F5F5F5;
-        .list ul{
-            margin-top: .8125rem;
-            gap: .9375rem;
+        margin-top: 1.875rem;
+        // padding-bottom: 2.5rem;
+        // border-bottom: .0625rem solid #F5F5F5;
+        // 选择器
+        .selector{
+            width: 19.125rem;
+            border-radius: 1.25rem;
+            .ant-segmented-thumb{
+                border-radius: 1.25rem !important;
+            }
+            .ant-segmented-item{
+                width: 6.25rem;
+                border-radius: 1.25rem !important;
+                .ant-segmented-item-label{
+                    height: 2.125rem;
+                    line-height: 2.125rem;
+                }
+            }
+        }
+        // 标题
+        .label{
+            margin-top: 1.25rem;
+            padding: .625rem 0;
+            font-size: .875rem;
+            line-height: 1.125rem;
+        }
+        .list {
+            min-height: 5rem;
+        }
+        ul{
+            margin-top: .625rem;
+            gap: .3125rem;
             li{
-                width: 3.625rem;
-                height: 3.625rem;
+                height: 3.4375rem;
+                padding-left: 0;
+                padding-right: 0;
+                .info{
+                    padding-left: .5rem;
+                    gap: .5rem;
+                    .no{
+                        width: 1.875rem;
+                        height: 1.875rem;
+                    }
+                    .addr{
+                        font-size: .8125rem;
+                    }
+                }
+                .res{
+                    .score{
+                        font-size: .875rem;
+                    }
+                    .c9{
+                        font-size: .75rem;
+                    }
+                }
+            }
+            .my-rank{
+                padding-left: 0;
+                border-left: .125rem solid #8F5A35;
+                .info{
+                    padding-left: .5rem;
+                }
             }
         }
     }
@@ -57,9 +117,11 @@ $container-width: 21.875rem;
     .quest-info{
         .li{
             flex-direction: column;
-            &:last-child{
-                margin: 0;
-            }
+        }
+        .li-recommend{
+            margin: 0;
+            padding-bottom: 1.25rem;
+            border-bottom: 1px solid #F2F3F7;
         }
         .info-content{
             width: 100%;
@@ -104,6 +166,7 @@ $container-width: 21.875rem;
             width: 100%;
             padding: .375rem 0 1.125rem;
             position: fixed;
+            z-index: 111;
             left: 0;
             bottom: 0;
             background-color: #fff;
@@ -121,7 +184,7 @@ $container-width: 21.875rem;
         height: auto;
         margin-top: .8125rem;
         overflow: hidden;
-        margin-bottom: 2.5rem;
+        margin-bottom: 0;
     }
     .info-bottom{
         li{

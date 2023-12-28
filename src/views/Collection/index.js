@@ -18,6 +18,7 @@ import usePublishCollection from "@/hooks/usePublishCollection";
 import { hasClaimed } from "@/request/api/public";
 import MyContext from "@/provider/context";
 import { useProvider, useSigner } from "wagmi";
+import Challenger from "../Question/Challenger";
 
 
 
@@ -273,7 +274,8 @@ export default function Collection(params) {
                             将NFT导入钱包
                         </div>
                     } */}
-                    <CollectionChallenger id={detail.collection.id} />
+                    {/* <CollectionChallenger id={detail.collection.id} /> */}
+                    <Challenger questId={detail.collection.id} isCollection={true} />
                 </div>
             </div>
         </div>

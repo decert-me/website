@@ -22,6 +22,17 @@
     "progress": "进度",
     "airdrop": "NFT 将在10分钟内空投至你的钱包",
 
+    "challengers": {
+        "flash": "闪电榜",
+        "highScore": "高分榜",
+        "totalScore": "总分榜",
+        "collectionScore": "总得分数",
+        "score": "得分数",
+        "overTime": "完成时间",
+        "claimTime": "领取时间",
+        "nodata": "完成挑战并夺取 Top 1"
+    },
+
     "tips": "请输入正确答案。",
     "btn": {
         "create-nft": "创建 NFT",
