@@ -161,7 +161,7 @@ export default function User(props) {
                 checkType = Number(searchType);
                 setCheckType(checkType);
             }
-            if (searchStatus === null && searchType == 0) {
+            if ((searchStatus === null || searchStatus == 0) && searchType == 0) {
                 getList();
             }
             return
