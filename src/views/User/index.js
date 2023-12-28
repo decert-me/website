@@ -161,6 +161,9 @@ export default function User(props) {
                 checkType = Number(searchType);
                 setCheckType(checkType);
             }
+            if (searchStatus === null && searchType == 0) {
+                getList();
+            }
             return
         }
         checkType = location.search.indexOf("created") !== -1 ? 1 : 0;
