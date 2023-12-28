@@ -1,5 +1,4 @@
-import store, { showCustomSigner } from "@/redux/store";
-import { message } from "antd";
+import store, { setDisConnect } from "@/redux/store";
 import axios from "axios";
 
 // Client-side-only code
@@ -23,7 +22,7 @@ socialAxios.interceptors.response.use(
   res => {
     let data = res.data;
     if (data.data?.reload) {
-      store.dispatch(showCustomSigner());
+      store.dispatch(setDisConnect(true));
       return
     }
     

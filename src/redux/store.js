@@ -3,6 +3,7 @@ import { createStore } from 'redux';
 const initialState = {
   isShow: false,
   isConnect: false,
+  isDisconnect: false,
   isMobile: false,
   challenge: null,
   user: {},
@@ -25,6 +26,11 @@ function reducer(state = initialState, action) {
         ...state,
         isConnect: action.payload
       };
+    case 'SET_DISCONNECT':
+      return {
+        ...state,
+        isDisconnect: action.payload
+      };  
     case 'SET_MOBILE':
       return {
         ...state, 
@@ -53,6 +59,10 @@ export function showCustomSigner() {
 
 export function setConnect(isConnect) { 
   return { type: 'SET_CONNECT', payload: isConnect }; 
+}
+
+export function setDisConnect(isDisconnect) { 
+  return { type: 'SET_DISCONNECT', payload: isDisconnect }; 
 }
 
 export function hideCustomSigner() {

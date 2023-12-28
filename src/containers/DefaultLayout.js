@@ -17,6 +17,7 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useAccount, useDisconnect } from "wagmi";
 import { getUnreadMessage, readMessage } from "@/request/api/public";
 import { useTranslation } from "react-i18next";
+import CustomDisconnect from "@/redux/CustomDisconnect";
 const { Header, Footer, Content } = Layout;
 
 export default function DefaultLayout(params) {
@@ -266,7 +267,8 @@ export default function DefaultLayout(params) {
     }, []);
     
     useUpdateEffect(() => {
-        isConnected ? runAsync() : cancel()
+        const token = localStorage.getItem("decert.token");
+        isConnected && token ? runAsync() : cancel()
     },[isConnected])
 
     return (
@@ -281,6 +283,7 @@ export default function DefaultLayout(params) {
                 </Content>
                 <CustomSigner store={store} />
                 <CustomConnect store={store} />
+                <CustomDisconnect store={store} />
                 <Footer style={footerStyle}>
                     <AppFooter isMobile={isMobile} />
                 </Footer>
