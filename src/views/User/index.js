@@ -1,5 +1,5 @@
 import { useContext, useEffect, useState } from "react";
-import { Link, useLocation, useNavigate, useParams } from "react-router-dom";
+import { Link, useLocation, useNavigate, useParams, useSearchParams } from "react-router-dom";
 import {
     EditOutlined,
     CopyOutlined
@@ -26,6 +26,9 @@ export default function User(props) {
     const { t } = useTranslation(["translation","profile", "explore"]);
     const { imgPath } = constans();
     const navigateTo = useNavigate();
+    const [queryParameters] = useSearchParams();
+    const searchStatus = queryParameters.get("status");
+    const searchType = queryParameters.get("type");
     const { user } = useContext(MyContext);
     const { address, walletType } = useAddress();
     const location = useLocation();
@@ -95,11 +98,13 @@ export default function User(props) {
         setCheckStatus(checkStatus);
         pageConfig.page = 1;
         setPageConfig({...pageConfig});
+        navigateTo(`${location.pathname}?type=${checkType}`);
     }
 
     const toggleStatus = (key) => {
         checkStatus = key;
         setCheckStatus(checkStatus);
+        navigateTo(`${location.pathname}?type=${checkType}&status=${key}`);
     }
 
     const togglePage = (page) => {
@@ -146,9 +151,23 @@ export default function User(props) {
     }
 
     useEffect(() => {
+        init();
+        if (searchStatus || searchType) {
+            if (searchStatus) {
+                checkStatus = Number(searchStatus);
+                setCheckStatus(checkStatus);
+            }
+            if (searchType) {
+                checkType = Number(searchType);
+                setCheckType(checkType);
+            }
+            if ((searchStatus === null || searchStatus == 0) && searchType == 0) {
+                getList();
+            }
+            return
+        }
         checkType = location.search.indexOf("created") !== -1 ? 1 : 0;
         setCheckType(checkType)
-        init();
         getList();
     }, []);
 
@@ -171,7 +190,7 @@ export default function User(props) {
 
     useUpdateEffect(() => {
         navigateTo(0)
-    },[location])
+    },[paramsAddr])
 
     useEffect(() => {
         window.addEventListener("scroll", scrollFixed);

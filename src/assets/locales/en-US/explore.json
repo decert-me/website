@@ -33,6 +33,7 @@
         "nodata": "Complete the challenge and seize Top1"
     },
 
+    "tips": "Please enter the correct answer.",
     "btn": {
         "create-nft": "Create NFT",
         "created-nft": "Created NFT",

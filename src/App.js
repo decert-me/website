@@ -97,14 +97,6 @@ export default function App() {
   // 语种初始化 && cache
   useEffect(() => {
     localInit()
-    let lang
-    if (localStorage.getItem("decert.lang")) {
-      lang = localStorage.getItem("decert.lang");
-    }else{
-      lang = navigator.language !== 'zh-CN' ? 'en-US' : 'zh-CN';
-      localStorage.setItem("decert.lang",lang)
-    }
-    i18n.changeLanguage(lang);
     !localStorage.getItem("decert.cache") && localStorage.setItem("decert.cache", JSON.stringify({}))
   },[])
 

@@ -7,14 +7,15 @@ import MonacoComponent from "./MonacoComponent";
 
 function MonacoEditor(props, ref) {
     
-    const {value, onChange, language, height} = props;
+    const {value, defaultValue, onChange, language, height} = props;
     const { config, init } = loader;
     let [editorIsOk, setEditorIsOk] = useState();
     let [newLang, setNewLang] = useState();
     let [readOnly, setReadOnly] = useState(false);
+    let [key, setKey] = useState();
 
     useImperativeHandle(ref, () => ({
-        changeLang,changeReadOnly
+        changeLang,changeReadOnly,monacoInit
     }))
 
     function changeLang(params) {
@@ -27,7 +28,7 @@ function MonacoEditor(props, ref) {
         setReadOnly(readOnly);
     }
 
-    async function languaegInit(params) {
+    function languaegInit(params) {
         switch (language) {
             case "C++":
             case "C":
@@ -40,6 +41,9 @@ function MonacoEditor(props, ref) {
     }
 
     async function monacoInit(params) {
+        setEditorIsOk(false);
+        key = Date.now();
+        setKey(key);
         config({
             paths: {
                 vs: "https://ipfs.decert.me/lib/monaco-editor@0.36.1"
@@ -54,17 +58,20 @@ function MonacoEditor(props, ref) {
 
     useEffect(() => {
         monacoInit();
-    },[])
+    },[value])
 
     return (
         editorIsOk ?
-        <MonacoComponent
-            value={value}
-            onChange={onChange}
-            language={newLang}
-            height={height}
-            readOnly={readOnly}
-        />
+        <div key={key} style={{height: "100%"}}>
+            <MonacoComponent
+                value={value}
+                defaultValue={defaultValue}
+                onChange={onChange}
+                language={newLang}
+                height={height}
+                readOnly={readOnly}
+            />
+        </div>
         :
         <div style={{height: height ? height : "calc(100% - 230px)"}}>
             <LoadingOutlined style={{ fontSize: "30px"}} />

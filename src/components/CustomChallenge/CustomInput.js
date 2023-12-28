@@ -13,7 +13,7 @@ export default function CustomInput(props) {
                 <CustomViewer label={label} />
             </div>
             <div className="CustomInput-content">
-                <TextArea 
+                {/* <TextArea 
                     className={`custom-input`} 
                     bordered={false} 
                     onChange={e => value(e.target.value, "fill_blank")}  
@@ -21,6 +21,13 @@ export default function CustomInput(props) {
                     autoSize={{
                         minRows: 7,
                     }}
+                /> */}
+                <Input 
+                    className="custom-input" 
+                    placeholder={t("tips")}
+                    bordered={false}
+                    onChange={e => value(e.target.value, "fill_blank")}  
+                    defaultValue={defaultValue?.value}
                 />
                 {
                     isPreview && (

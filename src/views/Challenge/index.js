@@ -1,6 +1,7 @@
 import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
 import store from "@/redux/store";
+import i18n from 'i18next';
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, Progress, message } from 'antd';
@@ -16,6 +17,7 @@ import CustomPagination from '../../components/CustomPagination';
 import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 import { useAddress } from "@/hooks/useAddress";
 import { changeConnect } from "@/utils/redux";
+import { useUpdateEffect } from "ahooks";
 
 export default function Challenge(params) {
 
@@ -33,6 +35,7 @@ export default function Challenge(params) {
     let [isEdit, setIsEdit] = useState();   //  修改challenge预览
     let [isPreview, setIsPreview] = useState();
     let [realAnswer, setRealAnswer] = useState([]);
+    let [questKey, setQuestKey] = useState(100);
 
     let [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -65,14 +68,19 @@ export default function Challenge(params) {
     }
 
     const getData = async (id) => {
-        const res = await getQuests({id: id});
+        let res = {};
+        await getQuests({id})
+        .then(result => {
+            res = JSON.parse(JSON.stringify(result));
+        })
+
         if (res.data.status === 2) {
-            navigateTo(-1)
+            navigateTo("/404")
             return
         }
         try {
 
-            setMetadata(res.data)
+            await setMetadata(res.data)
             .then(res => {
                 detail = res ? res : {};
                 setDetail({...detail});
@@ -179,11 +187,15 @@ export default function Challenge(params) {
         }
         if (isOpenQuest.length !== 0 && detail.open_quest_review_status !== 0) {
             const newAns = answers.map(obj => {
-                let newObj = { ...obj };
-                delete newObj.score;
-                delete newObj.open_quest_review_time;
-                delete newObj.correct;
-                return newObj;
+                if (obj) {
+                    let newObj = { ...obj };
+                    delete newObj.score;
+                    delete newObj.open_quest_review_time;
+                    delete newObj.correct;
+                    return newObj;
+                }else{
+                    return null;
+                }
             })
             // 展示覆盖弹窗
             Modal.confirm({
@@ -254,6 +266,27 @@ export default function Challenge(params) {
         setAnswers([...answers])
         realAnswer = cache.questions.map(quest => quest.answers);
         setRealAnswer([...realAnswer]);
+    }
+
+    useUpdateEffect(() => {
+        // 挑战模式
+        if (location.pathname !== "/preview") {
+            // 切换语种
+            reload();
+        }
+    },[i18n.language])
+
+    async function reload(isClear, index) {
+        const oldPage = page;
+        await getData(questId);
+        if (isClear) {
+            answers[index] = null;
+            setAnswers([...answers]);
+        }
+        page = oldPage;
+        setPage(page);
+        questKey = questKey+100;
+        setQuestKey(questKey);
     }
 
     useEffect(() => {
@@ -328,7 +361,7 @@ export default function Challenge(params) {
             case "special_judge_coding":
                 // 编码
                 return <CustomCode 
-                    key={i} 
+                    key={questKey+i} 
                     question={question} 
                     token_id={questId} 
                     ref={childRef} 
@@ -337,6 +370,7 @@ export default function Challenge(params) {
                     saveAnswer={saveAnswer}
                     index={page-1}
                     isPreview={isPreview}
+                    reload={reload}
                 />
             case 2:
             case "fill_blank":

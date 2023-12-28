@@ -33,6 +33,7 @@
         "nodata": "完成挑战并夺取 Top 1"
     },
 
+    "tips": "请输入正确答案。",
     "btn": {
         "create-nft": "创建 NFT",
         "created-nft": "已创建 NFT",

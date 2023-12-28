@@ -6,14 +6,16 @@ import { codeRun, codeTest } from '@/request/api/quests';
 import CustomViewer from "../CustomViewer";
 import { Encryption } from "@/utils/Encryption";
 import { useTranslation } from "react-i18next";
-import { Modal } from "antd";
+import { Modal, Tooltip } from "antd";
 import { modalNotice } from "@/utils/modalNotice";
+import { useLocation } from "react-router-dom";
 
 
 function CustomCode(props, ref) {
 
-    const { question, token_id, answers, setAnswers, saveAnswer, index, isPreview } = props;
+    const { question, reload, token_id, answers, setAnswers, index, isPreview } = props;
     const { t } = useTranslation(['publish','explore']);
+    const location = useLocation();
     const editorRef = useRef(null);
     const consoleRef = useRef(null);
     const { decode } = Encryption();
@@ -30,6 +32,7 @@ function CustomCode(props, ref) {
     let [selectCode, setSelectCode] = useState();
     let [selectIndex, setSelectIndex] = useState(0);
     let [editorCode, setEditorCode] = useState();
+    let [answerCode, setAnswerCode] = useState();
     let [logs, setLogs] = useState([]);     //  执行代码返回的日志
     let [codeObj, setCodeObj] = useState({
         code: "",
@@ -181,7 +184,8 @@ function CustomCode(props, ref) {
         paramsObj.code = obj.code;
         paramsObj.lang = obj.lang;
         paramsObj.quest_index = index;
-
+        logs = [];
+        setLogs(logs);
         addLogs([t("inner.run.start")]);
         await codeRun(paramsObj)
         .then(res => {
@@ -231,9 +235,27 @@ function CustomCode(props, ref) {
         editorRef.current.changeReadOnly(code !== "tpl" );
     }
 
-    async function init(params) {
+    async function revertCode() {
+        if (location.pathname === "/preview") {
+            editorRef.current.monacoInit();
+            return
+        }
+        const local = localStorage.getItem("decert.cache");
+        if (local) {
+            let cache = JSON.parse(local);
+            cache[token_id][index] = null;
+            localStorage.setItem("decert.cache", JSON.stringify(cache));
+        }
+        await reload(true, index);
+        logs = [];
+        setLogs([...logs]);
+    }
+
+    async function init(isReload) {
         cacheQuest = question;
-        if (answers[index]) {
+        if (answers[index] && !isReload) {
+            answerCode = answers[index].code;
+            setAnswerCode(answerCode);
             cacheQuest.code_snippets[selectIndex].code = answers[index].code;
         }
         setCacheQuest({...cacheQuest});
@@ -266,6 +288,13 @@ function CustomCode(props, ref) {
         items = arr;
         setItems([...items]);
     }
+
+    // async function updateInit() {
+    //     await init(true);
+    //     answerCode = null;
+    //     setAnswerCode(answerCode);
+    //     editorRef.current.monacoInit();
+    // }
 
     useUpdateEffect(() => {
         toggleCode();
@@ -306,6 +335,15 @@ function CustomCode(props, ref) {
                         <div 
                             className="out-inner"
                         >
+                            {/* 还原代码模板 */}
+                            <Tooltip 
+                                title={t("revert")}
+                                arrow={false} 
+                                rootClassName="reload-tips" 
+                            >
+                                <img onClick={revertCode} className="icon-reload" src={require("@/assets/images/img/reload.png")} alt="" />
+                            </Tooltip>
+                            
                             {
                                 isPreview && 
                                 <div className="preview-menu">
@@ -323,7 +361,7 @@ function CustomCode(props, ref) {
                                 </div>
                             }
                             <MonacoEditor
-                                value={editorCode}
+                                value={answerCode||editorCode}
                                 onChange={changeCache}
                                 language={selectCode.lang}
                                 height={"100%"}

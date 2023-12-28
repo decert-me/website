@@ -190,12 +190,14 @@ export default function ModalAddCodeQuestion(props) {
         // 用例初始化
         const coding = input ? input.map((ele,index) => {
             return {
+                key: Math.random(),
                 input: input[index],
                 output: output[index]
             }
         }): []
         const spj = spj_code ? spj_code.map(e => {
             return {
+                key: Math.random(),
                 spj_code: {
                     frame: e.frame,
                     code: e.code
@@ -325,7 +327,7 @@ export default function ModalAddCodeQuestion(props) {
                                                     <span>{t("inner.code-tpl-desc")}</span>
                                                 </div>
                                                 <MonacoEditor
-                                                    value={e.code}
+                                                    defaultValue={e.code}
                                                     onChange={(newValue) => {
                                                         changeCoding("code", newValue, i);
                                                     }}
@@ -342,7 +344,7 @@ export default function ModalAddCodeQuestion(props) {
                                                     <span>{t("inner.code-spl-desc")}</span>
                                                 </div>
                                                 <MonacoEditor
-                                                    value={e.correctAnswer}
+                                                    defaultValue={e.correctAnswer}
                                                     onChange={(newValue) => {
                                                         changeCoding("correctAnswer", newValue, i);
                                                     }}

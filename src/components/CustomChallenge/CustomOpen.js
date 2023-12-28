@@ -116,7 +116,7 @@ export default function CustomOpen(props) {
             </div>
             <div className="CustomInput-content">
                 <TextArea 
-                    className={`custom-input`} 
+                    className={`custom-input bd`} 
                     bordered={false} 
                     onChange={e => changeInner(e.target.value)}  
                     defaultValue={defaultValue?.value}

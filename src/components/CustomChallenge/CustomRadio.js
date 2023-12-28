@@ -37,7 +37,7 @@ export default function CustomRadio(props) {
         })
         items = arr;
         setItems([...items]);
-    },[])
+    },[options])
 
     useEffect(() => {
         isPreview && changeDom()

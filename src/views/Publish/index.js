@@ -99,10 +99,10 @@ export default function Publish(params) {
                 })
                 result &&
                 setTimeout(() => {
-                    navigateTo(`/quests/${changeId}`)
+                    navigateTo(`/quests/${isEdit}`)
                 }, 1000);
             }else{
-                navigateTo(`/quests/${changeId}`)
+                navigateTo(`/quests/${isEdit}`)
             }
             return false
         }else{
@@ -222,7 +222,7 @@ export default function Publish(params) {
 
     // 获取挑战详情
     async function getChallenge(tokenId) {
-        const fetch = await getQuests({id: tokenId})
+        const fetch = await getQuests({id: tokenId, original: true})
         const data = fetch?.data
         // 没有该挑战、该挑战不是你的
         if (!fetch || (address !== data.creator)) {
@@ -235,7 +235,7 @@ export default function Publish(params) {
             return
         }
         // 获取对应challenge信息
-        const { title, description, recommend, metadata, quest_data, difficulty, uri, uuid } = data;
+        const { title, description, recommend, metadata, quest_data, uri, uuid } = data;
         const answers = JSON.parse(decode(data.quest_data.answers))
         const editor = isSerializedString(recommend);
         const questions = quest_data.questions.map((e,i) => {
@@ -244,6 +244,7 @@ export default function Publish(params) {
                 answers: answers[i]
             }) 
         });
+        console.log(data);
         changeItem = {
             tokenId,
             title,
@@ -262,7 +263,7 @@ export default function Publish(params) {
             }],
             questions: questions,
             score: quest_data.passingScore,
-            difficulty,
+            difficulty: metadata.attributes.difficulty,
             time: quest_data.estimateTime,
             uri,
             startTime: quest_data.startTime,

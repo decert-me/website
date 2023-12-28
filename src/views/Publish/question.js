@@ -78,7 +78,7 @@ export default function PublishQuestion({
                     isModalOpen={showAddCodeQs} 
                     handleCancel={() => {setShowAddCodeQs(false)}}
                     questionChange={questionChange}
-                    编辑部分
+                    // 编辑部分
                     selectQs={selectQs}
                     questionEdit={(quest) => questionEdit(quest, selectIndex)}
                 />

@@ -56,7 +56,8 @@ export default function CodingSpecial(props) {
     async function Test(params) {
         setLoading(true);
         const arr = await checkCode();
-        logs.push(...arr);
+        // logs.push(...arr);
+        logs = arr;
         setLogs([...logs]);
         setLoading(false);
     }
@@ -94,7 +95,7 @@ export default function CodingSpecial(props) {
                             defaultValue={defaultValue.spj_code.frame}
                         />
                         <MonacoEditor
-                            value={defaultValue.spj_code.code}
+                            defaultValue={defaultValue.spj_code.code}
                             onChange={(newValue) => {
                                 onChange(newValue, "code")
                             }}
@@ -119,8 +120,7 @@ export default function CodingSpecial(props) {
                     </p>
                     <ul className="log-content custom-scroll">
                         {
-                            logs.map((e,i) => <li key={i} dangerouslySetInnerHTML={{__html: e}} />
-                            )
+                            logs.map((e,i) => <li key={i} dangerouslySetInnerHTML={{__html: e.replace(/\n/g,"<br/>")}} />)
                         }
                     </ul>
                 </div>
