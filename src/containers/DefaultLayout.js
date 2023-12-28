@@ -14,7 +14,7 @@ import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import { useWeb3Modal } from "@web3modal/react";
 import { useAddress } from "@/hooks/useAddress";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useAccount } from "wagmi";
+import { useAccount, useDisconnect } from "wagmi";
 import { getUnreadMessage, readMessage } from "@/request/api/public";
 import { useTranslation } from "react-i18next";
 const { Header, Footer, Content } = Layout;
@@ -34,8 +34,9 @@ export default function DefaultLayout(params) {
     let [vh, setVh] = useState(100);
     let [msgList, setMsgList] = useState([]);
 
-    const { address, isConnected } = useAddress();
-    const { connected } = useWallet();
+    const { address, isConnected, walletType } = useAddress();
+    const { wallet, connected } = useWallet();
+    const { disconnect } = useDisconnect()
 
     // 获取当前账号未读信息
     const { runAsync, cancel } = useRequest(getUnreadMessage, {
@@ -175,13 +176,26 @@ export default function DefaultLayout(params) {
             // isCert(path, 'reload');
         }else if (addr && address && addr !== address){
             // 已登陆  ====>  切换账号
-            ClearStorage();
-            localStorage.setItem("decert.address", address);
-            isClaim(path);
-            // isCert(path, 'toggle');
-            isExplore(path);
-            isUser(path);
-            await sign()
+            // 判断是否在当前网站
+            if (!document.hidden) {
+                ClearStorage();
+                localStorage.setItem("decert.address", address);
+                isClaim(path);
+                // isCert(path, 'toggle');
+                isExplore(path);
+                isUser(path);
+                await sign()
+            }else{
+                if (walletType === "evm") {
+                    disconnect();
+                    ClearStorage();
+                }else{
+                    wallet.adapter.disconnect()
+                    .then(res => {
+                        ClearStorage();
+                    })
+                }
+            }
         }
     }
 
@@ -231,7 +245,7 @@ export default function DefaultLayout(params) {
     useEffect(() => {
         const path = location.pathname;
         const addr = localStorage.getItem('decert.address');
-        !document.hidden && run(addr, path)
+        run(addr, path)
     },[address, connected])
 
     useEffect(() => {
