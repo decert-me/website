@@ -49,8 +49,7 @@ export default function Challenger(props) {
         getList();
     }
 
-    async function pendingHolder() {
-        setLoading(true);
+    async function getHoldersList() {
         pageConfig.page = pageConfig.page+1;
         setPageConfig({...pageConfig});
         if (isCollection) {
@@ -74,6 +73,12 @@ export default function Challenger(props) {
                 }
             })
         }
+    }
+
+    async function pendingHolder() {
+        setLoading(true);
+        await getHoldersList();
+        await getHoldersList();
 
         setTimeout(() => {
             setLoading(false);
