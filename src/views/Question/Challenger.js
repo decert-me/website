@@ -16,7 +16,7 @@ export default function Challenger(props) {
     let [detail, setDetail] = useState();
     let [rankList, setRankList] = useState([]);
     let [pageConfig, setPageConfig] = useState({
-        page: 1, pageSize: 6
+        page: 1, pageSize: 10
     });
 
     const options = [
@@ -40,7 +40,7 @@ export default function Challenger(props) {
 
     function changeSelect(type) {
         pageConfig = {
-            page: 1, pageSize: 6
+            page: 1, pageSize: 10
         };
         setPageConfig({...pageConfig});
         setIsOver(false);
