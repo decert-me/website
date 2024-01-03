@@ -1,7 +1,6 @@
 import { useEffect } from "react";
 import BeforeRouterEnter from "@/components/BeforeRouterEnter";
 import MyProvider from './provider';
-require("@solana/wallet-adapter-react-ui/styles.css");
 
 export default function App() {
 
