@@ -1,12 +1,13 @@
-import { configureChains } from 'wagmi';
+import { configureChains, createConfig, createStorage } from 'wagmi';
 import { MetaMaskConnector } from 'wagmi/connectors/metaMask';
 import { WalletConnectConnector } from 'wagmi/connectors/walletConnect';
+import { publicProvider } from 'wagmi/providers/public';
 import { CHAINS, CHAINS_DEV } from '@/config/chains';
 
 
 export const { publicClient, chains } = configureChains(
     process.env.REACT_APP_IS_DEV ? CHAINS_DEV : CHAINS,
-    [],
+    [publicProvider()],
     {
       batch: {
         multicall: {
