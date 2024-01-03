@@ -177,12 +177,12 @@ export default function DefaultLayout(params) {
             // 已登陆  ====>  切换账号
             // 判断是否在当前网站
             if (!document.hidden) {
-                ClearStorage();
                 localStorage.setItem("decert.address", address);
-                isClaim(path);
-                // isCert(path, 'toggle');
-                isExplore(path);
-                isUser(path);
+                // ClearStorage();
+                // isClaim(path);
+                // // isCert(path, 'toggle');
+                // isExplore(path);
+                // isUser(path);
                 await sign()
             }else{
                 if (walletType === "evm") {
