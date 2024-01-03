@@ -12,12 +12,10 @@ import { useTranslation } from "react-i18next";
 import {
     ExclamationCircleOutlined
 } from '@ant-design/icons';
-import CollectionChallenger from "./challenger";
 import CollectionInfo from "./detail";
 import usePublishCollection from "@/hooks/usePublishCollection";
 import { hasClaimed } from "@/request/api/public";
 import MyContext from "@/provider/context";
-import { useProvider, useSigner } from "wagmi";
 import Challenger from "../Question/Challenger";
 
 
@@ -26,7 +24,6 @@ export default function Collection(params) {
     
     const { id } = useParams();
     const { isMobile } = useContext(MyContext);
-    const { data: signer } = useSigner()
     const { address, walletType, isConnected } = useAddress();
     const { ipfsPath, defaultImg, openseaLink } = constans();
     const [api, contextHolder] = notification.useNotification();

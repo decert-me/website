@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
-import { useSigner } from "wagmi";
+import { useWalletClient } from "wagmi";
 import "@/assets/styles/view-style/publish.scss"
 import "@/assets/styles/component-style";
 
@@ -20,7 +20,6 @@ import { getQuests, modifyRecommend } from "@/request/api/public";
 import { usePublish } from "@/hooks/usePublish";
 import { clearDataBase, getDataBase, saveCache } from "@/utils/saveCache";
 import store, { setChallenge } from "@/redux/store";
-import { tokenSupply } from "@/controller";
 
 
 const { TextArea } = Input;
@@ -34,7 +33,7 @@ export default function Publish(params) {
     const isFirstRender = useRef(true);     //  是否是第一次渲染
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
-    const { data: signer } = useSigner();
+    const { data: signer } = useWalletClient();
     const { isConnected, walletType, address } = useAddress();
     const { t } = useTranslation(["publish", "translation"]);
     const { encode, decode } = Encryption();
@@ -197,7 +196,9 @@ export default function Publish(params) {
 
     // 修改挑战情况下 => 判断该挑战是否有人铸造
     async function hasClaimed(tokenId) {
-        const supply = await tokenSupply(tokenId, signer)
+        // TODO: 改为后端查
+        // const supply = await tokenSupply(tokenId, signer)
+        const supply = 0
         // 已有人claim，终止
         if ( typeof supply === "number" && supply > 0) {
             message.warning(t("profile:edit.error"));

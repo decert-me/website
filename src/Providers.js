@@ -55,10 +55,11 @@ export default function Providers({children}) {
                                     Progress: { gapDegree: 0},
                                 }}}
                             >
-                            {children}
-                        </ConfigProvider>
+                                {children}
+                            </ConfigProvider>
                         </StyleProvider>
                     </WagmiConfig>
+                    
                 </WalletModalProvider>
             </WalletProvider>
         </ConnectionProvider>

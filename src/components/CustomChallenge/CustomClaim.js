@@ -6,7 +6,7 @@ import {
 } from '@ant-design/icons';
 import { getClaimHash, getQuests, hasClaimed, submitHash } from "../../request/api/public";
 import { claim } from "../../controller";
-import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useNetwork, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
 import ModalLoading from "../CustomModal/ModalLoading";
 import { GetScorePercent } from "@/utils/GetPercent";
@@ -28,7 +28,6 @@ export default function CustomClaim(props) {
     const navigateTo = useNavigate();
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
-    const { data: signer } = useSigner();
     let [open, setOpen] = useState();
     let [link, setLink] = useState("");
     let [status, setStatus] = useState(0);
@@ -51,7 +50,7 @@ export default function CustomClaim(props) {
     let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
     let [writeLoading, setWriteLoading] = useState();
     const { isLoading } = useWaitForTransaction({
-        hash: claimHash,
+        hash: claimHash?.hash,
         onSuccess() { 
             // 清除cache
             const cache = JSON.parse(localStorage.getItem('decert.cache'));
@@ -114,7 +113,7 @@ export default function CustomClaim(props) {
                 obj.tokenId, 
                 obj.score, 
                 signature.data, 
-                signer
+                // signer
             )
             setClaimHash(claimHash);
             setWriteLoading(false);
