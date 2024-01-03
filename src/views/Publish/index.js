@@ -245,7 +245,6 @@ export default function Publish(params) {
                 answers: answers[i]
             }) 
         });
-        console.log(data);
         changeItem = {
             tokenId,
             title,

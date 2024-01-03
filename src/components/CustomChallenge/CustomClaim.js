@@ -5,7 +5,6 @@ import {
     CloseOutlined
 } from '@ant-design/icons';
 import { getClaimHash, getQuests, hasClaimed, submitHash } from "../../request/api/public";
-import { claim } from "../../controller";
 import { useNetwork, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useEffect, useState } from "react";
 import ModalLoading from "../CustomModal/ModalLoading";
@@ -79,53 +78,53 @@ export default function CustomClaim(props) {
 
     const goclaim = async() => {
 
-        if (chain.id != defaultChainId) {
-            setIsSwitch(true);
-            return
-        }
+        // if (chain.id != defaultChainId) {
+        //     setIsSwitch(true);
+        //     return
+        // }
 
-        let hasHash = true;
-        await verify()
-        .catch(() => {
-            hasHash = false;
-        })
-        if (!hasHash) {
-            return
-        }
-        let obj = {...cliamObj};
-        obj.uri = obj.uri[obj.tokenId]
-        obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
-        setWriteLoading(true);
-        const signature = await getClaimHash(obj);
-        if (signature.message.indexOf("Question Updated") !== -1 || signature.message.indexOf("题目已更新") !== -1 ) {
-            Modal.warning({
-                ...modalNotice({
-                    t, 
-                    text: t("translation:message.error.challenge-modify"), 
-                    onOk: () => {navigateTo(0)},
-                    icon: "😵"
-                }
-            )});
-            return
-        }
-        if (signature) {
-            claimHash = await claim(
-                obj.tokenId, 
-                obj.score, 
-                signature.data, 
-                // signer
-            )
-            setClaimHash(claimHash);
-            setWriteLoading(false);
+        // let hasHash = true;
+        // await verify()
+        // .catch(() => {
+        //     hasHash = false;
+        // })
+        // if (!hasHash) {
+        //     return
+        // }
+        // let obj = {...cliamObj};
+        // obj.uri = obj.uri[obj.tokenId]
+        // obj.score = GetScorePercent(cliamObj.totalScore, cliamObj.score);
+        // setWriteLoading(true);
+        // const signature = await getClaimHash(obj);
+        // if (signature.message.indexOf("Question Updated") !== -1 || signature.message.indexOf("题目已更新") !== -1 ) {
+        //     Modal.warning({
+        //         ...modalNotice({
+        //             t, 
+        //             text: t("translation:message.error.challenge-modify"), 
+        //             onOk: () => {navigateTo(0)},
+        //             icon: "😵"
+        //         }
+        //     )});
+        //     return
+        // }
+        // if (signature) {
+        //     claimHash = await claim(
+        //         obj.tokenId, 
+        //         obj.score, 
+        //         signature.data, 
+        //         // signer
+        //     )
+        //     setClaimHash(claimHash);
+        //     setWriteLoading(false);
 
-            if (claimHash) {
-                submitHash({hash: claimHash})
-                // 弹出等待框
-                setIsModalOpen(true);
-            }
-        }else{
-            setWriteLoading(false);
-        }
+        //     if (claimHash) {
+        //         submitHash({hash: claimHash})
+        //         // 弹出等待框
+        //         setIsModalOpen(true);
+        //     }
+        // }else{
+        //     setWriteLoading(false);
+        // }
     }
 
     const handleCancel = () => {
