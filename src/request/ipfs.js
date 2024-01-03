@@ -1,4 +1,4 @@
-import store, { showCustomSigner } from "@/redux/store";
+import store, { setDisConnect } from "@/redux/store";
 import axios from "axios";
 
 // Client-side-only code
@@ -23,7 +23,7 @@ ipfsAxios.interceptors.response.use(
   res => {
     let data = res.data;
     if (data.data?.reload) {
-      store.dispatch(showCustomSigner());
+      store.dispatch(setDisConnect(true));
       return
     }
     // if (data.status !== '1') {
