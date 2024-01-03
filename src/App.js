@@ -1,10 +1,7 @@
-import i18n from 'i18next';
 import { useEffect } from "react";
 import BeforeRouterEnter from "@/components/BeforeRouterEnter";
 import { WagmiConfig, configureChains, createClient } from 'wagmi'
 import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
-import { MetaMaskConnector } from 'wagmi/connectors/metaMask'
-import { WalletConnectConnector } from 'wagmi/connectors/walletConnect'
 import { publicProvider } from 'wagmi/providers/public'
 import { infuraProvider } from 'wagmi/providers/infura'
 import MyProvider from './provider';
@@ -13,6 +10,7 @@ import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
 import { Web3Modal } from '@web3modal/react'
 import * as Sentry from "@sentry/react";
 import { ConfigProvider } from 'antd';
+import Providers from "./Providers";
 require("@solana/wallet-adapter-react-ui/styles.css");
 
 const sentryKey = process.env.REACT_APP_SENTRY_KEY;
@@ -55,22 +53,6 @@ const web3modalClient = createClient({
   // webSocketProvider,
 })
 
-const wagmiClient = createClient({
-  autoConnect: true,
-  connectors: [
-    new MetaMaskConnector({ chains }),
-    new WalletConnectConnector({
-      chains,
-      options: {
-        projectId: projectId,
-        showQrModal: true
-      },
-    }),
-  ],
-  provider,
-  webSocketProvider,
-})
-
 const ethereumClient = new EthereumClient(web3modalClient, chains)
 
 export default function App() {
@@ -104,7 +86,7 @@ export default function App() {
     <>
 
     {/* wagmi */}
-    <WagmiConfig client={wagmiClient}>
+    <Providers>
             <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
               <ConfigProvider
                 theme={{
@@ -121,7 +103,7 @@ export default function App() {
                 </MyProvider>
               </ConfigProvider>
             </StyleProvider>
-    </WagmiConfig>
+    </Providers>
       <Web3Modal 
         projectId={projectId} 
         ethereumClient={ethereumClient}
