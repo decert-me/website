@@ -166,7 +166,7 @@ function CustomCode(props, ref) {
 
         const obj = cacheQuest.code_snippets[selectIndex];
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
-        if (!params && cache[token_id][index] && JSON.stringify(obj.code) === JSON.stringify(cache[token_id][index].code)) {
+        if (!params && cache[token_id] && cache[token_id][index] && JSON.stringify(obj.code) === JSON.stringify(cache[token_id][index].code)) {
             // 切换页面时判断是否需要向后端发起判题
             return
         }
