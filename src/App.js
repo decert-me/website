@@ -1,13 +1,7 @@
 import { useEffect } from "react";
 import BeforeRouterEnter from "@/components/BeforeRouterEnter";
-import { WagmiConfig, configureChains, createClient } from 'wagmi'
-import { goerli, mainnet, polygon, polygonMumbai } from 'wagmi/chains'
-import { publicProvider } from 'wagmi/providers/public'
-import { infuraProvider } from 'wagmi/providers/infura'
 import MyProvider from './provider';
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs';
-import { EthereumClient, w3mConnectors, w3mProvider } from '@web3modal/ethereum'
-import { Web3Modal } from '@web3modal/react'
 import * as Sentry from "@sentry/react";
 import { ConfigProvider } from 'antd';
 import Providers from "./Providers";
@@ -31,29 +25,6 @@ if (sentryKey) {
     replaysOnErrorSampleRate: process.env.REACT_APP_SENTRY_REPLAYS_ON_ERROR || 1.0, // If you're not already sampling the entire session, change the sample rate to 100% when sampling sessions where errors occur.
   });
 }
-
-
-const projectId = process.env.REACT_APP_PROJECT_ID;
-const infura = process.env.REACT_APP_INFURA_API_KEY;
-
-const { chains, provider, webSocketProvider } = configureChains(
-  [mainnet, goerli, polygonMumbai, polygon],
-  [
-    // alchemyProvider({ apiKey: process.env.NEXT_PUBLIC_ALCHEMY_API_KEY! }),
-    infuraProvider({ apiKey: infura }),
-    publicProvider(),
-  ],
-  { targetQuorum: 1 },
-)
-const { publicClient } = configureChains(chains, [w3mProvider({ projectId })])
-const web3modalClient = createClient({
-  autoConnect: true,
-  connectors: w3mConnectors({ projectId, chains }),
-  publicClient,
-  // webSocketProvider,
-})
-
-const ethereumClient = new EthereumClient(web3modalClient, chains)
 
 export default function App() {
 
@@ -83,9 +54,6 @@ export default function App() {
   },[])
 
   return (
-    <>
-
-    {/* wagmi */}
     <Providers>
             <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
               <ConfigProvider
@@ -104,12 +72,5 @@ export default function App() {
               </ConfigProvider>
             </StyleProvider>
     </Providers>
-      <Web3Modal 
-        projectId={projectId} 
-        ethereumClient={ethereumClient}
-        // enableAccountView={false}
-        // enableExplorer={false}
-      />
-    </>
   )
 }

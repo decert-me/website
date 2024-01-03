@@ -11,7 +11,6 @@ import CustomSigner from "@/redux/CustomSigner";
 import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
-import { useWeb3Modal } from "@web3modal/react";
 import { useAddress } from "@/hooks/useAddress";
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAccount, useDisconnect } from "wagmi";
@@ -27,7 +26,6 @@ export default function DefaultLayout(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
     const { isMobile, user } = useContext(MyContext);
-    const { close } = useWeb3Modal();
     const [api, contextHolder] = notification.useNotification();
     // const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
@@ -167,7 +165,7 @@ export default function DefaultLayout(params) {
         }
 
         if (address && isMobile && localStorage.getItem("decert.token")) {
-            close()
+            // close()
         }
 
         if (addr === null && address) { 

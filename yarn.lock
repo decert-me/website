@@ -4898,36 +4898,6 @@
     "@walletconnect/window-getters" "^1.0.1"
     tslib "1.14.1"
 
-"@web3modal/core@2.7.1":
-  version "2.7.1"
-  resolved "https://registry.npmmirror.com/@web3modal/core/-/core-2.7.1.tgz#257534d45f7b5d6bddbc667f787c094eb91dd281"
-  integrity sha512-eFWR1tK1qN4FguhaZq2VW0AVr8DC/Fox2eJnK1eTfk32hxSgUtl8wr5fVM8EoLeoapQ7Zcc0SNg/QLuLQ9t2tA==
-  dependencies:
-    valtio "1.11.0"
-
-"@web3modal/ethereum@^2.3.3":
-  version "2.7.1"
-  resolved "https://registry.npmmirror.com/@web3modal/ethereum/-/ethereum-2.7.1.tgz#464dbc1d00d075c16961b77e9a353b1966538653"
-  integrity sha512-1x3qhYh9qgtvw1MDQD4VeDf2ZOsVANKRPtUty4lF+N4L8xnAIwvNKUAMA4j6T5xSsjqUfq5Tdy5mYsNxLmsWMA==
-
-"@web3modal/react@^2.3.3":
-  version "2.7.1"
-  resolved "https://registry.npmmirror.com/@web3modal/react/-/react-2.7.1.tgz#c768aae41bfe15abe379f8b6489d69d153fc7a46"
-  integrity sha512-+zvP5Q7Q3ozW2hyA1NvS8giVDeZWA6PWgVhKA6656dCnOutonPUpWYuFPJahsFBYCrhLO8ApPmomgb6Dx/mh5A==
-  dependencies:
-    "@web3modal/core" "2.7.1"
-    "@web3modal/ui" "2.7.1"
-
-"@web3modal/ui@2.7.1":
-  version "2.7.1"
-  resolved "https://registry.npmmirror.com/@web3modal/ui/-/ui-2.7.1.tgz#9c2cb0f66623fcf41084f50e63acff33f26b0635"
-  integrity sha512-JpGJbLAl/Wmuyyn+JwuwtlPD8mUW2HV/gsSxKWZoElgjbfDY4vjHo9PH2G++2HhugISfzjawp43r8lP/hWgWOQ==
-  dependencies:
-    "@web3modal/core" "2.7.1"
-    lit "2.7.6"
-    motion "10.16.2"
-    qrcode "1.5.3"
-
 "@webassemblyjs/ast@1.11.6", "@webassemblyjs/ast@^1.11.5":
   version "1.11.6"
   resolved "https://registry.npmmirror.com/@webassemblyjs/ast/-/ast-1.11.6.tgz#db046555d3c413f8966ca50a95176a0e2c642e24"
@@ -10460,21 +10430,12 @@ lit-element@^3.3.0:
     "@lit/reactive-element" "^1.3.0"
     lit-html "^2.8.0"
 
-lit-html@^2.7.0, lit-html@^2.8.0:
+lit-html@^2.8.0:
   version "2.8.0"
   resolved "https://registry.npmmirror.com/lit-html/-/lit-html-2.8.0.tgz#96456a4bb4ee717b9a7d2f94562a16509d39bffa"
   integrity sha512-o9t+MQM3P4y7M7yNzqAyjp7z+mQGa4NS4CxiyLqFPyFWyc4O+nodLrkrxSaCTrla6M5YOLaT3RpbbqjszB5g3Q==
   dependencies:
     "@types/trusted-types" "^2.0.2"
-
-lit@2.7.6:
-  version "2.7.6"
-  resolved "https://registry.npmmirror.com/lit/-/lit-2.7.6.tgz#810007b876ed43e0c70124de91831921598b1665"
-  integrity sha512-1amFHA7t4VaaDe+vdQejSVBklwtH9svGoG6/dZi9JhxtJBBlqY5D1RV7iLUYY0trCqQc4NfhYYZilZiVHt7Hxg==
-  dependencies:
-    "@lit/reactive-element" "^1.6.0"
-    lit-element "^3.3.0"
-    lit-html "^2.7.0"
 
 lit@2.8.0:
   version "2.8.0"
@@ -15428,14 +15389,6 @@ v8-to-istanbul@^8.1.0:
     "@types/istanbul-lib-coverage" "^2.0.1"
     convert-source-map "^1.6.0"
     source-map "^0.7.3"
-
-valtio@1.11.0:
-  version "1.11.0"
-  resolved "https://registry.npmmirror.com/valtio/-/valtio-1.11.0.tgz#c029dcd17a0f99d2fbec933721fe64cfd32a31ed"
-  integrity sha512-65Yd0yU5qs86b5lN1eu/nzcTgQ9/6YnD6iO+DDaDbQLn1Zv2w12Gwk43WkPlUBxk5wL/6cD5YMFf7kj6HZ1Kpg==
-  dependencies:
-    proxy-compare "2.5.1"
-    use-sync-external-store "1.2.0"
 
 valtio@1.11.2:
   version "1.11.2"

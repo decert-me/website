@@ -13,7 +13,6 @@ import "@/assets/styles/container.scss"
 import "@/assets/styles/mobile/container.scss"
 import { hashAvatar } from '@/utils/HashAvatar';
 import { NickName } from '@/utils/NickName';
-import { useWeb3Modal } from "@web3modal/react";
 import logo_white from "@/assets/images/svg/logo-white.png";
 import logo_normal from "@/assets/images/svg/logo-normal.png";
 import { changeConnect } from '@/utils/redux';
@@ -33,7 +32,6 @@ export default function AppHeader({ isMobile, user }) {
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
     const location = useLocation();
-    const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
     let [isOpenM, setIsOpenM] = useState(false);
 
     const items = [
@@ -97,8 +95,8 @@ export default function AppHeader({ isMobile, user }) {
 
     const openModal = async() => {
         if (isMobile) {
-            await open({route: "ConnectWallet"})
-            setIsOpenM(!isOpenM)
+            // await open({route: "ConnectWallet"})
+            // setIsOpenM(!isOpenM)
             return
         }
         changeConnect();

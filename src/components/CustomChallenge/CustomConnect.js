@@ -3,7 +3,6 @@ import { useEffect } from "react";
 import { NickName } from "../../utils/NickName";
 import { useRequest } from "ahooks";
 import { useTranslation } from "react-i18next";
-import { useWeb3Modal } from "@web3modal/react";
 import { changeConnect } from "@/utils/redux";
 import { useAddress } from "@/hooks/useAddress";
 
@@ -13,11 +12,9 @@ export default function CustomConnect(props) {
     const { t } = useTranslation(["claim"]);
     const { step, setStep, isMobile } = props;
     const { address } = useAddress();
-    const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
 
     const openModalConnect = () => {
         if (isMobile) {
-            open()
             return
         }
         changeConnect()
