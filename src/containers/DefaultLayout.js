@@ -13,7 +13,7 @@ import MyContext from "@/provider/context";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import { useAddress } from "@/hooks/useAddress";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useAccount, useDisconnect } from "wagmi";
+import { useDisconnect } from "wagmi";
 import { getUnreadMessage, readMessage } from "@/request/api/public";
 import { useTranslation } from "react-i18next";
 import CustomDisconnect from "@/redux/CustomDisconnect";
@@ -35,7 +35,7 @@ export default function DefaultLayout(params) {
 
     const { address, isConnected, walletType } = useAddress();
     const { wallet, connected } = useWallet();
-    const { disconnect } = useDisconnect()
+    const { disconnectAsync } = useDisconnect()
 
     // 获取当前账号未读信息
     const { runAsync, cancel } = useRequest(getUnreadMessage, {
@@ -186,14 +186,11 @@ export default function DefaultLayout(params) {
                 await sign()
             }else{
                 if (walletType === "evm") {
-                    disconnect();
-                    ClearStorage();
+                    await disconnectAsync();
                 }else{
-                    wallet.adapter.disconnect()
-                    .then(res => {
-                        ClearStorage();
-                    })
+                    await wallet.adapter.disconnect()
                 }
+                ClearStorage();
             }
         }
     }

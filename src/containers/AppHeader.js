@@ -34,7 +34,7 @@ export default function AppHeader({ isMobile, user }) {
             console.log(err);
         }
     })
-    const { disconnect } = useDisconnect();
+    const { disconnectAsync } = useDisconnect();
     const navigateTo = useNavigate();
     const location = useLocation();
     let [isOpenM, setIsOpenM] = useState(false);
@@ -127,16 +127,13 @@ export default function AppHeader({ isMobile, user }) {
 
     }
 
-    function goDisconnect() {
+    async function goDisconnect() {
         if (walletType === "evm") {
-            disconnect();
-            ClearStorage();
+            await disconnectAsync();
         }else{
-            wallet.adapter.disconnect()
-            .then(res => {
-                ClearStorage();
-            })
+            await wallet.adapter.disconnect()
         }
+        ClearStorage();
 
         // 判断是否是claim页
         const path = location.pathname;
@@ -247,7 +244,7 @@ export default function AppHeader({ isMobile, user }) {
 
                                 {
                                     isConnected ?
-                                    <Button danger type="primary" onClick={() => disconnect()}>{t("header.disconnect")}</Button>
+                                    <Button danger type="primary" onClick={() => goDisconnect()}>{t("header.disconnect")}</Button>
                                     :
                                     <Button onClick={() => openModal()}>{t("header.connect")}</Button>
                                 }
