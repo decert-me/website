@@ -43,7 +43,7 @@ export const noopStorage = {
 export const wagmiConfig = createConfig({
     storage: createStorage({
       storage: typeof window !== 'undefined' ? window.localStorage : noopStorage,
-      key: 'wagmi_v1.1',
+      key: 'wagmi',
     }),
     autoConnect: localStorage.getItem("decert.address") ? true : false,
     publicClient,
