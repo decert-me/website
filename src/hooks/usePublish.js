@@ -17,7 +17,6 @@ export const usePublish = (props) => {
 
     const { jsonHash, recommend, changeId } = props;
     const { defaultChainId, ipfsPath, maxUint32, maxUint192 } = constans();
-    const { data: signer } = useWalletClient();
     const { questContract } = useContext(MyContext);
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
@@ -88,8 +87,6 @@ export const usePublish = (props) => {
 
     const write = (sign, obj, params) => {
         let { startTs, endTs, supply, title, uri } = obj;
-        endTs = maxUint32;
-        supply = maxUint192.toFixed();
         const args = [startTs, endTs, supply, title, uri];
         if (changeId) {
             modifyQuest({ args: [changeId, args, sign] })
@@ -134,7 +131,7 @@ export const usePublish = (props) => {
             description: detail.description,
             'start_ts': '0', 
             'end_ts': maxUint32.toString(), 
-            'supply': maxUint192.toFixed(),       
+            'supply': maxUint192.toString(),       
         })
         :
         await addQuests({
@@ -143,12 +140,12 @@ export const usePublish = (props) => {
             description: detail.description,
             'start_ts': '0', 
             'end_ts': maxUint32.toString(), 
-            'supply': maxUint192.toFixed(),       
+            'supply': maxUint192.toString(),       
         })
         const questData = {
             'startTs': 0, 
             'endTs': maxUint32.toString(), 
-            'supply': maxUint192.toFixed(), 
+            'supply':maxUint192.toString(), 
             'title': detail.title,
             'uri': "ipfs://"+jsonHash, 
         }
