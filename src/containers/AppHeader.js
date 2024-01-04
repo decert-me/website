@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDisconnect } from 'wagmi';
+import { useConnect, useDisconnect } from 'wagmi';
 import { Button, Dropdown, message } from 'antd';
 import {
     MenuOutlined,
@@ -26,9 +26,14 @@ import { ClearStorage } from '@/utils/ClearStorage';
 export default function AppHeader({ isMobile, user }) {
     
     const { address, walletType, isConnected } = useAddress();
-    const { connected, wallet } = useWallet();
+    const { wallet } = useWallet();
     const { imgPath } = constans();
     const { t } = useTranslation();
+    const { connect, connectors } = useConnect({
+        onError(err){
+            console.log(err);
+        }
+    })
     const { disconnect } = useDisconnect();
     const navigateTo = useNavigate();
     const location = useLocation();
@@ -95,8 +100,8 @@ export default function AppHeader({ isMobile, user }) {
 
     const openModal = async() => {
         if (isMobile) {
-            // await open({route: "ConnectWallet"})
-            // setIsOpenM(!isOpenM)
+            connect({connector: connectors[1]})
+            setIsOpenM(!isOpenM)
             return
         }
         changeConnect();

@@ -5,6 +5,7 @@ import { useRequest } from "ahooks";
 import { useTranslation } from "react-i18next";
 import { changeConnect } from "@/utils/redux";
 import { useAddress } from "@/hooks/useAddress";
+import { useConnect } from "wagmi";
 
 
 export default function CustomConnect(props) {
@@ -12,9 +13,15 @@ export default function CustomConnect(props) {
     const { t } = useTranslation(["claim"]);
     const { step, setStep, isMobile } = props;
     const { address } = useAddress();
+    const { connect, connectors } = useConnect({
+        onError(err){
+            console.log(err);
+        }
+    })
 
     const openModalConnect = () => {
         if (isMobile) {
+            connect({connector: connectors[1]})
             return
         }
         changeConnect()
