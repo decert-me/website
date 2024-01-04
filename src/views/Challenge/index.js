@@ -2,7 +2,7 @@ import "@/assets/styles/view-style/challenge.scss"
 import "@/assets/styles/mobile/view-style/challenge.scss"
 import store from "@/redux/store";
 import i18n from 'i18next';
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from 'react-i18next';
 import { Button, Modal, Progress, message } from 'antd';
 import { ArrowLeftOutlined, ExportOutlined, CloseOutlined } from '@ant-design/icons';
@@ -18,6 +18,8 @@ import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 import { useAddress } from "@/hooks/useAddress";
 import { changeConnect } from "@/utils/redux";
 import { useUpdateEffect } from "ahooks";
+import { useConnect } from "wagmi";
+import MyContext from "@/provider/context";
 
 export default function Challenge(params) {
 
@@ -28,6 +30,7 @@ export default function Challenge(params) {
     const location = useLocation();
     const navigateTo = useNavigate();
     const childRef = useRef(null);
+    const { isMobile } = useContext(MyContext);
     let [detail, setDetail] = useState();
     let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
@@ -36,6 +39,11 @@ export default function Challenge(params) {
     let [isPreview, setIsPreview] = useState();
     let [realAnswer, setRealAnswer] = useState([]);
     let [questKey, setQuestKey] = useState(100);
+    const { connect, connectors } = useConnect({
+        onError(err){
+            console.log(err);
+        }
+    })
 
     let [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -182,7 +190,11 @@ export default function Challenge(params) {
         const isOpenQuest = answers.filter(answer => answer?.type === "open_quest");
         // 有开放题的同时未登录
         if (isOpenQuest.length !== 0 && !isConnected) {
-            changeConnect();
+            if (isMobile) {
+                connect({connector: connectors[1]})
+            }else{
+                changeConnect();
+            }
             return
         }
         if (isOpenQuest.length !== 0 && detail.open_quest_review_status !== 0) {
