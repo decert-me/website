@@ -45,7 +45,7 @@ export const wagmiConfig = createConfig({
       storage: typeof window !== 'undefined' ? window.localStorage : noopStorage,
       key: 'wagmi',
     }),
-    autoConnect: localStorage.getItem("decert.address") ? true : false,
+    autoConnect: localStorage.getItem("wagmi.connected") ? true : false,
     publicClient,
     connectors: [
       metaMaskConnector,
