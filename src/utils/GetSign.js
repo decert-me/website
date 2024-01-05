@@ -43,7 +43,7 @@ export async function GetSign(params) {
             // 2、获取签名
             // 判断当前address为solana
             if (/^0x/.test(address)) {
-                await signer?.signMessage(message)
+                await signer?.signMessage({message})
                 .then(async(res) => {
                     // 3、获取token
                     await authLoginSign({

@@ -1,26 +1,25 @@
-import { useEffect, useState } from "react";
-import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useContext, useEffect, useState } from "react";
+import { useContractWrite, useNetwork, useSwitchNetwork, useWaitForTransaction, useWalletClient } from "wagmi";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { addQuests, modifyQuests, submitHash } from "@/request/api/public";
 import { constans } from "@/utils/constans";
-import { createQuest, modifyQuest } from "@/controller";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { pollingGetQuest } from "@/request/api/polling";
+import MyContext from "@/provider/context";
 
 
 
 export const usePublish = (props) => {
 
     const { jsonHash, recommend, changeId } = props;
-    const { defaultChainId } = constans();
+    const { defaultChainId, ipfsPath, maxUint32, maxUint192 } = constans();
+    const { questContract } = useContext(MyContext);
     const { chain } = useNetwork();
-    const { data: signer } = useSigner();
     const { verify } = useVerifyToken();
-    const { ipfsPath, maxUint32, maxUint192 } = constans();
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
     const { switchNetwork } = useSwitchNetwork({
@@ -41,7 +40,7 @@ export const usePublish = (props) => {
     let [createTokenId, setCreateTokenId] = useState();
     let [createLoading, setCreateLoading] = useState();
     const { isLoading: transactionLoading, data } = useWaitForTransaction({
-        hash: createQuestHash,
+        hash: createQuestHash?.hash,
         cacheTime: 0
     })
     const { run, cancel } = useRequest(getChallenge, {
@@ -49,6 +48,18 @@ export const usePublish = (props) => {
         manual: true,
         pollingWhenHidden: false
     });
+
+
+    const { writeAsync: createQuest } = useContractWrite({
+        ...questContract,
+        functionName: 'createQuest',
+    })
+
+    const { writeAsync: modifyQuest } = useContractWrite({
+        ...questContract,
+        functionName: 'modifyQuest',
+    })
+
 
 
     function getChallenge() {
@@ -75,30 +86,40 @@ export const usePublish = (props) => {
     }
 
     const write = (sign, obj, params) => {
-        changeId ?
-        modifyQuest(changeId, obj, sign, signer)
-        .then(res => {
-            setIsLoading(false);
-            if (res) {
-                submitHash({
-                    hash: res, 
-                    params: params
-                })
-                setCreateQuestHash(res)
-            }
-        })
-        :
-        createQuest(obj, sign, signer)
-        .then(res => {
-            setIsLoading(false);
-            if (res) {
-                submitHash({
-                    hash: res, 
-                    params: params
-                })
-                setCreateQuestHash(res)
-            }
-        })
+        let { startTs, endTs, supply, title, uri } = obj;
+        const args = [startTs, endTs, supply, title, uri];
+        if (changeId) {
+            modifyQuest({ args: [changeId, args, sign] })
+            .then(res => {
+                setIsLoading(false);
+                if (res) {
+                    submitHash({
+                        hash: res.hash, 
+                        params: params
+                    })
+                    setCreateQuestHash(res)
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
+        }else{
+            createQuest({ args: [args, sign] })
+            .then(res => {
+                setIsLoading(false);
+                if (res) {
+                    submitHash({
+                        hash: res.hash, 
+                        params: params
+                    })
+                    setCreateQuestHash(res)
+                }
+            })
+            .catch(err => {
+                console.log(err);
+                setIsLoading(false);
+            })
+        }
     }
 
     const processingData = async() => {
@@ -124,7 +145,7 @@ export const usePublish = (props) => {
         const questData = {
             'startTs': 0, 
             'endTs': maxUint32.toString(), 
-            'supply': maxUint192.toString(), 
+            'supply':maxUint192.toString(), 
             'title': detail.title,
             'uri': "ipfs://"+jsonHash, 
         }
@@ -183,6 +204,7 @@ export const usePublish = (props) => {
                 setCreateLoading(createLoading);
                 run()
             }
+            console.log(data.logs);
             data.logs.forEach(log => {
                 if (log.topics[0] === "0x6bb7ff708619ba0610cba295a58592e0451dee2622938c8755667688daf3529b") {
                     createTokenId = parseInt(log.topics[1], 16);

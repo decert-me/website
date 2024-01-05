@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
 import { useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { useDisconnect } from 'wagmi';
+import { useConnect, useDisconnect } from 'wagmi';
 import { Button, Dropdown, message } from 'antd';
 import {
     MenuOutlined,
@@ -13,7 +13,6 @@ import "@/assets/styles/container.scss"
 import "@/assets/styles/mobile/container.scss"
 import { hashAvatar } from '@/utils/HashAvatar';
 import { NickName } from '@/utils/NickName';
-import { useWeb3Modal } from "@web3modal/react";
 import logo_white from "@/assets/images/svg/logo-white.png";
 import logo_normal from "@/assets/images/svg/logo-normal.png";
 import { changeConnect } from '@/utils/redux';
@@ -27,13 +26,17 @@ import { ClearStorage } from '@/utils/ClearStorage';
 export default function AppHeader({ isMobile, user }) {
     
     const { address, walletType, isConnected } = useAddress();
-    const { connected, wallet } = useWallet();
+    const { wallet } = useWallet();
     const { imgPath } = constans();
     const { t } = useTranslation();
-    const { disconnect } = useDisconnect();
+    const { connect, connectors } = useConnect({
+        onError(err){
+            console.log(err);
+        }
+    })
+    const { disconnectAsync } = useDisconnect();
     const navigateTo = useNavigate();
     const location = useLocation();
-    const { isOpen, open, close, setDefaultChain } = useWeb3Modal();
     let [isOpenM, setIsOpenM] = useState(false);
 
     const items = [
@@ -97,7 +100,7 @@ export default function AppHeader({ isMobile, user }) {
 
     const openModal = async() => {
         if (isMobile) {
-            await open({route: "ConnectWallet"})
+            connect({connector: connectors[1]})
             setIsOpenM(!isOpenM)
             return
         }
@@ -124,16 +127,13 @@ export default function AppHeader({ isMobile, user }) {
 
     }
 
-    function goDisconnect() {
+    async function goDisconnect() {
         if (walletType === "evm") {
-            disconnect();
-            ClearStorage();
+            await disconnectAsync();
         }else{
-            wallet.adapter.disconnect()
-            .then(res => {
-                ClearStorage();
-            })
+            await wallet.adapter.disconnect()
         }
+        ClearStorage();
 
         // 判断是否是claim页
         const path = location.pathname;
@@ -244,7 +244,7 @@ export default function AppHeader({ isMobile, user }) {
 
                                 {
                                     isConnected ?
-                                    <Button danger type="primary" onClick={() => disconnect()}>{t("header.disconnect")}</Button>
+                                    <Button danger type="primary" onClick={() => goDisconnect()}>{t("header.disconnect")}</Button>
                                     :
                                     <Button onClick={() => openModal()}>{t("header.connect")}</Button>
                                 }

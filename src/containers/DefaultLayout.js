@@ -11,10 +11,9 @@ import CustomSigner from "@/redux/CustomSigner";
 import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
-import { useWeb3Modal } from "@web3modal/react";
 import { useAddress } from "@/hooks/useAddress";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useAccount, useDisconnect } from "wagmi";
+import { useDisconnect } from "wagmi";
 import { getUnreadMessage, readMessage } from "@/request/api/public";
 import { useTranslation } from "react-i18next";
 import CustomDisconnect from "@/redux/CustomDisconnect";
@@ -27,7 +26,6 @@ export default function DefaultLayout(params) {
     const navigateTo = useNavigate();
     const location = useLocation();
     const { isMobile, user } = useContext(MyContext);
-    const { close } = useWeb3Modal();
     const [api, contextHolder] = notification.useNotification();
     // const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
@@ -37,7 +35,7 @@ export default function DefaultLayout(params) {
 
     const { address, isConnected, walletType } = useAddress();
     const { wallet, connected } = useWallet();
-    const { disconnect } = useDisconnect()
+    const { disconnectAsync } = useDisconnect()
 
     // 获取当前账号未读信息
     const { runAsync, cancel } = useRequest(getUnreadMessage, {
@@ -167,7 +165,7 @@ export default function DefaultLayout(params) {
         }
 
         if (address && isMobile && localStorage.getItem("decert.token")) {
-            close()
+            // close()
         }
 
         if (addr === null && address) { 
@@ -179,23 +177,20 @@ export default function DefaultLayout(params) {
             // 已登陆  ====>  切换账号
             // 判断是否在当前网站
             if (!document.hidden) {
-                ClearStorage();
                 localStorage.setItem("decert.address", address);
-                isClaim(path);
-                // isCert(path, 'toggle');
-                isExplore(path);
-                isUser(path);
+                // ClearStorage();
+                // isClaim(path);
+                // // isCert(path, 'toggle');
+                // isExplore(path);
+                // isUser(path);
                 await sign()
             }else{
                 if (walletType === "evm") {
-                    disconnect();
-                    ClearStorage();
+                    await disconnectAsync();
                 }else{
-                    wallet.adapter.disconnect()
-                    .then(res => {
-                        ClearStorage();
-                    })
+                    await wallet.adapter.disconnect()
                 }
+                ClearStorage();
             }
         }
     }

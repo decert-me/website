@@ -1,6 +1,5 @@
-import { BigNumber } from "ethers";
 import BadgeAddress from "@/contracts/Badge.address";
-
+import { maxUint192 } from "viem";
 
 export const constans = (contractType) => {
 
@@ -65,7 +64,7 @@ export const constans = (contractType) => {
     const questAddr = process.env.REACT_APP_CONTRACT_QUEST_ADDRESS;
 
     const maxUint32 = Math.pow(2,32) - 1;
-    const maxUint192 = BigNumber.from('2').pow(192).sub(1);
+    const bigInt192 = BigInt(maxUint192);
 
     const imgPath = process.env.REACT_APP_BASE_URL;
 
@@ -82,7 +81,7 @@ export const constans = (contractType) => {
 
     return {
         maxUint32,
-        maxUint192,
+        maxUint192: bigInt192,
         openseaLink,
         openseaSolanaLink,
         defaultImg,

@@ -2,30 +2,25 @@ import { Spin } from "antd";
 import {
     LoadingOutlined
 } from '@ant-design/icons';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Encryption } from "@/utils/Encryption";
-import { useSigner } from "wagmi";
 import { GetPercent } from "@/utils/GetPercent";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import CustomClaimInfo from "./CustomClaimInfo";
 import CustomClaimStep from "./CustomClaimStep";
-import { useBadgeContract } from "@/controller/contract";
 import Confetti from "react-confetti";
-import { constans } from "@/utils/constans";
 import { useAddress } from "@/hooks/useAddress";
+import MyContext from "@/provider/context";
 
 
 export default function CustomCompleted(props) {
     
     const { answers, detail, tokenId, isClaim, address: addr } = props;
-    const { defaultChainId } = constans();
+    const { badgeContract } = useContext(MyContext);
     const { verify } = useVerifyToken();
-    const { data: signer } = useSigner({
-        chainId: defaultChainId
-    });
+    const { data: signer } = useWalletClient();
     const { address, isConnected } = useAddress();
     const { decode } = Encryption();
-    const key = process.env.REACT_APP_ANSWERS_KEY;
     
     let [answerInfo, setAnswerInfo] = useState();
     let [showConfetti, setShowConfetti] = useState(false);
@@ -34,10 +29,13 @@ export default function CustomCompleted(props) {
     let [percent, setPercent] = useState(0);
 
     let [scoresArgs, setScoresArgs] = useState([Number(tokenId), addr]);
-    const { data, isLoading, refetch } = useBadgeContract({
-        functionName: "scores",
+    const { refetch } = useContractRead({
+        ...badgeContract,
+        enabled: false,
+        functionName: 'scores',
         args: scoresArgs
     })
+
 
     const contrast = async(arr) => {
         const questions = detail.metadata.properties.questions;
