@@ -15,6 +15,9 @@ import { useTranslation } from "react-i18next";
 import { changeConnect } from "@/utils/redux";
 import { constans } from "@/utils/constans";
 import { useAddress } from "@/hooks/useAddress";
+import BindDiscordBtn from "./bindDiscordBtn";
+import BindWechatBtn from "./bindWechatBtn";
+import BindZkBtn from "./bindZkBtn";
 const { TextArea } = Input;
 
 export default function UserEdit(params) {
@@ -142,16 +145,8 @@ export default function UserEdit(params) {
                             onChange={handleChange}
                         >
                             <Button className="btn">
-                                
                                 {
-                                    loading ? 
-                                    <>
-                                        <LoadingOutlined style={{marginRight: "10px"}} />{t("profile:edit.uploading")}
-                                    </>
-                                    :
-                                    <>
-                                        <PlusOutlined style={{marginRight: "10px"}} />{t("profile:edit.upload")}
-                                    </>
+                                    loading ? t("profile:edit.uploading"):t("profile:edit.upload")
                                 }
                             </Button>
                         </Upload>
@@ -182,22 +177,48 @@ export default function UserEdit(params) {
                             placeholder={t("profile:edit.inner.tips.desc")}
                         />
                     </div>
+                    <div className="inner">
+                        <p className="label">Connect Account</p>
+                        <div className="list">
+                            <div className="item">
+                                <div className="item-label">
+                                    <img src="" alt="" />
+                                    <p>微信</p>
+                                </div>
+                                <BindWechatBtn />
+                            </div>
+
+                            <div className="item">
+                                <div className="item-label">
+                                    <img src="" alt="" />
+                                    <p>Discord</p>
+                                </div>
+                                <BindDiscordBtn />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="inner">
+                        <p className="label">推荐</p>
+                        <div className="list">
+                            <div className="item">
+                                <div className="item-label">
+                                    <img src="" alt="" />
+                                    <p>创建隐私身份 (DID)</p>
+                                </div>
+                                <BindZkBtn />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="UserEdit-btns">
-                <Button 
-                    className="btn cancel"
-                    onClick={goBack}
-                >
-                    {t("translation:btn-cancel")}
-                </Button>
-                <Button 
-                    type="primary" 
-                    className="btn save"
-                    onClick={() => save()}
-                >
-                    {t("translation:btn-save")}
-                </Button>
+                <div className="UserEdit-btns">
+                    <Button 
+                        type="primary" 
+                        className="btn save"
+                        onClick={() => save()}
+                    >
+                        {t("translation:btn-save")}
+                    </Button>
+                </div>
             </div>
         </div>
     )

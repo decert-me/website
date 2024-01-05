@@ -94,7 +94,7 @@ export default function DefaultLayout(params) {
     };
       
     const contentStyle = {
-        backgroundColor: location.pathname.indexOf("user") === -1 ? '#fff' : "#F9F9F9",
+        backgroundColor: (location.pathname.indexOf("user") !== -1 && location.pathname.indexOf("user/edit") === -1) ? '#F9F9F9' : "#fff",
         overflow: "hidden",
         display: "grid",
         gridTemplateRows: `minmax(${vh}vh, auto)`,
