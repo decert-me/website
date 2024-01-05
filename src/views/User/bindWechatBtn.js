@@ -49,6 +49,7 @@ export default function BindWechatBtn() {
                 if (wechat) {
                     setIsBind(true);
                     setIsWechatLoad(false);
+                    setQrCode(null);
                     cancel();
                 }
             }
@@ -69,8 +70,8 @@ export default function BindWechatBtn() {
     return (
         <Popover
             trigger="focus"
-            // trigger="click"
             content={(
+                !isBind &&
                 <div className="qrcode">
                     <Spin spinning={!qrCode} size="large" wrapperClassName="qrcop">
                         <img src={qrCode} alt="" style={{width: 104, height: 104}} />
