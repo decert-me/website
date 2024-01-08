@@ -11,6 +11,7 @@ import { constans } from "@/utils/constans";
 import { getAddressDid } from "@/request/api/zk";
 import { useRequest } from "ahooks";
 import { changeConnect } from "@/utils/redux";
+import { submitChallenge } from "@/request/api/public";
 
 
 
@@ -24,6 +25,7 @@ export default function ClaimInfo({answerInfo, detail}) {
     const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(null, detail.version); 
     const [hasDID, setHasDID] = useState(false);
     const [pollingCount, setPollingCount] = useState(0);
+    let [submitObj, setSubmitObj] = useState();
 
     const { run, cancel } = useRequest(polling, {
         pollingInterval: 3000,
@@ -45,6 +47,12 @@ export default function ClaimInfo({answerInfo, detail}) {
             run();
             window.open(`/user/edit/${address}`, "_blank")
         }else{
+            submitObj = {
+                token_id: detail.tokenId,
+                answer: JSON.stringify(answerInfo.answers),
+                uri: detail.uri
+            }
+            setSubmitObj({...submitObj});
             changeConnect();
         }
     }
@@ -53,6 +61,10 @@ export default function ClaimInfo({answerInfo, detail}) {
         getAddressDid()
         .then(res => {
             if (res.data.did) {
+                // 若为后置登陆 需再次发送challenge
+                if (!hasDID && submitObj) {
+                    submitChallenge(submitObj)
+                }
                 setHasDID(true);                
                 cancel();
                 setPollingCount(0);
