@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button, Divider, Progress } from "antd";
@@ -8,17 +8,30 @@ import CustomViewer from "@/components/CustomViewer";
 import ClaimOperate from "./operate";
 import { useAddress } from "@/hooks/useAddress";
 import { constans } from "@/utils/constans";
+import { getAddressDid } from "@/request/api/zk";
 
 
 
 export default function ClaimInfo({answerInfo, detail}) {
     
     const navigateTo = useNavigate();
-    const { walletType } = useAddress();
+    const { t } = useTranslation(["claim", "translation"]);
+    const { walletType, isConnected } = useAddress();
     const { isMobile } = useContext(MyContext);
     const { score, passingPercent, isPass } = answerInfo
     const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(null, detail.version); 
-    const { t } = useTranslation(["claim", "translation"]);
+    const [hasDID, setHasDID] = useState(false);
+
+    function addrDid(params) {
+        getAddressDid()
+        .then(res => {
+            res.data.did && setHasDID(true);
+        })
+    }
+
+    useEffect(() => {
+        isPass && isConnected && addrDid()
+    },[isPass, isConnected])
 
     return(
         <div className="CustomCompleted">
@@ -34,12 +47,19 @@ export default function ClaimInfo({answerInfo, detail}) {
             <div className="completed-content">
                 <div className="content-info">
                     <div className="desc">
-                        {
-                            isPass ? 
-                                <p className="title">{t("pass")}  🎉🎉</p>
-                            :
-                                <p className="title">{t("unpass")}</p>
-                        }
+                    {
+                        isPass ? 
+                            <>
+                               <p className="title">{t("pass")}  🎉🎉</p>
+                               { hasDID ? 
+                                    <p>你获得了一份 隐私证书凭证</p>
+                                    :
+                                    <p>创建隐私账户，领取线下证书凭证，立即创建 &gt;&gt;</p>
+                                }
+                            </>
+                        :
+                            <p className="title">{t("unpass")}</p>
+                    }
                     </div>
                     <div className="score">
                         <div className="circle">

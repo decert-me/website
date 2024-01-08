@@ -11,12 +11,15 @@ export const createDID = async() => {
     const did = keys.fromMnemonic(keyring, mnemonic, "ecdsa");
     const doc = await did.getPublish();
     await registerDidDoc(doc);
+
     // 获取签名信息
     const {data} = await getDidSignMessage({did: did.id})
 
     return {
         message: data?.loginMessage,        //  签名信息
-        did: did.id         //  did:ID
+        nonce: data?.nonce,
+        did: did.id,
+        mnemonic
     }
 }
 

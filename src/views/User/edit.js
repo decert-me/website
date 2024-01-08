@@ -18,6 +18,7 @@ import { useAddress } from "@/hooks/useAddress";
 import BindDiscordBtn from "./bindDiscordBtn";
 import BindWechatBtn from "./bindWechatBtn";
 import BindZkBtn from "./bindZkBtn";
+import CustomIcon from "@/components/CustomIcon";
 const { TextArea } = Input;
 
 export default function UserEdit(params) {
@@ -182,7 +183,7 @@ export default function UserEdit(params) {
                         <div className="list">
                             <div className="item">
                                 <div className="item-label">
-                                    <img src="" alt="" />
+                                    <CustomIcon type="icon-wechat" />
                                     <p>微信</p>
                                 </div>
                                 <BindWechatBtn />
@@ -190,7 +191,7 @@ export default function UserEdit(params) {
 
                             <div className="item">
                                 <div className="item-label">
-                                    <img src="" alt="" />
+                                    <CustomIcon type="icon-discord" className="icon-discord" />
                                     <p>Discord</p>
                                 </div>
                                 <BindDiscordBtn />
