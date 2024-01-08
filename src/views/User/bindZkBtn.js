@@ -7,10 +7,12 @@ import { useSigner } from "wagmi";
 import { useTranslation } from "react-i18next";
 import { backup } from "@/utils/zk/backup";
 import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
-import { getAddressDid, saveSignAndDid } from "@/request/api/zk";
+import { getAddressDid, getDidSignMessage, saveSignAndDid } from "@/request/api/zk";
 import { createDID } from "@/utils/zk/createDID";
 import "@/assets/styles/view-style/modal.scss";
-
+import { Keyring } from "@zcloak/keyring";
+import { keys } from "@zcloak/did";
+import { registerDidDoc } from "@/utils/zk/didHelper";
 
 export default function BindZkBtn() {
     
@@ -20,6 +22,8 @@ export default function BindZkBtn() {
     const [isBind, setIsBind] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
     const [didID, setDidID] = useState("");
+    const [mnemonic, setMnemonic] = useState("");
+    const [createAcLoad, setCreateAcLoad] = useState(false);
     let [keyFile, setKeyFile] = useState();
 
     async function downloadKeyFile() {
@@ -30,27 +34,56 @@ export default function BindZkBtn() {
         }
     }
 
+    function cancel() {
+        setIsModalOpen(false);
+        setIsZkLoad(false);
+    }
+
+    async function createAc() {
+        setCreateAcLoad(true);
+        try {
+            const keyring = new Keyring();
+            const did = keys.fromMnemonic(keyring, mnemonic, "ecdsa");
+            // 获取msg
+            const {data} = await getDidSignMessage({did: did.id})
+            // 发起签名
+            const sign_hash = await signMessage?.signMessage(data?.loginMessage);
+
+            // did publish
+            const doc = await did.getPublish();
+            await registerDidDoc(doc);
+
+            // 存储keyfile
+            await saveSignAndDid({
+                sign_hash,
+                key_file: keyFile,
+                sign: data?.loginMessage,
+                did_address: did.id
+            });
+
+            setIsBind(true);
+            setIsModalOpen(false)
+            setIsZkLoad(false);
+        } catch (error) {
+            setCreateAcLoad(false);
+            console.log(error);
+        }
+    }
+
     async function bindZkAc(params) {
         setIsZkLoad(true);
         const { message, did, mnemonic, nonce } = await createDID();
         setDidID(did);
+        setMnemonic(mnemonic);
         // 发起签名
         try {
             const sign_hash = await signMessage?.signMessage(message);
             const keyFileObj = { pwd: sign_hash, nonce, mnemonic };
-            const signObj = { sign: message, did_address: did };
             // 获取keyfile
             const key_file = await backup(keyFileObj)
             keyFile = key_file;
             setKeyFile({...keyFile});
-            // 存储keyfile
-            await saveSignAndDid({
-                ...signObj,
-                key_file
-            })
-            setIsBind(true);
             setIsModalOpen(true);
-            setIsZkLoad(false);
         } catch (error) {
             console.error(error);
             setIsZkLoad(false);
@@ -100,9 +133,12 @@ export default function BindZkBtn() {
                 className="modal-keyfile"
                 open={isModalOpen} 
                 okText={"Create Account"}
-                onOk={()=>setIsModalOpen(false)} 
+                onOk={() => createAc()} 
                 cancelText={t("cancel")}
-                onCancel={()=>setIsModalOpen(false)}
+                onCancel={() => cancel()}
+                okButtonProps={{
+                    loading: createAcLoad
+                }}
             >
                 <div className="line"></div>
                 <div className="did">
