@@ -9,6 +9,7 @@ import ClaimOperate from "./operate";
 import { useAddress } from "@/hooks/useAddress";
 import { constans } from "@/utils/constans";
 import { getAddressDid } from "@/request/api/zk";
+import { useRequest } from "ahooks";
 
 
 
@@ -21,11 +22,30 @@ export default function ClaimInfo({answerInfo, detail}) {
     const { score, passingPercent, isPass } = answerInfo
     const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(null, detail.version); 
     const [hasDID, setHasDID] = useState(false);
+    const [pollingCount, setPollingCount] = useState(0);
+
+    const { run, cancel } = useRequest(polling, {
+        pollingInterval: 3000,
+        manual: true
+    });
+
+    function polling() {
+        setPollingCount(pollingCount + 1);
+        addrDid()
+        if (pollingCount === 60) {
+            cancel();
+            setPollingCount(0);
+        }
+    }
 
     function addrDid(params) {
         getAddressDid()
         .then(res => {
-            res.data.did && setHasDID(true);
+            if (res.data.did) {
+                setHasDID(true);                
+                cancel();
+                setPollingCount(0);
+            }
         })
     }
 
@@ -51,10 +71,10 @@ export default function ClaimInfo({answerInfo, detail}) {
                         isPass ? 
                             <>
                                <p className="title">{t("pass")}  🎉🎉</p>
-                                { isConnected && hasDID && <p>你获得了一份 隐私证书凭证</p> }
+                                { isConnected && hasDID && <p className="zk">{t("getZk")}&nbsp;&nbsp;<a href={`/user/${address}?type=0&status=2`} target="_blank" rel="noopener noreferrer">{t("getZkLink")}</a></p> }
                                 { isConnected && !hasDID &&
-                                    <p>创建隐私账户，领取线下证书凭证，<a href={`/user/edit/${address}`} target="_blank" rel="noopener noreferrer">立即创建 &gt;&gt;</a></p>
-                                }
+                                    <p className="zk">{t("zkDesc")}&nbsp;&nbsp;<a href={`/user/edit/${address}`} target="_blank" onClick={()=>run()} rel="noopener noreferrer">{t("zkCreate")}</a></p>
+                                } 
                             </>
                         :
                             <p className="title">{t("unpass")}</p>

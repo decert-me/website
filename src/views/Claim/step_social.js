@@ -91,26 +91,19 @@ export default function StepSocial({step, setStep, defaultValue}) {
     return (
         // TODO: 改为新标签页 跳转,原页面轮询
         <div className={`CustomBox step-box ${step === 1 ? "checked-step" : ""}`}>
+            <p>{t("bindAc")}</p>
             {
                 (bindObj.discord || bindObj.wechat) ?
-                <>
-                    <p>已完善个人资料</p>
-                    <p>已完成</p>
-                </>
+                <p>已完成</p>
                 :
-                <>
-                    <p>绑定你的社交账号</p>
-                    {
-                        step >= 0 &&
-                        <Button 
-                            id="hover-btn-ghost" 
-                            className="mw-140"
-                            loading={loading}
-                            disabled={!step >= 1} 
-                            onClick={() => goInformation()}
-                        >去完成</Button>
-                    }
-                </>
+                step >= 0 &&
+                <Button 
+                    id="hover-btn-ghost" 
+                    className="mw-140"
+                    loading={loading}
+                    disabled={!step >= 1} 
+                    onClick={() => goInformation()}
+                >去完成</Button>
             }
         </div>
     )
