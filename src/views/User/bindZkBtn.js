@@ -1,18 +1,20 @@
 
 
 
-import { getAddressDid, saveSignAndDid } from "@/request/api/zk";
-import { createDID } from "@/utils/zk/createDID";
 import { Button, Modal } from "antd";
 import { useEffect, useState } from "react";
 import { useSigner } from "wagmi";
-import "@/assets/styles/view-style/modal.scss";
+import { useTranslation } from "react-i18next";
 import { backup } from "@/utils/zk/backup";
 import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
+import { getAddressDid, saveSignAndDid } from "@/request/api/zk";
+import { createDID } from "@/utils/zk/createDID";
+import "@/assets/styles/view-style/modal.scss";
 
 
 export default function BindZkBtn() {
     
+    const { t } = useTranslation(["profile"]);
     const { data: signMessage } = useSigner();
     const [isZkLoad, setIsZkLoad] = useState(false);
     const [isBind, setIsBind] = useState(false);
@@ -34,16 +36,9 @@ export default function BindZkBtn() {
         setDidID(did);
         // 发起签名
         try {
-            const sign_hash = await signMessage?.signMessage(message)
-            const keyFileObj = {
-                pwd: sign_hash,
-                nonce,
-                mnemonic
-            }
-            const signObj = {
-                sign: message,
-                did_address: did,
-            }
+            const sign_hash = await signMessage?.signMessage(message);
+            const keyFileObj = { pwd: sign_hash, nonce, mnemonic };
+            const signObj = { sign: message, did_address: did };
             // 获取keyfile
             const key_file = await backup(keyFileObj)
             keyFile = key_file;
@@ -66,6 +61,7 @@ export default function BindZkBtn() {
         getAddressDid()
         .then(res => {
             if (res.data.did) {
+                setDidID(res.data.did);
                 setIsBind(true);
             }
         })
@@ -77,20 +73,35 @@ export default function BindZkBtn() {
 
     return (
         <>
+            <div className="item-label">
+                <img src={require("@/assets/images/img/did.png")} alt="" />
+                {
+                    isBind ?
+                    <div>
+                        <p>{t("profile:edit.inner.zk")}</p>
+                        <p style={{fontSize: "12px", fontWeight: 500, lineHeight: "17px", marginTop: "2px"}}>{didID.substring(0,11) + "..." + didID.substring(didID.length - 4, didID.length)}</p>
+                    </div>
+                    :
+                    <div>
+                        <p>{t("profile:edit.inner.createZk")}</p>
+                        <p>{t("profile:edit.inner.zkDesc")}</p>
+                    </div>
+                }
+            </div>
             <Button
                 id="hover-btn-full" 
                 className={isBind ? "isBind" : ""}
                 onClick={() => bindZkAc()}
                 loading={isZkLoad}
                 disabled={isBind}
-            >{isBind ? "已绑定" : "Connect Account"}</Button>
+            >{isBind ? t("isBind") : t("bindZk")}</Button>
             <Modal 
                 title={"DID Account Creation"}
                 className="modal-keyfile"
                 open={isModalOpen} 
                 okText={"Create Account"}
                 onOk={()=>setIsModalOpen(false)} 
-                cancelText={"取消"}
+                cancelText={t("cancel")}
                 onCancel={()=>setIsModalOpen(false)}
             >
                 <div className="line"></div>

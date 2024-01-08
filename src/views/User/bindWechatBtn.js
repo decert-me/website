@@ -3,11 +3,13 @@ import { bindWechat } from "@/request/api/social";
 import { useRequest } from "ahooks";
 import { Button, Popover, Spin } from "antd";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
 
 export default function BindWechatBtn() {
     
+    const { t } = useTranslation(["profile"]);
     const [pollingCount, setPollingCount] = useState(0);
     const [isWechatLoad, setIsWechatLoad] = useState();
     const [isBind, setIsBind] = useState(false);
@@ -89,7 +91,7 @@ export default function BindWechatBtn() {
                 onClick={() => bindWechatAc()}
                 loading={isWechatLoad}
                 disabled={isBind}
-            >{isBind ? "已绑定" : "绑定Wechat"}</Button>
+            >{isBind ? t("isBind") : t("bindWx")}</Button>
         </Popover>
         
     )

@@ -174,17 +174,16 @@ export default function UserEdit(params) {
                                 height: 120,
                                 resize: 'none',
                             }}
-                            // onChange={onChange}
                             placeholder={t("profile:edit.inner.tips.desc")}
                         />
                     </div>
                     <div className="inner">
-                        <p className="label">Connect Account</p>
+                        <p className="label">{t("profile:edit.inner.bindAc")}</p>
                         <div className="list">
                             <div className="item">
                                 <div className="item-label">
                                     <CustomIcon type="icon-wechat" />
-                                    <p>微信</p>
+                                    <p>Wechat</p>
                                 </div>
                                 <BindWechatBtn />
                             </div>
@@ -199,13 +198,9 @@ export default function UserEdit(params) {
                         </div>
                     </div>
                     <div className="inner">
-                        <p className="label">推荐</p>
+                        <p className="label">{t("profile:edit.inner.recommend")}</p>
                         <div className="list">
                             <div className="item">
-                                <div className="item-label">
-                                    <img src="" alt="" />
-                                    <p>创建隐私身份 (DID)</p>
-                                </div>
                                 <BindZkBtn />
                             </div>
                         </div>

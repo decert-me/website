@@ -16,7 +16,7 @@ export default function ClaimInfo({answerInfo, detail}) {
     
     const navigateTo = useNavigate();
     const { t } = useTranslation(["claim", "translation"]);
-    const { walletType, isConnected } = useAddress();
+    const { walletType, isConnected, address } = useAddress();
     const { isMobile } = useContext(MyContext);
     const { score, passingPercent, isPass } = answerInfo
     const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(null, detail.version); 
@@ -51,10 +51,9 @@ export default function ClaimInfo({answerInfo, detail}) {
                         isPass ? 
                             <>
                                <p className="title">{t("pass")}  🎉🎉</p>
-                               { hasDID ? 
-                                    <p>你获得了一份 隐私证书凭证</p>
-                                    :
-                                    <p>创建隐私账户，领取线下证书凭证，立即创建 &gt;&gt;</p>
+                                { isConnected && hasDID && <p>你获得了一份 隐私证书凭证</p> }
+                                { isConnected && !hasDID &&
+                                    <p>创建隐私账户，领取线下证书凭证，<a href={`/user/edit/${address}`} target="_blank" rel="noopener noreferrer">立即创建 &gt;&gt;</a></p>
                                 }
                             </>
                         :

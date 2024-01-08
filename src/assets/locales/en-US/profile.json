@@ -8,14 +8,28 @@
     "type2": "Claimed",
     "claimble": "Claimable",
     "nothing": "No more yet",
+
+    "cancel": "Cancel",
+
+    "bind": "bind",
+    "isBind": "Connected",
+    "bindZk": "Bind DID",
+    "bindWx": "Bind Wechat",
+    "bindDc": "Bind Discord",
+
     "edit": {
-        "title": "Edit profile",
+        "title": "Complete personal information",
         "upload": "Upload picture",
         "uploading": "Uploading",
         "error": "Sorry, Challenger claimed SBT，cannot modify content.",
         "inner": {
             "name": "Name",
             "desc": "Personal profile",
+            "recommend": "Recommendation",
+            "bindAc": "Connect Account",
+            "createZk": "Create a Privacy Account (DID)",
+            "zk": "Privacy Account (DID)",
+            "zkDesc": "If you don't have GAS, you can create a privacy account and obtain an privacy certification;",
             "tips": {
                 "desc": "Please describe your interests or experience."
             }

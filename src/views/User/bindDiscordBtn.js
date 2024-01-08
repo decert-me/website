@@ -4,11 +4,13 @@ import { bindDiscord } from "@/request/api/social";
 import { useRequest } from "ahooks";
 import { Button, message } from "antd";
 import { useContext, useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 
 
 export default function BindDiscordBtn() {
     
+    const { t } = useTranslation(["profile"]);
     const { isMobile } = useContext(MyContext);
     const [pollingCount, setPollingCount] = useState(0);
     const [isDiscordLoad, setIsDiscordLoad] = useState(false);
@@ -78,6 +80,6 @@ export default function BindDiscordBtn() {
             onClick={() => bindDiscordAc()}
             loading={isDiscordLoad}
             disabled={isBind}
-        >{isBind ? "已绑定" : "绑定Discord"}</Button>
+        >{isBind ? t("isBind") : t("bindDc")}</Button>
     )
 }
