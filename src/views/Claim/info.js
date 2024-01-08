@@ -10,6 +10,7 @@ import { useAddress } from "@/hooks/useAddress";
 import { constans } from "@/utils/constans";
 import { getAddressDid } from "@/request/api/zk";
 import { useRequest } from "ahooks";
+import { changeConnect } from "@/utils/redux";
 
 
 
@@ -35,6 +36,16 @@ export default function ClaimInfo({answerInfo, detail}) {
         if (pollingCount === 60) {
             cancel();
             setPollingCount(0);
+        }
+    }
+
+    // 完善资料
+    function goEdit() {
+        if (isConnected) {
+            run();
+            window.open(`/user/edit/${address}`, "_blank")
+        }else{
+            changeConnect();
         }
     }
 
@@ -71,10 +82,18 @@ export default function ClaimInfo({answerInfo, detail}) {
                         isPass ? 
                             <>
                                <p className="title">{t("pass")}  🎉🎉</p>
-                                { isConnected && hasDID && <p className="zk">{t("getZk")}&nbsp;&nbsp;<a href={`/user/${address}?type=0&status=2`} target="_blank" rel="noopener noreferrer">{t("getZkLink")}</a></p> }
-                                { isConnected && !hasDID &&
-                                    <p className="zk">{t("zkDesc")}&nbsp;&nbsp;<a href={`/user/edit/${address}`} target="_blank" onClick={()=>run()} rel="noopener noreferrer">{t("zkCreate")}</a></p>
-                                } 
+                               {
+                                    hasDID ? 
+                                    <p className="zk">
+                                        {t("getZk")}&nbsp;&nbsp;
+                                        <a href={`/user/${address}?type=0&status=2`} target="_blank" rel="noopener noreferrer">{t("getZkLink")}</a>
+                                    </p>
+                                    :
+                                    <p className="zk">
+                                        {t("zkDesc")}&nbsp;&nbsp;
+                                        <span onClick={()=>goEdit()}>{t("zkCreate")}</span>
+                                    </p>
+                               }
                             </>
                         :
                             <p className="title">{t("unpass")}</p>
