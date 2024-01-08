@@ -115,12 +115,26 @@ export default function ChallengeItem(props) {
                             }
                         />
                 </div>
-                {
-                    profile && (profile.walletType === "evm" || info.claimed) &&
-                    <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
-                        <img src={require("@/assets/images/icon/opensea.png")} alt="" />
-                    </div>
-                }
+                <div style={{
+                    position: "absolute",
+                    right: "5px",
+                    top: "5px",
+                    display: "flex",
+                    gap: "5px"
+                }}>
+                    {
+                        profile && (profile.walletType === "evm" || info.claimed) &&
+                        <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
+                            <img src={require("@/assets/images/icon/user-opensea.png")} alt="" />
+                        </div>
+                    }
+                    {
+                        profile && (info.claim_status === 2 || info.claim_status === 3) &&
+                        <div className={`opensea img ${isMobile ? "show" : ""}`}>
+                            <img src={require("@/assets/images/icon/user-zk.png")} alt="" />
+                        </div>
+                    }
+                </div>
             </div>
             <div className="left-info">
                 <div>
