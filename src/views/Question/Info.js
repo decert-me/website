@@ -60,7 +60,10 @@ export default function Info(props) {
                 <li className="li">
                     <p className="title">{t("explore:reward")}</p>
                     <div className="info-content">
-                        <p className="reward">SBT</p>
+                        <div className="reward">
+                            <div className="reward-item">NFT</div>
+                            <div className="reward-item">Privacy Certification</div>
+                        </div>
                     </div>
                 </li>
                 <li className="li">

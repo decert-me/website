@@ -15,6 +15,16 @@
         "title": "你可以导出密钥文件以备将来恢复账户使用。",
         "ac": "DID 账户"
     },
+    "creatkf": {
+        "title": "DID 账户创建",
+        "btn": "创建账户",
+        "content": {
+            "title": "您的 DID 将是: ",
+            "backup": "备份您的 Keysfile",
+            "desc": "请确保安全存储您的 keysfile，因为这将是用于账户恢复的必要文件。此外请避免将其分享给他人，因为它可能会授予其他人对您的数字资产进行未经授权访问的权利。",
+            "download": "下载 Keysfile"
+        }
+    },
 
     "bind": "绑定",
     "isBind": "已绑定",

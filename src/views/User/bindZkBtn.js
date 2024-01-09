@@ -129,10 +129,10 @@ export default function BindZkBtn() {
                 disabled={isBind}
             >{isBind ? t("isBind") : t("bindZk")}</Button>
             <Modal 
-                title={"DID Account Creation"}
+                title={t("creatkf.title")}
                 className="modal-keyfile"
                 open={isModalOpen} 
-                okText={"Create Account"}
+                okText={t("creatkf.btn")}
                 onOk={() => createAc()} 
                 cancelText={t("cancel")}
                 onCancel={() => cancel()}
@@ -142,15 +142,13 @@ export default function BindZkBtn() {
             >
                 <div className="line"></div>
                 <div className="did">
-                    <p className="title">Your DID will be :</p>
+                    <p className="title">{t("creatkf.content.title")}</p>
                     <p className="desc">{didID.substring(0,11) + "..." + didID.substring(didID.length - 4, didID.length)}</p>
                 </div>
                 <div className="keyfile">
-                    <p className="keyfile-title">Backup your Keysfile</p>
-                    <p className="keyfile-desc">
-                    Kindly ensure the secure storage of your seed phrase, as it will be necessary for account recovery. Additionally, refrain from sharing it with others, as it could grant unauthorized access to your digital assets.
-                    </p>
-                    <Button onClick={downloadKeyFile}>下载 Keysfile</Button>
+                    <p className="keyfile-title">{t("creatkf.content.backup")}</p>
+                    <p className="keyfile-desc">{t("creatkf.content.desc")}</p>
+                    <Button onClick={downloadKeyFile}>{t("creatkf.content.download")}</Button>
                 </div>
             </Modal>
         </>
