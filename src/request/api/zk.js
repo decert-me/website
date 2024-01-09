@@ -26,3 +26,12 @@ export const getAddressDid = (data) => {
         data
     })
 }
+
+// 获取keyFile
+export const getKeyFileSignature = (data) => {
+    return serviceAxios({
+        url: `/v1/zcloak/getKeyFileSignature`,
+        method: "get",
+        data
+    })
+}

@@ -10,6 +10,11 @@
     "nothing": "暂无更多",
 
     "cancel": "取消",
+    "export": "导出 Keysfile",
+    "kf": {
+        "title": "你可以导出密钥文件以备将来恢复账户使用。",
+        "ac": "DID 账户"
+    },
 
     "bind": "绑定",
     "isBind": "已绑定",

@@ -7,7 +7,6 @@
 .User-info{
     height: 130px;
     display: flex;
-    align-items: center;
     position: relative;
     .btn{
         min-width: 130px;
@@ -40,24 +39,59 @@
         .address{
             margin-top: 5px;
             color: #111111;
-            font-size: 18px;
-            line-height: 21px;
+            font-size: 12px;
+            line-height: 17px;
             cursor: pointer;
+        }
+        .did{
+            margin: 10px auto 22px;
+            display: flex;
+            align-items: center;
+            img{
+                width: 14px;
+                height: 14px;
+            }
+            .label{
+                padding: 0 6px;
+                margin: 0 5px;
+                line-height: 17px;
+                border: 1px solid #DFDFDF;
+                border-radius: 3px;
+            }
+            .flex{
+                display: flex;
+                align-items: center;
+                cursor: pointer;
+            }
+            .keyfile{
+                margin-left: 14px;
+                padding: 2px 6px;
+                display: flex;
+                align-items: center;
+                background-color: rgba($color: #2F3745, $alpha: 0.05);
+                border-radius: 3px;
+                cursor: pointer;
+            }
         }
         .social{
             height: 32px;
             margin-top: 5px;
             display: flex;
             .social-item{
-                padding: 9px 23px 9px 12px;
+                // padding: 9px 23px 9px 12px;
+                // padding: ;
+                padding-left: 12px;
+                padding-right: 23px;
+                
                 display: flex;
                 align-items: center;
                 border-radius: 17px;
                 background-color: rgba($color: #5965F6, $alpha: 0.05);
             }
             .icon{
-                width: 20px;
-                height: 15px;
+                // width: 20px;
+                width: 30px;
+                height: 30px;
                 margin-right: 10px;
                 background-color: #00000000;
             }

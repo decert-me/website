@@ -4,7 +4,7 @@ import {
     EditOutlined,
     CopyOutlined
 } from '@ant-design/icons';
-import { Button, Skeleton } from "antd";
+import { Button, Modal, Skeleton } from "antd";
 import "@/assets/styles/view-style/user.scss"
 import "@/assets/styles/mobile/view-style/user.scss"
 import { getChallengeComplete, getChallengeCreate, getUser } from "@/request/api/public";
@@ -19,6 +19,8 @@ import Paginations from "@/components/User/Pagination";
 import MyContext from "@/provider/context";
 import { constans } from "@/utils/constans";
 import { useAddress } from "@/hooks/useAddress";
+import { getAddressDid, getKeyFileSignature } from "@/request/api/zk";
+import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
 
 
 export default function User(props) {
@@ -33,6 +35,8 @@ export default function User(props) {
     const { address, walletType } = useAddress();
     const location = useLocation();
     const { address: paramsAddr } = useParams();
+    const [didID, setDidID] = useState("");
+    const [isKeysFile, setIsKeysFile] = useState(false);
     let [account, setAccount] = useState();
     let [isMe, setIsMe] = useState();
     let [info, setInfo] = useState();
@@ -113,6 +117,17 @@ export default function User(props) {
         getList();
     }
 
+    async function downloadKeyFile() {
+        try {
+            const res = await getKeyFileSignature();
+            const {key_file} = res?.data;
+            downloadJsonFile(key_file, `key_file${Date.now()}.json`)
+            setIsKeysFile(false)
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const getInfo = async() => {
         const user = await getUser({address: account})
         if (!user.data || isMe) {
@@ -126,6 +141,13 @@ export default function User(props) {
             avatar: user.data.avatar ? imgPath + user.data.avatar : hashAvatar(account),
             socials: user.data.socials
         }
+
+        getAddressDid()
+        .then(res => {
+            if (res.data.did) {
+                setDidID(res.data.did);
+            }
+        })
         setTimeout(() => {
             setInfo({...info})
         }, 1000);
@@ -200,6 +222,28 @@ export default function User(props) {
     },[])
 
     return (
+        <>
+        <Modal
+            title={"My Keys"}
+            className="modal-keys"
+            open={isKeysFile} 
+            okText={t("profile:export")}
+            onOk={() => downloadKeyFile()} 
+            cancelText={t("profile:cancel")}
+            onCancel={() => setIsKeysFile(false)}
+        >
+            <div className="line"></div>
+            <div className="did">
+                <p className="title">{t("profile:kf.title")}</p>
+            </div>
+            <div className="keyfile">
+                <div>
+                    <p className="keyfile-title">{t("profile:kf.ac")}</p>
+                    <p className="keyfile-desc">{didID.substring(0,11) + "..." + didID.substring(didID.length - 4, didID.length)}</p>
+                </div>
+                <CopyOutlined onClick={() => Copy(didID, t("translation:message.success.copy"))} style={{color: "#9E9E9E", cursor: "pointer"}} />
+            </div>
+        </Modal>
         <div className="User">
             <div className="custom-bg-round"></div>
             <div className="User-info">
@@ -217,8 +261,21 @@ export default function User(props) {
                             <p className="address" onClick={() => Copy(info.address, t("translation:message.success.copy"))}>
                                 {NickName(info.address)}<CopyOutlined style={{color: "#9E9E9E", marginLeft: "12px"}} />
                             </p>
+                            {
+                                didID && <div className="did">
+                                    <img src={require("@/assets/images/icon/addrToDid.png")} alt="" />
+                                    <p className="label">DID</p>
+                                    <div className="flex" onClick={() => Copy(didID, t("translation:message.success.copy"))}>
+                                        <p>{didID.substring(0,11) + "..." + didID.substring(didID.length - 4, didID.length)}</p>
+                                        <CopyOutlined style={{color: "#9E9E9E", marginLeft: "10px"}} />
+                                    </div>
+                                    <div className="keyfile" onClick={() => setIsKeysFile(true)}>
+                                        <img src={require("@/assets/images/icon/icon-download.png")} alt="" />
+                                        <p>Keysfile</p>
+                                    </div>
+                                </div>
+                            }
                             <div className="social">
-                                {/* <div className="icon"></div> */}
                                 <CustomSocial socials={info.socials} />
                             </div>
                             <div className="desc newline-omitted">
@@ -315,5 +372,6 @@ export default function User(props) {
                 <Paginations pageConfig={pageConfig} togglePage={togglePage} />
             </div>
         </div>
+        </>
     )
 }

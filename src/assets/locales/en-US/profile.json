@@ -10,6 +10,11 @@
     "nothing": "No more yet",
 
     "cancel": "Cancel",
+    "export": "Export Keysfile",
+    "kf": {
+        "title": "You can export your keys file future account restoration.",
+        "ac": "DID Account"
+    },
 
     "bind": "bind",
     "isBind": "Connected",
