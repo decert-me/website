@@ -33,8 +33,8 @@ export default function Search(params) {
 
     const start = async() => {
         setIsLoading(true);
-        if (account.length === 44) {
-            // solana钱包
+        if (account.length === 44 || account.length === 49) {
+            // solana钱包 || zk
             navigateTo(`/${account}`)
         }else{
             await getEns({address: account})

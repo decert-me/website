@@ -15,6 +15,10 @@ import { useTranslation } from "react-i18next";
 import { changeConnect } from "@/utils/redux";
 import { constans } from "@/utils/constans";
 import { useAddress } from "@/hooks/useAddress";
+import BindDiscordBtn from "./bindDiscordBtn";
+import BindWechatBtn from "./bindWechatBtn";
+import BindZkBtn from "./bindZkBtn";
+import CustomIcon from "@/components/CustomIcon";
 const { TextArea } = Input;
 
 export default function UserEdit(params) {
@@ -30,7 +34,8 @@ export default function UserEdit(params) {
     const { t } = useTranslation(["translation","profile"]);
     const location = useLocation();
     const navigateTo = useNavigate();
-
+    
+    const [highLine, setHighLine] = useState();
     let [account, setAccount] = useState();
     let [user, setUser] = useState();
     let [info, setInfo] = useState();
@@ -90,6 +95,16 @@ export default function UserEdit(params) {
         })
     }
 
+    const scrollToAnchor = (anchorName) => {
+        try {            
+            let anchorElement = document.getElementsByClassName(`edit-${anchorName}`)[0];
+            anchorElement.scrollIntoView({behavior: "smooth", block: "center",});
+            setHighLine(anchorName);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const init = async() => {
         if (!await verify()) {
             goBack();
@@ -100,7 +115,6 @@ export default function UserEdit(params) {
             user = res.data ? res.data : {};
             setUser({...user});
         })
-        console.log(user);
         info = {
             nickname: user?.nickname ? user.nickname : NickName(account),
             address: account,
@@ -108,6 +122,11 @@ export default function UserEdit(params) {
             avatar: user?.avatar ? imgPath + user.avatar : hashAvatar(account)
         }
         setInfo({...info});
+        if (location.search.indexOf("?") !== -1) {
+            setTimeout(() => {
+                scrollToAnchor(location.search.split("?")[1]);
+            }, 20);
+        }
     }
 
     useEffect(() => {
@@ -142,16 +161,8 @@ export default function UserEdit(params) {
                             onChange={handleChange}
                         >
                             <Button className="btn">
-                                
                                 {
-                                    loading ? 
-                                    <>
-                                        <LoadingOutlined style={{marginRight: "10px"}} />{t("profile:edit.uploading")}
-                                    </>
-                                    :
-                                    <>
-                                        <PlusOutlined style={{marginRight: "10px"}} />{t("profile:edit.upload")}
-                                    </>
+                                    loading ? t("profile:edit.uploading"):t("profile:edit.upload")
                                 }
                             </Button>
                         </Upload>
@@ -178,26 +189,47 @@ export default function UserEdit(params) {
                                 height: 120,
                                 resize: 'none',
                             }}
-                            // onChange={onChange}
                             placeholder={t("profile:edit.inner.tips.desc")}
                         />
                     </div>
+                    <div className="inner">
+                        <p className="label">{t("profile:edit.inner.bindAc")}</p>
+                        <div className="list">
+                            <div className="item">
+                                <div className="item-label">
+                                    <CustomIcon type="icon-wechat" />
+                                    <p>Wechat</p>
+                                </div>
+                                <BindWechatBtn />
+                            </div>
+
+                            <div className="item">
+                                <div className="item-label">
+                                    <CustomIcon type="icon-discord" className="icon-discord" />
+                                    <p>Discord</p>
+                                </div>
+                                <BindDiscordBtn />
+                            </div>
+                        </div>
+                    </div>
+                    <div className="inner">
+                        <p className="label">{t("profile:edit.inner.recommend")}</p>
+                        <div className="list">
+                            <div className={`item edit-zk ${highLine === "zk" ? "highline" : ""}`}>
+                                <BindZkBtn clear={() => setHighLine(null)} />
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <div className="UserEdit-btns">
-                <Button 
-                    className="btn cancel"
-                    onClick={goBack}
-                >
-                    {t("translation:btn-cancel")}
-                </Button>
-                <Button 
-                    type="primary" 
-                    className="btn save"
-                    onClick={() => save()}
-                >
-                    {t("translation:btn-save")}
-                </Button>
+                <div className="UserEdit-btns">
+                    <Button 
+                        type="primary" 
+                        className="btn save"
+                        onClick={() => save()}
+                    >
+                        {t("translation:btn-save")}
+                    </Button>
+                </div>
             </div>
         </div>
     )

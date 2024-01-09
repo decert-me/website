@@ -1,4 +1,4 @@
-import { useContext } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { Button, Divider, Progress } from "antd";
@@ -8,17 +8,73 @@ import CustomViewer from "@/components/CustomViewer";
 import ClaimOperate from "./operate";
 import { useAddress } from "@/hooks/useAddress";
 import { constans } from "@/utils/constans";
+import { getAddressDid } from "@/request/api/zk";
+import { useRequest } from "ahooks";
+import { changeConnect } from "@/utils/redux";
+import { submitChallenge } from "@/request/api/public";
 
 
 
 export default function ClaimInfo({answerInfo, detail}) {
     
     const navigateTo = useNavigate();
-    const { walletType } = useAddress();
+    const { t } = useTranslation(["claim", "translation"]);
+    const { walletType, isConnected, address } = useAddress();
     const { isMobile } = useContext(MyContext);
     const { score, passingPercent, isPass } = answerInfo
     const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(null, detail.version); 
-    const { t } = useTranslation(["claim", "translation"]);
+    const [hasDID, setHasDID] = useState(false);
+    const [pollingCount, setPollingCount] = useState(0);
+    let [submitObj, setSubmitObj] = useState();
+
+    const { run, cancel } = useRequest(polling, {
+        pollingInterval: 3000,
+        manual: true
+    });
+
+    function polling() {
+        setPollingCount(pollingCount + 1);
+        addrDid()
+        if (pollingCount === 60) {
+            cancel();
+            setPollingCount(0);
+        }
+    }
+
+    // 完善资料
+    function goEdit() {
+        if (isConnected) {
+            run();
+            window.open(`/user/edit/${address}?zk`, "_blank")
+        }else{
+            submitObj = {
+                token_id: detail.tokenId,
+                answer: JSON.stringify(answerInfo.answers),
+                uri: detail.uri
+            }
+            setSubmitObj({...submitObj});
+            changeConnect();
+        }
+    }
+
+    function addrDid(params) {
+        getAddressDid()
+        .then(res => {
+            if (res.data.did) {
+                // 若为后置登陆 需再次发送challenge
+                if (!hasDID && submitObj) {
+                    submitChallenge(submitObj)
+                }
+                setHasDID(true);
+                cancel();
+                setPollingCount(0);
+            }
+        })
+    }
+
+    useEffect(() => {
+        isPass && isConnected && addrDid()
+    },[isPass, isConnected])
 
     return(
         <div className="CustomCompleted">
@@ -34,12 +90,26 @@ export default function ClaimInfo({answerInfo, detail}) {
             <div className="completed-content">
                 <div className="content-info">
                     <div className="desc">
-                        {
-                            isPass ? 
-                                <p className="title">{t("pass")}  🎉🎉</p>
-                            :
-                                <p className="title">{t("unpass")}</p>
-                        }
+                    {
+                        isPass ? 
+                            <>
+                               <p className="title">{t("pass")}  🎉🎉</p>
+                               {
+                                    hasDID ? 
+                                    <p className="zk">
+                                        {t("getZk")}
+                                        <span onClick={() => window.open(`/user/${address}?type=0&status=2`, "_blank")}>{t("getZkLink")}</span>
+                                    </p>
+                                    :
+                                    <p className="zk">
+                                        {t("zkDesc")}
+                                        <span onClick={()=>goEdit()}>{t("zkCreate")}</span>
+                                    </p>
+                               }
+                            </>
+                        :
+                            <p className="title">{t("unpass")}</p>
+                    }
                     </div>
                     <div className="score">
                         <div className="circle">

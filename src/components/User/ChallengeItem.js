@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { convertTime } from "@/utils/convert";
 import MyContext from '@/provider/context';
 import { useContext } from 'react';
-import { message } from 'antd';
+import { Tooltip, message } from 'antd';
 
 export default function ChallengeItem(props) {
     
@@ -115,12 +115,30 @@ export default function ChallengeItem(props) {
                             }
                         />
                 </div>
-                {
-                    profile && (profile.walletType === "evm" || info.claimed) &&
-                    <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
-                        <img src={require("@/assets/images/icon/opensea.png")} alt="" />
-                    </div>
-                }
+                <div style={{
+                    position: "absolute",
+                    right: "5px",
+                    top: "5px",
+                    display: "flex",
+                    gap: "5px"
+                }}>
+                    {/* opensea */}
+                    {
+                        profile && (profile.walletType === "evm" || info.claimed) &&
+                        <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
+                            <img src={require("@/assets/images/icon/user-opensea.png")} alt="" />
+                        </div>
+                    }
+                    {/* zk */}
+                    {
+                        profile && (info.claim_status === 2 || info.claim_status === 3) &&
+                        <Tooltip title={t("zkTool")}>
+                            <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
+                                <img src={require("@/assets/images/icon/user-zk.png")} alt="" />
+                            </div>
+                        </Tooltip>
+                    }
+                </div>
             </div>
             <div className="left-info">
                 <div>

@@ -7,12 +7,13 @@
     .UserEdit-inner{
         height: auto;
         min-height: 34.375rem;
+        padding-top: .625rem;
         .title{
             height: 4.25rem;
             font-size: 1.25rem;
         }
         .content{
-            padding: 2.4375rem .9375rem 2.6875rem;
+            padding: .625rem .9375rem 2.6875rem;
             .avatar{
                 .btn{
                     padding-left: 1.625rem;
@@ -23,6 +24,23 @@
                 margin-top: 1.625rem;
                 .label{
                     margin-bottom: .75rem;
+                }
+                .list{
+                    .item{
+                        padding: 1rem;
+                        .item-label{
+                            gap: .625rem;
+                            font-size: .6875rem;
+                            svg{
+                                font-size: 1.25rem;
+                            }
+                        }
+                        button{
+                            min-width: 6.875rem;
+                            height: 1.875rem;
+                            font-size: .625rem;
+                        }
+                    }
                 }
                 .input{
                     padding-left: 1.4375rem;
@@ -37,6 +55,13 @@
                     border-radius: .9375rem;
                     font-size: .75rem;
                 }
+            }
+        }
+        .UserEdit-btns{
+            top: 1rem;
+            .btn{
+                height: 2rem;
+                font-size: .75rem;
             }
         }
     }

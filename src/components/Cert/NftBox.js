@@ -22,22 +22,33 @@ export default function NftBox(props) {
                     if (item.nftscan === info.chain) {
                         return (
                             <div key={index} className={info.status === 1 ? "show" : ""}>
-                                <div className="badge badge-chain">
-                                    <a href={`${item.link}${info.contract_address||info.nft_address}`} target="_blank">
-                                        <img src={item.icon} alt="" key={item.value} />
-                                    </a>
-                                </div>
                                 {
-                                    (item.opensea || info.nft_address) && 
-                                    <div className="badge badge-opensea">
-                                        <a href={
-                                            info.chain === "solana" ?
-                                            `https://opensea.io/assets/solana/${info.nft_address}`
-                                            :
-                                            `https://opensea.io/assets/${item.opensea}/${info.contract_address}/${info.token_id}`
-                                        } target="_blank">
-                                            <img src={require("@/assets/images/icon/opensea.png")} alt="" />
-                                        </a>
+                                    (info.claim_status === 1 || info.claim_status === 3) &&
+                                    <>
+                                        <div className="badge badge-chain">
+                                            <a href={`${item.link}${info.contract_address||info.nft_address}`} target="_blank">
+                                                <img src={item.icon} alt="" key={item.value} />
+                                            </a>
+                                        </div>
+                                        {
+                                            (item.opensea || info.nft_address) && 
+                                            <div className="badge badge-opensea">
+                                                <a href={
+                                                    info.chain === "solana" ?
+                                                    `https://opensea.io/assets/solana/${info.nft_address}`
+                                                    :
+                                                    `https://opensea.io/assets/${item.opensea}/${info.contract_address}/${info.token_id}`
+                                                } target="_blank">
+                                                    <img src={require("@/assets/images/icon/opensea.png")} alt="" />
+                                                </a>
+                                            </div>
+                                        }
+                                    </>
+                                }
+                                {
+                                    info.claim_status === 2 &&
+                                    <div className="badge badge-chain" style={{cursor: "auto"}}>
+                                        <img src={require("@/assets/images/icon/user-zk.png")} alt="" key={item.value} />
                                     </div>
                                 }
                                 {

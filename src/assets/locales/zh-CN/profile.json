@@ -8,14 +8,46 @@
     "type2": "已领取的",
     "claimble": "可领取",
     "nothing": "暂无更多",
+
+    "cancel": "取消",
+    "export": "导出 Keysfile",
+    "kf": {
+        "title": "你可以导出密钥文件以备将来恢复账户使用。",
+        "ac": "DID 账户"
+    },
+    "creatkf": {
+        "title": "DID 账户创建",
+        "btn": "创建账户",
+        "content": {
+            "title": "你的 DID 将是: ",
+            "backup": "备份你的 Keysfile",
+            "desc": "请确保安全存储你的 keysfile，因为这将是用于账户恢复的必要文件。此外请避免将其分享给他人，因为它可能会授予其他人对你的数字资产进行未经授权访问的权利。",
+            "download": "下载 Keysfile"
+        }
+    },
+
+    "bind": "绑定",
+    "isBind": "已绑定",
+    "bindZk": "绑定 DID",
+    "bindWx": "绑定 Wechat",
+    "bindDc": "绑定 Discord",
+
+    "zkTool": "隐私认证",
+    "key": "我的密钥",
+     
     "edit": {
-        "title": "编辑资料",
+        "title": "完善个人资料",
         "upload": "上传头像",
         "uploading": "上传中...",
         "error": "抱歉，已有挑战者领取SBT，内容不可更改。",
         "inner": {
-            "name": "用户名",
-            "desc": "个人介绍",
+            "name": "名称",
+            "desc": "简介",
+            "recommend": "推荐",
+            "bindAc": "绑定账号",
+            "createZk": "创建隐私账户 (DID)",
+            "zk": "隐私账户 (DID)",
+            "zkDesc": "如果没有 GAS，可以创建隐私账户，领取隐私证书。",
             "tips": {
                 "desc": "请介绍你的兴趣或经验。"
             }

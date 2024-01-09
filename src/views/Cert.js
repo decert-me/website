@@ -116,7 +116,7 @@ export default function Cert(params) {
     }
 
     const init = async() => {
-        if (urlAddr.length === 44) {
+        if (urlAddr.length === 44 || urlAddr.length === 49) {
             ensParse = {
                 "address": urlAddr,
                 "domain": "",

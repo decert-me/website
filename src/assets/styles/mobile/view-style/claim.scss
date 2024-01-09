@@ -165,7 +165,9 @@ $container-width: 21.875rem;
         font-size: .75rem;
         font-weight: 500;
         line-height: 1.0625rem;
-        
+        .mw-140{
+            min-width: 90px;
+        }
     }
     // tips
     .position{

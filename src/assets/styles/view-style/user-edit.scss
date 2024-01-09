@@ -1,32 +1,30 @@
 .UserEdit{
-    width: 850px;
+    width: 834px;
     margin: 0 auto;
-    padding-block: 93px;
+    padding-block: 82px;
 }
 .UserEdit-inner{
-    height: 590px;
-    border-radius: 24px;
-    border: 1px solid #E5E5E5;
+    padding-top: 30px;
+    position: relative;
     .title{
-        height: 100px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        border-bottom: 1px solid #E5E5E5;
-        font-size: 30px;
-        font-weight: 500;
-        line-height: 25px;
+        margin-bottom: 30px;
+        font-size: 32px;
+        font-weight: 600;
+        line-height: 45px;
     }
     .content{
-        padding: 44px 32px 60px 48px;
         .avatar{
+            display: flex;
+            align-items: center;
+            gap: 37px;
             .img{
                 width: 76px;
                 height: 76px;
-                margin-left: 12px;
-                border: 2px solid #EEEEEE;
                 border-radius: 50%;
                 overflow: hidden;
+            }
+            .avatar-uploader{
+                width: auto;
             }
             .ant-upload.ant-upload-select{
                 width: auto;
@@ -45,17 +43,17 @@
             }
         }
         .inner{
-            margin-top: 20px;
+            margin-top: 30px;
             .label{
-                margin-bottom: 18px;
-                font-size: 12px;
-                color: #222222;
-                line-height: 17px;
+                margin-bottom: 20px;
+                font-size: 16px;
+                color: #403A35;
+                line-height: 22px;
             }
             .input{
                 height: 40px;
                 padding-inline: 23px;
-                border-radius: 20px;
+                border-radius: 10px;
             }
             input{
                 font-size: 16px;
@@ -63,7 +61,7 @@
             }
             textarea{
                 padding: 17px 32px;
-                border-radius: 20px;
+                border-radius: 10px;
                 position: relative;
                 
             }
@@ -72,13 +70,57 @@
                 right: 12px;
                 bottom: 5px;
             }
+            .list{
+                display: flex;
+                flex-direction: column;
+                gap: 20px;
+                .item{
+                    padding: 20px 30px;
+                    display: flex;
+                    align-items: center;
+                    justify-content: space-between;
+                    border: 2px solid #E2E2E2;
+                    border-radius: 10px;
+                    .item-label{
+                        display: flex;
+                        align-items: center;
+                        gap: 18px;
+                        img{
+                            width: 26px;
+                            height: 26px;
+                        }
+                        svg{
+                            font-size: 26px;
+                        }
+                        .icon-discord{
+                            color: #5962ed;
+                        }
+                    }
+                }
+                .highline{
+                    box-shadow: 0px 4px 8px 0px rgba(143,90,53,0.5);
+                    border: 2px solid #8F5A35;
+                }
+                button{
+                    min-width: 170px;
+                    height: 40px;
+                    border: none;
+                    box-shadow: none;
+                    font-size: 15px;
+                    font-weight: 600;
+                }
+                .isBind{
+                    background-color: #FBF8F6 !important;
+                    color: #999999 !important;
+                }
+            }
         }
     }
 }
 .UserEdit-btns{
-    margin-top: 35px;
-    display: flex;
-    justify-content: flex-end;
+    position: absolute;
+    right: 0;
+    top: 44px;
     .btn{
         height: 42px;
         margin-right: 22px;
@@ -93,20 +135,8 @@
             margin: 0;
         }
     }
-    .cancel{
-        border: 1px solid #333333;
-        color: #333333;
-        &:hover{
-            background-color: #f2f2f2;
-            border-color: #8F5A35 !important;            
-            color: #8F5A35 !important;
-        }
-    }
     .save{
-        background-color: #8F5A35;
+        background-color: #000;
         color: #fff;
-        &:hover{
-            background-color: #9F7253 !important;
-        }
     }
 }

@@ -8,14 +8,46 @@
     "type2": "Claimed",
     "claimble": "Claimable",
     "nothing": "No more yet",
+
+    "cancel": "Cancel",
+    "export": "Export Keysfile",
+    "kf": {
+        "title": "You can export your keys file future account restoration.",
+        "ac": "DID Account"
+    },
+    "creatkf": {
+        "title": "DID Account Creation",
+        "btn": "Create Account",
+        "content": {
+            "title": "Your DID will be: ",
+            "backup": "Backup your Keysfile",
+            "desc": "Kindly ensure the secure storage of your seed phrase, as it will be necessary for account recovery. Additionally, refrain from sharing it with others, as it could grant unauthorized access to your digital assets.",
+            "download": "Download Keysfile"
+        }
+    },
+
+    "bind": "bind",
+    "isBind": "Connected",
+    "bindZk": "Bind DID",
+    "bindWx": "Bind Wechat",
+    "bindDc": "Bind Discord",
+
+    "zkTool": "Privacy Certification",
+    "key": "My Keys",
+
     "edit": {
-        "title": "Edit profile",
+        "title": "Complete personal information",
         "upload": "Upload picture",
         "uploading": "Uploading",
         "error": "Sorry, Challenger claimed SBT，cannot modify content.",
         "inner": {
             "name": "Name",
             "desc": "Personal profile",
+            "recommend": "Recommendation",
+            "bindAc": "Connect Account",
+            "createZk": "Create a Privacy Account (DID)",
+            "zk": "Privacy Account (DID)",
+            "zkDesc": "If you don't have GAS, you can create a privacy account and obtain an privacy certification.",
             "tips": {
                 "desc": "Please describe your interests or experience."
             }

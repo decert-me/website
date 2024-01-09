@@ -1,5 +1,5 @@
-import { useAddress } from "@/hooks/useAddress";
 import MyContext from "@/provider/context";
+import { useAddress } from "@/hooks/useAddress";
 import { NickName } from "@/utils/NickName";
 import { changeConnect } from "@/utils/redux";
 import { useRequest } from "ahooks";
@@ -67,7 +67,11 @@ export default function StepConnect({setStep, step}) {
                     <p>{t("wallet.unconnect")}</p>
                     {
                         step >= 0 &&
-                        <Button id="hover-btn-ghost" onClick={openModalConnect}>{t("wallet.connect")}</Button>
+                        <Button 
+                            id="hover-btn-ghost" 
+                            className="mw-140"
+                            onClick={openModalConnect}>
+                            {t("wallet.connect")}</Button>
                     }
                 </>
             }

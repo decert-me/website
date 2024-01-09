@@ -1,23 +1,18 @@
-import { useContext, useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { useRequest, useUpdateEffect } from "ahooks";
-import { Button, Popover, Spin, message } from "antd";
-import { WechatOutlined } from '@ant-design/icons';
-import { bindDiscord, bindWechat } from "@/request/api/social";
+import { Button, message } from "antd";
 import { hasBindSocialAccount } from "@/request/api/public";
-import MyContext from "@/provider/context";
-import CustomIcon from "@/components/CustomIcon";
+import { useAddress } from "@/hooks/useAddress";
 
 
 export default function StepSocial({step, setStep, defaultValue}) {
     
-    const { isMobile } = useContext(MyContext);
-    const { t } = useTranslation(["claim", "translation"]);
-    const [isDiscordLoad, setIsDiscordLoad] = useState();
-    const [isWechatLoad, setIsWechatLoad] = useState();
-    const [qrCode, setQrCode] = useState();
+    const { address } = useAddress();
+    const { t } = useTranslation(["claim", "translation", "profile"]);
     const [count, setCount] = useState(0);
     const [pollingCount, setPollingCount] = useState(0);
+    const [loading, setLoading] = useState(false);
     let [bindObj, setBindObj] = useState({
         discord: false,
         wechat: false
@@ -33,31 +28,17 @@ export default function StepSocial({step, setStep, defaultValue}) {
         setPollingCount(pollingCount + 1);
         hasBindSocialAc()
         if (pollingCount === 60) {
+            setLoading(false);
             cancel();
-            setIsDiscordLoad(false);
-            setIsWechatLoad(false);
             setPollingCount(0);
         }
     }
 
-    async function bindDiscordAc(params) {
-        setIsDiscordLoad(true);
-        const { data: url } = await bindDiscord({callback: `${window.location.origin}/callback/discord`});
-        window.open(url, 'popup', `width=${isMobile ? "375" : "700"},height=667`);
-        // 轮询 ===>
+    // 去完善资料
+    function goInformation() {
+        setLoading(true);
+        window.open(`/user/edit/${address}`);
         run();
-    }
-
-    function bindWechatAc(params) {
-        setIsWechatLoad(true);
-        bindWechat()
-        .then(res => {
-            if (res?.data) {
-                setQrCode(res.data);
-                // 轮询 ===>
-                run();
-            }
-        })
     }
 
     // 初始化检测是否绑定了 dicord || wechat
@@ -66,8 +47,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
         if (notice) {
             message.error(notice);
             localStorage.removeItem("decert.bind.notice");
-            setIsDiscordLoad(false);
-            setIsWechatLoad(false);
+            setLoading(false);
             cancel();
             return
         }
@@ -77,12 +57,12 @@ export default function StepSocial({step, setStep, defaultValue}) {
                 const { discord, wechat } = res.data;
                 bindObj = res.data;
                 setBindObj({...bindObj});
-                discord && setIsDiscordLoad(false);
-                wechat && setIsWechatLoad(false);
                 if ((discord || wechat) && step === 1) {
                     setStep(2);
+                    setLoading(false);
                     cancel();
                 }else if (count === 100 || (discord && wechat)) {
+                    setLoading(false);
                     cancel();
                     setCount(0);
                 }else{
@@ -109,67 +89,21 @@ export default function StepSocial({step, setStep, defaultValue}) {
 
 
     return (
-        <div className={`CustomBox flex ${step === 1 ? "checked-flex" : ""}`}>
+        // TODO: 改为新标签页 跳转,原页面轮询
+        <div className={`CustomBox step-box ${step === 1 ? "checked-step" : ""}`}>
+            <p>{t("bindAc")}</p>
             {
-                bindObj.discord ?
-                <Button disabled className="is-bind">
-                    <CustomIcon type="icon-discord" className="icon discord" />
-                    <p>{t("bind.end")}</p>
-                </Button>
+                (bindObj.discord || bindObj.wechat) ?
+                <p>{t("profile:isBind")}</p>
                 :
-                <Button
-                    onClick={() => bindDiscordAc()}
+                step >= 0 &&
+                <Button 
+                    id="hover-btn-ghost" 
+                    className="mw-140"
+                    loading={loading}
                     disabled={!step >= 1} 
-                    loading={isDiscordLoad}
-                >
-                    <CustomIcon type="icon-discord" className="icon discord" />
-                    <p>{t("bind.discord")}</p>
-                </Button>
-            }
-
-            {
-                bindObj.wechat ? 
-                <Button disabled className="is-bind">
-                    <WechatOutlined className="icon wechat" />
-                    <p>{t("bind.end")}</p>
-                </Button>
-                :
-                <Popover
-                    trigger="focus"
-                    // trigger="click"
-                    content={(
-                        <div className="qrcode">
-                            <Spin spinning={!qrCode} size="large" wrapperClassName="qrcop">
-                                <img src={qrCode} alt="" style={{width: 104, height: 104, marginBottom: 18}} />
-                            </Spin>
-                            <div
-                                style={{
-                                    width: 146,
-                                    display: "flex",
-                                    alignItems: "flex-start",
-                                    justifyContent: "center",
-                                    boxSizing: "content-box",
-                                    lineHeight: "20px"
-                                }}
-                            >
-                                <WechatOutlined /><p>{t("translation:share-text")}</p>
-                            </div>
-                        </div>
-                    )}
-                    overlayClassName="qrcode-box"
-                    getPopupContainer={() => document.querySelector(".Claim")}
-                    placement="rightBottom"
-                    // open={qrCode}
-                >
-                    <Button
-                        onClick={() => bindWechatAc()}
-                        disabled={!step >= 1} 
-                        loading={isWechatLoad}
-                    >
-                        <WechatOutlined className="icon wechat" />
-                        <p>{t("bind.wechat")}</p>
-                    </Button>
-                </Popover>
+                    onClick={() => goInformation()}
+                >{t("profile:edit.inner.bindAc")}</Button>
             }
         </div>
     )

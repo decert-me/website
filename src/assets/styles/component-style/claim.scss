@@ -115,6 +115,15 @@
             font-weight: 500;
             line-height: 58px;
         }
+        .zk{
+            margin-top: 24px;
+            font-size: 16px;
+            color: #666666;
+            span{
+                text-decoration: underline;
+                cursor: pointer;
+            }
+        }
     }
     .score{
         margin-top: 100px;
@@ -353,6 +362,9 @@
     font-size: 18px;
     font-weight: 500;
     line-height: 29px;
+    .mw-140{
+        min-width: 140px;
+    }
 }
 
 .checked-step{
