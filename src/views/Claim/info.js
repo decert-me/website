@@ -45,7 +45,7 @@ export default function ClaimInfo({answerInfo, detail}) {
     function goEdit() {
         if (isConnected) {
             run();
-            window.open(`/user/edit/${address}`, "_blank")
+            window.open(`/user/edit/${address}?zk`, "_blank")
         }else{
             submitObj = {
                 token_id: detail.tokenId,

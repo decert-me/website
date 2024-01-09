@@ -43,7 +43,7 @@
             }
         }
         .inner{
-            margin-top: 20px;
+            margin-top: 30px;
             .label{
                 margin-bottom: 20px;
                 font-size: 16px;
@@ -96,6 +96,10 @@
                             color: #5962ed;
                         }
                     }
+                }
+                .highline{
+                    box-shadow: 0px 4px 8px 0px rgba(143,90,53,0.5);
+                    border: 2px solid #8F5A35;
                 }
                 button{
                     min-width: 170px;

@@ -14,7 +14,7 @@ import { Keyring } from "@zcloak/keyring";
 import { keys } from "@zcloak/did";
 import { registerDidDoc } from "@/utils/zk/didHelper";
 
-export default function BindZkBtn() {
+export default function BindZkBtn(clear) {
     
     const { t } = useTranslation(["profile"]);
     const { data: signMessage } = useSigner();
@@ -64,6 +64,7 @@ export default function BindZkBtn() {
             setIsBind(true);
             setIsModalOpen(false)
             setIsZkLoad(false);
+            clear();
         } catch (error) {
             setCreateAcLoad(false);
             console.log(error);

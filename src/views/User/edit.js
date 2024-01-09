@@ -34,7 +34,8 @@ export default function UserEdit(params) {
     const { t } = useTranslation(["translation","profile"]);
     const location = useLocation();
     const navigateTo = useNavigate();
-
+    
+    const [highLine, setHighLine] = useState();
     let [account, setAccount] = useState();
     let [user, setUser] = useState();
     let [info, setInfo] = useState();
@@ -94,6 +95,16 @@ export default function UserEdit(params) {
         })
     }
 
+    const scrollToAnchor = (anchorName) => {
+        try {            
+            let anchorElement = document.getElementsByClassName(`edit-${anchorName}`)[0];
+            anchorElement.scrollIntoView({behavior: "smooth", block: "center",});
+            setHighLine(anchorName);
+        } catch (error) {
+            console.log(error);
+        }
+    }
+
     const init = async() => {
         if (!await verify()) {
             goBack();
@@ -104,7 +115,6 @@ export default function UserEdit(params) {
             user = res.data ? res.data : {};
             setUser({...user});
         })
-        console.log(user);
         info = {
             nickname: user?.nickname ? user.nickname : NickName(account),
             address: account,
@@ -112,6 +122,11 @@ export default function UserEdit(params) {
             avatar: user?.avatar ? imgPath + user.avatar : hashAvatar(account)
         }
         setInfo({...info});
+        if (location.search.indexOf("?") !== -1) {
+            setTimeout(() => {
+                scrollToAnchor(location.search.split("?")[1]);
+            }, 20);
+        }
     }
 
     useEffect(() => {
@@ -200,8 +215,8 @@ export default function UserEdit(params) {
                     <div className="inner">
                         <p className="label">{t("profile:edit.inner.recommend")}</p>
                         <div className="list">
-                            <div className="item">
-                                <BindZkBtn />
+                            <div className={`item edit-zk ${highLine === "zk" ? "highline" : ""}`}>
+                                <BindZkBtn clear={() => setHighLine("")} />
                             </div>
                         </div>
                     </div>
