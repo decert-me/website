@@ -1,19 +1,19 @@
-import { useNetwork, useSigner, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useContractWrite, useNetwork, useSwitchNetwork, useWaitForTransaction } from "wagmi";
 import { useVerifyToken } from "./useVerifyToken";
 import { constans } from "@/utils/constans";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useEffect, useState } from "react";
-import { createQuest } from "@/controller";
+import { useContext, useEffect, useState } from "react";
 import { addQuests, submitHash } from "@/request/api/public";
 import { useUpdateEffect } from "ahooks";
 import { message } from "antd";
+import MyContext from "@/provider/context";
 
 
 export default function usePublishCollection({ detail, jsonHash, collectionId }) {
     
+    const { questContract } = useContext(MyContext);
     const { chain } = useNetwork();
-    const { data: signer } = useSigner();
     const { verify } = useVerifyToken();
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
@@ -23,6 +23,10 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
 
     let [isSwitch, setIsSwitch] = useState(false);
     let [createQuestHash, setCreateQuestHash] = useState();
+    const { writeAsync: createQuest } = useContractWrite({
+        ...questContract,
+        functionName: 'createQuest',
+    })
     const { switchNetwork } = useSwitchNetwork({
         chainId: defaultChainId,
         onError() {
@@ -33,21 +37,29 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
         }
     })
     const { isLoading: transactionLoading } = useWaitForTransaction({
-        hash: createQuestHash,
+        hash: createQuestHash?.hash,
         cacheTime: 0
     })
 
     const write = (sign, obj, params) => {
-        createQuest(obj, sign, signer)
+        let { startTs, endTs, supply, title, uri } = obj;
+        endTs = constans().maxUint32;
+        supply = constans().maxUint192;
+        const args = [startTs, endTs, supply, title, uri];
+        createQuest({ args: [args, sign] })
         .then(res => {
             setIsLoading(false);
             if (res) {
                 submitHash({ 
-                    hash: res,
+                    hash: res.hash,
                     params
                 })
                 setCreateQuestHash(res)
             }
+        })
+        .catch(err => {
+            console.log(err);
+            setIsLoading(false);
         })
     }
 

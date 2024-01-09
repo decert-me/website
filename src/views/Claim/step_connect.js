@@ -6,18 +6,24 @@ import { useRequest } from "ahooks";
 import { Button } from "antd";
 import { useContext, useEffect } from "react";
 import { useTranslation } from "react-i18next";
+import { useConnect } from "wagmi";
 
 
 
 export default function StepConnect({setStep, step}) {
 
-    const { web3Modal, isMobile } = useContext(MyContext);
+    const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["claim"]);
     const { address } = useAddress();
+    const { connect, connectors } = useConnect({
+        onError(err){
+            console.log(err);
+        }
+    })
 
     const openModalConnect = () => {
         if (isMobile) {
-            web3Modal.open()
+            connect({connector: connectors[1]})
             return
         }
         changeConnect()

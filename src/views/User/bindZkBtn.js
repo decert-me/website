@@ -3,7 +3,7 @@
 
 import { Button, Modal } from "antd";
 import { useEffect, useState } from "react";
-import { useSigner } from "wagmi";
+import { useWalletClient } from "wagmi";
 import { useTranslation } from "react-i18next";
 import { backup } from "@/utils/zk/backup";
 import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
@@ -17,7 +17,7 @@ import { registerDidDoc } from "@/utils/zk/didHelper";
 export default function BindZkBtn({clear}) {
     
     const { t } = useTranslation(["profile"]);
-    const { data: signMessage } = useSigner();
+    const { data: signMessage } = useWalletClient();
     const [isZkLoad, setIsZkLoad] = useState(false);
     const [isBind, setIsBind] = useState(false);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -47,7 +47,7 @@ export default function BindZkBtn({clear}) {
             // 获取msg
             const {data} = await getDidSignMessage({did: did.id})
             // 发起签名
-            const sign_hash = await signMessage?.signMessage(data?.loginMessage);
+            const sign_hash = await signMessage?.signMessage({message: data?.loginMessage});
 
             // did publish
             const doc = await did.getPublish();
@@ -78,7 +78,7 @@ export default function BindZkBtn({clear}) {
         setMnemonic(mnemonic);
         // 发起签名
         try {
-            const sign_hash = await signMessage?.signMessage(message);
+            const sign_hash = await signMessage?.signMessage({message});
             const keyFileObj = { pwd: sign_hash, nonce, mnemonic };
             // 获取keyfile
             const key_file = await backup(keyFileObj)

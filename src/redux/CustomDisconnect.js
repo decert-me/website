@@ -9,20 +9,17 @@ function CustomDisconnect(props) {
 
     const { wallet } = useWallet();
     const { walletType, isConnected } = useAddress();
-    const { disconnect } = useDisconnect();
+    const { disconnectAsync } = useDisconnect();
 
 
-    function goDisconnect() {
+    async function goDisconnect() {
         props.setDisConnect(false);
         if (walletType === "evm") {
-            disconnect();
-            ClearStorage();
+            await disconnectAsync();
         }else{
-            wallet.adapter.disconnect()
-            .then(res => {
-                ClearStorage();
-            })
+            await wallet.adapter.disconnect()
         }
+        ClearStorage();
     }
 
     useEffect(() => {
