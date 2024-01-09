@@ -141,13 +141,14 @@ export default function User(props) {
             avatar: user.data.avatar ? imgPath + user.data.avatar : hashAvatar(account),
             socials: user.data.socials
         }
-
-        getAddressDid()
-        .then(res => {
-            if (res.data.did) {
-                setDidID(res.data.did);
-            }
-        })
+        if (isMe) {            
+            getAddressDid()
+            .then(res => {
+                if (res.data.did) {
+                    setDidID(res.data.did);
+                }
+            })
+        }
         setTimeout(() => {
             setInfo({...info})
         }, 1000);

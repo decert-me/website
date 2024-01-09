@@ -33,7 +33,8 @@ export default function CertUser(props) {
 
     const init = async() => {
       let user;
-      if (ensParse.address) {
+      // 且非DID账户
+      if (ensParse.address && ensParse.address.length !== 49) {
         user = await getUser({address: ensParse.address});
       }
       if (user?.data) {
