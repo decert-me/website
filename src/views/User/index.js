@@ -141,7 +141,7 @@ export default function User(props) {
             avatar: user.data.avatar ? imgPath + user.data.avatar : hashAvatar(account),
             socials: user.data.socials
         }
-        if (isMe) {            
+        if (localStorage.getItem("decert.address") === account) {            
             getAddressDid()
             .then(res => {
                 if (res.data.did) {
