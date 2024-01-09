@@ -216,7 +216,7 @@ export default function UserEdit(params) {
                         <p className="label">{t("profile:edit.inner.recommend")}</p>
                         <div className="list">
                             <div className={`item edit-zk ${highLine === "zk" ? "highline" : ""}`}>
-                                <BindZkBtn clear={() => setHighLine("")} />
+                                <BindZkBtn clear={() => setHighLine(null)} />
                             </div>
                         </div>
                     </div>
