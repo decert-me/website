@@ -97,12 +97,12 @@ export default function ClaimInfo({answerInfo, detail}) {
                                {
                                     hasDID ? 
                                     <p className="zk">
-                                        {t("getZk")}&nbsp;&nbsp;
+                                        {t("getZk")}
                                         <span onClick={() => window.open(`/user/${address}?type=0&status=2`, "_blank")}>{t("getZkLink")}</span>
                                     </p>
                                     :
                                     <p className="zk">
-                                        {t("zkDesc")}&nbsp;&nbsp;
+                                        {t("zkDesc")}
                                         <span onClick={()=>goEdit()}>{t("zkCreate")}</span>
                                     </p>
                                }
