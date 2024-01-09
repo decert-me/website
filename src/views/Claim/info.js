@@ -25,7 +25,6 @@ export default function ClaimInfo({answerInfo, detail}) {
     const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(null, detail.version); 
     const [hasDID, setHasDID] = useState(false);
     const [pollingCount, setPollingCount] = useState(0);
-    let [submitObj, setSubmitObj] = useState();
 
     const { run, cancel } = useRequest(polling, {
         pollingInterval: 3000,
@@ -47,12 +46,6 @@ export default function ClaimInfo({answerInfo, detail}) {
             run();
             window.open(`/user/edit/${address}?zk`, "_blank")
         }else{
-            submitObj = {
-                token_id: detail.tokenId,
-                answer: JSON.stringify(answerInfo.answers),
-                uri: detail.uri
-            }
-            setSubmitObj({...submitObj});
             changeConnect();
         }
     }
@@ -62,7 +55,12 @@ export default function ClaimInfo({answerInfo, detail}) {
         .then(res => {
             if (res.data.did) {
                 // 若为后置登陆 需再次发送challenge
-                if (!hasDID && submitObj) {
+                if (!hasDID) {
+                    const submitObj = {
+                        token_id: detail.tokenId,
+                        answer: JSON.stringify(answerInfo.answers),
+                        uri: detail.uri
+                    }
                     submitChallenge(submitObj)
                 }
                 setHasDID(true);
