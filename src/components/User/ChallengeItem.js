@@ -133,7 +133,7 @@ export default function ChallengeItem(props) {
                     {
                         profile && (info.claim_status === 2 || info.claim_status === 3) &&
                         <Tooltip title={t("zkTool")}>
-                            <div className={`opensea img ${isMobile ? "show" : ""}`}>
+                            <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
                                 <img src={require("@/assets/images/icon/user-zk.png")} alt="" />
                             </div>
                         </Tooltip>

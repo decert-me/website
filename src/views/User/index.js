@@ -224,7 +224,7 @@ export default function User(props) {
     return (
         <>
         <Modal
-            title={"My Keys"}
+            title={t("profile:key")}
             className="modal-keys"
             open={isKeysFile} 
             okText={t("profile:export")}
