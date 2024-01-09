@@ -8,7 +8,7 @@ import { useTranslation } from "react-i18next";
 import { convertTime } from "@/utils/convert";
 import MyContext from '@/provider/context';
 import { useContext } from 'react';
-import { message } from 'antd';
+import { Tooltip, message } from 'antd';
 
 export default function ChallengeItem(props) {
     
@@ -122,17 +122,21 @@ export default function ChallengeItem(props) {
                     display: "flex",
                     gap: "5px"
                 }}>
+                    {/* opensea */}
                     {
                         profile && (profile.walletType === "evm" || info.claimed) &&
                         <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
                             <img src={require("@/assets/images/icon/user-opensea.png")} alt="" />
                         </div>
                     }
+                    {/* zk */}
                     {
                         profile && (info.claim_status === 2 || info.claim_status === 3) &&
-                        <div className={`opensea img ${isMobile ? "show" : ""}`}>
-                            <img src={require("@/assets/images/icon/user-zk.png")} alt="" />
-                        </div>
+                        <Tooltip title={t("zkTool")}>
+                            <div className={`opensea img ${isMobile ? "show" : ""}`}>
+                                <img src={require("@/assets/images/icon/user-zk.png")} alt="" />
+                            </div>
+                        </Tooltip>
                     }
                 </div>
             </div>

@@ -32,6 +32,8 @@
     "bindWx": "Bind Wechat",
     "bindDc": "Bind Discord",
 
+    "zkTool": "Privacy Certification",
+
     "edit": {
         "title": "Complete personal information",
         "upload": "Upload picture",
