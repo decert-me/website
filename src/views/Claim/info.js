@@ -25,16 +25,15 @@ export default function ClaimInfo({answerInfo, detail}) {
     const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(null, detail.version); 
     const [hasDID, setHasDID] = useState(false);
     const [pollingCount, setPollingCount] = useState(0);
-    let [submitObj, setSubmitObj] = useState();
 
     const { run, cancel } = useRequest(polling, {
         pollingInterval: 3000,
         manual: true
     });
 
-    function polling() {
+    function polling(unSubmit) {
         setPollingCount(pollingCount + 1);
-        addrDid()
+        addrDid({unSubmit, isLink: false})
         if (pollingCount === 60) {
             cancel();
             setPollingCount(0);
@@ -47,34 +46,65 @@ export default function ClaimInfo({answerInfo, detail}) {
             run();
             window.open(`/user/edit/${address}?zk`, "_blank")
         }else{
-            submitObj = {
-                token_id: detail.tokenId,
-                answer: JSON.stringify(answerInfo.answers),
-                uri: detail.uri
-            }
-            setSubmitObj({...submitObj});
+
+            navigateTo(`/claim/${detail.tokenId}?zk`);
             changeConnect();
         }
     }
 
-    function addrDid(params) {
+    function addrDid(props) {
         getAddressDid()
         .then(res => {
             if (res.data.did) {
                 // 若为后置登陆 需再次发送challenge
-                if (!hasDID && submitObj) {
+                if (props?.unSubmit) {
+                    const submitObj = {
+                        token_id: detail.tokenId,
+                        answer: JSON.stringify(answerInfo.answers),
+                        uri: detail.uri
+                    }
                     submitChallenge(submitObj)
                 }
                 setHasDID(true);
                 cancel();
                 setPollingCount(0);
+            }else if (props?.isLink) {
+                // 如果是未登陆状态 => 登陆 => 未创建DID => 跳转创建DID，开启轮询
+                window.open(`/user/edit/${localStorage.getItem("decert.address")}?zk`, "_blank");
+                const unSubmit = true;
+                run(unSubmit);
             }
         })
     }
-
+    
+    const decertToken = (event) => {
+        if (event.key === "decert.token" && event.newValue) {
+            if (window.location.search && window.location.search.split("?")[1] === "zk") {
+                addrDid({isLink: true, unSubmit: false});
+                navigateTo(`/claim/${detail.tokenId}`);
+            }
+        }
+    }
+    
     useEffect(() => {
         isPass && isConnected && addrDid()
     },[isPass, isConnected])
+
+    useEffect(() => {
+        var orignalSetItem = localStorage.setItem;
+        localStorage.setItem = function(key,newValue){
+            var setItemEvent = new Event("setItemEvent");
+            setItemEvent.key = key;
+            setItemEvent.newValue = newValue;
+            setItemEvent.oldValue = localStorage.getItem(key);
+            window.dispatchEvent(setItemEvent);
+            orignalSetItem.apply(this,arguments);
+        }
+        window.addEventListener('setItemEvent', decertToken)
+        return () => {
+            window.removeEventListener('setItemEvent', decertToken)
+        }
+    }, [])
 
     return(
         <div className="CustomCompleted">
