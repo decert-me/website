@@ -65,7 +65,7 @@ export default function ClaimInfo({answerInfo, detail}) {
                 if (!hasDID && submitObj) {
                     submitChallenge(submitObj)
                 }
-                setHasDID(true);                
+                setHasDID(true);
                 cancel();
                 setPollingCount(0);
             }
@@ -98,7 +98,7 @@ export default function ClaimInfo({answerInfo, detail}) {
                                     hasDID ? 
                                     <p className="zk">
                                         {t("getZk")}&nbsp;&nbsp;
-                                        <a href={`/user/${address}?type=0&status=2`} target="_blank" rel="noopener noreferrer">{t("getZkLink")}</a>
+                                        <span onClick={() => window.open(`/user/${address}?type=0&status=2`, "_blank")}>{t("getZkLink")}</span>
                                     </p>
                                     :
                                     <p className="zk">

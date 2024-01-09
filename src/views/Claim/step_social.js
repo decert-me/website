@@ -9,7 +9,7 @@ import { useAddress } from "@/hooks/useAddress";
 export default function StepSocial({step, setStep, defaultValue}) {
     
     const { address } = useAddress();
-    const { t } = useTranslation(["claim", "translation"]);
+    const { t } = useTranslation(["claim", "translation", "profile"]);
     const [count, setCount] = useState(0);
     const [pollingCount, setPollingCount] = useState(0);
     const [loading, setLoading] = useState(false);
@@ -94,7 +94,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
             <p>{t("bindAc")}</p>
             {
                 (bindObj.discord || bindObj.wechat) ?
-                <p>已完成</p>
+                <p>{t("profile:isBind")}</p>
                 :
                 step >= 0 &&
                 <Button 
@@ -103,7 +103,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
                     loading={loading}
                     disabled={!step >= 1} 
                     onClick={() => goInformation()}
-                >去完成</Button>
+                >{t("profile:edit.inner.bindAc")}</Button>
             }
         </div>
     )
