@@ -35,3 +35,12 @@ export const getKeyFileSignature = (data) => {
         data
     })
 }
+
+// 
+export const generateCard = (data) => {
+    return serviceAxios({
+        url: `/v1/zcloak/generateCard`,
+        method: "post",
+        data
+    })
+}

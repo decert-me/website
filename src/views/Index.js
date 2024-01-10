@@ -21,7 +21,7 @@ export default function Index(params) {
     const location = useLocation();
     let [contributor, setContributor] = useState([]);
     let [count, setCount] = useState(8);    // 贡献者下拉
-    let [hide, setHide] = useState(false);  //  隐藏
+    let [hide, setHide] = useState(true);  //  隐藏
 
     const partner = [
         "home-upchain",

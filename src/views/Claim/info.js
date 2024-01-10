@@ -8,7 +8,7 @@ import CustomViewer from "@/components/CustomViewer";
 import ClaimOperate from "./operate";
 import { useAddress } from "@/hooks/useAddress";
 import { constans } from "@/utils/constans";
-import { getAddressDid } from "@/request/api/zk";
+import { generateCard, getAddressDid } from "@/request/api/zk";
 import { useRequest } from "ahooks";
 import { changeConnect } from "@/utils/redux";
 import { submitChallenge } from "@/request/api/public";
@@ -58,10 +58,8 @@ export default function ClaimInfo({answerInfo, detail}) {
                 if (!hasDID) {
                     const submitObj = {
                         token_id: detail.tokenId,
-                        answer: JSON.stringify(answerInfo.answers),
-                        uri: detail.uri
                     }
-                    submitChallenge(submitObj)
+                    generateCard(submitObj)
                 }
                 setHasDID(true);
                 cancel();
