@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useRoutes } from "react-router-dom";
-import { Button, Layout, Space, notification } from "antd";
+import { Button, Layout, Modal, Space, notification } from "antd";
 import { CloseOutlined } from '@ant-design/icons';
 import routes from "@/router";
 import AppHeader from "./AppHeader";
@@ -25,7 +25,6 @@ export default function DefaultLayout(params) {
     const location = useLocation();
     const { isMobile, user, callSignature } = useContext(MyContext);
     const [api, contextHolder] = notification.useNotification();
-    // const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
     let [headerHide, setHeaderHide] = useState(false);
     let [vh, setVh] = useState(100);
@@ -108,7 +107,14 @@ export default function DefaultLayout(params) {
             // 判断是否在当前网站
             if (!document.hidden) {
                 localStorage.setItem("decert.address", address);
-                await callSignature(address, walletType, wallet?.adapter, walletClient)
+                localStorage.setItem("decert.cache",JSON.stringify({}));
+                try {
+                    await callSignature(address, walletType, wallet?.adapter, walletClient)
+                    navigateTo(0)
+                } catch (error) {
+                    console.log(error);
+                }
+                Modal.destroyAll();
             }else{
                 if (walletType === "evm") {
                     await disconnectAsync();

@@ -57,6 +57,7 @@ export default function MyProvider(props) {
     store.subscribe(handleUser);
 
     async function callSignature(address, walletType, adapter, signer) {
+        openModal();
         try {
             // 获取签名信息
             const res = await getLoginMsg({ address });
@@ -127,7 +128,6 @@ export default function MyProvider(props) {
             const address = localStorage.getItem("decert.address");
 
             // 连接成功发起签名
-            openModal();
             await callSignature(address, walletType, adapter, signer);
             Modal.destroyAll();
 
