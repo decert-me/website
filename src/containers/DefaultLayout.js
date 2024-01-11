@@ -1,5 +1,5 @@
 import { useLocation, useNavigate, useRoutes } from "react-router-dom";
-import { Button, Layout, Space, message, notification } from "antd";
+import { Button, Layout, Space, notification } from "antd";
 import { CloseOutlined } from '@ant-design/icons';
 import routes from "@/router";
 import AppHeader from "./AppHeader";
@@ -8,10 +8,10 @@ import { useContext, useEffect, useState } from "react";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useDebounceEffect, useRequest, useUpdateEffect } from "ahooks";
 import MyContext from "@/provider/context";
-import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
+import store from "@/redux/store";
 import { useAddress } from "@/hooks/useAddress";
 import { useWallet } from "@solana/wallet-adapter-react";
-import { useDisconnect } from "wagmi";
+import { useDisconnect, useWalletClient } from "wagmi";
 import { getUnreadMessage, readMessage } from "@/request/api/public";
 import { useTranslation } from "react-i18next";
 import CustomDisconnect from "@/redux/CustomDisconnect";
@@ -23,7 +23,7 @@ export default function DefaultLayout(params) {
     const outlet = useRoutes(routes);
     const navigateTo = useNavigate();
     const location = useLocation();
-    const { isMobile, user } = useContext(MyContext);
+    const { isMobile, user, callSignature } = useContext(MyContext);
     const [api, contextHolder] = notification.useNotification();
     // const [messageApi, contextHolder] = message.useMessage();
     let [footerHide, setFooterHide] = useState(false);
@@ -32,6 +32,7 @@ export default function DefaultLayout(params) {
     let [msgList, setMsgList] = useState([]);
 
     const { address, isConnected, walletType } = useAddress();
+    const { data: walletClient } = useWalletClient();
     const { wallet, connected } = useWallet();
     const { disconnectAsync } = useDisconnect()
 
@@ -97,87 +98,26 @@ export default function DefaultLayout(params) {
         navigateTo(`/claim/${msg.token_id}`);
     }
 
-    const isClaim = (path) => {
-        if (path && path.indexOf('claim') !== -1) {
-            let url = 'quests/' + path.split('/')[2]
-            navigateTo(url)
-        }
-    }
-
-    const isExplore = (path) => {
-        if (path && path.indexOf('challenges') !== -1) {
-            navigateTo(0)
-        }
-    }
-
-    const isCert = (path, type) => {
-        if (path && path.split('/')[1].length === 42) {
-            if (type === "toggle") {
-                navigateTo(`/${address}`);
-                navigateTo(0);
-                setTimeout(() => {
-                }, 20);
-            }else if (type === "signout"){
-                setTimeout(() => {
-                    navigateTo(0);
-                }, 500);
-            }else{
-                setTimeout(() => {
-                    navigateTo(0);
-                }, 500);
-            }
-        }
-    }
-
-    const isUser = (path) => {
-        if (path && path.indexOf('user') !== -1) {
-            if (!address) {
-                navigateTo(0);
-            }else{
-                navigateTo(`/user/${address}`);
-            }
-        }
-    }
-    
-    const sign = async() => {
-        await store.dispatch(hideCustomSigner());
-        await store.dispatch(showCustomSigner());
-    }
-
-    const verifySignUpType = async(addr, path) => {
+    const verifySignUpType = async(addr) => {
         if (!connected && !isConnected) {
             return
         }
 
-        if (address && isMobile && localStorage.getItem("decert.token")) {
-            // close()
+        if (addr && address && addr !== address){
+            // 已登陆  ====>  切换账号
+            // 判断是否在当前网站
+            if (!document.hidden) {
+                localStorage.setItem("decert.address", address);
+                await callSignature(address, walletType, wallet?.adapter, walletClient)
+            }else{
+                if (walletType === "evm") {
+                    await disconnectAsync();
+                }else{
+                    await wallet.adapter.disconnect()
+                }
+                ClearStorage();
+            }
         }
-
-        // if (addr === null && address) { 
-        //     // 未登录  ====>  登录
-        //     localStorage.setItem("decert.address", address);
-        //     await sign()
-        //     // isCert(path, 'reload');
-        // }else if (addr && address && addr !== address){
-        //     // 已登陆  ====>  切换账号
-        //     // 判断是否在当前网站
-        //     if (!document.hidden) {
-        //         localStorage.setItem("decert.address", address);
-        //         // ClearStorage();
-        //         // isClaim(path);
-        //         // // isCert(path, 'toggle');
-        //         // isExplore(path);
-        //         // isUser(path);
-        //         await sign()
-        //     }else{
-        //         if (walletType === "evm") {
-        //             await disconnectAsync();
-        //         }else{
-        //             await wallet.adapter.disconnect()
-        //         }
-        //         ClearStorage();
-        //     }
-        // }
     }
 
     const { run } = useRequest(verifySignUpType, {
@@ -208,12 +148,6 @@ export default function DefaultLayout(params) {
             setVh(100)
         }
     }
-
-    // useUpdateEffect(() => {
-    //     // TODO: 判断当前钱包是否链接
-    //     console.log(address, isConnected);
-    //     console.log(localStorage.getItem("wagmi.connected"));
-    // },[address])
 
     useDebounceEffect(() => {
         const token = localStorage.getItem("decert.token");

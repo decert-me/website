@@ -148,6 +148,7 @@ export default function MyProvider(props) {
                 questContract,
                 badgeContract,
                 connectWallet,
+                callSignature
             }}
         >
             {/* 连接钱包 */}
