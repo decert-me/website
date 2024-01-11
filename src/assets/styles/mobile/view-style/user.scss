@@ -46,6 +46,7 @@ $container-width: 21.875rem;
             .social{
                 margin-top: .3125rem;
                 justify-content: center;
+                gap: .625rem;
                 .social-item{
                     height: 1.625rem;
                     padding: .4375rem 1rem .4375rem .625rem;
@@ -53,7 +54,7 @@ $container-width: 21.875rem;
                 }
                 .icon{
                     width: 1rem;
-                    height: .75rem;
+                    height: 1rem;
                     margin-right: .625rem;
                     margin-bottom: 0;
                     background-color: #00000000;
@@ -61,6 +62,7 @@ $container-width: 21.875rem;
             }
             .desc{
                 max-width: 16.875rem;
+                margin: .625rem auto 0;
                 font-size: .75rem;
                 line-height: 1.125rem;
             }
