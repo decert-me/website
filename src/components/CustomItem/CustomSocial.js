@@ -1,5 +1,8 @@
+import { useTranslation } from "react-i18next";
+
 export default function CustomSocial(props) {
     
+    const { t } = useTranslation(["profile"]);
     const { socials } = props;
 
     const list = {
@@ -29,7 +32,7 @@ export default function CustomSocial(props) {
                         <div className="icon img">
                             <img src={list[e].img} alt="" />
                         </div>
-                        {list[e].title} Connected
+                        {list[e].title} {t("isBind")}
                     </div>    
                 )
             }
