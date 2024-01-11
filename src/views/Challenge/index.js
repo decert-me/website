@@ -16,7 +16,6 @@ import { getDataBase } from '@/utils/saveCache';
 import CustomPagination from '../../components/CustomPagination';
 import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 import { useAddress } from "@/hooks/useAddress";
-import { changeConnect } from "@/utils/redux";
 import { useUpdateEffect } from "ahooks";
 import { useConnect } from "wagmi";
 import MyContext from "@/provider/context";
@@ -30,7 +29,7 @@ export default function Challenge(params) {
     const location = useLocation();
     const navigateTo = useNavigate();
     const childRef = useRef(null);
-    const { isMobile } = useContext(MyContext);
+    const { isMobile, connectWallet } = useContext(MyContext);
     let [detail, setDetail] = useState();
     let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
@@ -193,7 +192,7 @@ export default function Challenge(params) {
             if (isMobile) {
                 connect({connector: connectors[1]})
             }else{
-                changeConnect();
+                connectWallet();
             }
             return
         }

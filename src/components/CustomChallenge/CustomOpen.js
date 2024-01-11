@@ -3,15 +3,16 @@ import { Button, Input, Space, Upload, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import CustomViewer from "../CustomViewer";
 import { uploadFile } from "@/request/api/public";
-import { useEffect, useState } from "react";
-import { changeConnect } from "@/utils/redux";
+import { useContext, useEffect, useState } from "react";
 import { useAddress } from "@/hooks/useAddress";
+import MyContext from "@/provider/context";
 
 const { TextArea } = Input;
 
 export default function CustomOpen(props) {
     
     const { label, value, defaultValue, defaultFileList } = props;
+    const { connectWallet } = useContext(MyContext);
     const { t } = useTranslation(["explore"]);
     const { isConnected } = useAddress();
     let [annex, setAnnex] = useState([]);
@@ -65,7 +66,7 @@ export default function CustomOpen(props) {
         },
         beforeUpload(file) {
             if (!isConnected) {
-                changeConnect()
+                connectWallet();
                 return Upload.LIST_IGNORE
             }
             const isLt100M = file.size / 1024 / 1024 < 20;

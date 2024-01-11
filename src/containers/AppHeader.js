@@ -1,6 +1,6 @@
 import i18n from 'i18next';
 import { useTranslation } from 'react-i18next';
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useConnect, useDisconnect } from 'wagmi';
 import { Button, Dropdown, message } from 'antd';
@@ -15,17 +15,18 @@ import { hashAvatar } from '@/utils/HashAvatar';
 import { NickName } from '@/utils/NickName';
 import logo_white from "@/assets/images/svg/logo-white.png";
 import logo_normal from "@/assets/images/svg/logo-normal.png";
-import { changeConnect } from '@/utils/redux';
 import { getUser } from '@/request/api/public';
 import store, { setUser } from '@/redux/store';
 import { constans } from '@/utils/constans';
 import { useWallet } from "@solana/wallet-adapter-react";
 import { useAddress } from '@/hooks/useAddress';
 import { ClearStorage } from '@/utils/ClearStorage';
+import MyContext from '@/provider/context';
 
 export default function AppHeader({ isMobile, user }) {
     
     const { address, walletType, isConnected } = useAddress();
+    const { connectWallet } = useContext(MyContext);
     const { wallet } = useWallet();
     const { imgPath } = constans();
     const { t } = useTranslation();
@@ -104,7 +105,7 @@ export default function AppHeader({ isMobile, user }) {
             setIsOpenM(!isOpenM)
             return
         }
-        changeConnect();
+        connectWallet();
     }
 
     const toggleI18n = () => {

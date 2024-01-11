@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
@@ -10,7 +10,6 @@ import "@/assets/styles/component-style";
 import { CustomEditor } from "@/components/CustomItem";
 import { UploadProps } from "@/utils/UploadProps";
 import { useAddress } from "@/hooks/useAddress";
-import { changeConnect } from "@/utils/redux";
 import PublishQuestion from "./question";
 import { filterQuestions } from "@/utils/filter";
 import { getMetadata } from "@/utils/getMetadata";
@@ -20,6 +19,7 @@ import { getQuests, modifyRecommend } from "@/request/api/public";
 import { usePublish } from "@/hooks/usePublish";
 import { clearDataBase, getDataBase, saveCache } from "@/utils/saveCache";
 import store, { setChallenge } from "@/redux/store";
+import MyContext from "@/provider/context";
 
 
 const { TextArea } = Input;
@@ -33,6 +33,7 @@ export default function Publish(params) {
     const isFirstRender = useRef(true);     //  是否是第一次渲染
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
+    const { connectWallet } = useContext(MyContext);
     const { data: signer } = useWalletClient();
     const { isConnected, walletType, address } = useAddress();
     const { t } = useTranslation(["publish", "translation"]);
@@ -123,7 +124,7 @@ export default function Publish(params) {
         // 是否登陆 || 是否是evm钱包
         if (!isConnected || walletType !== "evm") {
             walletType !== "evm" && message.info(t("translation:message.info.solana-publish"));
-            changeConnect()
+            connectWallet()
             return
         }
 
@@ -171,7 +172,7 @@ export default function Publish(params) {
         }
         })
         if (!isConnected) {
-            changeConnect()
+            connectWallet()
             return Upload.LIST_IGNORE
         }
         if (!isImage) {

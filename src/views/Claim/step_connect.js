@@ -1,7 +1,6 @@
 import MyContext from "@/provider/context";
 import { useAddress } from "@/hooks/useAddress";
 import { NickName } from "@/utils/NickName";
-import { changeConnect } from "@/utils/redux";
 import { useRequest } from "ahooks";
 import { Button } from "antd";
 import { useContext, useEffect } from "react";
@@ -12,7 +11,7 @@ import { useConnect } from "wagmi";
 
 export default function StepConnect({setStep, step}) {
 
-    const { isMobile } = useContext(MyContext);
+    const { isMobile, connectWallet } = useContext(MyContext);
     const { t } = useTranslation(["claim"]);
     const { address } = useAddress();
     const { connect, connectors } = useConnect({
@@ -26,7 +25,7 @@ export default function StepConnect({setStep, step}) {
             connect({connector: connectors[1]})
             return
         }
-        changeConnect()
+        connectWallet()
     }
     
     const { run } = useRequest(() => setStep(1), {

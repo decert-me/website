@@ -67,25 +67,6 @@ export default function Index(params) {
         }
     }
 
-        // // 输入数据和密钥
-        // const data = 'Hello, world!';
-        // const secretKey = 'mySecretKey';
-
-        // // 将字符串转换为 Uint8Array
-        // const encoder = new TextEncoder();
-        // const dataBytes = encoder.encode(data);
-        // const keyBytes = encoder.encode(secretKey);
-
-        // // 使用 subtle crypto API 进行 HMAC-SHA256 计算
-        // crypto.subtle.importKey('raw', keyBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
-        // .then(key => crypto.subtle.sign('HMAC', key, dataBytes))
-        // .then(hashBuffer => {
-        //     const hashArray = Array.from(new Uint8Array(hashBuffer));
-        //     const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-        //     console.log('HMAC-SHA256 哈希值:', hashHex);
-        // })
-        // .catch(error => console.error(error));
-
     useEffect(() => {
         getContributor();
     },[])
@@ -121,7 +102,6 @@ export default function Index(params) {
                         </div>
                     </div>
                         <h2 className="text">{t("home.slogan2")}</h2>
-
                         {/* social */}
                         <div className="social">
                             <div className="social-item" onClick={()=>{window.open('https://twitter.com/decertme','_blank')}}>

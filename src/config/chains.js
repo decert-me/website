@@ -1,10 +1,10 @@
-import { polygon, polygonMumbai } from "viem/chains";
+import { optimism, optimismSepolia, polygon, polygonMumbai } from "viem/chains";
 
 
 export const CHAINS_DEV = [
-    polygonMumbai
+    polygonMumbai, optimismSepolia
 ]
 
 export const CHAINS = [
-    polygon
+    polygon, optimism
 ]
