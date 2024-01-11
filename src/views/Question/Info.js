@@ -16,7 +16,7 @@ export default function Info(props) {
     const arr = [0, 1, 2];
 
     function goChallenge() {
-        navigateTo(`/challenge/${detail.tokenId}`)
+        navigateTo(`/challenge/${detail.uuid}`)
     }
 
     function userInit() {
