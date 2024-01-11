@@ -12,15 +12,12 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CustomIcon from "@/components/CustomIcon";
 import i18n from 'i18next';
-import { useWalletClient } from "wagmi";
-import { optimismSepolia } from "viem/chains";
 
 export default function Index(params) {
     
     const navigateTo = useNavigate();
-    const { data: walletClient } = useWalletClient();
     const { t } = useTranslation();
-    const { isMobile, connectWallet } = useContext(MyContext);
+    const { isMobile } = useContext(MyContext);
     const location = useLocation();
     let [contributor, setContributor] = useState([]);
     let [count, setCount] = useState(8);    // 贡献者下拉
@@ -70,64 +67,6 @@ export default function Index(params) {
         }
     }
 
-        // // 输入数据和密钥
-        // const data = 'Hello, world!';
-        // const secretKey = 'mySecretKey';
-
-        // // 将字符串转换为 Uint8Array
-        // const encoder = new TextEncoder();
-        // const dataBytes = encoder.encode(data);
-        // const keyBytes = encoder.encode(secretKey);
-
-        // // 使用 subtle crypto API 进行 HMAC-SHA256 计算
-        // crypto.subtle.importKey('raw', keyBytes, { name: 'HMAC', hash: 'SHA-256' }, false, ['sign'])
-        // .then(key => crypto.subtle.sign('HMAC', key, dataBytes))
-        // .then(hashBuffer => {
-        //     const hashArray = Array.from(new Uint8Array(hashBuffer));
-        //     const hashHex = hashArray.map(byte => byte.toString(16).padStart(2, '0')).join('');
-        //     console.log('HMAC-SHA256 哈希值:', hashHex);
-        // })
-        // .catch(error => console.error(error));
-
-        function addChain(params) {
-            walletClient.addChain({ chain: optimismSepolia }) 
-            .then(res => {
-                console.log(res);
-                test()
-            })
-            .catch(err => {
-                console.log(err);
-            })
-
-        }
-
-        async function test() {
-            await walletClient.switchChain({ id: 11155420 }) 
-            .then(res => {
-                console.log(res);
-            })
-            .catch(err => {
-                console.log(err);
-                addChain();
-            })
-            // await walletClient.watchAsset({ 
-            //     type: 'ERC1155',
-            //     options: {
-            //         "address": "0x66C54CB10Ef3d038aaBA2Ac06d2c25B326be8142",
-            //         "symbol": "FOO",
-            //         "decimals": 18,
-            //         "image": "https://ipfs.decert.me/bafkreigdskfmbihcf4m2xq2da7s4xrawv7zode6u3mddbq3loadwqwdhue",
-            //         "tokenId": "10473"
-            //     },
-            // })
-            // .then(res => {
-            //     console.log("res ===>", res);
-            // })
-            // .catch(err => {
-            //     console.log("err ===>", err);
-            // })
-        }
-
     useEffect(() => {
         getContributor();
     },[])
@@ -163,9 +102,6 @@ export default function Index(params) {
                         </div>
                     </div>
                         <h2 className="text">{t("home.slogan2")}</h2>
-                        <button onClick={() => connectWallet()}>
-                            <h1>Click There</h1>
-                        </button>
                         {/* social */}
                         <div className="social">
                             <div className="social-item" onClick={()=>{window.open('https://twitter.com/decertme','_blank')}}>
