@@ -1,7 +1,5 @@
-
-
-
 import { Button, Modal } from "antd";
+import { CopyOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react";
 import { useWalletClient } from "wagmi";
 import { useTranslation } from "react-i18next";
@@ -13,10 +11,11 @@ import "@/assets/styles/view-style/modal.scss";
 import { Keyring } from "@zcloak/keyring";
 import { keys } from "@zcloak/did";
 import { registerDidDoc } from "@/utils/zk/didHelper";
+import { Copy } from "@/utils/Copy";
 
 export default function BindZkBtn({clear}) {
     
-    const { t } = useTranslation(["profile"]);
+    const { t } = useTranslation(["profile", "translation"]);
     const { data: signMessage } = useWalletClient();
     const [isZkLoad, setIsZkLoad] = useState(false);
     const [isBind, setIsBind] = useState(false);
@@ -113,7 +112,10 @@ export default function BindZkBtn({clear}) {
                     isBind ?
                     <div>
                         <p>{t("profile:edit.inner.zk")}</p>
-                        <p style={{fontSize: "12px", fontWeight: 500, lineHeight: "17px", marginTop: "2px"}}>{didID.substring(0,11) + "..." + didID.substring(didID.length - 4, didID.length)}</p>
+                        <p style={{fontSize: "12px", fontWeight: 500, lineHeight: "17px", marginTop: "2px"}}>
+                            {didID.substring(0,11) + "..." + didID.substring(didID.length - 4, didID.length)}
+                            <CopyOutlined className="icon-copy" onClick={() => Copy(didID, t("translation:message.success.copy"))} style={{color: "#9E9E9E", cursor: "pointer"}} />
+                        </p>
                     </div>
                     :
                     <div>
