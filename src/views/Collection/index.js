@@ -7,7 +7,6 @@ import { Button, Tooltip, message, notification } from "antd";
 import { useAddress } from "@/hooks/useAddress";
 import { getCollectionMetadata } from "@/utils/getMetadata";
 import { useRequest, useUpdateEffect } from "ahooks";
-import { changeConnect } from "@/utils/redux";
 import { useTranslation } from "react-i18next";
 import {
     ExclamationCircleOutlined
@@ -23,7 +22,7 @@ import Challenger from "../Question/Challenger";
 export default function Collection(params) {
     
     const { id } = useParams();
-    const { isMobile } = useContext(MyContext);
+    const { isMobile, connectWallet } = useContext(MyContext);
     const { address, walletType, isConnected } = useAddress();
     const { ipfsPath, defaultImg, openseaLink } = constans();
     const [api, contextHolder] = notification.useNotification();
@@ -71,7 +70,7 @@ export default function Collection(params) {
     async function claimCollectionNft(params) {
         // 未链接钱包
         if (!address) {
-            changeConnect();
+            connectWallet();
             return
         }
         // 未完成
@@ -95,7 +94,7 @@ export default function Collection(params) {
 
         if (walletType !== "evm") {
             message.info(t("translation:message.info.solana-publish"));
-            changeConnect()
+            connectWallet()
             return
         }
 

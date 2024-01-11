@@ -12,12 +12,15 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CustomIcon from "@/components/CustomIcon";
 import i18n from 'i18next';
+import { useWalletClient } from "wagmi";
+import { optimismSepolia } from "viem/chains";
 
 export default function Index(params) {
     
     const navigateTo = useNavigate();
+    const { data: walletClient } = useWalletClient();
     const { t } = useTranslation();
-    const { isMobile } = useContext(MyContext);
+    const { isMobile, connectWallet } = useContext(MyContext);
     const location = useLocation();
     let [contributor, setContributor] = useState([]);
     let [count, setCount] = useState(8);    // 贡献者下拉
@@ -86,6 +89,45 @@ export default function Index(params) {
         // })
         // .catch(error => console.error(error));
 
+        function addChain(params) {
+            walletClient.addChain({ chain: optimismSepolia }) 
+            .then(res => {
+                console.log(res);
+                test()
+            })
+            .catch(err => {
+                console.log(err);
+            })
+
+        }
+
+        async function test() {
+            await walletClient.switchChain({ id: 11155420 }) 
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+                addChain();
+            })
+            // await walletClient.watchAsset({ 
+            //     type: 'ERC1155',
+            //     options: {
+            //         "address": "0x66C54CB10Ef3d038aaBA2Ac06d2c25B326be8142",
+            //         "symbol": "FOO",
+            //         "decimals": 18,
+            //         "image": "https://ipfs.decert.me/bafkreigdskfmbihcf4m2xq2da7s4xrawv7zode6u3mddbq3loadwqwdhue",
+            //         "tokenId": "10473"
+            //     },
+            // })
+            // .then(res => {
+            //     console.log("res ===>", res);
+            // })
+            // .catch(err => {
+            //     console.log("err ===>", err);
+            // })
+        }
+
     useEffect(() => {
         getContributor();
     },[])
@@ -121,7 +163,9 @@ export default function Index(params) {
                         </div>
                     </div>
                         <h2 className="text">{t("home.slogan2")}</h2>
-
+                        <button onClick={() => connectWallet()}>
+                            <h1>Click There</h1>
+                        </button>
                         {/* social */}
                         <div className="social">
                             <div className="social-item" onClick={()=>{window.open('https://twitter.com/decertme','_blank')}}>

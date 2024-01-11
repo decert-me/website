@@ -10,7 +10,6 @@ import { useAddress } from "@/hooks/useAddress";
 import { constans } from "@/utils/constans";
 import { getAddressDid } from "@/request/api/zk";
 import { useRequest } from "ahooks";
-import { changeConnect } from "@/utils/redux";
 import { submitChallenge } from "@/request/api/public";
 
 
@@ -20,7 +19,7 @@ export default function ClaimInfo({answerInfo, detail}) {
     const navigateTo = useNavigate();
     const { t } = useTranslation(["claim", "translation"]);
     const { walletType, isConnected, address } = useAddress();
-    const { isMobile } = useContext(MyContext);
+    const { isMobile, connectWallet } = useContext(MyContext);
     const { score, passingPercent, isPass } = answerInfo
     const { openseaLink, openseaSolanaLink, defaultImg, ipfsPath } = constans(null, detail.version); 
     const [hasDID, setHasDID] = useState(false);
@@ -53,7 +52,12 @@ export default function ClaimInfo({answerInfo, detail}) {
                 uri: detail.uri
             }
             setSubmitObj({...submitObj});
-            changeConnect();
+            connectWallet({
+                goEdit: (address) => {
+                    run();
+                    window.open(`/user/edit/${address}?zk`, "_blank")
+                }
+            });
         }
     }
 

@@ -1,3 +1,25 @@
+#layout-header{
+    width: 100%;
+    padding: 0;
+    background-color: rgba(0,0,0,0);
+    position: fixed;
+    color: #fff;
+    z-index: 999;
+}
+
+#layout-content{
+    overflow: hidden;
+    display: grid;
+}
+
+#layout-footer{
+    height: auto;
+    padding: 0;
+    text-align: center;
+    color: #fff;
+    background-color: #000;
+}
+
 #Header{
     background-color: rgba(255,255,255,0.5);
     backdrop-filter: blur(42px);

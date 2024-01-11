@@ -5,20 +5,20 @@ import {
     PlusOutlined,
     LoadingOutlined,
 } from '@ant-design/icons';
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { hashAvatar } from "@/utils/HashAvatar";
 import { NickName } from "@/utils/NickName";
 import { getUser, putUser } from "@/request/api/public";
 import { UploadAvatarProps } from "@/utils/UploadProps";
 import { useTranslation } from "react-i18next";
-import { changeConnect } from "@/utils/redux";
 import { constans } from "@/utils/constans";
 import { useAddress } from "@/hooks/useAddress";
 import BindDiscordBtn from "./bindDiscordBtn";
 import BindWechatBtn from "./bindWechatBtn";
 import BindZkBtn from "./bindZkBtn";
 import CustomIcon from "@/components/CustomIcon";
+import MyContext from "@/provider/context";
 const { TextArea } = Input;
 
 export default function UserEdit(params) {
@@ -32,6 +32,7 @@ export default function UserEdit(params) {
     const { address, isConnected } = useAddress();
     const { imgPath } = constans();
     const { t } = useTranslation(["translation","profile"]);
+    const { connectWallet } = useContext(MyContext);
     const location = useLocation();
     const navigateTo = useNavigate();
     
@@ -153,7 +154,7 @@ export default function UserEdit(params) {
                             {...UploadAvatarProps} 
                             beforeUpload={(file) => {
                                 if (!isConnected) {
-                                    changeConnect()
+                                    connectWallet()
                                     return false || Upload.LIST_IGNORE
                                 }
                                 UploadAvatarProps.beforeUpload(file)

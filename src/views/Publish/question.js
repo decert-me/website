@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Divider, Empty } from "antd";
 import { ConfirmClearQuest } from "@/components/CustomConfirm/ConfirmClearQuest";
@@ -8,7 +8,7 @@ import ModalAddCodeQuestion from "@/components/CustomModal/ModalAddCodeQuestion"
 import { importFile } from "@/utils/importFile";
 import ModalAddOpenQuestion from "@/components/CustomModal/ModalAddOpenQuestion";
 import { useAddress } from "@/hooks/useAddress";
-import { changeConnect } from "@/utils/redux";
+import MyContext from "@/provider/context";
 
 
 
@@ -23,6 +23,7 @@ export default function PublishQuestion({
     
     const { t } = useTranslation(["publish", "translation"]);
     const { isConnected } = useAddress();
+    const { connectWallet } = useContext(MyContext);
     let [showAddQs, setShowAddQs] = useState(false);        //  添加普通题
     let [showAddCodeQs, setShowAddCodeQs] = useState(false);    //  添加编程题
     let [showAddOpenQs, setShowAddOpenQs] = useState(false);    //  添加编程题
@@ -147,7 +148,7 @@ export default function PublishQuestion({
                     type="link" 
                     onClick={() => {
                         if (!isConnected) {
-                            changeConnect();
+                            connectWallet();
                             return
                         }
                         clearSelect();

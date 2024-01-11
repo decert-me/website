@@ -7,8 +7,6 @@ import AppFooter from "./AppFooter";
 import { useContext, useEffect, useState } from "react";
 import { ClearStorage } from "@/utils/ClearStorage";
 import { useDebounceEffect, useRequest, useUpdateEffect } from "ahooks";
-import CustomSigner from "@/redux/CustomSigner";
-import CustomConnect from "@/redux/CustomConnect";
 import MyContext from "@/provider/context";
 import store, { hideCustomSigner, showCustomSigner } from "@/redux/store";
 import { useAddress } from "@/hooks/useAddress";
@@ -80,30 +78,17 @@ export default function DefaultLayout(params) {
     });
 
     const headerStyle = {
-        width: "100%",
         height: isMobile ? "60px" : "82px",
         lineHeight: isMobile ? "60px" : '82px',
-        padding: 0,
-        backgroundColor: 'rgba(0,0,0,0)',
-        position: "fixed",
-        color: "#fff",
-        zIndex: 999,
         display: headerHide ? "none" : "block"
     };
       
     const contentStyle = {
         backgroundColor: (location.pathname.indexOf("user") !== -1 && location.pathname.indexOf("user/edit") === -1) ? '#F9F9F9' : "#fff",
-        overflow: "hidden",
-        display: "grid",
         gridTemplateRows: `minmax(${vh}vh, auto)`,
     };
       
     const footerStyle = {
-        height: "auto",
-        padding: 0,
-        textAlign: 'center',
-        color: '#fff',
-        backgroundColor: '#000',
         display: footerHide ? "none" : "block",
     };
 
@@ -168,31 +153,31 @@ export default function DefaultLayout(params) {
             // close()
         }
 
-        if (addr === null && address) { 
-            // 未登录  ====>  登录
-            localStorage.setItem("decert.address", address);
-            await sign()
-            // isCert(path, 'reload');
-        }else if (addr && address && addr !== address){
-            // 已登陆  ====>  切换账号
-            // 判断是否在当前网站
-            if (!document.hidden) {
-                localStorage.setItem("decert.address", address);
-                // ClearStorage();
-                // isClaim(path);
-                // // isCert(path, 'toggle');
-                // isExplore(path);
-                // isUser(path);
-                await sign()
-            }else{
-                if (walletType === "evm") {
-                    await disconnectAsync();
-                }else{
-                    await wallet.adapter.disconnect()
-                }
-                ClearStorage();
-            }
-        }
+        // if (addr === null && address) { 
+        //     // 未登录  ====>  登录
+        //     localStorage.setItem("decert.address", address);
+        //     await sign()
+        //     // isCert(path, 'reload');
+        // }else if (addr && address && addr !== address){
+        //     // 已登陆  ====>  切换账号
+        //     // 判断是否在当前网站
+        //     if (!document.hidden) {
+        //         localStorage.setItem("decert.address", address);
+        //         // ClearStorage();
+        //         // isClaim(path);
+        //         // // isCert(path, 'toggle');
+        //         // isExplore(path);
+        //         // isUser(path);
+        //         await sign()
+        //     }else{
+        //         if (walletType === "evm") {
+        //             await disconnectAsync();
+        //         }else{
+        //             await wallet.adapter.disconnect()
+        //         }
+        //         ClearStorage();
+        //     }
+        // }
     }
 
     const { run } = useRequest(verifySignUpType, {
@@ -270,16 +255,14 @@ export default function DefaultLayout(params) {
         <>
             {contextHolder}
             <Layout className={isMobile ? "Mobile" : ""}>
-                <Header style={headerStyle}>
+                <Header style={headerStyle} id="layout-header">
                     <AppHeader isMobile={isMobile} user={user} />
                 </Header>
-                <Content style={contentStyle}>
+                <Content style={contentStyle} id="layout-content">
                     { outlet }
                 </Content>
-                <CustomSigner store={store} />
-                <CustomConnect store={store} />
                 <CustomDisconnect store={store} />
-                <Footer style={footerStyle}>
+                <Footer style={footerStyle} id="layout-footer">
                     <AppFooter isMobile={isMobile} />
                 </Footer>
             </Layout>

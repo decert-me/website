@@ -1,17 +1,18 @@
 import { Button } from "antd";
-import { useEffect } from "react";
+import { useContext, useEffect } from "react";
 import { NickName } from "../../utils/NickName";
 import { useRequest } from "ahooks";
 import { useTranslation } from "react-i18next";
-import { changeConnect } from "@/utils/redux";
 import { useAddress } from "@/hooks/useAddress";
 import { useConnect } from "wagmi";
+import MyContext from "@/provider/context";
 
 
 export default function CustomConnect(props) {
     
     const { t } = useTranslation(["claim"]);
     const { step, setStep, isMobile } = props;
+    const { connectWallet } = useContext(MyContext);
     const { address } = useAddress();
     const { connect, connectors } = useConnect({
         onError(err){
@@ -24,7 +25,7 @@ export default function CustomConnect(props) {
             connect({connector: connectors[1]})
             return
         }
-        changeConnect()
+        connectWallet();
     }
     
     const { run } = useRequest(() => {
