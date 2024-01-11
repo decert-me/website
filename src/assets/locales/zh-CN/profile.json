@@ -27,6 +27,8 @@
     },
 
     "bind": "绑定",
+    "Discord": "Discord 已绑定",
+    "WeChat": "微信已绑定",
     "isBind": "已绑定",
     "bindZk": "绑定 DID",
     "bindWx": "绑定 Wechat",

@@ -32,7 +32,7 @@ export default function CustomSocial(props) {
                         <div className="icon img">
                             <img src={list[e].img} alt="" />
                         </div>
-                        {list[e].title} {t("isBind")}
+                        {t(list[e].title)}
                     </div>    
                 )
             }
