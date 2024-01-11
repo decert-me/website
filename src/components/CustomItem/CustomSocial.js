@@ -1,9 +1,19 @@
+import { useTranslation } from "react-i18next";
+
 export default function CustomSocial(props) {
     
+    const { t } = useTranslation(["profile"]);
     const { socials } = props;
 
     const list = {
-        discord: require("@/assets/images/img/discord-block.png")
+        discord: {
+            img: require("@/assets/images/img/discord-block.png"),
+            title: "Discord"
+        },
+        wechat: {
+            img: require("@/assets/images/img/wechat.png"),
+            title: "WeChat"
+        }
     }
     // [
     //     { 
@@ -20,11 +30,9 @@ export default function CustomSocial(props) {
                 Object.keys(socials).map((e, i) => 
                     <div className="social-item" key={i}>
                         <div className="icon img">
-                            <img src={list[e]} alt="" />
+                            <img src={list[e].img} alt="" />
                         </div>
-                        {
-                            socials[e].username
-                        }
+                        {t(list[e].title)}
                     </div>    
                 )
             }

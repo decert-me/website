@@ -27,6 +27,8 @@
     },
 
     "bind": "bind",
+    "Discord": "Discord connected",
+    "WeChat": "WeChat connected",
     "isBind": "Connected",
     "bindZk": "Bind DID",
     "bindWx": "Bind Wechat",
