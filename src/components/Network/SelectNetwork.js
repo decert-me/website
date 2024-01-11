@@ -59,12 +59,7 @@ export default function SelectNetwork(params) {
                 className='lang custom-btn'
                 id='hover-btn-line'
             >
-                {
-                    chain?.img ?
-                    <img src={chain.img} alt="" />
-                    :
-                    "error"
-                }
+                <img src={chain?.img ? chain.img : require("@/assets/images/img/net-error.png")} alt="" />
             </Button>
         </Dropdown>
     )
