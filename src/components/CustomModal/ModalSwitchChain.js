@@ -1,8 +1,8 @@
-import { Modal, Spin } from "antd";
-import { LoadingOutlined } from '@ant-design/icons';
+import { Modal } from "antd";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import { useUpdateEffect } from "ahooks";
 import { useState } from "react";
+import CustomLoad from "../CustomLoad";
 
 
 
@@ -65,18 +65,7 @@ export default function ModalSwitchChain(props) {
                             </p>
                             {
                                 isLoading && pendingChainId == chain.id &&
-                                <Spin
-                                    indicator={
-                                    <LoadingOutlined
-                                        style={{
-                                            fontSize: 24,
-                                            color: "#8F5A35",
-                                            marginLeft: "15px"
-                                        }}
-                                        spin
-                                    />
-                                    }
-                                />
+                                <CustomLoad />
                             }
                         </div>
                     </div>
