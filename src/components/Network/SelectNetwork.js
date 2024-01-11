@@ -29,7 +29,7 @@ export default function SelectNetwork(params) {
                             isLoading && pendingChainId == item?.id ?
                             <CustomLoad ml="10px" fs="14px" />
                             :
-                            <div className={`item-status ${chain.id === item?.id ? "item-status-active" : ""}`}></div>
+                            <div className={`item-status ${chain?.id === item?.id ? "item-status-active" : ""}`}></div>
                         }
                     </div>
                 )
