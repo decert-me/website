@@ -16,8 +16,7 @@ export default function ModalSwitchChain(props) {
     async function switchChain(chainId) {
         try {
             await switchNetworkAsync(chainId);
-            handleCancel();
-            setShowModal(false);
+            hideModal();
         } catch (error) {
             console.log("switchChain Error: ", error);
         }
@@ -29,9 +28,13 @@ export default function ModalSwitchChain(props) {
         if (selectChain.length === 0) {
             setShowModal(true);
         }else{
-            handleCancel();
-            setShowModal(false);
+            hideModal();
         }
+    }
+
+    function hideModal() {
+        handleCancel();
+        setShowModal(false); 
     }
 
     useUpdateEffect(() => {
@@ -43,7 +46,7 @@ export default function ModalSwitchChain(props) {
         <Modal
             className="ModalConnect" 
             open={showModal}
-            onCancel={handleCancel}
+            onCancel={hideModal}
             footer={null}
             width={500}
             centered

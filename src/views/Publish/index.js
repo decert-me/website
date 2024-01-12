@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
-import { useWalletClient } from "wagmi";
+import { useNetwork, useWalletClient } from "wagmi";
 import "@/assets/styles/view-style/publish.scss"
 import "@/assets/styles/component-style";
 
@@ -33,8 +33,9 @@ export default function Publish(params) {
     const isFirstRender = useRef(true);     //  是否是第一次渲染
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
-    const { connectWallet } = useContext(MyContext);
+    const { connectWallet, switchChain } = useContext(MyContext);
     const { data: signer } = useWalletClient();
+    const { chain, chains } = useNetwork();
     const { isConnected, walletType, address } = useAddress();
     const { t } = useTranslation(["publish", "translation"]);
     const { encode, decode } = Encryption();
@@ -125,6 +126,12 @@ export default function Publish(params) {
         if (!isConnected || walletType !== "evm") {
             walletType !== "evm" && message.info(t("translation:message.info.solana-publish"));
             connectWallet()
+            return
+        }
+        // 是否是正确的链
+        const selectChain = chains.filter(item => item.id === chain?.id);
+        if (selectChain.length === 0) {
+            switchChain();
             return
         }
 
