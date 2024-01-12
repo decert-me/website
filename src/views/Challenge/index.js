@@ -30,6 +30,7 @@ export default function Challenge(params) {
     const navigateTo = useNavigate();
     const childRef = useRef(null);
     const { isMobile, connectWallet } = useContext(MyContext);
+    const [loading, setLoading] = useState(false);
     let [detail, setDetail] = useState();
     let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
@@ -240,11 +241,13 @@ export default function Challenge(params) {
         // 本地 ==> 存储答案 ==> 跳转领取页
         saveAnswer()
         // 提交答题次数给后端
+        setLoading(true);
         await submitChallenge({
             token_id: detail.tokenId,
             answer: JSON.stringify(answers),
             uri: detail.uri
         })
+        setLoading(false);
         message.success(t("translation:message.success.submit.info"));
         navigateTo(`/claim/${detail.tokenId}`)
     }
@@ -517,6 +520,7 @@ export default function Challenge(params) {
                         onChange={checkPage} 
                         openAnswers={openAnswers}
                         submit={submit}
+                        loading={loading}
                         isPreview={cacheDetail ? true : false}
                     />
                 </>

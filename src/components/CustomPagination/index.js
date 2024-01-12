@@ -10,11 +10,11 @@ import { modalNotice } from '@/utils/modalNotice';
 
 export default function CustomPagination(props) {
 
-    const { page, total, onChange, submit, openAnswers, type, isPreview } = props;
+    const { page, total, onChange, submit, openAnswers, type, isPreview, loading } = props;
 
     const { t } = useTranslation(["translation", "explore"]);
     
-    function goSubmit() {
+    async function goSubmit() {
         if (isPreview) {
             Modal.warning({
                 ...modalNotice({
@@ -61,7 +61,7 @@ export default function CustomPagination(props) {
                     />
                 </div>
                 <div className="content-right">
-                    <Button className='submit' id="hover-btn-full" onClick={() => goSubmit()}>
+                    <Button loading={loading} className='submit' id="hover-btn-full" onClick={() => goSubmit()}>
                         {t("btn-submit")}
                     </Button>
                 </div>
