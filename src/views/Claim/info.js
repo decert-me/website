@@ -178,7 +178,7 @@ export default function ClaimInfo({answerInfo, detail}) {
                                     alt="" 
                                 />
                                 {
-                                    (walletType === "evm" || detail.claimed) &&
+                                    detail.claimed &&
                                     <a href={`${walletType === "evm" ? openseaLink+"/"+detail.tokenId : openseaSolanaLink+"/"+detail.nft_address }`} className="icon" target="_blank">
                                         <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                                     </a>

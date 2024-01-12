@@ -17,7 +17,7 @@ import { questMinterABI } from "@/config/abi/721/QuestMinter";
 export const usePublish = (props) => {
 
     const isDev = process.env.REACT_APP_IS_DEV;
-    const { jsonHash, recommend, changeId } = props;
+    const { jsonHash, recommend, changeId, clear } = props;
     const { ipfsPath, maxUint32 } = constans();
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
@@ -98,6 +98,8 @@ export const usePublish = (props) => {
             })
             .catch(err => {
                 console.log(err);
+                clear();
+                setIsOk(false);
             })
         }else{
             createQuest({ args: [args, sign] })
@@ -115,6 +117,8 @@ export const usePublish = (props) => {
             .catch(err => {
                 console.log(err);
                 setIsLoading(false);
+                clear();
+                setIsOk(false);
             })
         }
     }

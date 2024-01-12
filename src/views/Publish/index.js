@@ -60,7 +60,12 @@ export default function Publish(params) {
     const { publish, isLoading, isOk, transactionLoading } = usePublish({
         jsonHash: publishObj?.jsonHash, 
         recommend: publishObj?.recommend,
-        changeId: isEdit
+        changeId: isEdit,
+        clear: () => {
+            setPublishObj(null);
+            isWrite = false;
+            setIsWrite(isWrite);
+        }
     });
 
     // json => ipfs
