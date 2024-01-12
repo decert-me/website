@@ -224,7 +224,7 @@ export default function Challenge(params) {
                         uri: detail.uri
                     }).then(res => {
                         message.success(t("translation:message.success.submit.info"));
-                        navigateTo(`/claim/${detail.tokenId}`)
+                        navigateTo(`/claim/${detail.uuid}`)
                     })
                 },
                 content: (
@@ -246,7 +246,7 @@ export default function Challenge(params) {
             uri: detail.uri
         })
         message.success(t("translation:message.success.submit.info"));
-        navigateTo(`/claim/${detail.tokenId}`)
+        navigateTo(`/claim/${detail.uuid}`)
     }
 
     // 获取预览内容
