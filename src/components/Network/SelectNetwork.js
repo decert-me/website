@@ -1,13 +1,13 @@
-import { CHAINS, CHAINS_DEV } from "@/config/chains";
 import { Button, Dropdown } from "antd";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import CustomLoad from "../CustomLoad";
 import "./index.scss";
+import { CHAINS, CHAINS_TESTNET } from "@/config";
 
 
 export default function SelectNetwork(params) {
 
-    const chains = process.env.REACT_APP_IS_DEV ? CHAINS_DEV : CHAINS;
+    const chains = process.env.REACT_APP_IS_DEV ? CHAINS_TESTNET : CHAINS;
     const { chain } = useNetwork();
     const { pendingChainId, switchNetworkAsync, isLoading } = useSwitchNetwork()
 

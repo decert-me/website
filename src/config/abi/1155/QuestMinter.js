@@ -1,4 +1,4 @@
-module.exports = [
+export const questMinterABI = [
     {
         inputs: [
             { internalType: "address", name: "badge_", type: "address" },

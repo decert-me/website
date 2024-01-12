@@ -4,13 +4,6 @@ import { useConnect, useDisconnect, useWalletClient } from "wagmi";
 import { useState } from "react";
 import store from "@/redux/store";
 import MyContext from "./context";
-import { getContract } from "@wagmi/core";
-import {
-    BadgeAbi,
-    BadgeAddr,
-    QuestMinterAbi,
-    QuestMinterAddr,
-} from "@/contracts";
 import ModalConnect from "@/components/CustomModal/ModalConnect";
 import { submitClaimable } from "@/utils/submitClaimable";
 import { authLoginSign, getLoginMsg } from "@/request/api/public";
@@ -33,16 +26,6 @@ export default function MyProvider(props) {
     const [selectedWallet, setSelectedWallet] = useState(null);
     let [isMobile, setIsMobile] = useState();
     let [user, setUser] = useState();
-
-    const questContract = getContract({
-        address: QuestMinterAddr,
-        abi: QuestMinterAbi,
-    });
-
-    const badgeContract = getContract({
-        address: BadgeAddr,
-        abi: BadgeAbi,
-    });
 
     function handleMobileChange() {
         isMobile = store.getState().isMobile;
@@ -150,8 +133,6 @@ export default function MyProvider(props) {
             value={{
                 isMobile,
                 user,
-                questContract,
-                badgeContract,
                 connectWallet,
                 callSignature,
                 switchChain: () => setIsSwitchChain(true)

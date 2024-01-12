@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
-import { useNetwork, useWalletClient } from "wagmi";
+import { useNetwork, useSwitchNetwork, useWalletClient } from "wagmi";
 import "@/assets/styles/view-style/publish.scss"
 import "@/assets/styles/component-style";
 
@@ -20,12 +20,14 @@ import { usePublish } from "@/hooks/usePublish";
 import { clearDataBase, getDataBase, saveCache } from "@/utils/saveCache";
 import store, { setChallenge } from "@/redux/store";
 import MyContext from "@/provider/context";
+import { CHAINS, CHAINS_TESTNET } from "@/config";
 
 
 const { TextArea } = Input;
 
 export default function Publish(params) {
     
+    const chainList = process.env.REACT_APP_IS_DEV ? CHAINS_TESTNET : CHAINS;
     const navigateTo = useNavigate();
     const location = useLocation();
     const dataBase = "publish";
@@ -33,9 +35,10 @@ export default function Publish(params) {
     const isFirstRender = useRef(true);     //  是否是第一次渲染
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
-    const { connectWallet, switchChain } = useContext(MyContext);
+    const { connectWallet } = useContext(MyContext);
     const { data: signer } = useWalletClient();
-    const { chain, chains } = useNetwork();
+    const { chain } = useNetwork();
+    const { switchNetworkAsync } = useSwitchNetwork()
     const { isConnected, walletType, address } = useAddress();
     const { t } = useTranslation(["publish", "translation"]);
     const { encode, decode } = Encryption();
@@ -91,7 +94,7 @@ export default function Publish(params) {
             if (JSON.stringify(publishObj.recommend) !== JSON.stringify(changeItem.recommend)) {
                 // 修改了recommend ==> 发起修改recommend请求
                 let result = await modifyRecommend({
-                    token_id: Number(isEdit),
+                    token_id: isEdit,
                     recommend: publishObj.recommend
                 }).then(res => {
                     res?.message && message.success(res?.message);
@@ -129,9 +132,15 @@ export default function Publish(params) {
             return
         }
         // 是否是正确的链
-        const selectChain = chains.filter(item => item.id === chain?.id);
-        if (selectChain.length === 0) {
-            switchChain();
+        if (
+            (values?.chain && chain.id !== values.chain) ||
+            (changeItem?.chain_id && chain.id !== changeItem.chain_id)
+        ) {
+            try {
+                await switchNetworkAsync(values.chain || changeItem.chain_id);
+            } catch (error) {
+                console.log("switchChain Error: ", error);
+            }
             return
         }
 
@@ -244,7 +253,7 @@ export default function Publish(params) {
             return
         }
         // 获取对应challenge信息
-        const { title, description, recommend, metadata, quest_data, uri, uuid } = data;
+        const { title, description, recommend, metadata, quest_data, uri, uuid, chain_id } = data;
         const answers = JSON.parse(decode(data.quest_data.answers))
         const editor = isSerializedString(recommend);
         const questions = quest_data.questions.map((e,i) => {
@@ -276,6 +285,7 @@ export default function Publish(params) {
             uri,
             startTime: quest_data.startTime,
             uuid,
+            chain_id
         }
         setChangeItem({...changeItem});
         //  redux中是否已经有缓存
@@ -527,7 +537,7 @@ export default function Publish(params) {
                                 controls={false}
                                 precision={0}
                                 style={{
-                                    width: "150px"
+                                    width: "100%"
                                 }}
                             />
                         </Form.Item>
@@ -539,7 +549,7 @@ export default function Publish(params) {
                                 value={sumScore} 
                                 disabled
                                 style={{
-                                    width: "150px"
+                                    width: "200px"
                                 }}
                             />
                         </div>
@@ -573,6 +583,35 @@ export default function Publish(params) {
                                 ]}
                             />
                         </Form.Item>
+
+                        {/* 选择发布链 */}
+                        {
+                            !changeItem &&
+                            <Form.Item 
+                                label="链"
+                                name="chain"
+                                rules={[{
+                                    required: true,
+                                    message: t("inner.rule.score"),
+                                }]}
+                            >
+                                <Select
+                                    options={
+                                        chainList.map(item => {
+                                            return {
+                                                value: item.id,
+                                                label: (
+                                                    <div style={{display: "flex", alignItems: "center", gap: "20px"}}>
+                                                        <img src={item?.img} alt="" style={{width: "18px", height: "18px"}} />
+                                                        <p>{item?.name}</p>
+                                                    </div>
+                                                )
+                                            }
+                                        })
+                                    }
+                                />
+                            </Form.Item>
+                        }
                     </div>
 
                     {/* 提交按钮 */}

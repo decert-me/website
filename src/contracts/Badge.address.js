@@ -1,1 +1,0 @@
-module.exports = process.env.REACT_APP_CONTRACT_BADGE_ADDRESS;
