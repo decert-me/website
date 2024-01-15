@@ -9,9 +9,11 @@ import { convertTime } from "@/utils/convert";
 import MyContext from '@/provider/context';
 import { useContext } from 'react';
 import { Tooltip, message } from 'antd';
+import { CONTRACT_ADDR_721, CONTRACT_ADDR_721_TESTNET } from '@/config';
 
 export default function ChallengeItem(props) {
     
+    const isDev = process.env.REACT_APP_IS_DEV;
     const { info, profile } = props;
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
@@ -122,6 +124,13 @@ export default function ChallengeItem(props) {
                     display: "flex",
                     gap: "5px"
                 }}>
+                    {/* 链 */}
+                    {
+                        profile && (profile.walletType === "evm" || info.claimed) &&
+                        <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
+                            <img src={isDev ? CONTRACT_ADDR_721_TESTNET[info.chain_id]?.img: CONTRACT_ADDR_721[info.chain_id].img} alt="" />
+                        </div>
+                    }
                     {/* opensea */}
                     {
                         profile && (profile.walletType === "evm" || info.claimed) &&

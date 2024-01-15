@@ -2,19 +2,19 @@ import { optimism, polygon } from "viem/chains";
 
 
 export const CHAINS = [
-    {...polygon, img: require("@/assets/images/img/net-Polygon.png"), alias: "Polygon"}, 
-    {...optimism, img: require("@/assets/images/img/net-Optimism.png"), alias: "Optimism"}
+    {...polygon, img: require("@/assets/images/img/net-Polygon.png")}, 
+    {...optimism, img: require("@/assets/images/img/net-Optimism.png")}
 ]
 
 export const CONTRACT_ADDR_721 = {
-    Optimism: {
+    10: {
         Badge: "",
         Quest: "",
         BadgeMinter: "",
         QuestMinter: "",
         QuestMetadata: ""
     },
-    Polygon: {
+    137: {
         Badge: "",
         Quest: "",
         BadgeMinter: "",
@@ -24,6 +24,7 @@ export const CONTRACT_ADDR_721 = {
 }
 
 export const CONTRACT_ADDR_1155 = {
+    id: 137,
     Badge: "",
     Quest: "",
     QuestMinter: ""

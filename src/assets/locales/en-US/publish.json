@@ -8,6 +8,7 @@
         "title": "Title",
         "desc": "Description",
         "img": "Image",
+        "network": "Network",
         "add": "Add choice question or blank filling question",
         "add-code": "Add programming quiz",
         "add-open": "Add open-ended question",

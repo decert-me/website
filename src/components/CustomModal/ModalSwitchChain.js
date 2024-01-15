@@ -2,6 +2,7 @@ import { Modal } from "antd";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import { useUpdateEffect } from "ahooks";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import CustomLoad from "../CustomLoad";
 
 
@@ -9,6 +10,7 @@ import CustomLoad from "../CustomLoad";
 export default function ModalSwitchChain(props) {
 
     const { isModalOpen, handleCancel } = props;
+    const { t } = useTranslation();
     const { chain } = useNetwork();
     const { chains, pendingChainId, switchNetworkAsync, isLoading } = useSwitchNetwork()
     const [showModal, setShowModal] = useState(false);
@@ -50,7 +52,7 @@ export default function ModalSwitchChain(props) {
             footer={null}
             width={500}
             centered
-            title="Select a Network"
+            title={t("selectNet")}
         >
             {
                 chains.map(chain => (

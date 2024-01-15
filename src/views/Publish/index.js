@@ -593,7 +593,7 @@ export default function Publish(params) {
                         {
                             !changeItem &&
                             <Form.Item 
-                                label="链"
+                                label={t("inner.network")}
                                 name="chain"
                                 rules={[{
                                     required: true,

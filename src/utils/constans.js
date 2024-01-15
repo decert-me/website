@@ -1,6 +1,6 @@
 import { maxUint192 } from "viem";
 
-export const constans = (contractType) => {
+export const constans = () => {
 
     const chains = {
         80001: {
@@ -66,7 +66,7 @@ export const constans = (contractType) => {
     const imgPath = process.env.REACT_APP_BASE_URL;
 
     const openseaBase = isDev ? "https://testnets.opensea.io" : "https://opensea.io";
-    const openseaLink = `${openseaBase}/assets/${chains[defaultChainId]?.opensea || chains[defaultChainId].name}`;
+    const openseaLink = `${openseaBase}/assets`;
     const openseaSolanaLink = `${openseaBase}/assets/solana`;
 
     const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY || "https://nftscan.mypinata.cloud/ipfs/"

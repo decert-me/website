@@ -1,5 +1,6 @@
 import { Button, Modal } from "antd";
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 import { useNetwork } from "wagmi";
 
 
@@ -7,6 +8,7 @@ import { useNetwork } from "wagmi";
 function ModalSelectChain(props) {
 
     const { isModalOpen, handleCancel, airpost } = props;
+    const { t } = useTranslation();
     const { chains } = useNetwork();
     const [selectChain, setSelectChain] = useState("");
 
@@ -23,7 +25,7 @@ function ModalSelectChain(props) {
             footer={null}
             width={400}
             centered
-            title="Select a Network"
+            title={t("selectNet")}
         >
             {
                 chains.map(chain => (
@@ -51,7 +53,7 @@ function ModalSelectChain(props) {
                 id="hover-btn-full" 
                 className="airpost-btn" 
                 onClick={() => goAirpost()}>
-                确认领取</Button>
+                {t("btn-confirm")}</Button>
         </Modal>
     )
 }

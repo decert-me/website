@@ -24,7 +24,7 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
 
     let [createQuestHash, setCreateQuestHash] = useState();
     const { writeAsync: createQuest } = useContractWrite({
-        address: isDev ? CONTRACT_ADDR_721_TESTNET[chain?.alias].QuestMinter : CONTRACT_ADDR_721[chain?.alias].QuestMinter,
+        address: isDev ? CONTRACT_ADDR_721_TESTNET[chain?.id].QuestMinter : CONTRACT_ADDR_721[chain?.alias].QuestMinter,
         abi: questMinterABI,
         functionName: 'createQuest',
     })

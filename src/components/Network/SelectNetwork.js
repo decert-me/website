@@ -3,11 +3,13 @@ import { useNetwork, useSwitchNetwork } from "wagmi";
 import CustomLoad from "../CustomLoad";
 import "./index.scss";
 import { CHAINS, CHAINS_TESTNET } from "@/config";
+import { useTranslation } from "react-i18next";
 
 
 export default function SelectNetwork(params) {
 
     const chains = process.env.REACT_APP_IS_DEV ? CHAINS_TESTNET : CHAINS;
+    const { t } = useTranslation();
     const { chain } = useNetwork();
     const { pendingChainId, switchNetworkAsync, isLoading } = useSwitchNetwork()
 
@@ -15,7 +17,7 @@ export default function SelectNetwork(params) {
     const items = [{
         key: "1",
         type: 'group',
-        label: "Select a Network",
+        label: t("selectNet"),
         children: chains.map(item => {
             return {
                 key: item?.id,
