@@ -597,7 +597,7 @@ export default function Publish(params) {
                                 name="chain"
                                 rules={[{
                                     required: true,
-                                    message: t("inner.rule.score"),
+                                    message: t("inner.rule.network"),
                                 }]}
                             >
                                 <Select

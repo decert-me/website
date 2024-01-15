@@ -66,6 +66,7 @@
             "title": "Please enter the title",
             "ques2": "Please fill in the title",
             "desc": "Please fill in the description",
+            "network": "Please set a network",
             "img": "Please upload image",
             "score": "Please set a passing score",
             "ques-score": "Please enter quiz score",
