@@ -116,8 +116,9 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                 justifyContent: "center",
                 cursor: step === 2 && status === 0 && "pointer"
             }}
-            onClick={() => setIsModalNetwork(true)}
-            
+            onClick={() => {
+                step === 2 && status === 0 && setIsModalNetwork(true)
+            }}
         >
             {
                 step < 2 ? 
