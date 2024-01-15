@@ -32,12 +32,31 @@ export default function ChallengeItem(props) {
         }
     }
 
-    const toOpensea = (event) => {
+    // const toOpensea = (event) => {
+    //     event.stopPropagation();
+    //     if (profile.walletType === "evm") {
+    //         window.open(`${openseaLink}/${info.tokenId}`,'_blank');
+    //     }else{
+    //         window.open(`${openseaSolanaLink}/${info.nft_address}`,'_blank');
+    //     }
+    // }
+
+    // opensea跳转链接
+    function toOpensea(event) {
         event.stopPropagation();
-        if (profile.walletType === "evm") {
-            window.open(`${openseaLink}/${info.tokenId}`,'_blank');
+        const { version, nft_address, badge_chain_id, badge_token_id } = info;
+        let evmLink = openseaLink;
+        const solanaLink = `${openseaSolanaLink}/${nft_address}`;
+        if (version == 1) {
+            evmLink = `${evmLink}/${isDev ? "mumbai" : "matic"}/${isDev ? CONTRACT_ADDR_1155_TESTNET?.QuestMinter : CONTRACT_ADDR_1155?.QuestMinter}/${badge_token_id}`;
         }else{
-            window.open(`${openseaSolanaLink}/${info.nft_address}`,'_blank');
+            const chainAddr = isDev ? CONTRACT_ADDR_721_TESTNET[badge_chain_id] : CONTRACT_ADDR_721[badge_chain_id];
+            evmLink = `${evmLink}/${chainAddr.opensea}/${chainAddr.Badge}/${badge_token_id}`
+        }
+        if (profile.walletType === "evm") {
+            window.open(evmLink,'_blank');
+        }else{
+            window.open(solanaLink,'_blank');
         }
     }
 
@@ -126,14 +145,14 @@ export default function ChallengeItem(props) {
                 }}>
                     {/* 链 */}
                     {
-                        profile && (profile.walletType === "evm" || info.claimed) &&
+                        profile && (profile.walletType === "evm" && (info.claim_status === 1 || info.claim_status === 3)) &&
                         <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
                             <img src={isDev ? CONTRACT_ADDR_721_TESTNET[info.chain_id]?.img: CONTRACT_ADDR_721[info.chain_id].img} alt="" />
                         </div>
                     }
                     {/* opensea */}
                     {
-                        profile && (profile.walletType === "evm" || info.claimed) &&
+                        profile && (profile.walletType === "evm" && (info.claim_status === 1 || info.claim_status === 3)) &&
                         <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
                             <img src={require("@/assets/images/icon/user-opensea.png")} alt="" />
                         </div>
