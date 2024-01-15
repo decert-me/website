@@ -178,7 +178,7 @@ export default function Challenge(params) {
 
     const saveAnswer = () => {
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
-        cache[detail.tokenId] = answers;
+        cache[detail.uuid] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
     }
 
@@ -360,7 +360,7 @@ export default function Challenge(params) {
     function changeAnswersValue(value, index) {
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
         answers[index] = value;
-        cache[detail.tokenId] = answers;
+        cache[detail.uuid] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
         setAnswers([...answers]);
     }
@@ -470,12 +470,12 @@ export default function Challenge(params) {
                     <div className='quest-title' style={{display: "flex"}}>
                             <div className={`title ${cacheDetail ? "line" : ""}`}>
                                 {
-                                    detail?.tokenId ? 
+                                    detail?.uuid ? 
                                     <>
-                                        <Link to={`/quests/${detail.tokenId}`}>
+                                        <Link to={`/quests/${detail.uuid}`}>
                                             <ArrowLeftOutlined />
                                         </Link>
-                                        <Link to={`/quests/${detail.tokenId}`}>
+                                        <Link to={`/quests/${detail.uuid}`}>
                                             <p>{detail?.title}</p>
                                         </Link>
                                     </>
