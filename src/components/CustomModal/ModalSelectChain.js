@@ -52,6 +52,7 @@ function ModalSelectChain(props) {
             <Button 
                 id="hover-btn-full" 
                 className="airpost-btn" 
+                disabled={!selectChain}
                 onClick={() => goAirpost()}>
                 {t("btn-confirm")}</Button>
         </Modal>
