@@ -190,6 +190,10 @@ export default function AppHeader({ isMobile, user }) {
                     isMobile ? 
                     <div className='nav-right'>
                         {
+                            isConnected && 
+                            <SelectNetwork />
+                        }
+                        {
                             isConnected && !isOpenM &&
                                 <Dropdown
                                     placement="bottomRight" 

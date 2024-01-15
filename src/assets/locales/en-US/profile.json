@@ -38,7 +38,7 @@
     "key": "My Keys",
 
     "edit": {
-        "title": "Complete personal information",
+        "title": "Edit profile",
         "upload": "Upload picture",
         "uploading": "Uploading",
         "error": "Sorry, Challenger claimed SBT，cannot modify content.",
