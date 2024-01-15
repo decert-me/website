@@ -11,18 +11,13 @@ import { useConnect } from "wagmi";
 
 export default function StepConnect({setStep, step}) {
 
-    const { isMobile, connectWallet } = useContext(MyContext);
+    const { isMobile, connectWallet, connectMobile } = useContext(MyContext);
     const { t } = useTranslation(["claim"]);
     const { address } = useAddress();
-    const { connect, connectors } = useConnect({
-        onError(err){
-            console.log(err);
-        }
-    })
 
     const openModalConnect = () => {
         if (isMobile) {
-            connect({connector: connectors[1]})
+            connectMobile();
             return
         }
         connectWallet()

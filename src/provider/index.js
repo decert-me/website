@@ -52,7 +52,7 @@ export default function MyProvider(props) {
                 sign_hash = await signer.signMessage({ account: address, message })
             } else {
                 const msg = new TextEncoder().encode(message);
-                const arr = await adapter.signMessage(msg);
+                const arr = await adapter?.signMessage(msg);
                 sign_hash = bs58.encode(arr);
             }
             // 校验签名
@@ -66,7 +66,7 @@ export default function MyProvider(props) {
             if (walletType === "evm") {
                 await disconnectAsync();
             }else{
-                await adapter.disconnect()
+                await adapter?.disconnect()
             }
             ClearStorage();
             throw new Error(error);
@@ -84,6 +84,29 @@ export default function MyProvider(props) {
             content: null,
             footer: null
         });
+    }
+
+    async function connectMobile(func) {
+        try {
+            let walletType = "evm";
+            await connectAsync({ connector: connectors[1] });
+
+            const { data: signer } = await refetch()
+            const address = localStorage.getItem("decert.address");
+            // 连接成功发起签名
+            await callSignature(address, walletType, null, signer);
+            Modal.destroyAll();
+
+            // 某些需要在成功连接后执行的方法
+            func?.goEdit && await func.goEdit(address);
+
+            // 检测是否需要切换链
+            setIsSwitchChain(true);
+        } catch (error) {
+            Modal.destroyAll();
+            console.log("error ===>", error);
+            return;
+        }
     }
 
     async function connectWallet(func) {
@@ -111,7 +134,6 @@ export default function MyProvider(props) {
             }
             const { data: signer } = await refetch()
             const address = localStorage.getItem("decert.address");
-
             // 连接成功发起签名
             await callSignature(address, walletType, adapter, signer);
             Modal.destroyAll();
@@ -134,6 +156,7 @@ export default function MyProvider(props) {
                 isMobile,
                 user,
                 connectWallet,
+                connectMobile,
                 callSignature,
                 switchChain: () => setIsSwitchChain(true)
             }}

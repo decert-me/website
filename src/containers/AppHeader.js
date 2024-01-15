@@ -19,7 +19,7 @@ import SelectNetwork from '@/components/Network/SelectNetwork';
 export default function AppHeader({ isMobile, user }) {
     
     const { address, walletType, isConnected } = useAddress();
-    const { connectWallet } = useContext(MyContext);
+    const { connectWallet, connectMobile } = useContext(MyContext);
     const { wallet } = useWallet();
     const { imgPath } = constans();
     const { t } = useTranslation();
@@ -94,8 +94,8 @@ export default function AppHeader({ isMobile, user }) {
 
     const openModal = async() => {
         if (isMobile) {
-            connect({connector: connectors[1]})
-            setIsOpenM(!isOpenM)
+            connectMobile();
+            setIsOpenM(!isOpenM);
             return
         }
         connectWallet();

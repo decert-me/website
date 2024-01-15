@@ -29,7 +29,7 @@ export default function Challenge(params) {
     const location = useLocation();
     const navigateTo = useNavigate();
     const childRef = useRef(null);
-    const { isMobile, connectWallet } = useContext(MyContext);
+    const { isMobile, connectWallet, connectMobile } = useContext(MyContext);
     let [detail, setDetail] = useState();
     let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
@@ -38,11 +38,6 @@ export default function Challenge(params) {
     let [isPreview, setIsPreview] = useState();
     let [realAnswer, setRealAnswer] = useState([]);
     let [questKey, setQuestKey] = useState(100);
-    const { connect, connectors } = useConnect({
-        onError(err){
-            console.log(err);
-        }
-    })
 
     let [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -190,7 +185,7 @@ export default function Challenge(params) {
         // 有开放题的同时未登录
         if (isOpenQuest.length !== 0 && !isConnected) {
             if (isMobile) {
-                connect({connector: connectors[1]})
+                connectMobile();
             }else{
                 connectWallet();
             }
