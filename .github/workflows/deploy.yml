@@ -38,7 +38,8 @@ jobs:
         host: ${{ secrets.SERVER_HOST }}
         username: ${{ secrets.SERVER_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.SERVER_PORT }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        port: 22
         source: "*.zip"
         target: ${{ secrets.DIRECTORY }}
 
@@ -48,8 +49,9 @@ jobs:
         host: ${{ secrets.SERVER_HOST }}
         username: ${{ secrets.SERVER_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
-        port: ${{ secrets.DIRECTORY }}
+        passphrase: ${{ secrets.PASSPHRASE }}
+        port: 22
         script: |
-          cd /path/to/server/directory
+          cd ${{ secrets.DIRECTORY }}
           unzip -o build-$ZIP_FILENAME.zip
           mv build-$ZIP_FILENAME build
