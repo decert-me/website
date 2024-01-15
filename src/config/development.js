@@ -1,10 +1,9 @@
-import { optimismSepolia, polygonMumbai, goerli } from "viem/chains";
+import { optimismSepolia, polygonMumbai } from "viem/chains";
 
 
 export const CHAINS_TESTNET = [
     {...polygonMumbai, img: require("@/assets/images/img/net-Polygon.png")}, 
     {...optimismSepolia, img: require("@/assets/images/img/net-Optimism.png")},
-    {...goerli, img: require("@/assets/images/img/net-Optimism.png")},
 ]
 
 export const CONTRACT_ADDR_721_TESTNET = {
@@ -25,15 +24,6 @@ export const CONTRACT_ADDR_721_TESTNET = {
         BadgeMinter: "0xbb279dDffC1b03FC4a6c8eB601C1CbdaA46e89d4",
         QuestMinter: "0x1B47FC1F3EF613e44C8BfF9e4ca1357380d411A7",
         QuestMetadata: "0x5dd7b77e51b65ad1818374F3b66Fc19f82154f87"
-    },
-    5: {
-        opensea: "goerli",
-        img: require("@/assets/images/img/net-Optimism.png"),
-        Badge: "0x66C54CB10Ef3d038aaBA2Ac06d2c25B326be8142",
-        Quest: "0x020ef5c45182019A5aa48A8dD089a3712ad491b4",
-        BadgeMinter: "0x78C777D7ACd55Ea7b1aBB6b3e8193cd984ede878",
-        QuestMinter: "0x47F288c61E65Ab6B9EE21f1D65Ef185545234417",
-        QuestMetadata: "0xF27F285F332D2879810e0F284a8Cb7fC42973331"
     }
 }
 
