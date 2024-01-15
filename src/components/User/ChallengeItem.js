@@ -147,7 +147,7 @@ export default function ChallengeItem(props) {
                     {
                         profile && (profile.walletType === "evm" && (info.claim_status === 1 || info.claim_status === 3)) &&
                         <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
-                            <img src={isDev ? CONTRACT_ADDR_721_TESTNET[info.chain_id]?.img: CONTRACT_ADDR_721[info.chain_id].img} alt="" />
+                            <img src={isDev ? CONTRACT_ADDR_721_TESTNET[info.badge_chain_id]?.img: CONTRACT_ADDR_721[info.badge_chain_id].img} alt="" />
                         </div>
                     }
                     {/* opensea */}
