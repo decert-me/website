@@ -27,6 +27,7 @@ jobs:
       run: |
         # Create a filename with date-time suffix
         ZIP_FILENAME=build-$(date +'%Y%m%d-%H%M%S').zip
+        echo "ZIP_FILENAME=$ZIP_FILENAME" >> $GITHUB_ENV
         echo "Creating zip $ZIP_FILENAME"
         # Replace 'build/' with the directory of your build artifacts
         zip -r $ZIP_FILENAME build/
@@ -53,5 +54,5 @@ jobs:
         port: 22
         script: |
           cd ${{ secrets.DIRECTORY }}
-          unzip -o build-$ZIP_FILENAME.zip
-          mv build-$ZIP_FILENAME build
+          unzip -o ${{ env.ZIP_FILENAME }}
+          mv ${{ env.ZIP_FILENAME }} build
