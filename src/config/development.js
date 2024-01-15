@@ -2,8 +2,8 @@ import { optimismSepolia, polygonMumbai } from "viem/chains";
 
 
 export const CHAINS_TESTNET = [
-    {...polygonMumbai, img: require("@/assets/images/img/net-Polygon.png")}, 
     {...optimismSepolia, img: require("@/assets/images/img/net-Optimism.png")},
+    {...polygonMumbai, img: require("@/assets/images/img/net-Polygon.png")}, 
 ]
 
 export const CONTRACT_ADDR_721_TESTNET = {
