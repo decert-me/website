@@ -98,6 +98,7 @@ export const usePublish = (props) => {
             })
             .catch(err => {
                 console.log(err);
+                setIsLoading(false);
                 clear();
                 setIsOk(false);
             })
