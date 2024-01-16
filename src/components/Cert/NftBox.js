@@ -11,7 +11,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function NftBox(props) {
     
-    const { info, changeNftStatus, isMe, options } = props;
+    const { info, changeNftStatus, isMe, options, showZk } = props;
     const { t } = useTranslation(["cert"]);
     const { walletType } = useAddress();
 
@@ -47,7 +47,7 @@ export default function NftBox(props) {
                                 }
                                 {
                                     info.claim_status === 2 &&
-                                    <div className="badge badge-chain" style={{cursor: "auto"}}>
+                                    <div className="badge badge-chain" style={{cursor: "pointer"}} onClick={() => showZk({address: info.owner, token_id: info.token_id})}>
                                         <img src={require("@/assets/images/icon/user-zk.png")} alt="" key={item.value} />
                                     </div>
                                 }

@@ -12,7 +12,7 @@ import { Tooltip, message } from 'antd';
 
 export default function ChallengeItem(props) {
     
-    const { info, profile } = props;
+    const { info, profile, showZk } = props;
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
@@ -132,8 +132,16 @@ export default function ChallengeItem(props) {
                     {/* zk */}
                     {
                         profile && (info.claim_status === 2 || info.claim_status === 3) &&
-                        <Tooltip title={t("zkTool")}>
-                            <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
+                        <Tooltip 
+                            trigger="hover"
+                            title={t("zkTool")}
+                        >
+                            <div 
+                            className={`opensea img ${isMobile ? "show" : ""}`}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                showZk({address: profile.address, token_id: info.tokenId})
+                            }}>
                                 <img src={require("@/assets/images/icon/user-zk.png")} alt="" />
                             </div>
                         </Tooltip>
