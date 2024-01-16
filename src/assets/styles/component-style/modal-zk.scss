@@ -146,10 +146,16 @@
 
 .ModalZkCard-mobile{
     .ant-modal-content{
-        max-height: calc(100vh - 20vh);
+        max-height: 80vh;
         overflow-y: scroll;
-        padding: 1.4375rem !important;
-        padding-bottom: 6.5625rem !important;
+        // padding: 1.4375rem !important;
+        padding: 0 !important;
+        padding-top: 1.4375rem !important;
+    }
+    .zkCard-content{
+        flex-direction: column;
+        // margin: 0 1.4375rem;
+        padding: 0 1.4375rem;
     }
     .card{
         height: 11rem;
@@ -169,9 +175,6 @@
     }
     .zkCard-item{
         padding: 1.0625rem;
-        &:last-child{
-            display: none;
-        }
     }
     .params-list{
         border-radius: .4813rem;
@@ -190,9 +193,10 @@
         }
     }
     .zkCard-btns{
-        width: calc(100vw - 2rem);
-        position: fixed;
-        left: 1rem;
-        bottom: 10vh;
+        // width: calc(100vw - 16px);
+        position: sticky;
+        bottom: 0;
+        left: -16px;
+        // bottom: 10vh;
     }
 }
