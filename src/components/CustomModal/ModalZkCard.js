@@ -67,7 +67,7 @@ export default function ModalZkCard(props) {
                             <p className="desc">{info?.Title}</p>
                         </div>
                         <div className="params">
-                            <p className="label">Uuid</p>
+                            <p className="label">Challenge ID</p>
                             <div className="desc">{info?.ChallengeID}</div>
                         </div>
                         <div className="params row">
