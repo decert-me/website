@@ -2,6 +2,7 @@ import { Radio } from 'antd';
 import { useEffect, useRef, useState } from 'react';
 import CustomViewer from '../CustomViewer';
 import { useTranslation } from 'react-i18next';
+import { shuffle } from '@/utils/shullfe';
 
 export default function CustomRadio(props) {
     
@@ -35,7 +36,7 @@ export default function CustomRadio(props) {
                 value: i
             })
         })
-        items = arr;
+        items = shuffle(arr);
         setItems([...items]);
     },[options])
 
