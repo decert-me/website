@@ -112,7 +112,7 @@ export default function ClaimInfo({answerInfo, detail}) {
                                {
                                     hasDID ? 
                                     <p className="zk">
-                                        {t("getZk")}
+                                        {t("getZk")}&nbsp;
                                         <span onClick={() => window.open(`/user/${address}?type=0&status=2`, "_blank")}>{t("getZkLink")}</span>
                                     </p>
                                     :
