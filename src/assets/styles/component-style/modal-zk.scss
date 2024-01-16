@@ -149,7 +149,10 @@
         max-height: calc(100vh - 20vh);
         overflow-y: scroll;
         padding: 1.4375rem !important;
-        padding-bottom: 6.5625rem !important;
+        padding-bottom: 7.8125rem !important;
+    }
+    .zkCard-content{
+        flex-direction: column;
     }
     .card{
         height: 11rem;
@@ -169,9 +172,6 @@
     }
     .zkCard-item{
         padding: 1.0625rem;
-        &:last-child{
-            display: none;
-        }
     }
     .params-list{
         border-radius: .4813rem;
