@@ -12,7 +12,7 @@ import { useTranslation } from 'react-i18next';
 export default function NftBox(props) {
     
     const { info, changeNftStatus, isMe, options } = props;
-    const { t } = useTranslation(["cert"]);
+    const { t } = useTranslation(["cert", "profile"]);
     const { walletType } = useAddress();
 
     return (
@@ -47,9 +47,11 @@ export default function NftBox(props) {
                                 }
                                 {
                                     info.claim_status === 2 &&
-                                    <div className="badge badge-chain" style={{cursor: "auto"}}>
-                                        <img src={require("@/assets/images/icon/user-zk.png")} alt="" key={item.value} />
-                                    </div>
+                                    <Tooltip title={t("profile:zkTool")}>
+                                        <div className="badge badge-chain" style={{cursor: "auto"}}>
+                                            <img src={require("@/assets/images/icon/user-zk.png")} alt="" key={item.value} />
+                                        </div>
+                                    </Tooltip>
                                 }
                                 {
                                     isMe && walletType === "evm" &&

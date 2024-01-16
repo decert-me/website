@@ -68,7 +68,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
             const cache = JSON.parse(localStorage.getItem('decert.cache'));
             delete cache[detail.tokenId];
             if (cache?.claimable) {
-                cache.claimable = cache.claimable.filter(obj => obj.token_id != detail.tokenId);
+                cache.claimable = cache.claimable.filter(obj => obj.uuid != detail.uuid);
             }
             localStorage.setItem("decert.cache", JSON.stringify(cache));
             setCacheIsClaim(true);
