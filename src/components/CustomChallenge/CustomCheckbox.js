@@ -13,7 +13,8 @@ export default function CustomCheckbox(props) {
 
 
     const onChange = (checkedValues) => {
-        value(checkedValues,"multiple_response")
+        checkedValues.sort((a, b) => a - b);
+        value(checkedValues,"multiple_response");
     };
 
     function changeDom(params) {
