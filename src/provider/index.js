@@ -120,7 +120,12 @@ export default function MyProvider(props) {
             // 通过返回的钱包名开始连接
             switch (wallet) {
                 case "MetaMask":
-                    await connectAsync({ connector: connectors[0] });
+                    console.log(connectors);
+                    await connectAsync({ connector: connectors[0] })
+                    .catch(err => {
+                        !connectors[0].ready && window.open("https://metamask.io/download/", "_blank")
+                        throw new Error(err);
+                    })
                     break;
                 case "Solana Wallet":
                     walletType = "solana";

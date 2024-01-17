@@ -44,3 +44,12 @@ export const generateCard = (data) => {
         data
     })
 }
+
+// 获取DID证书信息
+export const getDidCardInfo = (data) => {
+    return serviceAxios({
+        url: `/v1/zcloak/getDidCardInfo?address=${data.address}&token_id=${data.token_id}`,
+        method: "get",
+        data
+    })
+}

@@ -9,12 +9,12 @@ import { convertTime } from "@/utils/convert";
 import MyContext from '@/provider/context';
 import { useContext } from 'react';
 import { Tooltip, message } from 'antd';
-import { CONTRACT_ADDR_721, CONTRACT_ADDR_721_TESTNET } from '@/config';
+import { CONTRACT_ADDR_1155, CONTRACT_ADDR_1155_TESTNET, CONTRACT_ADDR_721, CONTRACT_ADDR_721_TESTNET } from '@/config';
 
 export default function ChallengeItem(props) {
     
     const isDev = process.env.REACT_APP_IS_DEV;
-    const { info, profile } = props;
+    const { info, profile, showZk } = props;
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
@@ -160,8 +160,16 @@ export default function ChallengeItem(props) {
                     {/* zk */}
                     {
                         profile && (info.claim_status === 2 || info.claim_status === 3) &&
-                        <Tooltip title={t("zkTool")}>
-                            <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
+                        <Tooltip 
+                            trigger={isMobile ? "focus" : "hover"}
+                            title={t("zkTool")}
+                        >
+                            <div 
+                            className={`opensea img ${isMobile ? "show" : ""}`}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                showZk({address: profile.address, token_id: info.tokenId})
+                            }}>
                                 <img src={require("@/assets/images/icon/user-zk.png")} alt="" />
                             </div>
                         </Tooltip>

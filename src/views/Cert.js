@@ -16,6 +16,7 @@ import CustomLoading from "@/components/CustomLoading";
 import InfiniteScroll from "@/components/InfiniteScroll";
 import { covertChain } from "@/utils/convert";
 import { useAddress } from "@/hooks/useAddress";
+import ModalZkCard from "@/components/CustomModal/ModalZkCard";
 
 export default function Cert(params) {
     
@@ -26,6 +27,7 @@ export default function Cert(params) {
     const { isMobile } = useContext(MyContext);
 
     const [isModalOpen, setIsModalOpen] = useState(false);
+    let [zkModalOpen, setZkModalOpen] = useState();
     let [isList, setIsList] = useState(true);
     let [isMe, setIsMe] = useState();
     let [list, setList] = useState([]);
@@ -239,6 +241,11 @@ export default function Cert(params) {
 
     return (
         <div className="Cert">
+            <ModalZkCard 
+                isMobile={isMobile}
+                isModalOpen={zkModalOpen}
+                handleCancel={() => setZkModalOpen(null)}
+            />
             {
                 (!isMobile || !isList) &&
                 <div className="provide">
@@ -309,10 +316,15 @@ export default function Cert(params) {
                                         list.map(e => 
                                             <NftBox 
                                                 info={e}
+                                                isMobile={isMobile}
                                                 changeNftStatus={changeNftStatus}
                                                 key={e.id}
                                                 isMe={isMe}
                                                 options={options}
+                                                showZk={(info) => {
+                                                    zkModalOpen = info;
+                                                    setZkModalOpen({...zkModalOpen});
+                                                }}
                                             />                            
                                         )
                                     }

@@ -2,6 +2,7 @@ import "./modal-connect.scss"
 import "./modal-answers.scss"
 import "./modal-loading.scss"
 import "./modal-airdrop.scss"
+import "./modal-zk.scss"
 
 import "./user/challenge.scss"
 import "./user/pagination.scss"

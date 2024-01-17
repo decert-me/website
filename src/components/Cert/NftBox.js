@@ -3,15 +3,14 @@ import { ipfsToImg } from '@/utils/IpfsToImg';
 import {
     EyeOutlined,
     EyeInvisibleOutlined,
-    MoreOutlined
   } from '@ant-design/icons';
-import { Dropdown, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 
 export default function NftBox(props) {
     
-    const { info, changeNftStatus, isMe, options } = props;
+    const { isMobile, info, changeNftStatus, isMe, options, showZk } = props;
     const { t } = useTranslation(["cert", "profile"]);
     const { walletType } = useAddress();
 
@@ -47,8 +46,10 @@ export default function NftBox(props) {
                                 }
                                 {
                                     info.claim_status === 2 &&
-                                    <Tooltip title={t("profile:zkTool")}>
-                                        <div className="badge badge-chain" style={{cursor: "auto"}}>
+                                    <Tooltip 
+                                        trigger={isMobile ? "focus" : "hover"}
+                                        title={t("profile:zkTool")}>
+                                        <div className="badge badge-chain" style={{cursor: "pointer"}} onClick={() => showZk({address: info.owner, token_id: info.token_id})}>
                                             <img src={require("@/assets/images/icon/user-zk.png")} alt="" key={item.value} />
                                         </div>
                                     </Tooltip>

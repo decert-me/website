@@ -21,6 +21,7 @@ import { constans } from "@/utils/constans";
 import { useAddress } from "@/hooks/useAddress";
 import { getAddressDid, getKeyFileSignature } from "@/request/api/zk";
 import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
+import ModalZkCard from "@/components/CustomModal/ModalZkCard";
 
 
 export default function User(props) {
@@ -31,12 +32,13 @@ export default function User(props) {
     const [queryParameters] = useSearchParams();
     const searchStatus = queryParameters.get("status");
     const searchType = queryParameters.get("type");
-    const { user } = useContext(MyContext);
+    const { user, isMobile } = useContext(MyContext);
     const { address, walletType } = useAddress();
     const location = useLocation();
     const { address: paramsAddr } = useParams();
     const [didID, setDidID] = useState("");
     const [isKeysFile, setIsKeysFile] = useState(false);
+    let [zkModalOpen, setZkModalOpen] = useState();
     let [account, setAccount] = useState();
     let [isMe, setIsMe] = useState();
     let [info, setInfo] = useState();
@@ -227,6 +229,11 @@ export default function User(props) {
 
     return (
         <>
+        <ModalZkCard
+            isMobile={isMobile}
+            isModalOpen={zkModalOpen}
+            handleCancel={() => setZkModalOpen(null)}
+        />
         <Modal
             title={t("profile:key")}
             className="modal-keys"
@@ -357,6 +364,10 @@ export default function User(props) {
                                 checkType,
                                 address,
                                 walletType
+                            }}
+                            showZk={(info) => {
+                                zkModalOpen = info;
+                                setZkModalOpen({...zkModalOpen});
                             }}
                         />
                     )

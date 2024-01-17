@@ -17,7 +17,6 @@ import CustomPagination from '../../components/CustomPagination';
 import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 import { useAddress } from "@/hooks/useAddress";
 import { useUpdateEffect } from "ahooks";
-import { useConnect } from "wagmi";
 import MyContext from "@/provider/context";
 
 export default function Challenge(params) {
@@ -30,6 +29,7 @@ export default function Challenge(params) {
     const navigateTo = useNavigate();
     const childRef = useRef(null);
     const { isMobile, connectWallet, connectMobile } = useContext(MyContext);
+    const [loading, setLoading] = useState(false);
     let [detail, setDetail] = useState();
     let [cacheDetail, setCacheDetail] = useState();
     let [answers, setAnswers] = useState([]);
@@ -235,11 +235,13 @@ export default function Challenge(params) {
         // 本地 ==> 存储答案 ==> 跳转领取页
         saveAnswer()
         // 提交答题次数给后端
+        setLoading(true);
         await submitChallenge({
             token_id: detail.tokenId,
             answer: JSON.stringify(answers),
             uri: detail.uri
         })
+        setLoading(false);
         message.success(t("translation:message.success.submit.info"));
         navigateTo(`/claim/${detail.uuid}`)
     }
@@ -512,6 +514,7 @@ export default function Challenge(params) {
                         onChange={checkPage} 
                         openAnswers={openAnswers}
                         submit={submit}
+                        loading={loading}
                         isPreview={cacheDetail ? true : false}
                     />
                 </>
