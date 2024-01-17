@@ -1,40 +1,32 @@
-import { useContractWrite, useNetwork, useSwitchNetwork, useWaitForTransaction } from "wagmi";
+import { useContractWrite, useNetwork, useWaitForTransaction } from "wagmi";
 import { useVerifyToken } from "./useVerifyToken";
 import { constans } from "@/utils/constans";
 import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
-import { useContext, useEffect, useState } from "react";
+import { useState } from "react";
 import { addQuests, submitHash } from "@/request/api/public";
 import { useUpdateEffect } from "ahooks";
 import { message } from "antd";
-import MyContext from "@/provider/context";
+import { questMinterABI } from "@/config/abi/721/QuestMinter";
+import { CONTRACT_ADDR_721, CONTRACT_ADDR_721_TESTNET } from "@/config";
 
 
 export default function usePublishCollection({ detail, jsonHash, collectionId }) {
     
-    const { questContract } = useContext(MyContext);
+    const isDev = process.env.REACT_APP_IS_DEV;
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
-    const { defaultChainId, maxUint32, maxUint192 } = constans();
+    const { maxUint32, maxUint192 } = constans();
     const [isLoading, setIsLoading] = useState(false);
     const [isOk, setIsOk] = useState(false);
 
-    let [isSwitch, setIsSwitch] = useState(false);
     let [createQuestHash, setCreateQuestHash] = useState();
     const { writeAsync: createQuest } = useContractWrite({
-        ...questContract,
+        address: isDev ? CONTRACT_ADDR_721_TESTNET[chain?.id]?.QuestMinter : CONTRACT_ADDR_721[chain?.alias]?.QuestMinter,
+        abi: questMinterABI,
         functionName: 'createQuest',
-    })
-    const { switchNetwork } = useSwitchNetwork({
-        chainId: defaultChainId,
-        onError() {
-            setIsSwitch(false);
-        },
-        onSuccess() {
-            setIsSwitch(false);
-        }
     })
     const { isLoading: transactionLoading } = useWaitForTransaction({
         hash: createQuestHash?.hash,
@@ -70,7 +62,8 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
             description: detail.description,
             'start_ts': '0', 
             'end_ts': maxUint32.toString(), 
-            'supply': maxUint192.toString(),       
+            'supply': maxUint192.toString(),
+            chain_id: chain.id
         })
         const questData = {
             'startTs': 0, 
@@ -95,11 +88,6 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
         if (!hasHash) {
             return
         }
-        // 链不同
-        if (chain.id != defaultChainId) {
-            setIsSwitch(true);
-            return
-        }
 
         setIsLoading(true);
         jsonHash && await processingData();
@@ -108,12 +96,6 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
     useUpdateEffect(() => {
         detail && setIsOk(true)
     },[detail])
-
-    useEffect(() => {
-        if (isSwitch && switchNetwork) {
-            switchNetwork()
-        }
-    },[switchNetwork, isSwitch])
 
     useUpdateEffect(() => {
         if (transactionLoading) {

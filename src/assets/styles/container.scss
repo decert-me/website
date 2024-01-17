@@ -46,18 +46,16 @@
     .nav-left, .nav-right{
         display: flex;
         align-items: center;
+        gap: 63px;
     }
     .nav-left > a{
-        margin-left: 63px;
         font-size: 17px;
         font-weight: 400;
-        &:nth-child(2){
-            margin-left: 73px;
-        }
     }
     .logo{
         width: 146px;
         height: 100%;
+        margin-right: 10px;
         display: flex;
         align-items: center;
         justify-content: space-between;
@@ -71,8 +69,9 @@
         }
     }
     .nav-right{
-        width: calc(214px);
+        width: auto;
         display: flex;
+        gap: 20px;
         justify-content: space-between;
     }
     .custom-btn{
@@ -84,6 +83,10 @@
         display: flex;
         justify-content: center;
         align-items: center;
+        img{
+            width: 26px;
+            height: 26px;
+        }
     }
     .lang{
         font-size: 18px;

@@ -316,6 +316,7 @@ export default function Cert(params) {
                                         list.map(e => 
                                             <NftBox 
                                                 info={e}
+                                                isMobile={isMobile}
                                                 changeNftStatus={changeNftStatus}
                                                 key={e.id}
                                                 isMe={isMe}

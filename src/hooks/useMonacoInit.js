@@ -10,14 +10,15 @@ export function useMonacoInit(props) {
     const { language } = props;
 
     const monaco = useMonaco();
-    const { languages } = monacoLanguage();
+    const { tokens, config } = monacoLanguage();
 
     function solidityInit() {
         if (!monaco) {
             return
         }
         monaco.languages.register({ id: 'Solidity' });
-        monaco.languages.setMonarchTokensProvider('Solidity', languages.solidity);
+        monaco.languages.setMonarchTokensProvider('Solidity', tokens.solidity);
+        monaco.languages.setLanguageConfiguration('Solidity', config.solidity);
     }
 
     async function languageInit() {

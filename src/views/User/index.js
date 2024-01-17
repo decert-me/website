@@ -110,6 +110,9 @@ export default function User(props) {
     const toggleStatus = (key) => {
         checkStatus = key;
         setCheckStatus(checkStatus);
+        pageConfig.page = 1;
+        setPageConfig({...pageConfig});
+        console.log(pageConfig);
         navigateTo(`${location.pathname}?type=${checkType}&status=${key}`);
     }
 

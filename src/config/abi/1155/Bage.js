@@ -1,4 +1,4 @@
-module.exports = [
+export const bageABI = [
     {
         inputs: [{ internalType: "string", name: "uri_", type: "string" }],
         stateMutability: "nonpayable",

@@ -12,9 +12,11 @@ import { useContext, useEffect, useState } from "react";
 import axios from "axios";
 import CustomIcon from "@/components/CustomIcon";
 import i18n from 'i18next';
+import { Encryption } from "@/utils/Encryption";
 
 export default function Index(params) {
     
+    const { decode } = Encryption();
     const navigateTo = useNavigate();
     const { t } = useTranslation();
     const { isMobile } = useContext(MyContext);
@@ -69,6 +71,7 @@ export default function Index(params) {
 
     useEffect(() => {
         getContributor();
+        console.log(decode("C1gJamIDYBp2G2Jvb1gSGj1JLFthBVxPG1p7OA=="));
     },[])
 
     useEffect(() => {

@@ -1,4 +1,5 @@
 import ModalAirdrop from "@/components/CustomModal/ModalAirdrop";
+import ModalSelectChain from "@/components/CustomModal/ModalSelectChain";
 import { hasClaimed, wechatShare } from "@/request/api/public";
 import { useRequest } from "ahooks";
 import { useEffect, useState } from "react";
@@ -8,8 +9,10 @@ import { useTranslation } from "react-i18next";
 
 export default function StepClaim({step, setStep, detail, isMobile, answerInfo}) {
     
+
     const { t } = useTranslation(["claim", "translation"]);
     const { score, passingPercent, isPass, answers } = answerInfo
+    const [isModalNetwork, setIsModalNetwork] = useState(false);
     let [status, setStatus] = useState(0);
     let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
     let [cacheIsClaim, setCacheIsClaim] = useState();
@@ -25,22 +28,24 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
         pollingWhenHidden: false
     });
 
-    async function airpost(params) {
+    async function airpost(chainId) {
+        
         if (step === 2 && status === 0) {
             // 弹出框
             setIsModalAirdropOpen(true);
             status = 1;
             setStatus(status);
-            await runAsync();
+            await runAsync(chainId);
             run();
         }
     }
 
-    async function shareWechat(params) {
+    async function shareWechat(chainId) {
         const data = {
-            tokenId: Number(detail.tokenId),
+            tokenId: detail.tokenId,
             score: score,
-            answer: JSON.stringify(answers)
+            answer: JSON.stringify(answers),
+            chain_id: chainId
         }
         // const {version} = detail
 
@@ -63,7 +68,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
             const cache = JSON.parse(localStorage.getItem('decert.cache'));
             delete cache[detail.tokenId];
             if (cache?.claimable) {
-                cache.claimable = cache.claimable.filter(obj => obj.token_id != detail.tokenId);
+                cache.claimable = cache.claimable.filter(obj => obj.uuid != detail.uuid);
             }
             localStorage.setItem("decert.cache", JSON.stringify(cache));
             setCacheIsClaim(true);
@@ -101,13 +106,19 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                 status={status}
             />
         }
+        <ModalSelectChain
+            isModalOpen={isModalNetwork} 
+            handleCancel={() => setIsModalNetwork(false)} 
+            airpost={airpost}
+        />
         <div className={`CustomBox ${step === 2 ? "checked-step" : ""} step-box ${detail.claimed||cacheIsClaim ? "isClaim" : ""}`}
             style={{
                 justifyContent: "center",
                 cursor: step === 2 && status === 0 && "pointer"
             }}
-            onClick={() => airpost()}
-            
+            onClick={() => {
+                step === 2 && status === 0 && setIsModalNetwork(true)
+            }}
         >
             {
                 step < 2 ? 

@@ -126,16 +126,16 @@ export default function Claim(params) {
         const cache = JSON.parse(localStorage.getItem("decert.cache"));
         let claimable = cache?.claimable ? cache.claimable : [];
         if (answerInfo.isPass) {
-            if (!claimable.some(item => item.token_id == questId)) {
+            if (!claimable.some(item => item.uuid == detail.uuid)) {
                 const add_ts = Math.floor(Date.now() / 1000);
                 claimable.push({
-                    token_id: Number(questId),
+                    uuid: detail.uuid,
                     add_ts
                 })
             }
         }else{
             // 未通过，查找cache中是否有该缓存，有则清除
-            claimable = claimable.filter(e => e.token_id !== Number(questId));
+            claimable = claimable.filter(e => e.uuid !== detail.uuid);
         }
         cache.claimable = claimable;
         localStorage.setItem("decert.cache", JSON.stringify(cache))

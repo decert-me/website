@@ -67,11 +67,11 @@ export default function Explore(params) {
             if (claimable && claimable.length > 0) {
                 challenges.map(e => {
                     claimable.map((ele,index) => {
-                        if (e.tokenId == ele.token_id && e.claimed) {
+                        if (e.uuid == ele.uuid && e.claimed) {
                             const newCache = JSON.parse(cache);
                             newCache.claimable.splice(index,1);
                             localStorage.setItem("decert.cache", JSON.stringify(newCache));
-                        }else if (e.tokenId == ele.token_id) {
+                        }else if (e.uuid == ele.uuid) {
                             e.claimable = true;
                         }
                     })

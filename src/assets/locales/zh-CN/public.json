@@ -40,9 +40,12 @@
             "contributor": "贡献者"
         }
     },
+    
+    "selectNet": "选择网络",
     "progress": "进度",
     "share": "分享",
     "share-text": "微信扫码绑定",
+
     "btn-share": "复制分享链接",
     "btn-submit": "提交",
     "btn-add": "添加",

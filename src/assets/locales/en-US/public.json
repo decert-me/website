@@ -41,9 +41,12 @@
             "contributor": "Contributors"
         }
     },
+
+    "selectNet": "Select a Network",
     "progress": "progress",
     "share": "Share",
     "share-text": "Scan in WeChat to bind",
+
     "btn-share": "Copy link",
     "btn-submit": "Submit",
     "btn-add": "Add",

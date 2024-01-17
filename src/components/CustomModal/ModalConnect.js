@@ -41,7 +41,7 @@ export default function ModalConnect(props) {
             {
                 wallets.map(wallet => (
                     wallet.name === "Solana Wallet" ?
-                    <WalletMultiButton>
+                    <WalletMultiButton key={wallet.name}>
                         <div className="wallet-item" onClick={() => handleCancel()}>
                             <div className="item">
                                 <div className="img">

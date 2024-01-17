@@ -1,7 +1,6 @@
-import BadgeAddress from "@/contracts/Badge.address";
 import { maxUint192 } from "viem";
 
-export const constans = (contractType) => {
+export const constans = () => {
 
     const chains = {
         80001: {
@@ -61,15 +60,13 @@ export const constans = (contractType) => {
     const isDev = process.env.REACT_APP_IS_DEV;
     const defaultChainId = Number(process.env.REACT_APP_CHAIN_ID) || (isDev ? 80001 : 137);
 
-    const questAddr = process.env.REACT_APP_CONTRACT_QUEST_ADDRESS;
-
     const maxUint32 = Math.pow(2,32) - 1;
     const bigInt192 = BigInt(maxUint192);
 
     const imgPath = process.env.REACT_APP_BASE_URL;
 
     const openseaBase = isDev ? "https://testnets.opensea.io" : "https://opensea.io";
-    const openseaLink = `${openseaBase}/assets/${chains[defaultChainId]?.opensea || chains[defaultChainId].name}/${contractType ? questAddr : BadgeAddress}`;
+    const openseaLink = `${openseaBase}/assets`;
     const openseaSolanaLink = `${openseaBase}/assets/solana`;
 
     const ipfsGateway = process.env.REACT_APP_IPFS_GATEWAY || "https://nftscan.mypinata.cloud/ipfs/"

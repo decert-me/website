@@ -18,7 +18,7 @@ export default function Paginations(props) {
                 className="Pagination" 
                 pageSize={10}
                 total={pageConfig.total} 
-                defaultCurrent={1}
+                current={pageConfig.page}
                 onChange={togglePage} 
             /> 
     )

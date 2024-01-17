@@ -10,11 +10,13 @@ import { useAddress } from "@/hooks/useAddress";
 import { constans } from "@/utils/constans";
 import { generateCard, getAddressDid } from "@/request/api/zk";
 import { useRequest } from "ahooks";
+import { CONTRACT_ADDR_1155, CONTRACT_ADDR_1155_TESTNET, CONTRACT_ADDR_721, CONTRACT_ADDR_721_TESTNET } from "@/config";
 
 
 
 export default function ClaimInfo({answerInfo, detail}) {
     
+    const isDev = process.env.REACT_APP_IS_DEV;
     const navigateTo = useNavigate();
     const { t } = useTranslation(["claim", "translation"]);
     const { walletType, isConnected, address } = useAddress();
@@ -36,6 +38,20 @@ export default function ClaimInfo({answerInfo, detail}) {
             cancel();
             setPollingCount(0);
         }
+    }
+
+    // opensea跳转链接
+    function openseaHref() {
+        const { version, nft_address, badge_chain_id, badge_token_id } = detail;
+        let evmLink = openseaLink;
+        const solanaLink = `${openseaSolanaLink}/${nft_address}`;
+        if (version == 1) {
+            evmLink = `${evmLink}/${isDev ? "mumbai" : "matic"}/${isDev ? CONTRACT_ADDR_1155_TESTNET?.QuestMinter : CONTRACT_ADDR_1155?.QuestMinter}/${badge_token_id}`;
+        }else{
+            const chainAddr = isDev ? CONTRACT_ADDR_721_TESTNET[badge_chain_id] : CONTRACT_ADDR_721[badge_chain_id];
+            evmLink = `${evmLink}/${chainAddr.opensea}/${chainAddr.Badge}/${badge_token_id}`
+        }
+        return walletType === "evm" ? evmLink : solanaLink
     }
 
     // 完善资料
@@ -96,7 +112,7 @@ export default function ClaimInfo({answerInfo, detail}) {
                                {
                                     hasDID ? 
                                     <p className="zk">
-                                        {t("getZk")}
+                                        {t("getZk")}&nbsp;
                                         <span onClick={() => window.open(`/user/${address}?type=0&status=2`, "_blank")}>{t("getZkLink")}</span>
                                     </p>
                                     :
@@ -178,8 +194,12 @@ export default function ClaimInfo({answerInfo, detail}) {
                                     alt="" 
                                 />
                                 {
-                                    (walletType === "evm" || detail.claimed) &&
-                                    <a href={`${walletType === "evm" ? openseaLink+"/"+detail.tokenId : openseaSolanaLink+"/"+detail.nft_address }`} className="icon" target="_blank">
+                                    (detail.claimed) &&
+                                    <a 
+                                        href={openseaHref()} 
+                                        className="icon" 
+                                        target="_blank"
+                                    >
                                         <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                                     </a>
                                 }
