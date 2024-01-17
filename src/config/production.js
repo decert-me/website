@@ -7,14 +7,18 @@ export const CHAINS = [
 ]
 
 export const CONTRACT_ADDR_721 = {
+    // optimism
     10: {
+        opensea: "optimism",
         Badge: "",
         Quest: "",
         BadgeMinter: "",
         QuestMinter: "",
         QuestMetadata: ""
     },
+    // polygon
     137: {
+        opensea: "matic",
         Badge: "",
         Quest: "",
         BadgeMinter: "",
@@ -24,6 +28,7 @@ export const CONTRACT_ADDR_721 = {
 }
 
 export const CONTRACT_ADDR_1155 = {
+    opensea: "matic",
     id: 137,
     Badge: "",
     Quest: "",

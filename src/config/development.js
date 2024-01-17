@@ -7,6 +7,7 @@ export const CHAINS_TESTNET = [
 ]
 
 export const CONTRACT_ADDR_721_TESTNET = {
+    // optimism-sepolia
     11155420: {
         opensea: "optimism-sepolia",
         img: require("@/assets/images/img/net-Optimism.png"),
@@ -16,6 +17,7 @@ export const CONTRACT_ADDR_721_TESTNET = {
         QuestMinter: "0xdD07B70B610B350cDac4DcE74D59342c8a6F1A17",
         QuestMetadata: "0xC15875D3987CB6d92208a4625e0034D77195B73b"
     },
+    // mumbai
     80001: {
         opensea: "mumbai",
         img: require("@/assets/images/img/net-Polygon.png"),
