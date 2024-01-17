@@ -29,14 +29,7 @@ export default function CustomRadio(props) {
     }
 
     useEffect(() => {
-        let arr = [];
-        options.map((e,i) => {
-            arr.push({
-                label: e,
-                value: i
-            })
-        })
-        items = shuffle(arr);
+        items = options;
         setItems([...items]);
     },[options])
 

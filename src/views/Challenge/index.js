@@ -18,6 +18,7 @@ import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 import { useAddress } from "@/hooks/useAddress";
 import { useUpdateEffect } from "ahooks";
 import MyContext from "@/provider/context";
+import { shuffle } from "@/utils/shullfe";
 
 export default function Challenge(params) {
 
@@ -69,6 +70,23 @@ export default function Challenge(params) {
         setPage(page);
     }
 
+    function messUpArr(arr) {
+        arr.forEach(item => {
+            if (item.type === 1 || item.type === 0 || item.type === "multiple_response" || item.type === "multiple_choice") {
+                let arr = [];
+                item.options.map((e,i) => {
+                    arr.push({
+                        label: e,
+                        value: i
+                    })
+                })
+                const radioOption = shuffle(arr);
+                item.options = radioOption;
+            }
+        })
+        return arr;
+    }
+
     const getData = async (id) => {
         let res = {};
         await getQuests({id})
@@ -85,6 +103,8 @@ export default function Challenge(params) {
             await setMetadata(res.data)
             .then(res => {
                 detail = res ? res : {};
+                // TODO: 打乱选项顺序
+                detail.metadata.properties.questions = messUpArr(detail.metadata.properties.questions);
                 setDetail({...detail});
                 // 获取本地存储 ===> 
                 const local = JSON.parse(localStorage.getItem("decert.cache"));
@@ -269,6 +289,7 @@ export default function Challenge(params) {
         setIsEdit(true);
         setIsPreview(true);
         cacheDetail = cache;
+        cacheDetail.questions = messUpArr(cacheDetail.questions);
         setCacheDetail({...cacheDetail});
         answers = new Array(Number(cache.questions.length))
         setAnswers([...answers])
