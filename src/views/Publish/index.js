@@ -3,7 +3,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
-import { useNetwork, useSwitchNetwork, useWalletClient } from "wagmi";
+import { useNetwork, useSwitchNetwork } from "wagmi";
 import "@/assets/styles/view-style/publish.scss"
 import "@/assets/styles/component-style";
 
@@ -36,7 +36,6 @@ export default function Publish(params) {
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
     const { connectWallet } = useContext(MyContext);
-    const { data: signer } = useWalletClient();
     const { chain } = useNetwork();
     const { switchNetworkAsync } = useSwitchNetwork()
     const { isConnected, walletType, address } = useAddress();
@@ -377,8 +376,8 @@ export default function Publish(params) {
 
     useEffect(() => {
         const tokenId = location.search.replace("?","");
-        tokenId && signer && address && getChallenge(tokenId);
-    },[signer, address])
+        tokenId && address && getChallenge(tokenId);
+    },[address])
 
     return (
         <Spin spinning={tradeLoading}>

@@ -120,7 +120,6 @@ export default function MyProvider(props) {
             // 通过返回的钱包名开始连接
             switch (wallet) {
                 case "MetaMask":
-                    console.log(connectors);
                     await connectAsync({ connector: connectors[0] })
                     .catch(err => {
                         !connectors[0].ready && window.open("https://metamask.io/download/", "_blank")
