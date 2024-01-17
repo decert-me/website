@@ -89,15 +89,6 @@ export const questMinterABI = [
     },
     {
         inputs: [],
-        name: "quest",
-        outputs: [
-            { internalType: "contract IQuest", name: "", type: "address" },
-        ],
-        stateMutability: "view",
-        type: "function",
-    },
-    {
-        inputs: [],
         name: "renounceOwnership",
         outputs: [],
         stateMutability: "nonpayable",
