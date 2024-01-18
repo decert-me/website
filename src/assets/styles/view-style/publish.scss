@@ -2,6 +2,25 @@
     width: 1200px;
     padding-block: 105px;
     margin: 0 auto;
+    .ant-form-item-control-input-content{
+        position: relative;
+    }
+    .challenge-title{
+        width: calc(195px - 18px);
+        height: calc(195px - 150px);
+        padding: 0 11px;
+        position: absolute;
+        top: 142px;
+        left: 9px;
+        background: linear-gradient(356deg, #000000 0%, rgba(0,0,0,0) 100%);
+        display: flex;
+        align-items: flex-end;
+        color: #fff;
+        .img-desc{
+            font-size: 12px;
+            font-weight: 600;
+        }
+    }
     .custom-upload{
         .ant-upload-list-item-container, .ant-upload-select{
             width: 195px !important;

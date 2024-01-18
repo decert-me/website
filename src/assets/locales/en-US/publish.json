@@ -7,7 +7,7 @@
     "inner": {
         "title": "Title",
         "desc": "Description",
-        "img": "Image",
+        "img": "NFT Image",
         "network": "Network",
         "add": "Add choice question or blank filling question",
         "add-code": "Add programming quiz",

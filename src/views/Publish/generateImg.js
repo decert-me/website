@@ -56,6 +56,9 @@ function GenerateImg(params, ref) {
                 // 宽高
                 canvas.width = px;
                 canvas.height = px;
+                    
+                // img
+                ctx.drawImage(img, 0, 0, px, px);
                 
                 // mask
                 let mask = ctx.createLinearGradient(0, canvas.height, 0, canvas.height - maskHeight)
@@ -63,9 +66,6 @@ function GenerateImg(params, ref) {
                 mask.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Transparent at the top
                 ctx.fillStyle = mask;
                 ctx.fillRect(0, canvas.height - maskHeight, canvas.width, maskHeight);
-    
-                // img
-                ctx.drawImage(img, 0, 0, px, px);
     
                 // text
                 ctx.font = '64px Arial';

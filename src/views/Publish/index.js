@@ -1,3 +1,4 @@
+import ImgCrop from 'antd-img-crop';
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
@@ -21,6 +22,7 @@ import { clearDataBase, getDataBase, saveCache } from "@/utils/saveCache";
 import store, { setChallenge } from "@/redux/store";
 import MyContext from "@/provider/context";
 import { CHAINS, CHAINS_TESTNET } from "@/config";
+import GenerateImg from "./generateImg";
 
 
 const { TextArea } = Input;
@@ -33,6 +35,7 @@ export default function Publish(params) {
     const dataBase = "publish";
     const [form] = Form.useForm();
     const isFirstRender = useRef(true);     //  是否是第一次渲染
+    const generateImgRef = useRef();
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
     const { connectWallet } = useContext(MyContext);
@@ -69,18 +72,30 @@ export default function Publish(params) {
 
     // json => ipfs
     const getJson = async(values, preview) => {
-        const { answers, questions: qs } = filterQuestions(questions);
-        const image = Array.isArray(values.fileList) ? values.fileList[0].response?.data.hash : values.fileList?.file?.response?.data.hash
-        const jsonHash = await getMetadata({
-            values: values,
-            address: address,
-            questions: qs,
-            answers: encode(JSON.stringify(answers)),
-            image: "ipfs://"+image,
-            startTime: isEdit ? changeItem.startTime : null,
-            olduuid: isEdit ? changeItem.uuid : null
-        }, preview ? preview : null)
-        return jsonHash
+        try {            
+            const { answers, questions: qs } = filterQuestions(questions);
+            const image = Array.isArray(values.fileList) ? values.fileList[0].response?.data.hash : values.fileList?.file?.response?.data.hash
+            // 生成img
+            const media = await generateImgRef.current.generate(
+                fileList[0].thumbUrl,
+                values.title,
+            )
+            console.log(image , media);
+            return
+            const jsonHash = await getMetadata({
+                values: values,
+                address: address,
+                questions: qs,
+                answers: encode(JSON.stringify(answers)),
+                image: "ipfs://"+image,
+                media: "ipfs://"+media,
+                startTime: isEdit ? changeItem.startTime : null,
+                olduuid: isEdit ? changeItem.uuid : null
+            }, preview ? preview : null)
+            return jsonHash
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     // 判断是否是修改挑战
@@ -241,6 +256,22 @@ export default function Publish(params) {
           return str; // 字符串无法解析为对象，不是序列化过的
         }
     }
+
+    // 图片预览
+    const onPreview = async (file) => {
+        let src = file.url;
+        if (!src) {
+          src = await new Promise((resolve) => {
+            const reader = new FileReader();
+            reader.readAsDataURL(file.originFileObj);
+            reader.onload = () => resolve(reader.result);
+          });
+        }
+        const image = new Image();
+        image.src = src;
+        const imgWindow = window.open(src);
+        imgWindow?.document.write(image.outerHTML);
+    };
 
     // 获取挑战详情
     async function getChallenge(tokenId) {
@@ -451,41 +482,6 @@ export default function Publish(params) {
                         <CustomEditor onChange={(value) => changeForm("editor", value)} initialValues={cache?.editor || changeItem?.editor} />
                     </Form.Item>
 
-                    {/* 图片 */}
-                    <Form.Item 
-                        label={t("inner.img")}
-                        name="fileList"
-                        valuePropName="img"
-                        rules={[{
-                            required: true,
-                            message: t("inner.rule.img"),
-                        }]}
-                        wrapperCol={{ offset: 1 }}
-                        style={{ maxWidth: 380 }}
-                    >
-                        <Upload
-                            {...UploadProps} 
-                            beforeUpload={(file) => beforeUpload(file)}
-                            listType="picture-card"
-                            className="custom-upload"
-                            fileList={fileList}
-                            onChange={({fileList: newFileList}) => {
-                                setFileList(newFileList)
-                            }}
-                        >
-                            <p className="upload-icon">
-                                <UploadOutlined />
-                            </p>
-                            <p className="text-title">
-                                {t("inner.content.img.p1")}
-                            </p>
-                            <p className="text-normal">
-                                {t("inner.content.img.p2")}
-                            </p>
-                            <p className="text-normal">{t("inner.content.img.p3")}</p>
-                        </Upload>
-                    </Form.Item>
-
                     {/* 添加题目 */}
                     <Form.Item 
                         label={t("inner.test")}
@@ -523,6 +519,60 @@ export default function Publish(params) {
                                 changeForm("questions", quests);
                             }}
                         />
+                    </Form.Item>
+
+                    {/* 图片 */}
+                    <GenerateImg ref={generateImgRef} />
+                    <Form.Item 
+                        label={t("inner.img")}
+                        name="fileList"
+                        valuePropName="img"
+                        rules={[{
+                            required: true,
+                            message: t("inner.rule.img"),
+                        }]}
+                        wrapperCol={{ offset: 1 }}
+                        // style={{ maxWidth: 380 }}
+                    >
+                        <ImgCrop 
+                            beforeCrop={(file) => {
+                                console.log(file);
+                            }}
+                        >
+                        <Upload
+                            {...UploadProps} 
+                            beforeUpload={(file) => beforeUpload(file)}
+                            listType="picture-card"
+                            className="custom-upload"
+                            fileList={fileList}
+                            onPreview={onPreview}
+                            onChange={({fileList: newFileList}) => {
+                                setFileList(newFileList);
+                                form.setFieldValue("fileList", newFileList);
+                                const values = form.getFieldsValue();
+                                saveCache(dataBase, values, isEdit);
+                            }}
+                        >
+                            <p className="upload-icon">
+                                <UploadOutlined />
+                            </p>
+                            <p className="text-title">
+                                {t("inner.content.img.p1")}
+                            </p>
+                            <p className="text-normal">
+                                {t("inner.content.img.p2")}
+                            </p>
+                            <p className="text-normal">{t("inner.content.img.p3")}</p>
+                        </Upload>
+                        </ ImgCrop>
+                        {
+                            fileList.length === 1 && form.getFieldValue("title") &&
+                            <div className="challenge-title">
+                                <div>
+                                    <p className="img-desc">{form.getFieldValue("title")}</p>
+                                </div>
+                            </div>
+                        }
                     </Form.Item>
 
                     <div className="challenge-info">
