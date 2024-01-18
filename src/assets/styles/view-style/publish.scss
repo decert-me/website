@@ -6,16 +6,18 @@
         position: relative;
     }
     .challenge-title{
-        width: calc(195px - 18px);
+        width: calc(195px - 2px);
         height: calc(195px - 150px);
         padding: 0 11px;
         position: absolute;
-        top: 142px;
-        left: 9px;
+        top: 149px;
+        left: 1px;
         background: linear-gradient(356deg, #000000 0%, rgba(0,0,0,0) 100%);
         display: flex;
-        align-items: flex-end;
+        align-items: center;
         color: #fff;
+        border-end-end-radius: 16px;
+        border-end-start-radius: 16px;
         .img-desc{
             font-size: 12px;
             font-weight: 600;

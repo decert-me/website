@@ -82,8 +82,6 @@ export default function Publish(params) {
                 fileList[0].thumbUrl,
                 values.title,
             )
-            console.log(image , media);
-            return
             const jsonHash = await getMetadata({
                 values: values,
                 address: address,
