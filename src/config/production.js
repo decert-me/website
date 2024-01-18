@@ -10,6 +10,7 @@ export const CONTRACT_ADDR_721 = {
     // optimism
     10: {
         opensea: "optimism",
+        img: require("@/assets/images/img/net-Optimism.png"),
         Badge: "0x176A6AbBd7dFAd4C66d297f40269f910538212b7",
         Quest: "0x373Dcc48Fa23451F792e604ba88c0bfFF17781c8",
         BadgeMinter: "0x0aa319263401eEcecd5Fa2C34636b1057A8B2BFB",
@@ -19,6 +20,7 @@ export const CONTRACT_ADDR_721 = {
     // polygon
     137: {
         opensea: "matic",
+        img: require("@/assets/images/img/net-Polygon.png"),
         Badge: "0x176A6AbBd7dFAd4C66d297f40269f910538212b7",
         Quest: "0x373Dcc48Fa23451F792e604ba88c0bfFF17781c8",
         BadgeMinter: "0x0aa319263401eEcecd5Fa2C34636b1057A8B2BFB",
@@ -29,6 +31,7 @@ export const CONTRACT_ADDR_721 = {
 
 export const CONTRACT_ADDR_1155 = {
     opensea: "matic",
+    img: require("@/assets/images/img/net-Polygon.png"),
     id: 137,
     Badge: "0xc8E9cd4921E54c4163870092Ca8d9660e967B53d",
     Quest: "0xEb475aBDD91E07Db399D33F801f5973c7E4B3610",
