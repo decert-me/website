@@ -46,13 +46,13 @@ export default function ChallengeItems({info, goCollection}) {
                 const list = res.data.list || [];
                 collectionInfo.questNum = list.length;
                 tokenId = res.data.collection.tokenId;
-                if (tokenId) {
+                if (tokenId && tokenId !== "0") {
                     collectionInfo.claimable = !list.some(e => !e.claimed);
                 }
                 setCollectionInfo({...collectionInfo});
             }
         })
-        if (tokenId) {            
+        if (tokenId && tokenId !== "0") {            
             hasClaimed({id: tokenId})
             .then(res => {
                 const status = res.data.status;

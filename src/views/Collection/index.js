@@ -142,7 +142,7 @@ export default function Collection(params) {
         progressObj.total = detail.list.length;
         setProgressObj({...progressObj});
         // 是否创建了nft
-        setIsCreated(detail.collection.tokenId);
+        setIsCreated(detail.collection.tokenId && detail.collection.tokenId !== "0");
     }
 
     useUpdateEffect(() => {
