@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { pollingGetQuest } from "@/request/api/polling";
-import { CONTRACT_ADDR_721_TESTNET } from "@/config";
+import { CONTRACT_ADDR_721, CONTRACT_ADDR_721_TESTNET } from "@/config";
 import { questMinterABI } from "@/config/abi/721/QuestMinter";
 
 
