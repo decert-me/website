@@ -9,7 +9,7 @@ import { useNavigate } from "react-router-dom";
 import { useTranslation } from "react-i18next";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { pollingGetQuest } from "@/request/api/polling";
-import { CONTRACT_ADDR_721_TESTNET } from "@/config";
+import { CONTRACT_ADDR_721, CONTRACT_ADDR_721_TESTNET } from "@/config";
 import { questMinterABI } from "@/config/abi/721/QuestMinter";
 
 
@@ -44,13 +44,13 @@ export const usePublish = (props) => {
 
 
     const { writeAsync: createQuest } = useContractWrite({
-        address: isDev ? CONTRACT_ADDR_721_TESTNET[chain?.id]?.QuestMinter : CONTRACT_ADDR_721[chain?.alias]?.QuestMinter,
+        address: isDev ? CONTRACT_ADDR_721_TESTNET[chain?.id]?.QuestMinter : CONTRACT_ADDR_721[chain?.id]?.QuestMinter,
         abi: questMinterABI,
         functionName: 'createQuest',
     })
 
     const { writeAsync: modifyQuest } = useContractWrite({
-        address: isDev ? CONTRACT_ADDR_721_TESTNET[chain?.id]?.QuestMinter : CONTRACT_ADDR_721[chain?.alias]?.QuestMinter,
+        address: isDev ? CONTRACT_ADDR_721_TESTNET[chain?.id]?.QuestMinter : CONTRACT_ADDR_721[chain?.id]?.QuestMinter,
         abi: questMinterABI,
         functionName: 'modifyQuest',
     })
