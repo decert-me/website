@@ -10,7 +10,7 @@ function ModalSelectChain(props) {
     const { isModalOpen, handleCancel, airpost } = props;
     const { t } = useTranslation();
     const { chains } = useNetwork();
-    const [selectChain, setSelectChain] = useState(chains[0].id);
+    const [selectChain, setSelectChain] = useState(chains[0]?.id);
 
     function goAirpost() {
         airpost(selectChain);
