@@ -8,6 +8,11 @@ export const constans = () => {
             icon: require("@/assets/images/img/net-Polygon.png"),
             link: "https://mumbai.polygonscan.com/address/"
         },
+        11155420: {
+            name: "optimism-sepolia",
+            icon: require("@/assets/images/img/net-Optimism.png"),
+            link: "https://optimism-sepolia.blockscout.com/address/"
+        },
         56: {
             name: "BNB", 
             opensea: "bsc",
