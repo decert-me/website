@@ -22,7 +22,6 @@ export const UploadProps = {
       // if (!isLt100M) {
       //   return
       // }
-      console.log("===>");
       const formData = new FormData();
       if (data) {
         Object.keys(data).forEach(key => {

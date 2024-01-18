@@ -1,5 +1,4 @@
 import { ipfsImg } from "@/request/api/public";
-import { download } from "@/utils/file/download";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 
 

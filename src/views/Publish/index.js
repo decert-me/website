@@ -23,6 +23,7 @@ import store, { setChallenge } from "@/redux/store";
 import MyContext from "@/provider/context";
 import { CHAINS, CHAINS_TESTNET } from "@/config";
 import GenerateImg from "./generateImg";
+import UploadTmplModal from './uploadTmplModal';
 
 
 const { TextArea } = Input;
@@ -36,6 +37,7 @@ export default function Publish(params) {
     const [form] = Form.useForm();
     const isFirstRender = useRef(true);     //  是否是第一次渲染
     const generateImgRef = useRef();
+    const uploadRef = useRef();
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
     const { connectWallet } = useContext(MyContext);
@@ -47,6 +49,7 @@ export default function Publish(params) {
     const [tradeLoading, setTradeLoading] = useState(false);    //  上链Loading
     const [loading, setLoading] = useState(false);      //  发布loading
     const [isEdit, setIsEdit] = useState();      //  是否是编辑模式
+    const [tmplModal, setTmplModal] = useState(false);       //  图片模板弹窗
     
     let [cache, setCache] = useState();   //  缓存
     let [fields, setFields] = useState([]);     //  表单默认值
@@ -56,7 +59,6 @@ export default function Publish(params) {
     let [publishObj, setPublishObj] = useState({});     //  交易所需变量
     let [isWrite, setIsWrite] = useState(false);        //  发起交易
 
-    let [changeId, setChangeId] = useState();   //  正在编辑的tokenId
     let [changeItem, setChangeItem] = useState();   //  正在编辑的挑战详情
 
     const { publish, isLoading, isOk, transactionLoading } = usePublish({
@@ -259,6 +261,9 @@ export default function Publish(params) {
 
     // 图片预览
     const onPreview = async (file) => {
+        if (!file?.xhr) {
+            return
+        }
         let src = file.url;
         if (!src) {
           src = await new Promise((resolve) => {
@@ -423,12 +428,8 @@ export default function Publish(params) {
                     name="challenge"
                     layout="vertical"
                     form={form}
-                    labelCol={{
-                        span: 5,
-                    }}
-                    initialValues={{
-                        remember: true,
-                    }}
+                    labelCol={{span: 5}}
+                    initialValues={{remember: true}}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
@@ -522,6 +523,20 @@ export default function Publish(params) {
                     </Form.Item>
 
                     {/* 图片 */}
+                    <UploadTmplModal 
+                        isModalOpen={tmplModal} 
+                        handleCancel={() => setTmplModal(false)} 
+                        showUploadModal={() => {
+                            const dom = document.querySelector(".ant-upload input");
+                            dom.click();
+                        }} 
+                        selectTmplImg={(newFileList) => {
+                            setFileList(newFileList);
+                            form.setFieldValue("fileList", newFileList);
+                            const values = form.getFieldsValue();
+                            saveCache(dataBase, values, isEdit);
+                        }}
+                    />
                     <GenerateImg ref={generateImgRef} />
                     <Form.Item 
                         label={t("inner.img")}
@@ -532,7 +547,6 @@ export default function Publish(params) {
                             message: t("inner.rule.img"),
                         }]}
                         wrapperCol={{ offset: 1 }}
-                        // style={{ maxWidth: 380 }}
                     >
                         <ImgCrop 
                             beforeCrop={(file) => {
@@ -546,6 +560,7 @@ export default function Publish(params) {
                             className="custom-upload"
                             fileList={fileList}
                             onPreview={onPreview}
+                            openFileDialogOnClick={false}
                             onChange={({fileList: newFileList}) => {
                                 setFileList(newFileList);
                                 form.setFieldValue("fileList", newFileList);
@@ -553,16 +568,18 @@ export default function Publish(params) {
                                 saveCache(dataBase, values, isEdit);
                             }}
                         >
-                            <p className="upload-icon">
-                                <UploadOutlined />
-                            </p>
-                            <p className="text-title">
-                                {t("inner.content.img.p1")}
-                            </p>
-                            <p className="text-normal">
-                                {t("inner.content.img.p2")}
-                            </p>
-                            <p className="text-normal">{t("inner.content.img.p3")}</p>
+                            <div ref={uploadRef} className="upload-btn" onClick={() => setTmplModal(true)}>
+                                <p className="upload-icon">
+                                    <UploadOutlined />
+                                </p>
+                                <p className="text-title">
+                                    {t("inner.content.img.p1")}
+                                </p>
+                                <p className="text-normal">
+                                    {t("inner.content.img.p2")}
+                                </p>
+                                <p className="text-normal">{t("inner.content.img.p3")}</p>
+                            </div>
                         </Upload>
                         </ ImgCrop>
                         {

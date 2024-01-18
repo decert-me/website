@@ -71,7 +71,6 @@ export default function Index(params) {
 
     useEffect(() => {
         getContributor();
-        console.log(decode("C1gJamIDYBp2G2Jvb1gSGj1JLFthBVxPG1p7OA=="));
     },[])
 
     useEffect(() => {
