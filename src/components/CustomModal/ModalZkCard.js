@@ -16,7 +16,7 @@ export default function ModalZkCard(props) {
     let [media, setMedia] = useState();
     
     function downloadCert() {
-        downloadJsonFile(cert, `vc-${info.ChallengeID}`)
+        downloadJsonFile(cert, `publicVC-${info.ChallengeID}`)
     }
 
     async function init() {
