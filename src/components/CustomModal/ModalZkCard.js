@@ -22,17 +22,19 @@ export default function ModalZkCard(props) {
     async function init() {
         try {
             const res = await getDidCardInfo(isModalOpen)
+            await axios.get(`https://ipfs.decert.me/${res.data.credentialSubject.Content.replace("ipfs://","")}`)
+            .then(res => {
+                if (res.data?.properties?.media) {                    
+                    media = res.data.properties.media;
+                }else{
+                    media = "https://ipfs.decert.me/bafkreid4lhm7bpv3o7ycfk55b64mkl5ahbxjgf6bdvvphk2i4becg7ms3u";
+                }
+                setMedia(media);
+            })
             cert = res.data;
             setCert({...cert});
             info = res.data.credentialSubject;
             setInfo({...info});
-            await axios.get(`https://ipfs.decert.me/${info.Content.replace("ipfs://","")}`)
-            .then(res => {
-                if (res.data?.properties?.media) {                    
-                    media = res.data.properties.media;
-                    setMedia(media);
-                }
-            })
         } catch (error) {
             console.log(error);
         }
@@ -49,6 +51,7 @@ export default function ModalZkCard(props) {
             onCancel={() => {
                 setInfo(null);
                 setCert(null);
+                setMedia(null);
                 handleCancel();
             }}
             footer={null}
@@ -60,14 +63,7 @@ export default function ModalZkCard(props) {
                 <div className="zkCard-item">
                     <div className="card">
                         <div className="card-inner">
-                            <div className="inner-item">
-                                <p className="label">Title:</p>
-                                <p className="desc">DeCert.Me Challenge</p>
-                            </div>
-                            <div className="inner-item">
-                                <p className="label">Issuer:</p>
-                                <p className="desc">did:zk:0x237Ec821FDF943776A8e27a9fd9dd6f78400071b</p>
-                            </div>
+                            <p className="newline-omitted">{info?.Title}</p>
                         </div>
                         {
                             media && <img src={media.replace("ipfs://", "https://ipfs.decert.me/")} className="card-bg" alt="" />

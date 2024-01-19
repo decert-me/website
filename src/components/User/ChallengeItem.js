@@ -130,10 +130,10 @@ export default function ChallengeItem(props) {
                 <div className="img">
                         <LazyLoadImage
                             src={
-                                info.metadata?.properties?.media.split("//")[1]? 
-                                `${ipfsPath}/${info.metadata?.properties?.media.split("//")[1]}` :
                                 info.metadata.image.split("//")[1] ? 
                                 `${ipfsPath}/${info.metadata.image.split("//")[1]}` :
+                                info.metadata?.properties?.media.split("//")[1]? 
+                                `${ipfsPath}/${info.metadata?.properties?.media.split("//")[1]}` :
                                 defaultImg
                             }
                         />
