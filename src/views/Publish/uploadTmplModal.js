@@ -16,12 +16,12 @@ const items = [
 
 const images = [
     {
-        img: "https://ipfs.decert.me/bafkreie4v56uj2g5sgbcnecgp5glujhbks2y27kuffzauf3conep6e6s5i",
-        path: require("@/assets/images/img/zk-card1.png")
-    },
-    {
         img: "https://ipfs.decert.me/bafkreid4lhm7bpv3o7ycfk55b64mkl5ahbxjgf6bdvvphk2i4becg7ms3u",
         path: require("@/assets/images/img/zk-card2.png")
+    },
+    {
+        img: "https://ipfs.decert.me/bafkreie4v56uj2g5sgbcnecgp5glujhbks2y27kuffzauf3conep6e6s5i",
+        path: require("@/assets/images/img/zk-card1.png")
     },
     {
         img: "https://ipfs.decert.me/bafkreifnkzrxorji6fz7xkyuzkfqxsvi57dmj64lp5varjgkbn2s2ynup4",
