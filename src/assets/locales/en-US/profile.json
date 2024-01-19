@@ -34,7 +34,7 @@
     "bindWx": "Bind Wechat",
     "bindDc": "Bind Discord",
 
-    "zkTool": "Offchain certification",
+    "zkTool": "Offchain Certification",
     "key": "My Keys",
 
     "edit": {
@@ -49,7 +49,7 @@
             "bindAc": "Connect Account",
             "createZk": "Create a Privacy Account (DID)",
             "zk": "Privacy Account (DID)",
-            "zkDesc": "If you don't have GAS, you can create a privacy account and obtain an privacy certification.",
+            "zkDesc": "If you don't have GAS, you can create a privacy account and obtain an offchain certification.",
             "tips": {
                 "desc": "Please describe your interests or experience."
             }

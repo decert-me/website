@@ -5,10 +5,10 @@
     "recommend": "Recommend Tutorial",
     "view": "learn more",
     "desc": "The SBT (Soulbound Token) badge you receive through the challenge is stored permanently on the blockchain and cannot be transferred or sold. It is a proof of your technical ability and adds value to your resume.",
-    "zkDesc": "If you don't have GAS, you can create a privacy account and obtain an privacy certification;",
+    "zkDesc": "If you don't have GAS, you can create a privacy account and obtain an offchain certification;",
     "zkCreate": "Create one now >>",
     "getZk": "You have obtained a",
-    "getZkLink": "Privacy Certification",
+    "getZkLink": "Offchain Certification",
     "choose": "Improvement of personal data",
     "bindAc": "Bind your social account",
     "score": {
