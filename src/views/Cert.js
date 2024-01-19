@@ -162,6 +162,7 @@ export default function Cert(params) {
             contract_id: selectContract,
             status: selectStatus
         })
+        setLoading(false);
     }
    
     const goAddSbt = () => {
@@ -173,6 +174,10 @@ export default function Cert(params) {
     }
 
     function changeContractId(params) {
+        // console.log("===>");
+        setLoading(true);
+        const dom = document.querySelector(".nfts .scroll");
+        dom.scrollTo(0,0);
         setSelectContract(params);
         if (isMobile) {
             window.scrollTo(0, 0);
