@@ -76,7 +76,11 @@
         },
         "content": {
             "img": {
-                "p1": "Click or drag an image to this area.",
+                "cut": "Crop Image",
+                "upload": "Upload",
+                "choose": "Choose a image",
+                "menu-choose": "Choose a image",
+                "p1": "Click an image to this area.",
                 "p2": "The image type must be jpg, png, gif, svg.",
                 "p3": "Maximum size: 20 MB."
             }

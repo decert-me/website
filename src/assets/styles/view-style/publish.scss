@@ -21,6 +21,7 @@
         .img-desc{
             font-size: 12px;
             font-weight: 600;
+            -webkit-line-clamp: 2;
         }
     }
     .custom-upload{
@@ -40,6 +41,12 @@
             &::before{
                 width: 100% !important;
                 height: 100% !important;
+            }
+            // 隐藏预览
+            .ant-upload-list-item-actions{
+                a{
+                    display: none;
+                }
             }
         }
         .ant-upload-list-item-container, .ant-upload-select{

@@ -13,16 +13,16 @@ function GenerateImg(params, ref) {
 
     function splitWords(ctx, text) {
         // 分割
-        let words = text.match(/[\u00ff-\uffff]|\S+/g);
+        let words = text.match(/[\u4e00-\u9fa5]|[^\u4e00-\u9fa5]|\S+/g);
         let line = '';
         let lines = [];
 
         for (let i = 0; i < words.length; i++) {
-            let testLine = line + words[i] + ' ';
+            let testLine = line + words[i];
             let testWidth = ctx.measureText(testLine).width;
             if (testWidth > textMaxWidth && i > 0) {
                 lines.push(line.trim());
-                line = words[i] + ' ';
+                line = words[i];
                 if (lines.length == 2) {
                     // If we already have two lines, add an ellipsis to the end of the second line and break the loop
                     lines[1] = lines[1].trim() + '...';

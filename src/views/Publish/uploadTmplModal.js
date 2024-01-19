@@ -1,18 +1,7 @@
 import { useState } from "react";
 import { Button, Menu, Modal } from "antd";
 import "./index.scss";
-
-
-const items = [
-    {
-        label: "选择一张图片",
-        key: "select",
-    },
-    {
-        label: "上传图片",
-        key: "upload",
-    }
-]
+import { useTranslation } from "react-i18next";
 
 const images = [
     {
@@ -34,6 +23,18 @@ export default function UploadTmplModal(props) {
  
     const { isModalOpen, handleCancel, showUploadModal, selectTmplImg } = props;
     const [current, setCurrent] = useState('select');
+    const { t } = useTranslation(["publish"]);
+
+    const items = [
+        {
+            label: t("inner.content.img.menu-choose"),
+            key: "select",
+        },
+        {
+            label: t("inner.content.img.upload"),
+            key: "upload",
+        }
+    ]
 
     return (
         <Modal
@@ -81,10 +82,10 @@ export default function UploadTmplModal(props) {
                     <Button onClick={async() => {
                         await handleCancel();
                         showUploadModal();
-                    }}>上传图片</Button>
-                    <p className="title">Click an image to this area.</p>
-                    <p className="tips">The image type must be jpg, png, gif, svg.</p>
-                    <p className="tips">Maximum size: 20 MB.</p>
+                    }}>{t("inner.content.img.upload")}</Button>
+                    <p className="title">{t("inner.content.img.p1")}</p>
+                    <p className="tips">{t("inner.content.img.p2")}</p>
+                    <p className="tips">{t("inner.content.img.p3")}</p>
                 </div>
             }
         </Modal>

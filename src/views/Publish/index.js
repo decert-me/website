@@ -2,7 +2,7 @@ import ImgCrop from 'antd-img-crop';
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
-import { UploadOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import "@/assets/styles/view-style/publish.scss"
@@ -260,25 +260,6 @@ export default function Publish(params) {
           return str; // 字符串无法解析为对象，不是序列化过的
         }
     }
-
-    // 图片预览
-    const onPreview = async (file) => {
-        if (!file?.xhr) {
-            return
-        }
-        let src = file.url;
-        if (!src) {
-          src = await new Promise((resolve) => {
-            const reader = new FileReader();
-            reader.readAsDataURL(file.originFileObj);
-            reader.onload = () => resolve(reader.result);
-          });
-        }
-        const image = new Image();
-        image.src = src;
-        const imgWindow = window.open(src);
-        imgWindow?.document.write(image.outerHTML);
-    };
 
     // 获取挑战详情
     async function getChallenge(tokenId) {
@@ -551,9 +532,9 @@ export default function Publish(params) {
                         wrapperCol={{ offset: 1 }}
                     >
                         <ImgCrop 
-                            beforeCrop={(file) => {
-                                console.log(file);
-                            }}
+                            modalTitle={t("inner.content.img.cut")}
+                            modalOk={t("translation:btn-save")}
+                            modalCancel={t("translation:btn-cancel")}
                         >
                         <Upload
                             {...UploadProps} 
@@ -561,7 +542,6 @@ export default function Publish(params) {
                             listType="picture-card"
                             className="custom-upload"
                             fileList={fileList}
-                            onPreview={onPreview}
                             openFileDialogOnClick={false}
                             onChange={({fileList: newFileList}) => {
                                 setFileList(newFileList);
@@ -571,16 +551,8 @@ export default function Publish(params) {
                             }}
                         >
                             <div ref={uploadRef} className="upload-btn" onClick={() => setTmplModal(true)}>
-                                <p className="upload-icon">
-                                    <UploadOutlined />
-                                </p>
-                                <p className="text-title">
-                                    {t("inner.content.img.p1")}
-                                </p>
-                                <p className="text-normal">
-                                    {t("inner.content.img.p2")}
-                                </p>
-                                <p className="text-normal">{t("inner.content.img.p3")}</p>
+                                <p className="upload-icon"><PlusOutlined /></p>
+                                <p className="text-title">{t("inner.content.img.choose")}</p>
                             </div>
                         </Upload>
                         </ ImgCrop>
@@ -588,7 +560,7 @@ export default function Publish(params) {
                             fileList.length === 1 && form.getFieldValue("title") &&
                             <div className="challenge-title">
                                 <div>
-                                    <p className="img-desc">{form.getFieldValue("title")}</p>
+                                    <p className="img-desc newline-omitted">{form.getFieldValue("title")}</p>
                                 </div>
                             </div>
                         }

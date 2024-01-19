@@ -111,7 +111,7 @@ export default function ModalZkCard(props) {
                                 </li>
                                 <li>
                                     <p className="li-label">ISSUER</p>
-                                    <p className="li-desc">did:zk:0x23...071b</p>
+                                    <p className="li-desc">{cert && cert.issuer[0].substring(0,11) + "..." + cert.issuer[0].substring(cert.issuer[0].length - 4, cert.issuer[0].length)}</p>
                                 </li>
                                 <li>
                                     <p className="li-label">CATEGORY</p>
@@ -121,7 +121,7 @@ export default function ModalZkCard(props) {
                         </div>
                         <div className="item">
                             <p className="label">DATA FIELD HASH</p>
-                            <div className="desc">0xc69388b7d6d32475ddbe3f7540c1d7b41ce384036a287124e6d3692d332e0835</div>
+                            <div className="desc">{cert && cert.ctype}</div>
                         </div>
                     </div>
                 </div>
