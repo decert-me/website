@@ -9,18 +9,18 @@ export async function submitClaimable(params) {
         if (cache?.claimable && cache.claimable.length !== 0) {
             for (let i = 0; i < cache.claimable.length; i++) {
                 const quest = cache.claimable[i];
-                const data = cache[quest.token_id];
+                const data = cache[quest.uuid];
                 await submitChallenge({
-                    token_id: quest.token_id,
+                    token_id: quest.uuid,
                     answer: JSON.stringify(data),
-                    uri: cache.realAnswer[quest.token_id]
+                    uri: cache.realAnswer[quest.uuid]
                 })
                 .then(res => {
                     delete cache[quest.token_id]
                 })
             }
             cache.claimable = [];
-            cache.realAnswer = [];
+            cache.realAnswer = {};
             localStorage.setItem("decert.cache", JSON.stringify(cache));
         }
     }
