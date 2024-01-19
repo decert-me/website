@@ -45,7 +45,6 @@ function GenerateImg(params, ref) {
 
     async function generate(base64, text) {
         return await new Promise((resolve, reject) => {
-            
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.onload = async function() {

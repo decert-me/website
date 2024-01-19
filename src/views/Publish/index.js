@@ -76,10 +76,14 @@ export default function Publish(params) {
     const getJson = async(values, preview) => {
         try {            
             const { answers, questions: qs } = filterQuestions(questions);
-            const image = Array.isArray(values.fileList) ? values.fileList[0].response?.data.hash : values.fileList?.file?.response?.data.hash
+            const media = Array.isArray(values.fileList) ? values.fileList[0].response?.data.hash : values.fileList?.file?.response?.data.hash
+            let base64 = fileList[0].thumbUrl;
+            if (base64.indexOf("https://ipfs.decert.me/") !== -1) {
+                base64 = fileList[0].path
+            }
             // 生成img
-            const media = await generateImgRef.current.generate(
-                fileList[0].thumbUrl,
+            const image = await generateImgRef.current.generate(
+                base64,
                 values.title,
             )
             const jsonHash = await getMetadata({

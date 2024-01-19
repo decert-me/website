@@ -2,6 +2,7 @@ import { getDidCardInfo } from "@/request/api/zk";
 import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
 import { useUpdateEffect } from "ahooks";
 import { Modal } from "antd";
+import axios from "axios";
 import { useState } from "react";
 
 
@@ -12,6 +13,7 @@ export default function ModalZkCard(props) {
 
     let [info, setInfo] = useState();
     let [cert, setCert] = useState();
+    let [media, setMedia] = useState();
     
     function downloadCert() {
         downloadJsonFile(cert, `vc-${info.ChallengeID}`)
@@ -24,6 +26,13 @@ export default function ModalZkCard(props) {
             setCert({...cert});
             info = res.data.credentialSubject;
             setInfo({...info});
+            await axios.get(`https://ipfs.decert.me/${info.Content.replace("ipfs://","")}`)
+            .then(res => {
+                if (res.data?.properties?.media) {                    
+                    media = res.data.properties.media;
+                    setMedia(media);
+                }
+            })
         } catch (error) {
             console.log(error);
         }
@@ -60,6 +69,9 @@ export default function ModalZkCard(props) {
                                 <p className="desc">did:zk:0x237Ec821FDF943776A8e27a9fd9dd6f78400071b</p>
                             </div>
                         </div>
+                        {
+                            media && <img src={media.replace("ipfs://", "https://ipfs.decert.me/")} className="card-bg" alt="" />
+                        }
                     </div>
                     <div className="params-list">
                         <div className="params">

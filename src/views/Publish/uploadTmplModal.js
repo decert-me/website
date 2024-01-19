@@ -15,9 +15,18 @@ const items = [
 ]
 
 const images = [
-    "https://ipfs.decert.me/bafkreie4v56uj2g5sgbcnecgp5glujhbks2y27kuffzauf3conep6e6s5i",
-    "https://ipfs.decert.me/bafkreid4lhm7bpv3o7ycfk55b64mkl5ahbxjgf6bdvvphk2i4becg7ms3u",
-    "https://ipfs.decert.me/bafkreifnkzrxorji6fz7xkyuzkfqxsvi57dmj64lp5varjgkbn2s2ynup4",
+    {
+        img: "https://ipfs.decert.me/bafkreie4v56uj2g5sgbcnecgp5glujhbks2y27kuffzauf3conep6e6s5i",
+        path: require("@/assets/images/img/zk-card1.png")
+    },
+    {
+        img: "https://ipfs.decert.me/bafkreid4lhm7bpv3o7ycfk55b64mkl5ahbxjgf6bdvvphk2i4becg7ms3u",
+        path: require("@/assets/images/img/zk-card2.png")
+    },
+    {
+        img: "https://ipfs.decert.me/bafkreifnkzrxorji6fz7xkyuzkfqxsvi57dmj64lp5varjgkbn2s2ynup4",
+        path: require("@/assets/images/img/zk-card3.png")
+    }
 ]
 
 
@@ -46,7 +55,7 @@ export default function UploadTmplModal(props) {
                 <div className="img-list">
                     {
                         images.map(e => (
-                            <img src={e} key={e} alt="" onClick={() => {
+                            <img src={e.img} key={e.img} alt="" onClick={() => {
                                 handleCancel();
                                 const fileList = [{
                                     uid: '-1',
@@ -54,10 +63,11 @@ export default function UploadTmplModal(props) {
                                     status: 'done',
                                     response: {
                                         data: {
-                                            hash: e.replace("https://ipfs.decert.me/","")
+                                            hash: e.img.replace("https://ipfs.decert.me/","")
                                         }
                                     },
-                                    thumbUrl: e
+                                    thumbUrl: e.img,
+                                    path: e.path
                                 }];
                                 selectTmplImg(fileList);
                             }}/>

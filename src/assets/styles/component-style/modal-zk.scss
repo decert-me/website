@@ -45,18 +45,30 @@
         margin-bottom: 15px;
         border-radius: 16px;
         position: relative;
-        background: url("../../images/img/zk-card.png");
-        background-size: cover;
+        // background: url("../../images/img/zk-card2.png");
+        // background-size: cover;
+        overflow: hidden;
         .card-inner{
-            width: 267px;
-            height: 112px;
-            display: flex;
-            flex-direction: column;
-            justify-content: space-between;
+            width: 100%;
+            height: calc(100% - 63.62%);
+            padding: 0 20px;
             position: absolute;
-            left: 20px;
-            bottom: 22px;
+            display: flex;
+            align-items: center;
+            left: 0;
+            bottom: 0;
             color: #fff;
+            font-size: 23px;
+            font-weight: 600;
+            line-height: 23px;
+            background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #000000 100%);
+            p{
+                -webkit-line-clamp: 2;
+            }
+        }
+        .card-bg{
+            width: 100%;
+            margin-top: calc((227px - 100%) / 2);
         }
         .label{
             font-size: 12px;
@@ -161,10 +173,7 @@
         height: 11rem;
         margin-bottom: .625rem;
         .card-inner{
-            width: 12.9375rem;
-            height: 5.3125rem;
-            left: 1rem;
-            bottom: 1.125rem;
+            font-size: 1.0625rem;
         }
         .label{
             font-size: .5625rem;
