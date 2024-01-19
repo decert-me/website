@@ -2,6 +2,7 @@ import { getDidCardInfo } from "@/request/api/zk";
 import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
 import { useUpdateEffect } from "ahooks";
 import { Modal } from "antd";
+import axios from "axios";
 import { useState } from "react";
 
 
@@ -12,14 +13,24 @@ export default function ModalZkCard(props) {
 
     let [info, setInfo] = useState();
     let [cert, setCert] = useState();
+    let [media, setMedia] = useState();
     
     function downloadCert() {
-        downloadJsonFile(cert, `vc-${info.ChallengeID}`)
+        downloadJsonFile(cert, `publicVC-${info.ChallengeID}`)
     }
 
     async function init() {
         try {
             const res = await getDidCardInfo(isModalOpen)
+            await axios.get(`https://ipfs.decert.me/${res.data.credentialSubject.Content.replace("ipfs://","")}`)
+            .then(res => {
+                if (res.data?.properties?.media) {                    
+                    media = res.data.properties.media;
+                }else{
+                    media = "https://ipfs.decert.me/bafkreid4lhm7bpv3o7ycfk55b64mkl5ahbxjgf6bdvvphk2i4becg7ms3u";
+                }
+                setMedia(media);
+            })
             cert = res.data;
             setCert({...cert});
             info = res.data.credentialSubject;
@@ -40,6 +51,7 @@ export default function ModalZkCard(props) {
             onCancel={() => {
                 setInfo(null);
                 setCert(null);
+                setMedia(null);
                 handleCancel();
             }}
             footer={null}
@@ -51,15 +63,11 @@ export default function ModalZkCard(props) {
                 <div className="zkCard-item">
                     <div className="card">
                         <div className="card-inner">
-                            <div className="inner-item">
-                                <p className="label">Title:</p>
-                                <p className="desc">DeCert.Me Challenge</p>
-                            </div>
-                            <div className="inner-item">
-                                <p className="label">Issuer:</p>
-                                <p className="desc">did:zk:0x237Ec821FDF943776A8e27a9fd9dd6f78400071b</p>
-                            </div>
+                            <p className="newline-omitted">{info?.Title}</p>
                         </div>
+                        {
+                            media && <img src={media.replace("ipfs://", "https://ipfs.decert.me/")} className="card-bg" alt="" />
+                        }
                     </div>
                     <div className="params-list">
                         <div className="params">
@@ -103,7 +111,7 @@ export default function ModalZkCard(props) {
                                 </li>
                                 <li>
                                     <p className="li-label">ISSUER</p>
-                                    <p className="li-desc">did:zk:0x23...071b</p>
+                                    <p className="li-desc">{cert && cert.issuer[0].substring(0,11) + "..." + cert.issuer[0].substring(cert.issuer[0].length - 4, cert.issuer[0].length)}</p>
                                 </li>
                                 <li>
                                     <p className="li-label">CATEGORY</p>
@@ -113,7 +121,7 @@ export default function ModalZkCard(props) {
                         </div>
                         <div className="item">
                             <p className="label">DATA FIELD HASH</p>
-                            <div className="desc">0xc69388b7d6d32475ddbe3f7540c1d7b41ce384036a287124e6d3692d332e0835</div>
+                            <div className="desc">{cert && cert.ctype}</div>
                         </div>
                     </div>
                 </div>

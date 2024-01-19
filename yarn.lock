@@ -5150,6 +5150,15 @@ ansi-styles@^5.0.0:
   resolved "https://registry.npmmirror.com/ansi-styles/-/ansi-styles-5.2.0.tgz#07449690ad45777d1924ac2abb2fc8895dba836b"
   integrity sha512-Cxwpt2SfTzTtXcfOlzGEee8O+c+MmUgGrNiBcXnuWxuFJHe6a5Hz7qwhwe5OgaSYI0IJvkLqWX1ASG+cJOkEiA==
 
+antd-img-crop@^4.21.0:
+  version "4.21.0"
+  resolved "https://registry.npmmirror.com/antd-img-crop/-/antd-img-crop-4.21.0.tgz#046e62de543ea5de0d502d134d689a884a9e77be"
+  integrity sha512-YA5GUMfwoDoSJNWinGOmtYFDFLf+t7Rhfg7ZusbHgFpKCq8n9W0005LeCWgSP4C0iK3vxNHAT3DaRa3rTgKFlQ==
+  dependencies:
+    compare-versions "6.1.0"
+    react-easy-crop "^5.0.4"
+    tslib "^2.6.2"
+
 antd@^5.1.7:
   version "5.9.4"
   resolved "https://registry.npmmirror.com/antd/-/antd-5.9.4.tgz#296b5a3fa0a9b83f11f5f7528a225823b79fd21b"
@@ -6355,6 +6364,11 @@ commondir@^1.0.1:
   version "1.0.1"
   resolved "https://registry.npmmirror.com/commondir/-/commondir-1.0.1.tgz#ddd800da0c66127393cca5950ea968a3aaf1253b"
   integrity sha512-W9pAhw0ja1Edb5GVdIF1mjZw/ASI0AlShXM83UUGe2DVr5TdAPEA1OA8m/g8zWp9x6On7gqufY+FatDbC3MDQg==
+
+compare-versions@6.1.0:
+  version "6.1.0"
+  resolved "https://registry.npmmirror.com/compare-versions/-/compare-versions-6.1.0.tgz#3f2131e3ae93577df111dba133e6db876ffe127a"
+  integrity sha512-LNZQXhqUvqUTotpZ00qLSaify3b4VFD588aRr8MKFw4CMUr98ytzCW5wDH5qx/DEY5kCDXcbcRuCqL0szEf2tg==
 
 compressible@~2.0.16:
   version "2.0.18"
@@ -11480,6 +11494,11 @@ normalize-url@^6.0.1:
   resolved "https://registry.npmmirror.com/normalize-url/-/normalize-url-6.1.0.tgz#40d0885b535deffe3f3147bec877d05fe4c5668a"
   integrity sha512-DlL+XwOy3NxAQ8xuC0okPgK46iuVNAK01YN7RueYBqqFeGsBjV9XmCAzAdgt+667bCl5kPh9EqKKDwnaPG1I7A==
 
+normalize-wheel@^1.0.1:
+  version "1.0.1"
+  resolved "https://registry.npmmirror.com/normalize-wheel/-/normalize-wheel-1.0.1.tgz#aec886affdb045070d856447df62ecf86146ec45"
+  integrity sha512-1OnlAPZ3zgrk8B91HyRj+eVv+kS5u+Z0SCsak6Xil/kmgEia50ga7zfkumayonZrImffAxPU/5WcyGhzetHNPA==
+
 npm-run-path@^4.0.1:
   version "4.0.1"
   resolved "https://registry.npmmirror.com/npm-run-path/-/npm-run-path-4.0.1.tgz#b7ecd1e5ed53da8e37a55e1c2269e0b97ed748ea"
@@ -13228,6 +13247,14 @@ react-dom@^18.2.0:
     loose-envify "^1.1.0"
     scheduler "^0.23.0"
 
+react-easy-crop@^5.0.4:
+  version "5.0.4"
+  resolved "https://registry.npmmirror.com/react-easy-crop/-/react-easy-crop-5.0.4.tgz#9559ff878cc7c77121c472dcd01babbd85647578"
+  integrity sha512-JfzSk4cBHoksgAtgWUHR/jDYretebMxS0rpAlltP1LeELGMj4WTa420m4PsYFpgQXoJZV0DXmINUlBWAoAD/PQ==
+  dependencies:
+    normalize-wheel "^1.0.1"
+    tslib "2.0.1"
+
 react-error-overlay@^6.0.11:
   version "6.0.11"
   resolved "https://registry.npmmirror.com/react-error-overlay/-/react-error-overlay-6.0.11.tgz#92835de5841c5cf08ba00ddd2d677b6d17ff9adb"
@@ -14923,6 +14950,11 @@ tslib@1.14.1, tslib@^1.8.1, tslib@^1.9.0:
   version "1.14.1"
   resolved "https://registry.npmmirror.com/tslib/-/tslib-1.14.1.tgz#cf2d38bdc34a134bcaf1091c41f6619e2f672d00"
   integrity sha512-Xni35NKzjgMrwevysHTCArtLDpPvye8zV/0E4EyYn43P7/7qvQwPh9BGkHewbMulVntbigmcT7rdX3BNo9wRJg==
+
+tslib@2.0.1:
+  version "2.0.1"
+  resolved "https://registry.npmmirror.com/tslib/-/tslib-2.0.1.tgz#410eb0d113e5b6356490eec749603725b021b43e"
+  integrity sha512-SgIkNheinmEBgx1IUNirK0TUD4X9yjjBRTqqjggWCU3pUEqIk3/Uwl3yRixYKT6WjQuGiwDv4NomL3wqRCj+CQ==
 
 tslib@2.4.0:
   version "2.4.0"

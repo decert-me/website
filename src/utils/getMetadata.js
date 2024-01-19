@@ -3,7 +3,7 @@ import { generateUUID } from "./getUuid";
 import { constans } from "./constans";
 import axios from "axios";
 
-export async function getMetadata({values, address, questions, answers, image, startTime, olduuid}, preview) {
+export async function getMetadata({values, address, questions, answers, image, media, startTime, olduuid}, preview) {
     /**
      * let obj = {
             title: values.title,
@@ -51,6 +51,9 @@ export async function getMetadata({values, address, questions, answers, image, s
             challenge_type: "challenge",
             creator: address,
             difficulty: values.difficulty !== undefined ? values.difficulty : null,
+        },
+        properties: {
+            media
         },
         external_url: "https://decert.me",
         version: version

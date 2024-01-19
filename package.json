@@ -27,6 +27,7 @@
     "@zcloak/keyring": "^2.0.0",
     "ahooks": "^3.7.5",
     "antd": "^5.1.7",
+    "antd-img-crop": "^4.21.0",
     "axios": "^1.5.0",
     "babel-jest": "^27.4.2",
     "babel-loader": "^8.2.3",

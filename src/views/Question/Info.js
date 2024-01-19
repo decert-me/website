@@ -62,7 +62,7 @@ export default function Info(props) {
                     <div className="info-content">
                         <div className="reward">
                             <div className="reward-item">NFT</div>
-                            <div className="reward-item">Privacy Certification</div>
+                            <div className="reward-item">Offchain Certification</div>
                         </div>
                     </div>
                 </li>

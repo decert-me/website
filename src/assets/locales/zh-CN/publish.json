@@ -7,7 +7,7 @@
     "inner": {
         "title": "标题",
         "desc": "描述",
-        "img": "图片",
+        "img": "NFT图片",
         "network": "网络",
         "add": "添加选择题或填空题",
         "add-code": "添加编程题",
@@ -76,7 +76,11 @@
         },
         "content": {
             "img": {
-                "p1": "点击或拖动上传",
+                "cut": "裁剪图片",
+                "upload": "上传图片",
+                "choose": "选择图片",
+                "menu-choose": "选择一张图片",
+                "p1": "点击上传",
                 "p2": "jpg, png, gif, svg.",
                 "p3": "最大尺寸：20 MB"
             }

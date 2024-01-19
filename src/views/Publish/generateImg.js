@@ -1,5 +1,4 @@
 import { ipfsImg } from "@/request/api/public";
-import { download } from "@/utils/file/download";
 import { forwardRef, useImperativeHandle, useRef } from "react";
 
 
@@ -14,16 +13,16 @@ function GenerateImg(params, ref) {
 
     function splitWords(ctx, text) {
         // 分割
-        let words = text.match(/[\u00ff-\uffff]|\S+/g);
+        let words = text.match(/[\u4e00-\u9fa5]|[^\u4e00-\u9fa5]|\S+/g);
         let line = '';
         let lines = [];
 
         for (let i = 0; i < words.length; i++) {
-            let testLine = line + words[i] + ' ';
+            let testLine = line + words[i];
             let testWidth = ctx.measureText(testLine).width;
             if (testWidth > textMaxWidth && i > 0) {
                 lines.push(line.trim());
-                line = words[i] + ' ';
+                line = words[i];
                 if (lines.length == 2) {
                     // If we already have two lines, add an ellipsis to the end of the second line and break the loop
                     lines[1] = lines[1].trim() + '...';
@@ -46,7 +45,6 @@ function GenerateImg(params, ref) {
 
     async function generate(base64, text) {
         return await new Promise((resolve, reject) => {
-            
             const img = new Image();
             img.crossOrigin = 'anonymous';
             img.onload = async function() {
@@ -56,6 +54,9 @@ function GenerateImg(params, ref) {
                 // 宽高
                 canvas.width = px;
                 canvas.height = px;
+                    
+                // img
+                ctx.drawImage(img, 0, 0, px, px);
                 
                 // mask
                 let mask = ctx.createLinearGradient(0, canvas.height, 0, canvas.height - maskHeight)
@@ -63,9 +64,6 @@ function GenerateImg(params, ref) {
                 mask.addColorStop(1, 'rgba(0, 0, 0, 0)'); // Transparent at the top
                 ctx.fillStyle = mask;
                 ctx.fillRect(0, canvas.height - maskHeight, canvas.width, maskHeight);
-    
-                // img
-                ctx.drawImage(img, 0, 0, px, px);
     
                 // text
                 ctx.font = '64px Arial';
