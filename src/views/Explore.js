@@ -1,10 +1,9 @@
-import { useEffect, useRef, useState } from "react"
+import { useEffect, useState } from "react"
 import { getQuests } from "../request/api/public"
 import "@/assets/styles/view-style/explore.scss"
 import "@/assets/styles/mobile/view-style/explore.scss"
 import { useTranslation } from "react-i18next";
 import store from "@/redux/store";
-import InfiniteScroll from "@/components/InfiniteScroll";
 import ChallengeItem from "@/components/User/ChallengeItem";
 import ChallengeItems from "@/components/User/ChallengeItems";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -12,17 +11,17 @@ import { getCollectionQuest } from "@/request/api/quests";
 import {
     ArrowLeftOutlined,
   } from '@ant-design/icons';
+import InfiniteScroll from "react-infinite-scroll-component";
+import { Spin } from "antd";
 
 export default function Explore(params) {
     
     const { t } = useTranslation(["explore", "translation"]);
     const { id } = useParams();
-    const scrollRef = useRef(null);
     const location = useLocation();
     const navigateTo = useNavigate();
     
     let [page, setPage] = useState(0);
-    const loader = useRef(null);
     
     let [isOver, setIsOver] = useState();
     let [challenges, setChallenges] = useState([]);
@@ -37,9 +36,6 @@ export default function Explore(params) {
     store.subscribe(handleMobileChange);
     
     const goCollection = (id) => {
-        // challenges = [];
-        // setChallenges([...challenges]);
-        console.log("清空");
         navigateTo(`/collection/${id}`)
     }
 
@@ -105,7 +101,13 @@ export default function Explore(params) {
             {/* title */}
             <h3>{t("title")}</h3>
             {/* Challenge */}
-            <div className="challenges" ref={scrollRef}>
+            <InfiniteScroll
+                className="challenges"
+                dataLength={challenges.length}
+                next={getChallenge}
+                hasMore={challenges.length !== 0 && !isOver}
+                loader={<Spin size="large" className="loading" />}
+            >
                 {
                     challenges.map(item => (
                         item.style === 1 ?
@@ -121,16 +123,7 @@ export default function Explore(params) {
                         />
                     ))
                 }
-                {
-                    challenges.length !== 0 && !isOver &&
-                    <div ref={loader}>
-                        <InfiniteScroll
-                            scrollRef={scrollRef}
-                            func={getChallenge}
-                        />
-                    </div>
-                }
-            </div>
+            </InfiniteScroll>
         </div>
     )
 }

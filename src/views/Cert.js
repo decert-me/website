@@ -13,10 +13,10 @@ import { useUpdateEffect } from "ahooks";
 import MyContext from "@/provider/context";
 import AddSbt from "@/components/Cert/AddSbt";
 import CustomLoading from "@/components/CustomLoading";
-import InfiniteScroll from "@/components/InfiniteScroll";
 import { covertChain } from "@/utils/convert";
 import { useAddress } from "@/hooks/useAddress";
 import ModalZkCard from "@/components/CustomModal/ModalZkCard";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Cert(params) {
     
@@ -305,8 +305,45 @@ export default function Cert(params) {
                         !isMobile && Reload
                     }
                 </div>
-                <div className="nfts" ref={scrollRef}>
-                    <div className="scroll">
+                <div className="nfts">
+                <InfiniteScroll
+                    className="scroll"
+                    height={"calc(100vh - 43px - 44px - 40px - 82px)"}
+                    dataLength={list.length}
+                    next={getNfts}
+                    hasMore={pageConfig.page * pageConfig.pageSize < (!selectStatus ? checkTotal.all : selectStatus === 2 ? checkTotal.open : checkTotal.hide)}
+                    loader={<CustomLoading />}
+                >
+                    {
+                        list.map(e => 
+                            <NftBox 
+                                info={e}
+                                isMobile={isMobile}
+                                changeNftStatus={changeNftStatus}
+                                key={e.id}
+                                isMe={isMe}
+                                options={options}
+                                showZk={(info) => {
+                                    zkModalOpen = info;
+                                    setZkModalOpen({...zkModalOpen});
+                                }}
+                            />
+                        )
+                    }
+                    {
+                        list.length === 0 &&
+                        <div className="nodata">
+                            <p>{t("cert:sidbar.nodata")}</p>
+                            {
+                                isMe && 
+                                <Button onClick={goAddSbt} id="hover-btn-line">
+                                    {t("cert:sidbar.list.add")}
+                                </Button>
+                            }
+                        </div>
+                    }
+                </InfiniteScroll>
+                    {/* <div className="scroll">
                         {
                             loading ?
                             <CustomLoading />
@@ -361,7 +398,7 @@ export default function Cert(params) {
                             }
                             </>
                         }
-                    </div>
+                    </div> */}
                 </div>
             </div>
             <div className={`Cert-addsbt ${addSbtPanel ? "" : "none"}`}>

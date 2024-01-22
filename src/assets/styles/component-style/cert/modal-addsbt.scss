@@ -68,15 +68,13 @@
             }
         }
     }
+    .list-content{
+        flex-wrap: wrap;
+        display: flex;
+        gap: 20px 17px;
+    }
     .content{
-        height: 500px;
         margin-top: 50px;
-        overflow-y: scroll;
-        .list-content{
-            flex-wrap: wrap;
-            display: flex;
-            gap: 20px 17px;
-        }
         .box-active, .box:hover{
             .checkbox{
                 display: block !important;
