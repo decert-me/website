@@ -1,5 +1,6 @@
 import Index from "@/views/Index"
 import Explore from "@/views/Explore"
+import ExploreNew from "@/views/Explore/index"
 import NewPublish from "@/views/Publish/index"
 import Question from "@/views/Question/index";
 import Challenge from "@/views/Challenge/index";
@@ -21,7 +22,7 @@ const routes = [
     },
     { 
       path: "/challenges",
-      element: <Explore />,
+      element: <ExploreNew />,
     },
     { 
       path: "/collection/:id",
