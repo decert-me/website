@@ -46,7 +46,7 @@ export default function ClaimInfo({answerInfo, detail}) {
         let evmLink = openseaLink;
         const solanaLink = `${openseaSolanaLink}/${nft_address}`;
         if (version == 1) {
-            evmLink = `${evmLink}/${isDev ? "mumbai" : "matic"}/${isDev ? CONTRACT_ADDR_1155_TESTNET?.QuestMinter : CONTRACT_ADDR_1155?.QuestMinter}/${badge_token_id}`;
+            evmLink = `${evmLink}/${isDev ? "mumbai" : "matic"}/${isDev ? CONTRACT_ADDR_1155_TESTNET?.Badge : CONTRACT_ADDR_1155?.Badge}/${badge_token_id}`;
         }else{
             const chainAddr = isDev ? CONTRACT_ADDR_721_TESTNET[badge_chain_id] : CONTRACT_ADDR_721[badge_chain_id];
             evmLink = `${evmLink}/${chainAddr.opensea}/${chainAddr.Badge}/${badge_token_id}`

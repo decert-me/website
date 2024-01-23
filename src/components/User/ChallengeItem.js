@@ -48,7 +48,7 @@ export default function ChallengeItem(props) {
         let evmLink = openseaLink;
         const solanaLink = `${openseaSolanaLink}/${nft_address}`;
         if (!badge_token_id) {
-            evmLink = `${evmLink}/${isDev ? "mumbai" : "matic"}/${isDev ? CONTRACT_ADDR_1155_TESTNET?.QuestMinter : CONTRACT_ADDR_1155?.QuestMinter}/${tokenId}`;
+            evmLink = `${evmLink}/${isDev ? "mumbai" : "matic"}/${isDev ? CONTRACT_ADDR_1155_TESTNET?.Badge : CONTRACT_ADDR_1155?.Badge}/${tokenId}`;
         }else{
             const chainAddr = isDev ? CONTRACT_ADDR_721_TESTNET[badge_chain_id] : CONTRACT_ADDR_721[badge_chain_id];
             evmLink = `${evmLink}/${chainAddr.opensea}/${chainAddr.Badge}/${badge_token_id}`
