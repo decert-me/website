@@ -13,10 +13,10 @@ import { findFastestGateway } from "@/utils/LoadImg";
 import { ipfsToImg } from "@/utils/IpfsToImg";
 import { useTranslation } from "react-i18next";
 import { useNavigate } from "react-router-dom";
-import InfiniteScroll from "../InfiniteScroll";
 import CustomLoading from "../CustomLoading";
 import { covertChain } from "@/utils/convert";
 import { constans } from "@/utils/constans";
+import InfiniteScroll from "react-infinite-scroll-component";
 const { Option } = Select;
 
 export default function AddSbt(props) {
@@ -41,6 +41,7 @@ export default function AddSbt(props) {
   
       let [addIds, setAddIds] = useState([]);
       let [deleteIds, setDeleteIds] = useState([]);
+      let [isOver, setIsOver] = useState();
       let [pageConfig, setPageConfig] = useState({
           page: 0, pageSize: 16, total: 0
       })
@@ -155,6 +156,10 @@ export default function AddSbt(props) {
                 let arr = res.data?.list ? res.data?.list : [];
                 list = list.concat(arr.slice());
                 setList([...list]);
+                if (list.length === res.data.total) {
+                    setIsOver(true);
+                }
+                console.log("===>", list.length !== 0 , !isOver);
                 cache = cache.concat(JSON.parse(JSON.stringify(arr)));
                 setCache([...cache]);
             }
@@ -187,6 +192,8 @@ export default function AddSbt(props) {
         pageConfig = {
             page: 0, pageSize: 16, total: 0
         };
+        isOver = false;
+        setIsOver(isOver);
         setPageConfig({...pageConfig});
         if (config.address) {
           getList();
@@ -232,25 +239,16 @@ export default function AddSbt(props) {
                     </div>
                 </div>
             </div>
-            <div className="content custom-scroll" ref={scrollRef} >
-                <div className="list-content">
-                    {
-                        list.length === 0 && isLoading ?
-                        <Spin
-                            indicator={
-                                <LoadingOutlined
-                                    style={{
-                                    fontSize: 24,
-                                    }}
-                                    spin
-                                />
-                            } 
-                        />
-                        :
-                        (
-                            <>
-                            {
-                            list &&
+            <div className="content" ref={scrollRef} >
+                    <InfiniteScroll
+                        className="list-content custom-scroll"
+                        dataLength={list.length}
+                        next={getList}
+                        height={500}
+                        hasMore={list.length !== 0 && !isOver}
+                        loader={<CustomLoading className="sbt-loading" />}
+                    >
+                        {
                             list.map((e,i) => 
                                 <div 
                                     className={`box ${cache[i].flag === 2 ? "box-active" : ""}`}
@@ -285,23 +283,8 @@ export default function AddSbt(props) {
                                         </Tooltip>
                                 </div>    
                             )
-                            }
-                            {
-                                pageConfig.page * pageConfig.pageSize < pageConfig.total &&
-                                <InfiniteScroll 
-                                    className="sbt-loading"
-                                    func={getList}
-                                    isCustom={true}
-                                    scrollRef={scrollRef}
-                                    components={(
-                                        <CustomLoading className="sbt-loading" />
-                                    )}
-                                />
-                            }
-                            </>
-                        )
-                    }
-                </div>
+                        }
+                    </InfiniteScroll>
             </div>
             <Button 
                 loading={loading}
