@@ -8,7 +8,10 @@ import { ConfigProvider } from 'antd';
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs';
 import * as Sentry from "@sentry/react";
 import { useMemo } from "react";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 require("@solana/wallet-adapter-react-ui/styles.css");
+
+const queryClient = new QueryClient()
 
 const sentryKey = process.env.REACT_APP_SENTRY_KEY;
 if (sentryKey) {
@@ -42,26 +45,28 @@ export default function Providers({children}) {
     );
     
     return (
-        // solana
-        <ConnectionProvider endpoint={endpoint}>
-            <WalletProvider wallets={wallets} autoConnect>
-                <WalletModalProvider>
-                    {/* wagmi */}
-                    <WagmiConfig config={wagmiConfig}>
-                        <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
-                            <ConfigProvider
-                                theme={{
-                                components: {
-                                    Progress: { gapDegree: 0},
-                                }}}
-                            >
-                                {children}
-                            </ConfigProvider>
-                        </StyleProvider>
-                    </WagmiConfig>
-                    
-                </WalletModalProvider>
-            </WalletProvider>
-        </ConnectionProvider>
+        <QueryClientProvider client={queryClient}>
+            {/* solana */}
+            <ConnectionProvider endpoint={endpoint}>
+                <WalletProvider wallets={wallets} autoConnect>
+                    <WalletModalProvider>
+                        {/* wagmi */}
+                        <WagmiConfig config={wagmiConfig}>
+                            <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
+                                <ConfigProvider
+                                    theme={{
+                                    components: {
+                                        Progress: { gapDegree: 0},
+                                    }}}
+                                >
+                                    {children}
+                                </ConfigProvider>
+                            </StyleProvider>
+                        </WagmiConfig>
+                        
+                    </WalletModalProvider>
+                </WalletProvider>
+            </ConnectionProvider>
+        </QueryClientProvider>
     )
 }
