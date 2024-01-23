@@ -45,7 +45,7 @@ export default function NftBox(props) {
                                     </>
                                 }
                                 {
-                                    info.claim_status === 2 &&
+                                    (info.claim_status === 2 || info.claim_status === 3) &&
                                     <Tooltip 
                                         trigger={isMobile ? "focus" : "hover"}
                                         title={t("profile:zkTool")}>
