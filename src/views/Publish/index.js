@@ -36,7 +36,7 @@ export default function Publish(params) {
     const dataBase = "publish";
     const [form] = Form.useForm();
     const isFirstRender = useRef(true);     //  是否是第一次渲染
-    const generateImgRef = useRef();
+    // const generateImgRef = useRef();
     const uploadRef = useRef();
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
@@ -82,17 +82,17 @@ export default function Publish(params) {
                 base64 = fileList[0].path
             }
             // 生成img
-            const image = await generateImgRef.current.generate(
-                base64,
-                values.title,
-            )
+            // const image = await generateImgRef.current.generate(
+            //     base64,
+            //     values.title,
+            // )
             const jsonHash = await getMetadata({
                 values: values,
                 address: address,
                 questions: qs,
                 answers: encode(JSON.stringify(answers)),
-                image: "ipfs://"+image,
-                media: "ipfs://"+media,
+                image: "ipfs://"+media,
+                // media: "ipfs://"+media,
                 startTime: isEdit ? changeItem.startTime : null,
                 olduuid: isEdit ? changeItem.uuid : null
             }, preview ? preview : null)
@@ -520,7 +520,7 @@ export default function Publish(params) {
                             saveCache(dataBase, values, isEdit);
                         }}
                     />
-                    <GenerateImg ref={generateImgRef} />
+                    {/* <GenerateImg ref={generateImgRef} /> */}
                     <Form.Item 
                         label={t("inner.img")}
                         name="fileList"
