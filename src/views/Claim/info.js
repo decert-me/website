@@ -203,6 +203,13 @@ export default function ClaimInfo({answerInfo, detail}) {
                                         <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                                     </a>
                                 }
+                                {/* 阴影文本: ERC-721展示 */}
+                                {
+                                    detail?.version === "2" &&
+                                    <div className="img-mask">
+                                        <p className="newline-omitted">{detail.title}</p>
+                                    </div>
+                                }
                             </div>
                         </div>
                         <ClaimOperate 
