@@ -2,8 +2,9 @@ import ModalAirdrop from "@/components/CustomModal/ModalAirdrop";
 import ModalSelectChain from "@/components/CustomModal/ModalSelectChain";
 import { hasClaimed, wechatShare } from "@/request/api/public";
 import { useRequest } from "ahooks";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import GenerateImg from "./generateImg";
 
 
 
@@ -13,6 +14,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
     const { t } = useTranslation(["claim", "translation"]);
     const { score, passingPercent, isPass, answers } = answerInfo
     const [isModalNetwork, setIsModalNetwork] = useState(false);
+    const generateImgRef = useRef();
     let [status, setStatus] = useState(0);
     let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
     let [cacheIsClaim, setCacheIsClaim] = useState();
@@ -31,6 +33,14 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
     async function airpost(chainId) {
         
         if (step === 2 && status === 0) {
+            console.log("start generate");
+            // 生成img
+            const image = await generateImgRef.current.generate(
+                detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
+                detail.title,
+            )
+            console.log(image);
+            return
             // 弹出框
             setIsModalAirdropOpen(true);
             status = 1;
@@ -111,6 +121,9 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
             handleCancel={() => setIsModalNetwork(false)} 
             airpost={airpost}
         />
+
+        {/* 生成图片 */}
+        <GenerateImg ref={generateImgRef} />
         <div className={`CustomBox ${step === 2 ? "checked-step" : ""} step-box ${detail.claimed||cacheIsClaim ? "isClaim" : ""}`}
             style={{
                 justifyContent: "center",

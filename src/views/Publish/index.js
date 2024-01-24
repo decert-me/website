@@ -22,7 +22,6 @@ import { clearDataBase, getDataBase, saveCache } from "@/utils/saveCache";
 import store, { setChallenge } from "@/redux/store";
 import MyContext from "@/provider/context";
 import { CHAINS, CHAINS_TESTNET } from "@/config";
-import GenerateImg from "./generateImg";
 import UploadTmplModal from './uploadTmplModal';
 
 
@@ -36,7 +35,6 @@ export default function Publish(params) {
     const dataBase = "publish";
     const [form] = Form.useForm();
     const isFirstRender = useRef(true);     //  是否是第一次渲染
-    // const generateImgRef = useRef();
     const uploadRef = useRef();
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
@@ -81,11 +79,6 @@ export default function Publish(params) {
             if (base64.indexOf("https://ipfs.decert.me/") !== -1) {
                 base64 = fileList[0].path
             }
-            // 生成img
-            // const image = await generateImgRef.current.generate(
-            //     base64,
-            //     values.title,
-            // )
             const jsonHash = await getMetadata({
                 values: values,
                 address: address,
@@ -520,7 +513,6 @@ export default function Publish(params) {
                             saveCache(dataBase, values, isEdit);
                         }}
                     />
-                    {/* <GenerateImg ref={generateImgRef} /> */}
                     <Form.Item 
                         label={t("inner.img")}
                         name="fileList"
