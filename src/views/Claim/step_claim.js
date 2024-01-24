@@ -17,6 +17,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
     const generateImgRef = useRef();
     let [status, setStatus] = useState(0);
     let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
+    let [isGenerate, setIsGenerate] = useState(false);
     let [cacheIsClaim, setCacheIsClaim] = useState();
 
     const { runAsync } = useRequest(shareWechat, {
@@ -34,9 +35,11 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
         
         if (step === 2 && status === 0) {
             // 生成img
+            setIsGenerate(true);
             const image = await generateImgRef.current.generate(
                 detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
                 detail.title,
+                () => setCacheIsClaim(false)
             )
             // 弹出框
             setIsModalAirdropOpen(true);

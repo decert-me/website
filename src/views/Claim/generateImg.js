@@ -43,7 +43,7 @@ function GenerateImg(params, ref) {
         }
     }
 
-    async function generate(base64, text) {
+    async function generate(base64, text, func) {
         return await new Promise((resolve, reject) => {
             const img = new Image();
             img.crossOrigin = 'anonymous';
@@ -96,9 +96,11 @@ function GenerateImg(params, ref) {
             };
         })
         .then(res => {
+            func();
             return res
         })
         .catch(err => {
+            func();
             throw new Error(err)
         })
     }
