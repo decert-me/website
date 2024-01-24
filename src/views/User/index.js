@@ -33,9 +33,11 @@ export default function User(props) {
     const searchStatus = queryParameters.get("status");
     const searchType = queryParameters.get("type");
     const { user, isMobile } = useContext(MyContext);
-    const { address, walletType } = useAddress();
+    const { address } = useAddress();
     const location = useLocation();
     const { address: paramsAddr } = useParams();
+
+    const walletType = /^0x/.test(paramsAddr) ? "evm" : "solana";
     const [didID, setDidID] = useState("");
     const [isKeysFile, setIsKeysFile] = useState(false);
     let [zkModalOpen, setZkModalOpen] = useState();
@@ -362,7 +364,7 @@ export default function User(props) {
                             profile={{
                                 isMe,
                                 checkType,
-                                address,
+                                address: paramsAddr,
                                 walletType
                             }}
                             showZk={(info) => {
