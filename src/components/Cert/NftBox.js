@@ -20,7 +20,7 @@ export default function NftBox(props) {
                 options.map((item, index) => {
                     if (item.nftscan === info.chain) {
                         return (
-                            <div key={index} className={info.status === 1 ? "show" : ""}>
+                            <div key={index} className={`flex ${info.status === 1 ? "show" : ""}`}>
                                 {
                                     (info.claim_status === 1 || info.claim_status === 3) &&
                                     <>
