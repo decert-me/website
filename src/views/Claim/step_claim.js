@@ -33,7 +33,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
 
     async function airpost(chainId) {
         
-        if (step === 2 && status === 0) {
+        if (step === 2 && status === 0 && !isGenerate) {
             // 生成img
             setIsGenerate(true);
             const image = await generateImgRef.current.generate(
