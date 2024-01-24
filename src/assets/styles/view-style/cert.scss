@@ -329,6 +329,15 @@
                 margin-inline: 15px;
             }
         }
+        .flex{
+            width: 100%;
+            padding-left: 9px;
+            display: flex;
+            gap: 19px;
+            position: absolute;
+            top: 12px;
+            left: 0;
+        }
         .nft-detail{
             width: 282px;
             border-radius: 20px;
@@ -346,7 +355,7 @@
             .badge{
                 width: 32px;
                 height: 32px;
-                position: absolute;
+                // position: absolute;
                 z-index: 1;
                 cursor: pointer;
                 opacity: 0;
@@ -366,7 +375,7 @@
                 top: 12px;
             }
             .badge-eye{
-                top: 5px;
+                position: absolute;
                 right: 5px;
                 display: flex;
                 align-items: center;
