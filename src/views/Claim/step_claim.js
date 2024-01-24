@@ -5,16 +5,18 @@ import { useRequest } from "ahooks";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import GenerateImg from "./generateImg";
+import { useAddress } from "@/hooks/useAddress";
 
 
 
 export default function StepClaim({step, setStep, detail, isMobile, answerInfo}) {
     
 
+    const generateImgRef = useRef();
+    const { walletType } = useAddress();
     const { t } = useTranslation(["claim", "translation"]);
     const { score, passingPercent, isPass, answers } = answerInfo
     const [isModalNetwork, setIsModalNetwork] = useState(false);
-    const generateImgRef = useRef();
     let [status, setStatus] = useState(0);
     let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
     let [cacheIsClaim, setCacheIsClaim] = useState();
@@ -30,18 +32,35 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
         pollingWhenHidden: false
     });
 
+    async function goAirpost(params) {
+        if (step === 2 && status === 0) {            
+            if (walletType === "evm") {
+                setIsModalNetwork(true);
+            }else{
+                status = 1;
+                setStatus(status);
+                const image = await generateImgRef.current.generate(
+                    detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
+                    detail.title
+                )
+                await runAsync({chainId: null, image});
+                run();
+            }
+        }
+    }
+
     async function airpost(chainId) {
         
         if (step === 2 && status === 0) {
             // 弹出框
             setIsModalAirdropOpen(true);
+            status = 1;
+            setStatus(status);
             // 生成img
             const image = await generateImgRef.current.generate(
                 detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
                 detail.title
             )
-            status = 1;
-            setStatus(status);
             await runAsync({chainId, image});
             run();
         }
@@ -127,9 +146,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                 justifyContent: "center",
                 cursor: step === 2 && status === 0 && "pointer"
             }}
-            onClick={() => {
-                step === 2 && status === 0 && setIsModalNetwork(true)
-            }}
+            onClick={() => goAirpost()}
         >
             {
                 step < 2 ? 

@@ -1,3 +1,4 @@
+import bs58 from 'bs58'
 import { Button, Modal } from "antd";
 import { CopyOutlined } from '@ant-design/icons';
 import { useEffect, useState } from "react";
@@ -12,10 +13,14 @@ import { Keyring } from "@zcloak/keyring";
 import { keys } from "@zcloak/did";
 import { registerDidDoc } from "@/utils/zk/didHelper";
 import { Copy } from "@/utils/Copy";
+import { useAddress } from "@/hooks/useAddress";
+import { useWallet } from "@solana/wallet-adapter-react";
 
 export default function BindZkBtn({clear}) {
     
     const { t } = useTranslation(["profile", "translation"]);
+    const { wallet } = useWallet();
+    const { walletType } = useAddress();
     const { data: signMessage } = useWalletClient();
     const [isZkLoad, setIsZkLoad] = useState(false);
     const [isBind, setIsBind] = useState(false);
@@ -46,7 +51,15 @@ export default function BindZkBtn({clear}) {
             // 获取msg
             const {data} = await getDidSignMessage({did: did.id})
             // 发起签名
-            const sign_hash = await signMessage?.signMessage({message: data?.loginMessage});
+            const message = data?.loginMessage;
+            let sign_hash;
+            if (walletType === "evm") {
+                sign_hash = await signMessage?.signMessage({message});
+            }else{
+                const msg = new TextEncoder().encode(message);
+                const arr = await wallet.adapter?.signMessage(msg);
+                sign_hash = bs58.encode(arr);
+            }
 
             // did publish
             const doc = await did.getPublish();
@@ -77,7 +90,14 @@ export default function BindZkBtn({clear}) {
         setMnemonic(mnemonic);
         // 发起签名
         try {
-            const sign_hash = await signMessage?.signMessage({message});
+            let sign_hash;
+            if (walletType === "evm") {
+                sign_hash = await signMessage?.signMessage({message});
+            }else{
+                const msg = new TextEncoder().encode(message);
+                const arr = await wallet.adapter?.signMessage(msg);
+                sign_hash = bs58.encode(arr);
+            }
             const keyFileObj = { pwd: sign_hash, nonce, mnemonic };
             // 获取keyfile
             const key_file = await backup(keyFileObj)

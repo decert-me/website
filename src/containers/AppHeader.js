@@ -264,7 +264,10 @@ export default function AppHeader({ isMobile, user }) {
                         {
                             isConnected ?
                                 <>
-                                    <SelectNetwork />
+                                    {
+                                        walletType === "evm" &&
+                                        <SelectNetwork />
+                                    }
                                     <Dropdown
                                         placement="bottom" 
                                         // trigger="click"
