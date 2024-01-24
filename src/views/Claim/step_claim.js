@@ -33,29 +33,27 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
     async function airpost(chainId) {
         
         if (step === 2 && status === 0) {
-            console.log("start generate");
             // 生成img
             const image = await generateImgRef.current.generate(
                 detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
                 detail.title,
             )
-            console.log(image);
-            return
             // 弹出框
             setIsModalAirdropOpen(true);
             status = 1;
             setStatus(status);
-            await runAsync(chainId);
+            await runAsync({chainId, image});
             run();
         }
     }
 
-    async function shareWechat(chainId) {
+    async function shareWechat({chainId,image}) {
         const data = {
             tokenId: detail.tokenId,
             score: score,
             answer: JSON.stringify(answers),
-            chain_id: chainId
+            chain_id: chainId,
+            image_uri: "ipfs://"+image
         }
         // const {version} = detail
 

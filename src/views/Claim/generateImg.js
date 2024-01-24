@@ -108,7 +108,7 @@ function GenerateImg(params, ref) {
     }))
 
     return (
-        <div className="generateImg">
+        <div className="generateImg" style={{display: "none"}}>
             <canvas ref={canvasRef} />
         </div>
     )
