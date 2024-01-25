@@ -130,6 +130,9 @@ export default function ChallengeItem(props) {
                 <div className="img">
                         <LazyLoadImage
                             src={
+                                info.metadata.image.indexOf("https://") !== -1 ? 
+                                info.metadata.image
+                                :
                                 info.metadata.image.split("//")[1] ? 
                                 `${ipfsPath}/${info.metadata.image.split("//")[1]}` :
                                 info.metadata?.properties?.media.split("//")[1]? 
@@ -140,7 +143,7 @@ export default function ChallengeItem(props) {
                 </div>
                 {/* 阴影文本: ERC-721展示 */}
                 {
-                    info.version === "2" && !info.badge_token_id &&
+                    info.version === "2" && info.claim_status === 1 && info.claim_status === 3 &&
                     <div className="img-mask">
                         <p className="newline-omitted">{info.title}</p>
                     </div>
