@@ -22,6 +22,7 @@ import { useAddress } from "@/hooks/useAddress";
 import { getAddressDid, getKeyFileSignature } from "@/request/api/zk";
 import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
 import ModalZkCard from "@/components/CustomModal/ModalZkCard";
+import ModalImgCard from "@/components/CustomModal/ModalImgCard";
 
 
 export default function User(props) {
@@ -39,6 +40,7 @@ export default function User(props) {
     const [didID, setDidID] = useState("");
     const [isKeysFile, setIsKeysFile] = useState(false);
     let [zkModalOpen, setZkModalOpen] = useState();
+    let [imgModalOpen, setImgModalOpen] = useState();
     let [account, setAccount] = useState();
     let [isMe, setIsMe] = useState();
     let [info, setInfo] = useState();
@@ -62,6 +64,20 @@ export default function User(props) {
             { key: 0, label: t("profile:type0")}
         ]}
     ]
+
+    function shareZk() {
+        const text = `很高兴完成了一个新的挑战 。
+
+我从 @decertme 获得一个 链下证书。
+
+你也可以参与挑战：${challengeUrl}
+
+&image=https://ipfs.decert.me/bafybeiceyvc5k3al2wyrkperbjw4oagoexqeqzvwwftzvxsnlxw7l2d6eu
+
+#DeCert`
+        const url = "https://twitter.com/intent/tweet?text=";
+        window.open(url+encodeURIComponent(text), "_blank");
+    }
 
     const getList = () => {
         if (checkType === 0) {
@@ -234,6 +250,11 @@ export default function User(props) {
             isModalOpen={zkModalOpen}
             handleCancel={() => setZkModalOpen(null)}
         />
+        <ModalImgCard
+            isMobile={isMobile}
+            isModalOpen={imgModalOpen}
+            handleCancel={() => setImgModalOpen(null)}
+        />
         <Modal
             title={t("profile:key")}
             className="modal-keys"
@@ -368,6 +389,10 @@ export default function User(props) {
                             showZk={(info) => {
                                 zkModalOpen = info;
                                 setZkModalOpen({...zkModalOpen});
+                            }}
+                            showImg={(info) => {
+                                imgModalOpen = info;
+                                setImgModalOpen({...imgModalOpen})
                             }}
                         />
                     )

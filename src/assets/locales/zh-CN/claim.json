@@ -9,6 +9,7 @@
     "zkCreate": "立即创建 >>",
     "getZk": "你获得了一份",
     "getZkLink": "链下证书",
+    "getNft": "NFT 勋章",
     "choose": "完善个人资料",
     "bindAc": "绑定你的社交账号",
     "score": {
@@ -53,7 +54,7 @@
         "btn": "立即领取",
         "wait": "等待空投...",
         "share": {
-            "title": "很高兴完成了一个新的挑战 💪🏻。%0A%0A我从 {{what}} 获得一个 NFT 勋章。",
+            "title": "很高兴完成了一个新的挑战 💪🏻。%0A%0A我从 @DecertMe 获得一个 {{what}}。%0A%0A你也可以参与挑战：{{challenge}}%0A%0A%23DeCert",
             "url": "%0A你也可以参与挑战：{{what}}%0A",
             "btn": "分享领取",
             "badge": "免手续费"

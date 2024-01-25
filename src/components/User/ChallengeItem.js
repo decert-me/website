@@ -14,7 +14,7 @@ import { CONTRACT_ADDR_1155, CONTRACT_ADDR_1155_TESTNET, CONTRACT_ADDR_721, CONT
 export default function ChallengeItem(props) {
     
     const isDev = process.env.REACT_APP_IS_DEV;
-    const { info, profile, showZk } = props;
+    const { info, profile, showZk, showImg } = props;
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
@@ -85,6 +85,14 @@ export default function ChallengeItem(props) {
        !info?.has_claim && window.open(`/publish?${info.tokenId}`, '_blank');
     }
 
+    function openImgCard(event) {
+        if (showImg && info.claimed) {
+            event.stopPropagation();
+            // TODO: 分享已领取的图片
+            showImg(info.metadata);
+        }
+    }
+
     function getTimeDiff(time) {
         const { type, time: num } = convertTime(time, "all")
 
@@ -127,7 +135,9 @@ export default function ChallengeItem(props) {
                 </div>
             }
             <div className="right-sbt challenge-img" onClick={clickSbt}>
-                <div className="img">
+                <div className="img" onClick={(event) => {
+                    (info.claim_status === 1 || info.claim_status === 3) && openImgCard(event)
+                }}>
                         <LazyLoadImage
                             src={
                                 info.metadata.image.split("//")[1] ? 

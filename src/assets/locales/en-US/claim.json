@@ -9,6 +9,7 @@
     "zkCreate": "Create one now >>",
     "getZk": "You have obtained a",
     "getZkLink": "Offchain Certification",
+    "getNft": "NFT Medal",
     "choose": "Improvement of personal data",
     "bindAc": "Bind your social account",
     "score": {
@@ -53,7 +54,7 @@
         "btn": "Claim",
         "wait": "Watiing for airdrop...",
         "share": {
-            "title": "Glad to have completed a new challenge 💪🏻.%0A%0AI just claimed a free NFT badge from {{what}}.",
+            "title": "I'm thrilled to have completed a new challenge 💪🏻。%0A%0AI've earned an {{what}} from @DecertMe 。%0A%0AYou can participate in the challenge too：{{challenge}}%0A%0A%23DeCert",
             "url": "%0AMeeting the challenge and claim yours at {{what}}%0A",
             "btn": "Claim by sharing",
             "badge": "Free"
