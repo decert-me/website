@@ -143,7 +143,7 @@ export default function ChallengeItem(props) {
                 </div>
                 {/* 阴影文本: ERC-721展示 */}
                 {
-                    info.version === "2" && info.claim_status === 1 && info.claim_status === 3 &&
+                    info.version === "2" && info.claim_status !== 1 && info.claim_status !== 3 &&
                     <div className="img-mask">
                         <p className="newline-omitted">{info.title}</p>
                     </div>
