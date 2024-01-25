@@ -37,6 +37,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
             if (walletType === "evm") {
                 setIsModalNetwork(true);
             }else{
+                setIsModalAirdropOpen(true);
                 status = 1;
                 setStatus(status);
                 const image = await generateImgRef.current.generate(

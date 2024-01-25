@@ -4,6 +4,7 @@ import CustomLoad from "../CustomLoad";
 import "./index.scss";
 import { CHAINS, CHAINS_TESTNET } from "@/config";
 import { useTranslation } from "react-i18next";
+import { useAddress } from "@/hooks/useAddress";
 
 
 export default function SelectNetwork(params) {
@@ -11,6 +12,7 @@ export default function SelectNetwork(params) {
     const chains = process.env.REACT_APP_IS_DEV ? CHAINS_TESTNET : CHAINS;
     const { t } = useTranslation();
     const { chain } = useNetwork();
+    const { walletType } = useAddress();
     const { pendingChainId, switchNetworkAsync, isLoading } = useSwitchNetwork()
 
 
@@ -49,6 +51,7 @@ export default function SelectNetwork(params) {
 
     
     return(
+        walletType === "evm" ?
         <Dropdown
             overlayClassName="dropdown-selectNetwork"
             placement="bottom"
@@ -64,5 +67,14 @@ export default function SelectNetwork(params) {
                 <img src={chain?.img ? chain.img : require("@/assets/images/img/net-error.png")} alt="" />
             </Button>
         </Dropdown>
+        :
+        <Button
+            type="ghost"
+            ghost
+            className='lang custom-btn'
+            id='hover-btn-line'
+        >
+            <img src={require("@/assets/images/img/net-Solana.png")} alt="" />
+        </Button>
     )
 }
