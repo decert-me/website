@@ -13,15 +13,6 @@ export default function ModalImgCard(props) {
     const { t } = useTranslation(["claim"]);
 
     async function shareNFT() {
-//         const text = `很高兴完成了一个新的挑战 。
-
-// 我从 @decertme 获得一个 NFT 勋章。
-
-// 你也可以参与挑战：${isModalOpen.attributes.challenge_url}
-
-// #DeCert`
-//         const url = "https://twitter.com/intent/tweet?text=";
-//         window.open(url+encodeURIComponent(text), "_blank");
         try {
             const url = isModalOpen.attributes.challenge_url + "?q=" + isModalOpen.image.replace("ipfs://", "");
             const text = t("claim.share.title", {what: t("getNft"), challenge: url});
