@@ -121,6 +121,13 @@ $container-width: 21.875rem;
                         right: .3125rem;
                         top: .3125rem;
                     }
+                    .img-mask{
+                        height: 2.125rem;
+                        padding: 0 .625rem;
+                        .newline-omitted{
+                            font-size: .5625rem;
+                        }
+                    }
                 }
             }
             .step{

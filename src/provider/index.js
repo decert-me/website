@@ -146,7 +146,9 @@ export default function MyProvider(props) {
             func?.goEdit && await func.goEdit(address);
 
             // 检测是否需要切换链
-            setIsSwitchChain(true);
+            if (walletType === "evm") {
+                setIsSwitchChain(true);
+            }
         } catch (error) {
             Modal.destroyAll();
             console.log("error ===>", error);

@@ -45,13 +45,17 @@ export default function ClaimInfo({answerInfo, detail}) {
         const { version, nft_address, badge_chain_id, badge_token_id } = detail;
         let evmLink = openseaLink;
         const solanaLink = `${openseaSolanaLink}/${nft_address}`;
+        if (walletType === "solana") {
+            return solanaLink
+        }
+
         if (version == 1) {
             evmLink = `${evmLink}/${isDev ? "mumbai" : "matic"}/${isDev ? CONTRACT_ADDR_1155_TESTNET?.Badge : CONTRACT_ADDR_1155?.Badge}/${badge_token_id}`;
         }else{
             const chainAddr = isDev ? CONTRACT_ADDR_721_TESTNET[badge_chain_id] : CONTRACT_ADDR_721[badge_chain_id];
-            evmLink = `${evmLink}/${chainAddr.opensea}/${chainAddr.Badge}/${badge_token_id}`
+            evmLink = `${evmLink}/${chainAddr?.opensea}/${chainAddr?.Badge}/${badge_token_id}`
         }
-        return walletType === "evm" ? evmLink : solanaLink
+        return evmLink
     }
 
     // 完善资料
@@ -202,6 +206,13 @@ export default function ClaimInfo({answerInfo, detail}) {
                                     >
                                         <img src={require("@/assets/images/icon/opensea.png")} alt="" />
                                     </a>
+                                }
+                                {/* 阴影文本: ERC-721展示 */}
+                                {
+                                    detail?.version === "2" &&
+                                    <div className="img-mask">
+                                        <p className="newline-omitted">{detail.title}</p>
+                                    </div>
                                 }
                             </div>
                         </div>

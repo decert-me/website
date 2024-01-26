@@ -130,6 +130,9 @@ export default function ChallengeItem(props) {
                 <div className="img">
                         <LazyLoadImage
                             src={
+                                info.metadata.image.indexOf("https://") !== -1 ? 
+                                info.metadata.image
+                                :
                                 info.metadata.image.split("//")[1] ? 
                                 `${ipfsPath}/${info.metadata.image.split("//")[1]}` :
                                 info.metadata?.properties?.media.split("//")[1]? 
@@ -138,6 +141,13 @@ export default function ChallengeItem(props) {
                             }
                         />
                 </div>
+                {/* 阴影文本: ERC-721展示 */}
+                {
+                    info.version === "2" && info.claim_status !== 1 && info.claim_status !== 3 &&
+                    <div className="img-mask">
+                        <p className="newline-omitted">{info.title}</p>
+                    </div>
+                }
                 <div style={{
                     position: "absolute",
                     right: "5px",
@@ -152,9 +162,15 @@ export default function ChallengeItem(props) {
                             <img src={isDev ? CONTRACT_ADDR_721_TESTNET[info.badge_chain_id]?.img: CONTRACT_ADDR_721[info.badge_chain_id].img} alt="" />
                         </div>
                     }
+                    {
+                        profile && (profile.walletType === "solana" && (info.claim_status === 1 || info.claim_status === 3)) &&
+                        <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
+                            <img src={require("@/assets/images/img/net-Solana.png")} alt="" />
+                        </div>
+                    }
                     {/* opensea */}
                     {
-                        profile && (profile.walletType === "evm" && (info.claim_status === 1 || info.claim_status === 3)) &&
+                        profile && ((info.claim_status === 1 || info.claim_status === 3)) &&
                         <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
                             <img src={require("@/assets/images/icon/user-opensea.png")} alt="" />
                         </div>

@@ -2,14 +2,18 @@ import ModalAirdrop from "@/components/CustomModal/ModalAirdrop";
 import ModalSelectChain from "@/components/CustomModal/ModalSelectChain";
 import { hasClaimed, wechatShare } from "@/request/api/public";
 import { useRequest } from "ahooks";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import GenerateImg from "./generateImg";
+import { useAddress } from "@/hooks/useAddress";
 
 
 
 export default function StepClaim({step, setStep, detail, isMobile, answerInfo}) {
     
 
+    const generateImgRef = useRef();
+    const { walletType } = useAddress();
     const { t } = useTranslation(["claim", "translation"]);
     const { score, passingPercent, isPass, answers } = answerInfo
     const [isModalNetwork, setIsModalNetwork] = useState(false);
@@ -28,6 +32,24 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
         pollingWhenHidden: false
     });
 
+    async function goAirpost(params) {
+        if (step === 2 && status === 0) {            
+            if (walletType === "evm") {
+                setIsModalNetwork(true);
+            }else{
+                setIsModalAirdropOpen(true);
+                status = 1;
+                setStatus(status);
+                const image = await generateImgRef.current.generate(
+                    detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
+                    detail.title
+                )
+                await runAsync({chainId: null, image});
+                run();
+            }
+        }
+    }
+
     async function airpost(chainId) {
         
         if (step === 2 && status === 0) {
@@ -35,17 +57,23 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
             setIsModalAirdropOpen(true);
             status = 1;
             setStatus(status);
-            await runAsync(chainId);
+            // 生成img
+            const image = await generateImgRef.current.generate(
+                detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
+                detail.title
+            )
+            await runAsync({chainId, image});
             run();
         }
     }
 
-    async function shareWechat(chainId) {
+    async function shareWechat({chainId,image}) {
         const data = {
             tokenId: detail.tokenId,
             score: score,
             answer: JSON.stringify(answers),
-            chain_id: chainId
+            chain_id: chainId,
+            image_uri: "ipfs://"+image
         }
         // const {version} = detail
 
@@ -111,14 +139,15 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
             handleCancel={() => setIsModalNetwork(false)} 
             airpost={airpost}
         />
+
+        {/* 生成图片 */}
+        <GenerateImg ref={generateImgRef} />
         <div className={`CustomBox ${step === 2 ? "checked-step" : ""} step-box ${detail.claimed||cacheIsClaim ? "isClaim" : ""}`}
             style={{
                 justifyContent: "center",
                 cursor: step === 2 && status === 0 && "pointer"
             }}
-            onClick={() => {
-                step === 2 && status === 0 && setIsModalNetwork(true)
-            }}
+            onClick={() => goAirpost()}
         >
             {
                 step < 2 ? 
