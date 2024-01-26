@@ -4,11 +4,11 @@ import { useTranslation } from "react-i18next";
 import { useInfiniteQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PageLoader from "@/components/Loader/PageLoader";
-import ChallengeItem from "@/components/User/ChallengeItem";
+import ChallengeItem from "@/components/ChallengeItem";
 import ChallengeItems from "@/components/User/ChallengeItems";
 import { getChallengeList } from "@/state/explore/challenge";
 import "./style/index.scss";
-import "./mobile.scss";
+import "./style/mobile.scss";
 
 
 export default function Explore(params) {
@@ -41,7 +41,7 @@ export default function Explore(params) {
                         .flat()
                         .map((item) =>
                             item.style === 1 ? (
-                                <ChallengeItem key={item.id} info={item} />
+                                <ChallengeItem info={item} key={item.id} />
                             ) : (
                                 <ChallengeItems
                                     key={item.id}
