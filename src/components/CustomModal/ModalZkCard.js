@@ -57,11 +57,10 @@ export default function ModalZkCard(props) {
                         challengeUrl = res.data.attributes.challenge_url;
                         setChallengeUrl(challengeUrl);
                     }
-                    if (res.data?.properties?.media) {
-                        media = res.data.properties.media;
-                    } else {
-                        media =
-                            "https://ipfs.decert.me/bafkreid4lhm7bpv3o7ycfk55b64mkl5ahbxjgf6bdvvphk2i4becg7ms3u";
+                    if (res.data?.image) {                    
+                        media = res.data.image;
+                    }else{
+                        media = "https://ipfs.decert.me/bafkreid4lhm7bpv3o7ycfk55b64mkl5ahbxjgf6bdvvphk2i4becg7ms3u";
                     }
                     setMedia(media);
                 });
