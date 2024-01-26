@@ -7,6 +7,9 @@ import PageLoader from "@/components/Loader/PageLoader";
 import ChallengeItem from "@/components/User/ChallengeItem";
 import ChallengeItems from "@/components/User/ChallengeItems";
 import { getChallengeList } from "@/state/explore/challenge";
+import "./style/index.scss";
+import "./mobile.scss";
+
 
 export default function Explore(params) {
     const navigateTo = useNavigate();
