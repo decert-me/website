@@ -14,7 +14,7 @@ import { CONTRACT_ADDR_1155, CONTRACT_ADDR_1155_TESTNET, CONTRACT_ADDR_721, CONT
 export default function ChallengeItem(props) {
     
     const isDev = process.env.REACT_APP_IS_DEV;
-    const { info, profile, showZk } = props;
+    const { info, profile, showZk, showImg } = props;
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
@@ -85,6 +85,14 @@ export default function ChallengeItem(props) {
        !info?.has_claim && window.open(`/publish?${info.tokenId}`, '_blank');
     }
 
+    function openImgCard(event) {
+        if (showImg && info.claimed) {
+            event.stopPropagation();
+            // TODO: 分享已领取的图片
+            showImg(info.metadata);
+        }
+    }
+
     function getTimeDiff(time) {
         const { type, time: num } = convertTime(time, "all")
 
@@ -127,9 +135,14 @@ export default function ChallengeItem(props) {
                 </div>
             }
             <div className="right-sbt challenge-img" onClick={clickSbt}>
-                <div className="img">
+                <div className="img" onClick={(event) => {
+                    (info.claim_status === 1 || info.claim_status === 3) && openImgCard(event)
+                }}>
                         <LazyLoadImage
                             src={
+                                info.metadata.image.indexOf("https://") !== -1 ? 
+                                info.metadata.image
+                                :
                                 info.metadata.image.split("//")[1] ? 
                                 `${ipfsPath}/${info.metadata.image.split("//")[1]}` :
                                 info.metadata?.properties?.media.split("//")[1]? 
@@ -138,6 +151,13 @@ export default function ChallengeItem(props) {
                             }
                         />
                 </div>
+                {/* 阴影文本: ERC-721展示 */}
+                {
+                    info.version === "2" && info.claim_status !== 1 && info.claim_status !== 3 &&
+                    <div className="img-mask">
+                        <p className="newline-omitted">{info.title}</p>
+                    </div>
+                }
                 <div style={{
                     position: "absolute",
                     right: "5px",
@@ -152,9 +172,15 @@ export default function ChallengeItem(props) {
                             <img src={isDev ? CONTRACT_ADDR_721_TESTNET[info.badge_chain_id]?.img: CONTRACT_ADDR_721[info.badge_chain_id].img} alt="" />
                         </div>
                     }
+                    {
+                        profile && (profile.walletType === "solana" && (info.claim_status === 1 || info.claim_status === 3)) &&
+                        <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
+                            <img src={require("@/assets/images/img/net-Solana.png")} alt="" />
+                        </div>
+                    }
                     {/* opensea */}
                     {
-                        profile && (profile.walletType === "evm" && (info.claim_status === 1 || info.claim_status === 3)) &&
+                        profile && ((info.claim_status === 1 || info.claim_status === 3)) &&
                         <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
                             <img src={require("@/assets/images/icon/user-opensea.png")} alt="" />
                         </div>

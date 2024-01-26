@@ -47,10 +47,10 @@ function GenerateImg(params, ref) {
         return await new Promise((resolve, reject) => {
             const img = new Image();
             img.crossOrigin = 'anonymous';
+            img.src = base64;
             img.onload = async function() {
                 const canvas = canvasRef.current;
                 const ctx = canvas?.getContext('2d');
-                
                 // 宽高
                 canvas.width = px;
                 canvas.height = px;
@@ -91,7 +91,9 @@ function GenerateImg(params, ref) {
                     reject(error)
                 }
             }
-            img.src = base64;
+            img.onerror = function() {
+                reject(new Error('Image load failed'));
+            };
         })
         .then(res => {
             return res

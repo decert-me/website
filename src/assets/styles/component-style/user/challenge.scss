@@ -134,6 +134,23 @@
         width: 100%;
         height: 100%;
       }
+      .img-mask{
+        width: 100%;
+        height: 45px;
+        padding: 0 11px;
+        color: #FFFFFF;
+        font-size: 12px;
+        font-weight: 600;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        overflow: hidden;
+        bottom: 0;
+        background: linear-gradient(180deg, rgba(0,0,0,0) 0%, #000000 100%);
+        .newline-omitted{
+          -webkit-line-clamp: 2;
+        }
+      }
       .opensea{
         width: 32px;
         height: 32px;
