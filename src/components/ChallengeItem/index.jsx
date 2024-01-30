@@ -1,13 +1,11 @@
-import { useTranslation } from "react-i18next";
-import { ClockCircleFilled, EditOutlined } from "@ant-design/icons";
-import { LazyLoadImage } from "react-lazy-load-image-component";
-import ChallengeItemIcons from "./ChallengeItemIcons";
-import ChallengeItemStatus from "./ChallengeItemStatus";
-import { message } from "antd";
 import { useEffect, useState } from "react";
-import { convertTime } from "@/utils/convert";
-import { constans } from "@/utils/constans";
 import { useNavigate } from "react-router-dom";
+import { useTranslation } from "react-i18next";
+import { message } from "antd";
+import { ClockCircleFilled, EditOutlined } from "@ant-design/icons";
+import { constans } from "@/utils/constans";
+import { convertTime } from "@/utils/convert";
+import ChallengeItemStatus from "./ChallengeItemStatus";
 import ChallengeItemImg from "./ChallengeItemImg";
 
 /*
@@ -29,6 +27,8 @@ claimedInfo: {
     hasNft: Boolean,
     hasVc: Boolean,
     info: {
+        version,
+        title,
         nft_address, 
         badge_chain_id, 
         badge_token_id, 
@@ -66,7 +66,7 @@ export default function ChallengeItem({ info, claimedInfo }) {
         return t(`translation:${type}`, { time: Math.round(num) });
     }
 
-    function init() {
+    function initInfo() {
         const img =
             info.metadata.image.indexOf("https://") !== -1
                 ? info.metadata.image
@@ -91,7 +91,7 @@ export default function ChallengeItem({ info, claimedInfo }) {
     }
 
     useEffect(() => {
-        init();
+        initInfo();
     }, []);
 
     return (

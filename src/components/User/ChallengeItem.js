@@ -20,7 +20,6 @@ export default function ChallengeItem(props) {
     const navigateTo = useNavigate();
     const [messageApi, contextHolder] = message.useMessage();
     const { ipfsPath, defaultImg, openseaLink, openseaSolanaLink } = constans(profile?.checkType);
-    const arr = [0, 1, 2];
 
 
     const toQuest = () => {
@@ -95,12 +94,7 @@ export default function ChallengeItem(props) {
 
     function getTimeDiff(time) {
         const { type, time: num } = convertTime(time, "all")
-
-        return (
-            <>
-                {t(`translation:${type}`, {time: Math.round(num)})}
-            </>
-        )
+        return t(`translation:${type}`, {time: Math.round(num)})
     }
 
     return (
@@ -221,7 +215,7 @@ export default function ChallengeItem(props) {
                             <span>{t("translation:diff")}</span>
                             <div className="imgs">
                                 {
-                                    arr.map((e,i) => {
+                                    new Array(3).map((e,i) => {
                                         if (i >= info.metadata?.attributes?.difficulty+1) {
                                             return <img key={i} src={require("@/assets/images/icon/star-line.png")} alt="" />
                                         }else{

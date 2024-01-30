@@ -5,7 +5,7 @@ import { useInfiniteQuery } from "@tanstack/react-query";
 import InfiniteScroll from "react-infinite-scroll-component";
 import PageLoader from "@/components/Loader/PageLoader";
 import ChallengeItem from "@/components/ChallengeItem";
-import ChallengeItems from "@/components/User/ChallengeItems";
+import ChallengeItems from "@/components/ChallengeItem/ChallengeItems";
 import { getChallengeList } from "@/state/explore/challenge";
 import "./style/index.scss";
 import "./style/mobile.scss";
@@ -41,14 +41,26 @@ export default function Explore(params) {
                         .flat()
                         .map((item) =>
                             item.style === 1 ? (
-                                <ChallengeItem info={item} key={item.id} />
+                                <ChallengeItem 
+                                    key={item.id}
+                                    info={item} 
+                                    claimedInfo={{
+                                        hasNft: item.claim_status === 1 || item.claim_status === 3,
+                                        hasVc: item.claim_status === 2 || item.claim_status === 3,
+                                        info: {
+                                            version: item.version,
+                                            title: item.title,
+                                            nft_address: item?.nft_address,
+                                            badge_chain_id: item?.badge_chain_id,
+                                            badge_token_id: item?.badge_token_id,
+                                        }
+                                    }}
+                                />
                             ) : (
                                 <ChallengeItems
                                     key={item.id}
                                     info={item}
-                                    goCollection={(id) =>
-                                        navigateTo(`/collection/${id}`)
-                                    }
+                                    goCollection={(id) => navigateTo(`/collection/${id}`)}
                                 />
                             )
                         )
