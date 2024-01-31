@@ -9,10 +9,16 @@ import { submitClaimable } from "@/utils/submitClaimable";
 import { authLoginSign, getLoginMsg } from "@/request/api/public";
 import { ClearStorage } from "@/utils/ClearStorage";
 import ModalSwitchChain from '@/components/CustomModal/ModalSwitchChain';
+import { ParticleAuthConnector } from '@/utils/particle';
 const { confirm } = Modal;
 
 export default function MyProvider(props) {
 
+    const particleOptions = {
+        projectId: process.env.REACT_APP_PROJECT_ID,
+        clientKey: process.env.REACT_APP_CLIENT_KEY,
+        appId: process.env.REACT_APP_APP_ID,
+    };
     const { connectAsync, connectors } = useConnect({
         onSuccess(data){
             localStorage.setItem("decert.address", data.account);
@@ -132,6 +138,14 @@ export default function MyProvider(props) {
                     break;
                 case "WalletConnect":
                     await connectAsync({ connector: connectors[1] });
+                    break;
+                case "google":
+                    await connectAsync({ connector: new ParticleAuthConnector({
+                        options: particleOptions,
+                        loginOptions: {
+                            preferredAuthType: 'google',
+                        },
+                    })});
                     break;
                 default:
                     break;
