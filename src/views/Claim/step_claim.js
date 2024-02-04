@@ -1,15 +1,22 @@
 import ModalAirdrop from "@/components/CustomModal/ModalAirdrop";
+import ModalSelectChain from "@/components/CustomModal/ModalSelectChain";
 import { hasClaimed, wechatShare } from "@/request/api/public";
 import { useRequest } from "ahooks";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
+import GenerateImg from "./generateImg";
+import { useAddress } from "@/hooks/useAddress";
 
 
 
 export default function StepClaim({step, setStep, detail, isMobile, answerInfo}) {
     
+
+    const generateImgRef = useRef();
+    const { walletType } = useAddress();
     const { t } = useTranslation(["claim", "translation"]);
     const { score, passingPercent, isPass, answers } = answerInfo
+    const [isModalNetwork, setIsModalNetwork] = useState(false);
     let [status, setStatus] = useState(0);
     let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
     let [cacheIsClaim, setCacheIsClaim] = useState();
@@ -25,22 +32,48 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
         pollingWhenHidden: false
     });
 
-    async function airpost(params) {
+    async function goAirpost(params) {
+        if (step === 2 && status === 0) {            
+            if (walletType === "evm") {
+                setIsModalNetwork(true);
+            }else{
+                setIsModalAirdropOpen(true);
+                status = 1;
+                setStatus(status);
+                const image = await generateImgRef.current.generate(
+                    detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
+                    detail.title
+                )
+                await runAsync({chainId: null, image});
+                run();
+            }
+        }
+    }
+
+    async function airpost(chainId) {
+        
         if (step === 2 && status === 0) {
             // 弹出框
             setIsModalAirdropOpen(true);
             status = 1;
             setStatus(status);
-            await runAsync();
+            // 生成img
+            const image = await generateImgRef.current.generate(
+                detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
+                detail.title
+            )
+            await runAsync({chainId, image});
             run();
         }
     }
 
-    async function shareWechat(params) {
+    async function shareWechat({chainId,image}) {
         const data = {
-            tokenId: Number(detail.tokenId),
+            tokenId: detail.tokenId,
             score: score,
-            answer: JSON.stringify(answers)
+            answer: JSON.stringify(answers),
+            chain_id: chainId,
+            image_uri: "ipfs://"+image
         }
         // const {version} = detail
 
@@ -63,7 +96,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
             const cache = JSON.parse(localStorage.getItem('decert.cache'));
             delete cache[detail.tokenId];
             if (cache?.claimable) {
-                cache.claimable = cache.claimable.filter(obj => obj.token_id != detail.tokenId);
+                cache.claimable = cache.claimable.filter(obj => obj.uuid != detail.uuid);
             }
             localStorage.setItem("decert.cache", JSON.stringify(cache));
             setCacheIsClaim(true);
@@ -101,13 +134,20 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                 status={status}
             />
         }
+        <ModalSelectChain
+            isModalOpen={isModalNetwork} 
+            handleCancel={() => setIsModalNetwork(false)} 
+            airpost={airpost}
+        />
+
+        {/* 生成图片 */}
+        <GenerateImg ref={generateImgRef} />
         <div className={`CustomBox ${step === 2 ? "checked-step" : ""} step-box ${detail.claimed||cacheIsClaim ? "isClaim" : ""}`}
             style={{
                 justifyContent: "center",
                 cursor: step === 2 && status === 0 && "pointer"
             }}
-            onClick={() => airpost()}
-            
+            onClick={() => goAirpost()}
         >
             {
                 step < 2 ? 

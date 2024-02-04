@@ -55,7 +55,15 @@ export default function Quests(params) {
                                     ? `${ipfsPath}/${detail.metadata.image.split("//")[1]}`
                                     : defaultImg
                                 }
+                                style={detail?.version === "2" ? {width: "100%", height: "100%"} : {}}
                                 alt="" />
+                            {/* 阴影文本: ERC-721展示 */}
+                            {
+                                detail?.version === "2" &&
+                                <div className="img-mask">
+                                    <p className="newline-omitted">{detail.title}</p>
+                                </div>
+                            }
                         </div>
                     </div>
                     {

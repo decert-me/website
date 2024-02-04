@@ -1,9 +1,10 @@
+import ImgCrop from 'antd-img-crop';
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
-import { UploadOutlined } from '@ant-design/icons';
+import { PlusOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
-import { useWalletClient } from "wagmi";
+import { useNetwork, useSwitchNetwork } from "wagmi";
 import "@/assets/styles/view-style/publish.scss"
 import "@/assets/styles/component-style";
 
@@ -20,27 +21,33 @@ import { usePublish } from "@/hooks/usePublish";
 import { clearDataBase, getDataBase, saveCache } from "@/utils/saveCache";
 import store, { setChallenge } from "@/redux/store";
 import MyContext from "@/provider/context";
+import { CHAINS, CHAINS_TESTNET } from "@/config";
+import UploadTmplModal from './uploadTmplModal';
 
 
 const { TextArea } = Input;
 
 export default function Publish(params) {
     
+    const chainList = process.env.REACT_APP_IS_DEV ? CHAINS_TESTNET : CHAINS;
     const navigateTo = useNavigate();
     const location = useLocation();
     const dataBase = "publish";
     const [form] = Form.useForm();
     const isFirstRender = useRef(true);     //  是否是第一次渲染
+    const uploadRef = useRef();
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
     const { connectWallet } = useContext(MyContext);
-    const { data: signer } = useWalletClient();
+    const { chain } = useNetwork();
+    const { switchNetworkAsync } = useSwitchNetwork()
     const { isConnected, walletType, address } = useAddress();
     const { t } = useTranslation(["publish", "translation"]);
     const { encode, decode } = Encryption();
     const [tradeLoading, setTradeLoading] = useState(false);    //  上链Loading
     const [loading, setLoading] = useState(false);      //  发布loading
     const [isEdit, setIsEdit] = useState();      //  是否是编辑模式
+    const [tmplModal, setTmplModal] = useState(false);       //  图片模板弹窗
     
     let [cache, setCache] = useState();   //  缓存
     let [fields, setFields] = useState([]);     //  表单默认值
@@ -50,29 +57,42 @@ export default function Publish(params) {
     let [publishObj, setPublishObj] = useState({});     //  交易所需变量
     let [isWrite, setIsWrite] = useState(false);        //  发起交易
 
-    let [changeId, setChangeId] = useState();   //  正在编辑的tokenId
     let [changeItem, setChangeItem] = useState();   //  正在编辑的挑战详情
 
     const { publish, isLoading, isOk, transactionLoading } = usePublish({
         jsonHash: publishObj?.jsonHash, 
         recommend: publishObj?.recommend,
-        changeId: isEdit
+        changeId: isEdit,
+        clear: () => {
+            setPublishObj(null);
+            isWrite = false;
+            setIsWrite(isWrite);
+        }
     });
 
     // json => ipfs
     const getJson = async(values, preview) => {
-        const { answers, questions: qs } = filterQuestions(questions);
-        const image = Array.isArray(values.fileList) ? values.fileList[0].response?.data.hash : values.fileList?.file?.response?.data.hash
-        const jsonHash = await getMetadata({
-            values: values,
-            address: address,
-            questions: qs,
-            answers: encode(JSON.stringify(answers)),
-            image: "ipfs://"+image,
-            startTime: isEdit ? changeItem.startTime : null,
-            olduuid: isEdit ? changeItem.uuid : null
-        }, preview ? preview : null)
-        return jsonHash
+        try {            
+            const { answers, questions: qs } = filterQuestions(questions);
+            const media = Array.isArray(values.fileList) ? values.fileList[0].response?.data.hash : values.fileList?.file?.response?.data.hash
+            let base64 = fileList[0].thumbUrl;
+            if (base64.indexOf("https://ipfs.decert.me/") !== -1) {
+                base64 = fileList[0].path
+            }
+            const jsonHash = await getMetadata({
+                values: values,
+                address: address,
+                questions: qs,
+                answers: encode(JSON.stringify(answers)),
+                image: "ipfs://"+media,
+                // media: "ipfs://"+media,
+                startTime: isEdit ? changeItem.startTime : null,
+                olduuid: isEdit ? changeItem.uuid : null
+            }, preview ? preview : null)
+            return jsonHash
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     // 判断是否是修改挑战
@@ -90,7 +110,7 @@ export default function Publish(params) {
             if (JSON.stringify(publishObj.recommend) !== JSON.stringify(changeItem.recommend)) {
                 // 修改了recommend ==> 发起修改recommend请求
                 let result = await modifyRecommend({
-                    token_id: Number(isEdit),
+                    token_id: isEdit,
                     recommend: publishObj.recommend
                 }).then(res => {
                     res?.message && message.success(res?.message);
@@ -125,6 +145,18 @@ export default function Publish(params) {
         if (!isConnected || walletType !== "evm") {
             walletType !== "evm" && message.info(t("translation:message.info.solana-publish"));
             connectWallet()
+            return
+        }
+        // 是否是正确的链
+        if (
+            (values?.chain && chain.id !== values.chain) ||
+            (changeItem?.chain_id && chain.id !== changeItem.chain_id)
+        ) {
+            try {
+                await switchNetworkAsync(values.chain || changeItem.chain_id);
+            } catch (error) {
+                console.log("switchChain Error: ", error);
+            }
             return
         }
 
@@ -237,7 +269,7 @@ export default function Publish(params) {
             return
         }
         // 获取对应challenge信息
-        const { title, description, recommend, metadata, quest_data, uri, uuid } = data;
+        const { title, description, recommend, metadata, quest_data, uri, uuid, chain_id } = data;
         const answers = JSON.parse(decode(data.quest_data.answers))
         const editor = isSerializedString(recommend);
         const questions = quest_data.questions.map((e,i) => {
@@ -269,6 +301,7 @@ export default function Publish(params) {
             uri,
             startTime: quest_data.startTime,
             uuid,
+            chain_id
         }
         setChangeItem({...changeItem});
         //  redux中是否已经有缓存
@@ -355,8 +388,8 @@ export default function Publish(params) {
 
     useEffect(() => {
         const tokenId = location.search.replace("?","");
-        tokenId && signer && address && getChallenge(tokenId);
-    },[signer, address])
+        tokenId && address && getChallenge(tokenId);
+    },[address])
 
     return (
         <Spin spinning={tradeLoading}>
@@ -371,12 +404,8 @@ export default function Publish(params) {
                     name="challenge"
                     layout="vertical"
                     form={form}
-                    labelCol={{
-                        span: 5,
-                    }}
-                    initialValues={{
-                        remember: true,
-                    }}
+                    labelCol={{span: 5}}
+                    initialValues={{remember: true}}
                     onFinish={onFinish}
                     onFinishFailed={onFinishFailed}
                     autoComplete="off"
@@ -430,41 +459,6 @@ export default function Publish(params) {
                         <CustomEditor onChange={(value) => changeForm("editor", value)} initialValues={cache?.editor || changeItem?.editor} />
                     </Form.Item>
 
-                    {/* 图片 */}
-                    <Form.Item 
-                        label={t("inner.img")}
-                        name="fileList"
-                        valuePropName="img"
-                        rules={[{
-                            required: true,
-                            message: t("inner.rule.img"),
-                        }]}
-                        wrapperCol={{ offset: 1 }}
-                        style={{ maxWidth: 380 }}
-                    >
-                        <Upload
-                            {...UploadProps} 
-                            beforeUpload={(file) => beforeUpload(file)}
-                            listType="picture-card"
-                            className="custom-upload"
-                            fileList={fileList}
-                            onChange={({fileList: newFileList}) => {
-                                setFileList(newFileList)
-                            }}
-                        >
-                            <p className="upload-icon">
-                                <UploadOutlined />
-                            </p>
-                            <p className="text-title">
-                                {t("inner.content.img.p1")}
-                            </p>
-                            <p className="text-normal">
-                                {t("inner.content.img.p2")}
-                            </p>
-                            <p className="text-normal">{t("inner.content.img.p3")}</p>
-                        </Upload>
-                    </Form.Item>
-
                     {/* 添加题目 */}
                     <Form.Item 
                         label={t("inner.test")}
@@ -504,6 +498,66 @@ export default function Publish(params) {
                         />
                     </Form.Item>
 
+                    {/* 图片 */}
+                    <UploadTmplModal 
+                        isModalOpen={tmplModal} 
+                        handleCancel={() => setTmplModal(false)} 
+                        showUploadModal={() => {
+                            const dom = document.querySelector(".ant-upload input");
+                            dom.click();
+                        }} 
+                        selectTmplImg={(newFileList) => {
+                            setFileList(newFileList);
+                            form.setFieldValue("fileList", newFileList);
+                            const values = form.getFieldsValue();
+                            saveCache(dataBase, values, isEdit);
+                        }}
+                    />
+                    <Form.Item 
+                        label={t("inner.img")}
+                        name="fileList"
+                        valuePropName="img"
+                        rules={[{
+                            required: true,
+                            message: t("inner.rule.img"),
+                        }]}
+                        wrapperCol={{ offset: 1 }}
+                    >
+                        <ImgCrop 
+                            modalTitle={t("inner.content.img.cut")}
+                            modalOk={t("translation:btn-save")}
+                            modalCancel={t("translation:btn-cancel")}
+                        >
+                        <Upload
+                            {...UploadProps} 
+                            beforeUpload={(file) => beforeUpload(file)}
+                            listType="picture-card"
+                            className="custom-upload"
+                            fileList={fileList}
+                            openFileDialogOnClick={false}
+                            onChange={({fileList: newFileList}) => {
+                                setFileList(newFileList);
+                                form.setFieldValue("fileList", newFileList);
+                                const values = form.getFieldsValue();
+                                saveCache(dataBase, values, isEdit);
+                            }}
+                        >
+                            <div ref={uploadRef} className="upload-btn" onClick={() => setTmplModal(true)}>
+                                <p className="upload-icon"><PlusOutlined /></p>
+                                <p className="text-title">{t("inner.content.img.choose")}</p>
+                            </div>
+                        </Upload>
+                        </ ImgCrop>
+                        {
+                            fileList.length === 1 && form.getFieldValue("title") &&
+                            <div className="challenge-title">
+                                <div>
+                                    <p className="img-desc newline-omitted">{form.getFieldValue("title")}</p>
+                                </div>
+                            </div>
+                        }
+                    </Form.Item>
+
                     <div className="challenge-info">
                         {/* 及格分 */}
                         <Form.Item 
@@ -520,7 +574,7 @@ export default function Publish(params) {
                                 controls={false}
                                 precision={0}
                                 style={{
-                                    width: "150px"
+                                    width: "100%"
                                 }}
                             />
                         </Form.Item>
@@ -532,7 +586,7 @@ export default function Publish(params) {
                                 value={sumScore} 
                                 disabled
                                 style={{
-                                    width: "150px"
+                                    width: "200px"
                                 }}
                             />
                         </div>
@@ -566,6 +620,35 @@ export default function Publish(params) {
                                 ]}
                             />
                         </Form.Item>
+
+                        {/* 选择发布链 */}
+                        {
+                            !changeItem &&
+                            <Form.Item 
+                                label={t("inner.network")}
+                                name="chain"
+                                rules={[{
+                                    required: true,
+                                    message: t("inner.rule.network"),
+                                }]}
+                            >
+                                <Select
+                                    options={
+                                        chainList.map(item => {
+                                            return {
+                                                value: item.id,
+                                                label: (
+                                                    <div style={{display: "flex", alignItems: "center", gap: "20px"}}>
+                                                        <img src={item?.img} alt="" style={{width: "18px", height: "18px"}} />
+                                                        <p>{item?.name}</p>
+                                                    </div>
+                                                )
+                                            }
+                                        })
+                                    }
+                                />
+                            </Form.Item>
+                        }
                     </div>
 
                     {/* 提交按钮 */}

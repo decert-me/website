@@ -39,7 +39,7 @@ function CustomCode(props, ref) {
         input: "",
         lang: "",
         quest_index: '',
-        token_id: Number(token_id)
+        token_id
     });
 
     useImperativeHandle(ref, () => ({

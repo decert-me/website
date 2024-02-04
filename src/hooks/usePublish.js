@@ -1,39 +1,32 @@
-import { useContext, useEffect, useState } from "react";
-import { useContractWrite, useNetwork, useSwitchNetwork, useWaitForTransaction, useWalletClient } from "wagmi";
+import axios from "axios";
+import { useEffect, useState } from "react";
+import { useContractWrite, useNetwork, useWaitForTransaction } from "wagmi";
 import { useVerifyToken } from "@/hooks/useVerifyToken";
 import { addQuests, modifyQuests, submitHash } from "@/request/api/public";
 import { constans } from "@/utils/constans";
 import { message } from "antd";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import { useTranslation } from "react-i18next";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { pollingGetQuest } from "@/request/api/polling";
-import MyContext from "@/provider/context";
+import { CONTRACT_ADDR_721, CONTRACT_ADDR_721_TESTNET } from "@/config";
+import { questMinterABI } from "@/config/abi/721/QuestMinter";
 
 
 
 export const usePublish = (props) => {
 
-    const { jsonHash, recommend, changeId } = props;
-    const { defaultChainId, ipfsPath, maxUint32, maxUint192 } = constans();
-    const { questContract } = useContext(MyContext);
+    const isDev = process.env.REACT_APP_IS_DEV;
+    const { jsonHash, recommend, changeId, clear } = props;
+    const { ipfsPath, maxUint32 } = constans();
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
-    const { switchNetwork } = useSwitchNetwork({
-        chainId: defaultChainId,
-        onError() {
-            setIsSwitch(false);
-        },
-        onSuccess() {
-            setIsSwitch(false);
-        }
-    })
-    let [isSwitch, setIsSwitch] = useState(false);
+
     const [isLoading, setIsLoading] = useState(false);
     const [isOk, setIsOk] = useState(false);
+    const [uuid, setUuid] = useState("");
     
     let [detail, setDetail] = useState();
     let [createQuestHash, setCreateQuestHash] = useState();
@@ -51,12 +44,14 @@ export const usePublish = (props) => {
 
 
     const { writeAsync: createQuest } = useContractWrite({
-        ...questContract,
+        address: isDev ? CONTRACT_ADDR_721_TESTNET[chain?.id]?.QuestMinter : CONTRACT_ADDR_721[chain?.id]?.QuestMinter,
+        abi: questMinterABI,
         functionName: 'createQuest',
     })
 
     const { writeAsync: modifyQuest } = useContractWrite({
-        ...questContract,
+        address: isDev ? CONTRACT_ADDR_721_TESTNET[chain?.id]?.QuestMinter : CONTRACT_ADDR_721[chain?.id]?.QuestMinter,
+        abi: questMinterABI,
         functionName: 'modifyQuest',
     })
 
@@ -86,8 +81,8 @@ export const usePublish = (props) => {
     }
 
     const write = (sign, obj, params) => {
-        let { startTs, endTs, supply, title, uri } = obj;
-        const args = [startTs, endTs, supply, title, uri];
+        let { startTs, endTs, title, uri } = obj;
+        const args = [startTs, endTs, title, uri];
         if (changeId) {
             modifyQuest({ args: [changeId, args, sign] })
             .then(res => {
@@ -95,13 +90,17 @@ export const usePublish = (props) => {
                 if (res) {
                     submitHash({
                         hash: res.hash, 
-                        params: params
+                        params: params,
+                        chain_id: chain.id
                     })
                     setCreateQuestHash(res)
                 }
             })
             .catch(err => {
                 console.log(err);
+                setIsLoading(false);
+                clear();
+                setIsOk(false);
             })
         }else{
             createQuest({ args: [args, sign] })
@@ -110,7 +109,8 @@ export const usePublish = (props) => {
                 if (res) {
                     submitHash({
                         hash: res.hash, 
-                        params: params
+                        params: params,
+                        chain_id: chain.id
                     })
                     setCreateQuestHash(res)
                 }
@@ -118,6 +118,8 @@ export const usePublish = (props) => {
             .catch(err => {
                 console.log(err);
                 setIsLoading(false);
+                clear();
+                setIsOk(false);
             })
         }
     }
@@ -125,13 +127,13 @@ export const usePublish = (props) => {
     const processingData = async() => {
         const signature = jsonHash && changeId ? 
         await modifyQuests({
-            token_id: Number(changeId),
+            token_id: changeId,
             uri: "ipfs://"+jsonHash,
             title: detail.title,
             description: detail.description,
             'start_ts': '0', 
             'end_ts': maxUint32.toString(), 
-            'supply': maxUint192.toString(),       
+            chain_id: chain.id   
         })
         :
         await addQuests({
@@ -139,13 +141,12 @@ export const usePublish = (props) => {
             title: detail.title,
             description: detail.description,
             'start_ts': '0', 
-            'end_ts': maxUint32.toString(), 
-            'supply': maxUint192.toString(),       
+            'end_ts': maxUint32.toString(),
+            chain_id: chain.id
         })
         const questData = {
             'startTs': 0, 
             'endTs': maxUint32.toString(), 
-            'supply':maxUint192.toString(), 
             'title': detail.title,
             'uri': "ipfs://"+jsonHash, 
         }
@@ -165,11 +166,6 @@ export const usePublish = (props) => {
         if (!hasHash) {
             return
         }
-        // 链不同
-        if (chain.id != defaultChainId) {
-            setIsSwitch(true);
-            return
-        }
 
         setIsLoading(true);
         jsonHash && await processingData();
@@ -177,10 +173,16 @@ export const usePublish = (props) => {
 
     const init = async() => {
         // v1.1
-        let request = await axios.get(`${ipfsPath}/${jsonHash}`);
-        let result = await axios.get(`${ipfsPath}/${request.data.attributes.challenge_ipfs_url.replace("ipfs://", '')}`);
-        detail = result.data;
-        setDetail({...detail});
+        try {            
+            let request = await axios.get(`${ipfsPath}/${jsonHash}`);
+            const uuid = request.data.attributes.challenge_url.replace("https://decert.me/quests/","")
+            setUuid(uuid);
+            let result = await axios.get(`${ipfsPath}/${request.data.attributes.challenge_ipfs_url.replace("ipfs://", '')}`);
+            detail = result.data;
+            setDetail({...detail});
+        } catch (error) {
+            console.log(error);
+        }
     }
 
     useUpdateEffect(() => {
@@ -191,29 +193,19 @@ export const usePublish = (props) => {
         jsonHash && init();
     },[jsonHash])
 
-    useEffect(() => {
-        if (isSwitch && switchNetwork) {
-            switchNetwork()
-        }
-    },[switchNetwork, isSwitch])
-
     useUpdateEffect(() => {
         if (data && !transactionLoading) {
             if (changeId) {
                 createLoading = true;
                 setCreateLoading(createLoading);
                 run()
+            }else{
+                createTokenId = uuid;
+                setCreateTokenId(createTokenId);
+                createLoading = true;
+                setCreateLoading(createLoading);
+                run();
             }
-            console.log(data.logs);
-            data.logs.forEach(log => {
-                if (log.topics[0] === "0x6bb7ff708619ba0610cba295a58592e0451dee2622938c8755667688daf3529b") {
-                    createTokenId = parseInt(log.topics[1], 16);
-                    setCreateTokenId(createTokenId);
-                    createLoading = true;
-                    setCreateLoading(createLoading);
-                    run();
-                }
-            })
         }
     },[data])
 

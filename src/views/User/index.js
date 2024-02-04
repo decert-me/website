@@ -21,6 +21,8 @@ import { constans } from "@/utils/constans";
 import { useAddress } from "@/hooks/useAddress";
 import { getAddressDid, getKeyFileSignature } from "@/request/api/zk";
 import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
+import ModalZkCard from "@/components/CustomModal/ModalZkCard";
+import ModalImgCard from "@/components/CustomModal/ModalImgCard";
 
 
 export default function User(props) {
@@ -31,12 +33,16 @@ export default function User(props) {
     const [queryParameters] = useSearchParams();
     const searchStatus = queryParameters.get("status");
     const searchType = queryParameters.get("type");
-    const { user } = useContext(MyContext);
-    const { address, walletType } = useAddress();
+    const { user, isMobile } = useContext(MyContext);
+    const { address } = useAddress();
     const location = useLocation();
     const { address: paramsAddr } = useParams();
+
+    const walletType = /^0x/.test(paramsAddr) ? "evm" : "solana";
     const [didID, setDidID] = useState("");
     const [isKeysFile, setIsKeysFile] = useState(false);
+    let [zkModalOpen, setZkModalOpen] = useState();
+    let [imgModalOpen, setImgModalOpen] = useState();
     let [account, setAccount] = useState();
     let [isMe, setIsMe] = useState();
     let [info, setInfo] = useState();
@@ -60,6 +66,20 @@ export default function User(props) {
             { key: 0, label: t("profile:type0")}
         ]}
     ]
+
+    function shareZk() {
+        const text = `很高兴完成了一个新的挑战 。
+
+我从 @decertme 获得一个 链下证书。
+
+你也可以参与挑战：${challengeUrl}
+
+&image=https://ipfs.decert.me/bafybeiceyvc5k3al2wyrkperbjw4oagoexqeqzvwwftzvxsnlxw7l2d6eu
+
+#DeCert`
+        const url = "https://twitter.com/intent/tweet?text=";
+        window.open(url+encodeURIComponent(text), "_blank");
+    }
 
     const getList = () => {
         if (checkType === 0) {
@@ -108,6 +128,9 @@ export default function User(props) {
     const toggleStatus = (key) => {
         checkStatus = key;
         setCheckStatus(checkStatus);
+        pageConfig.page = 1;
+        setPageConfig({...pageConfig});
+        console.log(pageConfig);
         navigateTo(`${location.pathname}?type=${checkType}&status=${key}`);
     }
 
@@ -224,6 +247,16 @@ export default function User(props) {
 
     return (
         <>
+        <ModalZkCard
+            isMobile={isMobile}
+            isModalOpen={zkModalOpen}
+            handleCancel={() => setZkModalOpen(null)}
+        />
+        <ModalImgCard
+            isMobile={isMobile}
+            isModalOpen={imgModalOpen}
+            handleCancel={() => setImgModalOpen(null)}
+        />
         <Modal
             title={t("profile:key")}
             className="modal-keys"
@@ -352,8 +385,16 @@ export default function User(props) {
                             profile={{
                                 isMe,
                                 checkType,
-                                address,
+                                address: paramsAddr,
                                 walletType
+                            }}
+                            showZk={(info) => {
+                                zkModalOpen = info;
+                                setZkModalOpen({...zkModalOpen});
+                            }}
+                            showImg={(info) => {
+                                imgModalOpen = info;
+                                setImgModalOpen({...imgModalOpen})
                             }}
                         />
                     )

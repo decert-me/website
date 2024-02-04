@@ -9,10 +9,12 @@ import { convertTime } from "@/utils/convert";
 import MyContext from '@/provider/context';
 import { useContext } from 'react';
 import { Tooltip, message } from 'antd';
+import { CONTRACT_ADDR_1155, CONTRACT_ADDR_1155_TESTNET, CONTRACT_ADDR_721, CONTRACT_ADDR_721_TESTNET } from '@/config';
 
 export default function ChallengeItem(props) {
     
-    const { info, profile } = props;
+    const isDev = process.env.REACT_APP_IS_DEV;
+    const { info, profile, showZk, showImg } = props;
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
@@ -24,18 +26,37 @@ export default function ChallengeItem(props) {
     const toQuest = () => {
         if (info?.claimable || info?.claimed || (profile && profile.isMe && info.complete_ts && !info.claimed) || info?.open_quest_review_status === 1) {
             // 个人查看完成的挑战
-            navigateTo(`/claim/${info.tokenId}`)
+            navigateTo(`/claim/${info.uuid}`)
         }else{
-            navigateTo(`/quests/${info.tokenId}`)
+            navigateTo(`/quests/${info.uuid}`)
         }
     }
 
-    const toOpensea = (event) => {
+    // const toOpensea = (event) => {
+    //     event.stopPropagation();
+    //     if (profile.walletType === "evm") {
+    //         window.open(`${openseaLink}/${info.tokenId}`,'_blank');
+    //     }else{
+    //         window.open(`${openseaSolanaLink}/${info.nft_address}`,'_blank');
+    //     }
+    // }
+
+    // opensea跳转链接
+    function toOpensea(event) {
         event.stopPropagation();
-        if (profile.walletType === "evm") {
-            window.open(`${openseaLink}/${info.tokenId}`,'_blank');
+        const { version, nft_address, badge_chain_id, badge_token_id, tokenId } = info;
+        let evmLink = openseaLink;
+        const solanaLink = `${openseaSolanaLink}/${nft_address}`;
+        if (!badge_token_id) {
+            evmLink = `${evmLink}/${isDev ? "mumbai" : "matic"}/${isDev ? CONTRACT_ADDR_1155_TESTNET?.Badge : CONTRACT_ADDR_1155?.Badge}/${tokenId}`;
         }else{
-            window.open(`${openseaSolanaLink}/${info.nft_address}`,'_blank');
+            const chainAddr = isDev ? CONTRACT_ADDR_721_TESTNET[badge_chain_id] : CONTRACT_ADDR_721[badge_chain_id];
+            evmLink = `${evmLink}/${chainAddr.opensea}/${chainAddr.Badge}/${badge_token_id}`
+        }
+        if (profile.walletType === "evm") {
+            window.open(evmLink,'_blank');
+        }else{
+            window.open(solanaLink,'_blank');
         }
     }
 
@@ -62,6 +83,14 @@ export default function ChallengeItem(props) {
         }
         // 跳转至编辑challenge
        !info?.has_claim && window.open(`/publish?${info.tokenId}`, '_blank');
+    }
+
+    function openImgCard(event) {
+        if (showImg && info.claimed) {
+            event.stopPropagation();
+            // TODO: 分享已领取的图片
+            showImg(info.metadata);
+        }
     }
 
     function getTimeDiff(time) {
@@ -106,15 +135,29 @@ export default function ChallengeItem(props) {
                 </div>
             }
             <div className="right-sbt challenge-img" onClick={clickSbt}>
-                <div className="img">
+                <div className="img" onClick={(event) => {
+                    (info.claim_status === 1 || info.claim_status === 3) && openImgCard(event)
+                }}>
                         <LazyLoadImage
                             src={
-                                info.metadata.image.split("//")[1]
-                                ? `${ipfsPath}/${info.metadata.image.split("//")[1]}`
-                                : defaultImg
+                                info.metadata.image.indexOf("https://") !== -1 ? 
+                                info.metadata.image
+                                :
+                                info.metadata.image.split("//")[1] ? 
+                                `${ipfsPath}/${info.metadata.image.split("//")[1]}` :
+                                info.metadata?.properties?.media.split("//")[1]? 
+                                `${ipfsPath}/${info.metadata?.properties?.media.split("//")[1]}` :
+                                defaultImg
                             }
                         />
                 </div>
+                {/* 阴影文本: ERC-721展示 */}
+                {
+                    info.version === "2" && info.claim_status !== 1 && info.claim_status !== 3 &&
+                    <div className="img-mask">
+                        <p className="newline-omitted">{info.title}</p>
+                    </div>
+                }
                 <div style={{
                     position: "absolute",
                     right: "5px",
@@ -122,9 +165,22 @@ export default function ChallengeItem(props) {
                     display: "flex",
                     gap: "5px"
                 }}>
+                    {/* 链 */}
+                    {
+                        profile && (profile.walletType === "evm" && (info.claim_status === 1 || info.claim_status === 3)) &&
+                        <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
+                            <img src={isDev ? CONTRACT_ADDR_721_TESTNET[info.badge_chain_id]?.img: CONTRACT_ADDR_721[info.badge_chain_id].img} alt="" />
+                        </div>
+                    }
+                    {
+                        profile && (profile.walletType === "solana" && (info.claim_status === 1 || info.claim_status === 3)) &&
+                        <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
+                            <img src={require("@/assets/images/img/net-Solana.png")} alt="" />
+                        </div>
+                    }
                     {/* opensea */}
                     {
-                        profile && (profile.walletType === "evm" || info.claimed) &&
+                        profile && ((info.claim_status === 1 || info.claim_status === 3)) &&
                         <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={toOpensea}>
                             <img src={require("@/assets/images/icon/user-opensea.png")} alt="" />
                         </div>
@@ -132,8 +188,16 @@ export default function ChallengeItem(props) {
                     {/* zk */}
                     {
                         profile && (info.claim_status === 2 || info.claim_status === 3) &&
-                        <Tooltip title={t("zkTool")}>
-                            <div className={`opensea img ${isMobile ? "show" : ""}`} onClick={(event) => event.stopPropagation()}>
+                        <Tooltip 
+                            trigger={isMobile ? "focus" : "hover"}
+                            title={t("zkTool")}
+                        >
+                            <div 
+                            className={`opensea img ${isMobile ? "show" : ""}`}
+                            onClick={(event) => {
+                                event.stopPropagation();
+                                showZk({address: profile.address, token_id: info.tokenId})
+                            }}>
                                 <img src={require("@/assets/images/icon/user-zk.png")} alt="" />
                             </div>
                         </Tooltip>

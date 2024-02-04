@@ -86,7 +86,7 @@ export const submitChallenge = (data) => {
 // 添加 challenge
 export const addQuests = (data) => {
     return serviceAxios({
-        url: `/v1/quests`,
+        url: `/v2/quests`,
         method: "post",
         data
     })
@@ -95,7 +95,7 @@ export const addQuests = (data) => {
 // 修改 challenge
 export const modifyQuests = (data) => {
     return serviceAxios({
-        url: `/v1/quests`,
+        url: `/v2/quests`,
         method: "put",
         data
     })
@@ -215,7 +215,7 @@ export const tutorialProgress = (data) => {
 // 获取微信分享二维码
 export const wechatShare = (data) => {
     return serviceAxios({
-        url: `/v1/badge/submitClaimShare`,
+        url: `/v2/badge/submitClaimShare`,
         method: "post",
         data
     })

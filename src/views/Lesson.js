@@ -3,15 +3,15 @@ import "@/assets/styles/mobile/view-style/lesson.scss"
 import { useTranslation } from "react-i18next";
 import { useContext, useEffect, useRef, useState } from "react";
 import { progressList } from "@/request/api/public";
-import { Button, Divider, Drawer } from "antd";
+import { Button, Divider, Drawer, Spin } from "antd";
 import CustomCategory from "@/components/CustomCategory";
 import MyContext from "@/provider/context";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { totalTime } from "@/utils/date";
 import { getLabelList, getTutorialList } from "@/request/api/admin";
 import i18n from 'i18next';
-import InfiniteScroll from "@/components/InfiniteScroll";
 import { useAddress } from "@/hooks/useAddress";
+import InfiniteScroll from "react-infinite-scroll-component";
 
 function Difficulty({tutorial, label}) {
     let color = "";
@@ -100,7 +100,6 @@ export default function Lesson(params) {
     const listRef = useRef(null);
     const buttonRef = useRef(null);
     const childRef = useRef(null);
-    const boxsRef = useRef(null);
     
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation();
@@ -204,11 +203,12 @@ export default function Lesson(params) {
 
     // 动态调整教程宽度
     function resizeContent() {
-        if (boxsRef.current) {
+        const boxsRef = document.querySelectorAll(".boxs")[0];
+        if (boxsRef) {
             const domArr = document.querySelectorAll(".boxs .box-link");
             const imgArr = document.querySelectorAll(".boxs .box-link .img");
 
-            const contentWidth = boxsRef.current.getBoundingClientRect().width;
+            const contentWidth = boxsRef.getBoundingClientRect().width;
             const num = parseInt(contentWidth / 350);
             let value;
             // 如果够展开
@@ -441,7 +441,15 @@ export default function Lesson(params) {
                             </div>
                         </div>
                     }
-                    <div className="boxs" ref={boxsRef} style={{opacity: isOk ? 1 : 0}}>
+
+                    <InfiniteScroll
+                        className="boxs"
+                        style={{opacity: isOk ? 1 : 0}}
+                        dataLength={tutorials.length}
+                        next={nextPage}
+                        hasMore={tutorials.length !== 0 && !isOver}
+                        loader={<Spin size="large" className="loading" />}
+                    >
                         {
                             tutorials.map(e => 
                                 <a 
@@ -497,17 +505,7 @@ export default function Lesson(params) {
                                 </a>
                             )
                         }
-                        {/* 无限滚动 */}
-                    </div>
-                    {
-                        tutorials.length !== 0 && !isOver &&
-                        <div ref={loader}>
-                            <InfiniteScroll
-                                scrollRef={boxsRef}
-                                func={nextPage}
-                            />
-                        </div>
-                    }
+                    </InfiniteScroll>
                 </div>
             </div>
         </div>

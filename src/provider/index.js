@@ -4,17 +4,11 @@ import { useConnect, useDisconnect, useWalletClient } from "wagmi";
 import { useState } from "react";
 import store from "@/redux/store";
 import MyContext from "./context";
-import { getContract } from "@wagmi/core";
-import {
-    BadgeAbi,
-    BadgeAddr,
-    QuestMinterAbi,
-    QuestMinterAddr,
-} from "@/contracts";
 import ModalConnect from "@/components/CustomModal/ModalConnect";
 import { submitClaimable } from "@/utils/submitClaimable";
 import { authLoginSign, getLoginMsg } from "@/request/api/public";
 import { ClearStorage } from "@/utils/ClearStorage";
+import ModalSwitchChain from '@/components/CustomModal/ModalSwitchChain';
 const { confirm } = Modal;
 
 export default function MyProvider(props) {
@@ -27,20 +21,11 @@ export default function MyProvider(props) {
     const { disconnectAsync } = useDisconnect();
     const { refetch } = useWalletClient();
 
-    const [visible, setVisible] = useState(false);
+    const [visible, setVisible] = useState(false);      //  连接钱包弹窗
+    const [isSwitchChain, setIsSwitchChain] = useState(false);      //  切换链弹窗
     const [selectedWallet, setSelectedWallet] = useState(null);
     let [isMobile, setIsMobile] = useState();
     let [user, setUser] = useState();
-
-    const questContract = getContract({
-        address: QuestMinterAddr,
-        abi: QuestMinterAbi,
-    });
-
-    const badgeContract = getContract({
-        address: BadgeAddr,
-        abi: BadgeAbi,
-    });
 
     function handleMobileChange() {
         isMobile = store.getState().isMobile;
@@ -67,7 +52,7 @@ export default function MyProvider(props) {
                 sign_hash = await signer.signMessage({ account: address, message })
             } else {
                 const msg = new TextEncoder().encode(message);
-                const arr = await adapter.signMessage(msg);
+                const arr = await adapter?.signMessage(msg);
                 sign_hash = bs58.encode(arr);
             }
             // 校验签名
@@ -81,7 +66,7 @@ export default function MyProvider(props) {
             if (walletType === "evm") {
                 await disconnectAsync();
             }else{
-                await adapter.disconnect()
+                await adapter?.disconnect()
             }
             ClearStorage();
             throw new Error(error);
@@ -101,6 +86,29 @@ export default function MyProvider(props) {
         });
     }
 
+    async function connectMobile(func) {
+        try {
+            let walletType = "evm";
+            await connectAsync({ connector: connectors[1] });
+
+            const { data: signer } = await refetch()
+            const address = localStorage.getItem("decert.address");
+            // 连接成功发起签名
+            await callSignature(address, walletType, null, signer);
+            Modal.destroyAll();
+
+            // 某些需要在成功连接后执行的方法
+            func?.goEdit && await func.goEdit(address);
+
+            // 检测是否需要切换链
+            setIsSwitchChain(true);
+        } catch (error) {
+            Modal.destroyAll();
+            console.log("error ===>", error);
+            return;
+        }
+    }
+
     async function connectWallet(func) {
         setVisible(true);
         try {
@@ -112,7 +120,6 @@ export default function MyProvider(props) {
             // 通过返回的钱包名开始连接
             switch (wallet) {
                 case "MetaMask":
-                    console.log(connectors);
                     await connectAsync({ connector: connectors[0] })
                     .catch(err => {
                         !connectors[0].ready && window.open("https://metamask.io/download/", "_blank")
@@ -131,13 +138,17 @@ export default function MyProvider(props) {
             }
             const { data: signer } = await refetch()
             const address = localStorage.getItem("decert.address");
-
             // 连接成功发起签名
             await callSignature(address, walletType, adapter, signer);
             Modal.destroyAll();
 
             // 某些需要在成功连接后执行的方法
             func?.goEdit && await func.goEdit(address);
+
+            // 检测是否需要切换链
+            if (walletType === "evm") {
+                setIsSwitchChain(true);
+            }
         } catch (error) {
             Modal.destroyAll();
             console.log("error ===>", error);
@@ -150,10 +161,10 @@ export default function MyProvider(props) {
             value={{
                 isMobile,
                 user,
-                questContract,
-                badgeContract,
                 connectWallet,
-                callSignature
+                connectMobile,
+                callSignature,
+                switchChain: () => setIsSwitchChain(true)
             }}
         >
             {/* 连接钱包 */}
@@ -163,6 +174,11 @@ export default function MyProvider(props) {
                     selectedWallet?.resolve({ wallet, adapter })
                 }
                 handleCancel={() => setVisible(false)}
+            />
+            {/* 切换链 */}
+            <ModalSwitchChain 
+                isModalOpen={isSwitchChain}
+                handleCancel={() => setIsSwitchChain(false)}
             />
             {props.children}
         </MyContext.Provider>

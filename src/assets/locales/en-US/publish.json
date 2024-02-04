@@ -7,7 +7,8 @@
     "inner": {
         "title": "Title",
         "desc": "Description",
-        "img": "Image",
+        "img": "NFT Image",
+        "network": "Network",
         "add": "Add choice question or blank filling question",
         "add-code": "Add programming quiz",
         "add-open": "Add open-ended question",
@@ -65,6 +66,7 @@
             "title": "Please enter the title",
             "ques2": "Please fill in the title",
             "desc": "Please fill in the description",
+            "network": "Please set a network",
             "img": "Please upload image",
             "score": "Please set a passing score",
             "ques-score": "Please enter quiz score",
@@ -74,7 +76,11 @@
         },
         "content": {
             "img": {
-                "p1": "Click or drag an image to this area.",
+                "cut": "Crop Image",
+                "upload": "Upload",
+                "choose": "Choose a image",
+                "menu-choose": "Choose a image",
+                "p1": "Click an image to this area.",
                 "p2": "The image type must be jpg, png, gif, svg.",
                 "p3": "Maximum size: 20 MB."
             }

@@ -4,17 +4,9 @@ import { useContext, useEffect, useState } from 'react';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { useConnect, useDisconnect } from 'wagmi';
 import { Button, Dropdown, message } from 'antd';
-import {
-    MenuOutlined,
-    CloseOutlined,
-    GlobalOutlined
-  } from '@ant-design/icons';
-import "@/assets/styles/container.scss"
-import "@/assets/styles/mobile/container.scss"
+import { MenuOutlined, CloseOutlined, GlobalOutlined } from '@ant-design/icons';
 import { hashAvatar } from '@/utils/HashAvatar';
 import { NickName } from '@/utils/NickName';
-import logo_white from "@/assets/images/svg/logo-white.png";
-import logo_normal from "@/assets/images/svg/logo-normal.png";
 import { getUser } from '@/request/api/public';
 import store, { setUser } from '@/redux/store';
 import { constans } from '@/utils/constans';
@@ -22,11 +14,12 @@ import { useWallet } from "@solana/wallet-adapter-react";
 import { useAddress } from '@/hooks/useAddress';
 import { ClearStorage } from '@/utils/ClearStorage';
 import MyContext from '@/provider/context';
+import SelectNetwork from '@/components/Network/SelectNetwork';
 
 export default function AppHeader({ isMobile, user }) {
     
     const { address, walletType, isConnected } = useAddress();
-    const { connectWallet } = useContext(MyContext);
+    const { connectWallet, connectMobile } = useContext(MyContext);
     const { wallet } = useWallet();
     const { imgPath } = constans();
     const { t } = useTranslation();
@@ -101,8 +94,8 @@ export default function AppHeader({ isMobile, user }) {
 
     const openModal = async() => {
         if (isMobile) {
-            connect({connector: connectors[1]})
-            setIsOpenM(!isOpenM)
+            connectMobile();
+            setIsOpenM(!isOpenM);
             return
         }
         connectWallet();
@@ -178,9 +171,9 @@ export default function AppHeader({ isMobile, user }) {
                     >
                         {
                             isOpenM ? 
-                            <img src={logo_white} alt="" />
+                            <img src={require("@/assets/images/svg/logo-white.png")} alt="" />
                             :
-                            <img src={logo_normal} alt="" />
+                            <img src={require("@/assets/images/svg/logo-normal.png")} alt="" />
                         }
                     </div>
                     {
@@ -196,6 +189,10 @@ export default function AppHeader({ isMobile, user }) {
                 {
                     isMobile ? 
                     <div className='nav-right'>
+                        {
+                            isConnected && 
+                            <SelectNetwork />
+                        }
                         {
                             isConnected && !isOpenM &&
                                 <Dropdown
@@ -264,30 +261,26 @@ export default function AppHeader({ isMobile, user }) {
                             {i18n.language === 'zh-CN' ? "CN" : "EN"}
                         </Button>
                         {/* TODO: 日间模式:夜晚模式 */}
-                        {/* <Button 
-                            type="ghost"
-                            ghost
-                            className='custom-btn'
-                        >
-                            日
-                        </Button> */}
                         {
                             isConnected ?
-                                <Dropdown
-                                    placement="bottom" 
-                                    // trigger="click"
-                                    // arrow
-                                    menu={{items}}
-                                    overlayClassName="custom-dropmenu"
-                                    overlayStyle={{
-                                        width: "210px"
-                                    }}
-                                >
-                                    <div className="user" id="hover-btn-line">
-                                        <img src={user?.avatar} alt="" />
-                                        <p>{NickName(address)}</p>
-                                    </div>
-                                </Dropdown>
+                                <>
+                                    <SelectNetwork />
+                                    <Dropdown
+                                        placement="bottom" 
+                                        // trigger="click"
+                                        // arrow
+                                        menu={{items}}
+                                        overlayClassName="custom-dropmenu"
+                                        overlayStyle={{
+                                            width: "210px"
+                                        }}
+                                    >
+                                        <div className="user" id="hover-btn-line">
+                                            <img src={user?.avatar} alt="" />
+                                            <p>{NickName(address)}</p>
+                                        </div>
+                                    </Dropdown>
+                                </>
                             :
                             <div>
                                 <Button 

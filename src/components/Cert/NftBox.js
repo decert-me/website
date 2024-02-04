@@ -3,16 +3,15 @@ import { ipfsToImg } from '@/utils/IpfsToImg';
 import {
     EyeOutlined,
     EyeInvisibleOutlined,
-    MoreOutlined
   } from '@ant-design/icons';
-import { Dropdown, Tooltip } from 'antd';
+import { Tooltip } from 'antd';
 import { useTranslation } from 'react-i18next';
 
 
 export default function NftBox(props) {
     
-    const { info, changeNftStatus, isMe, options } = props;
-    const { t } = useTranslation(["cert"]);
+    const { isMobile, info, changeNftStatus, isMe, options, showZk } = props;
+    const { t } = useTranslation(["cert", "profile"]);
     const { walletType } = useAddress();
 
     return (
@@ -21,7 +20,7 @@ export default function NftBox(props) {
                 options.map((item, index) => {
                     if (item.nftscan === info.chain) {
                         return (
-                            <div key={index} className={info.status === 1 ? "show" : ""}>
+                            <div key={index} className={`flex ${info.status === 1 ? "show" : ""}`}>
                                 {
                                     (info.claim_status === 1 || info.claim_status === 3) &&
                                     <>
@@ -46,10 +45,14 @@ export default function NftBox(props) {
                                     </>
                                 }
                                 {
-                                    info.claim_status === 2 &&
-                                    <div className="badge badge-chain" style={{cursor: "auto"}}>
-                                        <img src={require("@/assets/images/icon/user-zk.png")} alt="" key={item.value} />
-                                    </div>
+                                    (info.claim_status === 2 || info.claim_status === 3) &&
+                                    <Tooltip 
+                                        trigger={isMobile ? "focus" : "hover"}
+                                        title={t("profile:zkTool")}>
+                                        <div className="badge badge-chain" style={{cursor: "pointer"}} onClick={() => showZk({address: info.owner, token_id: info.token_id})}>
+                                            <img src={require("@/assets/images/icon/user-zk.png")} alt="" key={item.value} />
+                                        </div>
+                                    </Tooltip>
                                 }
                                 {
                                     isMe && walletType === "evm" &&

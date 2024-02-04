@@ -1,6 +1,8 @@
 import { useEffect } from "react";
 import BeforeRouterEnter from "@/components/BeforeRouterEnter";
 import MyProvider from './provider';
+import "@/assets/styles/container.scss"
+import "@/assets/styles/mobile/container.scss"
 
 export default function App() {
 

@@ -17,8 +17,8 @@ import CustomPagination from '../../components/CustomPagination';
 import ModalAnswers from '../../components/CustomModal/ModalAnswers';
 import { useAddress } from "@/hooks/useAddress";
 import { useUpdateEffect } from "ahooks";
-import { useConnect } from "wagmi";
 import MyContext from "@/provider/context";
+import { shuffle } from "@/utils/shullfe";
 
 export default function Challenge(params) {
 
@@ -29,7 +29,7 @@ export default function Challenge(params) {
     const location = useLocation();
     const navigateTo = useNavigate();
     const childRef = useRef(null);
-    const { isMobile, connectWallet } = useContext(MyContext);
+    const { isMobile, connectWallet, connectMobile } = useContext(MyContext);
     const [loading, setLoading] = useState(false);
     let [detail, setDetail] = useState();
     let [cacheDetail, setCacheDetail] = useState();
@@ -39,11 +39,6 @@ export default function Challenge(params) {
     let [isPreview, setIsPreview] = useState();
     let [realAnswer, setRealAnswer] = useState([]);
     let [questKey, setQuestKey] = useState(100);
-    const { connect, connectors } = useConnect({
-        onError(err){
-            console.log(err);
-        }
-    })
 
     let [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -75,6 +70,23 @@ export default function Challenge(params) {
         setPage(page);
     }
 
+    function messUpArr(arr) {
+        arr.forEach(item => {
+            if (item.type === 1 || item.type === 0 || item.type === "multiple_response" || item.type === "multiple_choice") {
+                let arr = [];
+                item.options.map((e,i) => {
+                    arr.push({
+                        label: e,
+                        value: i
+                    })
+                })
+                const radioOption = shuffle(arr);
+                item.options = radioOption;
+            }
+        })
+        return arr;
+    }
+
     const getData = async (id) => {
         let res = {};
         await getQuests({id})
@@ -91,6 +103,8 @@ export default function Challenge(params) {
             await setMetadata(res.data)
             .then(res => {
                 detail = res ? res : {};
+                // TODO: 打乱选项顺序
+                detail.metadata.properties.questions = messUpArr(detail.metadata.properties.questions);
                 setDetail({...detail});
                 // 获取本地存储 ===> 
                 const local = JSON.parse(localStorage.getItem("decert.cache"));
@@ -179,7 +193,7 @@ export default function Challenge(params) {
 
     const saveAnswer = () => {
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
-        cache[detail.tokenId] = answers;
+        cache[detail.uuid] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
     }
 
@@ -191,7 +205,7 @@ export default function Challenge(params) {
         // 有开放题的同时未登录
         if (isOpenQuest.length !== 0 && !isConnected) {
             if (isMobile) {
-                connect({connector: connectors[1]})
+                connectMobile();
             }else{
                 connectWallet();
             }
@@ -225,7 +239,7 @@ export default function Challenge(params) {
                         uri: detail.uri
                     }).then(res => {
                         message.success(t("translation:message.success.submit.info"));
-                        navigateTo(`/claim/${detail.tokenId}`)
+                        navigateTo(`/claim/${detail.uuid}`)
                     })
                 },
                 content: (
@@ -249,7 +263,7 @@ export default function Challenge(params) {
         })
         setLoading(false);
         message.success(t("translation:message.success.submit.info"));
-        navigateTo(`/claim/${detail.tokenId}`)
+        navigateTo(`/claim/${detail.uuid}`)
     }
 
     // 获取预览内容
@@ -275,6 +289,7 @@ export default function Challenge(params) {
         setIsEdit(true);
         setIsPreview(true);
         cacheDetail = cache;
+        cacheDetail.questions = messUpArr(cacheDetail.questions);
         setCacheDetail({...cacheDetail});
         answers = new Array(Number(cache.questions.length))
         setAnswers([...answers])
@@ -363,7 +378,7 @@ export default function Challenge(params) {
     function changeAnswersValue(value, index) {
         let cache = JSON.parse(localStorage.getItem("decert.cache"));
         answers[index] = value;
-        cache[detail.tokenId] = answers;
+        cache[detail.uuid] = answers;
         localStorage.setItem("decert.cache", JSON.stringify(cache)); 
         setAnswers([...answers]);
     }
@@ -473,12 +488,12 @@ export default function Challenge(params) {
                     <div className='quest-title' style={{display: "flex"}}>
                             <div className={`title ${cacheDetail ? "line" : ""}`}>
                                 {
-                                    detail?.tokenId ? 
+                                    detail?.uuid ? 
                                     <>
-                                        <Link to={`/quests/${detail.tokenId}`}>
+                                        <Link to={`/quests/${detail.uuid}`}>
                                             <ArrowLeftOutlined />
                                         </Link>
-                                        <Link to={`/quests/${detail.tokenId}`}>
+                                        <Link to={`/quests/${detail.uuid}`}>
                                             <p>{detail?.title}</p>
                                         </Link>
                                     </>

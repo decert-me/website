@@ -34,11 +34,11 @@
     "bindWx": "Bind Wechat",
     "bindDc": "Bind Discord",
 
-    "zkTool": "Privacy Certification",
+    "zkTool": "Offchain Certification",
     "key": "My Keys",
 
     "edit": {
-        "title": "Complete personal information",
+        "title": "Edit profile",
         "upload": "Upload picture",
         "uploading": "Uploading",
         "error": "Sorry, Challenger claimed SBT，cannot modify content.",
@@ -49,7 +49,7 @@
             "bindAc": "Connect Account",
             "createZk": "Create a Privacy Account (DID)",
             "zk": "Privacy Account (DID)",
-            "zkDesc": "If you don't have GAS, you can create a privacy account and obtain an privacy certification.",
+            "zkDesc": "If you don't have GAS, you can create a privacy account and obtain an offchain certification.",
             "tips": {
                 "desc": "Please describe your interests or experience."
             }

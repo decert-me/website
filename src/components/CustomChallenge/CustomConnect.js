@@ -12,17 +12,12 @@ export default function CustomConnect(props) {
     
     const { t } = useTranslation(["claim"]);
     const { step, setStep, isMobile } = props;
-    const { connectWallet } = useContext(MyContext);
+    const { connectWallet, connectMobile } = useContext(MyContext);
     const { address } = useAddress();
-    const { connect, connectors } = useConnect({
-        onError(err){
-            console.log(err);
-        }
-    })
 
     const openModalConnect = () => {
         if (isMobile) {
-            connect({connector: connectors[1]})
+            connectMobile();
             return
         }
         connectWallet();

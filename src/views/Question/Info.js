@@ -16,7 +16,7 @@ export default function Info(props) {
     const arr = [0, 1, 2];
 
     function goChallenge() {
-        navigateTo(`/challenge/${detail.tokenId}`)
+        navigateTo(`/challenge/${detail.uuid}`)
     }
 
     function userInit() {
@@ -62,7 +62,7 @@ export default function Info(props) {
                     <div className="info-content">
                         <div className="reward">
                             <div className="reward-item">NFT</div>
-                            <div className="reward-item">Privacy Certification</div>
+                            <div className="reward-item">Offchain Certification</div>
                         </div>
                     </div>
                 </li>
