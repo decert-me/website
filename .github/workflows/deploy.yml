@@ -24,8 +24,8 @@ jobs:
       run: yarn build
       env:
         REACT_APP_PROJECT_ID:  ${{ secrets.WALLET_CONNECT_PROJECT_ID }} # WalletConnect 项目ID
-        REACT_APP_BASE_URL:  ${{ env.API_BASE_URL }} 
-        REACT_APP_NFT_BASE_URL:  ${{ env.CERT_BASE_URL }}
+        REACT_APP_BASE_URL:  ${{ vars.API_BASE_URL }} 
+        REACT_APP_NFT_BASE_URL:  ${{ vars.CERT_BASE_URL }}
         REACT_APP_ANSWERS_KEY:  ${{ secrets.CHALLENGE_ANSWERS_KEY }}
         REACT_APP_SENTRY_KEY:  ${{ secrets.SENTRY_KEY }}
 
@@ -42,23 +42,23 @@ jobs:
     - name: SCP to server
       uses: appleboy/scp-action@v0.1.7
       with:
-        host: ${{ env.SERVER_HOST }}
-        username: ${{ env.SERVER_USERNAME }}
+        host: ${{ vars.SERVER_HOST }}
+        username: ${{ vars.SERVER_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
         port: 22
         source: "*.zip"
-        target: ${{ env.FILE_DIRECTORY }}
+        target: ${{ vars.FILE_DIRECTORY }}
 
     - name: SSH remote commands
       uses: appleboy/ssh-action@v1.0.3
       with:
-        host: ${{ env.SERVER_HOST }}
-        username: ${{ env.SERVER_USERNAME }}
+        host: ${{ vars.SERVER_HOST }}
+        username: ${{ vars.SERVER_USERNAME }}
         key: ${{ secrets.SSH_KEY }}
         passphrase: ${{ secrets.SSH_KEY_PASSPHRASE }}
         port: 22
         script: |
-          cd ${{ env.FILE_DIRECTORY }}
+          cd ${{ vars.FILE_DIRECTORY }}
           unzip -o ${{ env.ZIP_FILENAME }}
           mv ${{ env.ZIP_FILENAME }} build
