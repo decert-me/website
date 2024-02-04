@@ -22,6 +22,12 @@ jobs:
 
     - name: Build project
       run: yarn build
+      env:
+        REACT_APP_PROJECT_ID:  ${{ secrets.REACT_APP_PROJECT_ID }} # WalletConnect 项目ID
+        REACT_APP_BASE_URL:  ${{ secrets.REACT_APP_BASE_URL }} 
+        REACT_APP_NFT_BASE_URL:  ${{ secrets.REACT_APP_NFT_BASE_URL }}
+        REACT_APP_ANSWERS_KEY:  ${{ secrets.REACT_APP_ANSWERS_KEY }}
+        REACT_APP_SENTRY_KEY:  ${{ secrets.REACT_APP_SENTRY_KEY }}
 
     - name: Archive Production Artifact
       run: |
