@@ -60,5 +60,7 @@ jobs:
         port: 22
         script: |
           cd ${{ vars.FILE_DIRECTORY }}
+          rm -rf build
           unzip -o ${{ env.ZIP_FILENAME }}
-          mv ${{ env.ZIP_FILENAME }} build
+          # List zip files, sort by date (oldest first), and delete all but the 5 most recent
+          ls -tp *.zip | grep -v '/$' | tail -n +6 | xargs -I {} rm -- {}
