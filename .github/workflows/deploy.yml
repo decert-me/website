@@ -28,6 +28,7 @@ jobs:
         REACT_APP_NFT_BASE_URL:  ${{ vars.CERT_BASE_URL }}
         REACT_APP_ANSWERS_KEY:  ${{ secrets.CHALLENGE_ANSWERS_KEY }}
         REACT_APP_SENTRY_KEY:  ${{ secrets.SENTRY_KEY }}
+        REACT_APP_IPFS_GATEWAY: ${{ vars.IPFS_GATEWAY }}
 
     - name: Archive Production Artifact
       run: |
