@@ -1,9 +1,10 @@
+import { RainbowKitProvider } from "@rainbow-me/rainbowkit";
 import { ConnectionProvider, WalletProvider } from "@solana/wallet-adapter-react";
 import { WalletModalProvider } from "@solana/wallet-adapter-react-ui";
 import { clusterApiUrl } from "@solana/web3.js";
 import { coinbase, network, phantom, trust } from "./utils/solana";
 import { WagmiConfig } from "wagmi";
-import { wagmiConfig } from "./utils/wagmi";
+import { AppInfo, chains, wagmiConfig } from "./utils/wagmi";
 import { ConfigProvider } from 'antd';
 import { StyleProvider, legacyLogicalPropertiesTransformer } from '@ant-design/cssinjs';
 import * as Sentry from "@sentry/react";
@@ -52,16 +53,18 @@ export default function Providers({children}) {
                     <WalletModalProvider>
                         {/* wagmi */}
                         <WagmiConfig config={wagmiConfig}>
-                            <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
-                                <ConfigProvider
-                                    theme={{
-                                    components: {
-                                        Progress: { gapDegree: 0},
-                                    }}}
-                                >
-                                    {children}
-                                </ConfigProvider>
-                            </StyleProvider>
+                            <RainbowKitProvider chains={chains} appInfo={AppInfo} id="rainbowkit">
+                                <StyleProvider hashPriority="high" transformers={[legacyLogicalPropertiesTransformer]}>
+                                    <ConfigProvider
+                                        theme={{
+                                        components: {
+                                            Progress: { gapDegree: 0},
+                                        }}}
+                                    >
+                                        {children}
+                                    </ConfigProvider>
+                                </StyleProvider>
+                            </RainbowKitProvider>
                         </WagmiConfig>
                         
                     </WalletModalProvider>

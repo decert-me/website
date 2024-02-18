@@ -1,24 +1,21 @@
 import bs58 from 'bs58'
 import { Modal } from "antd";
-import { useConnect, useDisconnect, useWalletClient } from "wagmi";
+import { useAccount, useConnect, useDisconnect, useWalletClient } from "wagmi";
 import { useState } from "react";
-import store from "@/redux/store";
-import MyContext from "./context";
-import ModalConnect from "@/components/CustomModal/ModalConnect";
+import { useConnectModal } from '@rainbow-me/rainbowkit';
+import { WalletMultiButton } from '@solana/wallet-adapter-react-ui';
+import { useUpdateEffect } from 'ahooks';
+import { useWallet } from '@solana/wallet-adapter-react';
 import { submitClaimable } from "@/utils/submitClaimable";
 import { authLoginSign, getLoginMsg } from "@/request/api/public";
 import { ClearStorage } from "@/utils/ClearStorage";
+import store from "@/redux/store";
+import MyContext from "./context";
 import ModalSwitchChain from '@/components/CustomModal/ModalSwitchChain';
-import { ParticleAuthConnector } from '@/utils/particle';
 const { confirm } = Modal;
 
 export default function MyProvider(props) {
 
-    const particleOptions = {
-        projectId: process.env.REACT_APP_PROJECT_ID,
-        clientKey: process.env.REACT_APP_CLIENT_KEY,
-        appId: process.env.REACT_APP_APP_ID,
-    };
     const { connectAsync, connectors } = useConnect({
         onSuccess(data){
             localStorage.setItem("decert.address", data.account);
@@ -26,10 +23,12 @@ export default function MyProvider(props) {
     });
     const { disconnectAsync } = useDisconnect();
     const { refetch } = useWalletClient();
+    const { address, connector } = useAccount();
+    const { openConnectModal } = useConnectModal();
+    const { wallet } = useWallet();
 
-    const [visible, setVisible] = useState(false);      //  连接钱包弹窗
     const [isSwitchChain, setIsSwitchChain] = useState(false);      //  切换链弹窗
-    const [selectedWallet, setSelectedWallet] = useState(null);
+    let [selectFunc, setSelectFunc] = useState(null);
     let [isMobile, setIsMobile] = useState();
     let [user, setUser] = useState();
 
@@ -93,6 +92,12 @@ export default function MyProvider(props) {
     }
 
     async function connectMobile(func) {
+        openConnectModal()
+        // setTimeout(() => {
+        //     addSolanaWallet(true)
+        // }, 40);
+        setSelectFunc(func);
+        return
         try {
             let walletType = "evm";
             await connectAsync({ connector: connectors[1] });
@@ -115,60 +120,78 @@ export default function MyProvider(props) {
         }
     }
 
-    async function connectWallet(func) {
-        setVisible(true);
-        try {
-            // 选择钱包
-            const { wallet, adapter } = await new Promise((resolve) => {
-                setSelectedWallet({ resolve });
+    function addSolanaWallet(isMobile) {
+        const dom = document.querySelector('[data-testid="rk-wallet-option-solana"]');
+        if (dom) {
+            const div = document.createElement("div");
+            div.classList = `${isMobile ? "wallet-solana-mobile" : "wallet-solana"}`;
+            const img = document.createElement("img");
+            img.src = require("@/assets/images/img/net-Solana.png");
+            const p = document.createElement("p");
+            p.innerText = "Solana";
+            div.appendChild(img);
+            div.appendChild(p);
+            const node = dom.parentNode.parentNode;
+            div.addEventListener('click', function(event) {
+                // close rainbowModal
+                document.querySelector('[aria-labelledby="rk_connect_title"]').click()
+                const btn = document.querySelector("#solana-btn button");
+                btn.click();
+                event.stopPropagation();
             });
-            let walletType = "evm";
-            // 通过返回的钱包名开始连接
-            switch (wallet) {
-                case "MetaMask":
-                    await connectAsync({ connector: connectors[0] })
-                    .catch(err => {
-                        !connectors[0].ready && window.open("https://metamask.io/download/", "_blank")
-                        throw new Error(err);
-                    })
-                    break;
-                case "Solana Wallet":
-                    walletType = "solana";
-                    localStorage.setItem("decert.address", adapter.wallet.accounts[0].address);
-                    break;
-                case "WalletConnect":
-                    await connectAsync({ connector: connectors[1] });
-                    break;
-                case "google":
-                    await connectAsync({ connector: new ParticleAuthConnector({
-                        options: particleOptions,
-                        loginOptions: {
-                            preferredAuthType: 'google',
-                        },
-                    })});
-                    break;
-                default:
-                    break;
-            }
-            const { data: signer } = await refetch()
-            const address = localStorage.getItem("decert.address");
-            // 连接成功发起签名
+            isMobile ?
+            node.parentNode.insertBefore(div, node.nextSibling)
+            : node.appendChild(div)
+        }
+    }
+
+    async function connectWallet(func) {
+        openConnectModal()
+        setTimeout(() => {
+            addSolanaWallet()
+        }, 40);
+        setSelectFunc(func);
+    }
+
+    async function sendSign(addr, walletType, adapter) {
+        const token = localStorage.getItem("decert.token");
+        if (token) return;
+
+        try {
+            const address = addr || adapter.wallet.accounts[0].address;
+            let signer = walletType === "evm" ? await connector.getWalletClient() : null;
+    
+            localStorage.setItem("decert.address", address);
             await callSignature(address, walletType, adapter, signer);
             Modal.destroyAll();
-
-            // 某些需要在成功连接后执行的方法
-            func?.goEdit && await func.goEdit(address);
-
-            // 检测是否需要切换链
-            if (walletType === "evm") {
-                setIsSwitchChain(true);
+            if (selectFunc?.goEdit) {
+                await selectFunc?.goEdit(address);
+                setSelectFunc(null);
+            }else{
+                // 检测是否需要切换链
+                walletType === "evm" && setIsSwitchChain(true);
             }
         } catch (error) {
             Modal.destroyAll();
+            setSelectFunc(null);
             console.log("error ===>", error);
             return;
         }
     }
+
+    // evm
+    useUpdateEffect(() => {
+        connector && sendSign(address, "evm", null,);
+    },[connector])
+
+    // solana
+    useUpdateEffect(() => {
+        if (wallet) {
+            setTimeout(() => {
+                sendSign(null, "solana", wallet.adapter)
+            }, 50);
+        }
+    },[wallet])
 
     return (
         <MyContext.Provider
@@ -181,14 +204,12 @@ export default function MyProvider(props) {
                 switchChain: () => setIsSwitchChain(true)
             }}
         >
-            {/* 连接钱包 */}
-            <ModalConnect
-                isModalOpen={visible}
-                onSelect={(wallet, adapter) =>
-                    selectedWallet?.resolve({ wallet, adapter })
-                }
-                handleCancel={() => setVisible(false)}
-            />
+            <div id="solana-btn" style={{display: "none"}}>                    
+                <WalletMultiButton>
+                    <img src="" alt="" width={50} height={50} />
+                    SOLANA
+                </WalletMultiButton>
+            </div>
             {/* 切换链 */}
             <ModalSwitchChain 
                 isModalOpen={isSwitchChain}
