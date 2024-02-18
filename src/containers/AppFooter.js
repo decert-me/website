@@ -8,7 +8,7 @@ export default function AppFooter({ isMobile }) {
   const location = useLocation();
   let [hide, setHide] = useState("block");
   const urls = [
-    {label: "Dune", value: "https://dune.com/decertme/decert"},
+    {label: "Dune", value: "https://dune.com/upchaindao/decert"},
     {label: "Twitter", value: "https://twitter.com/decertme"},
     {label: "Discord", value: `https://discord.gg/kuSZHftTqe`},
     {label: "Github", value: "https://github.com/decert-me"},
