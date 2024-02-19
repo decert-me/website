@@ -9,7 +9,7 @@ import { particleWallet } from "@particle-network/rainbowkit-ext";
 import { ParticleNetwork } from '@particle-network/auth';
 import "@rainbow-me/rainbowkit/styles.css";
 
-const particleOptions = new ParticleNetwork({
+export const particle = new ParticleNetwork({
   projectId: process.env.REACT_APP_PROJECT_ID,
   clientKey: process.env.REACT_APP_CLIENT_KEY,
   appId: process.env.REACT_APP_APP_ID,

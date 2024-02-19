@@ -12,6 +12,7 @@ import { ClearStorage } from "@/utils/ClearStorage";
 import store from "@/redux/store";
 import MyContext from "./context";
 import ModalSwitchChain from '@/components/CustomModal/ModalSwitchChain';
+import { particle } from '@/utils/wagmi';
 const { confirm } = Modal;
 
 export default function MyProvider(props) {
@@ -31,6 +32,7 @@ export default function MyProvider(props) {
     let [selectFunc, setSelectFunc] = useState(null);
     let [isMobile, setIsMobile] = useState();
     let [user, setUser] = useState();
+    let [particleInfo, setParticleInfo] = useState();
 
     function handleMobileChange() {
         isMobile = store.getState().isMobile;
@@ -153,7 +155,18 @@ export default function MyProvider(props) {
         setSelectFunc(func);
     }
 
+    // 存储particle第三方用户详情
+    function saveUserInfo() {
+        const info = particle.auth.getUserInfo();
+        if (info) {            
+            particleInfo = info;
+            setParticleInfo({...particleInfo});
+        }
+    }
+
+    // 连接钱包后发送签名
     async function sendSign(addr, walletType, adapter) {
+        saveUserInfo();
         const token = localStorage.getItem("decert.token");
         if (token) return;
 
@@ -198,6 +211,7 @@ export default function MyProvider(props) {
             value={{
                 isMobile,
                 user,
+                particleInfo,
                 connectWallet,
                 connectMobile,
                 callSignature,

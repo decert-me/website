@@ -33,7 +33,7 @@ export default function User(props) {
     const [queryParameters] = useSearchParams();
     const searchStatus = queryParameters.get("status");
     const searchType = queryParameters.get("type");
-    const { user, isMobile } = useContext(MyContext);
+    const { user, isMobile, particleInfo } = useContext(MyContext);
     const { address } = useAddress();
     const location = useLocation();
     const { address: paramsAddr } = useParams();
@@ -311,6 +311,14 @@ export default function User(props) {
                             }
                             <div className="social">
                                 <CustomSocial socials={info.socials} />
+                                {particleInfo && particleInfo.thirdparty_user_info && (
+                                    <div>
+                                        <p>{particleInfo.thirdparty_user_info.provider}</p>
+                                        <p>{particleInfo.thirdparty_user_info.user_info.name}</p>
+                                        <p>{particleInfo.thirdparty_user_info.user_info.email}</p>
+                                        {JSON.stringify(particleInfo.thirdparty_user_info)}
+                                    </div>
+                                )}
                             </div>
                             <div className="desc newline-omitted">
                                 {info.description ? info.description : t("profile:desc-none")}
