@@ -196,7 +196,7 @@ export default function Publish(params) {
 
     // 上传图片格式检测
     function beforeUpload(file) {
-        const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif"]
+        const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif","image/webp"]
         let isImage = false
         formatArr.map((e)=>{
         if ( file.type === e ) {

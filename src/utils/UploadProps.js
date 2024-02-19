@@ -45,7 +45,7 @@ export const UploadProps = {
       };
     },
     beforeUpload(file) {
-      const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif"]
+      const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif","image/webp"]
       let isImage = false
       formatArr.map((e)=>{
         if ( file.type === e ) {
@@ -104,7 +104,7 @@ export const UploadAvatarProps = {
     };
   },
   beforeUpload(file) {
-    const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif"]
+    const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif","image/webp"]
     let isImage = false
     formatArr.map((e)=>{
       if ( file.type === e ) {
