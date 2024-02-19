@@ -62,8 +62,8 @@ export default function MyProvider(props) {
                 const arr = await adapter?.signMessage(msg);
                 sign_hash = bs58.encode(arr);
             }
-            // 校验签名
-            const res_token = await authLoginSign({ address, message, signature: sign_hash });
+            // 校验签名 && particle 登录添加 userInfo JSON
+            const res_token = await authLoginSign({ address, message, signature: sign_hash, particle_userinfo: particleInfo });
             localStorage.setItem(`decert.token`, res_token.data.token);
             setTimeout(() => {
                 // 上传可领取挑战答案
