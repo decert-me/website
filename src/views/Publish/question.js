@@ -30,10 +30,13 @@ export default function PublishQuestion({
 
     let [selectQs, setSelectQs] = useState();       //  修改题目内容
     let [selectIndex, setSelectIndex] = useState();     //  修改题目索引
+    
+    const [uploadKey, setUploadKey] = useState(0);
 
     async function importChallenge(event) {
         const res = await importFile(event);
-        questionImport(res);
+        await questionImport(res);
+        setUploadKey(uploadKey+1);
     }
 
     function showEditModal(index) {
@@ -170,7 +173,7 @@ export default function PublishQuestion({
                 </Button>
 
                 {/* 导入题目 */}
-                <input id="fileInput" type="file" accept=".md" onChange={importChallenge} style={{display: "none"}} />
+                <input key={uploadKey} id="fileInput" type="file" accept=".md,.json" onChange={importChallenge} style={{display: "none"}} />
                 <Button size="small" onClick={() => {
                     document.getElementById("fileInput").click();
                 }}>{t("upload")}</Button>
