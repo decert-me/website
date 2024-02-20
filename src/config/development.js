@@ -1,9 +1,10 @@
-import { optimismSepolia, polygonMumbai } from "viem/chains";
+import { optimismSepolia, polygonMumbai, arbitrumSepolia } from "viem/chains";
 
 
 export const CHAINS_TESTNET = [
     {...optimismSepolia, img: require("@/assets/images/img/net-Optimism.png")},
     {...polygonMumbai, img: require("@/assets/images/img/net-Polygon.png")}, 
+    {...arbitrumSepolia, img: require("@/assets/images/img/net-Arbitrum.png")}, 
 ]
 
 export const CONTRACT_ADDR_721_TESTNET = {
@@ -26,6 +27,16 @@ export const CONTRACT_ADDR_721_TESTNET = {
         BadgeMinter: "0xbb279dDffC1b03FC4a6c8eB601C1CbdaA46e89d4",
         QuestMinter: "0x1B47FC1F3EF613e44C8BfF9e4ca1357380d411A7",
         QuestMetadata: "0x5dd7b77e51b65ad1818374F3b66Fc19f82154f87"
+    },
+    // arbitrum
+    421614: {
+        opensea: "arbitrum-sepolia",
+        img: require("@/assets/images/img/net-Arbitrum.png"),
+        Badge: "0xEd4d0d78cAd46fFa2dD7eb4826694FC9C489E489",
+        Quest: "0x81475ae2C65b619C754DA93BFE3f9e43115DEe3d",
+        BadgeMinter: "0xEdC46868f04d482f04A8c29E915aBED72C03cD35",
+        QuestMinter: "0xdD07B70B610B350cDac4DcE74D59342c8a6F1A17",
+        QuestMetadata: "0xC15875D3987CB6d92208a4625e0034D77195B73b"
     }
 }
 
