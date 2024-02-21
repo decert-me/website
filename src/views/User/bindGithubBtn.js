@@ -52,8 +52,8 @@ export default function BindGithubBtn() {
         hasBindSocialAccount()
         .then(res => {
             if (res.status === 0) {
-                const { discord } = res.data;
-                if (discord) {
+                const { github } = res.data;
+                if (github) {
                     setIsBind(true);
                     setIsDiscordLoad(false);
                     cancel();
