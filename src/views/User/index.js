@@ -22,6 +22,7 @@ import { getAddressDid, getKeyFileSignature } from "@/request/api/zk";
 import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
 import ModalZkCard from "@/components/CustomModal/ModalZkCard";
 import ModalImgCard from "@/components/CustomModal/ModalImgCard";
+import ThirdpartyUserInfo from "./ThirdpartyUserInfo";
 
 
 export default function User(props) {
@@ -161,7 +162,8 @@ export default function User(props) {
             address: account,
             description: user.data.description,
             avatar: user.data.avatar ? imgPath + user.data.avatar : hashAvatar(account),
-            socials: user.data.socials
+            socials: user.data.socials,
+            particle_userinfo: user.data.particle_userinfo
         }
         if (localStorage.getItem("decert.address") === account) {            
             getAddressDid()
@@ -291,9 +293,10 @@ export default function User(props) {
                             <p className="name">
                                 {info.nickname ? info.nickname : NickName(info.address)}
                             </p>
-                            <p className="address" onClick={() => Copy(info.address, t("translation:message.success.copy"))}>
+                            <div className="address" onClick={() => Copy(info.address, t("translation:message.success.copy"))}>
                                 {NickName(info.address)}<CopyOutlined style={{color: "#9E9E9E", marginLeft: "12px"}} />
-                            </p>
+                                <ThirdpartyUserInfo info={info.particle_userinfo} />
+                            </div>
                             {
                                 didID && <div className="did">
                                     <img src={require("@/assets/images/icon/addrToDid.png")} alt="" />
@@ -310,14 +313,6 @@ export default function User(props) {
                             }
                             <div className="social">
                                 <CustomSocial socials={info.socials} />
-                                {particleInfo && particleInfo.thirdparty_user_info && (
-                                    <div>
-                                        <p>{particleInfo.thirdparty_user_info.provider}</p>
-                                        <p>{particleInfo.thirdparty_user_info.user_info.name}</p>
-                                        <p>{particleInfo.thirdparty_user_info.user_info.email}</p>
-                                        {JSON.stringify(particleInfo.thirdparty_user_info)}
-                                    </div>
-                                )}
                             </div>
                             <div className="desc newline-omitted">
                                 {info.description ? info.description : t("profile:desc-none")}
