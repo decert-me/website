@@ -5,8 +5,7 @@ import {
     CopyOutlined
 } from '@ant-design/icons';
 import { Button, Modal, Skeleton } from "antd";
-import "@/assets/styles/view-style/user.scss"
-import "@/assets/styles/mobile/view-style/user.scss"
+import "./styles";
 import { getChallengeComplete, getChallengeCreate, getUser } from "@/request/api/public";
 import { NickName } from "@/utils/NickName";
 import { hashAvatar } from "@/utils/HashAvatar";
