@@ -13,6 +13,14 @@ export default function CustomSocial(props) {
         wechat: {
             img: require("@/assets/images/img/wechat.png"),
             title: "WeChat"
+        },
+        github: {
+            img: require("@/assets/images/icon/icon-github.png"),
+            title: "Github"
+        },
+        email: {
+            img: require("@/assets/images/icon/email.png"),
+            title: "Email"
         }
     }
     // [
