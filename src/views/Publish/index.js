@@ -538,10 +538,11 @@ export default function Publish(params) {
                             onChange={({fileList: newFileList}) => {
                                 if (newFileList[0] && newFileList[0].error) {
                                     setFileList([]);
+                                    form.setFieldValue("fileList", []);
                                 }else{
                                     setFileList(newFileList);
+                                    form.setFieldValue("fileList", newFileList);
                                 }
-                                form.setFieldValue("fileList", newFileList);
                                 const values = form.getFieldsValue();
                                 saveCache(dataBase, values, isEdit);
                             }}
