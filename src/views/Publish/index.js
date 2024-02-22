@@ -536,7 +536,11 @@ export default function Publish(params) {
                             fileList={fileList}
                             openFileDialogOnClick={false}
                             onChange={({fileList: newFileList}) => {
-                                setFileList(newFileList);
+                                if (newFileList[0] && newFileList[0].error) {
+                                    setFileList([]);
+                                }else{
+                                    setFileList(newFileList);
+                                }
                                 form.setFieldValue("fileList", newFileList);
                                 const values = form.getFieldsValue();
                                 saveCache(dataBase, values, isEdit);
