@@ -33,7 +33,7 @@ export const UploadProps = {
             message.error(res.message);
             onError({event: res.message});
           }else{
-            onSuccess();
+            onSuccess(res, file);
           }
         })
         .catch(err => {
