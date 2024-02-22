@@ -147,6 +147,9 @@ export default function Publish(params) {
             connectWallet()
             return
         }
+        if (values.fileList[0].status === "error") {
+            return
+        }
         // 是否是正确的链
         if (
             (values?.chain && chain.id !== values.chain) ||
@@ -537,8 +540,10 @@ export default function Publish(params) {
                             openFileDialogOnClick={false}
                             onChange={({fileList: newFileList}) => {
                                 if (newFileList[0] && newFileList[0].error) {
-                                    setFileList([]);
-                                    form.setFieldValue("fileList", []);
+                                    let file = JSON.parse(JSON.stringify(newFileList[0]));
+                                    delete file.thumbUrl;
+                                    setFileList([file]);
+                                    form.setFieldValue("fileList", [file]);
                                 }else{
                                     setFileList(newFileList);
                                     form.setFieldValue("fileList", newFileList);

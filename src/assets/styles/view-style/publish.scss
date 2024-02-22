@@ -49,6 +49,9 @@
                 }
             }
         }
+        .ant-upload-list-item-error{
+            border: 1px solid #ff4d4f !important;
+        }
         .ant-upload-list-item-container, .ant-upload-select{
             width: 195px !important;
             height: 195px !important;
