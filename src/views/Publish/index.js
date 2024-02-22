@@ -559,7 +559,7 @@ export default function Publish(params) {
                         </Upload>
                         </ ImgCrop>
                         {
-                            fileList.length === 1 && form.getFieldValue("title") &&
+                            fileList.length === 1 && form.getFieldValue("title") && !fileList[0].error && 
                             <div className="challenge-title">
                                 <div>
                                     <p className="img-desc newline-omitted">{form.getFieldValue("title")}</p>
