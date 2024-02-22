@@ -8,13 +8,9 @@ export const UploadProps = {
     onStart(file) {
       console.log('onStart ==>', file);
     },
-    onError(err) {
-      console.log("onError ==>", err);
-    },
     customRequest({
       data,
       file,
-      filename,
       onError,
       onSuccess
     }) {
@@ -29,14 +25,23 @@ export const UploadProps = {
         });
       }
       formData.append('file', file);
-      ipfsImg(formData)
-      .then(res => {
-        console.log('success ==>',res , file);
-        onSuccess(res, file);
-      })
-      .catch(err => {
-        console.log(err);
-      });
+
+      try {
+        ipfsImg(formData)
+        .then(res => {
+          if (res.status !== 0) {
+            message.error(res.message);
+            onError({event: res.message});
+          }else{
+            onSuccess();
+          }
+        })
+        .catch(err => {
+          throw new Error(err);
+        })
+      } catch (err) {
+        console.log("err ===>", err);
+      }
 
       return {
         abort() {
