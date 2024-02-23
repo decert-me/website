@@ -319,7 +319,7 @@ export default function Challenge(params) {
     }
 
     useEffect(() => {
-        if (location.pathname === "/preview") {
+        if (location.pathname.indexOf("/preview") !== -1) {
             // 预览模式
             cacheInit();
         }else{

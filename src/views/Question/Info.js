@@ -9,14 +9,18 @@ import { convertTime } from "@/utils/convert";
 
 export default function Info(props) {
     
-    const { detail } = props;
+    const { detail, questId } = props;
     const { t } = useTranslation(["explore","translation","publish"]);
     const navigateTo = useNavigate();
     let [user, setuser] = useState();
     const arr = [0, 1, 2];
 
     function goChallenge() {
-        navigateTo(`/challenge/${detail.uuid}`)
+        if (detail.preview) {
+            navigateTo(`/preview/challenge${questId ? "?"+questId :""}`)
+        }else{
+            navigateTo(`/challenge/${detail.uuid}`)
+        }
     }
 
     function userInit() {
@@ -104,7 +108,7 @@ export default function Info(props) {
                 }
             </ul>
             {
-                detail.status === 1 &&
+                (detail.status === 1 || detail.preview) &&
                 <ul className="info-bottom">
                     <div className="submit-bg">
                         <Button className="submit" id="hover-btn-full" onClick={() => goChallenge()}>

@@ -13,6 +13,7 @@ import NotFound from "@/views/NotFound";
 import Collection from "@/views/Collection";
 import Callback from "@/views/Callback";
 import Rating from "@/views/Rating";
+import PreviewQuest from "@/views/Preview/quests";
 
 const routes = [
     { 
@@ -39,8 +40,12 @@ const routes = [
       path: "/challenge/:questId",
       element: <Challenge />,
     },
+    {
+      path: "/preview/quests",
+      element: <PreviewQuest />,
+    },
     { 
-      path: "/preview",
+      path: "/preview/challenge",
       element: <Challenge />,
     },
     { 

@@ -339,12 +339,11 @@ export default function Publish(params) {
                 ...values,
                 token_id: isEdit,   
             }
-            console.log(values);
             // 改为存储至redux，刷新丢失 ==>
             await store.dispatch(setChallenge(obj))
         }
         setTimeout(() => {
-            navigateTo(`/preview${isEdit ? "?"+isEdit : ""}`)
+            navigateTo(`/preview/quests${isEdit ? "?"+isEdit : ""}`)
         }, 500);
     }
 
