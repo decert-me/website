@@ -29,7 +29,7 @@ export const UploadProps = {
       try {
         ipfsImg(formData)
         .then(res => {
-          if (res.status !== 0) {
+          if (res.status !== 0 && !res) {
             message.error(res.message);
             onError({event: res.message});
           }else{
@@ -37,7 +37,9 @@ export const UploadProps = {
           }
         })
         .catch(err => {
-          throw new Error(err);
+          message.error(res.message);
+          onError({event: res.message});
+          // throw new Error(err);
         })
       } catch (err) {
         console.log("err ===>", err);
