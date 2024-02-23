@@ -8,10 +8,9 @@ export const UploadProps = {
     onStart(file) {
       console.log('onStart ==>', file);
     },
-    async customRequest({
+    customRequest({
       data,
       file,
-      filename,
       onError,
       onSuccess
     }) {
@@ -28,14 +27,18 @@ export const UploadProps = {
       formData.append('file', file);
 
       try {
-        const res = await ipfsImg(formData);
-        if (res.status !== 0) {
-          // const error = new Error(err.message);
-          message.error(res.message);
-          onError({event: res.message});
-        }else{
-          onSuccess();
-        }
+        ipfsImg(formData)
+        .then(res => {
+          if (res.status !== 0) {
+            message.error(res.message);
+            onError({event: res.message});
+          }else{
+            onSuccess(res, file);
+          }
+        })
+        .catch(err => {
+          throw new Error(err);
+        })
       } catch (err) {
         console.log("err ===>", err);
       }
@@ -46,15 +49,6 @@ export const UploadProps = {
         }
       };
     },
-
-    // customRequest({ file, onError }){
-    //   // 模拟上传失败
-    //   setTimeout(() => {
-    //     const error = new Error('Some error');
-    //     onError({event:error});
-    //     message.error('上传失败');
-    //   }, 1000);
-    // },
     beforeUpload(file) {
       const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif","image/webp"]
       let isImage = false

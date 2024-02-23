@@ -147,6 +147,9 @@ export default function Publish(params) {
             connectWallet()
             return
         }
+        if (values.fileList[0].status === "error") {
+            return
+        }
         // 是否是正确的链
         if (
             (values?.chain && chain.id !== values.chain) ||
@@ -536,11 +539,14 @@ export default function Publish(params) {
                             openFileDialogOnClick={false}
                             onChange={({fileList: newFileList}) => {
                                 if (newFileList[0] && newFileList[0].error) {
-                                    setFileList([]);
+                                    let file = JSON.parse(JSON.stringify(newFileList[0]));
+                                    delete file.thumbUrl;
+                                    setFileList([file]);
+                                    form.setFieldValue("fileList", [file]);
                                 }else{
                                     setFileList(newFileList);
+                                    form.setFieldValue("fileList", newFileList);
                                 }
-                                form.setFieldValue("fileList", newFileList);
                                 const values = form.getFieldsValue();
                                 saveCache(dataBase, values, isEdit);
                             }}
@@ -552,7 +558,7 @@ export default function Publish(params) {
                         </Upload>
                         </ ImgCrop>
                         {
-                            fileList.length === 1 && form.getFieldValue("title") &&
+                            fileList.length === 1 && form.getFieldValue("title") && !fileList[0].error && 
                             <div className="challenge-title">
                                 <div>
                                     <p className="img-desc newline-omitted">{form.getFieldValue("title")}</p>
