@@ -552,10 +552,12 @@ export default function Publish(params) {
                                 if (newFileList[0] && newFileList[0].error) {
                                     let file = JSON.parse(JSON.stringify(newFileList[0]));
                                     delete file.thumbUrl;
-                                    setFileList([file]);
+                                    fileList = [file];
+                                    setFileList([...fileList]);
                                     form.setFieldValue("fileList", [file]);
                                 }else{
-                                    setFileList(newFileList);
+                                    fileList = newFileList;
+                                    setFileList([...fileList]);
                                     form.setFieldValue("fileList", newFileList);
                                 }
                                 const values = form.getFieldsValue();
@@ -569,7 +571,7 @@ export default function Publish(params) {
                         </Upload>
                         </ ImgCrop>
                         {
-                            fileList.length === 1 && form.getFieldValue("title") && !fileList[0].error && 
+                            fileList.length === 1 && fileList[0].status === "done" && 
                             <div className="challenge-title">
                                 <div>
                                     <p className="img-desc newline-omitted">{form.getFieldValue("title")}</p>
