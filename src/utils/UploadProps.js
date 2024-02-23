@@ -37,8 +37,7 @@ export const UploadProps = {
           }
         })
         .catch(err => {
-          message.error(res.message);
-          onError({event: res.message});
+          onError({event: "error"});
           // throw new Error(err);
         })
       } catch (err) {
