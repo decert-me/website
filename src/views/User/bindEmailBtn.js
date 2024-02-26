@@ -19,6 +19,7 @@ export default function BindEmailBtn(params) {
     const [code, setCode] = useState("");
     const [email, setEmail] = useState("");
     const [time, setTime] = useState(null);
+    let [flag, setFlag] = useState(false);
 
     const { run, cancel } = useRequest(polling, {
         pollingInterval: 3000,
@@ -71,7 +72,9 @@ export default function BindEmailBtn(params) {
 
     function innerCode(e) {
         setCode(e?.toString() || "");
-        if (e.toString().length === 6) {
+        if (e.toString().length === 6 && !flag) {
+            flag = true;
+            setFlag(flag);
             bindEmail({
                 email,
                 code: e.toString()
