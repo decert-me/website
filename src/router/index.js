@@ -1,6 +1,6 @@
 import Index from "@/views/Index"
-import Explore from "@/views/Explore"
-import NewPublish from "@/views/Publish/index"
+import Explore from "@/views/Explore/index"
+import Publish from "@/views/Publish/index"
 import Question from "@/views/Question/index";
 import Challenge from "@/views/Challenge/index";
 import Claim from "@/views/Claim/index";
@@ -29,7 +29,7 @@ const routes = [
     },
     { 
       path: "/publish",
-      element: <NewPublish />,
+      element: <Publish />,
     },
     { 
       path: "/quests/:questId",
