@@ -1,3 +1,31 @@
+.preview-head{
+    width: 100%;
+    padding-left: 150px;
+    padding-right: 130px;
+    text-align: center;
+    position: absolute;
+    top: 32px;
+    left: 0;
+    color: #111111;
+    font-size: 18px;
+    font-weight: 500;
+    line-height: 21px;
+    z-index: 1;
+    .btn-exit{
+        border: none;
+        box-shadow: none;
+        color: #111111;
+        font-size: 18px;
+        display: flex;
+        align-items: center;
+        position: absolute;
+        top: 0;
+        right: 130px;
+        .icon{
+            font-size: 16px;
+        }
+    }
+}
 .Challenge{
     width: 100%;
     height: 100%;
@@ -5,33 +33,7 @@
     padding-top: 140px;
     position: relative;
     background-color: #F9F9F9;
-    .preview-head{
-        width: 100%;
-        padding-left: 150px;
-        padding-right: 130px;
-        text-align: center;
-        position: absolute;
-        top: 32px;
-        color: #111111;
-        font-size: 18px;
-        font-weight: 500;
-        line-height: 21px;
-        z-index: 1;
-        .btn-exit{
-            border: none;
-            box-shadow: none;
-            color: #111111;
-            font-size: 18px;
-            display: flex;
-            align-items: center;
-            position: absolute;
-            top: 0;
-            right: 130px;
-            .icon{
-                font-size: 16px;
-            }
-        }
-    }
+
     .quest-title{
         width: 100%;
         padding-top: 82px;

@@ -4,7 +4,7 @@ import { useTranslation } from "react-i18next";
 import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
-import { useNetwork, useSwitchNetwork } from "wagmi";
+import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
 import "@/assets/styles/view-style/publish.scss"
 import "@/assets/styles/component-style";
 
@@ -23,6 +23,8 @@ import store, { setChallenge } from "@/redux/store";
 import MyContext from "@/provider/context";
 import { CHAINS, CHAINS_TESTNET } from "@/config";
 import UploadTmplModal from './uploadTmplModal';
+import { useVerifyToken } from '@/hooks/useVerifyToken';
+import { convertToken } from '@/utils/convert';
 
 
 const { TextArea } = Input;
@@ -39,7 +41,9 @@ export default function Publish(params) {
     const questions = Form.useWatch("questions", form);     //  舰艇form表单内的questions
 
     const { connectWallet } = useContext(MyContext);
+    const { verify } = useVerifyToken();
     const { chain } = useNetwork();
+    const { disconnectAsync } = useDisconnect();
     const { switchNetworkAsync } = useSwitchNetwork()
     const { isConnected, walletType, address } = useAddress();
     const { t } = useTranslation(["publish", "translation"]);
@@ -198,7 +202,7 @@ export default function Publish(params) {
     }
 
     // 上传图片格式检测
-    function beforeUpload(file) {
+    async function beforeUpload(file) {
         const formatArr = ["image/jpeg","image/png","image/svg+xml","image/gif","image/webp"]
         let isImage = false
         formatArr.map((e)=>{
@@ -206,6 +210,13 @@ export default function Publish(params) {
             isImage = true
         }
         })
+        const token = localStorage.getItem('decert.token');
+        const isToken = convertToken(token);
+
+        if (isConnected && (!token || !isToken)) {
+            await store.dispatch(showCustomSigner());
+            return Upload.LIST_IGNORE
+        }
         if (!isConnected) {
             connectWallet()
             return Upload.LIST_IGNORE
@@ -342,12 +353,11 @@ export default function Publish(params) {
                 ...values,
                 token_id: isEdit,   
             }
-            console.log(values);
             // 改为存储至redux，刷新丢失 ==>
             await store.dispatch(setChallenge(obj))
         }
         setTimeout(() => {
-            navigateTo(`/preview${isEdit ? "?"+isEdit : ""}`)
+            navigateTo(`/preview/quests${isEdit ? "?"+isEdit : ""}`)
         }, 500);
     }
 
@@ -542,10 +552,12 @@ export default function Publish(params) {
                                 if (newFileList[0] && newFileList[0].error) {
                                     let file = JSON.parse(JSON.stringify(newFileList[0]));
                                     delete file.thumbUrl;
-                                    setFileList([file]);
+                                    fileList = [file];
+                                    setFileList([...fileList]);
                                     form.setFieldValue("fileList", [file]);
                                 }else{
-                                    setFileList(newFileList);
+                                    fileList = newFileList;
+                                    setFileList([...fileList]);
                                     form.setFieldValue("fileList", newFileList);
                                 }
                                 const values = form.getFieldsValue();
@@ -559,7 +571,7 @@ export default function Publish(params) {
                         </Upload>
                         </ ImgCrop>
                         {
-                            fileList.length === 1 && form.getFieldValue("title") && !fileList[0].error && 
+                            fileList.length === 1 && fileList[0].status === "done" && 
                             <div className="challenge-title">
                                 <div>
                                     <p className="img-desc newline-omitted">{form.getFieldValue("title")}</p>
