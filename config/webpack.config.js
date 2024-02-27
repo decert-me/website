@@ -305,6 +305,8 @@ module.exports = function (webpackEnv) {
         crypto: require.resolve("crypto-browserify"),
         // os: require.resolve("os-browserify/browser"),
         stream: require.resolve("stream-browserify"),
+        buffer: require.resolve('buffer'),
+        string_decoder: require.resolve('string_decoder/'),
         zlib: false,
         url: false,
         // net: false,
@@ -579,6 +581,9 @@ module.exports = function (webpackEnv) {
       ].filter(Boolean),
     },
     plugins: [
+      new webpack.ProvidePlugin({
+        Buffer: ['buffer', 'Buffer'],
+      }),
       // Generates an `index.html` file with the <script> injected.
       new HtmlWebpackPlugin(
         Object.assign(

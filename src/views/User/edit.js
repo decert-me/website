@@ -1,5 +1,3 @@
-import "@/assets/styles/view-style/user-edit.scss"
-import "@/assets/styles/mobile/view-style/user-edit.scss"
 import { Button, Input, message, Upload } from "antd"
 import {
     PlusOutlined,
@@ -19,6 +17,8 @@ import BindWechatBtn from "./bindWechatBtn";
 import BindZkBtn from "./bindZkBtn";
 import CustomIcon from "@/components/CustomIcon";
 import MyContext from "@/provider/context";
+import BindEmailBtn from "./bindEmailBtn";
+import BindGithubBtn from "./bindGithubBtn";
 const { TextArea } = Input;
 
 export default function UserEdit(params) {
@@ -195,13 +195,23 @@ export default function UserEdit(params) {
                     </div>
                     <div className="inner">
                         <p className="label">{t("profile:edit.inner.bindAc")}</p>
+                        {/* 第三方绑定列表 */}
                         <div className="list">
+
                             <div className="item">
                                 <div className="item-label">
-                                    <CustomIcon type="icon-wechat" />
-                                    <p>Wechat</p>
+                                    <img src={require("@/assets/images/icon/icon-github.png")} alt="" />
+                                    <p>Github</p>
                                 </div>
-                                <BindWechatBtn />
+                                <BindGithubBtn />
+                            </div>
+
+                            <div className="item">
+                                <div className="item-label">
+                                    <img src={require("@/assets/images/icon/email.png")} alt="" />
+                                    <p>Email</p>
+                                </div>
+                                <BindEmailBtn />
                             </div>
 
                             <div className="item">
@@ -211,6 +221,15 @@ export default function UserEdit(params) {
                                 </div>
                                 <BindDiscordBtn />
                             </div>
+
+                            <div className="item">
+                                <div className="item-label">
+                                    <CustomIcon type="icon-wechat" />
+                                    <p>Wechat</p>
+                                </div>
+                                <BindWechatBtn />
+                            </div>
+ 
                         </div>
                     </div>
                     <div className="inner">
