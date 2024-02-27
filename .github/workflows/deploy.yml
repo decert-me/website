@@ -29,6 +29,9 @@ jobs:
         REACT_APP_ANSWERS_KEY:  ${{ secrets.CHALLENGE_ANSWERS_KEY }}
         REACT_APP_SENTRY_KEY:  ${{ secrets.SENTRY_KEY }}
         REACT_APP_IPFS_GATEWAY: ${{ vars.IPFS_GATEWAY }}
+        REACT_APP_PARTICLE_PROJECT_ID: ${{ secrets.PARTICLE_PROJECT_ID }}
+        REACT_APP_PARTICLE_CLIENT_KEY: ${{ secrets.PARTICLE_CLIENT_KKEY }}
+        REACT_APP_PARTICLE_APP_ID: ${{ vars.PARTICLE_APP_ID }}
 
     - name: Archive Production Artifact
       run: |
