@@ -10,9 +10,9 @@ import { ParticleNetwork } from '@particle-network/auth';
 import "@rainbow-me/rainbowkit/styles.css";
 
 export const particle = new ParticleNetwork({
-  projectId: process.env.REACT_APP_PROJECT_ID,
-  clientKey: process.env.REACT_APP_CLIENT_KEY,
-  appId: process.env.REACT_APP_APP_ID,
+  projectId: process.env.REACT_APP_PARTICLE_PROJECT_ID,
+  clientKey: process.env.REACT_APP_PARTICLE_CLIENT_KEY,
+  appId: process.env.REACT_APP_PARTICLE_APP_ID,
 });
 
 const projectId = "a9f8856bf87d913f7af93c2a3e5ebb15";
