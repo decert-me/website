@@ -3,19 +3,20 @@ import { useParams } from "react-router-dom"
 import { useContext, useEffect, useState } from "react";
 import { claimCollection, getCollectionQuest } from "@/request/api/quests";
 import { constans } from "@/utils/constans";
-import { Button, Tooltip, message, notification } from "antd";
+import { Button, Modal, Tooltip, message, notification } from "antd";
 import { useAddress } from "@/hooks/useAddress";
 import { getCollectionMetadata } from "@/utils/getMetadata";
 import { useRequest, useUpdateEffect } from "ahooks";
 import { useTranslation } from "react-i18next";
-import {
-    ExclamationCircleOutlined
-} from '@ant-design/icons';
+import { ExclamationCircleOutlined } from '@ant-design/icons';
 import CollectionInfo from "./detail";
 import usePublishCollection from "@/hooks/usePublishCollection";
 import { hasClaimed } from "@/request/api/public";
 import MyContext from "@/provider/context";
 import Challenger from "../Question/Challenger";
+import { useNetwork, useSwitchNetwork } from "wagmi";
+import CustomLoad from "@/components/CustomLoad";
+import ModalSelectChain from "@/components/CustomModal/ModalSelectChain";
 
 
 
@@ -24,9 +25,13 @@ export default function Collection(params) {
     const { id } = useParams();
     const { isMobile, connectWallet } = useContext(MyContext);
     const { address, walletType, isConnected } = useAddress();
+    const { chain, chains } = useNetwork();
+    const { pendingChainId, switchNetworkAsync, isLoading: isPending } = useSwitchNetwork()
     const { ipfsPath, defaultImg, openseaLink } = constans();
     const [api, contextHolder] = notification.useNotification();
     const { t } = useTranslation(["publish", "translation", "profile", "explore"]);
+    const [isModalNetwork, setIsModalNetwork] = useState(false);    //  领取网络弹窗
+    const [showModal, setShowModal] = useState(false);  //  切换网络弹窗
     const [isCreated, setIsCreated] = useState();
     const [isWrite, setIsWrite] = useState(false);
     const [loading, setLoading] = useState(false);
@@ -82,12 +87,8 @@ export default function Collection(params) {
             });
             return
         }
-        // 发起空投
-        await claimCollection({
-            token_id: detail.collection.tokenId
-        })
-        // 开启轮询查看空投是否成功
-        run();
+        // 选择chain
+        setIsModalNetwork(true);
     }
 
     async function createCollectionNft(params) {
@@ -126,6 +127,35 @@ export default function Collection(params) {
             publish();
         }else{
             setIsWrite(true);
+        }
+    }
+
+    async function airpost() {
+        // 发起空投
+        await claimCollection({
+            token_id: detail.collection.tokenId,
+            chain_id: chain.id,
+        })
+        // 开启轮询查看空投是否成功
+        run();
+    }
+
+    function goCreate() {
+        setShowModal(false);
+        createCollectionNft();
+    }
+
+    async function switchChain(chainId) {
+        try {
+            if (chainId == chain.id) {
+                goCreate()
+                return
+            }
+            await switchNetworkAsync(chainId)
+            goCreate()
+            
+        } catch (error) {
+            console.log("switchChain Error: ", error);
         }
     }
 
@@ -189,6 +219,43 @@ export default function Collection(params) {
         detail &&
         <div className={`Collection ${isMobile ? "Collection-mobile" : ""}`}>
             {contextHolder}
+            <ModalSelectChain
+                isModalOpen={isModalNetwork} 
+                handleCancel={() => setIsModalNetwork(false)} 
+                airpost={airpost}
+            />
+            <Modal
+                className="ModalConnect" 
+                open={showModal}
+                onCancel={() => setShowModal(false)}
+                footer={null}
+                width={500}
+                centered
+                title={t("translation:selectNet")}
+            >
+                {
+                    chains.map(chain => (
+                        <div
+                            key={chain.id}
+                            className="wallet-item"
+                            onClick={() => switchChain(chain.id)}
+                        >
+                            <div className="item">
+                                <div className="img">
+                                    <img src={chain.img} alt="" />
+                                </div>
+                                <p className="name">
+                                    {chain.name}
+                                </p>
+                                {
+                                    isPending && pendingChainId == chain.id &&
+                                    <CustomLoad />
+                                }
+                            </div>
+                        </div>
+                    ))
+                }
+            </Modal>
             <div className="custom-bg-round"></div>
             <div className="question-content">
                 <div className="question-left">
@@ -225,7 +292,7 @@ export default function Collection(params) {
                             className={isCreated ? "btn-disable" : "btn-normal"}
                             disabled={isCreated}
                             loading={isLoading || transactionLoading || loading}
-                            onClick={() => createCollectionNft()}
+                            onClick={() => setShowModal(true)}
                             style={{
                                 marginTop: "30px"
                             }}
