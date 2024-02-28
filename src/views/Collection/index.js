@@ -130,11 +130,11 @@ export default function Collection(params) {
         }
     }
 
-    async function airpost() {
+    async function airpost(id) {
         // 发起空投
         await claimCollection({
             token_id: detail.collection.tokenId,
-            chain_id: chain.id,
+            chain_id: id,
         })
         // 开启轮询查看空投是否成功
         run();
