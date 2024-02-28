@@ -54,14 +54,15 @@ export default function StepSocial({step, setStep, defaultValue}) {
         hasBindSocialAccount()
         .then(res => {
             if (res.status === 0) {
-                const { discord, wechat } = res.data;
+                const { discord, wechat, github, email } = res.data;
+                const flag = discord || wechat || github || email;
                 bindObj = res.data;
                 setBindObj({...bindObj});
-                if ((discord || wechat) && step === 1) {
+                if (flag && step === 1) {
                     setStep(2);
                     setLoading(false);
                     cancel();
-                }else if (count === 100 || (discord && wechat)) {
+                }else if (count === 100) {
                     setLoading(false);
                     cancel();
                     setCount(0);
@@ -93,7 +94,7 @@ export default function StepSocial({step, setStep, defaultValue}) {
         <div className={`CustomBox step-box ${step === 1 ? "checked-step" : ""}`}>
             <p>{t("bindAc")}</p>
             {
-                (bindObj.discord || bindObj.wechat) ?
+                (bindObj.discord || bindObj.wechat || bindObj.github || bindObj.email) ?
                 <p>{t("profile:isBind")}</p>
                 :
                 step >= 0 &&
