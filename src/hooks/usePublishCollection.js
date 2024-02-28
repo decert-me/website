@@ -34,17 +34,17 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
     })
 
     const write = (sign, obj, params) => {
-        let { startTs, endTs, supply, title, uri } = obj;
+        let { startTs, endTs, title, uri } = obj;
         endTs = constans().maxUint32;
-        supply = constans().maxUint192;
-        const args = [startTs, endTs, supply, title, uri];
+        const args = [startTs, endTs, title, uri];
         createQuest({ args: [args, sign] })
         .then(res => {
             setIsLoading(false);
             if (res) {
                 submitHash({ 
                     hash: res.hash,
-                    params
+                    params,
+                    chain_id: chain.id
                 })
                 setCreateQuestHash(res)
             }
@@ -62,13 +62,11 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
             description: detail.description,
             'start_ts': '0', 
             'end_ts': maxUint32.toString(), 
-            'supply': maxUint192.toString(),
             chain_id: chain.id
         })
         const questData = {
             'startTs': 0, 
             'endTs': maxUint32.toString(), 
-            'supply': maxUint192.toString(), 
             'title': detail.title,
             'uri': "ipfs://"+jsonHash, 
         }
@@ -102,7 +100,7 @@ export default function usePublishCollection({ detail, jsonHash, collectionId })
             setTimeout(() => {
                 message.success(t("message.success.create"));
                 navigateTo(0);
-            }, 3000);
+            }, 6000);
         }
     },[transactionLoading])
 
