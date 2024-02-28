@@ -123,12 +123,12 @@ export default function BindEmailBtn(params) {
                 footer={null}
                 closeIcon={null}
                 width={500}
-                title="绑定邮箱"
+                title={t("emailCode.title1")}
                 rootClassName="email-modal"
             >
-                <p className="text">绑定邮箱，可第一时间收到评分结果。</p>
-                <Input onChange={(e) => innerEmail(e.target.value)} placeholder="email address" />
-                <Button id="hover-btn-full" onClick={sendMsg} type="primary">下一步</Button>
+                <p className="text">{t("emailCode.subtitle1")}</p>
+                <Input onChange={(e) => innerEmail(e.target.value)} placeholder={t("emailCode.placeholder")} />
+                <Button id="hover-btn-full" onClick={sendMsg} type="primary">{t("emailCode.next")}</Button>
             </Modal>
             {/* 发送验证码 */}
             <Modal
@@ -137,10 +137,10 @@ export default function BindEmailBtn(params) {
                 footer={null}
                 closeIcon={null}
                 width={500}
-                title="输入验证码"
+                title={t("emailCode.title2")}
                 rootClassName="email-code-modal"
             >
-                <p className="text">验证码已发送到{email}</p>
+                <p className="text">{t("emailCode.subtitle2")}{email}</p>
                 <div className="inner">
                     {
                         new Array(6).fill(0).map((e,index) => (
@@ -162,9 +162,9 @@ export default function BindEmailBtn(params) {
                     
                 {
                     time &&
-                    <Countdown rootClassName="time" suffix="秒" value={time} onFinish={onFinish} format="s" />
+                    <Countdown rootClassName="time" suffix={t("emailCode.s")} value={time} onFinish={onFinish} format="s" />
                 }
-                <Button disabled={time} id="hover-btn-full" onClick={reSendMsg} type="primary">重新发送</Button>
+                <Button disabled={time} id="hover-btn-full" onClick={reSendMsg} type="primary">{t("emailCode.resend")}</Button>
             </Modal>
             <Button
                 id="hover-btn-full" 
@@ -172,7 +172,7 @@ export default function BindEmailBtn(params) {
                 onClick={() => showModal()}
                 loading={loading}
                 disabled={isBind}
-            >{isBind ? t("isBind") : "绑定邮箱"}</Button>
+            >{isBind ? t("isBind") : t("bindEm")}</Button>
         </>
     )
 }

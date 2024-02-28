@@ -33,9 +33,22 @@
     "bindZk": "绑定 DID",
     "bindWx": "绑定 Wechat",
     "bindDc": "绑定 Discord",
+    "bindGh": "绑定 Github",
+    "bindEm": "绑定邮箱",
 
     "zkTool": "链下证书",
     "key": "我的密钥",
+
+    "emailCode": {
+        "title1": "绑定邮箱",
+        "title2": "输入验证码",
+        "subtitle1": "绑定邮箱，可第一时间收到评分结果。",
+        "subtitle2": "代码已发送到",
+        "placeholder": "邮箱地址",
+        "resend": "重新发送验证码",
+        "next": "下一步",
+        "s": "秒"
+    },
      
     "edit": {
         "title": "完善个人资料",
