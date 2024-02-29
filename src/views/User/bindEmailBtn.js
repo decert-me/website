@@ -126,7 +126,7 @@ export default function BindEmailBtn(params) {
                 title={t("emailCode.title1")}
                 rootClassName="email-modal"
             >
-                <p className="text">{t("emailCode.subtitle1")}</p>
+                {/* <p className="text">{t("emailCode.subtitle1")}</p> */}
                 <Input onChange={(e) => innerEmail(e.target.value)} placeholder={t("emailCode.placeholder")} />
                 <Button id="hover-btn-full" onClick={sendMsg} type="primary">{t("emailCode.next")}</Button>
             </Modal>
