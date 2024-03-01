@@ -79,8 +79,18 @@ export default function BindEmailBtn(params) {
                 email,
                 code: e.toString()
             })
-            setIsOpenInner(false);
-            run();
+            .then(res => {
+                if (res) {
+                    setIsOpenInner(false);
+                    run();
+                }else{
+                    flag = false;
+                    setFlag(flag);
+                }
+            })
+            .catch(err => {
+                console.log(err);   
+            })
         }
     }
 
