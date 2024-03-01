@@ -71,13 +71,14 @@ export default function BindEmailBtn(params) {
     }
 
     function innerCode(e) {
+        if (e?.length > 6) return
         setCode(e || "");
-        if (e.toString().length === 6 && !flag) {
+        if (e?.length === 6 && !flag) {
             flag = true;
             setFlag(flag);
             bindEmail({
                 email,
-                code: e.toString()
+                code: e
             })
             .then(res => {
                 if (res) {
@@ -159,13 +160,12 @@ export default function BindEmailBtn(params) {
                             </div>
                         ))
                     }
-                    <InputNumber 
+                    <Input
+                        type="number"
                         className="input"
-                        stringMode={true}
                         value={code}
                         autoFocus
-                        onChange={(e) => innerCode(e)}
-                        maxLength={6}
+                        onChange={(e) => innerCode(e.target.value)}
                         controls={false}
                     />
                 </div>
