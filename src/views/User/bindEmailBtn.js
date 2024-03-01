@@ -71,7 +71,7 @@ export default function BindEmailBtn(params) {
     }
 
     function innerCode(e) {
-        setCode(e?.toString() || "");
+        setCode(e || "");
         if (e.toString().length === 6 && !flag) {
             flag = true;
             setFlag(flag);
@@ -161,6 +161,7 @@ export default function BindEmailBtn(params) {
                     }
                     <InputNumber 
                         className="input"
+                        stringMode={true}
                         value={code}
                         autoFocus
                         onChange={(e) => innerCode(e)}
