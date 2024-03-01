@@ -7,6 +7,7 @@ import { Modal } from 'antd';
 import { useEffect, useState } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useNavigate } from 'react-router-dom';
+import CustomLoad from '../CustomLoad';
 
 
 
@@ -16,7 +17,8 @@ export default function ModalAirdrop({
     img,
     status,
     isMobile,
-    detail
+    detail,
+    airpostLoading
 }) {
 
     const { ipfsPath, defaultImg } = constans();
@@ -50,25 +52,32 @@ export default function ModalAirdrop({
             closeIcon={<CloseOutlined style={{fontSize: 15, color: "#000"}} />}
             centered
         >
-            <div className="content">
-                <div className="img">
-                    <img 
-                        src={
-                            img.split("//")[1]
-                                ? `${ipfsPath}/${img.split("//")[1]}`
-                                : defaultImg
-                        } 
-                        alt="" 
-                    />
+            {
+                airpostLoading ?
+                <div className="content">
+                    <CustomLoad ml={0} fs={40} />
                 </div>
-                <p className="text">{status === 2 ? t("explore:pass") : t("explore:airdropping")}</p>
-                {
-                    status !== 2 && <p className="tips">{t("explore:airdrop")}</p>
-                }
-                {
-                    collectionInfo && <p className="navigateTo">{t("explore:go-to")}&nbsp;<span onClick={() => {navigateTo(`/collection/${collectionInfo.id}`)}}>【{collectionInfo.title}】</span>&nbsp;&gt;&gt;</p>
-                }
-            </div>
+                :
+                <div className="content">
+                    <div className="img">
+                        <img 
+                            src={
+                                img.split("//")[1]
+                                    ? `${ipfsPath}/${img.split("//")[1]}`
+                                    : defaultImg
+                            } 
+                            alt="" 
+                        />
+                    </div>
+                    <p className="text">{status === 2 ? t("explore:pass") : t("explore:airdropping")}</p>
+                    {
+                        status !== 2 && <p className="tips">{t("explore:airdrop")}</p>
+                    }
+                    {
+                        collectionInfo && <p className="navigateTo">{t("explore:go-to")}&nbsp;<span onClick={() => {navigateTo(`/collection/${collectionInfo.id}`)}}>【{collectionInfo.title}】</span>&nbsp;&gt;&gt;</p>
+                    }
+                </div>
+            }
         </Modal>
     )
 }

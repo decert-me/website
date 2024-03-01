@@ -17,6 +17,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
     const { t } = useTranslation(["claim", "translation"]);
     const { score, passingPercent, isPass, answers } = answerInfo
     const [isModalNetwork, setIsModalNetwork] = useState(false);
+    const [airpostLoading, setAirpostLoading] = useState(true);
     let [status, setStatus] = useState(0);
     let [isModalAirdropOpen, setIsModalAirdropOpen] = useState();
     let [cacheIsClaim, setCacheIsClaim] = useState();
@@ -83,6 +84,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
         // })
         return await wechatShare(data)
         .then(res => {
+            setAirpostLoading(false);
             return res?.status === 0 ? res.data : null
         })
     }
@@ -132,6 +134,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                 isMobile={isMobile}
                 detail={detail}
                 status={status}
+                airpostLoading={airpostLoading}
             />
         }
         <ModalSelectChain
