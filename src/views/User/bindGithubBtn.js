@@ -80,6 +80,6 @@ export default function BindGithubBtn() {
             onClick={() => bindDiscordAc()}
             loading={isDiscordLoad}
             disabled={isBind}
-        >{isBind ? t("isBind") : "绑定Github"}</Button>
+        >{isBind ? t("isBind") : t("bindGh")}</Button>
     )
 }
