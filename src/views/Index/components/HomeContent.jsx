@@ -4,8 +4,8 @@ import { TwitterOutlined } from '@ant-design/icons';
 import CustomIcon from '@/components/CustomIcon';
 import PartnerCard from './PartnerCard';
 import ContributorCard from './ContributorCard';
-import "@/assets/styles/view-style/index.scss"
-import "@/assets/styles/mobile/view-style/index.scss"
+import "../styles/index.scss"
+import "../styles/mobile.scss"
 
 export default function HomeContent(params) {
 

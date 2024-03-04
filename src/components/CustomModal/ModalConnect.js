@@ -16,6 +16,7 @@ export default function ModalConnect(props) {
         {name: "MetaMask", img: require("@/assets/images/img/MetaMask.png")},
         {name: "Solana Wallet", img: require("@/assets/images/img/Solana.png")},
         {name: "WalletConnect", img: require("@/assets/images/img/WalletConnect.png")},
+        {name: "google", img: require("@/assets/images/img/WalletConnect.png")},
     ]
 
     function goConnect(walletName) {

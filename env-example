@@ -13,6 +13,14 @@ REACT_APP_ANSWERS_KEY=""
 # 用户绑定地址 Discord 认证频道
 REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_CODE=""
 
+# particle 三方登录 project ID
+REACT_APP_PARTICLE_PROJECT_ID=""
+# particle 三方登录 client key
+REACT_APP_PARTICLE_CLIENT_KEY=""
+# particle 三方登录 app ID
+REACT_APP_PARTICLE_APP_ID=""
+
+
 # 可选配置
 
 # 是否测试环境，默认为false

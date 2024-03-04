@@ -2,7 +2,7 @@ import { useEffect } from "react";
 import { useLocation, useParams } from "react-router-dom";
 import { Spin } from "antd";
 import { LoadingOutlined } from '@ant-design/icons';
-import { authDiscord } from "@/request/api/social";
+import { authDiscord, authGithub } from "@/request/api/social";
 
 export default function Callback() {
     
@@ -20,6 +20,17 @@ export default function Callback() {
         }
         if (social === "discord" && token) {
             await authDiscord({code, callback: `${window.location.origin}/callback/discord`})
+            .then(res => {
+                if (res?.message) {
+                    localStorage.setItem("decert.bind.notice", res.message);
+                }
+            })
+            setTimeout(() => {
+                window.close();
+            }, 40);
+        }
+        if (social === "github" && token) {
+            await authGithub({code, callback: `${window.location.origin}/callback/github`})
             .then(res => {
                 if (res?.message) {
                     localStorage.setItem("decert.bind.notice", res.message);

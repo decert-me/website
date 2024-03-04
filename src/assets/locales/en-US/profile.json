@@ -33,9 +33,22 @@
     "bindZk": "Bind DID",
     "bindWx": "Bind Wechat",
     "bindDc": "Bind Discord",
+    "bindGh": "Bind Github",
+    "bindEm": "Bind Email",
 
     "zkTool": "Offchain Certification",
     "key": "My Keys",
+
+    "emailCode": {
+        "title1": "Link Email",
+        "title2": "Verification",
+        "subtitle1": "Bundle your email to be the first to receive the scoring results.",
+        "subtitle2": "A code has been sent to ",
+        "placeholder": "email address",
+        "resend": "Resend code",
+        "next": "Next",
+        "s": "s"
+    },
 
     "edit": {
         "title": "Edit profile",

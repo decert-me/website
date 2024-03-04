@@ -81,7 +81,7 @@
                 "choose": "Choose a image",
                 "menu-choose": "Choose a image",
                 "p1": "Click an image to this area.",
-                "p2": "The image type must be jpg, png, gif, svg.",
+                "p2": "The image type must be jpg, png, gif, svg, webp.",
                 "p3": "Maximum size: 20 MB."
             }
         },

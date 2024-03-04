@@ -166,6 +166,7 @@ export default function Challenger(props) {
     }
 
     async function getList() {
+        if (!questId) return
         setLoading(true);
         if (isCollection) {
             await collectionUpdate();
