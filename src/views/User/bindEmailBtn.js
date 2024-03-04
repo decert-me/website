@@ -71,16 +71,27 @@ export default function BindEmailBtn(params) {
     }
 
     function innerCode(e) {
-        setCode(e?.toString() || "");
-        if (e.toString().length === 6 && !flag) {
+        if (e?.length > 6) return
+        setCode(e || "");
+        if (e?.length === 6 && !flag) {
             flag = true;
             setFlag(flag);
             bindEmail({
                 email,
-                code: e.toString()
+                code: e
             })
-            setIsOpenInner(false);
-            run();
+            .then(res => {
+                if (res) {
+                    setIsOpenInner(false);
+                    run();
+                }else{
+                    flag = false;
+                    setFlag(flag);
+                }
+            })
+            .catch(err => {
+                console.log(err);   
+            })
         }
     }
 
@@ -149,12 +160,12 @@ export default function BindEmailBtn(params) {
                             </div>
                         ))
                     }
-                    <InputNumber 
+                    <Input
+                        type="number"
                         className="input"
                         value={code}
                         autoFocus
-                        onChange={(e) => innerCode(e)}
-                        maxLength={6}
+                        onChange={(e) => innerCode(e.target.value)}
                         controls={false}
                     />
                 </div>
