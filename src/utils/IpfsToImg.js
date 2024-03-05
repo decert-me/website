@@ -8,39 +8,36 @@ export const ipfsToImg = (e) => {
 
     let gateway = ipfsGateway;
     const url = e.image_uri;
+    const contentType = e.content_type;
     const contractUrl = e.contract_logo;
-    let type = "img";
-
-    let selectValue = "";
 
     if (!url) {
-        selectValue = process.env.REACT_APP_NFT_BASE_URL+e.contract_logo;
+        return <div className="img"><img src={process.env.REACT_APP_NFT_BASE_URL+e.contract_logo} alt="" /></div>
     }else if (!url && !contractUrl) {
-        selectValue = defaultImg;
+        return <div className="img"><img src={defaultImg} alt="" /></div>
     }else {
-        if (url.indexOf('Qm') === 0 || url.indexOf('ba') === 0) {
-            selectValue = gateway+url;
-        }else if(url.indexOf('<svg') !== -1){
-            selectValue = url;
-            type = "svg"
-        }else{
-            selectValue = url;
+        switch (contentType) {
+            case "image/jpeg":
+            case "image/gif":
+            case "image/png":
+            case "image/webp":
+                return (
+                    <div className="img"><img src={gateway+url} alt="" /></div>
+                )
+            case "image/svg":
+                return (
+                    <div className="img"><img src={url} alt="" /></div>
+                )
+            case "video/mp4":
+            case "video/quicktime":
+                return (
+                    <div className="img"><video src={gateway+url} alt="" loop muted autoPlay /></div>
+                )
+            default:
+                return (
+                    <div className="img"><img src={process.env.REACT_APP_NFT_BASE_URL+e.contract_logo} alt="" /></div>
+                )
         }
-    }
-    // if (url.indexOf('data:image/svg+xml;base64') === 0) {
-    //     return url
-    // }
-    // if(url.indexOf('https://') === 0){
-    //     return url
-    // }
-    // if(url.indexOf('ar://') === 0){
-    //     return url
-    // }
-
-    if (type === "img") {
-        return <div className="img"><img src={selectValue} alt="" /></div>
-    }else{
-        return <div className="img" dangerouslySetInnerHTML={{__html: selectValue}} />
     }
 }
 
