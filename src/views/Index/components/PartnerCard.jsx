@@ -5,13 +5,21 @@ export default function PartnerCard(params) {
     
     const { t } = useTranslation();
     
-    const partner = [
+    const partner1 = [
         "home-upchain",
-        "home-buidler",
         "home-rebase",
-        "home-chaintool",
+        "home-gcc",
+        "home-zcloak",
         "home-aspecta",
         "home-nftscan",
+    ]
+    const partner2 = [
+        "home-openbuild",
+        "home-plancker",
+        "home-buidler",
+        "home-chaintool",
+        "home-4seas",
+        "home-web3camp",
     ]
 
     return (
@@ -20,7 +28,16 @@ export default function PartnerCard(params) {
                 <p>{t("home.page.partner")}</p>
                 <ul>
                     {
-                        partner.map(e => 
+                        partner1.map(e => 
+                            <li className="img" key={e}>
+                                <img src={require(`@/assets/images/img/${e}.png`)} alt="" />
+                            </li>
+                        )
+                    }
+                </ul>
+                <ul style={{paddingTop: 0}}>
+                    {
+                        partner2.map(e => 
                             <li className="img" key={e}>
                                 <img src={require(`@/assets/images/img/${e}.png`)} alt="" />
                             </li>
