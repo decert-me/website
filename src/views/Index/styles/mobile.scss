@@ -183,13 +183,13 @@
         }
         ul{
           flex-wrap: wrap;
-          gap: .0625rem;
           border-width: .0625rem;
         }
         li{
           width: 7.3125rem;
           height: 7.3125rem;
           border: none;
+          outline-width: .0625rem;
           img{
             width: 5rem;
             height: 1.8125rem;
