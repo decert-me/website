@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import GenerateImg from "./generateImg";
 import { useAddress } from "@/hooks/useAddress";
+import { message } from "antd";
 
 
 
@@ -41,12 +42,19 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                 setIsModalAirdropOpen(true);
                 status = 1;
                 setStatus(status);
-                const image = await generateImgRef.current.generate(
-                    detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
-                    detail.title
-                )
-                await runAsync({chainId: null, image});
-                run();
+                try {
+                    const image = await generateImgRef.current.generate(
+                        detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
+                        detail.title
+                    )
+                    await runAsync({chainId: null, image});
+                    run();
+                } catch (error) {
+                    message.error("领取失败，请尝试重新领取")
+                    status = 0;
+                    setStatus(status);
+                    setIsModalAirdropOpen(false);
+                }
             }
         }
     }
@@ -58,13 +66,20 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
             setIsModalAirdropOpen(true);
             status = 1;
             setStatus(status);
-            // 生成img
-            const image = await generateImgRef.current.generate(
-                detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
-                detail.title
-            )
-            await runAsync({chainId, image});
-            run();
+            try {
+                // 生成img
+                const image = await generateImgRef.current.generate(
+                    detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
+                    detail.title
+                )
+                await runAsync({chainId, image});
+                run();
+            } catch (error) {
+                message.error("领取失败，请尝试重新领取")
+                status = 0;
+                setStatus(status);
+                setIsModalAirdropOpen(false);
+            }
         }
     }
 
