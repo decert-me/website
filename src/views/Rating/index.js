@@ -107,41 +107,50 @@ export default function Rating(params) {
         },
         {
             title: t("c-num"),
-            key: 'token_id',
-            dataIndex: "token_id",
-            render: (token_id) => (
-                <p className="pointer" onClick={() => window.open(`/quests/${token_id}`, "_blank")}>{token_id}</p>
+            key: 'uuid',
+            dataIndex: "uuid",
+            render: (uuid) => (
+                <p className="pointer" onClick={() => window.open(`/quests/${uuid}`, "_blank")}>{uuid.slice(0,5)}...{uuid.slice(uuid.length-5,uuid.length)}</p>
             )
         },
         {
-            title: t("c-addr"),
-            key: 'address',
-            dataIndex: "address",
-            render: (address) => (
-                <p className="pointer" onClick={() => window.open(`/${address}`, "_blank")}>{address.substring(0,5) + "..." + address.substring(38,42)}</p>
-            )
+            title: "待评分",
+            key: 'await-num',
+            dataIndex: "await-num",
+            // render: (num) => (
+                // <p className="pointer" onClick={() => window.open(`/${address}`, "_blank")}>{address.substring(0,5) + "..." + address.substring(38,42)}</p>
+            // )
         },
+        // {
+        //     title: t("c-addr"),
+        //     key: 'address',
+        //     dataIndex: "address",
+        //     render: (address) => (
+        //         <p className="pointer" onClick={() => window.open(`/${address}`, "_blank")}>{address.substring(0,5) + "..." + address.substring(38,42)}</p>
+        //     )
+        // },
+        // {
+        //     title: t("status"),
+        //     key: 'status',
+        //     dataIndex: "open_quest_review_status",
+        //     filters: [
+        //         { text: t("all"), value: null },
+        //         { text: t("rate"), value: 1 },
+        //         { text: t("rated"), value: 2 },
+        //     ],
+        //     filterMultiple: false,
+        //     filteredValue: [status],
+        //     filterDropdown: ({ confirm }) => fillter(confirm),
+        //     render: (status) => (
+        //         <p style={{
+        //             color: status === 2 ? "#35D6A6" : "#9A9A9A",
+        //             fontWeight: 600
+        //         }}>{status === 2 ? t("rated") : status === 1 ? t("rate") : t("all")}</p>
+        //     )
+        // },
         {
-            title: t("status"),
-            key: 'status',
-            dataIndex: "open_quest_review_status",
-            filters: [
-                { text: t("all"), value: null },
-                { text: t("rate"), value: 1 },
-                { text: t("rated"), value: 2 },
-            ],
-            filterMultiple: false,
-            filteredValue: [status],
-            filterDropdown: ({ confirm }) => fillter(confirm),
-            render: (status) => (
-                <p style={{
-                    color: status === 2 ? "#35D6A6" : "#9A9A9A",
-                    fontWeight: 600
-                }}>{status === 2 ? t("rated") : status === 1 ? t("rate") : t("all")}</p>
-            )
-        },
-        {
-            title: t("submit-time"),
+            // title: t("submit-time"),
+            title: "最新提交时间",
             key: 'updated_at',
             dataIndex: "updated_at",
             render: (time) => (
@@ -151,13 +160,28 @@ export default function Rating(params) {
             )
         },
         {
-            title: t("rate-time"),
+            // title: t("rate-time"),
+            title: "上次评分时间",
             key: 'open_quest_review_time',
             dataIndex: "open_quest_review_time",
             render: (time) => (
                 time.indexOf("0001-01-01T") === -1 ?
                 time.replace("T", " ").split(".")[0]
                 :"-"
+            )
+        },
+        {
+            title: "操作",
+            key: 'operate',
+            dataIndex: "operate",
+            render: () => (
+                // time.indexOf("0001-01-01T") === -1 ?
+                // time.replace("T", " ").split(".")[0]
+                // :"-"
+                <div style={{display: "flex"}}>
+                    <Button type="link" style={{color: "#8F5A35"}}>评分</Button>
+                    <Button type="link" style={{color: "#8F5A35"}}>已评分</Button>
+                </div>
             )
         }
     ];
