@@ -23,6 +23,7 @@ import { downloadJsonFile } from "@/utils/file/downloadJsonFile";
 import ModalZkCard from "@/components/CustomModal/ModalZkCard";
 import ModalImgCard from "@/components/CustomModal/ModalImgCard";
 import ThirdpartyUserInfo from "./ThirdpartyUserInfo";
+import PageLoader from "@/components/Loader/PageLoader";
 
 
 export default function User(props) {
@@ -41,6 +42,8 @@ export default function User(props) {
     const walletType = /^0x/.test(paramsAddr) ? "evm" : "solana";
     const [didID, setDidID] = useState("");
     const [isKeysFile, setIsKeysFile] = useState(false);
+    const [isLoading, setIsLoading] = useState(true);
+    
     let [zkModalOpen, setZkModalOpen] = useState();
     let [imgModalOpen, setImgModalOpen] = useState();
     let [account, setAccount] = useState();
@@ -95,6 +98,7 @@ export default function User(props) {
                     setList([...list]);
                     pageConfig.total = res.data.total;
                     setPageConfig({...pageConfig});
+                    setIsLoading(false);
                 }
             })
             // 如果是“可领取”状态，择再获取本地缓存“可领取”，分页
@@ -110,6 +114,7 @@ export default function User(props) {
                     setList([...list]);
                     pageConfig.total = res.data.total;
                     setPageConfig({...pageConfig});
+                    setIsLoading(false);
                 }
             })
         }
@@ -227,7 +232,10 @@ export default function User(props) {
     },[user])
 
     useUpdateEffect(() => {
-        getList();
+        setIsLoading(true);
+        setTimeout(() => {
+            getList();
+        }, 3000);
     },[checkStatus, checkType])
 
     useEffect(() => {
@@ -380,6 +388,9 @@ export default function User(props) {
             </div>
             <div className="User-content">
                 {
+                    isLoading ?
+                    <PageLoader />
+                    :
                     list.map(e => 
                         <ChallengeItem 
                             key={e.id} 
@@ -402,7 +413,7 @@ export default function User(props) {
                     )
                 }
                 {
-                    list.length === 0 &&
+                    list.length === 0 && !isLoading &&
                     <div className="nodata">
                         <p>{t("profile:challenge-none")}</p>
                         {
@@ -413,7 +424,10 @@ export default function User(props) {
                         }
                     </div>
                 }
-                <Paginations pageConfig={pageConfig} togglePage={togglePage} />
+                {
+                    !isLoading &&
+                   <Paginations pageConfig={pageConfig} togglePage={togglePage} />
+                }
             </div>
         </div>
         </>
