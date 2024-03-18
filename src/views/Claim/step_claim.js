@@ -50,7 +50,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                     await runAsync({chainId: null, image});
                     run();
                 } catch (error) {
-                    message.error("领取失败，请尝试重新领取")
+                    message.error(t("message.claim-error"))
                     status = 0;
                     setStatus(status);
                     setIsModalAirdropOpen(false);
@@ -75,7 +75,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                 await runAsync({chainId, image});
                 run();
             } catch (error) {
-                message.error("领取失败，请尝试重新领取")
+                message.error(t("message.claim-error"))
                 status = 0;
                 setStatus(status);
                 setIsModalAirdropOpen(false);
