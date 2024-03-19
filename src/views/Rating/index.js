@@ -13,6 +13,7 @@ const { confirm } = Modal;
 
 export default function Rating(params) {
     const judgRef = useRef(null);
+    const reviewRef = useRef(null);
     const navigateTo = useNavigate();
     const { t } = useTranslation(["rate"]);
     const { isMobile } = useContext(MyContext);
@@ -275,6 +276,7 @@ export default function Rating(params) {
                 onOk={handleOk}
                 onCancel={() => {
                     setModalInfo(null);
+                    judgRef.current.clearList();
                 }}
                 okText={t("submit")}
                 cancelButtonProps={{
@@ -305,9 +307,10 @@ export default function Rating(params) {
                 footer={<></>}
                 onCancel={() => {
                     setModalInfo(null);
+                    reviewRef.current.clearList();
                 }}
             >
-                <RatingModal data={modalInfo} isMobile={isMobile} />
+                <RatingModal ref={reviewRef} data={modalInfo} isMobile={isMobile} />
             </Modal>
 
             <div className="custom-bg-round"></div>

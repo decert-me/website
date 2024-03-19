@@ -165,6 +165,11 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         setReviewQuests([...reviewQuests]);
     }
 
+    function clearList() {
+        list = [];
+        setList([...list]);
+    }
+
     useEffect(() => {
         data && init();
     }, [data]);
@@ -172,6 +177,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
     useImperativeHandle(ref, () => ({
         confirm,
         isOver,
+        clearList
     }));
 
     return (
