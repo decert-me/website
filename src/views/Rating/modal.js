@@ -57,8 +57,8 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
 
     // 比对当前已打分length
     function isOver() {
-        const flag = reviewQuests.length === list.length;
-        const remain = list.length - reviewQuests.length;
+        const flag = reviewQuests.length === total;
+        const remain = total - reviewQuests.length;
         return { flag, remain };
     }
 
