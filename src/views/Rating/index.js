@@ -16,7 +16,6 @@ export default function Rating(params) {
     const navigateTo = useNavigate();
     const { t } = useTranslation(["rate"]);
     const { isMobile } = useContext(MyContext);
-    const [isModalOpen, setIsModalOpen] = useState(false);
     const [detailOpen, setDetailOpen] = useState(false);
     let [modalInfo, setModalInfo] = useState(null); //  弹窗详情
     let [detail, setDetail] = useState([]);
@@ -74,17 +73,14 @@ export default function Rating(params) {
     const mobileColumns = [
         {
             title: t("quest"),
-            key: "challenge_title",
-            dataIndex: "challenge_title",
+            key: "title",
+            dataIndex: "title",
             render: (title) => <p>{title}</p>,
         },
         {
             title: "待评分",
             key: "to_review_count",
             dataIndex: "to_review_count",
-            // render: (num) => (
-            // <p className="pointer" onClick={() => window.open(`/${address}`, "_blank")}>{address.substring(0,5) + "..." + address.substring(38,42)}</p>
-            // )
         },
         Table.EXPAND_COLUMN,
     ];
@@ -92,8 +88,8 @@ export default function Rating(params) {
     const columns = [
         {
             title: t("quest"),
-            key: "challenge_title",
-            dataIndex: "challenge_title",
+            key: "title",
+            dataIndex: "title",
             render: (title) => <p>{title}</p>,
         },
         {
@@ -114,39 +110,8 @@ export default function Rating(params) {
             title: "待评分",
             key: "to_review_count",
             dataIndex: "to_review_count",
-            // render: (num) => (
-            // <p className="pointer" onClick={() => window.open(`/${address}`, "_blank")}>{address.substring(0,5) + "..." + address.substring(38,42)}</p>
-            // )
         },
-        // {
-        //     title: t("c-addr"),
-        //     key: 'address',
-        //     dataIndex: "address",
-        //     render: (address) => (
-        //         <p className="pointer" onClick={() => window.open(`/${address}`, "_blank")}>{address.substring(0,5) + "..." + address.substring(38,42)}</p>
-        //     )
-        // },
-        // {
-        //     title: t("status"),
-        //     key: 'status',
-        //     dataIndex: "open_quest_review_status",
-        //     filters: [
-        //         { text: t("all"), value: null },
-        //         { text: t("rate"), value: 1 },
-        //         { text: t("rated"), value: 2 },
-        //     ],
-        //     filterMultiple: false,
-        //     filteredValue: [status],
-        //     filterDropdown: ({ confirm }) => fillter(confirm),
-        //     render: (status) => (
-        //         <p style={{
-        //             color: status === 2 ? "#35D6A6" : "#9A9A9A",
-        //             fontWeight: 600
-        //         }}>{status === 2 ? t("rated") : status === 1 ? t("rate") : t("all")}</p>
-        //     )
-        // },
         {
-            // title: t("submit-time"),
             title: "最新提交时间",
             key: "last_sumbit_time",
             dataIndex: "last_sumbit_time",
@@ -154,7 +119,6 @@ export default function Rating(params) {
                 time.indexOf("0001-01-01T") === -1 ? coverTimestamp(time) : "-",
         },
         {
-            // title: t("rate-time"),
             title: "上次评分时间",
             key: "last_review_time",
             dataIndex: "last_review_time",
@@ -166,9 +130,6 @@ export default function Rating(params) {
             key: "operate",
             dataIndex: "operate",
             render: (e, record) => (
-                // time.indexOf("0001-01-01T") === -1 ?
-                // time.replace("T", " ").split(".")[0]
-                // :"-"
                 <div style={{ display: "flex" }}>
                     <Button
                         type="link"
@@ -228,14 +189,6 @@ export default function Rating(params) {
     // 修改状态过滤
     const handleChange = (pagination, filters, sorter) => {
         const { pageSize } = pagination;
-        // const newStatus = Array.isArray(filters.status) ? filters.status[0] : null;
-        // if (status !== newStatus) {
-        //     status = newStatus;
-        //     setStatus(newStatus);
-        //     data = [];
-        //     setData([...data]);
-        //     getList(1);
-        // }
         if (pageSize !== pageConfig.pageSize) {
             pageConfig.pageSize = pageSize;
             setPageConfig({ ...pageConfig });
@@ -492,12 +445,6 @@ export default function Rating(params) {
                     },
                 }}
             />
-            {/* {
-                data?.findIndex((e) => e.open_quest_review_status === 1) !== -1 &&
-                <div className="flex">
-                    <Button id="hover-btn-full" className="btn-start" onClick={() => {setIsModalOpen(true)}}>{t("btn-rate")}</Button>
-                </div>
-            } */}
         </div>
     );
 }
