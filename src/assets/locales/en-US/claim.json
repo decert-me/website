@@ -23,7 +23,8 @@
 
     },
     "message": {
-        "link": "Please fill in the correct link"
+        "link": "Please fill in the correct link",
+        "claim-error": "Claim unsuccessful. Please try re-claiming."
     },
     "tip": {
         "step": "Step {{num}}: ",
