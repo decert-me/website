@@ -170,6 +170,8 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         setPageNum(pageNum);
         list = [];
         setList([...list]);
+        reviewQuests = [];
+        setReviewQuests([...reviewQuests]);
     }
 
     useEffect(() => {
