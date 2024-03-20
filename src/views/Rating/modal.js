@@ -166,6 +166,8 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
     }
 
     function clearList() {
+        pageNum = 1;
+        setPageNum(pageNum);
         list = [];
         setList([...list]);
     }
