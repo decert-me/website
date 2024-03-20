@@ -103,6 +103,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         if (!isFrist) {
             setTimeout(() => {
                 setOpen(true);
+                localStorage.setItem("decert.rate", true);
             }, 500);
         }
     }
