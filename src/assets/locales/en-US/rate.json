@@ -18,6 +18,12 @@
     "next": "Next",
     "btn-rate": "Start Grading",
 
+    "grade": "Grade",
+    "graded": "Graded",
+    "action": "Actions",
+    "last-submit-time": "Lastest Submission Time",
+    "last-rate-time": "Last Grading Time",
+
     "reset": "Reset",
     "ok": "Confirm",
     "cancel": "Cancel",

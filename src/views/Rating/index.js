@@ -79,7 +79,7 @@ export default function Rating(params) {
             render: (title) => <p>{title}</p>,
         },
         {
-            title: "待评分",
+            title: t("rate"),
             key: "to_review_count",
             dataIndex: "to_review_count",
         },
@@ -108,26 +108,26 @@ export default function Rating(params) {
             ),
         },
         {
-            title: "待评分",
+            title: t("rate"),
             key: "to_review_count",
             dataIndex: "to_review_count",
         },
         {
-            title: "最新提交时间",
+            title: t("last-submit-time"),
             key: "last_sumbit_time",
             dataIndex: "last_sumbit_time",
             render: (time) =>
                 time.indexOf("0001-01-01T") === -1 ? coverTimestamp(time) : "-",
         },
         {
-            title: "上次评分时间",
+            title: t("last-rate-time"),
             key: "last_review_time",
             dataIndex: "last_review_time",
             render: (time) =>
                 time.indexOf("0001-01-01T") === -1 ? coverTimestamp(time) : "-",
         },
         {
-            title: "操作",
+            title: t("action"),
             key: "operate",
             dataIndex: "operate",
             render: (e, record) => (
@@ -138,7 +138,7 @@ export default function Rating(params) {
                         disabled={record.to_review_count === 0}
                         onClick={() => showModal(record, true)}
                     >
-                        评分
+                        {t("grade")}
                     </Button>
                     <Button
                         type="link"
@@ -149,7 +149,7 @@ export default function Rating(params) {
                         }
                         onClick={() => showModal(record)}
                     >
-                        已评分
+                        {t("graded")}
                     </Button>
                 </div>
             ),
@@ -363,7 +363,7 @@ export default function Rating(params) {
                                         )
                                     }
                                 >
-                                    <p className="label">最新提交时间</p>
+                                    <p className="label">{t("last-submit-time")}</p>
                                     <p className="value">
                                         {record.last_sumbit_time.indexOf(
                                             "0001-01-01T"
@@ -375,7 +375,7 @@ export default function Rating(params) {
                                     </p>
                                 </div>
                                 <div className="item">
-                                    <p className="label">上次评分时间</p>
+                                    <p className="label">{t("last-rate-time")}</p>
                                     <p className="value">
                                         {record.last_review_time.indexOf(
                                             "0001-01-01T"
@@ -387,7 +387,7 @@ export default function Rating(params) {
                                     </p>
                                 </div>
                                 <div className="item">
-                                    <p className="label">操作</p>
+                                    <p className="label">{t("action")}</p>
                                     {/* <p className="value">
                                         {record.open_quest_review_time}
                                     </p> */}
@@ -402,7 +402,7 @@ export default function Rating(params) {
                                                 showModal(record, true)
                                             }
                                         >
-                                            评分
+                                            {t("grade")}
                                         </Button>
                                         <Button
                                             type="link"
@@ -414,7 +414,7 @@ export default function Rating(params) {
                                             }
                                             onClick={() => showModal(record)}
                                         >
-                                            已评分
+                                            {t("graded")}
                                         </Button>
                                     </div>
                                 </div>
