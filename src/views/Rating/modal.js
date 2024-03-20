@@ -68,8 +68,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
             return;
         }
         await reviewOpenQuest(reviewQuests);
-        reviewQuests = [];
-        setReviewQuests([...reviewQuests]);
+        clearList();
         onFinish();
     }
 
