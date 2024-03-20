@@ -101,14 +101,9 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         // 判断是否是第一次进入该页面 => 提示如何评分动画
         const isFrist = localStorage.getItem("decert.rate");
         if (!isFrist) {
-            setOpen(true);
-            localStorage.setItem("decert.rate", true);
             setTimeout(() => {
-                if (star?.current) {
-                    const tourImg = document.getElementById("tourImg");
-                    tourImg.style.marginLeft = `${star.current?.offsetWidth}px`;
-                }
-            }, 50);
+                setOpen(true);
+            }, 500);
         }
     }
 
