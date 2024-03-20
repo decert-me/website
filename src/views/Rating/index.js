@@ -143,10 +143,7 @@ export default function Rating(params) {
                     <Button
                         type="link"
                         style={{ color: "#8F5A35" }}
-                        disabled={
-                            record.last_review_time.indexOf("0001-01-01T") !==
-                            -1
-                        }
+                        disabled={record.reviewed_count === 0}
                         onClick={() => showModal(record)}
                     >
                         {t("graded")}
