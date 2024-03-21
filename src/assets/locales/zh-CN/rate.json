@@ -18,6 +18,12 @@
     "next": "下一题",
     "btn-rate": "开始评分",
 
+    "grade": "评分",
+    "graded": "已评分",
+    "action": "操作",
+    "last-submit-time": "最新提交时间",
+    "last-rate-time": "上次评分时间",
+
     "reset": "重置",
     "ok": "确认",
     "cancel": "取消",
