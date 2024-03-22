@@ -418,8 +418,8 @@ export default function User(props) {
                         <p>{t("profile:challenge-none")}</p>
                         {
                             isMe &&
-                            <Link to={"/challenges"}>
-                                <Button className="nodata-btn">{t("explore:btn-start")}</Button>
+                            <Link to={checkType === 1 ? "/publish" : "/challenges"}>
+                                <Button className="nodata-btn">{checkType === 1 ? t("home.btn-publish") : t("explore:btn-start")}</Button>
                             </Link>
                         }
                     </div>
