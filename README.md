@@ -7,13 +7,9 @@
 
 ### 技术栈
 
-`React@18.2.0 + React-Router@6.14.2 + Antd@5.8.2`
+`React@18.2.0 + React-Router@6.14.2 + Antd@5.8.2 + Wagmi@1.4.6 + Viem@1.19.1`
 
 > `Create React App`    脚手架工具快速搭建项目结构
-
-<!-- > `braft-editor@2.3.8`    富文本插件 -->
-
-<!-- > `echarts@4.4.0`   数据可视化 -->
 
 <!-- ### 基本功能
 
