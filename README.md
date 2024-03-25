@@ -61,7 +61,7 @@
 
 ### 配置参数
 
-将以下配置添加到`./env`文件中，将'xxx'替换为设定值。
+将以下配置添加到`./env.development`文件中，将'xxx'替换为设定值。
 ```
 REACT_APP_IS_DEV=true
 
