@@ -61,22 +61,24 @@
 
 ### 配置参数
 
-将以下配置添加到`./env.development`文件中，将'xxx'替换为设定值。
+添加配置文件到`./env.development`(`./env.production` 用于打包)，将'xxx'替换为设定值。更多默认配置见 [env-example](./env-example)
 ```
 REACT_APP_IS_DEV=true
 
-REACT_APP_BASE_URL="http://192.168.1.10:8000/api"     //  后端主端口
-REACT_APP_NFT_BASE_URL="http://192.168.1.10:8001"     //  后端nft端口
-// particle 配置地址 https://docs.particle.network/developers/auth-service/sdks/web#step-2-setup-developer-api-key
+# 后端 API url
+REACT_APP_BASE_URL="https://api.decert.me"     
+
+# NFT 索引 API url
+REACT_APP_NFT_BASE_URL="https://cert.decert.me"
+
+# 挑战内容加密密钥
+REACT_APP_ANSWERS_KEY=xxx   
+
+# particle配置 详情见：https://docs.particle.network/developers/auth-service/sdks/web#step-2-setup-developer-api-key
 REACT_APP_PARTICLE_PROJECT_ID=xxx    //  particle PROJECT_ID值
 REACT_APP_PARTICLE_CLIENT_KEY=xxx    //  particle CLIENT_KEY值
 REACT_APP_PARTICLE_APP_ID=xxx    //  particle APP_ID值
 
-REACT_APP_DISCORD_VERIFY_CHANNEL_INVITE_CODE="KqjZNDwfs3"   //  discord INVITE_CODE
-REACT_APP_ANSWERS_KEY=xxx       //  答案加密
-
-REACT_APP_INFURA_API_KEY=xxx      //  infura
-REACT_APP_IPFS_GATEWAY="https://dweb.link/ipfs/"      //  nft静态资源节点
 ```
 
 ### 使用方法
