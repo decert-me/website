@@ -4,6 +4,9 @@
     "preview": "仅创建者可见",
     "upload": "上传",
     "revert": "还原到默认的代码模版",
+    "upload-example": "上传题目请参考 ",
+    "upload-btn": "题目模版",
+    "upload-example1": "",
     "inner": {
         "title": "标题",
         "desc": "描述",

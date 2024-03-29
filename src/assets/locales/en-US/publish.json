@@ -4,6 +4,10 @@
     "preview": "Only creator is visible",
     "upload": "Upload",
     "revert": "Revert to default code template",
+    "upload-example": "Please refer to the ",
+    "upload-btn": "quiz template ",
+    "upload-example1": "when uploading quiz.",
+
     "inner": {
         "title": "Title",
         "desc": "Description",
