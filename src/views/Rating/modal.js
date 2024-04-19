@@ -6,7 +6,7 @@ import {
     useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Rate, Spin, Tour } from "antd";
+import { Button, Rate, Spin, Tour, Input } from "antd";
 import { Viewer } from "@bytemd/react";
 import { download } from "@/utils/file/download";
 import { GetPercentScore } from "@/utils/GetPercent";
@@ -15,6 +15,8 @@ import {
     reviewOpenQuest,
 } from "@/request/api/judg";
 import CustomIcon from "@/components/CustomIcon";
+
+const { TextArea } = Input;
 
 function RatingModal({ data, isMobile, onFinish }, ref) {
     const star = useRef(null);
@@ -193,9 +195,16 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
 
                     <div className="item">
                         <p className="item-title">{t("ans")}:</p>
-                        <p className="item-content box">
-                            {selectOpenQs?.answer?.value}
-                        </p>
+                            <TextArea 
+                                readOnly
+                                className="item-content box" 
+                                value={selectOpenQs?.answer?.value}
+                                maxLength={2000}
+                                autoSize={{
+                                    minRows: 7,
+                                }}
+                                placeholder={t("inner.text")}
+                            />
                     </div>
 
                     <div className="item">
