@@ -15,6 +15,7 @@ import {
     reviewOpenQuest,
 } from "@/request/api/judg";
 import CustomIcon from "@/components/CustomIcon";
+import { NickName } from "@/utils/NickName";
 
 const { TextArea } = Input;
 
@@ -186,7 +187,14 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
             <h1>{selectOpenQs?.challenge_title}</h1>
             <Spin spinning={loading}>
                 <div className="judg-info">
-                    <div className="item">
+                    <div className="item item-flex">
+                        <p className="item-title">{t("challenger")}:</p>
+                        <div className="item-content">
+                            <a href={`/user/${selectOpenQs?.address}`} target="_blank">{NickName(selectOpenQs?.address)}</a>
+                        </div>
+                    </div>
+
+                    <div className="item item-flex">
                         <p className="item-title">{t("quest")}:</p>
                         <div className="item-content">
                             <Viewer value={selectOpenQs?.title} />
