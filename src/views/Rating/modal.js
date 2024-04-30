@@ -59,7 +59,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
     ];
 
     const timestamp = (time) => {
-        return time.replace("T"," ").split("+")[0].split(".")[0];
+        return time?.replace("T"," ").split("+")[0].split(".")[0] || "";
     }
 
     // 比对当前已打分length
