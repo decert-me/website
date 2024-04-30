@@ -58,6 +58,10 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         },
     ];
 
+    const timestamp = (time) => {
+        return time.replace("T"," ").split("+")[0].split(".")[0];
+    }
+
     // 比对当前已打分length
     function isOver() {
         const flag = reviewQuests.length === total;
@@ -191,6 +195,13 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                         <p className="item-title">{t("challenger")}:</p>
                         <div className="item-content">
                             <a href={`/user/${selectOpenQs?.address}`} target="_blank">{NickName(selectOpenQs?.address)}</a>
+                        </div>
+                    </div>
+
+                    <div className="item item-flex">
+                        <p className="item-title">{t("submit-time")}:</p>
+                        <div className="item-content">
+                            <p>{timestamp(selectOpenQs?.updated_at)}</p>
                         </div>
                     </div>
 
