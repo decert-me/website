@@ -65,10 +65,10 @@ export default function MyProvider(props) {
             // 校验签名 && particle 登录添加 userInfo JSON
             const res_token = await authLoginSign({ address, message, signature: sign_hash, particle_userinfo: particleInfo });
             localStorage.setItem(`decert.token`, res_token.data.token);
-            setTimeout(() => {
-                // 上传可领取挑战答案
-                submitClaimable();
-            }, 100);
+            // setTimeout(() => {
+            //     // 上传可领取挑战答案
+            //     submitClaimable();
+            // }, 100);
         } catch (error) {
             if (walletType === "evm") {
                 await disconnectAsync();
