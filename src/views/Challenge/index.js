@@ -456,7 +456,7 @@ export default function Challenge(params) {
                     <CustomOpen 
                         key={i} 
                         label={question.title} 
-                        options={question.options} 
+                        question={question} 
                         value={changeAnswer} 
                         defaultValue={answers[i]} 
                         defaultFileList={fileList}

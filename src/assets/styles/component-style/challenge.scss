@@ -5,6 +5,54 @@
     line-height: 19px;
 }
 
+.annotationModal, .answerModal{
+    .title{
+        margin: 24px 21px 27px;
+        font-weight: 500;
+        font-size: 20px;
+    }
+    .text-center{
+        text-align: center;
+    }
+    .box{
+        width: 100%;
+        min-height: 100px;
+        max-height: 480px;
+        padding: 11px 17px;
+        box-sizing: border-box;
+        border-radius: 10px;
+        background-color: #F2F4F6;
+        overflow-y: auto;
+        .box{
+            padding: 0;
+        }
+        &:hover{
+            background-color: #F2F4F6;
+        }
+        .last-rate{
+            padding: 5px 10px;
+            margin-bottom: 14px;
+            border-radius: 3px;
+            float: left;
+            display: flex;
+            align-items: center;
+            gap: 4px;
+            background-color: rgba($color: #915938, $alpha: 0.1);
+            color: #915938;
+        }
+    }
+    .btns{
+        margin-top: 32px;
+        display: flex;
+        justify-content: center;
+        button{
+            width: 266px;
+            height: 50px;
+            border: none;
+            font-weight: 600;
+        }
+    }
+}
 .CustomInput{
     padding: 0 50px;
     color: #343434;
@@ -21,6 +69,23 @@
     }
     .CustomInput-content{
         margin-top: 100px;
+        .check-item{
+            margin-left: 10px;
+            margin-bottom: 20px;
+            display: flex;
+            gap: 30px;
+            color: #666666;
+            div{
+                display: flex;
+                align-items: center;
+                gap: 5px;
+                cursor: pointer;
+                img{
+                    width: 16px;
+                    height: 16px;
+                }
+            }
+        }
         .correct-content{
             margin-top: 15px;
             margin-left: 10px;

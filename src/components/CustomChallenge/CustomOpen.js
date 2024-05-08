@@ -1,22 +1,26 @@
 import { useTranslation } from "react-i18next";
-import { Button, Input, Space, Upload, message } from "antd";
+import { Button, Input, Modal, Rate, Space, Upload, message } from "antd";
 import { UploadOutlined } from '@ant-design/icons';
 import CustomViewer from "../CustomViewer";
 import { uploadFile } from "@/request/api/public";
 import { useContext, useEffect, useState } from "react";
 import { useAddress } from "@/hooks/useAddress";
 import MyContext from "@/provider/context";
+import CustomIcon from "../CustomIcon";
 
 const { TextArea } = Input;
 
 export default function CustomOpen(props) {
     
-    const { label, value, defaultValue, defaultFileList } = props;
+    const { label, value, defaultValue, defaultFileList, question } = props;
     const { connectWallet } = useContext(MyContext);
     const { t } = useTranslation(["explore"]);
     const { isConnected } = useAddress();
+    const [annotationModal, setAnnottaionModal] = useState(false);
+    const [answerModal, setAnswerModal] = useState(false);
     let [annex, setAnnex] = useState([]);
     let [inner, setInner] = useState("");
+
 
     const upload = {
         name: 'file',
@@ -88,6 +92,14 @@ export default function CustomOpen(props) {
         setInner(inner);
         onChangeValue();
     }
+    
+    function openAnnotation() {
+        setAnnottaionModal(true);
+    }
+
+    function openAnswer() {
+        setAnswerModal(true);
+    }
 
     function init() {
         // const fileList = [];
@@ -112,10 +124,73 @@ export default function CustomOpen(props) {
 
     return (
         <div className="CustomInput">
+            <Modal
+                width={987}
+                open={annotationModal}
+                onCancel={() => setAnnottaionModal(false)}
+                footer={<></>}
+                className="annotationModal"
+            >
+                <p className="title">批注</p>
+                <TextArea 
+                    className="box"
+                    readOnly
+                    bordered={false} 
+                    value={defaultValue?.annotation}
+                    maxLength={2000}
+                    autoSize={{ minRows: 7 }}
+                />
+                <div className="btns">
+                    <Button id="hover-btn-full" onClick={() => setAnnottaionModal(false)}>我知道了</Button>
+                </div>
+            </Modal>
+            <Modal
+                open={answerModal}
+                onCancel={() => setAnswerModal(false)}
+                footer={<></>}
+                className="answerModal"
+                width={1560}
+            >
+                <p className="title text-center">上次答案</p>
+                <div className="box">
+                    <div className="last-rate">
+                        <p>上次得分：</p>
+                        <Rate
+                            allowHalf
+                            disabled
+                            value={defaultValue?.value ? (defaultValue.score / question.score) * 5 : 0}
+                            style={{ color: "#DD8C53" }}
+                            character={
+                                <CustomIcon
+                                    type="icon-star"
+                                    className="icon"
+                                />
+                            }
+                        />
+                    </div>
+                    <TextArea 
+                        className="box"
+                        readOnly
+                        bordered={false} 
+                        value={defaultValue?.value}
+                        style={{borderRadius: 0}}
+                        maxLength={2000}
+                        autoSize={{ minRows: 7 }}
+                    />
+                </div>
+                <div className="btns">
+                    <Button id="hover-btn-full" onClick={() => setAnswerModal(false)}>我知道了</Button>
+                </div>
+            </Modal>
             <div className="inner-title">
                 <CustomViewer label={label} />
             </div>
             <div className="CustomInput-content">
+            
+                <div className="check-item">
+                    <div onClick={() => openAnnotation()}><img src={require("@/assets/images/icon/icon-annotation.png")} />查看批注</div>
+                    <div onClick={() => openAnswer()}><img src={require("@/assets/images/icon/icon-answer.png")} />查看上次答案</div>
+                </div>
                 <TextArea 
                     className={`custom-input bd`} 
                     bordered={false} 
