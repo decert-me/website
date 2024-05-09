@@ -31,6 +31,10 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
     let [selectOpenQs, setSelectOpenQs] = useState({});
     let [page, setPage] = useState(0);
     let [pageNum, setPageNum] = useState(1);
+    let [rateCache, setRateCache] = useState({
+        rate: 0,
+        annotation: ""
+    });
 
     const steps = [
         {
@@ -104,7 +108,6 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         } catch (error) {
             console.log("===>", error);
         }
-
         // 判断是否是第一次进入该页面 => 提示如何评分动画
         const isFrist = localStorage.getItem("decert.rate");
         if (!isFrist) {
@@ -129,7 +132,19 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         setSelectOpenQs({ ...selectOpenQs });
     }
 
-    function getScore(percent) {
+    function setAnnotation(text) {
+        // 批注
+        list[page].annotation = text;
+        setList([...list]);
+        selectOpenQs.annotation = text;
+        setSelectOpenQs({ ...selectOpenQs });
+
+        rateCache.annotation = text;
+        setRateCache({...rateCache});
+        setCache()
+    }
+
+    function setPercent(percent) {
         // 记录rate
         list[page].rate = percent;
         setList([...list]);
@@ -140,13 +155,21 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         const p = (percent * 20) / 100;
         const info = list[page];
         const score = GetPercentScore(info.score, p);
+        rateCache.score = score;
+        setRateCache({...rateCache});
+        setCache()
+    }
+
+    function setCache() {
+        const info = list[page];
         const obj = {
             id: info.ID,
             answer: {
                 type: "open_quest",
                 annex: selectOpenQs.answer.annex,
                 value: selectOpenQs.answer.value,
-                score: score,
+                score: rateCache.score,
+                annotation: rateCache.annotation,
                 open_quest_review_time: new Date()
                     .toLocaleString()
                     .replace(/\//g, "-"),
@@ -219,13 +242,21 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                                 className="item-content box" 
                                 value={selectOpenQs?.answer?.value}
                                 maxLength={2000}
-                                autoSize={{
-                                    minRows: 7,
-                                }}
-                                placeholder={t("inner.text")}
+                                autoSize={{ minRows: 7 }}
                             />
                     </div>
 
+                    <div className="item">
+                        <p className="item-title">{t("tips")}:</p>
+                            <TextArea 
+                                className="item-content box" 
+                                style={{backgroundColor: "transparent"}}
+                                value={selectOpenQs?.annotation || selectOpenQs.answer?.annotation}
+                                onChange={(e) => setAnnotation(e.target.value)}
+                                maxLength={2000}
+                                autoSize={{ minRows: 7 }}
+                            />
+                    </div>
                     <div className="item">
                         <p className="item-title">{t("annex")}:</p>
                         <div className="item-content">
@@ -254,8 +285,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                                             : selectOpenQs?.rate
                                             ? selectOpenQs.rate
                                             : (selectOpenQs.answer?.score /
-                                                  selectOpenQs?.score) *
-                                              5
+                                                  selectOpenQs?.score) * 5
                                     }
                                     style={{ color: "#DD8C53" }}
                                     character={
@@ -264,7 +294,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                                             className="icon"
                                         />
                                     }
-                                    onChange={(percent) => getScore(percent)}
+                                    onChange={(percent) => setPercent(percent)}
                                 />
                             </div>
                         </div>
