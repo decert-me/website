@@ -458,7 +458,7 @@ export default function Challenge(params) {
                         label={question.title} 
                         question={question} 
                         value={changeAnswer} 
-                        defaultValue={answers[i]} 
+                        defaultValue={detail.answer[i]} 
                         defaultFileList={fileList}
                         isPreview={isPreview}
                         // answer={realAnswer[i]}

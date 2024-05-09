@@ -12,7 +12,7 @@ const { TextArea } = Input;
 
 export default function CustomOpen(props) {
     
-    const { label, value, defaultValue, defaultFileList, question } = props;
+    const { label, value, defaultValue, defaultFileList, question, detail } = props;
     const { connectWallet } = useContext(MyContext);
     const { t } = useTranslation(["explore"]);
     const { isConnected } = useAddress();
@@ -119,6 +119,7 @@ export default function CustomOpen(props) {
     }
 
     useEffect(() => {
+        console.log(detail);
         defaultValue && init();
     },[])
 
