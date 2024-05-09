@@ -15,6 +15,12 @@
     "go-to": "Head to",
     "suport": "Support",
     "size": "Size",
+
+    "annotation": "Annotations",
+    "view-annotation": "View Annotations",
+    "last-answer": "Previous Answer",
+    "view-last-answer": "View Previous Answer",
+    "last-score": "Previous Score",
     
     "notice": "Please complete all challenge first.",
     "comming": "Please stay tuned.",

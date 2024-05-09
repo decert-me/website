@@ -14,7 +14,7 @@ export default function CustomOpen(props) {
     
     const { label, value, defaultValue, defaultFileList, question, detail } = props;
     const { connectWallet } = useContext(MyContext);
-    const { t } = useTranslation(["explore"]);
+    const { t } = useTranslation(["explore", "translation"]);
     const { isConnected } = useAddress();
     const [annotationModal, setAnnottaionModal] = useState(false);
     const [answerModal, setAnswerModal] = useState(false);
@@ -132,7 +132,7 @@ export default function CustomOpen(props) {
                 footer={<></>}
                 className="annotationModal"
             >
-                <p className="title">批注</p>
+                <p className="title">{t("annotation")}</p>
                 <TextArea 
                     className="box"
                     readOnly
@@ -142,7 +142,7 @@ export default function CustomOpen(props) {
                     autoSize={{ minRows: 7 }}
                 />
                 <div className="btns">
-                    <Button id="hover-btn-full" onClick={() => setAnnottaionModal(false)}>我知道了</Button>
+                    <Button id="hover-btn-full" onClick={() => setAnnottaionModal(false)}>{t("translation:btn-ok")}</Button>
                 </div>
             </Modal>
             <Modal
@@ -152,10 +152,10 @@ export default function CustomOpen(props) {
                 className="answerModal"
                 width={1560}
             >
-                <p className="title text-center">上次答案</p>
+                <p className="title text-center">{t("last-answer")}</p>
                 <div className="box mh480">
                     <div className="last-rate">
-                        <p>上次得分：</p>
+                        <p>{t("last-score")}：</p>
                         <Rate
                             allowHalf
                             disabled
@@ -180,7 +180,7 @@ export default function CustomOpen(props) {
                     />
                 </div>
                 <div className="btns">
-                    <Button id="hover-btn-full" onClick={() => setAnswerModal(false)}>我知道了</Button>
+                    <Button id="hover-btn-full" onClick={() => setAnswerModal(false)}>{t("translation:btn-ok")}</Button>
                 </div>
             </Modal>
             <div className="inner-title">
@@ -189,8 +189,8 @@ export default function CustomOpen(props) {
             <div className="CustomInput-content">
             
                 <div className="check-item">
-                    <div onClick={() => openAnnotation()}><img src={require("@/assets/images/icon/icon-annotation.png")} />查看批注</div>
-                    <div onClick={() => openAnswer()}><img src={require("@/assets/images/icon/icon-answer.png")} />查看上次答案</div>
+                    <div onClick={() => openAnnotation()}><img src={require("@/assets/images/icon/icon-annotation.png")} />{t("view-annotation")}</div>
+                    <div onClick={() => openAnswer()}><img src={require("@/assets/images/icon/icon-answer.png")} />{t("view-last-answer")}</div>
                 </div>
                 <TextArea 
                     className={`custom-input bd mh`} 
@@ -201,7 +201,6 @@ export default function CustomOpen(props) {
                     autoSize={{
                         minRows: 7,
                     }}
-                    placeholder={t("inner.text")}
                 />
                 <Upload 
                     {...upload} 

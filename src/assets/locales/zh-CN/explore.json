@@ -15,6 +15,12 @@
     "go-to": "前往",
     "suport": "支持",
     "size": "大小",
+    
+    "annotation": "批注",
+    "view-annotation": "查看批注",
+    "last-answer": "上次答案",
+    "view-last-answer": "查看上次答案",
+    "last-score": "上次得分",
 
     "notice": "请先完成全部挑战",
     "comming": "敬请期待...",

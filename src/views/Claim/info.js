@@ -144,10 +144,13 @@ export default function ClaimInfo({answerInfo, detail}) {
                                     { '0%': '#F46565', '100%': '#B64444'}
                                 }
                                 format={(percent) => (
+                                    isPass ?
                                     <>
                                         {percent}
                                         <p className="text">{t("score.now")}</p>
                                     </>
+                                    :
+                                    <p className="text-unpass">{t("score.unpass")}</p>
                                 )}
                                 strokeWidth={10}
                             />
@@ -161,7 +164,7 @@ export default function ClaimInfo({answerInfo, detail}) {
                                     <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${detail.tokenId}`)}>
                                         {t("translation:btn-go-challenge")}
                                     </Button>
-                                    <Button className="btn" id="hover-btn-full" onClick={() => navigateTo(`/challenge/${questId}`)}>
+                                    <Button className="btn" id="hover-btn-full" onClick={() => navigateTo(`/challenge/${detail.tokenId}`)}>
                                         {t("translation:btn-go-rechallenge")}
                                     </Button>
                                 </div>
@@ -173,6 +176,9 @@ export default function ClaimInfo({answerInfo, detail}) {
                         <div className="mr">
                             <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${detail.tokenId}`)}>
                                 {t("translation:btn-go-challenge")}
+                            </Button>
+                            <Button className="btn" id="hover-btn-full" onClick={() => navigateTo(`/challenge/${questId}`)}>
+                                {t("translation:btn-go-rechallenge")}
                             </Button>
                         </div>
                     }
