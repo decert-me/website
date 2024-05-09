@@ -157,9 +157,14 @@ export default function ClaimInfo({answerInfo, detail}) {
                             <p className="pass">{t("score.passScore",{score: passingPercent})}</p>
                             {
                                 !isMobile && 
-                                <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${detail.tokenId}`)}>
-                                    {t("translation:btn-go-challenge")}
-                                </Button>
+                                <div className="btns-flex">
+                                    <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${detail.tokenId}`)}>
+                                        {t("translation:btn-go-challenge")}
+                                    </Button>
+                                    <Button className="btn" id="hover-btn-full" onClick={() => navigateTo(`/challenge/${questId}`)}>
+                                        {t("translation:btn-go-rechallenge")}
+                                    </Button>
+                                </div>
                             }
                         </div>
                     </div>
