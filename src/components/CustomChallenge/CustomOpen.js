@@ -152,7 +152,7 @@ export default function CustomOpen(props) {
                 width={1560}
             >
                 <p className="title text-center">上次答案</p>
-                <div className="box">
+                <div className="box mh480">
                     <div className="last-rate">
                         <p>上次得分：</p>
                         <Rate
@@ -192,7 +192,7 @@ export default function CustomOpen(props) {
                     <div onClick={() => openAnswer()}><img src={require("@/assets/images/icon/icon-answer.png")} />查看上次答案</div>
                 </div>
                 <TextArea 
-                    className={`custom-input bd`} 
+                    className={`custom-input bd mh`} 
                     bordered={false} 
                     onChange={e => changeInner(e.target.value)}  
                     defaultValue={defaultValue?.value}

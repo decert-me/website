@@ -14,10 +14,12 @@
     .text-center{
         text-align: center;
     }
+    .mh480{
+        max-height: 480px;
+    }
     .box{
         width: 100%;
         min-height: 100px;
-        max-height: 480px;
         padding: 11px 17px;
         box-sizing: border-box;
         border-radius: 10px;
@@ -62,6 +64,9 @@
         font-size: 16px;
         // border: 1px solid #DCDCDC !important;
         border-bottom: 1px solid #DCDCDC !important;
+    }
+    .mh{
+        max-height: 250px;
     }
     .bd{
         border: 1px solid #DCDCDC !important;
