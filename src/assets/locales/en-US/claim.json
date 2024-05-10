@@ -15,6 +15,7 @@
     "score": {
         "now": "Score",
         "passScore": "Reach {{score}} to pass the challenge.",
+        "pass": "Pass",
         "unpass": "Not Pass"
     },
     "step": {

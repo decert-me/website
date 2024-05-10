@@ -144,13 +144,20 @@ export default function ClaimInfo({answerInfo, detail}) {
                                     { '0%': '#F46565', '100%': '#B64444'}
                                 }
                                 format={(percent) => (
-                                    isPass ?
-                                    <>
-                                        {percent}
-                                        <p className="text">{t("score.now")}</p>
-                                    </>
+                                    detail.open_quest_review_status === 0 ? 
+                                    (
+                                        <>
+                                            {percent}
+                                            <p className="text">{t("score.now")}</p>
+                                        </>
+                                    )
                                     :
-                                    <p className="text-unpass">{t("score.unpass")}</p>
+                                    (
+                                        isPass ?
+                                        <p className="text-unpass">{t("score.pass")}</p>
+                                        :
+                                        <p className="text-unpass">{t("score.unpass")}</p>
+                                    )
                                 )}
                                 strokeWidth={10}
                             />
