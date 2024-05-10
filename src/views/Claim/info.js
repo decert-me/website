@@ -164,7 +164,10 @@ export default function ClaimInfo({answerInfo, detail}) {
                         </div>
                         <div className="info">
                             <p className="network newline-omitted">{detail.title}</p>
-                            <p className="pass">{t("score.passScore",{score: passingPercent})}</p>
+                            {
+                                detail.open_quest_review_status === 0 &&
+                                <p className="pass">{t("score.passScore",{score: passingPercent})}</p>
+                            }
                             {
                                 !isMobile && 
                                 <div className="btns-flex">

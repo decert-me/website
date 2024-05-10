@@ -275,7 +275,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                     <div className="item item-flex">
                         <p className="item-title">{t("c-total")}:</p>
                         <div className="item-content">
-                            <p>{list[page]?.total_score}</p>
+                            <p>{(list[page]?.answer?.score ? list[page]?.user_score : rateCache?.score ? list[page]?.user_score + rateCache.score : 0)}</p>
                         </div>
                     </div>
 
@@ -289,7 +289,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                     <div className="item mb40">
                         <div className="item-title">
                             <div>
-                                {t("score")}: {(list[page]?.answer?.score ? list[page]?.user_score + list[page].answer?.score : rateCache?.score ? list[page]?.user_score + rateCache.score : 0)}
+                                {t("score")}: {(list[page]?.answer?.score ? list[page].answer?.score : rateCache?.score ? rateCache.score : 0)}
                             </div>
                             <div ref={star}>
                                 <Rate
