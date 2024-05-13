@@ -205,9 +205,14 @@ export default function Claim(params) {
                         <img className="icon-info" src={require("@/assets/images/icon/icon-info.png")} alt="" />
                         <p className="tip">{t("message.success.submit.score")}</p>
                     </div> */}
-                    <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${questId}`)}>
-                        {t("btn-go-challenge")}
-                    </Button>
+                    <div className="box-center">
+                        <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${questId}`)}>
+                            {t("btn-go-challenge")}
+                        </Button>
+                        <Button className="btn" id="hover-btn-full" onClick={() => navigateTo(`/challenge/${questId}`)}>
+                            {t("btn-go-rechallenge")}
+                        </Button>
+                    </div>
                     <Button className="btn-link" type="link" onClick={() => navigateTo("/challenges")}>{t("btn-another")}</Button>
                 </div>
                 :

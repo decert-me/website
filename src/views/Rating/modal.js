@@ -272,9 +272,25 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                         </div>
                     </div>
 
+                    <div className="item item-flex">
+                        <p className="item-title">{t("c-total")}:</p>
+                        <div className="item-content">
+                            <p>{(list[page]?.answer?.score ? list[page]?.user_score : rateCache?.score ? list[page]?.user_score + rateCache.score : "")}</p>
+                        </div>
+                    </div>
+
+                    <div className="item item-flex">
+                        <p className="item-title">{t("c-pass")}:</p>
+                        <div className="item-content">
+                            <p>{list[page]?.pass_score}</p>
+                        </div>
+                    </div>
+
                     <div className="item mb40">
-                        <div className="item-title flex">
-                            {t("score")}:
+                        <div className="item-title">
+                            <div>
+                                {t("score")}: {(list[page]?.answer?.score ? list[page].answer?.score : rateCache?.score ? rateCache.score : "")}
+                            </div>
                             <div ref={star}>
                                 <Rate
                                     allowHalf

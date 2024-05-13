@@ -14,7 +14,9 @@
     "bindAc": "绑定你的社交账号",
     "score": {
         "now": "得分",
-        "passScore": "达到 {{score}} 即可挑战通关"
+        "passScore": "达到 {{score}} 即可挑战通关",
+        "pass": "通过",
+        "unpass": "未通过"
     },
     "step": {
         "title": "领取 SBT 徽章",

@@ -1,7 +1,7 @@
 {
     "h1": "Grading List",
     "quest": "Quiz",
-    "tips": "批注",
+    "tips": "Annotations",
     "challenger": "Challenger",
     "ans": "Answer",
     "status": "Status",
@@ -9,6 +9,8 @@
     "score": "Score",
     "c-num": "Challenge Number",
     "c-addr": "Challenger Address",
+    "c-total": "Challenge total score",
+    "c-pass": "Passing score",
     "all": "All",
     "rated": "Processed",
     "rate": "Pending",

@@ -144,22 +144,40 @@ export default function ClaimInfo({answerInfo, detail}) {
                                     { '0%': '#F46565', '100%': '#B64444'}
                                 }
                                 format={(percent) => (
-                                    <>
-                                        {percent}
-                                        <p className="text">{t("score.now")}</p>
-                                    </>
+                                    detail.open_quest_review_status === 0 ? 
+                                    (
+                                        <>
+                                            {percent}
+                                            <p className="text">{t("score.now")}</p>
+                                        </>
+                                    )
+                                    :
+                                    (
+                                        isPass ?
+                                        <p className="text-unpass">{t("score.pass")}</p>
+                                        :
+                                        <p className="text-unpass">{t("score.unpass")}</p>
+                                    )
                                 )}
                                 strokeWidth={10}
                             />
                         </div>
                         <div className="info">
                             <p className="network newline-omitted">{detail.title}</p>
-                            <p className="pass">{t("score.passScore",{score: passingPercent})}</p>
+                            {
+                                detail.open_quest_review_status === 0 &&
+                                <p className="pass">{t("score.passScore",{score: passingPercent})}</p>
+                            }
                             {
                                 !isMobile && 
-                                <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${detail.tokenId}`)}>
-                                    {t("translation:btn-go-challenge")}
-                                </Button>
+                                <div className="btns-flex">
+                                    <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${detail.tokenId}`)}>
+                                        {t("translation:btn-go-challenge")}
+                                    </Button>
+                                    <Button className="btn" id="hover-btn-full" onClick={() => navigateTo(`/challenge/${detail.tokenId}`)}>
+                                        {t("translation:btn-go-rechallenge")}
+                                    </Button>
+                                </div>
                             }
                         </div>
                     </div>
@@ -168,6 +186,9 @@ export default function ClaimInfo({answerInfo, detail}) {
                         <div className="mr">
                             <Button className="btn" id="hover-btn-line" onClick={() => navigateTo(`/quests/${detail.tokenId}`)}>
                                 {t("translation:btn-go-challenge")}
+                            </Button>
+                            <Button className="btn" id="hover-btn-full" onClick={() => navigateTo(`/challenge/${questId}`)}>
+                                {t("translation:btn-go-rechallenge")}
                             </Button>
                         </div>
                     }

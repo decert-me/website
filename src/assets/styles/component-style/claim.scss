@@ -36,6 +36,20 @@
                 margin-right: 3px;
             }
         }
+        .box-center{
+            margin-top: 150px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 40px;
+            #hover-btn-full{
+                border: none;
+            }
+            button{
+                min-width: 160px;
+                height: 38px;
+            }
+        }
         p{
             width: 450px;
             font-size: 26px;
@@ -45,15 +59,9 @@
             color: #999999;
             font-size: 14px;
         }
-        button{
-            margin: 0 auto;
-            display: block;
-        }
-        #hover-btn-line{
-            margin-top: 150px;
-        }
         .btn-link{
-            margin-top: 200px;
+            margin: 200px auto 0;
+            display: block;
             font-size: 16px;
             color: #000000;
             span{
@@ -171,6 +179,10 @@
                 position: absolute;
                 bottom: -25px;
             }
+            .text-unpass{
+                font-size: 40px;
+                font-weight: 500;
+            }
         }
         .info{
             margin-left: 145px;
@@ -187,6 +199,16 @@
                 color: #9E9E9E;
                 line-height: 26px;
                 font-weight: 500;
+            }
+            .btns-flex{
+                display: flex;
+                gap: 40px;
+                #hover-btn-full{
+                    border: none;
+                }
+                button{
+                    min-width: 160px;
+                }
             }
         }
         

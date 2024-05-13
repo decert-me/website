@@ -14,7 +14,9 @@
     "bindAc": "Bind your social account",
     "score": {
         "now": "Score",
-        "passScore": "Reach {{score}} to pass the challenge."
+        "passScore": "Reach {{score}} to pass the challenge.",
+        "pass": "Pass",
+        "unpass": "Not Pass"
     },
     "step": {
         "title": "Claim SBT badge",
