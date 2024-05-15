@@ -130,6 +130,12 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         setPage(page);
         selectOpenQs = list[newPage];
         setSelectOpenQs({ ...selectOpenQs });
+        const obj = {
+            score: selectOpenQs?.rate ? Number((selectOpenQs?.rate * 0.2 * selectOpenQs.score).toFixed(1)) : null,
+            annotation: selectOpenQs?.annotation || ""
+        }
+        rateCache = obj;
+        setRateCache({...rateCache});
     }
 
     function setAnnotation(text) {
