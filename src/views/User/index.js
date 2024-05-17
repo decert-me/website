@@ -62,7 +62,8 @@ export default function User(props) {
             { key: 0, label: t("profile:type0") },
             { key: 1, label: t("profile:type1") },
             { key: 2, label: t("profile:type2") },
-            { key: 3, label: t("explore:review") }
+            { key: 3, label: t("explore:review") },
+            { key: 4, label: t("explore:unpass") }
 
         ]},
         { key: 'publish', label: t("profile:challenge-publish"), children: [

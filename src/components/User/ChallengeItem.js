@@ -24,7 +24,7 @@ export default function ChallengeItem(props) {
 
 
     const toQuest = () => {
-        if (info?.claimable || info?.claimed || (profile && profile.isMe && info.complete_ts && !info.claimed) || info?.open_quest_review_status === 1) {
+        if (info?.claimable || info?.claimed || (profile && profile.isMe && info.complete_ts && !info.claimed) || info?.open_quest_review_status === 1 || info?.open_quest_review_status === 2) {
             // 个人查看完成的挑战
             navigateTo(`/claim/${info.uuid}`)
         }else{
@@ -125,6 +125,14 @@ export default function ChallengeItem(props) {
                 info?.open_quest_review_status === 1 && 
                 <div className="item-claimed" style={{borderColor: "#007DFA", color: "#007DFA"}}>
                     {t("explore:review")}
+                </div>
+            }
+            {/* 未通过 */}
+            {
+                (info?.open_quest_review_status === 2) &&
+                !info?.claimable && !info?.claimed &&
+                <div className="item-claimed" style={{borderColor: "#F46565", color: "#F46565"}}>
+                    {t("explore:unpass")}
                 </div>
             }
             {/* 编辑 */}

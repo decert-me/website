@@ -10,6 +10,7 @@
     "challenger": "challengers",
     "pass": "Claimed",
     "review": "In review",
+    "unpass": "Fail",
     "claimable": "Claimable",
     "correct": "right answer",
     "go-to": "Head to",
