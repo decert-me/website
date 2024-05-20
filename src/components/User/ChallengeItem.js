@@ -129,7 +129,7 @@ export default function ChallengeItem(props) {
             }
             {/* 未通过 */}
             {
-                (info?.open_quest_review_status === 2) &&
+                (info?.open_quest_review_status === 0 || info?.open_quest_review_status === 2) &&
                 !info?.claimable && !info?.claimed &&
                 <div className="item-claimed" style={{borderColor: "#F46565", color: "#F46565"}}>
                     {t("explore:unpass")}
