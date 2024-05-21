@@ -6,7 +6,7 @@ import {
     useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Spin, Input, Slider } from "antd";
+import { Button, Spin, Input, Slider, InputNumber } from "antd";
 import { Viewer } from "@bytemd/react";
 import { download } from "@/utils/file/download";
 import { GetPercentScore } from "@/utils/GetPercent";
@@ -259,7 +259,19 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                     <div className="item mb40">
                         <div className="item-title">
                             <div>
-                                {t("score")}: {(list[page]?.answer?.score ? list[page].answer?.score : rateCache?.score ? rateCache.score : "")}
+                                {t("score")}: 
+                                <InputNumber
+                                    disabled={!onFinish}
+                                    min={0}
+                                    max={list[page]?.score}
+                                    style={{
+                                        margin: '0 16px',
+                                    }}
+                                    step={list[page]?.score / 10}
+                                    value={list[page]?.answer?.score ? list[page].answer?.score : rateCache?.score ? rateCache.score : ""}
+                                    onChange={(value) => setPercent(value / (list[page]?.score / 10) / 2)}
+                                />
+                                
                             </div>
                             <div style={{width: "352px"}}>
                                 <Slider 
