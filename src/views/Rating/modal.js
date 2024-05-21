@@ -6,7 +6,7 @@ import {
     useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Rate, Spin, Tour, Input } from "antd";
+import { Button, Rate, Spin, Tour, Input, Slider } from "antd";
 import { Viewer } from "@bytemd/react";
 import { download } from "@/utils/file/download";
 import { GetPercentScore } from "@/utils/GetPercent";
@@ -297,8 +297,8 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                             <div>
                                 {t("score")}: {(list[page]?.answer?.score ? list[page].answer?.score : rateCache?.score ? rateCache.score : "")}
                             </div>
-                            <div ref={star}>
-                                <Rate
+                            <div ref={star} style={{width: "352px"}}>
+                                {/* <Rate
                                     allowHalf
                                     disabled={!onFinish} //  预览模式不可选
                                     value={
@@ -315,6 +315,25 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                                             type="icon-star"
                                             className="icon"
                                         />
+                                    }
+                                    onChange={(percent) => setPercent(percent)}
+                                /> */}
+
+                                {/* TODO: 滑杆 */}
+                                <Slider 
+                                    disabled={!onFinish}
+                                    max={5}
+                                    step={0.5}
+                                    tooltip={{
+                                        formatter: null,
+                                    }}
+                                    value={
+                                        selectOpenQs.answer?.correct
+                                            ? selectOpenQs?.score
+                                            : selectOpenQs?.rate
+                                            ? selectOpenQs.rate
+                                            : (selectOpenQs.answer?.score /
+                                                  selectOpenQs?.score) * 5
                                     }
                                     onChange={(percent) => setPercent(percent)}
                                 />
