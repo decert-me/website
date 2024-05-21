@@ -6,7 +6,7 @@ import {
     useState,
 } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Rate, Spin, Tour, Input, Slider } from "antd";
+import { Button, Spin, Input, Slider } from "antd";
 import { Viewer } from "@bytemd/react";
 import { download } from "@/utils/file/download";
 import { GetPercentScore } from "@/utils/GetPercent";
@@ -14,7 +14,6 @@ import {
     getUserOpenQuestDetailList,
     reviewOpenQuest,
 } from "@/request/api/judg";
-import CustomIcon from "@/components/CustomIcon";
 import { NickName } from "@/utils/NickName";
 
 const { TextArea } = Input;
@@ -22,7 +21,6 @@ const { TextArea } = Input;
 function RatingModal({ data, isMobile, onFinish }, ref) {
     const star = useRef(null);
     const { t } = useTranslation(["rate", "translation"]);
-    const [open, setOpen] = useState(false); //  漫游引导展示
     const [loading, setLoading] = useState(false);
     const [total, setTotal] = useState();
     let [list, setList] = useState([]);
@@ -35,32 +33,6 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         rate: 0,
         annotation: ""
     });
-
-    const steps = [
-        {
-            cover: (
-                <div>
-                    <img
-                        alt="tour.png"
-                        src={require("@/assets/images/img/touch.gif")}
-                        id="tourImg"
-                        style={{
-                            width: "100px",
-                            marginTop: "-40px",
-                        }}
-                    />
-                    <Button
-                        className="custom-ikonw"
-                        ghost
-                        onClick={() => setOpen(false)}
-                    >
-                        {t("translation:btn-ok")}
-                    </Button>
-                </div>
-            ),
-            target: () => star.current,
-        },
-    ];
 
     const timestamp = (time) => {
         return time?.replace("T"," ").split("+")[0].split(".")[0] || "";
@@ -107,14 +79,6 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
             setSelectOpenQs({ ...selectOpenQs });
         } catch (error) {
             console.log("===>", error);
-        }
-        // 判断是否是第一次进入该页面 => 提示如何评分动画
-        const isFrist = localStorage.getItem("decert.rate");
-        if (!isFrist) {
-            setTimeout(() => {
-                setOpen(true);
-                localStorage.setItem("decert.rate", true);
-            }, 500);
         }
     }
 
@@ -297,29 +261,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                             <div>
                                 {t("score")}: {(list[page]?.answer?.score ? list[page].answer?.score : rateCache?.score ? rateCache.score : "")}
                             </div>
-                            <div ref={star} style={{width: "352px"}}>
-                                {/* <Rate
-                                    allowHalf
-                                    disabled={!onFinish} //  预览模式不可选
-                                    value={
-                                        selectOpenQs.answer?.correct
-                                            ? selectOpenQs?.score
-                                            : selectOpenQs?.rate
-                                            ? selectOpenQs.rate
-                                            : (selectOpenQs.answer?.score /
-                                                  selectOpenQs?.score) * 5
-                                    }
-                                    style={{ color: "#DD8C53" }}
-                                    character={
-                                        <CustomIcon
-                                            type="icon-star"
-                                            className="icon"
-                                        />
-                                    }
-                                    onChange={(percent) => setPercent(percent)}
-                                /> */}
-
-                                {/* TODO: 滑杆 */}
+                            <div style={{width: "352px"}}>
                                 <Slider 
                                     disabled={!onFinish}
                                     max={5}
@@ -362,15 +304,6 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                             {t("next")}
                         </Button>
                     </div>
-                    <Tour
-                        rootClassName={`custom-tour ${
-                            isMobile ? "mobile-custom-tour" : ""
-                        }`}
-                        open={open}
-                        steps={steps}
-                        closeIcon={<></>}
-                        placement="bottomLeft"
-                    />
                 </>
             )}
         </div>
