@@ -24,7 +24,7 @@ export default function ChallengeItem(props) {
 
 
     const toQuest = () => {
-        if (info?.claimable || info?.claimed || (profile && profile.isMe && info.complete_ts && !info.claimed) || info?.open_quest_review_status === 1 || info?.open_quest_review_status === 2) {
+        if (info?.claimable || info?.claimed || (profile && profile.isMe && info.complete_ts && !info.claimed) || info?.open_quest_review_status === 1 || info?.open_quest_review_status === 2 || info?.challenge_failed) {
             // 个人查看完成的挑战
             navigateTo(`/claim/${info.uuid}`)
         }else{
@@ -129,8 +129,11 @@ export default function ChallengeItem(props) {
             }
             {/* 未通过 */}
             {
-                (info?.open_quest_review_status === 0 || info?.open_quest_review_status === 2) &&
-                !info?.claimable && !info?.claimed &&
+                // (info?.open_quest_review_status === 0 || info?.open_quest_review_status === 2) &&
+                // !info?.claimable && !info?.claimed &&
+                ((profile && (info?.open_quest_review_status === 0 || info?.open_quest_review_status === 2) && !info?.claimable && !info?.claimed )
+                ||
+                info?.challenge_failed) &&
                 <div className="item-claimed" style={{borderColor: "#F46565", color: "#F46565"}}>
                     {t("explore:unpass")}
                 </div>

@@ -122,10 +122,11 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         setSelectOpenQs({ ...selectOpenQs });
 
         // 已打分列表
-        const p = (percent * 20) / 100;
-        const info = list[page];
-        const score = GetPercentScore(info.score, p);
-        rateCache.score = score;
+        // const p = (percent * 20) / 100;
+        // const info = list[page];
+        // const score = GetPercentScore(info.score, p);
+        // rateCache.score = score;
+        rateCache.score = percent;
         setRateCache({...rateCache});
         setCache()
     }
@@ -267,17 +268,20 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                                     style={{
                                         margin: '0 16px',
                                     }}
-                                    step={list[page]?.score / 10}
+                                    // step={list[page]?.score / 10}
+                                    step={1}
                                     value={list[page]?.answer?.score ? list[page].answer?.score : rateCache?.score ? rateCache.score : ""}
-                                    onChange={(value) => setPercent(value / (list[page]?.score / 10) / 2)}
+                                    onChange={(value) => setPercent(value)}
                                 />
                                 
                             </div>
                             <div style={{width: "352px"}}>
                                 <Slider 
                                     disabled={!onFinish}
-                                    max={5}
-                                    step={0.5}
+                                    // max={5}
+                                    max={list[page]?.score}
+                                    // step={0.5}
+                                    step={1}
                                     tooltip={{
                                         formatter: null,
                                     }}
@@ -286,8 +290,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                                             ? selectOpenQs?.score
                                             : selectOpenQs?.rate
                                             ? selectOpenQs.rate
-                                            : (selectOpenQs.answer?.score /
-                                                  selectOpenQs?.score) * 5
+                                            : selectOpenQs.answer?.score
                                     }
                                     onChange={(percent) => setPercent(percent)}
                                 />
