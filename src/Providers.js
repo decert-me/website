@@ -59,6 +59,12 @@ export default function Providers({children}) {
                                         theme={{
                                         components: {
                                             Progress: { gapDegree: 0},
+                                            Slider: { 
+                                                trackBg: "#8F5A35", 
+                                                handleActiveColor: "#8F5A35",
+                                                trackHoverBg: "#8F5A35",
+                                                handleColor: "#8F5A35"
+                                            },
                                         }}}
                                     >
                                         {children}
