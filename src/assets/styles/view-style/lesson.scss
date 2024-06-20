@@ -20,8 +20,9 @@
     .content{
         width: 100%;
         display: flex;
-        justify-content: flex-end;
+        justify-content: center;
         position: relative;
+        background-color: #FFFFFF;
     }
     // 侧边栏
     .content-sidebar{
@@ -88,10 +89,10 @@
     }
     // 展示列表
     .content-list{
-        width: calc(100% - 380px - 10px);
+        // width: calc(100% - 380px - 10px);
+        width: 76%;
         min-height: calc(100vh - 82px);
         padding: 55px 25px 200px 30px;
-        background-color: #FEFEFE;
         transition: width 0.2s;
         .selectItems{
             margin-bottom: 22px;
@@ -129,10 +130,19 @@
         .content-title{
             margin-bottom: 22px;
             color: #191919;
-            font-size: 16px;
+            font-size: 32px;
             font-weight: 600;
             line-height: 40px;
 
+        }
+        .search{
+            margin-bottom: 20px;
+        }
+        .content-subtitle{
+            margin: 20px 0;
+            font-size: 16px;
+            font-weight: 600;
+            color: #191919;
         }
         .img-cover{
             width: 100%;
