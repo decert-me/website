@@ -639,27 +639,16 @@ export default function Publish(params) {
                             />
                         </div>
 
-                        {/* <Form.Item 
-                            label={t("translation:sort")}
-                            name="categorys"
-                            // wrapperCol={10}
-                            style={{
-                                width: '100%',
-                            }}
-                        > */}
-                        <div className="form-item" style={{width: "77.5%", gap: "8px", flexDirection: "column"}}>
+                        <div className="form-item" style={{width: "100%"}}>
                             <p className="title">{t("translation:sort")}</p>
                             <Select
                                 mode="tags"
-                                style={{
-                                    width: '100%',
-                                }}
                                 value={category}
+                                style={{width: "67.3%"}}
                                 onChange={changeTags}
                                 options={tagsOption}
                             />
                         </div>
-                        {/* </Form.Item> */}
 
                         {/* 难度 */}
                         <Form.Item 
