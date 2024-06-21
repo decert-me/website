@@ -101,10 +101,9 @@ export default function Lesson(params) {
     const listRef = useRef(null);
     const childRef = useRef(null);
     
-    const { isMobile } = useContext(MyContext);
     const { t } = useTranslation();
     const { address } = useAddress();
-    const [openM, setOpenM] = useState(false);    //  移动端抽屉
+    const [total, setTotal] = useState(0);
     let [searchInner, setSearchInner] = useState("");
     let [tutorials, setTutorials] = useState([]);   //  教程列表
     
@@ -233,6 +232,8 @@ export default function Lesson(params) {
         setSearchInner(searchInner);
         tutorials = [];
         setTutorials([...tutorials]);
+        pageConfig.page = 1;
+        setPageConfig({...pageConfig});
         updateTutorials();
     }
 
@@ -253,9 +254,8 @@ export default function Lesson(params) {
         .then(res => {
             if (res.status === 0) {
                 const list = res.data.list;
-                if (list.length !== 20) {
-                    setIsOver(true);
-                }
+                setTotal(res.data.total);
+                setIsOver(list.length !== 20);
                 tutorials = tutorials.concat(list ? list : []);
                 setTutorials([...tutorials]);
             }
@@ -307,19 +307,13 @@ export default function Lesson(params) {
     },[address])
 
     useUpdateEffect(() => {
-        if (openM) {
-            document.body.style.overflow = "hidden";
-        }else{
-            document.body.style.overflow = "auto";
-        }
-    },[openM])
-
-    useUpdateEffect(() => {
         resizeContent();
         scrollSidebar();
     },[tutorials])
 
     useUpdateEffect(() => {
+        pageConfig.page = 1;
+        setPageConfig({...pageConfig});
         tutorials = [];
         setTutorials([...tutorials]);
         updateTutorials();
@@ -352,7 +346,7 @@ export default function Lesson(params) {
                             )
                         }
                     </div>
-                    <p className="content-subtitle">{t("header.lesson")}({tutorials?.length})</p>
+                    <p className="content-subtitle">{t("header.lesson")}({total})</p>
                     <InfiniteScroll
                         className="boxs"
                         style={{opacity: isOk ? 1 : 0}}
