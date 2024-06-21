@@ -17,7 +17,7 @@ import { questMinterABI } from "@/config/abi/721/QuestMinter";
 export const usePublish = (props) => {
 
     const isDev = process.env.REACT_APP_IS_DEV;
-    const { jsonHash, recommend, changeId, clear } = props;
+    const { jsonHash, recommend, category, changeId, clear } = props;
     const { ipfsPath, maxUint32 } = constans();
     const { chain } = useNetwork();
     const { verify } = useVerifyToken();
@@ -151,7 +151,8 @@ export const usePublish = (props) => {
             'uri': "ipfs://"+jsonHash, 
         }
         const params = {
-            recommend: recommend
+            recommend: recommend,
+            category: category
         }
         signature && write(signature.data, questData, JSON.stringify(params));
     }
