@@ -114,6 +114,7 @@
     },
 
     "diff": "难度",
+    "sort": "分类",
     "diff-info": {
        "easy": "简单",
        "normal": "中等",

@@ -27,7 +27,12 @@ function CustomCategory(props, ref) {
     }
 
     function handleSelect(item) {
-        selectItems = [item];
+        const index = selectItems.findIndex(e => e.ID === item.ID);
+        if (index === -1) {
+            selectItems = [item];
+        }else{
+            selectItems = [];
+        }
         setSelectItems([...selectItems]);
         setIsAll(false);
         // 返回新数组
