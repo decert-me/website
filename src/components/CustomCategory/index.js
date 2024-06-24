@@ -8,7 +8,6 @@ function CustomCategory(props, ref) {
     
     const { 
         items, 
-        label,
         sidebarIndex,
         allSelectItems,
         changeSelectItems
@@ -18,18 +17,24 @@ function CustomCategory(props, ref) {
         removeSelect
     }))
 
-    const { t } = useTranslation();
+    const { t } = useTranslation(["cert"]);
     let [selectItems, setSelectItems] = useState([]);
-    const [isActive, setIsActive] = useState(true);
+    const [isAll, setIsAll] = useState(true);
+        
+    function changeIsAll() {
+        setIsAll(!isAll);
+        changeSelectItems([])
+    }
 
     function handleSelect(item) {
         const index = selectItems.findIndex(e => e.ID === item.ID);
         if (index === -1) {
-            selectItems.push(item);
+            selectItems = [item];
         }else{
-            selectItems.splice(index, 1);
+            selectItems = [];
         }
         setSelectItems([...selectItems]);
+        setIsAll(false);
         // 返回新数组
         changeSelectItems(selectItems)
     }
@@ -54,16 +59,13 @@ function CustomCategory(props, ref) {
 
     return (
         <div className="CustomCategory">
-            <div className="label">
-                <p>{t(`tutorial.${label}`)}</p>
+            <div className="items">
                 <div 
-                    className={`arrow ${isActive ? "" : "arrow-rotate"}`} 
-                    onClick={() => setIsActive(!isActive)}
+                    className={`item ${isAll ? "item-active" : ""}`}
+                    onClick={() => changeIsAll()}
                 >
-                    <img src={require("@/assets/images/icon/icon-arrow.png")} alt="" />
+                    {t("sidbar.list.all")}
                 </div>
-            </div>
-            <div className={`items ${isActive ? "" : "items-hide"}`}>
                 {
                     items.map(item =>
                         <div 
@@ -72,7 +74,6 @@ function CustomCategory(props, ref) {
                             onClick={() => handleSelect(item)}
                         >
                             {i18n.language === "zh-CN" ? item.Chinese : item.English}
-                            <img src={require(`@/assets/images/icon/icon-${selectItems.some(e => e.ID === item.ID) ? "reduce" : "add"}.png`)} alt="" />
                         </div>
                     )
                 }

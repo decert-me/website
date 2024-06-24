@@ -1,3 +1,4 @@
+import i18n from 'i18next';
 import ImgCrop from 'antd-img-crop';
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
@@ -25,6 +26,7 @@ import { CHAINS, CHAINS_TESTNET } from "@/config";
 import UploadTmplModal from './uploadTmplModal';
 import { useVerifyToken } from '@/hooks/useVerifyToken';
 import { convertToken } from '@/utils/convert';
+import { getLabelList } from '@/request/api/admin';
 
 
 const { TextArea } = Input;
@@ -53,6 +55,8 @@ export default function Publish(params) {
     const [isEdit, setIsEdit] = useState();      //  是否是编辑模式
     const [tmplModal, setTmplModal] = useState(false);       //  图片模板弹窗
     
+    const [category, setCategory] = useState([]);
+    const [tagsOption, setTagsOption] = useState([]);
     let [cache, setCache] = useState();   //  缓存
     let [fields, setFields] = useState([]);     //  表单默认值
     let [fileList, setFileList] = useState([]);     //  图片回显
@@ -66,6 +70,7 @@ export default function Publish(params) {
     const { publish, isLoading, isOk, transactionLoading } = usePublish({
         jsonHash: publishObj?.jsonHash, 
         recommend: publishObj?.recommend,
+        category: publishObj?.category,
         changeId: isEdit,
         clear: () => {
             setPublishObj(null);
@@ -134,6 +139,13 @@ export default function Publish(params) {
         }
     }
 
+    function changeTags(value) {
+        if (value.length > 5) {
+            return
+        }
+        setCategory([...value]);
+    }
+
     // 修改Form内容
     function changeForm(key, value) {
         form.setFieldValue(key, value);
@@ -177,7 +189,8 @@ export default function Publish(params) {
         }
         publishObj = {
             jsonHash: jsonHash.hash,
-            recommend: values.editor
+            recommend: values.editor,
+            category: category
         }
         setPublishObj({...publishObj});
 
@@ -362,6 +375,19 @@ export default function Publish(params) {
     }
 
     async function init() {
+        await getLabelList({type: "category"})
+        .then(res => {
+            if (res.status === 0) {
+                const list = res.data || [];
+                list.map(e => {
+                    // e.key = e.ID;
+                    e.value = e.ID;
+                    e.label = i18n.language === "zh-CN" ? e.Chinese : e.English;
+                })
+                console.log(list);
+                setTagsOption([...list]);
+            }
+        })
         const tokenId = location.search.replace("?","");
         const arr = await getDataBase(dataBase);
         // 是否是编辑模式 => 获取编辑挑战详情
@@ -610,6 +636,17 @@ export default function Publish(params) {
                                 style={{
                                     width: "200px"
                                 }}
+                            />
+                        </div>
+
+                        <div className="form-item" style={{width: "100%"}}>
+                            <p className="title">{t("translation:sort")}</p>
+                            <Select
+                                mode="tags"
+                                value={category}
+                                style={{width: "67.3%"}}
+                                onChange={changeTags}
+                                options={tagsOption}
                             />
                         </div>
 

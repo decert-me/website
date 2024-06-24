@@ -3,7 +3,8 @@ import "@/assets/styles/mobile/view-style/lesson.scss"
 import { useTranslation } from "react-i18next";
 import { useContext, useEffect, useRef, useState } from "react";
 import { progressList } from "@/request/api/public";
-import { Button, Divider, Drawer, Spin } from "antd";
+import { Button, Divider, Drawer, Input, Spin } from "antd";
+import { SearchOutlined } from '@ant-design/icons';
 import CustomCategory from "@/components/CustomCategory";
 import MyContext from "@/provider/context";
 import { useRequest, useUpdateEffect } from "ahooks";
@@ -52,62 +53,60 @@ function GetTags({ tutorial, tags }) {
     )
 }
 
-function SelectItems({selectItems: items, removeItem, removeAllItems, sidebarIsOpen, changeSidebar, t}) {
-    const result = [];
-    for (let i = 0; i < items.length; i++) {
-        const element = items[i];
-        element.forEach(item => {
-            result.push({
-                ...item, 
-                index: i
-            })
-        })
-    }
-    return (
-        (result.length !== 0 || !sidebarIsOpen) &&
-        <div className="selectItems">
-            {
-                !sidebarIsOpen &&
-                <div className="icon" onClick={() => changeSidebar()}>
-                    <img src={require("@/assets/images/icon/icon-filter.png")} alt="" />
-                </div>
-            }
-            {
-                result.map((item) => 
-                    <div 
-                        className="selectItem" 
-                        key={item.ID}
-                        onClick={() => removeItem(item.key, item.index)}
-                    >
-                        {i18n.language === "zh-CN" ? item.Chinese : item.English} <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
-                    </div>
-                )
-            }
-            {
-                result.length !== 0 &&
-                    <div className="selectItem" onClick={() => removeAllItems()}>
-                        {t("tutorial.clear")}
-                    </div>
-            }
-        </div>
-    )
-}
+// function SelectItems({selectItems: items, removeItem, removeAllItems, sidebarIsOpen, changeSidebar, t}) {
+//     const result = [];
+//     for (let i = 0; i < items.length; i++) {
+//         const element = items[i];
+//         element.forEach(item => {
+//             result.push({
+//                 ...item, 
+//                 index: i
+//             })
+//         })
+//     }
+//     return (
+//         (result.length !== 0 || !sidebarIsOpen) &&
+//         <div className="selectItems">
+//             {
+//                 !sidebarIsOpen &&
+//                 <div className="icon" onClick={() => changeSidebar()}>
+//                     <img src={require("@/assets/images/icon/icon-filter.png")} alt="" />
+//                 </div>
+//             }
+//             {
+//                 result.map((item) => 
+//                     <div 
+//                         className="selectItem" 
+//                         key={item.ID}
+//                         onClick={() => removeItem(item.key, item.index)}
+//                     >
+//                         {i18n.language === "zh-CN" ? item.Chinese : item.English} <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
+//                     </div>
+//                 )
+//             }
+//             {
+//                 result.length !== 0 &&
+//                     <div className="selectItem" onClick={() => removeAllItems()}>
+//                         {t("tutorial.clear")}
+//                     </div>
+//             }
+//         </div>
+//     )
+// }
 
 export default function Lesson(params) {
     
     const contentRef = useRef(null);
     const sidebarRef = useRef(null);
     const listRef = useRef(null);
-    const buttonRef = useRef(null);
     const childRef = useRef(null);
     
-    const { isMobile } = useContext(MyContext);
     const { t } = useTranslation();
     const { address } = useAddress();
-    const [openM, setOpenM] = useState(false);    //  移动端抽屉
+    const [total, setTotal] = useState(0);
+    let [searchInner, setSearchInner] = useState("");
     let [tutorials, setTutorials] = useState([]);   //  教程列表
     
-    let [sidebarIsOpen, setSidebarIsOpen] = useState(true);   //  侧边栏展开
     let [isOk, setIsOk] = useState(false);   //  dom操作是否完成
     let [selectItems, setSelectItems] = useState([[],[],[]]);   //  当前选中的类别
     let [tags, setTags] = useState([]);     //  所选标签
@@ -117,9 +116,11 @@ export default function Lesson(params) {
     let [pageConfig, setPageConfig] = useState({
         page: 1, pageSize: 20
     });   //  分页配置
-    const loader = useRef(null);
 
-
+    const { run: debounceSearch } = useRequest(changeSearch, {
+        debounceWait: 500,
+        manual: true,
+    });
     
     const { run } = useRequest(resizeContent, {
         debounceWait: 300,
@@ -147,42 +148,10 @@ export default function Lesson(params) {
         runRemove()
     }
 
-    // 移除选中的单个 *类别*
-    function removeItem(key, index) {
-        let singleSelectItems = selectItems[index];
-        const i = singleSelectItems.findIndex(e => e.key === key);
-        singleSelectItems.splice(i, 1);
-        selectItems[index] = singleSelectItems;
-        setSelectItems([...selectItems]);
-    }
-
-    // 移除所有 *类别*
-    function removeAllItems() {
-        selectItems=[[],[],[],[]];
-        setSelectItems([...selectItems]);
-    }
-
     // 获取当前选中的 *类别* 列表
     function changeSelectItems(items, index) {
         selectItems[index] = items;
         setSelectItems([...selectItems]);
-    }
-
-    // 展开 || 关闭侧边栏
-    function changeSidebar() {
-        sidebarIsOpen = !sidebarIsOpen;
-        setSidebarIsOpen(sidebarIsOpen);
-
-        if (sidebarIsOpen) {
-            sidebarRef.current.style.left = "0";
-            listRef.current.style.width = "calc(100% - 380px - 10px)";
-            listRef.current.style.paddingLeft = "30px"
-        }else{
-            sidebarRef.current.style.left = "-380px";
-            listRef.current.style.width = "100%"
-            listRef.current.style.paddingLeft = "37px"
-        }
-        run()
     }
 
     // 页面滑动出content区域侧边栏高度改变
@@ -258,6 +227,16 @@ export default function Lesson(params) {
         })
     }
 
+    function changeSearch(event) {
+        searchInner = event.target.value;
+        setSearchInner(searchInner);
+        tutorials = [];
+        setTutorials([...tutorials]);
+        pageConfig.page = 1;
+        setPageConfig({...pageConfig});
+        updateTutorials();
+    }
+
     async function getTags(obj) {
         return await getLabelList(obj)
         .then(res => {
@@ -270,14 +249,13 @@ export default function Lesson(params) {
 
     async function getTutorials(obj) {
         await getTutorialList({
-            ...pageConfig, status: 2, ...(obj !== undefined && obj)
+            ...pageConfig, status: 2, ...(obj !== undefined && obj), search_key: searchInner
         })
         .then(res => {
             if (res.status === 0) {
                 const list = res.data.list;
-                if (list.length !== 20) {
-                    setIsOver(true);
-                }
+                setTotal(res.data.total);
+                setIsOver(list.length !== 20);
                 tutorials = tutorials.concat(list ? list : []);
                 setTutorials([...tutorials]);
             }
@@ -287,13 +265,7 @@ export default function Lesson(params) {
     async function init(params) {
         tags = await getTags({type: "category"});
         setTags([...tags]);
-
-        const lang = await getTags({type: "language"});
-        sidebar = [
-            { label: "type", list: tags },
-            { label: "media", list: [{ID: "article", Chinese: "文章", English: "Article"}, {ID: "video", Chinese: "视频", English: "Video"}] },
-            { label: "lang", list: lang }
-        ]
+        sidebar = [{label: "type", list: tags}]; 
         setSidebar([...sidebar]);
         await getTutorials({});
         getProgress();
@@ -301,14 +273,8 @@ export default function Lesson(params) {
     }
 
     function updateTutorials(params) {
-        const docType = selectItems[1].map(e => e.ID);
-        const language = selectItems[2].map(e => e.ID);
         const category = selectItems[0].map(e => e.ID);
-        const obj = {
-            ...(language.length === 1 && { language: language[0] }),
-            ...(docType.length === 1 && { docType: docType[0] }),
-            category
-          };
+        const obj = {category};
         getTutorials(obj);
     }
 
@@ -341,19 +307,13 @@ export default function Lesson(params) {
     },[address])
 
     useUpdateEffect(() => {
-        if (openM) {
-            document.body.style.overflow = "hidden";
-        }else{
-            document.body.style.overflow = "auto";
-        }
-    },[openM])
-
-    useUpdateEffect(() => {
         resizeContent();
         scrollSidebar();
     },[tutorials])
 
     useUpdateEffect(() => {
+        pageConfig.page = 1;
+        setPageConfig({...pageConfig});
         tutorials = [];
         setTutorials([...tutorials]);
         updateTutorials();
@@ -363,85 +323,30 @@ export default function Lesson(params) {
         <div className="Lesson" ref={contentRef}>
             <div className="custom-bg-round" />
             <div className="content">
-                {/* 侧边栏 */}
-                {
-                    isMobile ? 
-                    <Drawer
-                        placement="bottom"
-                        closable={false}
-                        onClose={() => setOpenM(false)}
-                        open={openM}
-                        mask={false}
-                        rootClassName="drawer-sidebar"
-                        getContainer={() => document.querySelector(".Lesson .content")}
-                    >
-                        <div className="content-sidebar">
-                            <div className="sidebar-list">
-                                <div className="close tutorial-icon-full icon" onClick={() => setOpenM(false)}>
-                                    <img src={require("@/assets/images/icon/icon-close.png")} alt="" />
-                                </div>
-                                {
-                                    sidebar.map((item, i) => 
-                                        <div className="sidebar-item" key={item.label}>
-                                            <CustomCategory 
-                                                items={item.list} 
-                                                label={item.label}
-                                                changeSelectItems={(e) => changeSelectItems(e, i)} 
-                                                allSelectItems={selectItems}
-                                                sidebarIndex={i}
-                                                ref={childRef}
-                                            />
-                                        </div>
-                                    )
-                                }
-                            </div>
-                        </div>
-                    </Drawer>
-                    :
-                    <div className="content-sidebar" ref={sidebarRef}>
-                        <Button 
-                            type="default" 
-                            className="sidebar-title"
-                            onClick={() => changeSidebar()}
-                            ref={buttonRef}
-                        >
-                            <div className="icon">
-                                <img src={require("@/assets/images/icon/icon-filter.png")} alt="" />
-                            </div>
-                            {t("tutorial.filter")}
-                        </Button>
-                        <div className="sidebar-list">
-                            {
-                                sidebar.map((item, i) => 
-                                    <div className="sidebar-item" key={item.label}>
-                                        <CustomCategory 
-                                            items={item.list} 
-                                            label={item.label}
-                                            changeSelectItems={(e) => changeSelectItems(e, i)} 
-                                            allSelectItems={selectItems}
-                                            sidebarIndex={i}
-                                            ref={childRef}
-                                        />
-                                    </div>
-                                )
-                            }
-                        </div>
-                    </div>
-                }
                 {/* 展示列表 */}
                 <div className="content-list" ref={listRef}>
                     {/* 导航栏 */}
-                    <SelectItems selectItems={selectItems} removeItem={removeItem} removeAllItems={removeAllItems} sidebarIsOpen={sidebarIsOpen} changeSidebar={changeSidebar} t={t} />
                     <p className="content-title">{t("header.lesson")}</p>
-                    {
-                        isMobile && 
-                        <div className="tutorials-operate">
-                            <div className="tutorial-icon-full filter-icon icon" onClick={() => setOpenM(true)}>
-                                <img src={require("@/assets/images/icon/icon-filter.png")} alt="" />
-                            </div>
-                        </div>
-                    }
-
+                    <div className="search">
+                        <Input size="large" prefix={<SearchOutlined />} onChange={debounceSearch} />
+                    </div>
+                    <div className="selectList">
+                        {
+                            sidebar.map((item, i) => 
+                                <div className="sidebar-item" key={item.label}>
+                                    <CustomCategory 
+                                        items={item.list} 
+                                        label={item.label}
+                                        changeSelectItems={(e) => changeSelectItems(e, i)} 
+                                        allSelectItems={selectItems}
+                                        sidebarIndex={i}
+                                        ref={childRef}
+                                    />
+                                </div>
+                            )
+                        }
+                    </div>
+                    <p className="content-subtitle">{t("header.lesson")}({total})</p>
                     <InfiniteScroll
                         className="boxs"
                         style={{opacity: isOk ? 1 : 0}}
@@ -453,7 +358,7 @@ export default function Lesson(params) {
                         {
                             tutorials.map(e => 
                                 <a 
-                                    href={`/tutorial/${e.catalogueName}${/^README$/i.test(e.startPage.split("/")[1]) ? "/" : "/"+(e.startPage.split("/")[1]||"")}`} 
+                                    href={`/tutorial/${e.catalogueName}${/^README$/i.test(e?.startPage?.split("/")[1]) ? "/" : "/"+(e?.startPage?.split("/")[1]||"")}`} 
                                     target="_blank" 
                                     rel="noopener noreferrer"
                                     key={e.catalogueName}

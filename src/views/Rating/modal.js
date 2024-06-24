@@ -188,7 +188,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                     <div className="item item-flex">
                         <p className="item-title">{t("challenger")}:</p>
                         <div className="item-content">
-                            <a href={`/user/${selectOpenQs?.address}`} target="_blank">{NickName(selectOpenQs?.address)}</a>
+                            <a href={`/user/${selectOpenQs?.address}`} target="_blank">{selectOpenQs?.nickname}</a>
                         </div>
                     </div>
 
