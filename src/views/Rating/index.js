@@ -95,15 +95,14 @@ export default function Rating(params) {
         },
         {
             title: t("c-num"),
-            key: "uuid",
-            dataIndex: "uuid",
-            render: (uuid) => (
+            key: "challenge_title",
+            dataIndex: "challenge_title",
+            render: (challenge_title, quest) => (
                 <p
                     className="pointer"
-                    onClick={() => window.open(`/quests/${uuid}`, "_blank")}
+                    onClick={() => window.open(`/quests/${quest.uuid}`, "_blank")}
                 >
-                    {uuid.slice(0, 5)}...
-                    {uuid.slice(uuid.length - 5, uuid.length)}
+                    {challenge_title}
                 </p>
             ),
         },
