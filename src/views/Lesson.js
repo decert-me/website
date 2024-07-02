@@ -326,7 +326,6 @@ export default function Lesson(params) {
                 {/* 展示列表 */}
                 <div className="content-list" ref={listRef}>
                     {/* 导航栏 */}
-                    <p className="content-title">{t("header.lesson")}</p>
                     <div className="search">
                         <Input size="large" prefix={<SearchOutlined />} onChange={debounceSearch} />
                     </div>

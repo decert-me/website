@@ -154,7 +154,6 @@ export default function Explore(params) {
                 </div>
             }
             {/* title */}
-            <h3>{t("title")}</h3>
             <div className="search">
                 <Input size="large" prefix={<SearchOutlined />} onChange={debounceSearch} />
             </div>
