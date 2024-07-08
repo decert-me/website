@@ -95,7 +95,7 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
         selectOpenQs = list[newPage];
         setSelectOpenQs({ ...selectOpenQs });
         const obj = {
-            score: selectOpenQs?.rate ? Number((selectOpenQs?.rate * 0.2 * selectOpenQs.score).toFixed(1)) : null,
+            score: selectOpenQs?.rate ? selectOpenQs?.rate : null,
             annotation: selectOpenQs?.annotation || ""
         }
         rateCache = obj;
