@@ -267,6 +267,7 @@ export default function Rating(params) {
             {/* rateModal */}
             <Modal
                 width={1177}
+                maskClosable={false}
                 className={`judg-modal ${isMobile ? "mobile-judg-modal" : ""}`}
                 open={modalInfo?.open_quest_review_status === 1}
                 onOk={handleOk}
