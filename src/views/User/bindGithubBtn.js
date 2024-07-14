@@ -1,10 +1,11 @@
 import MyContext from "@/provider/context";
-import { hasBindSocialAccount } from "@/request/api/public";
-import { bindDiscord, bindGithub } from "@/request/api/social";
+import { bindSocialResult, confirmBindChange } from "@/request/api/public";
+import { bindGithub } from "@/request/api/social";
 import { useRequest } from "ahooks";
-import { Button, message } from "antd";
+import { Button, message, Modal } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { RebindModal } from "./rebindModal";
 
 
 
@@ -49,11 +50,18 @@ export default function BindGithubBtn() {
             cancel();
             return
         }
-        hasBindSocialAccount()
+        bindSocialResult({"type": "github"})
         .then(res => {
             if (res.status === 0) {
-                const { github } = res.data;
-                if (github) {
+                const { bound, current_binding_address } = res.data;
+                // 如果有就弹窗提示是否换绑
+                if (current_binding_address) {
+                    Modal.info({
+                        content: <RebindModal confirmBind={() => confirmBindChange({type: "github"})} />,
+                        icon: <></>,
+                        footer: null
+                    })
+                }else if (bound) {
                     setIsBind(true);
                     setIsDiscordLoad(false);
                     cancel();

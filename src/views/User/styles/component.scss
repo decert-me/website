@@ -1,4 +1,28 @@
-
+// 重复绑定弹窗
+.rebind-modal{
+    .title{
+        margin-bottom: 40px;
+        font-size: 21px;
+    }
+    .text{
+        margin-bottom: 18px;
+    }
+    .btns{
+        width: 100%;
+        margin-top: 40px;
+        display: flex;
+        justify-content: space-between;
+        button{
+            width: 48%;
+            height: 40px;
+            border-radius: 8px;
+            background-color: #f6f8fb;
+            border: none;
+            box-shadow: none;
+            color: #000;
+        }
+    }
+}
 
 // 绑定邮箱弹窗
 .email-modal .ant-modal {

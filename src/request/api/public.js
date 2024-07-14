@@ -128,6 +128,25 @@ export const submitHash = (data) => {
 //     })
 // }
 
+
+// 确认换绑
+export const confirmBindChange = (data) => {
+    return serviceAxios({
+        url: `/v1/social/confirmBindChange`,
+        method: "post",
+        data
+    })
+}
+
+// 检测重复绑定弹窗： 检测 social 是否绑定
+export const bindSocialResult = (data) => {
+    return serviceAxios({
+        url: `/v1/social/bindSocialResult`,
+        method: "post",
+        data
+    })
+}
+
 // 检测 social 是否绑定
 export const hasBindSocialAccount = (data) => {
     return serviceAxios({

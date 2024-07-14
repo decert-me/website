@@ -1,10 +1,11 @@
 import MyContext from "@/provider/context";
-import { hasBindSocialAccount } from "@/request/api/public";
+import { bindSocialResult, confirmBindChange, hasBindSocialAccount } from "@/request/api/public";
 import { bindDiscord } from "@/request/api/social";
 import { useRequest } from "ahooks";
-import { Button, message } from "antd";
+import { Button, message, Modal } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { RebindModal } from "./rebindModal";
 
 
 
@@ -49,19 +50,23 @@ export default function BindDiscordBtn() {
             cancel();
             return
         }
-        hasBindSocialAccount()
+        bindSocialResult({"type": "discord"})
         .then(res => {
             if (res.status === 0) {
-                const { discord } = res.data;
-                if (discord) {
+                const { bound, current_binding_address } = res.data;
+                // 如果有就弹窗提示是否换绑
+                if (current_binding_address) {
+                    Modal.info({
+                        content: <RebindModal confirmBind={() => confirmBindChange({type: "discord"})} />,
+                        icon: <></>,
+                        footer: null
+                    })
+                }else if (bound) {
                     setIsBind(true);
                     setIsDiscordLoad(false);
                     cancel();
                 }
             }
-        })
-        .catch(err => {
-            console.log(err);
         })
     }
 
