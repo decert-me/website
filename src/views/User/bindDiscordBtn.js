@@ -40,6 +40,12 @@ export default function BindDiscordBtn() {
         run();
     }
 
+    async function rebind() {
+        await confirmBindChange({type: "discord"})
+        Modal.destroyAll();
+        run();
+    }
+
     // 初始化检测是否绑定了 dicord || wechat
     function hasBindSocialAc() {
         const notice = localStorage.getItem("decert.bind.notice");
@@ -56,8 +62,9 @@ export default function BindDiscordBtn() {
                 const { bound, current_binding_address } = res.data;
                 // 如果有就弹窗提示是否换绑
                 if (current_binding_address) {
+                    cancel();
                     Modal.info({
-                        content: <RebindModal confirmBind={() => confirmBindChange({type: "discord"})} />,
+                        content: <RebindModal confirmBind={() => rebind()} />,
                         icon: <></>,
                         footer: null
                     })
