@@ -218,6 +218,7 @@ export default function Challenge(params) {
                     delete newObj.score;
                     delete newObj.open_quest_review_time;
                     delete newObj.correct;
+                    delete newObj.annotation;
                     return newObj;
                 }else{
                     return null;
