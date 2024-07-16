@@ -218,6 +218,7 @@ export default function Challenge(params) {
                     delete newObj.score;
                     delete newObj.open_quest_review_time;
                     delete newObj.correct;
+                    delete newObj.annotation;
                     return newObj;
                 }else{
                     return null;
@@ -256,6 +257,7 @@ export default function Challenge(params) {
         saveAnswer()
         // 提交答题次数给后端
         setLoading(true);
+        delete answers.annotation;
         await submitChallenge({
             token_id: detail.tokenId,
             answer: JSON.stringify(answers),
