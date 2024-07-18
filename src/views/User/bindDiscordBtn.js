@@ -47,9 +47,9 @@ export default function BindDiscordBtn() {
     }
 
     // 初始化检测是否绑定了 dicord || wechat
-    function hasBindSocialAc() {
+    function hasBindSocialAc(isInit) {
         const notice = localStorage.getItem("decert.bind.notice");
-        if (notice) {
+        if (notice && !isInit) {
             message.error(notice);
             localStorage.removeItem("decert.bind.notice");
             setIsDiscordLoad(false);
@@ -61,12 +61,13 @@ export default function BindDiscordBtn() {
             if (res.status === 0) {
                 const { bound, current_binding_address } = res.data;
                 // 如果有就弹窗提示是否换绑
-                if (current_binding_address) {
+                if (current_binding_address && !isInit) {
                     cancel();
                     Modal.info({
                         content: <RebindModal confirmBind={() => rebind()} />,
                         icon: <></>,
-                        footer: null
+                        footer: null,
+                        onCancel: () => {setIsDiscordLoad(false)}
                     })
                 }else if (bound) {
                     setIsBind(true);
@@ -78,7 +79,7 @@ export default function BindDiscordBtn() {
     }
 
     function init() {
-        hasBindSocialAc();
+        hasBindSocialAc(true);
     }
 
     useEffect(() => {
