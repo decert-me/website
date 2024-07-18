@@ -116,7 +116,7 @@ export default function BindEmailBtn(params) {
                 if (current_binding_address) {
                     cancel();
                     Modal.info({
-                        content: <RebindModal confirmBind={() => rebind()} />,
+                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Email"} />,
                         icon: <></>,
                         footer: null
                     })

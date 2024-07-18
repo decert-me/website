@@ -10,6 +10,7 @@
     "nothing": "No more yet",
 
     "cancel": "Cancel",
+    "confirm": "Confirm",
     "export": "Export Keysfile",
     "kf": {
         "title": "You can export your keys file future account restoration.",
@@ -35,6 +36,10 @@
     "bindDc": "Bind Discord",
     "bindGh": "Bind Github",
     "bindEm": "Bind Email",
+
+    "tip": "Tips",
+    "reBind": "This {{social}} account is already bound to User {{user}}!",
+    "reBind2": "Do you want to unbind it and bind it to the account {{user}}?",
 
     "zkTool": "Offchain Certification",
     "key": "My Keys",
