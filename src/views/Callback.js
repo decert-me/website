@@ -15,29 +15,29 @@ export default function Callback() {
     async function init() {
         const token = localStorage.getItem("decert.token");
         if (!code) {
-            // window.close();
+            window.close();
             return
         }
         if (social === "discord" && token) {
             await authDiscord({code, callback: `${window.location.origin}/callback/discord`})
             .then(res => {
-                if (res.code !== 0 && res?.message) {
+                if (res.status !== 0 && res?.message) {
                     localStorage.setItem("decert.bind.notice", res.message);
                 }
             })
             setTimeout(() => {
-                // window.close();
+                window.close();
             }, 40);
         }
         if (social === "github" && token) {
             await authGithub({code, callback: `${window.location.origin}/callback/github`})
             .then(res => {
-                if (res.code !== 0 && res?.message) {
+                if (res.status !== 0 && res?.message) {
                     localStorage.setItem("decert.bind.notice", res.message);
                 }
             })
             setTimeout(() => {
-                // window.close();
+                window.close();
             }, 40);
         }
     }
