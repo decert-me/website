@@ -15,7 +15,7 @@ export default function Callback() {
     async function init() {
         const token = localStorage.getItem("decert.token");
         if (!code) {
-            window.close();
+            // window.close();
             return
         }
         if (social === "discord" && token) {
@@ -26,7 +26,7 @@ export default function Callback() {
                 }
             })
             setTimeout(() => {
-                window.close();
+                // window.close();
             }, 40);
         }
         if (social === "github" && token) {
@@ -37,7 +37,7 @@ export default function Callback() {
                 }
             })
             setTimeout(() => {
-                window.close();
+                // window.close();
             }, 40);
         }
     }
