@@ -107,13 +107,13 @@ export default function BindEmailBtn(params) {
     }
 
     // 初始化检测是否绑定了 dicord || wechat
-    function hasBindSocialAc() {
+    function hasBindSocialAc(isInit) {
         bindSocialResult({"type": "email"})
         .then(res => {
             if (res.status === 0) {
                 const { bound, current_binding_address } = res.data;
                 // 如果有就弹窗提示是否换绑
-                if (current_binding_address) {
+                if (current_binding_address && !isInit) {
                     cancel();
                     Modal.info({
                         content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Email"} />,
@@ -130,7 +130,7 @@ export default function BindEmailBtn(params) {
     }
 
     function init() {
-        hasBindSocialAc();
+        hasBindSocialAc(true);
     }
 
     useEffect(() => {
