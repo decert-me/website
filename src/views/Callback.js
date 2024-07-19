@@ -21,7 +21,7 @@ export default function Callback() {
         if (social === "discord" && token) {
             await authDiscord({code, callback: `${window.location.origin}/callback/discord`})
             .then(res => {
-                if (res?.message) {
+                if (res.status !== 0 && res?.message) {
                     localStorage.setItem("decert.bind.notice", res.message);
                 }
             })
@@ -32,7 +32,7 @@ export default function Callback() {
         if (social === "github" && token) {
             await authGithub({code, callback: `${window.location.origin}/callback/github`})
             .then(res => {
-                if (res?.message) {
+                if (res.status !== 0 && res?.message) {
                     localStorage.setItem("decert.bind.notice", res.message);
                 }
             })

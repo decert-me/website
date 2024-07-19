@@ -1,9 +1,10 @@
-import { hasBindSocialAccount } from "@/request/api/public";
+import { bindSocialResult, confirmBindChange } from "@/request/api/public";
 import { bindEmail, getEmailCode } from "@/request/api/social";
 import { useRequest } from "ahooks";
-import { Button, Input, InputNumber, Modal, Statistic } from "antd";
+import { Button, Input, Modal, Statistic } from "antd";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { RebindModal } from "./rebindModal";
 const { Countdown } = Statistic;
 
 
@@ -99,26 +100,37 @@ export default function BindEmailBtn(params) {
         setEmail(e);
     }
 
+    async function rebind() {
+        await confirmBindChange({type: "email"});
+        Modal.destroyAll();
+        run();
+    }
+
     // 初始化检测是否绑定了 dicord || wechat
-    function hasBindSocialAc() {
-        hasBindSocialAccount()
+    function hasBindSocialAc(isInit) {
+        bindSocialResult({"type": "email"})
         .then(res => {
             if (res.status === 0) {
-                const { email } = res.data;
-                if (email) {
+                const { bound, current_binding_address } = res.data;
+                // 如果有就弹窗提示是否换绑
+                if (current_binding_address && !isInit) {
+                    cancel();
+                    Modal.info({
+                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Email"} />,
+                        icon: <></>,
+                        footer: null
+                    })
+                }else if (bound) {
                     setIsBind(true);
                     setLoading(false); 
                     cancel();
                 }
             }
         })
-        .catch(err => {
-            console.log(err);
-        })
     }
 
     function init() {
-        hasBindSocialAc();
+        hasBindSocialAc(true);
     }
 
     useEffect(() => {

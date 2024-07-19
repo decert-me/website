@@ -1,10 +1,11 @@
 import MyContext from "@/provider/context";
-import { hasBindSocialAccount } from "@/request/api/public";
+import { bindSocialResult, confirmBindChange, hasBindSocialAccount } from "@/request/api/public";
 import { bindDiscord } from "@/request/api/social";
 import { useRequest } from "ahooks";
-import { Button, message } from "antd";
+import { Button, message, Modal } from "antd";
 import { useContext, useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";
+import { RebindModal } from "./rebindModal";
 
 
 
@@ -39,34 +40,46 @@ export default function BindDiscordBtn() {
         run();
     }
 
+    async function rebind() {
+        await confirmBindChange({type: "discord"})
+        Modal.destroyAll();
+        run();
+    }
+
     // 初始化检测是否绑定了 dicord || wechat
-    function hasBindSocialAc() {
+    function hasBindSocialAc(isInit) {
         const notice = localStorage.getItem("decert.bind.notice");
-        if (notice) {
+        if (notice && !isInit) {
             message.error(notice);
             localStorage.removeItem("decert.bind.notice");
             setIsDiscordLoad(false);
             cancel();
             return
         }
-        hasBindSocialAccount()
+        bindSocialResult({"type": "discord"})
         .then(res => {
             if (res.status === 0) {
-                const { discord } = res.data;
-                if (discord) {
+                const { bound, current_binding_address } = res.data;
+                // 如果有就弹窗提示是否换绑
+                if (current_binding_address && !isInit) {
+                    cancel();
+                    Modal.info({
+                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Discord"} />,
+                        icon: <></>,
+                        footer: null,
+                        onCancel: () => {setIsDiscordLoad(false)}
+                    })
+                }else if (bound) {
                     setIsBind(true);
                     setIsDiscordLoad(false);
                     cancel();
                 }
             }
         })
-        .catch(err => {
-            console.log(err);
-        })
     }
 
     function init() {
-        hasBindSocialAc();
+        hasBindSocialAc(true);
     }
 
     useEffect(() => {

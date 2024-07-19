@@ -10,6 +10,7 @@
     "nothing": "暂无更多",
 
     "cancel": "取消",
+    "confirm": "确定换绑",
     "export": "导出 Keysfile",
     "kf": {
         "title": "你可以导出密钥文件以备将来恢复账户使用。",
@@ -35,6 +36,10 @@
     "bindDc": "绑定 Discord",
     "bindGh": "绑定 Github",
     "bindEm": "绑定邮箱",
+    
+    "tip": "提示",
+    "reBind": "这个 {{social}} 账号 已经绑定到另一个用户 {{user}} 了!",
+    "reBind2": "是否解绑并绑定当前账户 {{user}}?",
 
     "zkTool": "链下证书",
     "key": "我的密钥",
