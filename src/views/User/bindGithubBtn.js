@@ -35,9 +35,9 @@ export default function BindGithubBtn() {
     async function bindDiscordAc(params) {
         setIsDiscordLoad(true);
         const { data: url } = await bindGithub({callback: `${window.location.origin}/callback/github`});
-        // window.open(url, 'popup', `width=${isMobile ? "375" : "700"},height=667`);
+        window.open(url, 'popup', `width=${isMobile ? "375" : "700"},height=667`);
         // 轮询 ===>
-        // run();
+        run();
     }
 
     async function rebind() {
