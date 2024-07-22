@@ -17,7 +17,7 @@ import { filterQuestions } from "@/utils/filter";
 import { getMetadata } from "@/utils/getMetadata";
 import { Encryption } from "@/utils/Encryption";
 import { useLocation, useNavigate } from "react-router-dom";
-import { getQuests, modifyRecommend } from "@/request/api/public";
+import { getQuests, getUser, modifyRecommend } from "@/request/api/public";
 import { usePublish } from "@/hooks/usePublish";
 import { clearDataBase, getDataBase, saveCache } from "@/utils/saveCache";
 import store, { setChallenge } from "@/redux/store";
@@ -374,6 +374,18 @@ export default function Publish(params) {
         }, 500);
     }
 
+    async function processAccount(address) {
+        // 校验账号是否有权限发布挑战
+        if (!address) {
+            navigateTo("/");
+        }else{
+            const user = await getUser({address})
+            if (!user.data.is_admin) {
+                navigateTo("/")
+            }
+        }
+    }
+
     async function init() {
         await getLabelList({type: "category"})
         .then(res => {
@@ -412,6 +424,10 @@ export default function Publish(params) {
             totalScore(cache.questions || []);
         }
     }
+
+    useUpdateEffect(() => {
+        processAccount(address);        
+    },[address])
 
     useUpdateEffect(() => {
         saveCache(dataBase, form.getFieldsValue(), isEdit);
