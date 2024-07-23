@@ -64,10 +64,9 @@ export default function BindDiscordBtn() {
                 if (current_binding_address && !isInit) {
                     cancel();
                     Modal.info({
-                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Discord"} />,
+                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Discord"} onCancel={() => setIsDiscordLoad(false)} />,
                         icon: <></>,
-                        footer: null,
-                        onCancel: () => {setIsDiscordLoad(false)}
+                        footer: null
                     })
                 }else if (bound) {
                     setIsBind(true);
