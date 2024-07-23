@@ -138,6 +138,15 @@ export const confirmBindChange = (data) => {
     })
 }
 
+// 取消绑定
+export const cancelBindChange = (data) => {
+    return serviceAxios({
+        url: `/v1/social/cancelBindChange`,
+        method: "post",
+        data
+    })
+}
+
 // 检测重复绑定弹窗： 检测 social 是否绑定
 export const bindSocialResult = (data) => {
     return serviceAxios({

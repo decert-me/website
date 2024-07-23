@@ -1,5 +1,5 @@
 import MyContext from "@/provider/context";
-import { bindSocialResult, confirmBindChange, hasBindSocialAccount } from "@/request/api/public";
+import { bindSocialResult, cancelBindChange, confirmBindChange, hasBindSocialAccount } from "@/request/api/public";
 import { bindDiscord } from "@/request/api/social";
 import { useRequest } from "ahooks";
 import { Button, message, Modal } from "antd";
@@ -46,6 +46,11 @@ export default function BindDiscordBtn() {
         run();
     }
 
+    async function cancelBind() {
+        await cancelBindChange({type: "discord"});
+        setIsDiscordLoad(false);
+    }
+
     // 初始化检测是否绑定了 dicord || wechat
     function hasBindSocialAc(isInit) {
         const notice = localStorage.getItem("decert.bind.notice");
@@ -64,7 +69,7 @@ export default function BindDiscordBtn() {
                 if (current_binding_address && !isInit) {
                     cancel();
                     Modal.info({
-                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Discord"} onCancel={() => setIsDiscordLoad(false)} />,
+                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Discord"} onCancel={() => cancelBind()} />,
                         icon: <></>,
                         footer: null
                     })
