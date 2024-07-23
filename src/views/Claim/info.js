@@ -186,7 +186,8 @@ export default function ClaimInfo({answerInfo, detail}) {
                         <div className="annotation-list">
                             {
                                 detail.answer.map((item, index) => (
-                                    <div key={index} className="annotation-item" onClick={() => navigateTo(`/challenge/${detail.uuid}?${index}`)}>
+                                    item?.type === "open_quest" &&
+                                    <div key={index} className="annotation-item" onClick={() => navigateTo(`/challenge/${detail.uuid}?${index+1}`)}>
                                         <div className="left">
                                             <p>题目#{index+1}</p>
                                             <p>{item.annotation}</p>

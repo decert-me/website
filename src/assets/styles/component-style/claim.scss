@@ -215,7 +215,10 @@
     }
     .annotation{
         width: 500px;
-        margin: 0 auto;
+        margin-left: 355px;
+        .left{
+            max-width: 90%;
+        }
         .annotation-title{
             width: 100%;
             font-size: 18px;
