@@ -86,6 +86,48 @@ export default function AppHeader({ isMobile, user }) {
         }
     ]
 
+    const unAdminItems = [
+        {
+            label: (<p onClick={() => navigateTo(`/user/${address}`)}> {t("header.profile")} </p>),
+            key: '0',
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-user.png")} alt="" />,
+        },
+        {
+            label: (
+                <p onClick={() => {
+                    navigateTo(`/${address}`)
+                    navigateTo(0)
+                }}> 
+                    {t("header.cert")} 
+                </p>
+            ),
+            key: '1',
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-cert.png")} alt="" />,
+        },
+        {
+            type: 'divider',
+        },
+        {
+            label: (<p onClick={() => {
+                if (walletType === "solana") {
+                    message.info(t("translation:message.info.solana-publish"))
+                    return
+                }
+                navigateTo(`/rating`)
+            }}>{t("header.rate")}</p>),
+            key: '3',
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-rate.png")} alt="" />,
+        },
+        {
+            type: 'divider',
+        },
+        {
+            label: (<p onClick={() => goDisconnect()}> {t("header.disconnect")} </p>),
+            key: '4',
+            icon: <img style={{width: "16px", height: "16px"}} src={require("@/assets/images/icon/header-exit.png")} alt="" />,
+        }
+    ]
+
     const menus = [
         {to: "/tutorials", label: t("header.lesson")},
         {to: "/challenges", label: t("header.explore")},
@@ -146,7 +188,8 @@ export default function AppHeader({ isMobile, user }) {
             address: address,
             description: user.data.description,
             avatar: user.data.avatar ? imgPath + user.data.avatar : hashAvatar(address),
-            socials: user.data.socials
+            socials: user.data.socials,
+            isAdmin: user.data.is_admin
         }
         store.dispatch(setUser(info));
     }
@@ -269,7 +312,9 @@ export default function AppHeader({ isMobile, user }) {
                                         placement="bottom" 
                                         // trigger="click"
                                         // arrow
-                                        menu={{items}}
+                                        menu={{
+                                            items: user?.isAdmin ? items : unAdminItems
+                                        }}
                                         overlayClassName="custom-dropmenu"
                                         overlayStyle={{
                                             width: "210px"
