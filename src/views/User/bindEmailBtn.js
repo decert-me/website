@@ -1,4 +1,4 @@
-import { bindSocialResult, confirmBindChange } from "@/request/api/public";
+import { bindSocialResult, cancelBindChange, confirmBindChange } from "@/request/api/public";
 import { bindEmail, getEmailCode } from "@/request/api/social";
 import { useRequest } from "ahooks";
 import { Button, Input, Modal, Statistic } from "antd";
@@ -106,6 +106,11 @@ export default function BindEmailBtn(params) {
         run();
     }
 
+    async function cancelBind() {
+        await cancelBindChange({type: "email"});
+        setLoading(false);
+    }
+
     // 初始化检测是否绑定了 dicord || wechat
     function hasBindSocialAc(isInit) {
         bindSocialResult({"type": "email"})
@@ -116,7 +121,7 @@ export default function BindEmailBtn(params) {
                 if (current_binding_address && !isInit) {
                     cancel();
                     Modal.info({
-                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Email"} onCancel={() => setLoading(false)} />,
+                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Email"} onCancel={() => cancelBind()} />,
                         icon: <></>,
                         footer: null
                     })

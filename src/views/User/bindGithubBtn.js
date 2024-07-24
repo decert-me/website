@@ -1,5 +1,5 @@
 import MyContext from "@/provider/context";
-import { bindSocialResult, confirmBindChange } from "@/request/api/public";
+import { bindSocialResult, cancelBindChange, confirmBindChange } from "@/request/api/public";
 import { bindGithub } from "@/request/api/social";
 import { useRequest } from "ahooks";
 import { Button, message, Modal } from "antd";
@@ -46,6 +46,11 @@ export default function BindGithubBtn() {
         run();
     }
 
+    async function cancelBind() {
+        await cancelBindChange({type: "github"});
+        setIsDiscordLoad(false);
+    }
+
     // 初始化检测是否绑定了 dicord || wechat
     function hasBindSocialAc(isInit) {
         const notice = localStorage.getItem("decert.bind.notice");
@@ -64,7 +69,7 @@ export default function BindGithubBtn() {
                 if (current_binding_address && !isInit) {
                     cancel();
                     Modal.info({
-                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Github"} onCancel={() => setIsDiscordLoad(false)} />,
+                        content: <RebindModal confirmBind={() => rebind()} current_binding_address={current_binding_address} social={"Github"} onCancel={() => cancelBind()} />,
                         icon: <></>,
                         footer: null,
                         onCancel: () => {setIsDiscordLoad(false)}
