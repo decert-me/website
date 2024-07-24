@@ -14,7 +14,7 @@ import { CONTRACT_ADDR_1155, CONTRACT_ADDR_1155_TESTNET, CONTRACT_ADDR_721, CONT
 export default function ChallengeItem(props) {
     
     const isDev = process.env.REACT_APP_IS_DEV;
-    const { info, profile, showZk, showImg } = props;
+    const { info, profile, showZk, showImg, target } = props;
     const { isMobile } = useContext(MyContext);
     const { t } = useTranslation(["profile", "explore"]);
     const navigateTo = useNavigate();
@@ -26,8 +26,14 @@ export default function ChallengeItem(props) {
     const toQuest = () => {
         if (info?.claimable || info?.claimed || (profile && profile.isMe && info.complete_ts && !info.claimed) || info?.open_quest_review_status === 1 || info?.open_quest_review_status === 2 || info?.challenge_failed) {
             // 个人查看完成的挑战
+            target ?
+            window.open(`/claim/${info.uuid}`, '_blank')
+            :
             navigateTo(`/claim/${info.uuid}`)
         }else{
+            target ?
+            window.open(`/quests/${info.uuid}`, '_blank')
+            :
             navigateTo(`/quests/${info.uuid}`)
         }
     }

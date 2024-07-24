@@ -86,6 +86,7 @@ export default function CollectionInfo(props) {
                         <ChallengeItem
                             key={challenge.id} 
                             info={challenge}
+                            target="_blank"
                         />
                     ))
                 }
