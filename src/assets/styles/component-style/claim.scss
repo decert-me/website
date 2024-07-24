@@ -213,6 +213,31 @@
         }
         
     }
+    .annotation{
+        width: 500px;
+        margin-left: 355px;
+        .left{
+            max-width: 90%;
+        }
+        .annotation-title{
+            width: 100%;
+            font-size: 18px;
+            line-height: 30px;
+            border-bottom: 1px solid #000;
+        }
+        .annotation-item{
+            padding: 20px 0;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #000;
+            cursor: pointer;
+            p{
+                min-height: 20px;
+                line-height: 20px;
+            }
+        }
+    }
     .btn{
         height: 40px;
         margin-top: 80px;

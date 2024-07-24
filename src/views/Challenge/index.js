@@ -180,6 +180,11 @@ export default function Challenge(params) {
                 }
                 setAnswers([...answers])
             })
+            const {search} = location;
+            const searchPage = Number(search.slice(1,search.length))
+            if (search && searchPage !== 0) {
+                changePage(searchPage)
+            }
         } catch (error) {
             navigateTo("/404")
         }
