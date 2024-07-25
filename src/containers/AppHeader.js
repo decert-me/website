@@ -177,17 +177,21 @@ export default function AppHeader({ isMobile, user }) {
             navigateTo(0)
         }
     }
+    
+    const decertToken = (event) => {
+        event.key === "decert.token" && localStorage.getItem('token') && init(localStorage.getItem("decert.address"));
+    }
 
-    async function init(params) {
-        const user = await getUser({address: address})
+    async function init(addr) {
+        const user = await getUser({address: addr||address})
         if (!user.data) {
             return
         }
         const info = {
-            nickname: user.data.nickname ? user.data.nickname : NickName(address),
-            address: address,
+            nickname: user.data.nickname ? user.data.nickname : NickName(addr||address),
+            address: addr||address,
             description: user.data.description,
-            avatar: user.data.avatar ? imgPath + user.data.avatar : hashAvatar(address),
+            avatar: user.data.avatar ? imgPath + user.data.avatar : hashAvatar(addr||address),
             socials: user.data.socials,
             isAdmin: user.data.is_admin
         }
@@ -203,6 +207,22 @@ export default function AppHeader({ isMobile, user }) {
     useEffect(() => {
         address && init();
     },[address])
+
+    useEffect(() => {
+        var orignalSetItem = localStorage.setItem;
+        localStorage.setItem = function(key,newValue){
+            var setItemEvent = new Event("setItemEvent");
+            setItemEvent.key = key;
+            setItemEvent.newValue = newValue;
+            setItemEvent.oldValue = localStorage.getItem(key);
+            window.dispatchEvent(setItemEvent);
+            orignalSetItem.apply(this,arguments);
+        }
+        window.addEventListener('setItemEvent', decertToken)
+        return () => {
+            window.removeEventListener('setItemEvent', decertToken)
+        }
+    }, [])
 
     return (
         <div id="Header">
