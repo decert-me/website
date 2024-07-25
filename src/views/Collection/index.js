@@ -109,7 +109,7 @@ export default function Collection(params) {
             values: {
                 title,
                 desc: description,
-                image: cover,
+                image: "ipfs://"+cover,
                 difficulty
             },
             challenges: challenges,
