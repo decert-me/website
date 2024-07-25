@@ -49,7 +49,7 @@ export default function AppFooter({ isMobile }) {
           </div>
           <Divider />
           <div className="footer-record">
-            <span className="versions">© 2023 DeCert.me | </span>
+            <span className="versions">© 2024 DeCert.me | </span>
             <a href="https://beian.miit.gov.cn/" target="_blank"><span className='versions' style={{color: "#fff"}}>粤ICP备17140514号-3</span></a>
           </div>
         </div>
