@@ -4,8 +4,7 @@ import { constans } from "./constans";
 
 export const ipfsToImg = (e) => {
 
-    const { defaultImg, ipfsGateway } = constans();
-
+    const { defaultImg, ipfsGateway, ipfsPath } = constans();
     let gateway = ipfsGateway;
     const url = e.image_uri;
     const contentType = e.content_type;
@@ -21,8 +20,9 @@ export const ipfsToImg = (e) => {
             case "image/gif":
             case "image/png":
             case "image/webp":
+                const src = e.contract_name === "Decert Badge" ? ipfsPath+"/"+url : gateway+url;
                 return (
-                    <div className="img"><img src={gateway+url} alt="" /></div>
+                    <div className="img"><img src={src} alt="" /></div>
                 )
             case "image/svg":
                 return (
