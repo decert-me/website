@@ -179,7 +179,7 @@ export default function AppHeader({ isMobile, user }) {
     }
     
     const decertToken = (event) => {
-        event.key === "decert.token" && localStorage.getItem('token') && init(localStorage.getItem("decert.address"));
+        event.key === "decert.token" && localStorage.getItem('decert.token') && init(localStorage.getItem("decert.address"));
     }
 
     async function init(addr) {
