@@ -115,12 +115,14 @@ export default function Publish(params) {
         if (changeItem.uri.indexOf(publishObj.jsonHash) !== -1) {
             // 没修改内容
 
+            // 判断是否修改了分类
             // 判断是否修改了recommend
-            if (JSON.stringify(publishObj.recommend) !== JSON.stringify(changeItem.recommend)) {
+            if (JSON.stringify(publishObj.recommend) !== JSON.stringify(changeItem.recommend) || JSON.stringify(publishObj.category) !== JSON.stringify(changeItem.category)) {
                 // 修改了recommend ==> 发起修改recommend请求
                 let result = await modifyRecommend({
                     token_id: isEdit,
-                    recommend: publishObj.recommend
+                    recommend: publishObj.recommend,
+                    category: publishObj.category
                 }).then(res => {
                     res?.message && message.success(res?.message);
                     !res && setLoading(false);
@@ -295,10 +297,12 @@ export default function Publish(params) {
         if (isClaim) {
             return
         }
+        console.log(data);
         // 获取对应challenge信息
-        const { title, description, recommend, metadata, quest_data, uri, uuid, chain_id } = data;
+        const { title, description, recommend, metadata, quest_data, uri, uuid, chain_id, category } = data;
         const answers = JSON.parse(decode(data.quest_data.answers))
         const editor = isSerializedString(recommend);
+        setCategory(category);
         const questions = quest_data.questions.map((e,i) => {
             return ({
                 ...e,
@@ -396,7 +400,6 @@ export default function Publish(params) {
                     e.value = e.ID;
                     e.label = i18n.language === "zh-CN" ? e.Chinese : e.English;
                 })
-                console.log(list);
                 setTagsOption([...list]);
             }
         })
