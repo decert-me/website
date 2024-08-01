@@ -17,6 +17,7 @@ import Challenger from "../Question/Challenger";
 import { useNetwork, useSwitchNetwork } from "wagmi";
 import CustomLoad from "@/components/CustomLoad";
 import ModalSelectChain from "@/components/CustomModal/ModalSelectChain";
+import OpenseaIcon from "@/components/OpenseaIcon";
 
 
 
@@ -27,7 +28,7 @@ export default function Collection(params) {
     const { address, walletType, isConnected } = useAddress();
     const { chain, chains } = useNetwork();
     const { pendingChainId, switchNetworkAsync, isLoading: isPending } = useSwitchNetwork()
-    const { ipfsPath, defaultImg, openseaLink } = constans();
+    const { ipfsPath, defaultImg } = constans();
     const [api, contextHolder] = notification.useNotification();
     const { t } = useTranslation(["publish", "translation", "profile", "explore"]);
     const [isModalNetwork, setIsModalNetwork] = useState(false);    //  领取网络弹窗
@@ -277,12 +278,7 @@ export default function Collection(params) {
                                 alt="" />
                             {
                                 isCreated && detail?.collection.claimed &&
-                                <a 
-                                    target="_blank"
-                                    href={openseaLink+"/"+detail?.collection.tokenId} 
-                                    className="badge">
-                                    <img src={require("@/assets/images/icon/opensea.png")} alt="" />
-                                </a>
+                                <OpenseaIcon chain_id={detail?.collection.chain_id} tokenId={detail?.collection.tokenId} />
                             }
                         </div>
                     </div>
