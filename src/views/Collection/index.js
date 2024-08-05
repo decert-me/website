@@ -278,7 +278,7 @@ export default function Collection(params) {
                                 alt="" />
                             {
                                 isCreated && detail?.collection.claimed &&
-                                <OpenseaIcon chain_id={detail?.collection.chain_id} tokenId={detail?.collection.tokenId} />
+                                <OpenseaIcon chain_id={detail?.collection.badge_chain_id} tokenId={detail?.collection.badge_token_id} />
                             }
                         </div>
                     </div>
