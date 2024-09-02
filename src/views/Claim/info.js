@@ -182,6 +182,7 @@ export default function ClaimInfo({answerInfo, detail}) {
                         </div>
                     </div>
                     {
+                        detail.answe &&
                         detail.answer?.filter(e => e?.type === "open_quest").length !== 0 &&
                         <div className="annotation">
                             <p className="annotation-title">批注</p>
