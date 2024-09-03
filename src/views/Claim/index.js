@@ -147,7 +147,7 @@ export default function Claim(params) {
         const dataAnswer = res.data.answer;
 
         // 判断是否有答案
-        if (!cache[questId] && !dataAnswer) {
+        if ((!cache[questId] || res.data.claimed) && !dataAnswer) {
             navigateTo(`/challenge/${questId}`)
             return
         }
