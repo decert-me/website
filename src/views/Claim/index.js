@@ -147,8 +147,13 @@ export default function Claim(params) {
         const dataAnswer = res.data.answer;
 
         // 判断是否有答案
-        if ((!cache[questId] && !dataAnswer)||(cache[questId] && cache?.realAnswer[questId] !== res.data.uri)) {
+        if (!cache[questId] && !dataAnswer) {
             navigateTo(`/challenge/${questId}`)
+            return
+        }
+
+        if (!dataAnswer && address) {
+            navigateTo(`/quests/${questId}`)
             return
         }
 
