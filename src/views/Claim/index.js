@@ -152,6 +152,11 @@ export default function Claim(params) {
             return
         }
 
+        if (!dataAnswer && address) {
+            navigateTo(`/quests/${questId}`)
+            return
+        }
+
         // 判断是否有开放题 || 判断当前挑战是否更新(后端没有答案的情况下校验本地缓存) 
         if ((dataAnswer && hasOpenQuest(dataAnswer, res.data)) || (!dataAnswer && realAnswerInit(cache, res.data))) {
             return
