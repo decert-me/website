@@ -272,10 +272,11 @@ export default function Lesson(params) {
         run();
     }
 
-    function updateTutorials(params) {
+    async function updateTutorials(params) {
         const category = selectItems[0].map(e => e.ID);
         const obj = {category};
-        getTutorials(obj);
+        await getTutorials(obj);
+        getProgress();
     }
 
     function nextPage() {
