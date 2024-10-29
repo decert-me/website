@@ -27,7 +27,7 @@
     "action": "Actions",
     "last-submit-time": "Lastest Submission Time",
     "last-rate-time": "Last Grading Time",
-    "last-rate": "Last Grading",
+    "last-rate": "Last score",
     "submit-num": "Submitted times",
     "num-submit": "{{num}}th submission",
 
