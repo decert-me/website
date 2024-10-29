@@ -185,6 +185,11 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
             <h1>{selectOpenQs?.challenge_title}</h1>
             <Spin spinning={loading}>
                 <div className="judg-info">
+
+                    <div className="item item-flex">
+                        <p className="item-title">{t("num-submit", {num: selectOpenQs?.submit_count})}</p>
+                    </div>
+
                     <div className="item item-flex">
                         <p className="item-title">{t("challenger")}:</p>
                         <div className="item-content">
@@ -275,6 +280,14 @@ function RatingModal({ data, isMobile, onFinish }, ref) {
                                 />
                                 
                             </div>
+                            
+                            <div className="item item-flex">
+                                <p className="item-title">{t("last-rate")}:</p>
+                                <div className="item-content">
+                                    <p>{selectOpenQs?.last_score}</p>
+                                </div>
+                            </div>
+                            
                             <div style={{width: "352px"}}>
                                 <Slider 
                                     disabled={!onFinish}
