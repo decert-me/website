@@ -146,7 +146,8 @@ export default function ChallengeItem(props) {
             }
             {/* 编辑 */}
             {
-                profile && info?.creator === profile?.address && info?.has_claim !== undefined &&
+                profile && info?.creator === profile?.address && 
+                // info?.has_claim !== undefined &&
                 <div className="edit" onClick={goEdit}>
                     <EditOutlined />
                 </div>
