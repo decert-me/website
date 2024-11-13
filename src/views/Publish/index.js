@@ -293,11 +293,11 @@ export default function Publish(params) {
             return
         }
         // 是否有人铸造
-        const isClaim = await hasClaimed(tokenId);
-        if (isClaim) {
-            return
-        }
-        console.log(data);
+        // const isClaim = await hasClaimed(tokenId);
+        // if (isClaim) {
+        //     return
+        // }
+        // console.log(data);
         // 获取对应challenge信息
         const { title, description, recommend, metadata, quest_data, uri, uuid, chain_id, category } = data;
         const answers = JSON.parse(decode(data.quest_data.answers))
