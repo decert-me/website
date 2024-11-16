@@ -124,6 +124,7 @@ export default function Publish(params) {
                     recommend: publishObj.recommend,
                     category: publishObj.category
                 }).then(res => {
+                    clearDataBase(dataBase)
                     res?.message && message.success(res?.message);
                     !res && setLoading(false);
                     return res

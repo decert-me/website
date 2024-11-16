@@ -23,6 +23,7 @@ export const usePublish = (props) => {
     const { verify } = useVerifyToken();
     const navigateTo = useNavigate();
     const { t } = useTranslation(["publish", "translation"]);
+    const dataBase = "publish";
 
     const [isLoading, setIsLoading] = useState(false);
     const [isOk, setIsOk] = useState(false);
@@ -63,18 +64,18 @@ export const usePublish = (props) => {
             if (!changeId && res.status === 0) {
                 // 创建
                 cancel();
+                clearDataBase(dataBase)
                 createLoading = false;
                 setCreateLoading(createLoading);
                 message.success(t("message.success.create"));
-                localStorage.removeItem("decert.store");
                 navigateTo(`/quests/${createTokenId}`)
             }else if (res.data.uri === ("ipfs://"+jsonHash)){
                 // 修改
                 cancel();
+                clearDataBase(dataBase)
                 createLoading = false;
                 setCreateLoading(createLoading);
                 message.success(t("translation:message.success.save"));
-                localStorage.removeItem("decert.store");
                 navigateTo(`/quests/${changeId}`);
             }
         })
