@@ -27,17 +27,19 @@ export default function CustomQuestion(props) {
                     <div className="close" onClick={() => showEditModal(index - 1)}>
                         <EditOutlined />
                     </div>
-                    <Popconfirm
-                        title={t("translation:pop.delete.title")}
-                        description={t("translation:pop.delete.desc")}
-                        okText={t("translation:pop.yes")}
-                        cancelText={t("translation:pop.no")}
-                        onConfirm={deleteQuest}
-                    >
-                        <div className="close">
-                            <CloseOutlined />
-                        </div>
-                    </Popconfirm>
+                    {deleteQuestion &&
+                        <Popconfirm
+                            title={t("translation:pop.delete.title")}
+                            description={t("translation:pop.delete.desc")}
+                            okText={t("translation:pop.yes")}
+                            cancelText={t("translation:pop.no")}
+                            onConfirm={deleteQuest}
+                        >
+                            <div className="close">
+                                <CloseOutlined />
+                            </div>
+                        </Popconfirm>
+                    }
                 </div>
             </div>
             <Divider />

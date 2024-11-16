@@ -80,15 +80,16 @@ export default function ChallengeItem(props) {
     async function goEdit(event) {
         event.stopPropagation();
         // 已有人claim，终止
-        if (info?.has_claim) {
-            messageApi.open({
-                type: 'warning',
-                content: t("edit.error"),
-            });
-            return
-        }
+        // if (info?.has_claim) {
+        //     messageApi.open({
+        //         type: 'warning',
+        //         content: t("edit.error"),
+        //     });
+        //     return
+        // }
         // 跳转至编辑challenge
-       !info?.has_claim && window.open(`/publish?${info.tokenId}`, '_blank');
+    //    !info?.has_claim && 
+       window.open(`/publish?${info.tokenId}`, '_blank');
     }
 
     function openImgCard(event) {
