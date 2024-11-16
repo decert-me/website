@@ -516,7 +516,7 @@ export default function Publish(params) {
                     >
                         <CustomEditor onChange={(value) => changeForm("editor", value)} initialValues={cache?.editor || changeItem?.editor} />
                     </Form.Item>
-
+                        
                     {/* 添加题目 */}
                     <Form.Item 
                         label={t("inner.test")}
@@ -531,6 +531,7 @@ export default function Publish(params) {
                         }]}
                     >
                         <PublishQuestion
+                            isEdit={isEdit}
                             questions={questions || []}
                             clearQuest={() => {
                                 changeForm("questions", null);
