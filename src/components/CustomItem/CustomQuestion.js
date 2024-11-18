@@ -4,7 +4,7 @@ import { useTranslation } from 'react-i18next';
 
 export default function CustomQuestion(props) {
     
-    const { item, index, deleteQuestion, showEditModal } = props;
+    const { item, index, deleteQuestion, showEditModal, isEdit } = props;
     const { t } = useTranslation(["publish", "translation"]);
 
     const deleteQuest = () => {
@@ -27,7 +27,7 @@ export default function CustomQuestion(props) {
                     <div className="close" onClick={() => showEditModal(index - 1)}>
                         <EditOutlined />
                     </div>
-                    {deleteQuestion &&
+                    {deleteQuestion && !isEdit &&
                         <Popconfirm
                             title={t("translation:pop.delete.title")}
                             description={t("translation:pop.delete.desc")}

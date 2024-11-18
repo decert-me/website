@@ -109,7 +109,7 @@ export default function PublishQuestion({
                         justifyContent: "flex-end",
                     }}
                 >
-                    {questions.length !== 0 && (
+                    {questions.length !== 0 && !isEdit && (
                         <Button
                             type="link"
                             onClick={() => ConfirmClearQuest(clearQuest)}
@@ -132,6 +132,7 @@ export default function PublishQuestion({
                         item={e}
                         index={i + 1}
                         deleteQuestion={deleteQuestion}
+                        isEdit={isEdit}
                         showEditModal={showEditModal}
                     />
                 ))}
