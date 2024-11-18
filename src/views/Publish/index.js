@@ -124,7 +124,6 @@ export default function Publish(params) {
                     recommend: publishObj.recommend,
                     category: publishObj.category
                 }).then(res => {
-                    clearDataBase(dataBase)
                     res?.message && message.success(res?.message);
                     !res && setLoading(false);
                     return res
@@ -449,6 +448,12 @@ export default function Publish(params) {
         const tokenId = location.search.replace("?","");
         tokenId && address && getChallenge(tokenId);
     },[address])
+
+    useUpdateEffect(() => {
+        if (!transactionLoading) {
+            clearDataBase(dataBase);
+        }
+    },[transactionLoading])
 
     return (
         <Spin spinning={tradeLoading}>
