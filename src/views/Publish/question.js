@@ -11,6 +11,7 @@ import { useAddress } from "@/hooks/useAddress";
 import MyContext from "@/provider/context";
 
 export default function PublishQuestion({
+    isEdit,
     questions,
     questionEdit,
     questionChange,
@@ -108,7 +109,7 @@ export default function PublishQuestion({
                         justifyContent: "flex-end",
                     }}
                 >
-                    {questions.length !== 0 && (
+                    {questions.length !== 0 && !isEdit && (
                         <Button
                             type="link"
                             onClick={() => ConfirmClearQuest(clearQuest)}
@@ -131,85 +132,89 @@ export default function PublishQuestion({
                         item={e}
                         index={i + 1}
                         deleteQuestion={deleteQuestion}
+                        isEdit={isEdit}
                         showEditModal={showEditModal}
                     />
                 ))}
             </div>
 
             {/* 添加题目 */}
-            <div className="add-btns">
-                {/* 添加普通题 */}
-                <Button
-                    type="link"
-                    onClick={() => {
-                        clearSelect();
-                        setShowAddQs(true);
-                    }}
-                >
-                    {t("inner.add")}
-                </Button>
-
-                {/* 添加开放题 */}
-                <Button
-                    type="link"
-                    onClick={() => {
-                        if (!isConnected) {
-                            connectWallet();
-                            return;
-                        }
-                        clearSelect();
-                        setShowAddOpenQs(true);
-                    }}
-                >
-                    {t("inner.add-open")}
-                </Button>
-
-                {/* 添加编程题 */}
-                <Button
-                    type="link"
-                    onClick={() => {
-                        clearSelect();
-                        setShowAddCodeQs(true);
-                    }}
-                >
-                    {t("inner.add-code")}
-                </Button>
-
-                {/* 导入题目 */}
-                <input
-                    key={uploadKey}
-                    id="fileInput"
-                    type="file"
-                    accept=".md,.json"
-                    onChange={importChallenge}
-                    style={{ display: "none" }}
-                />
-                <Tooltip
-                    title={
-                        <>
-                            {t("upload-example")}
-                            <a
-                                href="https://github.com/decert-me/document/wiki/%E5%8A%9F%E8%83%BD%E6%89%8B%E5%86%8C#%E6%8C%91%E6%88%98"
-                                target="_blank"
-                                rel="noopener noreferrer"
-                            >
-                                {t("upload-btn")}
-                            </a>
-                            {t("upload-example1")}
-                        </>
-                    }
-                >
+            {!isEdit &&                
+                <div className="add-btns">
+                    {/* 添加普通题 */}
                     <Button
-                        size="small"
+                        type="link"
                         onClick={() => {
-                            document.getElementById("fileInput").click();
+                            clearSelect();
+                            setShowAddQs(true);
                         }}
                     >
-                        {t("upload")}
+                        {t("inner.add")}
                     </Button>
-                </Tooltip>
-            </div>
+
+                    {/* 添加开放题 */}
+                    <Button
+                        type="link"
+                        onClick={() => {
+                            if (!isConnected) {
+                                connectWallet();
+                                return;
+                            }
+                            clearSelect();
+                            setShowAddOpenQs(true);
+                        }}
+                    >
+                        {t("inner.add-open")}
+                    </Button>
+
+                    {/* 添加编程题 */}
+                    <Button
+                        type="link"
+                        onClick={() => {
+                            clearSelect();
+                            setShowAddCodeQs(true);
+                        }}
+                    >
+                        {t("inner.add-code")}
+                    </Button>
+
+                    {/* 导入题目 */}
+                    <input
+                        key={uploadKey}
+                        id="fileInput"
+                        type="file"
+                        accept=".md,.json"
+                        onChange={importChallenge}
+                        style={{ display: "none" }}
+                    />
+                    <Tooltip
+                        title={
+                            <>
+                                {t("upload-example")}
+                                <a
+                                    href="https://github.com/decert-me/document/wiki/%E5%8A%9F%E8%83%BD%E6%89%8B%E5%86%8C#%E6%8C%91%E6%88%98"
+                                    target="_blank"
+                                    rel="noopener noreferrer"
+                                >
+                                    {t("upload-btn")}
+                                </a>
+                                {t("upload-example1")}
+                            </>
+                        }
+                    >
+                        <Button
+                            size="small"
+                            onClick={() => {
+                                document.getElementById("fileInput").click();
+                            }}
+                        >
+                            {t("upload")}
+                        </Button>
+                    </Tooltip>
+                </div>
+            }
             <Divider />
         </>
     );
 }
+ 

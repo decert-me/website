@@ -449,6 +449,12 @@ export default function Publish(params) {
         tokenId && address && getChallenge(tokenId);
     },[address])
 
+    useUpdateEffect(() => {
+        if (!transactionLoading) {
+            clearDataBase(dataBase);
+        }
+    },[transactionLoading])
+
     return (
         <Spin spinning={tradeLoading}>
             <div className="Publish">
@@ -516,7 +522,7 @@ export default function Publish(params) {
                     >
                         <CustomEditor onChange={(value) => changeForm("editor", value)} initialValues={cache?.editor || changeItem?.editor} />
                     </Form.Item>
-
+                        
                     {/* 添加题目 */}
                     <Form.Item 
                         label={t("inner.test")}
@@ -531,6 +537,7 @@ export default function Publish(params) {
                         }]}
                     >
                         <PublishQuestion
+                            isEdit={isEdit}
                             questions={questions || []}
                             clearQuest={() => {
                                 changeForm("questions", null);
