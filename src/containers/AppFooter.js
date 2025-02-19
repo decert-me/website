@@ -49,7 +49,12 @@ export default function AppFooter({ isMobile }) {
           </div>
           <Divider />
           <div className="footer-record">
-            <span className="versions">© 2024 DeCert.me | </span>
+            <span className="versions">© 2025 DeCert.me</span>
+            <br />
+            <a href="https://beian.mps.gov.cn/#/query/webSearch" target="_blank">
+              <img src="https://img.learnblockchain.cn/pics/20201202144947.png" style={{verticalAlign: "middle", marginRight: "2px"}}></img>
+              <span className='versions' style={{color: "#fff"}}>粤公网安备 44049102497044 号 | </span>
+            </a>
             <a href="https://beian.miit.gov.cn/" target="_blank"><span className='versions' style={{color: "#fff"}}>粤ICP备17140514号-3 | </span></a>
             <a href="https://beian.miit.gov.cn/" target="_blank"><span className='versions' style={{color: "#fff"}}>粤网信备44040224116904180018号</span></a>
           </div>
