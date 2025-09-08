@@ -24,6 +24,7 @@ import ModalZkCard from "@/components/CustomModal/ModalZkCard";
 import ModalImgCard from "@/components/CustomModal/ModalImgCard";
 import ThirdpartyUserInfo from "./ThirdpartyUserInfo";
 import PageLoader from "@/components/Loader/PageLoader";
+import BatchClaim from "./BatchClaim";
 
 
 export default function User(props) {
@@ -63,7 +64,8 @@ export default function User(props) {
             { key: 1, label: t("profile:type1") },
             { key: 2, label: t("profile:type2") },
             { key: 3, label: t("explore:review") },
-            { key: 4, label: t("explore:unpass") }
+            { key: 4, label: t("explore:unpass") },
+            { key: 5, label: "批量领取" }
 
         ]},
         { key: 'publish', label: t("profile:challenge-publish"), children: [
@@ -389,45 +391,56 @@ export default function User(props) {
             </div>
             <div className="User-content">
                 {
-                    isLoading ?
-                    <PageLoader />
+                    checkType === 0 && checkStatus === 5 ?
+                    <BatchClaim />
                     :
-                    list.map(e => 
-                        <ChallengeItem 
-                            key={e.id} 
-                            info={e}
-                            profile={{
-                                isMe,
-                                checkType,
-                                address: paramsAddr,
-                                walletType
-                            }}
-                            showZk={(info) => {
-                                zkModalOpen = info;
-                                setZkModalOpen({...zkModalOpen});
-                            }}
-                            showImg={(info) => {
-                                imgModalOpen = info;
-                                setImgModalOpen({...imgModalOpen})
-                            }}
-                        />
+                    (
+                        isLoading ?
+                        <PageLoader />
+                        :
+                        list.map(e => 
+                            <ChallengeItem 
+                                key={e.id} 
+                                info={e}
+                                profile={{
+                                    isMe,
+                                    checkType,
+                                    address: paramsAddr,
+                                    walletType
+                                }}
+                                showZk={(info) => {
+                                    zkModalOpen = info;
+                                    setZkModalOpen({...zkModalOpen});
+                                }}
+                                showImg={(info) => {
+                                    imgModalOpen = info;
+                                    setImgModalOpen({...imgModalOpen})
+                                }}
+                            />
+                        )
                     )
                 }
                 {
-                    list.length === 0 && !isLoading &&
-                    <div className="nodata">
-                        <p>{t("profile:challenge-none")}</p>
+                    checkType !== 0 || checkStatus !== 5 ? (
+                        <>
                         {
-                            isMe &&
-                            <Link to={checkType === 1 ? "/publish" : "/challenges"}>
-                                <Button className="nodata-btn">{checkType === 1 ? t("home.btn-publish") : t("explore:btn-start")}</Button>
-                            </Link>
+                            list.length === 0 && !isLoading &&
+                            <div className="nodata">
+                                <p>{t("profile:challenge-none")}</p>
+                                {
+                                    isMe &&
+                                    <Link to={checkType === 1 ? "/publish" : "/challenges"}>
+                                        <Button className="nodata-btn">{checkType === 1 ? t("home.btn-publish") : t("explore:btn-start")}</Button>
+                                    </Link>
+                                }
+                            </div>
                         }
-                    </div>
-                }
-                {
-                    !isLoading &&
-                   <Paginations pageConfig={pageConfig} togglePage={togglePage} />
+                        {
+                            !isLoading &&
+                           <Paginations pageConfig={pageConfig} togglePage={togglePage} />
+                        }
+                        </>
+                    ) : null
                 }
             </div>
         </div>

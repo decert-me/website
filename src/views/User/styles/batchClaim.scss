@@ -1,0 +1,243 @@
+.batch-claim-container {
+  width: 100%;
+  padding: 24px;
+  background: #fff;
+  border-radius: 8px;
+  margin-top: 20px;
+
+  .batch-claim-header {
+    margin-bottom: 24px;
+    
+    h2 {
+      font-size: 24px;
+      font-weight: 600;
+      color: #1a1a1a;
+      margin: 0 0 8px 0;
+    }
+    
+    .description {
+      color: #666;
+      font-size: 14px;
+      margin: 0;
+    }
+  }
+
+  .batch-claim-actions {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 16px;
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 6px;
+    
+    .selection-info {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      
+      .selected-count {
+        color: #666;
+        font-size: 14px;
+      }
+    }
+    
+    .batch-claim-btn {
+      background: #1890ff;
+      border-color: #1890ff;
+      border-radius: 6px;
+      height: 40px;
+      padding: 0 24px;
+      font-weight: 500;
+      
+      &:hover {
+        background: #40a9ff;
+        border-color: #40a9ff;
+      }
+      
+      &:disabled {
+        background: #f5f5f5;
+        border-color: #d9d9d9;
+        color: #bfbfbf;
+      }
+    }
+  }
+
+  .batch-claim-table {
+    width: 100%;
+    overflow: auto;
+    
+
+    
+    .ant-table-container {
+      overflow-x: auto;
+    }
+    .nft-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      
+      .nft-image {
+        width: 60px;
+        height: 60px;
+        border-radius: 8px;
+        object-fit: cover;
+        border: 1px solid #e8e8e8;
+      }
+      
+      .nft-details {
+        flex: 1;
+        
+        .nft-name {
+          font-weight: 500;
+          color: #1a1a1a;
+          margin-bottom: 4px;
+          font-size: 14px;
+        }
+        
+        .nft-description {
+          color: #666;
+          font-size: 12px;
+          line-height: 1.4;
+        }
+      }
+    }
+    
+    .difficulty-tag {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      
+      &.初级 {
+        background: #e6f7ff;
+        color: #1890ff;
+      }
+      
+      &.中级 {
+        background: #fff7e6;
+        color: #fa8c16;
+      }
+      
+      &.高级 {
+        background: #fff2f0;
+        color: #f5222d;
+      }
+    }
+    
+    .status-tag {
+      padding: 2px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+      
+      &.claimable {
+        background: #f6ffed;
+        color: #52c41a;
+      }
+      
+      &.claimed {
+        background: #f5f5f5;
+        color: #999;
+      }
+    }
+    
+    // 表格样式优化
+    .ant-table-thead > tr > th {
+      background: #fafafa;
+      font-weight: 600;
+      color: #1a1a1a;
+      border-bottom: 1px solid #e8e8e8;
+    }
+    
+    .ant-table-tbody > tr > td {
+      border-bottom: 1px solid #f0f0f0;
+      padding: 16px;
+    }
+    
+    .ant-table-tbody > tr:hover > td {
+      background: #f8f9fa;
+    }
+    
+    .ant-checkbox-wrapper {
+      .ant-checkbox-checked .ant-checkbox-inner {
+        background-color: #1890ff;
+        border-color: #1890ff;
+      }
+    }
+  }
+}
+
+// 响应式设计
+@media (max-width: 768px) {
+  .batch-claim-container {
+    padding: 16px;
+    
+    .batch-claim-actions {
+      flex-direction: column;
+      gap: 16px;
+      align-items: stretch;
+      
+      .selection-info {
+        justify-content: center;
+      }
+      
+      .batch-claim-btn {
+        width: 100%;
+      }
+    }
+    
+    .batch-claim-table {
+      .nft-info {
+        .nft-image {
+          width: 40px;
+          height: 40px;
+        }
+        
+        .nft-details {
+          .nft-name {
+            font-size: 13px;
+          }
+          
+          .nft-description {
+            font-size: 11px;
+          }
+        }
+      }
+    }
+  }
+}
+
+// 加载状态
+.ant-table-placeholder {
+  .ant-empty {
+    margin: 40px 0;
+    
+    .ant-empty-description {
+      color: #999;
+    }
+  }
+}
+
+// 分页样式
+.ant-pagination {
+  margin-top: 24px;
+  text-align: center;
+  
+  .ant-pagination-item-active {
+    background: #1890ff;
+    border-color: #1890ff;
+    
+    a {
+      color: #fff;
+    }
+  }
+  
+  .ant-pagination-item:hover {
+    border-color: #1890ff;
+    
+    a {
+      color: #1890ff;
+    }
+  }
+}
