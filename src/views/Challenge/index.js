@@ -205,6 +205,47 @@ export default function Challenge(params) {
     const submit = async() => {
         childRef.current &&
         await childRef.current.goTest()
+
+        // 检查是否有编程题
+        const codingQuestions = detail.metadata.properties.questions.filter(
+            (question, idx) => question.type === "coding" || question.type === "special_judge_coding"
+        );
+
+        if (codingQuestions.length > 0) {
+            // 检查对应的答案
+            const codingAnswers = codingQuestions.map((q, idx) => {
+                // 找到对应的答案索引
+                const answerIndex = detail.metadata.properties.questions.findIndex(question => question === q);
+                return { answer: answers[answerIndex], index: answerIndex };
+            });
+
+            // 检查是否有编程题未提交 AI 判题
+            const notSubmitted = codingAnswers.filter(({ answer }) => !answer || answer.correct === undefined);
+
+            if (notSubmitted.length > 0) {
+                Modal.warning({
+                    title: "无法提交",
+                    content: "您有编程题尚未提交代码进行 AI 判题，请先点击【提交代码】按钮。",
+                    okText: "确定",
+                    centered: true
+                });
+                return;
+            }
+
+            // 检查是否有编程题未通过 AI 判题
+            const failedCodingQuestions = codingAnswers.filter(({ answer }) => answer.correct === false);
+
+            if (failedCodingQuestions.length > 0) {
+                Modal.warning({
+                    title: "无法提交",
+                    content: "您有编程题未通过 AI 判题，请修改代码后重新提交。",
+                    okText: "确定",
+                    centered: true
+                });
+                return;
+            }
+        }
+
         // 是否有开放题 ? 查看是否已经提交过答案 : 跳转至claim页
         const isOpenQuest = answers.filter(answer => answer?.type === "open_quest");
         // 有开放题的同时未登录

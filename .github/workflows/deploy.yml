@@ -24,7 +24,7 @@ jobs:
       run: yarn build
       env:
         REACT_APP_PROJECT_ID:  ${{ secrets.WALLET_CONNECT_PROJECT_ID }} # WalletConnect project ID
-        REACT_APP_BASE_URL:  ${{ vars.API_BASE_URL }} 
+        REACT_APP_BASE_URL:  ${{ vars.API_BASE_URL }}
         REACT_APP_NFT_BASE_URL:  ${{ vars.CERT_BASE_URL }}
         REACT_APP_ANSWERS_KEY:  ${{ secrets.CHALLENGE_ANSWERS_KEY }}
         REACT_APP_SENTRY_KEY:  ${{ secrets.SENTRY_KEY }}
@@ -32,6 +32,10 @@ jobs:
         REACT_APP_PARTICLE_PROJECT_ID: ${{ secrets.PARTICLE_PROJECT_ID }}
         REACT_APP_PARTICLE_CLIENT_KEY: ${{ secrets.PARTICLE_CLIENT_KKEY }}
         REACT_APP_PARTICLE_APP_ID: ${{ vars.PARTICLE_APP_ID }}
+        # OpenRouter AI API 配置
+        REACT_APP_OPENROUTER_API_KEY: ${{ secrets.OPENROUTER_API_KEY }}
+        REACT_APP_OPENROUTER_BASE_URL: ${{ vars.OPENROUTER_BASE_URL }}
+        REACT_APP_OPENROUTER_MODEL: ${{ vars.OPENROUTER_MODEL }}
 
     - name: Archive Production Artifact
       run: |

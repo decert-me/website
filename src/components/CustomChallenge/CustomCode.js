@@ -9,6 +9,7 @@ import { useTranslation } from "react-i18next";
 import { Modal, Tooltip } from "antd";
 import { modalNotice } from "@/utils/modalNotice";
 import { useLocation } from "react-router-dom";
+import { judgeCodeWithAI } from "@/utils/aiJudge";
 
 
 function CustomCode(props, ref) {
@@ -22,6 +23,8 @@ function CustomCode(props, ref) {
     const key = process.env.REACT_APP_ANSWERS_KEY;
 
     const [loading, setLoading] = useState();
+    const [aiLoading, setAiLoading] = useState(false); // AI判题加载状态
+    const [aiResult, setAiResult] = useState(null); // AI判题结果
     let [previewCode, setPreviewCode] = useState([
         { label: t("inner.code-tpl"), value: "tpl", select: true },
         { label: <>{t("inner.code-spl")}&nbsp;&nbsp;&nbsp;<span>({t("preview")})</span></>, value: "spl", select: false }
@@ -145,8 +148,8 @@ function CustomCode(props, ref) {
         if (isPreview) {
             Modal.warning({
                 ...modalNotice({
-                    t, 
-                    text: t("translation:message.error.preview-test"), 
+                    t,
+                    text: t("translation:message.error.preview-test"),
                     onOk: () => {Modal.destroyAll()},
                     icon: "😵"
                 }
@@ -170,7 +173,7 @@ function CustomCode(props, ref) {
             // 切换页面时判断是否需要向后端发起判题
             return
         }
-        
+
         // 代码自测参数
         let paramsObj = JSON.parse(JSON.stringify(codeObj))
         // 编程题特殊处理
@@ -192,6 +195,7 @@ function CustomCode(props, ref) {
             if (res.data) {
                 // 写入答案
                 const value = {
+                    value: obj.code,       // 添加 value 字段
                     correct: res.data.correct,
                     code: obj.code,
                     language: question.languages[selectIndex],
@@ -207,6 +211,131 @@ function CustomCode(props, ref) {
             setLoading(false);
         })
 
+    }
+
+    // AI 判题函数
+    async function submitWithAI() {
+        if (isPreview) {
+            Modal.warning({
+                ...modalNotice({
+                    t,
+                    text: t("translation:message.error.preview-test"),
+                    onOk: () => {Modal.destroyAll()},
+                    icon: "😵"
+                }
+            )});
+            return
+        }
+
+        const obj = cacheQuest.code_snippets[selectIndex];
+
+        if (!obj.code || obj.code.trim() === '') {
+            Modal.warning({
+                ...modalNotice({
+                    t,
+                    text: "请先编写代码再提交",
+                    onOk: () => {Modal.destroyAll()},
+                    icon: "⚠️"
+                }
+            )});
+            return
+        }
+
+        setAiLoading(true);
+        // 清空之前的日志，只显示最新的结果
+        logs = [];
+        setLogs([]);
+        addLogs(["正在使用 AI 评判代码..."]);
+
+        try {
+            console.log('提交AI判题');
+
+            // 调用 AI 判题（不再传递测试用例）
+            const result = await judgeCodeWithAI(
+                question.title,
+                question.description,
+                obj.code,
+                obj.lang
+            );
+
+            setAiResult(result);
+
+            // 显示 AI 判题结果
+            addLogs([
+                result.correct ? "✅ AI 判题通过" : "❌ AI 判题未通过",
+                `评判理由：${result.reason}`
+            ]);
+
+            // 写入答案（按照原有格式）
+            const value = {
+                value: obj.code,          // 添加 value 字段，保持与其他题型一致
+                correct: result.correct,
+                code: obj.code,
+                language: question.languages[selectIndex],
+                type: question.type
+            };
+            setAnswers(value, index);
+
+            // 显示判题结果弹窗
+            Modal.info({
+                title: result.correct ? "AI 判题通过 ✅" : "AI 判题未通过 ❌",
+                content: (
+                    <div style={{
+                        maxHeight: '400px',
+                        overflowY: 'auto',
+                        padding: '10px 0'
+                    }}>
+                        <p><strong>评判理由：</strong></p>
+                        <div style={{
+                            whiteSpace: 'pre-wrap',
+                            wordBreak: 'break-word',
+                            lineHeight: '1.6',
+                            marginTop: '10px'
+                        }}>
+                            {result.reason}
+                        </div>
+                    </div>
+                ),
+                width: 600,
+                okText: "确定",
+                centered: true,
+                onOk: () => {
+                    Modal.destroyAll();
+                }
+            });
+
+        } catch (error) {
+            console.error('AI 判题失败:', error);
+            addLogs([`AI 判题失败: ${error.message}`]);
+
+            Modal.error({
+                title: "AI 判题失败",
+                content: (
+                    <div style={{
+                        maxHeight: '300px',
+                        overflowY: 'auto',
+                        padding: '10px 0'
+                    }}>
+                        <p>无法完成 AI 判题，请稍后重试。</p>
+                        <p style={{
+                            marginTop: '10px',
+                            color: '#666',
+                            fontSize: '14px'
+                        }}>
+                            错误信息：{error.message}
+                        </p>
+                    </div>
+                ),
+                width: 500,
+                okText: "确定",
+                centered: true,
+                onOk: () => {
+                    Modal.destroyAll();
+                }
+            });
+        } finally {
+            setAiLoading(false);
+        }
     }
 
     function toggleCode() {
@@ -369,7 +498,7 @@ function CustomCode(props, ref) {
                             />
                         </div>
                         <div className="out-content">
-                            <CustomConsole 
+                            <CustomConsole
                                 question={question}
                                 changeCodeObj={changeCodeObj}
                                 goTest={goTest}
@@ -377,6 +506,8 @@ function CustomCode(props, ref) {
                                 items={items}
                                 ref={consoleRef}
                                 loading={loading}
+                                submitWithAI={submitWithAI}
+                                aiLoading={aiLoading}
                             />
                         </div>
                     </div>

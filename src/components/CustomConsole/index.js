@@ -12,7 +12,7 @@ import { useTranslation } from "react-i18next";
 
 function CustomConsole(props, ref) {
 
-    const { question, changeCodeObj, goTest, logs, items, loading } = props;
+    const { question, changeCodeObj, goTest, logs, items, loading, submitWithAI, aiLoading } = props;
     const { t } = useTranslation(['publish']);
     const tabs = [
         {
@@ -83,9 +83,18 @@ function CustomConsole(props, ref) {
                     </Space>
                     </a>
                 </Dropdown>
-                <Button loading={loading} onClick={() => runCode()}>
+                {/* 隐藏执行测试用例按钮 */}
+                {/* <Button loading={loading} onClick={() => runCode()}>
                     <CaretRightOutlined />{t("inner.run-code")}
-                </Button>
+                </Button> */}
+                {submitWithAI && (
+                    <Button
+                        loading={aiLoading}
+                        onClick={() => submitWithAI()}
+                    >
+                        <CaretRightOutlined />提交代码
+                    </Button>
+                )}
             </div>
         </>
     )
