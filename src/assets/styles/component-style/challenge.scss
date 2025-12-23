@@ -279,10 +279,38 @@
         }
     }
     .out-content{
-        height: 290px;
+        height: 50px; // 从 290px 改为只保留一行高度
         background-color: #fff;
         border-radius: 10px;
         overflow: hidden;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        padding: 0 18px;
+    }
+    // 新增 AI 判题按钮样式
+    .ai-judge-btns{
+        height: 100%;
+        display: flex;
+        align-items: center;
+        justify-content: flex-end;
+        button{
+            padding: 0 20px;
+            height: 32px;
+            color: #fff;
+            background-color: #8F5A35;
+            border: 1px solid #8F5A35;
+            border-radius: 3px;
+            display: flex;
+            align-items: center;
+            &:hover{
+                background-color: #A66E47;
+                border-color: #A66E47;
+            }
+            .anticon-caret-right{
+                font-size: 18px;
+            }
+        }
     }
     .CustomConsole{
         .tab ul{

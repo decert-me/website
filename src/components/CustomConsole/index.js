@@ -49,25 +49,26 @@ function CustomConsole(props, ref) {
 
     return(
         <>
-            <div className="CustomConsole">
+            {/* 隐藏整个 CustomConsole 区域，只保留按钮行 */}
+            {/* <div className="CustomConsole">
                 <Tab
                     tabs={tabs}
                     selectTab={selectTab}
                     setSelectTab={setSelectTab}
                 />
-                <TestCase 
+                <TestCase
                     className={selectTab === "case" ? "" : "none"}
-                    input={question?.input ? question?.input[0] : question.spj_code} 
-                    changeCodeObj={changeCodeObj} 
+                    input={question?.input ? question?.input[0] : question.spj_code}
+                    changeCodeObj={changeCodeObj}
                     ref={caseRef}
                 />
-                <Console 
+                <Console
                     className={`${selectTab === "cmd" ? "" : "none"}`}
-                    logs={logs} 
+                    logs={logs}
                 />
-            </div>
-            <div className="btns">
-                <Dropdown
+            </div> */}
+            <div className="ai-judge-btns">
+                {/* <Dropdown
                     menu={items ? {items} : items}
                     trigger={['click']}
                     placement="topLeft"
@@ -82,17 +83,14 @@ function CustomConsole(props, ref) {
                         <UpOutlined />
                     </Space>
                     </a>
-                </Dropdown>
-                {/* 隐藏执行测试用例按钮 */}
-                {/* <Button loading={loading} onClick={() => runCode()}>
-                    <CaretRightOutlined />{t("inner.run-code")}
-                </Button> */}
+                </Dropdown> */}
                 {submitWithAI && (
                     <Button
                         loading={aiLoading}
                         onClick={() => submitWithAI()}
+                        type="primary"
                     >
-                        <CaretRightOutlined />提交代码
+                        <CaretRightOutlined />AI判题
                     </Button>
                 )}
             </div>
