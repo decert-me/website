@@ -285,6 +285,33 @@ export default function Lesson(params) {
         updateTutorials()
     }
 
+    // 验证 URL 是否有效
+    function isValidUrl(url) {
+        if (!url || typeof url !== 'string' || url.trim() === '') {
+            return false;
+        }
+        try {
+            new URL(url);
+            return true;
+        } catch (e) {
+            return false;
+        }
+    }
+
+    // 获取教程跳转链接
+    function getTutorialLink(tutorial) {
+        // 如果有 externalLink 且是有效的 URL，使用 externalLink
+        if (tutorial.externalLink && isValidUrl(tutorial.externalLink)) {
+            return tutorial.externalLink;
+        }
+
+        // 否则使用原来的逻辑：拼接 startPage
+        const startPagePath = /^README$/i.test(tutorial?.startPage?.split("/")[1])
+            ? "/"
+            : "/"+(tutorial?.startPage?.split("/")[1]||"");
+        return `/tutorial/${tutorial.catalogueName}${startPagePath}`;
+    }
+
     // 初始化
     useEffect(() => {
         init();
@@ -356,10 +383,10 @@ export default function Lesson(params) {
                         loader={<Spin size="large" className="loading" />}
                     >
                         {
-                            tutorials.map(e => 
-                                <a 
-                                    href={`/tutorial/${e.catalogueName}${/^README$/i.test(e?.startPage?.split("/")[1]) ? "/" : "/"+(e?.startPage?.split("/")[1]||"")}`} 
-                                    target="_blank" 
+                            tutorials.map(e =>
+                                <a
+                                    href={getTutorialLink(e)}
+                                    target="_blank"
                                     rel="noopener noreferrer"
                                     key={e.catalogueName}
                                     className="box-link"
