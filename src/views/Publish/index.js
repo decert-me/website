@@ -2,7 +2,7 @@ import i18n from 'i18next';
 import ImgCrop from 'antd-img-crop';
 import { useContext, useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
-import { Button, Form, Input, InputNumber, Select, Spin, Upload, message } from "antd";
+import { Button, Form, Input, InputNumber, Modal, Radio, Select, Spin, Upload, message } from "antd";
 import { PlusOutlined } from '@ant-design/icons';
 import { useUpdateEffect } from "ahooks";
 import { useAccount, useDisconnect, useNetwork, useSwitchNetwork } from "wagmi";
@@ -27,6 +27,7 @@ import UploadTmplModal from './uploadTmplModal';
 import { useVerifyToken } from '@/hooks/useVerifyToken';
 import { convertToken } from '@/utils/convert';
 import { getLabelList } from '@/request/api/admin';
+import { generateChallengeWithAI, getDefaultPrompt } from '@/utils/aiGenerateChallenge';
 
 
 const { TextArea } = Input;
@@ -54,6 +55,15 @@ export default function Publish(params) {
     const [loading, setLoading] = useState(false);      //  发布loading
     const [isEdit, setIsEdit] = useState();      //  是否是编辑模式
     const [tmplModal, setTmplModal] = useState(false);       //  图片模板弹窗
+
+    // AI 生成挑战相关状态
+    const [articleUrl, setArticleUrl] = useState('');           //  文章链接
+    const [questionType, setQuestionType] = useState('选择题');  //  题目类型
+    const [aiPrompt, setAiPrompt] = useState('');               //  AI 提示词
+    const [aiGenerating, setAiGenerating] = useState(false);    //  AI 生成中
+    const [aiResultModal, setAiResultModal] = useState(false);  //  AI 结果弹窗
+    const [finalPrompt, setFinalPrompt] = useState('');         //  最终发送给 AI 的提示词
+    const [aiResponse, setAiResponse] = useState('');           //  AI 的原始回复
     
     const [category, setCategory] = useState([]);
     const [tagsOption, setTagsOption] = useState([]);
@@ -368,7 +378,7 @@ export default function Publish(params) {
             // })
             const obj = {
                 ...values,
-                token_id: isEdit,   
+                token_id: isEdit,
             }
             // 改为存储至redux，刷新丢失 ==>
             await store.dispatch(setChallenge(obj))
@@ -376,6 +386,122 @@ export default function Publish(params) {
         setTimeout(() => {
             navigateTo(`/preview/quests${isEdit ? "?"+isEdit : ""}`)
         }, 500);
+    }
+
+    // AI 生成挑战
+    async function handleGenerateChallenge() {
+        try {
+            // 验证文章链接
+            if (!articleUrl || !articleUrl.trim()) {
+                message.warning('请输入文章链接');
+                return;
+            }
+
+            setAiGenerating(true);
+
+            // 构建完整的提示词（包含 URL）
+            const userPrompt = aiPrompt || getDefaultPrompt(questionType, tagsOption, chainList);
+            const fullPrompt = `${userPrompt}
+
+文章链接：${articleUrl}
+
+请访问上述链接，阅读文章内容，然后根据文章内容生成一个完整的${questionType}挑战。`;
+
+            // 保存最终提示词用于显示
+            setFinalPrompt(fullPrompt);
+
+            // 显示结果弹窗并开始生成
+            setAiResultModal(true);
+            message.loading({ content: `正在使用 AI 生成${questionType}挑战...`, key: 'aiGenerate' });
+
+            // 调用 AI 生成题目（直接传 URL）
+            const { result, rawResponse } = await generateChallengeWithAI(
+                articleUrl,
+                questionType,
+                aiPrompt,
+                tagsOption,
+                chainList
+            );
+
+            // 保存 AI 原始回复
+            setAiResponse(rawResponse);
+
+            message.success({ content: 'AI 生成成功！', key: 'aiGenerate', duration: 2 });
+
+            // 回填表单
+            fillFormWithAIResult(result);
+
+        } catch (error) {
+            console.error('AI 生成失败:', error);
+            message.error({
+                content: error.message || 'AI 生成失败，请重试',
+                key: 'aiGenerate',
+                duration: 3
+            });
+        } finally {
+            setAiGenerating(false);
+        }
+    }
+
+    // 将 AI 生成的结果回填到表单
+    function fillFormWithAIResult(result) {
+        // 设置标题
+        if (result.title) {
+            form.setFieldValue('title', result.title);
+        }
+
+        // 设置描述
+        if (result.description) {
+            form.setFieldValue('desc', result.description);
+        }
+
+        // 设置难度
+        if (typeof result.difficulty !== 'undefined') {
+            form.setFieldValue('difficulty', result.difficulty);
+        }
+
+        // 设置预计时间
+        if (result.estimatedTime) {
+            form.setFieldValue('time', result.estimatedTime);
+        }
+
+        // 设置链ID（仅创建模式）
+        if (result.chainId && !isEdit) {
+            form.setFieldValue('chain', result.chainId);
+        }
+
+        // 设置分类
+        if (result.categories && Array.isArray(result.categories)) {
+            setCategory(result.categories);
+        }
+
+        // 设置及格分
+        if (result.passingScore) {
+            form.setFieldValue('score', result.passingScore);
+        }
+
+        // 设置推荐教程
+        if (result.tutorials && Array.isArray(result.tutorials)) {
+            // 将教程数组转换为CustomEditor需要的格式
+            form.setFieldValue('editor', JSON.stringify(result.tutorials));
+        }
+
+        // 设置题目
+        if (result.questions && Array.isArray(result.questions)) {
+            changeForm('questions', result.questions);
+        }
+
+        message.success('挑战内容已自动填充到表单中，请检查并调整后再发布');
+    }
+
+    // 题目类型改变时更新默认提示词
+    function handleQuestionTypeChange(type) {
+        setQuestionType(type);
+        // 如果用户没有自定义提示词，则更新为新类型的默认提示词
+        const currentDefaultPrompt = getDefaultPrompt(questionType, tagsOption, chainList);
+        if (!aiPrompt || aiPrompt === currentDefaultPrompt) {
+            setAiPrompt(getDefaultPrompt(type, tagsOption, chainList));
+        }
     }
 
     async function processAccount(address) {
@@ -449,6 +575,13 @@ export default function Publish(params) {
         tokenId && address && getChallenge(tokenId);
     },[address])
 
+    // 初始化 AI 提示词
+    useEffect(() => {
+        if (tagsOption.length > 0 && chainList.length > 0) {
+            setAiPrompt(getDefaultPrompt(questionType, tagsOption, chainList));
+        }
+    }, [tagsOption, chainList]);
+
     useUpdateEffect(() => {
         if (!transactionLoading) {
             clearDataBase(dataBase);
@@ -482,6 +615,76 @@ export default function Publish(params) {
                         saveCache(dataBase, values, isEdit);
                     }}
                 >
+                    {/* AI 生成挑战区域 */}
+                    <div className="ai-generate-section" style={{
+                        background: '#f5f5f5',
+                        padding: '20px',
+                        borderRadius: '8px',
+                        marginBottom: '24px'
+                    }}>
+                        <h4 style={{ marginBottom: '16px', color: '#1890ff' }}>
+                            AI 辅助生成挑战 (可选)
+                        </h4>
+
+                        {/* 文章链接 */}
+                        <Form.Item
+                            label="文章链接"
+                            style={{ marginBottom: '16px' }}
+                        >
+                            <Input.Group compact>
+                                <Input
+                                    style={{ width: 'calc(100% - 120px)' }}
+                                    placeholder="输入文章 URL，例如: https://learnblockchain.cn/article/23208"
+                                    value={articleUrl}
+                                    onChange={(e) => setArticleUrl(e.target.value)}
+                                />
+                                <Button
+                                    type="primary"
+                                    style={{ width: '120px' }}
+                                    loading={aiGenerating}
+                                    onClick={handleGenerateChallenge}
+                                >
+                                    AI创建挑战
+                                </Button>
+                            </Input.Group>
+                            <div style={{ marginTop: '8px', color: '#666', fontSize: '12px' }}>
+                                AI 将直接访问链接并根据文章内容生成题目
+                            </div>
+                        </Form.Item>
+
+                        {/* 题目类型 */}
+                        <Form.Item
+                            label="题目类型"
+                            style={{ marginBottom: '16px' }}
+                        >
+                            <Radio.Group
+                                value={questionType}
+                                onChange={(e) => handleQuestionTypeChange(e.target.value)}
+                            >
+                                <Radio value="选择题">选择题</Radio>
+                                <Radio value="填空题">填空题</Radio>
+                                <Radio value="编程题">编程题</Radio>
+                                <Radio value="开放题">开放题</Radio>
+                            </Radio.Group>
+                        </Form.Item>
+
+                        {/* AI 提示词 */}
+                        <Form.Item
+                            label="AI 提示词"
+                            style={{ marginBottom: 0 }}
+                        >
+                            <TextArea
+                                rows={4}
+                                placeholder="输入自定义的 AI 提示词，或使用默认提示词"
+                                value={aiPrompt}
+                                onChange={(e) => setAiPrompt(e.target.value)}
+                            />
+                            <div style={{ marginTop: '8px', color: '#666', fontSize: '12px' }}>
+                                提示：修改题目类型会自动更新默认提示词。你可以根据需要自定义提示词内容。
+                            </div>
+                        </Form.Item>
+                    </div>
+
                     {/* 标题 */}
                     <Form.Item
                         label={t("inner.title")}
@@ -763,6 +966,86 @@ export default function Publish(params) {
                         </Form.Item>
                     </div>
                 </Form>
+
+                {/* AI 生成结果弹窗 */}
+                <Modal
+                    title="AI 生成挑战 - 详细信息"
+                    open={aiResultModal}
+                    onCancel={() => setAiResultModal(false)}
+                    width={900}
+                    footer={[
+                        <Button key="close" onClick={() => setAiResultModal(false)}>
+                            关闭
+                        </Button>
+                    ]}
+                    bodyStyle={{
+                        maxHeight: '70vh',
+                        overflow: 'auto'
+                    }}
+                >
+                    {aiGenerating && (
+                        <div style={{ textAlign: 'center', padding: '40px 0' }}>
+                            <Spin size="large" />
+                            <p style={{ marginTop: '16px', color: '#666' }}>
+                                AI 正在生成{questionType}，请稍候...
+                            </p>
+                        </div>
+                    )}
+
+                    {!aiGenerating && finalPrompt && (
+                        <div>
+                            {/* 完整提示词 */}
+                            <div style={{ marginBottom: '24px' }}>
+                                <h4 style={{ color: '#1890ff', marginBottom: '12px' }}>
+                                    📝 完整的 AI 提示词：
+                                </h4>
+                                <div style={{
+                                    background: '#f5f5f5',
+                                    padding: '16px',
+                                    borderRadius: '4px',
+                                    whiteSpace: 'pre-wrap',
+                                    fontFamily: 'monospace',
+                                    fontSize: '13px',
+                                    lineHeight: '1.6',
+                                    border: '1px solid #d9d9d9'
+                                }}>
+                                    {finalPrompt}
+                                </div>
+                            </div>
+
+                            {/* AI 回复 */}
+                            {aiResponse && (
+                                <div>
+                                    <h4 style={{ color: '#52c41a', marginBottom: '12px' }}>
+                                        🤖 AI 的完整回复：
+                                    </h4>
+                                    <div style={{
+                                        background: '#f0f9ff',
+                                        padding: '16px',
+                                        borderRadius: '4px',
+                                        whiteSpace: 'pre-wrap',
+                                        fontFamily: 'monospace',
+                                        fontSize: '13px',
+                                        lineHeight: '1.6',
+                                        border: '1px solid #91d5ff'
+                                    }}>
+                                        {JSON.stringify(JSON.parse(aiResponse), null, 2)}
+                                    </div>
+                                    <div style={{
+                                        marginTop: '12px',
+                                        padding: '12px',
+                                        background: '#e6f7ff',
+                                        borderRadius: '4px',
+                                        fontSize: '14px',
+                                        color: '#0050b3'
+                                    }}>
+                                        ✅ 题目已自动添加到表单中，请检查并调整后再发布
+                                    </div>
+                                </div>
+                            )}
+                        </div>
+                    )}
+                </Modal>
             </div>
         </Spin>
     )
