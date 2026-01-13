@@ -59,11 +59,14 @@ export default function Publish(params) {
     // AI 生成挑战相关状态
     const [articleUrl, setArticleUrl] = useState('');           //  文章链接
     const [questionType, setQuestionType] = useState('选择题');  //  题目类型
+    const [questionCount, setQuestionCount] = useState(5);      //  题目数量（仅选择题和填空题）
     const [aiPrompt, setAiPrompt] = useState('');               //  AI 提示词
     const [aiGenerating, setAiGenerating] = useState(false);    //  AI 生成中
     const [aiResultModal, setAiResultModal] = useState(false);  //  AI 结果弹窗
     const [finalPrompt, setFinalPrompt] = useState('');         //  最终发送给 AI 的提示词
     const [aiResponse, setAiResponse] = useState('');           //  AI 的原始回复
+    const [manualArticleContent, setManualArticleContent] = useState('');  //  手动粘贴的文章内容
+    const [showManualInput, setShowManualInput] = useState(false);  //  是否显示手动粘贴输入框
     
     const [category, setCategory] = useState([]);
     const [tagsOption, setTagsOption] = useState([]);
@@ -401,7 +404,14 @@ export default function Publish(params) {
 
             // 构建完整的提示词（包含 URL）
             const userPrompt = aiPrompt || getDefaultPrompt(questionType, tagsOption, chainList);
-            const fullPrompt = `${userPrompt}
+
+            // 根据题型添加题目数量要求
+            let questionCountRequirement = '';
+            if (questionType === '选择题' || questionType === '填空题') {
+                questionCountRequirement = `\n\n**重要：请生成 ${questionCount} 道${questionType}。**`;
+            }
+
+            const fullPrompt = `${userPrompt}${questionCountRequirement}
 
 文章链接：${articleUrl}
 
@@ -414,13 +424,15 @@ export default function Publish(params) {
             setAiResultModal(true);
             message.loading({ content: `正在使用 AI 生成${questionType}挑战...`, key: 'aiGenerate' });
 
-            // 调用 AI 生成题目（直接传 URL）
+            // 调用 AI 生成题目
             const { result, rawResponse } = await generateChallengeWithAI(
                 articleUrl,
                 questionType,
                 aiPrompt,
                 tagsOption,
-                chainList
+                chainList,
+                questionCount,  // 传递题目数量
+                manualArticleContent  // 传递手动粘贴的文章内容
             );
 
             // 保存 AI 原始回复
@@ -433,6 +445,12 @@ export default function Publish(params) {
 
         } catch (error) {
             console.error('AI 生成失败:', error);
+
+            // 如果是获取文章内容失败，显示手动粘贴输入框
+            if (error.message && error.message.includes('无法获取文章内容')) {
+                setShowManualInput(true);
+            }
+
             message.error({
                 content: error.message || 'AI 生成失败，请重试',
                 key: 'aiGenerate',
@@ -667,6 +685,42 @@ export default function Publish(params) {
                                 <Radio value="开放题">开放题</Radio>
                             </Radio.Group>
                         </Form.Item>
+
+                        {/* 题目数量（仅选择题和填空题显示） */}
+                        {(questionType === '选择题' || questionType === '填空题') && (
+                            <Form.Item
+                                label="题目数量"
+                                style={{ marginBottom: '16px' }}
+                            >
+                                <InputNumber
+                                    min={1}
+                                    value={questionCount}
+                                    onChange={(value) => setQuestionCount(value)}
+                                    style={{ width: '120px' }}
+                                />
+                                <span style={{ marginLeft: '8px', color: '#666', fontSize: '12px' }}>
+                                    AI 将生成 {questionCount} 道{questionType}
+                                </span>
+                            </Form.Item>
+                        )}
+
+                        {/* 手动粘贴文章内容（仅在获取失败时显示） */}
+                        {showManualInput && (
+                            <Form.Item
+                                label="文章内容"
+                                style={{ marginBottom: '16px' }}
+                            >
+                                <TextArea
+                                    rows={6}
+                                    placeholder="无法自动获取文章内容，请手动粘贴文章内容到这里..."
+                                    value={manualArticleContent}
+                                    onChange={(e) => setManualArticleContent(e.target.value)}
+                                />
+                                <div style={{ marginTop: '8px', color: '#ff4d4f', fontSize: '12px' }}>
+                                    提示：自动获取文章内容失败，请手动粘贴文章内容。粘贴后点击"AI 生成挑战"按钮即可。
+                                </div>
+                            </Form.Item>
+                        )}
 
                         {/* AI 提示词 */}
                         <Form.Item

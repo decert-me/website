@@ -5,13 +5,13 @@
 
 const OPENROUTER_API_KEY = process.env.REACT_APP_OPENROUTER_API_KEY;
 const OPENROUTER_BASE_URL = process.env.REACT_APP_OPENROUTER_BASE_URL;
-const OPENROUTER_MODEL = process.env.REACT_APP_OPENROUTER_MODEL;
+const OPENROUTER_CREATECHALLENGE_MODEL = process.env.REACT_APP_OPENROUTER_CREATECHALLENGE_MODE;
 
 // 调试信息
 console.log('AI Generate Challenge Config:', {
     apiKey: OPENROUTER_API_KEY ? '已配置' : '未配置',
     baseUrl: OPENROUTER_BASE_URL,
-    model: OPENROUTER_MODEL
+    model: OPENROUTER_CREATECHALLENGE_MODEL
 });
 
 /**
@@ -22,29 +22,12 @@ console.log('AI Generate Challenge Config:', {
  * @returns {string} - 默认提示词
  */
 export function getDefaultPrompt(questionType, categories = [], chains = []) {
-    // 构建分类选项文本
-    const categoryText = categories.length > 0
-        ? categories.map(c => `${c.ID}: ${c.Chinese || c.English}`).join(', ')
-        : 'Solidity, DeFi, NFT, DAO, GameFi, Layer2, 安全, 工具';
-
-    // 构建链选项文本
-    const chainText = chains.length > 0
-        ? chains.map(c => `${c.id}: ${c.name}`).join(', ')
-        : '10: Optimism, 137: Polygon, 42161: Arbitrum';
-
     const basePrompt = `你是一名资深的 Web3 专家，同时也是资深的 Web3 培训老师，现在需要你根据文章的内容和知识点，生成一个对应的${questionType}挑战。
 
 该挑战需要包括以下关键信息：
 - **挑战标题**：简洁明了，体现文章核心知识点
 - **挑战描述**：详细说明挑战的目标和要求（200-300字）
-- **难度**：从以下选项中选择：0-简单、1-中等、2-困难
-- **分类**：从以下分类ID中选择1-3个合适的：${categoryText}
-- **时长**：预计完成时间（秒），可选：600（10分钟）、1800（30分钟）、3600（1小时）、7200（2小时）、14400（4小时）
-- **链ID**：从以下链ID中选择一个：${chainText}
 - **题目**：根据题目类型生成符合格式的题目数组
-- **总分**：所有题目的分数总和
-- **及格分**：建议为总分的60%-80%
-- **推荐教程**：相关学习资源的JSON数组，格式为 [{"title": "教程标题", "link": "教程链接"}]
 
 `;
 
@@ -161,7 +144,7 @@ export function getDefaultPrompt(questionType, categories = [], chains = []) {
  * @returns {string} - 系统提示词
  */
 function getSystemPrompt(questionType) {
-    return `你是一个专业的区块链教育内容设计助手。你需要根据提供的文章内容，生成符合 DeCert 平台要求的完整挑战信息。
+    return `你是一个专业的区块链教育内容设计助手。你需要根据提供的文章内容，生成符合 DeCert 平台要求的挑战信息。
 
 **重要：请统一使用中文回答，所有内容必须用中文表述。**
 
@@ -170,30 +153,14 @@ function getSystemPrompt(questionType) {
 {
   "title": "挑战标题（简洁明了，体现文章核心知识点）",
   "description": "挑战描述（详细说明挑战的目标和要求，200-300字）",
-  "difficulty": 0,  // 难度：0-简单、1-中等、2-困难
-  "categories": [1, 2],  // 分类ID数组（1-3个）
-  "estimatedTime": 3600,  // 预计完成时间（秒）
-  "chainId": 10,  // 链ID
-  "questions": [],  // 题目数组（根据题目类型使用不同格式）
-  "totalScore": 100,  // 总分（所有题目分数之和）
-  "passingScore": 60,  // 及格分（建议总分的60%-80%）
-  "tutorials": [  // 推荐教程数组
-    {
-      "title": "教程标题",
-      "link": "教程链接"
-    }
-  ]
+  "questions": []  // 题目数组（根据题目类型使用不同格式）
 }
 
 **注意事项：**
 1. 所有文本内容必须使用中文
-2. categories 必须是数字数组，从用户提供的分类列表中选择
-3. chainId 必须从用户提供的链列表中选择
-4. questions 数组的格式取决于题目类型
-5. totalScore 必须等于所有题目的 score 总和
-6. passingScore 建议为 totalScore 的 60%-80%
-7. tutorials 可以包含1-3个相关教程链接
-8. 严格按照 JSON 格式返回，不要包含任何其他说明文字`;
+2. questions 数组的格式取决于题目类型
+3. 严格按照 JSON 格式返回，不要包含任何其他说明文字
+4. 专注于生成高质量的题目内容，其他配置信息由用户自行设置`;
 }
 
 /**
@@ -203,27 +170,73 @@ function getSystemPrompt(questionType) {
  * @param {string} customPrompt - 自定义提示词（可选）
  * @param {Array} categories - 分类列表
  * @param {Array} chains - 链列表
+ * @param {number} questionCount - 题目数量（仅选择题和填空题使用）
+ * @param {string} manualContent - 手动粘贴的文章内容（可选，如果提供则不获取 URL）
  * @returns {Promise<{result: Object, rawResponse: string}>} - 返回生成的题目数据和原始回复
  */
-export async function generateChallengeWithAI(articleUrl, questionType, customPrompt = '', categories = [], chains = []) {
+export async function generateChallengeWithAI(articleUrl, questionType, customPrompt = '', categories = [], chains = [], questionCount = 5, manualContent = '') {
     try {
         // 检查环境变量
-        if (!OPENROUTER_API_KEY || !OPENROUTER_BASE_URL || !OPENROUTER_MODEL) {
-            throw new Error(`环境变量未配置: API_KEY=${!!OPENROUTER_API_KEY}, BASE_URL=${!!OPENROUTER_BASE_URL}, MODEL=${!!OPENROUTER_MODEL}`);
+        if (!OPENROUTER_API_KEY || !OPENROUTER_BASE_URL || !OPENROUTER_CREATECHALLENGE_MODEL) {
+            throw new Error(`环境变量未配置: API_KEY=${!!OPENROUTER_API_KEY}, BASE_URL=${!!OPENROUTER_BASE_URL}, MODEL=${!!OPENROUTER_CREATECHALLENGE_MODEL}`);
         }
 
-        console.log('开始 AI 生成挑战...', { questionType, articleUrl });
+        console.log('开始 AI 生成挑战...', { questionType, articleUrl, hasManualContent: !!manualContent });
+
+        // 获取文章内容
+        let articleContent;
+
+        if (manualContent && manualContent.trim()) {
+            // 如果提供了手动粘贴的内容，直接使用
+            console.log('使用手动粘贴的文章内容，长度:', manualContent.length);
+            articleContent = manualContent.trim();
+        } else {
+            // 否则尝试从 URL 获取，添加重试机制
+            console.log('正在从 URL 获取文章内容...');
+            const maxRetries = 10;
+            let lastError;
+
+            for (let attempt = 1; attempt <= maxRetries; attempt++) {
+                try {
+                    console.log(`尝试获取文章内容 (${attempt}/${maxRetries})...`);
+                    const content = await fetchArticleContent(articleUrl);
+                    articleContent = content.text;
+                    console.log('文章内容获取成功，长度:', articleContent.length);
+                    break; // 成功获取，跳出循环
+                } catch (error) {
+                    lastError = error;
+                    console.warn(`第 ${attempt} 次获取失败:`, error.message);
+
+                    if (attempt === maxRetries) {
+                        // 所有尝试都失败了
+                        console.error('获取文章内容失败，已尝试', maxRetries, '次');
+                        throw new Error('无法获取文章内容，请使用"手动粘贴文章内容"功能');
+                    }
+
+                    // 等待一小段时间后重试（避免请求过快）
+                    await new Promise(resolve => setTimeout(resolve, 500));
+                }
+            }
+        }
 
         // 构建系统提示词
         const systemPrompt = getSystemPrompt(questionType);
 
-        // 构建用户消息（包含 URL）
+        // 构建用户消息（包含文章内容）
         const userPrompt = customPrompt || getDefaultPrompt(questionType, categories, chains);
-        const userMessage = `${userPrompt}
 
-文章链接：${articleUrl}
+        // 根据题型添加题目数量要求
+        let questionCountRequirement = '';
+        if (questionType === '选择题' || questionType === '填空题') {
+            questionCountRequirement = `\n\n**重要：请生成 ${questionCount} 道${questionType}。**`;
+        }
 
-请访问上述链接，阅读文章内容，然后根据文章内容生成一个完整的${questionType}挑战，并严格按照系统提示中指定的 JSON 格式返回。`;
+        const userMessage = `${userPrompt}${questionCountRequirement}
+
+文章内容：
+${articleContent}
+
+请根据上述文章内容生成一个完整的${questionType}挑战，并严格按照系统提示中指定的 JSON 格式返回。`;
 
         // 调用 OpenRouter API
         const response = await fetch(`${OPENROUTER_BASE_URL}/chat/completions`, {
@@ -235,7 +248,7 @@ export async function generateChallengeWithAI(articleUrl, questionType, customPr
                 'X-Title': 'DeCert AI Challenge Generator'
             },
             body: JSON.stringify({
-                model: OPENROUTER_MODEL,
+                model: OPENROUTER_CREATECHALLENGE_MODEL,
                 messages: [
                     { role: 'system', content: systemPrompt },
                     { role: 'user', content: userMessage }
@@ -251,7 +264,15 @@ export async function generateChallengeWithAI(articleUrl, questionType, customPr
         }
 
         const data = await response.json();
-        const content = data.choices[0].message.content;
+        let content = data.choices[0].message.content;
+
+        // 移除可能的 markdown 代码块标记
+        content = content.trim();
+        if (content.startsWith('```json')) {
+            content = content.replace(/^```json\s*\n/, '').replace(/\n```\s*$/, '');
+        } else if (content.startsWith('```')) {
+            content = content.replace(/^```\s*\n/, '').replace(/\n```\s*$/, '');
+        }
 
         // 解析 AI 返回的 JSON 结果
         let result;
@@ -266,7 +287,7 @@ export async function generateChallengeWithAI(articleUrl, questionType, customPr
 
         // 验证返回的数据格式
         if (!result.title || !result.description || !result.questions) {
-            throw new Error('AI 返回的挑战数据缺少必要字段');
+            throw new Error('AI 返回的挑战数据缺少必要字段（title、description、questions）');
         }
 
         // 返回解析后的结果和原始回复

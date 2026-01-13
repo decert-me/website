@@ -24,7 +24,7 @@ export default function Challenge(params) {
 
     const { t } = useTranslation(["explore", "translation"]);
 
-    const { isConnected } = useAddress();
+    const { isConnected, address: userAddress } = useAddress();
     const { questId } = useParams();
     const location = useLocation();
     const navigateTo = useNavigate();
@@ -39,6 +39,9 @@ export default function Challenge(params) {
     let [isPreview, setIsPreview] = useState();
     let [realAnswer, setRealAnswer] = useState([]);
     let [questKey, setQuestKey] = useState(100);
+
+    // 地址验证相关状态
+    const [showAddressMismatchModal, setShowAddressMismatchModal] = useState(false);
 
     let [page, setPage] = useState(1);
     const [isModalOpen, setIsModalOpen] = useState(false);
@@ -345,6 +348,22 @@ export default function Challenge(params) {
         setRealAnswer([...realAnswer]);
     }
 
+    // 地址验证逻辑：检查 URL 中的 address 参数与用户登录地址是否一致
+    useEffect(() => {
+        // 从 URL 参数中获取 address
+        const searchParams = new URLSearchParams(location.search);
+        const urlAddress = searchParams.get('address');
+
+        // 只有当 URL 中包含 address 参数时才进行验证
+        if (urlAddress && isConnected && userAddress) {
+            // 比较地址（不区分大小写）
+            if (urlAddress.toLowerCase() !== userAddress.toLowerCase()) {
+                // 地址不一致，显示弹窗
+                setShowAddressMismatchModal(true);
+            }
+        }
+    }, [isConnected, userAddress, location.search]);
+
     useUpdateEffect(() => {
         // 挑战模式
         if (location.pathname !== "/preview") {
@@ -588,6 +607,18 @@ export default function Challenge(params) {
                     />
                 </>
             }
+
+            {/* 地址不一致提示弹窗 */}
+            <Modal
+                title="地址不一致提示"
+                open={showAddressMismatchModal}
+                onOk={() => setShowAddressMismatchModal(false)}
+                onCancel={() => setShowAddressMismatchModal(false)}
+                okText="我知道了"
+                cancelButtonProps={{ style: { display: 'none' } }}
+            >
+                <p>您当前在 DeCert 登录的钱包地址与登链社区的钱包地址不一致，请重新绑定。</p>
+            </Modal>
         </div>
     )
 }
