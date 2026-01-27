@@ -36,20 +36,21 @@
         display: flex;
         align-items: center;
         .btn{
-            min-width: 30px;
-            height: 30px;
+            min-width: 60px;
+            height: 60px;
             margin-inline: 30px;
-            font-size: 12px;
+            font-size: 24px;
             display: flex;
             align-items: center;
             justify-content: center;
         }
         .ant-btn-default{
-            border-color: #000;
+            border-color: #8F5A35;
         }
         .ant-btn-default:disabled{
             border-color: #d9d9d9;
-            background-color: #fff;
+            background-color: #f5f5f5;
+            color: #d9d9d9;
         }
     }
     .content-right{

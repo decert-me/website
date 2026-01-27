@@ -14,6 +14,7 @@ import Collection from "@/views/Collection";
 import Callback from "@/views/Callback";
 import Rating from "@/views/Rating";
 import PreviewQuest from "@/views/Preview/quests";
+import BadgeMinterTest from "@/views/BadgeMinterTest";
 
 const routes = [
     { 
@@ -48,13 +49,17 @@ const routes = [
       path: "/preview/challenge",
       element: <Challenge />,
     },
-    { 
+    {
       path: "/rating",
       element: <Rating />,
     },
-    { 
+    {
       path: "/claim/:questId",
       element: <Claim />,
+    },
+    {
+      path: "/badge-minter-test",
+      element: <BadgeMinterTest />,
     },
     { 
       path: "/callback/:social",

@@ -293,3 +293,21 @@ export const hasCreateOpenQuestPerm = (data) => {
         data
     })
 }
+
+// 生成用户自主 mint NFT 的签名
+export const generateMintSignature = (data) => {
+    return serviceAxios({
+        url: `/v2/badge/generateMintSignature`,
+        method: "post",
+        data
+    })
+}
+
+// 确认用户自主 mint 成功
+export const confirmUserMint = (data) => {
+    return serviceAxios({
+        url: `/v2/badge/confirmUserMint`,
+        method: "post",
+        data
+    })
+}

@@ -1,22 +1,24 @@
 import ModalAirdrop from "@/components/CustomModal/ModalAirdrop";
 import ModalSelectChain from "@/components/CustomModal/ModalSelectChain";
-import { hasClaimed, wechatShare } from "@/request/api/public";
+import { hasClaimed, wechatShare, confirmUserMint } from "@/request/api/public";
 import { useRequest } from "ahooks";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import GenerateImg from "./generateImg";
 import { useAddress } from "@/hooks/useAddress";
 import { message } from "antd";
+import { mintNFTWithBackendSignature } from "@/utils/badgeMinterHelper";
 
 
 
 export default function StepClaim({step, setStep, detail, isMobile, answerInfo}) {
-    
+
 
     const generateImgRef = useRef();
-    const { walletType } = useAddress();
+    const { address, walletType } = useAddress();
     const { t } = useTranslation(["claim", "translation"]);
     const { score, passingPercent, isPass, answers } = answerInfo
+
     const [isModalNetwork, setIsModalNetwork] = useState(false);
     const [airpostLoading, setAirpostLoading] = useState(true);
     let [status, setStatus] = useState(0);
@@ -60,7 +62,10 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
     }
 
     async function airpost(chainId) {
-        
+        console.log('[DEBUG airpost] Function called with chainId:', chainId);
+        console.log('[DEBUG airpost] step:', step, 'status:', status);
+        console.log('[DEBUG airpost] Current address:', address);
+
         if (step === 2 && status === 0) {
             // 弹出框
             setIsModalAirdropOpen(true);
@@ -72,9 +77,65 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                     detail.metadata.image.replace("ipfs://", "https://ipfs.decert.me/"),
                     detail.title
                 )
-                await runAsync({chainId, image});
-                run();
+                const uri = "ipfs://"+image;
+
+                // 优先使用用户自付费 mint 流程
+                try {
+                    console.log('[用户自付费] 尝试使用用户自付费 mint 流程');
+                    console.log('[用户自付费] chainId:', chainId, 'tokenId:', detail.tokenId, 'score:', score);
+
+                    // 使用新的自主 mint 流程：调用后端获取签名，然后用户调用合约
+                    const receipt = await mintNFTWithBackendSignature(
+                        chainId,
+                        detail.tokenId,
+                        score,
+                        JSON.stringify(answers),
+                        uri
+                    );
+
+                    console.log('[用户自付费] ✅ Mint 成功! Transaction receipt:', receipt);
+
+                    // Mint 成功后，调用后端确认 API 更新数据库状态
+                    console.log('[用户自付费] 📡 调用后端确认 API 更新数据库状态...');
+                    try {
+                        await confirmUserMint({
+                            token_id: detail.tokenId,
+                            tx_hash: receipt.transactionHash
+                        });
+                        console.log('[用户自付费] ✅ 后端状态更新成功');
+                    } catch (confirmError) {
+                        console.error('[用户自付费] ⚠️ 后端状态更新失败:', confirmError);
+                        // 即使后端更新失败，也不影响前端显示，因为链上已经 mint 成功
+                    }
+
+                    // 更新前端状态和缓存
+                    console.log('[用户自付费] 🎉 更新前端状态');
+
+                    // 清除缓存
+                    const cache = JSON.parse(localStorage.getItem('decert.cache'));
+                    delete cache[detail.tokenId];
+                    if (cache?.claimable) {
+                        cache.claimable = cache.claimable.filter(obj => obj.uuid != detail.uuid);
+                    }
+                    localStorage.setItem("decert.cache", JSON.stringify(cache));
+
+                    // 更新状态
+                    setCacheIsClaim(true);
+                    setStatus(2);
+                    setAirpostLoading(false);
+                    setStep(3);  // 跳转到完成步骤
+
+                } catch (userPaidError) {
+                    // 用户自付费失败，降级到后端空投逻辑
+                    console.warn('[用户自付费] ❌ 用户自付费失败，降级到后端空投逻辑');
+                    console.warn('[用户自付费] 错误信息:', userPaidError);
+
+                    console.log('[后端空投] 使用后端空投逻辑');
+                    await runAsync({chainId, image});
+                    run();
+                }
             } catch (error) {
+                console.error('[DEBUG] Mint/Airdrop failed:', error);
                 message.error(t("message.claim-error"))
                 status = 0;
                 setStatus(status);

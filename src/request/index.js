@@ -5,6 +5,7 @@ import { ClaimShareError } from "../components/CustomMessage/index.js";
 import serverConfig from "./config.js";
 
 // Client-side-only code
+console.log('[DEBUG] serviceAxios baseURL:', serverConfig?.baseURL, 'from env:', process.env.REACT_APP_BASE_URL);
 let serviceAxios = axios.create({
   baseURL: serverConfig?.baseURL,
   timeout: 120000 // 请求超时设置
@@ -13,6 +14,7 @@ let serviceAxios = axios.create({
 // 创建请求拦截
 serviceAxios.interceptors.request.use(
   config => {
+    console.log('[DEBUG] Request to:', config.baseURL + config.url);
     // 如果开启 token 认证
     if (serverConfig.useTokenAuthorization) {
       config.headers["x-token"] = localStorage.getItem(`decert.token`); // 请求头携带 token
@@ -21,7 +23,7 @@ serviceAxios.interceptors.request.use(
     return config;
   },
   error => {
-    Promise.reject(error);
+    return Promise.reject(error);
   }
 );
 // 创建响应拦截
@@ -31,17 +33,17 @@ serviceAxios.interceptors.response.use(
     if (data.status !== 0) {
       if (data.data?.reload) {
         store.dispatch(setDisConnect(true));
-        return
+        return Promise.reject(new Error('需要重新连接'));
       }
       if (res.config.url === '/users/discord' && res.config.data.indexOf('isClick') === -1) {
-        return null
+        return Promise.reject(new Error('Discord 验证失败'));
       }
       if (res.config.url === '/badge/submitClaimTweet' && data.message === '推文不匹配') {
         ClaimShareError()
-        return null
+        return Promise.reject(new Error('推文不匹配'));
       }
       message.error(data.message);
-      return null
+      return Promise.reject(new Error(data.message || '请求失败'));
     }
     // if (data.data.reload) {
     //   localStorage.clear();
@@ -51,55 +53,56 @@ serviceAxios.interceptors.response.use(
     return data;
   },
   error => {
-    let message = "";
+    console.error('[DEBUG] Request error:', error);
+    let errorMessage = "";
     if (error && error.response) {
       switch (error.response.status) {
         case 302:
-          message = "接口重定向了！";
+          errorMessage = "接口重定向了！";
           break;
         case 400:
-          message = "参数不正确！";
+          errorMessage = "参数不正确！";
           break;
         case 401:
-          message = "您未登录，或者登录已经超时，请先登录！";
+          errorMessage = "您未登录，或者登录已经超时，请先登录！";
           break;
         case 403:
-          message = "您没有权限操作！";
+          errorMessage = "您没有权限操作！";
           break;
         case 404:
-          message = `请求地址出错: ${error.response.config.url}`;
+          errorMessage = `请求地址出错: ${error.response.config.url}`;
           break;
         case 408:
-          message = "请求超时！";
+          errorMessage = "请求超时！";
           break;
         case 409:
-          message = "系统已存在相同数据！";
+          errorMessage = "系统已存在相同数据！";
           break;
         case 500:
-          message = "服务器内部错误！";
+          errorMessage = "服务器内部错误！";
           break;
         case 501:
-          message = "服务未实现！";
+          errorMessage = "服务未实现！";
           break;
         case 502:
-          message = "网关错误！";
+          errorMessage = "网关错误！";
           break;
         case 503:
-          message = "服务不可用！";
+          errorMessage = "服务不可用！";
           break;
         case 504:
-          message = "服务暂时无法访问，请稍后再试！";
+          errorMessage = "服务暂时无法访问，请稍后再试！";
           break;
         case 505:
-          message = "HTTP 版本不受支持！";
+          errorMessage = "HTTP 版本不受支持！";
           break;
         default:
-          message = "异常问题，请联系管理员！";
+          errorMessage = "异常问题，请联系管理员！";
           break;
       }
     }
     // console.log(error.response.config.baseURL+error.response.config.url);
-    return Promise.reject(message);
+    return Promise.reject(errorMessage);
   }
 );
 

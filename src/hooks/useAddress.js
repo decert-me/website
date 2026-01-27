@@ -11,7 +11,7 @@ export const useAddress = () => {
     let [address, setAddress] = useState();
     let [walletType, setWalletType] = useState();
     let [isConnected, setIsConnected] = useState(false);
-    
+
     useEffect(() => {
         if (wagmiAddress || publicKey) {
             address = wagmiAddress || publicKey.toString();

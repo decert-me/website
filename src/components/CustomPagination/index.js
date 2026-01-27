@@ -42,7 +42,8 @@ export default function CustomPagination(props) {
                 <Button
                     className='btn'
                         id='hover-btn-line-arrow'
-                        icon={<ArrowLeftOutlined />} 
+                        style={{ backgroundColor: '#8F5A35', color: '#fff', borderColor: '#8F5A35' }}
+                        icon={<ArrowLeftOutlined />}
                     disabled={page === 1}
                     onClick={() => onChange('reduce')}
                 />
@@ -51,17 +52,24 @@ export default function CustomPagination(props) {
                     &nbsp;/&nbsp;
                     <span>{total}</span>
                 </p>
-                
-                    <Button 
+
+                    <Button
                         className='btn'
                         id='hover-btn-line-arrow'
+                        style={{ backgroundColor: '#8F5A35', color: '#fff', borderColor: '#8F5A35' }}
                         disabled={page === total}
-                        icon={<ArrowRightOutlined />} 
+                        icon={<ArrowRightOutlined />}
                         onClick={() => onChange('add')}
                     />
                 </div>
                 <div className="content-right">
-                    <Button loading={loading} className='submit' id="hover-btn-full" onClick={() => goSubmit()}>
+                    <Button
+                        loading={loading}
+                        className='submit'
+                        id="hover-btn-full"
+                        style={page === total ? { backgroundColor: '#8F5A35', color: '#fff' } : { backgroundColor: '#fff', color: '#8F5A35', border: '1px solid #8F5A35' }}
+                        onClick={() => goSubmit()}
+                    >
                         {t("btn-submit")}
                     </Button>
                 </div>

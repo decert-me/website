@@ -149,9 +149,10 @@ export default function MyProvider(props) {
 
     async function connectWallet(func) {
         openConnectModal()
-        setTimeout(() => {
-            addSolanaWallet()
-        }, 40);
+        // 隐藏 Solana 登录方式 - 网站目前仅支持 EVM
+        // setTimeout(() => {
+        //     addSolanaWallet()
+        // }, 40);
         setSelectFunc(func);
     }
 
