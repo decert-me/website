@@ -287,6 +287,8 @@
         align-items: center;
         justify-content: flex-end;
         padding: 0 18px;
+        position: relative;
+        z-index: 10;
     }
     // 新增 AI 判题按钮样式
     .ai-judge-btns{

@@ -232,14 +232,15 @@ export default function UserEdit(params) {
  
                         </div>
                     </div>
-                    <div className="inner">
+                    {/* 隐藏推荐隐私账户（DID）区域 */}
+                    {/* <div className="inner">
                         <p className="label">{t("profile:edit.inner.recommend")}</p>
                         <div className="list">
                             <div className={`item edit-zk ${highLine === "zk" ? "highline" : ""}`}>
                                 <BindZkBtn clear={() => setHighLine(null)} />
                             </div>
                         </div>
-                    </div>
+                    </div> */}
                 </div>
                 <div className="UserEdit-btns">
                     <Button 

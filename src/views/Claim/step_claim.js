@@ -7,6 +7,7 @@ import { useTranslation } from "react-i18next";
 import GenerateImg from "./generateImg";
 import { useAddress } from "@/hooks/useAddress";
 import { message } from "antd";
+import { fetchBalance } from "@wagmi/core";
 import { mintNFTWithBackendSignature } from "@/utils/badgeMinterHelper";
 
 
@@ -67,6 +68,20 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
         console.log('[DEBUG airpost] Current address:', address);
 
         if (step === 2 && status === 0) {
+            // 先检查用户余额
+            try {
+                const balanceResult = await fetchBalance({ address, chainId });
+                console.log('[余额检查] 用户余额:', balanceResult.formatted, balanceResult.symbol);
+                if (balanceResult.value === 0n) {
+                    message.warning('账户余额为零，请先准备手续费(gas)');
+                    return;
+                }
+            } catch (balanceError) {
+                console.error('[余额检查] 查询余额失败:', balanceError);
+                message.warning('无法查询账户余额，请确认钱包已连接到正确的网络');
+                return;
+            }
+
             // 弹出框
             setIsModalAirdropOpen(true);
             status = 1;
@@ -126,7 +141,7 @@ export default function StepClaim({step, setStep, detail, isMobile, answerInfo})
                     setStep(3);  // 跳转到完成步骤
 
                 } catch (userPaidError) {
-                    // 用户自付费失败，降级到后端空投逻辑
+                    // 用户有余额但交易失败：降级到后端空投逻辑
                     console.warn('[用户自付费] ❌ 用户自付费失败，降级到后端空投逻辑');
                     console.warn('[用户自付费] 错误信息:', userPaidError);
 
